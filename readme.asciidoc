@@ -1,0 +1,71 @@
+
+    WPИ-XM
+    ======
+
+    WPИ-XM is a free and open-source web server solution stack for professional PHP development on the Windows platform.
+    The groundation of the server stack consists of NGINX, PHP and MariaDB. Additionally XDebug, XhProf and Webgrind were 
+    added for profiling and debugging purposes; phpMyAdmin for MySQL administration purposes; memcached and APC for caching.
+    The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX, XDebug and MariaDB.
+    
+
+    STILL NOT CONVINCED?
+    --------------------
+
+    Well, then go try a different Serverpack for Windows. I know you’ll come back.
+    Here’s a comprehensive list for your convenience:
+
+    http://alternativeto.net/software/xampp/
+
+    XAMPP for Windows       http://www.apachefriends.org/de/xampp-windows.html
+    Zend Server CE          http://www.zend.com/de/products/server-ce/
+    VertrigoServ            http://vertrigo.sourceforge.net/
+    Bitname WAMPStack       http://bitnami.org/stack/wampstack
+    NginxMP                 http://www.sourceforge.net/projects/nginxmp/
+    EasyWemp                http://projects.javatic.net/p/easywemp/source/tree/master/make-dist
+    XenStack                http://sourceforge.net/projects/xenstack/
+    EasyPHP                 http://easyphp.org
+    
+    
+    WPN-XM USES THE FOLLOWING THIRD PARTY SOFTWARE COMPONENTS
+    ---------------------------------------------------------
+
+    COMPONENT   VERSION     LICENCE(S)          COPYRIGHT                           WEBSITE
+    ---------   -------     ---------           ----------                          -------
+
+    Base
+    ----
+    MariaDB                 GNU GPL v2          © 2010-2011 Monty Program Ab.       http://mariadb.org/ + http://askmonty.org/
+    NGINX                   New BSD License     © 2002-2011 Igor Sysoev.            http://nginx.org/
+    PHP                     PHP License         © 1999-2011 The PHP Group.          http://www.php.net/
+
+    PHP Extensions
+    --------------
+    XDebug                  Xdebug License      © 2002 - 2007 Derick Rethans.       http://xdebug.org/
+    APC
+    Memcached 
+
+    Additional Tools
+    ----------------
+    xhProf                  Apache License v2   © 2010 - 2011 Facebook.             http://pecl.php.net/package/xhprof/ + https://github.com/facebook/xhprof/
+    Webgrind    1.0         New BSD License     © 2010 - J. Nygård, J. Oettinger.   https://github.com/jokkedk/webgrind/
+    phpMyAdmin  3.4.64      GNU GPL v2          © 2003 - 2011 phpMyAdmin DevTeam.   http://www.phpmyadmin.net/    
+    Memcached 
+
+    Developer Resources
+    -------------------
+
+    Things, I discovered on my way through several server stacks:
+
+    TRAY APPLICATIONS
+    -----------------
+
+    - Easy Wemp Control Panel
+        http://projects.javatic.net/p/easywemp/source/tree/master/make-dist/
+
+    - XAMPP Control Panel Application (xampp-control.exe)
+        http://www.nat32.com/xampp/
+    
+    - Welpressed - NGINX Start Stop App
+        http://welpressed.sourceforge.net/
+        Comment: Epic fail. NGINX uses 2 mb ram.
+        This tray application for starting and stoping the daemon uses 25 mb for two buttons!
