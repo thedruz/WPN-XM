@@ -62,4 +62,15 @@ Here’s a comprehensive list for your convenience:
 * XenStack                http://sourceforge.net/projects/xenstack/
 * EasyPHP                 http://easyphp.org
 
+== HOW TO BUILD THE INSTALLER ==
+
+* Download and install 
+  - InnoSetup (http://www.jrsoftware.org/isinfo.php) or 
+  - ISTools (http://sourceforge.net/projects/istool/)
+* open "wpn-xm.iss" with InnoSetup or ISTools
+* compile it
+* test it
+
+Download http://sourceforge.net/projects/istool/
+
 *Regards, Jens-André Koch*
