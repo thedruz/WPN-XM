@@ -24,23 +24,23 @@ COMPONENT   VERSION     LICENCE(S)          COPYRIGHT                           
 
 Base Components
 
-MariaDB                 GNU GPL v2          © 2010-2011 Monty Program Ab.       http://mariadb.org/ + http://askmonty.org/
-NGINX                   New BSD License     © 2002-2011 Igor Sysoev.            http://nginx.org/
-PHP                     PHP License         © 1999-2011 The PHP Group.          http://www.php.net/
+MariaDB     5.3.2       GNU GPL v2          © 2010-2011 Monty Program Ab.       http://mariadb.org/ + http://askmonty.org/
+NGINX       1.1.7       New BSD License     © 2002-2011 Igor Sysoev.            http://nginx.org/
+PHP         5.3.8       PHP License         © 1999-2011 The PHP Group.          http://www.php.net/
 
 
 PHP Extensions
 
-XDebug                  Xdebug License      © 2002 - 2007 Derick Rethans.       http://xdebug.org/
+XDebug      2.1.2       Xdebug License      © 2002 - 2007 Derick Rethans.       http://xdebug.org/
 APC
-Memcached 
+Memcached   2.2.6
 
 Additional Tools
 
 xhProf                  Apache License v2   © 2010 - 2011 Facebook.             http://pecl.php.net/package/xhprof/ + https://github.com/facebook/xhprof/
 Webgrind    1.0         New BSD License     © 2010 - J. Nygård, J. Oettinger.   https://github.com/jokkedk/webgrind/
-phpMyAdmin  3.4.64      GNU GPL v2          © 2003 - 2011 phpMyAdmin DevTeam.   http://www.phpmyadmin.net/
-Memcached 
+phpMyAdmin  3.4.6       GNU GPL v2          © 2003 - 2011 phpMyAdmin DevTeam.   http://www.phpmyadmin.net/
+Memcached   1.4.5
 
 ------
 
@@ -48,7 +48,7 @@ Memcached
 
 Well, then go try a different Serverpack for Windows. I know you’ll come back.
 
-* Here’s a comprehensive list for your convenience:*
+Here’s a comprehensive list for your convenience:
 
 * Overview                http://alternativeto.net/software/xampp/
 
