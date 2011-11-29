@@ -71,6 +71,4 @@ Here’s a comprehensive list for your convenience:
 * compile it
 * test it
 
-Download http://sourceforge.net/projects/istool/
-
 *Regards, Jens-André Koch*
