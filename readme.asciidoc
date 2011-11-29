@@ -64,12 +64,13 @@ Here’s a comprehensive list for your convenience:
 
 == HOW TO BUILD THE INSTALLER ==
 
-REQUIREMENTS:
-  Environment:
-     * Windows OS
-  Tools:
-     * Innosetup (http://www.jrsoftware.org/isinfo.php)
-     * ISTools (optional) (http://sourceforge.net/projects/istool/)
+*Requirements*
+
+* Windows OS
+* Innosetup (http://www.jrsoftware.org/isinfo.php) or
+* ISTools (optional) (http://sourceforge.net/projects/istool/)
+
+*Build*
 
 * open "wpn-xm.iss" with InnoSetup or ISTools
 * compile it
