@@ -1,0 +1,7 @@
+WPN-XM is primarily authored by:
+
+* Jens-André Koch <jakoch@web.de>
+
+Contributors include:
+
+* Tobias Fichtner
