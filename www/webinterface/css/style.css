@@ -10,7 +10,7 @@ body
     text-align: center;
 }
 
-div.page-centered {
+div.page-wrapper {
     position: relative;
     margin: 0 auto;
     max-width: 1102px;
@@ -150,10 +150,15 @@ a, h2 a:hover, h3 a:hover {
 a, a:link, a:visited {
     text-decoration:none;
 }
-.horizontal-rule-light, #main-nav, h2 {
+.horizontal-rule-light, #main-nav, header, h2 {
     border-bottom: 1px solid #BBBBBB;
     box-shadow: 0 1px 0 white;
     padding-bottom: 6px;
+}
+
+.res-header-icon
+{
+    vertical-align: text-top;
 }
 
 hr.footer-line {
@@ -162,15 +167,15 @@ border-width: 0px 0px 1px; border-style: solid; border-color: #BBBBBB;
 box-shadow: 0 1px 0 white;
 }
 
-br.clear {clear:both;}
-div.server-environment-right-box {float:left; margin-left: 2em;}
+div.right-box {float:left; margin-left: 2em;}
 td.width-42 {width:42%;}
 td.width-25 {width:25%;}
 .left { text-align: left; }
 .right { text-align: right; }
 .center { text-align: center; }
 .bold {font-weight: bold}
-div.server-software-left-box {float:left; margin-right: 2em;}
+
+div.left-box {float:left; margin-right: 2em;}
 h1.headline {margin-top: 40px; margin-bottom: 30px; font-size: 18px;}
 
 .centered {
@@ -227,3 +232,57 @@ li {
 .clear_fix {
     display: inline-block;
 }
+
+img
+{
+    border: 0px;
+}
+
+.resourceheader
+{
+    margin-left:    10px;
+    text-align:     left;
+    font-size:      12px;
+}
+
+.td-with-image
+{
+    border-right:   1px dotted #B4B4B4;
+    padding-right:  10px;
+    width:          55px;
+}
+
+.inset-panel, #phpinfo table {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 1px white, 0 0 1px 0 rgba(0, 0, 0, 0.5) inset;
+    padding: 10px;
+}
+
+#search { 
+    margin-left: 165px;
+    padding-left: 160px;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-top: 15px;
+}
+#highlight { background:yellow; }
+.highlight { background-color:yellow; color:inherit; text-decoration:inherit }
+
+#phpinfo {}
+#phpinfo pre { margin: 0px; font-family: monospace; }
+#phpinfo a:link {}
+#phpinfo a:hover {}
+#phpinfo table { }
+#phpinfo .center { text-align: center; }
+#phpinfo .center table { margin-left: auto; margin-right: auto; text-align: left; }
+#phpinfo .center th { text-align: center !important; }
+#phpinfo td, th { font-size: 120%; vertical-align: baseline; }
+#phpinfo h1 {}
+#phpinfo h2 { font-size: 175%; }
+#phpinfo .p { text-align: left; }
+#phpinfo .e { background-color: #aaa; color: #000000; font-weight: bold; }
+#phpinfo .h { background-color: #9999cc; font-weight: bold; color: #000000;}
+#phpinfo .v { background-color: #bbb; color: #000000; }
+#phpinfo .vr { background-color: #cccccc; text-align: right; color: #000000; }
+#phpinfo img { border: 0 none; float: right; }
+#phpinfo hr { background-color: #CCCCCC; border: 0 none; color: #000000; height: 1px; width: 600px; }

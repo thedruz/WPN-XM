@@ -73,11 +73,11 @@ class Projects
         {                       
             if($href =='')
             {
-                echo '<li><a class="folder" href="' . $dir . '">' . $dir . '</a></li>';
+                echo '<li><a class="folder" href="' . WPNXM_WWW_ROOT . $dir . '">' . $dir . '</a></li>';
             }
             else
             {
-                echo '<li><a class="folder" href="' . $href . '">' . $dir . '</a></li>';
+                echo '<li><a class="folder" href="' . WPNXM_WWW_ROOT . $href . '">' . $dir . '</a></li>';
             }            
         }
     }

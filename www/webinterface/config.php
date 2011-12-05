@@ -1,40 +1,11 @@
 <?php
-include __DIR__ . DIRECTORY_SEPARATOR . 'serverpack.core.php';
-include __DIR__ . DIRECTORY_SEPARATOR . 'menu.core.php';
+# common bootstrap file with constants, etc.
+include __DIR__ . '/php/bootstrap.php';
+include WPNXM_TEMPLATE . 'header.php';
+include WPNXM_PHP_DIR . 'serverpack.php';
 ?>
-<!DOCTYPE html>
-<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>WPИ-XM Serverstack for Windows</title>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="WPИ-XM Serverpack for Windows - Webinterface.">
-    <link rel="shortcut icon" href="http://wpn-xm.org/favicon.ico" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection" />
-</head>
-<body>
 
-    <!-- container-for-centering -->
-    <div class="page-centered">
-
-        <!-- Main -->
-        <div class="center">
-
-            <!-- Headline -->
-            <h1 class="headline">
-                WPИ-XM<br/>
-                Serverstack for Windows<br/>
-                <small>Version 0.2</small>
-            </h1>
-
-            <div class="content-centered">
- 
-            <!-- Top Menu Navigation -->
-            <?php Menu::render(); ?>
-
-            <!-- Server Software (left box) -->
-            <div class="server-software-left-box">
+            <div class="left-box">
 
                 <h2>Server Software</h2>
 
@@ -147,12 +118,10 @@ include __DIR__ . DIRECTORY_SEPARATOR . 'menu.core.php';
                         </tr>
                         </table>
 
+                 </div>
+            </div>
 
-                 </div><!-- END: cs-message -->
-            </div><!-- END: Server Software (left box) -->
-
-            <!-- Server Environment (right box) -->
-            <div class="server-environment-right-box">
+            <div class="right-box">
 
                 <h2>Server Environment</h2>
 
@@ -174,11 +143,11 @@ include __DIR__ . DIRECTORY_SEPARATOR . 'menu.core.php';
                    </tr>
                    <tr>
                      <td>Directory</td>
-                     <td class="right"><?php echo Wpnxm_Serverpack::getBaseDir() . '\bin\nginx'; ?></td>
+                     <td class="right"><?php WPNXM_WWW_DIR . 'bin\nginx'; ?></td>
                    </tr>
                    <tr>
                      <td>Config</td>
-                     <td class="right"><?php echo Wpnxm_Serverpack::getBaseDir() . '\bin\nginx\conf\nginx.conf'; ?></td>
+                     <td class="right"><?php WPNXM_WWW_DIR . 'bin\nginx\conf\nginx.conf'; ?></td>
                    </tr>
                    <tr>
                      <td colspan="2" class="right">
@@ -203,7 +172,7 @@ include __DIR__ . DIRECTORY_SEPARATOR . 'menu.core.php';
                    </tr>
                    <tr>
                      <td>Directory</td>
-                     <td class="right"><?php echo Wpnxm_Serverpack::getBaseDir() . '\bin\php'; ?></td>
+                     <td class="right"><?php WPNXM_WWW_DIR . 'bin\php'; ?></td>
                    </tr>
                    <tr>
                      <td>Config</td>
@@ -236,11 +205,11 @@ include __DIR__ . DIRECTORY_SEPARATOR . 'menu.core.php';
                    </tr>
                    <tr>
                      <td>Directory</td>
-                     <td class="right"><?php echo Wpnxm_Serverpack::getBaseDir() . '\bin\mariadb';?></td>
+                     <td class="right"><?php WPNXM_WWW_DIR . 'bin\mariadb';?></td>
                    </tr>
                    <tr>
                      <td>Config</td>
-                     <td class="right"><?php echo Wpnxm_Serverpack::getBaseDir() .  '\mariadb\my.ini';?></td>
+                     <td class="right"><?php WPNXM_WWW_DIR . 'mariadb\my.ini';?></td>
                    </tr>
                    <tr>
                      <td colspan="2" class="right"><span class="aButton">Configure</span><span class="aButton">Show Log</span><span class="aButton">Reset Password</span>
@@ -296,22 +265,7 @@ include __DIR__ . DIRECTORY_SEPARATOR . 'menu.core.php';
                    </tr>
                    </table>
 
-                </div><!-- END: cs-message -->
-           </div><!-- END: Server Environment (rught box) -->
+                </div>
+           </div>
 
-    </div><!-- End: Content -->
-
-</div><!-- End: Main -->
-
-<br class="clear" />
-
-<div id="footer">
-    <hr class="footer-line"/>
-    <p>&copy; 2010-<?php echo date("Y"); ?> by Jens-Andr&#x00E9; Koch Softwaresystemtechnik.
-        <br />
-    </p>
-</div>
-
-</div>
-</body>
-</html>
+<?php include WPNXM_TEMPLATE . 'footer.php'; ?>

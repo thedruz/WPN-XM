@@ -44,14 +44,9 @@ class Wpnxm_Serverpack
      */
     public static function defineDirectories()
     {
-        if(!defined('WPNXM_DIR'))
-        {
-            define('WPNXM_DIR', dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR);
-            define('WPNXM_WWW_DIR', WPNXM_DIR . 'www' . DIRECTORY_SEPARATOR); 
-            define('WPNXM_PHP_DIR', WPNXM_WWW_DIR . 'webinterface/php' . DIRECTORY_SEPARATOR);
-        }        
+               
     }
-    
+      
     /**
      * Returns the base directory / installation folder of the WPИ-XM Serverpack.
      *
@@ -59,7 +54,7 @@ class Wpnxm_Serverpack
      */
     public static function getBaseDir()
     {        
-        return WPNXM_WWW_DIR;        
+        return ;        
     }
 
     public static function get_MySQL_datadir()
@@ -106,6 +101,11 @@ class Wpnxm_Serverpack
      */
     public static function getNGINXVersion()
     {
+        if (strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
+        { 
+            return 'Apache!? U Traitor :-(';        
+        }
+        
         return substr($_SERVER["SERVER_SOFTWARE"], 6);
     }
 
@@ -140,14 +140,14 @@ class Wpnxm_Serverpack
         $file_exists = false;
 
         switch ($extension) {
-            case "xdebug":
-                if(is_file(self::getBaseDir() . '\bin\php\ext\php_xdebug.dll') === true)
+            case "xdebug":                
+                if(is_file(WPNXM_DIR . 'bin\php\ext\php_xdebug.dll') === true)
                 {
                     $file_exists = true;
                 }
                 break;
             case "memcached":
-                if(is_file(self::getBaseDir() . '\bin\php\ext\php_memcache.dll') === true)
+                if(is_file(WPNXM_DIR . 'bin\php\ext\php_memcache.dll') === true)
                 {
                     $file_exists = true;
                 }
@@ -187,7 +187,7 @@ class Wpnxm_Serverpack
 
                 break;
             case "memcached":
-                if(is_file(self::getBaseDir() . '\bin\php\ext\php_memcache.dll') === true)
+                if(is_file(WPNXM_DIR . 'bin\php\ext\php_memcache.dll') === true)
                 {
                     $loaded = true;
                 }
