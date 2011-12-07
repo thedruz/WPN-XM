@@ -1,0 +1,103 @@
+Installing the WPN-XM Server Stack on Windows
+
+This document explains how to install WPN-XM Server Stack for Windows.
+You might install WPN-XM either by using the common user interface or 
+by installing it in silent mode. The silent mode is for integration 
+with automatic and unmaintained installation procedures.
+
+Installation UI
+---------------
+
+This is the typical mode of installation.
+To start the installer, just click on wpnxm-<major>.<minor>.<patch>.exe, e.g. wpnxm-0.1.exe.
+
+==  Welcome
+
+image::images/wpnxm-install-screen1.jpg[]
+
+==  License Agreement
+
+image::images/wpnxm-install-screen2.jpg[]
+
+Click on "I accept the terms".
+
+==  Choose target folder
+
+image::images/wpnxm-install-screen3.jpg[]
+
+==  Custom Setup / Components Selection
+
+image::images/wpnxm-install-screen4.jpg[]
+
+On the Custom Setup Screen you might choose what software components and features to install.
+The drop-down box will show you four default software component preselections you might choose from.
+
+There are four default setups:
+1) Full Installation
+       This preselects everything for installation.
+2) Server Stack with Administration Tools
+	   Base (NGINX, MariaDB, PHP)
+	   + Admin Tools (Tray App, Webinterface)
+3) Server Stack with Debug Tools
+	   Base (NGINX, MariaDB, PHP)
+	   + Admin Tools (Tray App, Webinterface)
+	   + Debug Tools (xhProf, XDebug, webgrind)
+4) Custom Installation
+	   This deselects everything and you might choose freely.
+
+==  Select the Startmenu Folder
+
+image::images/wpnxm-install-screen5.jpg[]
+
+You might select a folder or subfolder of the start menu, 
+where the WPN-XM start menu entries will then be created.
+
+==  Ready to Install
+
+image::images/wpnxm-install-screen6.jpg[]
+
+At this point, all installation settings are collected. 
+Click on "Install" button to start the installation.
+
+==  Installation Running Screen
+
+image::images/wpnxm-install-screen9.jpg[]
+
+The screen shows the progress while downloading and installing the components for your WPN-XM stack.
+
+==  End
+
+Installation is finished now.
+
+Start Menu Entries
+------------------
+
+After the installtaion finished, you will find the following new start menu entries:
+
+Image
+
+- Item - Description
+
+Uninstallation
+--------------
+
+Installation logs
+-----------------
+
+If you encounter a bug in the installer, you might read the installer logs for diagnosis.
+Please attach the logs when creating bug reports.
+
+Silent installation 
+-------------------
+
+In our experience, the "/silent" switch is usually sufficient for a basic unattended installation.
+But to be completely sure, we recommend "/sp- /silent /norestart" as startup parameters.
+
+There is also the parameter "/verysilent". If you use "/verysilent", my advise is to use the 
+parameter "/norestart" as well, just to be sure that the machine will not reboot without prompting
+after or during the installation procedure.
+
+The switches for Inno Setup Silent Installation are fully documented in the ISetup.hlp file in the Inno distribution.
+
+Silent uninstallation
+---------------------
