@@ -11,7 +11,7 @@ include dirname(__DIR__) . '/php/bootstrap.php';
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>WPИ-XM Serverstack for Windows</title>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="WPИ-XM Serverpack for Windows - Webinterface.">
+    <meta name="description" content="WPИ-XM Serverstack for Windows - Webinterface.">
     <link rel="shortcut icon" href="http://wpn-xm.org/favicon.ico" />
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection" />
 </head>

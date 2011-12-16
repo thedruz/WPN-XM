@@ -2,7 +2,7 @@
 # common bootstrap file with constants, etc.
 include __DIR__ . '/php/bootstrap.php';
 include WPNXM_TEMPLATE . 'header.php';
-include WPNXM_PHP_DIR . 'serverpack.php';
+include WPNXM_PHP_DIR . 'serverstack.php';
 ?>
 
             <div class="left-box">
@@ -22,7 +22,7 @@ include WPNXM_PHP_DIR . 'serverpack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://nginx.org/">
-                                            <b>NGINX <?php echo Wpnxm_Serverpack::getNGINXVersion(); ?></b>
+                                            <b>NGINX <?php echo Wpnxm_Serverstack::getNGINXVersion(); ?></b>
                                         </a>
                                         <br /><br />
                                         <small>NGINX [engine x] is a high performance http and reverse proxy server, as well as a mail proxy server written by Igor Sysoev.</small>
@@ -43,7 +43,7 @@ include WPNXM_PHP_DIR . 'serverpack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://php.net/">
-                                            <b>PHP <?php echo Wpnxm_Serverpack::getPHPVersion(); ?></b>
+                                            <b>PHP <?php echo Wpnxm_Serverstack::getPHPVersion(); ?></b>
                                         </a>
                                         <br /><br />
                                         <small>PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML.</small>
@@ -64,7 +64,7 @@ include WPNXM_PHP_DIR . 'serverpack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://mariadb.org/">
-                                            <b>MariaDB <?php echo Wpnxm_Serverpack::getMariaDBVersion(); ?></b>
+                                            <b>MariaDB <?php echo Wpnxm_Serverstack::getMariaDBVersion(); ?></b>
                                         </a>
                                         <br /><br />
                                         <small>MariaDB is a fork of the world's most popular open source database MySQL by the original author. MariaDb is a binary drop-in replacement for MySQL.</small>
@@ -85,7 +85,7 @@ include WPNXM_PHP_DIR . 'serverpack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://memcached.org/">
-                                            <b>Memcached <?php echo Wpnxm_Serverpack::getMemcachedVersion(); ?></b>
+                                            <b>Memcached <?php echo Wpnxm_Serverstack::getMemcachedVersion(); ?></b>
                                         </a>
                                         <br /><br />
                                         <small>memcached is a high-performance, distributed memory object caching system. originally intended for speeding up applications by alleviating database load.</small>
@@ -106,7 +106,7 @@ include WPNXM_PHP_DIR . 'serverpack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://xdebug.org/">
-                                            <b>Xdebug <?php echo Wpnxm_Serverpack::getXdebugVersion(); ?></b>
+                                            <b>Xdebug <?php echo Wpnxm_Serverstack::getXdebugVersion(); ?></b>
                                         </a>
                                         <br /><br />
                                         <small>The Xdebug extension for PHP helps you debugging your scripts by providing a lot of valuable debug information.</small>
@@ -231,7 +231,7 @@ include WPNXM_PHP_DIR . 'serverpack.php';
                    </tr>
                    <tr>
                      <td>PHP Extension</td>
-                     <td class="right"><?php echo Wpnxm_Serverpack::assertExtensionInstalled('memcached');?></td>
+                     <td class="right"><?php echo Wpnxm_Serverstack::assertExtensionInstalled('memcached');?></td>
                    </tr>
                    <tr>
                      <td colspan="2" class="right"><span class="aButton">Switch on/off</span>
@@ -253,11 +253,11 @@ include WPNXM_PHP_DIR . 'serverpack.php';
                    </tr>
                    <tr>
                      <td>Installed & Configured</td>
-                     <td class="right"><?php echo Wpnxm_Serverpack::assertExtensionInstalled('xdebug');?></td>
+                     <td class="right"><?php echo Wpnxm_Serverstack::assertExtensionInstalled('xdebug');?></td>
                    </tr>
                    <tr>
                      <td>Extension Type</td>
-                     <td class="right"><?php echo Wpnxm_Serverpack::getXdebugExtensionType();?></td>
+                     <td class="right"><?php echo Wpnxm_Serverstack::getXdebugExtensionType();?></td>
                    </tr>
                    <tr>
                      <td colspan="2" class="right"><span class="aButton">Switch on/off</span>

@@ -1,6 +1,6 @@
 <?php
    /**
-    * WPИ-XM Serverpack
+    * WPИ-XM Server Stack
     * Jens-André Koch © 2010 - onwards
     * http://wpn-xm.org/
     *
@@ -10,12 +10,12 @@
     |                                                                                  |
     |    LICENSE                                                                       |
     |                                                                                  |
-    |    WPИ-XM Serverpack is free software; you can redistribute it and/or modify     |
+    |    WPИ-XM Serverstack is free software; you can redistribute it and/or modify     |
     |    it under the terms of the GNU General Public License as published by          |
     |    the Free Software Foundation; either version 2 of the License, or             |
     |    (at your option) any later version.                                           |
     |                                                                                  |
-    |    WPИ-XM Serverpack is distributed in the hope that it will be useful,          |
+    |    WPИ-XM Serverstack is distributed in the hope that it will be useful,          |
     |    but WITHOUT ANY WARRANTY; without even the implied warranty of                |
     |    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                 |
     |    GNU General Public License for more details.                                  |
@@ -30,33 +30,11 @@
     * @author     Jens-André Koch <jakoch@web.de>
     * @copyright  Jens-André Koch (2010 - 2011)
     * @link       http://wpn-xm.org/
-    * @version    SVN: $Id: serverpack.core.php 5795 2011-11-09 12:39:38Z vain $
+    * @version    SVN: $Id: serverstack.core.php 5795 2011-11-09 12:39:38Z vain $
     */
 
-class Wpnxm_Serverpack
+class Wpnxm_Serverstack
 {
-    /**
-     * Defines the following Path Constants
-     * 
-     * WPNXM_DIR     -> wpn-xm/ Root Folder (bin, configs, ....)
-     * WPNXM_WWW_DIR -> wpn-xm/www
-     * WPNXM_PHP_DIR -> wpn-xm/www/webinterface
-     */
-    public static function defineDirectories()
-    {
-               
-    }
-      
-    /**
-     * Returns the base directory / installation folder of the WPИ-XM Serverpack.
-     *
-     * @return string Base directory of the WPИ-XM Serverpack.
-     */
-    public static function getBaseDir()
-    {        
-        return ;        
-    }
-
     public static function get_MySQL_datadir()
     {
         $myini_array = file("../mysql/my.ini");
@@ -102,10 +80,10 @@ class Wpnxm_Serverpack
     public static function getNGINXVersion()
     {
         if (strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
-        { 
-            return 'Apache!? U Traitor :-(';        
+        {
+            return 'Apache!? U Traitor :-(';
         }
-        
+
         return substr($_SERVER["SERVER_SOFTWARE"], 6);
     }
 
@@ -137,24 +115,26 @@ class Wpnxm_Serverpack
      */
     public static function assertExtensionFileFound($extension)
     {
-        $file_exists = false;
+        $files = array(
+            'apc'       => 'bin\php\ext\php_apc.dll',
+            'xdebug'    => 'bin\php\ext\php_xdebug.dll',
+            'xhprof'    => 'bin\php\ext\php_xhprof.dll',
+            'memcached' => 'bin\php\ext\php_memcache.dll',
+            'nginx'     => 'bin\nginx\nginx.conf',
+            'mariadb'   => 'bin\mariadb\my.ini',
+            'php'       => 'bin\php\php.ini',
+        );
 
-        switch ($extension) {
-            case "xdebug":                
-                if(is_file(WPNXM_DIR . 'bin\php\ext\php_xdebug.dll') === true)
-                {
-                    $file_exists = true;
-                }
-                break;
-            case "memcached":
-                if(is_file(WPNXM_DIR . 'bin\php\ext\php_memcache.dll') === true)
-                {
-                    $file_exists = true;
-                }
-                break;
+        $file = WPNXM_DIR . $files[$extension];
+
+        if(is_file($file) === true)
+        {
+            return true;
         }
-
-        return $file_exists;
+        else
+        {
+            return false;
+        }
     }
 
     /**
