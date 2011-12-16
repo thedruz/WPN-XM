@@ -54,7 +54,7 @@ class Wpnxm_Serverstack
     {
         if(false === function_exists('mysql_get_server_info'))
         {
-            return; # extension mysql, mysqli, mysqlnd missing
+            return '<img src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: mysql, mysqli, mysqlnd missing.">';
         }
 
         # mysql_get_server_info() returns e.g. "5.3.0-maria"
@@ -81,7 +81,7 @@ class Wpnxm_Serverstack
     {
         if (strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
         {
-            return 'Apache!? U Traitor :-(';
+            return '<img src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="Apache!? You Traitor!">';
         }
 
         return substr($_SERVER["SERVER_SOFTWARE"], 6);
@@ -224,7 +224,7 @@ class Wpnxm_Serverstack
     {
         if (extension_loaded('memcache') === false)
         {
-            return ':(off)'; # the extension is missing
+            return '<img src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: memcached missing.">';
         }
 
         $matches = new Memcached();

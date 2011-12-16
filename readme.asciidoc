@@ -43,6 +43,11 @@ Webgrind    1.0     New BSD License    © 2010 - J. Nygård, J. Oettinger.  http
 phpMyAdmin  3.4.8   GNU GPL v2         © 2003 - 2011 phpMyAdmin DevTeam.  http://www.phpmyadmin.net/
 Memcached   1.4.5
 
+Icons
+
+Fugue Icons 3.3     CCA 3.0            © Yusuke Kamiyamane.               http://p.yusukekamiyamane.com/
+                                                                          https://github.com/yusukekamiyamane/fugue-icons
+
 ------
 
 == STILL NOT CONVINCED? ==
