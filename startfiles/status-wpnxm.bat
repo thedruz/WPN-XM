@@ -8,9 +8,6 @@ TITLE WPN-XM Serverpack - Daemon Status Monitor
 
 cls
 
-tasklist /FI "imagename eq memcached.exe"
-echo.
-
 tasklist /FI "imagename eq nginx.exe"
 echo.
 
@@ -18,6 +15,9 @@ tasklist /FI "imagename eq php-cgi.exe"
 echo.
 
 tasklist /FI "imagename eq mysqld.exe"
+echo.
+
+tasklist /FI "imagename eq memcached.exe"
 echo.
 
 echo PRESS ANY KEY TO REFRESH

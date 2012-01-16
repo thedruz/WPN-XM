@@ -2,7 +2,7 @@
 # common bootstrap file with constants, etc.
 include __DIR__ . '/php/bootstrap.php';
 include WPNXM_TEMPLATE . 'header.php';
-include WPNXM_PHP_DIR . 'serverpack.php';
+include WPNXM_PHP_DIR . 'serverstack.php';
 ?>
 
 <h2 class="heading">Server Environment</h2>
@@ -10,7 +10,7 @@ include WPNXM_PHP_DIR . 'serverpack.php';
 <div class="cs-message" style="width: 740px;">
     <h3>phpinfo()</h3>
     <div id="search">
-        <label>Search:</label> 
+        <label>Search:</label>
         <input id="textToHighlight" type="text" value="xdebug">
         <button id="highlightButton">Search</button>
         <button id="resetButton">Reset</button>
@@ -18,10 +18,10 @@ include WPNXM_PHP_DIR . 'serverpack.php';
     <br />
     <br />
     <div id="phpinfo">
-        <?php echo Wpnxm_Serverpack::fetchPHPInfo(); ?>
+        <?php echo Wpnxm_Serverstack::fetchPHPInfo(); ?>
     </div>
 </div>
-    
+
 <script type="text/javascript">
 <!--
 (function(){

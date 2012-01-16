@@ -35,15 +35,20 @@ echo Starting MariaDb...
 %HIDECONSOLE% %cd%\bin\mariadb\bin\mysqld.exe --defaults-file=%cd%\bin\mariadb\my.ini
 echo.
 
-echo Starting memcached...
+echo Starting Memcached...
 %HIDECONSOLE% %cd%\bin\memcached\memcached.exe -p 11211 -U 0 -t 2 -c 2048 -m 2048
 echo.
 
+<<<<<<< HEAD
 echo Starting nginx...
 %HIDECONSOLE% %cd%\bin\nginx\nginx.exe -p %cd% -c %cd%\bin\nginx\conf\nginx.conf
+=======
+echo Starting NGINX...
+%HIDECONSOLE% %cd%\bin\nginx\nginx.exe -p "%cd%" -c "%cd%\bin\nginx\conf\nginx.conf"
+>>>>>>> 545df6bb3fea05e8c2f045e18c88fd6c59f5c152
 echo.
 
-echo Opening Localhost in Browser
+echo Opening localhost in Browser...
 start http://localhost/
 
 GOTO END
