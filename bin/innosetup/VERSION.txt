@@ -1,0 +1,1 @@
+Inno Setup 5.4.3 Unicode
