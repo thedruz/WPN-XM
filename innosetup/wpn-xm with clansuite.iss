@@ -46,13 +46,13 @@ CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
 VersionInfoVersion=0.1
-SetupIconFile={#SOURCE_ROOT}Setup.ico
-//WizardImageFile={#SOURCE_ROOT}wizardimage.bmp
-//WizardSmallImageFile={#SOURCE_ROOT}wizardsmallimage.bmp
+SetupIconFile={#SOURCE_ROOT}bin\icons\Setup.ico
+//WizardImageFile={#SOURCE_ROOT}bin\icons\wizardimage.bmp
+//WizardSmallImageFile={#SOURCE_ROOT}bin\icons\wizardsmallimage.bmp
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
-Name: de; MessagesFile: compiler:languages\German.isl
+//Name: de; MessagesFile: compiler:languages\German.isl
 
 [Types]
 Name: "full"; Description: "Full installation"
@@ -77,7 +77,7 @@ Name: "clansuite"; Description: "Clansuite - just an eSports CMS"; ExtraDiskSpac
 Source: "bin\UnxUtils\unzip.exe"; DestDir: "{tmp}"; Flags: dontcopy
 Source: "bin\HideConsole\RunHiddenConsole.exe"; DestDir: "{app}\bin\tools\"
 Source: "bin\killprocess\Process.exe"; DestDir: "{app}\bin\tools\"
-Source: "cleanup-mysql-5.5.15-win32.bat"; DestDir: "{tmp}"
+Source: "bin\cleanup-mysql-5.5.15-win32.bat"; DestDir: "{tmp}"
 // incorporate the whole "www" folder into the setup
 Source: "www\*"; DestDir: "{app}\www";  Flags: recursesubdirs; Excludes: "*\nbproject*"
 // incorporate several startfiles
