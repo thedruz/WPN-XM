@@ -29,7 +29,17 @@ _____________________________________________________________________________
 Version 0.2 - REL    tbc
 ------------  ----------------------------------------------------------------
         
-        -->>
+        -->>  
+              NEW    added build.xml - the nant buildfile
+              NEW    added build.bat - call to nant injecting the buildfile
+              NEW    added NANT 0.91 to /bin/nant for build process automation
+              NEW    added Inno Setup 5.4.3 Unicode to /bin/innosetup
+              CHG    cleanups 
+                     moved batch build file to /bin/build-old.bat
+                     moved setup.ico to /bin/icons folder
+                     moved iss files from toplevel to /innosetup folder
+[16.01.2012]  FIX    "set PHPRC" is not working; start-wpnxm.bat now changes
+                     into the php directory to find the php extensions; 
               UPD    phpMyAdmin 3.4.8
               UPD    NGINX 1.1.10
               NEW    link for immediate redirection
