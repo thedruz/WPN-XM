@@ -7,20 +7,20 @@ include WPNXM_PHP_DIR . 'serverstack.php';
 
 <h2 class="heading">Server Environment</h2>
 
-<div class="cs-message" style="width: 740px;">
-    <h3>phpinfo()</h3>
-    <div id="search">
-        <label>Search:</label>
-        <input id="textToHighlight" type="text" value="xdebug">
-        <button id="highlightButton">Search</button>
-        <button id="resetButton">Reset</button>
+    <div class="cs-message-content search">
+        <h2>Search in phpinfo()</h2>
+        <div id="search">
+            <label>Search</label>
+            <input id="textToHighlight" type="text" value="xdebug">
+            <button id="highlightButton">Search</button>
+            <button id="resetButton">Reset</button>
+        </div>
     </div>
-    <br />
-    <br />
+
     <div id="phpinfo">
+        <br/>
         <?php echo Wpnxm_Serverstack::fetchPHPInfo(); ?>
     </div>
-</div>
 
 <script type="text/javascript">
 <!--

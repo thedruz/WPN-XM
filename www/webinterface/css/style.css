@@ -260,12 +260,12 @@ img
     padding: 10px;
 }
 
-#search {
-    margin-left: 165px;
-    padding-left: 160px;
-    margin-top: 0;
-    padding-bottom: 0;
-    padding-top: 15px;
+.search
+{
+    height: 80px;
+    min-height: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 #highlight { background:yellow; }
 .highlight { background-color:yellow; color:inherit; text-decoration:inherit }
