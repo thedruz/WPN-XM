@@ -36,3 +36,12 @@ phpunit.xml
 
 # Folder for Qt Executables
 /Output
+# Qt - Bin, Debug and Release directories (only on Windows)
+/wpnxm-scp/bin
+/wpnxm-scp/debug
+/wpnxm-scp/release
+# Qt - Files
+/wpnxm-scp/*makefile*
+/wpnxm-scp/*debug*
+/wpnxm-scp/*release*
+/wpnxm-scp/*.pro.user
