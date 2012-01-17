@@ -8,7 +8,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
 <h2 class="heading">Server Environment</h2>
 
     <div class="cs-message-content search">
-        <h2>Search in phpinfo()</h2>
+        <h3>Search in phpinfo()</h3>
         <div id="search">
             <label>Search</label>
             <input id="textToHighlight" type="text" value="xdebug">

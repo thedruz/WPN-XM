@@ -8,6 +8,8 @@ include WPNXM_PHP_DIR . 'projects.php';
 $projects = new Projects();
 ?>
 
+     <h2 class="heading">Projects and Tools</h2>
+
         <div class="left-box">
             <div class="cs-message">
                 <!-- Widget: Projects (scanned project paths / www folder) -->

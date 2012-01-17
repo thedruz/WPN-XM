@@ -4,14 +4,13 @@ include __DIR__ . '/php/bootstrap.php';
 include WPNXM_TEMPLATE . 'header.php';
 include WPNXM_PHP_DIR . 'serverstack.php';
 ?>
+<div class="centered">
 
         <div class="left-box">
 
                 <h2>Server Software</h2>
 
                 <div class="cs-message">
-
-                    <h3>Main Components</h3>
 
                         <table class="cs-message-content">
                         <tr>
@@ -123,11 +122,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
 
             <div class="right-box">
 
-                <h2>Server Environment</h2>
+                <h2>Configuration</h2>
 
                 <div class="cs-message">
-
-                    <h3>Configuration Overview</h3>
 
                    <table class="cs-message-content">
                    <tr>
@@ -267,5 +264,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
 
                 </div>
            </div>
+
+</div>
 
 <?php include WPNXM_TEMPLATE . 'footer.php'; ?>

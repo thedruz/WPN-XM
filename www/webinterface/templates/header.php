@@ -27,11 +27,11 @@ include dirname(__DIR__) . '/php/bootstrap.php';
             <small>Version 0.2</small>
         </h1>
 
-        <div class="content-centered">
-
         <?php
             include WPNXM_TEMPLATE . 'htmlelements.php';
 
-            HtmlElements::renderMenu(); 
+            HtmlElements::renderMenu();
             HtmlElements::renderWelcome();
         ?>
+
+        <div class="content-centered">
