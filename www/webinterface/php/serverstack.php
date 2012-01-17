@@ -54,7 +54,7 @@ class Wpnxm_Serverstack
     {
         if(false === function_exists('mysql_get_server_info'))
         {
-            return '<img src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: mysql, mysqli, mysqlnd missing.">';
+            return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: mysql, mysqli, mysqlnd missing.">';
         }
 
         # mysql_get_server_info() returns e.g. "5.3.0-maria"
@@ -81,7 +81,7 @@ class Wpnxm_Serverstack
     {
         if (strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
         {
-            return '<img src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="Apache!? You Traitor!">';
+            return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="You are using Apache!? You Traitor!">';
         }
 
         return substr($_SERVER["SERVER_SOFTWARE"], 6);
@@ -95,7 +95,7 @@ class Wpnxm_Serverstack
     public static function getXdebugVersion()
     {
         $xdebug_version = false;
-
+        $matches = '';
         $phpinfo = self::fetchPHPInfo();
 
         // Check phpinfo content for Xdebug as Zend Extension
@@ -146,6 +146,7 @@ class Wpnxm_Serverstack
     public static function assertExtensionConfigured($extension)
     {
         $loaded = false;
+        $matches = '';
 
         switch ($extension) {
             case "xdebug":
@@ -180,6 +181,7 @@ class Wpnxm_Serverstack
     public static function getXdebugExtensionType()
     {
         $phpinfo = self::fetchPHPInfo();
+        $matches = '';
 
         // Check phpinfo content for Xdebug as Zend Extension
         if ( preg_match( '/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches ) )
@@ -224,7 +226,7 @@ class Wpnxm_Serverstack
     {
         if (extension_loaded('memcache') === false)
         {
-            return '<img src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: memcached missing.">';
+            return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: memcached missing.">';
         }
 
         $matches = new Memcached();
@@ -255,10 +257,12 @@ class Wpnxm_Serverstack
      */
     public static function fetchPHPInfo()
     {
+        $matches = '';
         $buffered_phpinfo = self::getPHPInfoContent();
+
         # only the body content
-        preg_match_all("=<body[^>]*>(.*)</body>=siU", $buffered_phpinfo, $result);
-        $phpinfo = $result[1][0];
+        preg_match_all("=<body[^>]*>(.*)</body>=siU", $buffered_phpinfo, $matches);
+        $phpinfo = $matches[1][0];
         $phpinfo = str_replace(";", "; ", $phpinfo);
 
         return $phpinfo;
@@ -276,5 +280,26 @@ class Wpnxm_Serverstack
     {
 
     }
+
+    /**
+     * Checks, if webserver is running.
+     *
+     * @return  bool
+     */
+    public function isWebserverRunning()
+    {
+        ini_set('default_socket_timeout', '3');
+
+        if (false !== ($handle = @fopen('http://127.0.0.1/', 'r')))
+        {
+            fclose($handle);
+            unset($handle);
+
+            return true;
+        }
+
+        return false;
+    }
+
 }
 ?>
