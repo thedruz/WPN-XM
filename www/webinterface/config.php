@@ -5,7 +5,7 @@ include WPNXM_TEMPLATE . 'header.php';
 include WPNXM_PHP_DIR . 'serverstack.php';
 ?>
 
-            <div class="left-box">
+        <div class="left-box">
 
                 <h2>Server Software</h2>
 
@@ -127,7 +127,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
 
                 <div class="cs-message">
 
-                    <h3>Overview</h3>
+                    <h3>Configuration Overview</h3>
 
                    <table class="cs-message-content">
                    <tr>

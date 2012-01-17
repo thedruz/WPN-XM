@@ -1,5 +1,5 @@
 [Files]
-Source: bin\InnoToolsDownloader\itdownload.dll; Flags: dontcopy; DestDir: {tmp}
+Source: ..\bin\InnoToolsDownloader\itdownload.dll; Flags: dontcopy; DestDir: {tmp}
 
 [Code]
 (*
