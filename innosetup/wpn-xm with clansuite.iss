@@ -135,7 +135,7 @@ const
   // Define download URLs for the software packages
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github. 
   URL_nginx             = 'http://www.nginx.org/download/nginx-1.1.10.zip';
-  URL_php               = 'http://windows.php.net/downloads/releases/php-5.3.8-nts-Win32-VC9-x86.zip';
+  URL_php               = 'http://windows.php.net/downloads/releases/php-5.3.9-nts-Win32-VC9-x86.zip';
   URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.3.2-beta/win2008r2-vs2010-i386-packages/mariadb-5.3.2-beta-win32.zip';
   URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.1.2-5.3-vc9-nts.dll';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
