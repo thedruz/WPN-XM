@@ -29,10 +29,9 @@ include dirname(__DIR__) . '/php/bootstrap.php';
 
         <div class="content-centered">
 
-        <?php include WPNXM_TEMPLATE . 'menu.php';
-            Menu::render();
-        ?>
+        <?php
+            include WPNXM_TEMPLATE . 'htmlelements.php';
 
-        <?php include WPNXM_TEMPLATE . 'welcome.php';
-            Welcome::render();
+            HtmlElements::renderMenu(); 
+            HtmlElements::renderWelcome();
         ?>

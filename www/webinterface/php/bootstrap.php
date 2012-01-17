@@ -1,6 +1,6 @@
 <?php
 /**
- * Defines the following Path Constants
+ * Definition of Path Constants
  *
  * WPNXM_DIR        -> wpn-xm/ Root Folder (bin, configs, ....)
  * WPNXM_WWW_DIR    -> wpn-xm/www
