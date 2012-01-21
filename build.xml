@@ -15,7 +15,7 @@
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
     
     <!-- File Names -->
-    <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}-setup.exe"/>
+    <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}-Setup"/>
     <property name="wpnxm.ExeFile"          value="${dir.Build}\${wpnxm.ExeFileName}" />
 
     <property name="wpnxm.ZipFileName"      value="WPNXM-${wpnxm.Version}.zip"/>
@@ -30,10 +30,10 @@
 
     <target name="compile-wpnxm-setup" description="Builds the WPN-XM setup executable."> 
         <exec program="${innosetupcompiler}">  
-            <!-- use our alternate file name -->              
-            <arg value="-f${wpnxm.ExeFile}"/> 
-            <!-- use our output/build dir -->                      
-            <arg value="-o${dir.Build}"/>                   
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}"/> 
+            <!-- use our output/build dir -->
+            <arg value="-o${dir.Build}"/>
             <arg value="${dir.Base}\innosetup\wpn-xm.iss"/>            
         </exec>
     </target>
