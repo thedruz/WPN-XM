@@ -67,6 +67,7 @@ Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; Extra
 // memcached install means the daemon and the php extension
 Name: "memcached"; Description: "Memcached - distributed memory caching"; ExtraDiskSpaceRequired: 400000; Types: full
 Name: "phpmyadmin"; Description: "phpMyAdmin - MySQL database administration webinterface"; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: "junction"; Description: "junction - Mircosoft tool for creating junctions (symlinks)"; ExtraDiskSpaceRequired: 157000; Types: full
 
 [Files]
 // tools
@@ -141,6 +142,7 @@ const
   URL_memcached         = 'http://downloads.northscale.com/memcached-1.4.5-x86.zip';
   URL_phpext_memcached  = 'http://downloads.php.net/pierre/php_memcache-2.2.6-5.3-vc9-x86.zip';
   URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.8/phpMyAdmin-3.4.8-english.zip';
+  URL_junction          = 'http://download.sysinternals.com/Files/Junction.zip';
 
   // Define file names for the downloads
   Filename_nginx            = 'nginx.zip';
@@ -152,6 +154,7 @@ const
   Filename_memcached        = 'memcached.zip';
   Filename_phpext_memcached = 'phpext_memcache.zip'; // memcache without D
   Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_junction         = 'junction.zip';
 
 var
   unzipTool: String;    // path+filename of unzip helper for exec
@@ -252,6 +255,7 @@ begin
     end;
 
     if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,   expandconstant(targetPath + Filename_phpmyadmin));
+    if IsComponentSelected('junction') then itd_addfile(URL_junction,   expandconstant(targetPath + Filename_junction));
 
   end;
 
@@ -314,6 +318,8 @@ begin
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+
+  if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
 end;
 

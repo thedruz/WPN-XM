@@ -23,7 +23,7 @@
 # define SOURCE_ROOT AddBackslash(SourcePath);
 
 // we need to include the Sherlock Software\InnoTools\Downloader
-# include SOURCE_ROOT + "bin\InnoToolsDownloader\it_download.iss"
+# include SOURCE_ROOT + "..\bin\InnoToolsDownloader\it_download.iss"
 
 [Setup]
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
@@ -46,7 +46,7 @@ CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
 VersionInfoVersion=0.1
-SetupIconFile={#SOURCE_ROOT}bin\icons\Setup.ico
+SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 //WizardImageFile={#SOURCE_ROOT}bin\icons\wizardimage.bmp
 //WizardSmallImageFile={#SOURCE_ROOT}bin\icons\wizardsmallimage.bmp
 
@@ -70,27 +70,28 @@ Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; Extra
 // memcached install means the daemon and the php extension
 Name: "memcached"; Description: "Memcached - distributed memory caching"; ExtraDiskSpaceRequired: 400000; Types: full
 Name: "phpmyadmin"; Description: "phpMyAdmin - MySQL database administration webinterface"; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: "junction"; Description: "junction - Mircosoft tool for creating junctions (symlinks)"; ExtraDiskSpaceRequired: 157000; Types: full
 Name: "clansuite"; Description: "Clansuite - just an eSports CMS"; ExtraDiskSpaceRequired: 20000000; Types: full
 
 [Files]
 // tools
-Source: "bin\UnxUtils\unzip.exe"; DestDir: "{tmp}"; Flags: dontcopy
-Source: "bin\HideConsole\RunHiddenConsole.exe"; DestDir: "{app}\bin\tools\"
-Source: "bin\killprocess\Process.exe"; DestDir: "{app}\bin\tools\"
-Source: "bin\cleanup-mysql-5.5.15-win32.bat"; DestDir: "{tmp}"
+Source: "..\bin\UnxUtils\unzip.exe"; DestDir: "{tmp}"; Flags: dontcopy
+Source: "..\bin\HideConsole\RunHiddenConsole.exe"; DestDir: "{app}\bin\tools\"
+Source: "..\bin\killprocess\Process.exe"; DestDir: "{app}\bin\tools\"
+Source: "..\bin\cleanup-mysql-5.5.15-win32.bat"; DestDir: "{tmp}"
 // incorporate the whole "www" folder into the setup
-Source: "www\*"; DestDir: "{app}\www";  Flags: recursesubdirs; Excludes: "*\nbproject*"
+Source: "..\www\*"; DestDir: "{app}\www";  Flags: recursesubdirs; Excludes: "*\nbproject*"
 // incorporate several startfiles
-Source: "startfiles\administration.url"; DestDir: "{app}"
-Source: "startfiles\localhost.url"; DestDir: "{app}"
-Source: "startfiles\start-wpnxm.exe"; DestDir: "{app}"
-Source: "startfiles\stop-wpnxm.exe"; DestDir: "{app}"
-Source: "startfiles\status-wpnxm.bat"; DestDir: "{app}"
+Source: "..\startfiles\administration.url"; DestDir: "{app}"
+Source: "..\startfiles\localhost.url"; DestDir: "{app}"
+Source: "..\startfiles\start-wpnxm.exe"; DestDir: "{app}"
+Source: "..\startfiles\stop-wpnxm.exe"; DestDir: "{app}"
+Source: "..\startfiles\status-wpnxm.bat"; DestDir: "{app}"
 // config files
-Source: "configs\php.ini"; DestDir: "{app}\bin\php"
-Source: "configs\nginx.conf"; DestDir: "{app}\bin\nginx\conf"
-Source: "configs\vhosts.conf"; DestDir: "{app}\bin\nginx\conf"
-Source: "configs\my.ini"; DestDir: "{app}\bin\mariadb"
+Source: "..\configs\php.ini"; DestDir: "{app}\bin\php"
+Source: "..\configs\nginx.conf"; DestDir: "{app}\bin\nginx\conf"
+Source: "..\configs\vhosts.conf"; DestDir: "{app}\bin\nginx\conf"
+Source: "..\configs\my.ini"; DestDir: "{app}\bin\mariadb"
 
 [Icons]
 Name: "{group}\Start WPN-XM"; Filename: "{app}\start-wpnxm.exe"
@@ -145,6 +146,7 @@ const
   URL_memcached         = 'http://downloads.northscale.com/memcached-1.4.5-x86.zip';
   URL_phpext_memcached  = 'http://downloads.php.net/pierre/php_memcache-2.2.6-5.3-vc9-x86.zip';
   URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.8/phpMyAdmin-3.4.8-english.zip';
+  URL_junction          = 'http://download.sysinternals.com/Files/Junction.zip';
   // Latest Clansuite Version from Gitub (svnsync) as ZIP
   URL_Clansuite         = 'http://nodeload.github.com/jakoch/Clansuite/zipball/svnsync';
 
@@ -158,6 +160,7 @@ const
   Filename_memcached        = 'memcached.zip';
   Filename_phpext_memcached = 'phpext_memcache.zip'; // memcache without D
   Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_junction         = 'junction.zip';
   Filename_clansuite        = 'clansuite.zip';
 
 var
@@ -260,6 +263,8 @@ begin
 
     if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,   expandconstant(targetPath + Filename_phpmyadmin));
 
+    if IsComponentSelected('junction') then itd_addfile(URL_junction,   expandconstant(targetPath + Filename_junction));
+
     if IsComponentSelected('clansuite') then itd_addfile(URL_clansuite, expandconstant(targetPath + Filename_clansuite));
 
   end;
@@ -322,6 +327,8 @@ begin
     DoUnzip(targetPath + Filename_phpext_memcached, ExpandConstant('{app}\bin\php\ext'));
   end;
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+
+  if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
   if Pos('clansuite', selectedComponents) > 0 then DoUnzip(targetPath + Filename_clansuite, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
