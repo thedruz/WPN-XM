@@ -38,6 +38,24 @@
         </exec>
     </target>
 
-    <target name="all" depends="clean, compile-wpnxm-setup"></target>
+    <target name="all" depends="clean, update-files, compile-wpnxm-setup"></target>
+
+    <target name="update-files">
+        <!-- 
+             To get the version informations into the innosetup script file,
+             we replace some tokens.
+             This step must run before compile-wpnxm-setup.
+         -->
+        <copy todir="${dir.Build}" overwrite="true">
+            <fileset basedir="${dir.Base}/innosetup/">
+                <include name="wpn-xm.iss" />                
+            </fileset>
+            <filterchain>
+                <replacetokens>                   
+                    <token key="APPVERSION" value="${wpnxm.Version}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
 
 </project>
