@@ -1,26 +1,36 @@
 //
-//    WPN-XM Server Stack - Inno Setup Script File
-//
-//    WPN-XM is a free and open-source web server solution stack for 
-//    professional PHP development on the Windows platform.
-//
-//    The groundation of this stack consists of NGINX, MariaDb and PHP.
-//
-//    The stack contains several additional tools you might install:
-//
-//    - Server Control Panel for controlling server daemons,
-//    - WPN-XM Webinterface for administration of the stack,
-//    - Xdebug, Xhprof, webgrind for php debugging purposes,
-//    - phpMyAdmin for MySQL database administration,
-//    - memcached and APC for caching purposes,
-//    - junctions for creating symlinks.
-//
-//    This bundle contains also the lastest version of
-//    "Clansuite - just an eSports CMS".
-//
-//    Author:   Jens-Andre Koch <jakoch@web.de>
-//    Website:  http://wpn-xm.org
-//    License:  GNU/GPLv2+
+//          _\|/_
+//          (o o)
+// +-----oOO-{_}-OOo------------------------------------------------------+
+// |                                                                      |
+// |  WPN-XM Server Stack - Inno Setup Script File                        |
+// |  --------------------------------------------                        |
+// |                                                                      |
+// |  WPN-XM is a free and open-source web server solution stack for      |
+// |  professional PHP development on the Windows platform.               |
+// |                                                                      |
+// |  The groundation of this stack consists of NGINX, MariaDb and PHP.   |
+// |                                                                      |
+// |  The stack contains several additional tools you might install:      |
+// |                                                                      |
+// |   - Server Control Panel for controlling server daemons,             |
+// |   - WPN-XM Webinterface for administration of the stack,             |
+// |   - Xdebug, Xhprof, webgrind for php debugging purposes,             |
+// |   - phpMyAdmin for MySQL database administration,                    |
+// |   - memcached and APC for caching purposes,                          |
+// |   - junctions for creating symlinks.                                 |
+// |                                                                      |
+// |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
+// |  Website:  http://wpn-xm.org                                         |
+// |  License:  GNU/GPLv2+                                                |
+// |                                                                      |
+// |  Note for developers                                                 |
+// |  -------------------                                                 |
+// |  A good resource for developing and understanding                    |
+// |  Inno Setup Script files is the official "Inno Setup Help".          |
+// |  Website:  http://jrsoftware.org/ishelp/index.php                    |
+// |                                                                      |
+// +---------------------------------------------------------------------<3
 //
 
 // toggle for enabling/disabling the debug mode
@@ -61,6 +71,9 @@ SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
+
+// create a log file, see [code] procedure CurStepChanged
+SetupLogging=yes
 
 VersionInfoVersion={#AppVersion}
 VersionInfoCompany={#AppPublisher}
@@ -447,5 +460,14 @@ begin
    begin
     UnzipFiles();
     ApplyModifications();
+   end;
+
+ if CurStep = ssDone then
+   begin
+     // copy logfile from tmp dir to the application dir, when the setup wizward is finished
+     logfilepathname := expandconstant('{log}');
+     logfilename := ExtractFileName(logfilepathname);
+     newfilepathname := expandconstant('{app}\') +logfilename;
+     filecopy(logfilepathname, newfilepathname, false);
    end;
 end;
