@@ -3,7 +3,8 @@ WPИ-XM
 
 *WPИ-XM is a free and open-source web server solution stack for professional PHP development on the Windows platform.*
 
-The groundation of the server stack consists of NGINX, PHP and MariaDB. Additionally XDebug, XhProf and Webgrind were added for profiling and debugging purposes; phpMyAdmin for MySQL administration purposes; memcached and APC for caching.
+The groundation of the server stack consists of NGINX, PHP and MariaDB. Additionally XDebug, XhProf and Webgrind were added for profiling and debugging purposes; phpMyAdmin for MySQL database administration purposes; memcached and APC for caching.
+WPИ-XM provides a webinterface for server administration and a server control panel (tray application) which makes starting and stopping of daemons easy.
 The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX, XDebug and MariaDB.
 
 
