@@ -11,7 +11,7 @@
     
     <!-- Paths -->
     <property name="dir.Base"               value="${project::get-base-directory()}"/>
-    <property name="dir.Build"              value="${dir.Base}\build"/>
+    <property name="dir.Build"              value="${dir.Base}\_build"/>
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
     
     <!-- File Names -->
