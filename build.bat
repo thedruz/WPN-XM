@@ -23,7 +23,7 @@ echo ^|  The WPN-XM build process is automated with NANT.                       
 echo ^|                                                                          ^|
 echo ^|  Author      Jens-Andre Koch (jakoch@web.de)                             ^|
 echo ^|  License     GNU/GPL Version 2 and any later version                     ^|
-echo ^|  Copyright   2008 - 2012                                                 ^|
+echo ^|  Copyright   2011 - 2012                                                 ^|
 echo ^|                                                                          ^|
 echo ^|  Website     http://wpn-xm.org                                           ^|
 echo ^|                                                                          ^|
