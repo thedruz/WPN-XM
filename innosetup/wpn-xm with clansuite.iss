@@ -158,6 +158,12 @@ Filename: "{tmp}\cleanup-mysql-5.5.15-win32.bat"; Parameters: "{app}\bin\mariadb
 [INI]
 ;Filename: {app}\php\php.ini,Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
 
+[Messages]
+// define wizard title and tray status msg
+// both are normally defined in /bin/innosetup/default.isl
+SetupAppTitle = Setup WPN-XM {#AppVersion}
+SetupWindowTitle = Setup - {#AppName} {#AppVersion}
+
 [CustomMessages]
 de.WebsiteLink={#AppURL}
 en.WebsiteLink={#AppURL}
