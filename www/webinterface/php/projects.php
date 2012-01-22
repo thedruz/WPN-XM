@@ -9,11 +9,11 @@ class Projects
      * This is used for exclusion of folders when fetching project directories.
      */
     private $toolDirectories = array(
-                                        'phpmyadmin' => '',
-                                        'webgrind' => '',
-                                        'webinterface' => '',
-                                        'xhprof' => 'xhprof/xhprof_html'
-                                    );
+        'phpmyadmin' => '',
+        'webgrind' => '',
+        'webinterface' => '',
+        'xhprof' => 'xhprof/xhprof_html'
+    );
 
     function __construct()
     {
@@ -70,7 +70,7 @@ class Projects
     public function listTools()
     {
         foreach($this->toolDirectories as $dir => $href)
-        {                       
+        {
             if($href =='')
             {
                 echo '<li><a class="folder" href="' . WPNXM_WWW_ROOT . $dir . '">' . $dir . '</a></li>';
@@ -78,10 +78,10 @@ class Projects
             else
             {
                 echo '<li><a class="folder" href="' . WPNXM_WWW_ROOT . $href . '">' . $dir . '</a></li>';
-            }            
+            }
         }
     }
-    
+
     /**
      * tools directories are hardcoded.
      * because we don't know which ones the user installed,
@@ -94,7 +94,7 @@ class Projects
         foreach($this->toolDirectories as $dir => $href)
         {
             if(is_dir(WPNXM_WWW_DIR . $dir) === false)
-            {                 
+            {
                 unset($this->toolDirectories[$dir]);
             }
         }
