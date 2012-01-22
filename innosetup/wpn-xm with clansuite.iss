@@ -121,6 +121,8 @@ Name: "{group}\Stop WPN-XM"; Filename: "{app}\stop-wpnxm.exe"
 Name: "{group}\Status of WPN-XM"; Filename: "{app}\status-wpnxm.bat"
 Name: "{group}\Localhost"; Filename: "{app}\localhost.url"
 Name: "{group}\Administration"; Filename: "{app}\administration.url"
+Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}
+Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}
 Name: "{group}\{cm:RemoveApp}"; Filename: "{uninstallexe}"
 //Name: "{userdesktop}\My Program"; Filename: "{app}\start-wpnxm.exe"; Tasks: desktopicon
 //Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM"; Filename: "{app}\start-wpnxm.exe"; Tasks: quicklaunchicon
@@ -141,8 +143,10 @@ Filename: "{tmp}\cleanup-mysql-5.5.15-win32.bat"; Parameters: "{app}\bin\mariadb
 ;Filename: {app}\php\php.ini,Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
 
 [CustomMessages]
-de.WebsiteLink=http://wpn-xm.org
-en.WebsiteLink=http://wpn-xm.org
+de.WebsiteLink={#AppURL}
+en.WebsiteLink={#AppURL}
+de.ReportBug=Fehler melden
+en.ReportBug=Report Bug
 de.RemoveApp=WPN-XM Server Stack deinstallieren
 en.RemoveApp=Uninstall WPN-XM Server Stack
 
@@ -152,7 +156,7 @@ Name: "{app}\www"
 [Code]
 // Constants and global variables
 const
-  // reassigning defined constant debug
+  // reassigning the preprocessor defined constant debug
   DEBUG = {#DEBUG};
 
   // Define download URLs for the software packages
@@ -180,7 +184,7 @@ const
   Filename_webgrind         = 'webgrind.zip';
   Filename_xhprof           = 'xhprof.zip';
   Filename_memcached        = 'memcached.zip';
-  Filename_phpext_memcached = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_junction         = 'junction.zip';
   Filename_clansuite        = 'clansuite.zip';
@@ -280,11 +284,10 @@ begin
     if IsComponentSelected('memcached') then
     begin
         itd_addfile(URL_memcached,          expandconstant(targetPath + Filename_memcached));
-        itd_addfile(URL_phpext_memcached,   expandconstant(targetPath + Filename_phpext_memcached));
+        itd_addfile(URL_phpext_memcached,   expandconstant(targetPath + Filename_phpext_memcache));
     end;
 
     if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,   expandconstant(targetPath + Filename_phpmyadmin));
-
     if IsComponentSelected('junction') then itd_addfile(URL_junction,   expandconstant(targetPath + Filename_junction));
 
     if IsComponentSelected('clansuite') then itd_addfile(URL_clansuite, expandconstant(targetPath + Filename_clansuite));
@@ -346,8 +349,9 @@ begin
   if Pos('memcached', selectedComponents) > 0 then
   begin
     DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-    DoUnzip(targetPath + Filename_phpext_memcached, ExpandConstant('{app}\bin\php\ext'));
+    DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
   end;
+
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
   if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
