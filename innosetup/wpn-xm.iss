@@ -442,6 +442,10 @@ begin
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
+var
+  logfilepathname : String;
+  logfilename : String;
+  newfilepathname : String;
 begin
  if CurStep=ssInstall then
    begin
@@ -452,9 +456,9 @@ begin
  if CurStep = ssDone then
    begin
      // copy logfile from tmp dir to the application dir, when the setup wizward is finished
-     logfilepathname := expandconstant('{log}');
+     logfilepathname := ExpandConstant('{log}');
      logfilename := ExtractFileName(logfilepathname);
-     newfilepathname := expandconstant('{app}\') +logfilename;
+     newfilepathname := ExpandConstant('{app}\') +logfilename;
      filecopy(logfilepathname, newfilepathname, false);
    end;
 end;

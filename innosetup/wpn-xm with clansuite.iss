@@ -3,8 +3,8 @@
 //          (o o)
 // +-----oOO-{_}-OOo------------------------------------------------------+
 // |                                                                      |
-// |  WPN-XM Server Stack - Inno Setup Script File                        |
-// |  --------------------------------------------                        |
+// |  WPN-XM Server Stack with Clansuite - Inno Setup Script File         |
+// |  -----------------------------------------------------------         |
 // |                                                                      |
 // |  WPN-XM is a free and open-source web server solution stack for      |
 // |  professional PHP development on the Windows platform.               |
@@ -19,6 +19,9 @@
 // |   - phpMyAdmin for MySQL database administration,                    |
 // |   - memcached and APC for caching purposes,                          |
 // |   - junctions for creating symlinks.                                 |
+// |                                                                      |
+// |  Additionally this bundle installs a third party PHP application,    |
+// |  which is the lastest version of "Clansuite - just an eSports CMS".  |
 // |                                                                      |
 // |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
 // |  Website:  http://wpn-xm.org                                         |
@@ -87,7 +90,7 @@ SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
-//Name: de; MessagesFile: compiler:languages\German.isl
+Name: de; MessagesFile: compiler:languages\German.isl
 
 [Types]
 Name: "full"; Description: "Full installation"
@@ -455,6 +458,10 @@ begin
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
+var
+  logfilepathname : String;
+  logfilename : String;
+  newfilepathname : String;
 begin
  if CurStep=ssInstall then
    begin
@@ -465,9 +472,9 @@ begin
  if CurStep = ssDone then
    begin
      // copy logfile from tmp dir to the application dir, when the setup wizward is finished
-     logfilepathname := expandconstant('{log}');
+     logfilepathname := ExpandConstant('{log}');
      logfilename := ExtractFileName(logfilepathname);
-     newfilepathname := expandconstant('{app}\') +logfilename;
+     newfilepathname := ExpandConstant('{app}\') +logfilename;
      filecopy(logfilepathname, newfilepathname, false);
    end;
 end;
