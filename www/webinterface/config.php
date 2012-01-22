@@ -231,7 +231,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                      <td class="right"><?php echo Wpnxm_Serverstack::assertExtensionInstalled('memcached');?></td>
                    </tr>
                    <tr>
-                     <td colspan="2" class="right"><span class="aButton">Switch on/off</span>
+                     <td colspan="2" class="right">
+                         <span class="aButton">Configure</span>
+                         <span class="aButton">Switch on/off</span>
                      </td>
                    </tr>
                    </table>
@@ -257,7 +259,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                      <td class="right"><?php echo Wpnxm_Serverstack::getXdebugExtensionType();?></td>
                    </tr>
                    <tr>
-                     <td colspan="2" class="right"><span class="aButton">Switch on/off</span>
+                     <td colspan="2" class="right">
+                         <span class="aButton">Configure</span>
+                         <span class="aButton">Switch on/off</span>
                      </td>
                    </tr>
                    </table>
