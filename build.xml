@@ -4,58 +4,62 @@
          default="all">
 
     <!-- Version -->
-    <property name="version.Major"          value="0" />
-    <property name="version.Minor"          value="2" />
-    <property name="version.BuildNumber"    value="0"  />
-    <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}" />
+    <property name="version.Major"          value="0"/>
+    <property name="version.Minor"          value="2"/>
+    <property name="version.BuildNumber"    value="0"/>
+    <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
     
     <!-- Paths -->
     <property name="dir.Base"               value="${project::get-base-directory()}"/>
-    <property name="dir.Build"              value="${dir.Base}\innosetup\build"/>
+    <property name="dir.Build"              value="${dir.Base}\build"/>
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
     
     <!-- File Names -->
     <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}-Setup"/>
-    <property name="wpnxm.ExeFile"          value="${dir.Build}\${wpnxm.ExeFileName}" />
+    <property name="wpnxm.ExeFile"          value="${dir.Build}\${wpnxm.ExeFileName}"/>
 
     <property name="wpnxm.ZipFileName"      value="WPNXM-${wpnxm.Version}.zip"/>
     <property name="wpnxm.ZipFile"          value="${dir.Build}\${wpnxm.ZipFileName}"/>     
 
     <!-- Targets (Build Commands) -->
 
-    <target name="clean" description="Mr. Proper cleans the build environment and recreates it.">        
+    <target name="clean-builddir" description="Mr. Proper cleans the build environment and recreates it.">        
         <delete dir="${dir.Build}"/>
         <mkdir dir="${dir.Build}"/>
+    </target>
+
+    <target name="update-iss-files">
+        <!-- 
+             To get the version informations into the inno setup script file, the APPVERSION token is replaced.
+             This done via a copy operation with an applied filterchain, see below.
+             The preprocessed iss files are moved from the /innosetup folder to the build directory.
+             Then they are used for the actual build.
+             Therefore this step must run before the "compile-wpnxm-setup" step.
+         -->
+        <copy todir="${dir.Build}" overwrite="true">
+            <fileset basedir="${dir.Base}/innosetup/">
+                <include name="wpn-xm.iss"/>       
+                <include name="wpn-xm with clansuite.iss"/>                
+            </fileset>
+            <filterchain>
+                <replacetokens>                   
+                    <token key="APPVERSION" value="${wpnxm.Version}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
     </target>
 
     <target name="compile-wpnxm-setup" description="Builds the WPN-XM setup executable."> 
         <exec program="${innosetupcompiler}">  
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}"/> 
-            <!-- use our output/build dir -->
+            <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
-            <arg value="${dir.Base}\innosetup\wpn-xm.iss"/>            
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm.iss"/>            
         </exec>
     </target>
 
-    <target name="all" depends="clean, update-files, compile-wpnxm-setup"></target>
-
-    <target name="update-files">
-        <!-- 
-             To get the version informations into the innosetup script file,
-             we replace some tokens.
-             This step must run before compile-wpnxm-setup.
-         -->
-        <copy todir="${dir.Build}" overwrite="true">
-            <fileset basedir="${dir.Base}/innosetup/">
-                <include name="wpn-xm.iss" />                
-            </fileset>
-            <filterchain>
-                <replacetokens>                   
-                    <token key="APPVERSION" value="${wpnxm.Version}" />
-                </replacetokens>
-            </filterchain>
-        </copy>
-    </target>
+    <target name="all" depends="clean-builddir, update-iss-files, compile-wpnxm-setup"></target>
 
 </project>
