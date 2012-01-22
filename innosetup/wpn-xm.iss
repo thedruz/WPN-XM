@@ -1,48 +1,70 @@
 //
-//    WPN-XM Server Stack
+//    WPN-XM Server Stack - Inno Setup Script File
 //
 //    WPN-XM is a free and open-source web server solution stack for 
 //    professional PHP development on the Windows platform.
 //
 //    The groundation of this stack consists of NGINX, MariaDb and PHP.
+//
 //    The stack contains several additional tools you might install:
+//
+//    - Server Control Panel for controlling server daemons,
+//    - WPN-XM Webinterface for administration of the stack,
 //    - Xdebug, Xhprof, webgrind for php debugging purposes,
 //    - phpMyAdmin for MySQL database administration,
-//    - memcached and APC for caching purposes.
+//    - memcached and APC for caching purposes,
+//    - junctions for creating symlinks.
 //
 //    Author:   Jens-Andre Koch <jakoch@web.de>
 //    Website:  http://wpn-xm.org
 //    License:  GNU/GPLv2+
 //
 
+// toggle for enabling/disabling the debug mode
 # define DEBUG "false"
 
+// defines the root folder
 # define SOURCE_ROOT AddBackslash(SourcePath);
+
+// defines for the setup section
+#define AppName "WPN-XM Server Stack"
+// the -APPVERSION- token is replaced during the nant build process 
+#define AppVersion "@APPVERSION@"
+#define AppPublisher "Jens-André Koch"
+#define AppURL "http://wpn-xm.org/"
+#define AppSupportURL "https://github.com/jakoch/WPN-XM/issues/"
 
 // we need to include the Sherlock Software\InnoTools\Downloader
 # include SOURCE_ROOT + "..\bin\InnoToolsDownloader\it_download.iss"
 
 [Setup]
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
-AppName=WPN-XM Server Stack
-AppVerName="WPN-XM Server Stack 0.1"
-AppVersion=0.1
-AppPublisher="Jens-André Koch"
-AppCopyright=© Jens-André Koch
-AppPublisherURL="http://wpn-xm.org"
-AppSupportURL="https://github.com/jakoch/WPN-XM/issues/"
-AppUpdatesURL="http://wpn-xm.org"
+AppName={#AppName}
+AppVerName={#AppName} {#AppVersion}
+AppVersion={#AppVersion}
+AppPublisher={#AppPublisher}
+AppCopyright=© {#AppPublisher}
+AppPublisherURL={#AppURL}
+AppSupportURL={#AppSupportURL}
+AppUpdatesURL={#AppURL}
+
 // default installation folder is "c:\server". but user might change this via dialog.
 DefaultDirName={sd}\server
-DefaultGroupName="WPN-XM Server Stack"
-OutputBaseFilename="WPNXM-0.1"
+DefaultGroupName="{#AppName}"
+OutputBaseFilename="WPNXM-{#AppVersion}-Setup"
 Compression=lzma/ultra
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
-VersionInfoVersion=0.1
+
+VersionInfoVersion={#AppVersion}
+VersionInfoCompany={#AppPublisher}
+VersionInfoDescription={#AppName} {#AppVersion}
+VersionInfoTextVersion={#AppVersion}
+VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reserved.
+
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 //WizardImageFile={#SOURCE_ROOT}bin\icons\wizardimage.bmp
 //WizardSmallImageFile={#SOURCE_ROOT}bin\icons\wizardsmallimage.bmp
@@ -95,6 +117,8 @@ Name: "{group}\Stop WPN-XM"; Filename: "{app}\stop-wpnxm.exe"
 Name: "{group}\Status of WPN-XM"; Filename: "{app}\status-wpnxm.bat"
 Name: "{group}\Localhost"; Filename: "{app}\localhost.url"
 Name: "{group}\Administration"; Filename: "{app}\administration.url"
+Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}
+Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}
 Name: "{group}\{cm:RemoveApp}"; Filename: "{uninstallexe}"
 //Name: "{userdesktop}\My Program"; Filename: "{app}\start-wpnxm.exe"; Tasks: desktopicon
 //Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM"; Filename: "{app}\start-wpnxm.exe"; Tasks: quicklaunchicon
@@ -115,8 +139,10 @@ Filename: "{tmp}\cleanup-mysql-5.5.15-win32.bat"; Parameters: "{app}\bin\mariadb
 ;Filename: {app}\php\php.ini,Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
 
 [CustomMessages]
-de.WebsiteLink=http://wpn-xm.org
-en.WebsiteLink=http://wpn-xm.org
+de.WebsiteLink={#AppURL}
+en.WebsiteLink={#AppURL}
+de.ReportBug=Fehler melden
+en.ReportBug=Report Bug
 de.RemoveApp=WPN-XM Server Stack deinstallieren
 en.RemoveApp=Uninstall WPN-XM Server Stack
 
@@ -126,7 +152,7 @@ Name: "{app}\www"
 [Code]
 // Constants and global variables
 const
-  // reassigning defined constant debug
+  // reassigning the preprocessor defined constant debug
   DEBUG = {#DEBUG};
 
   // Define download URLs for the software packages
@@ -152,7 +178,7 @@ const
   Filename_webgrind         = 'webgrind.zip';
   Filename_xhprof           = 'xhprof.zip';
   Filename_memcached        = 'memcached.zip';
-  Filename_phpext_memcached = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_junction         = 'junction.zip';
 
@@ -251,7 +277,7 @@ begin
     if IsComponentSelected('memcached') then
     begin
         itd_addfile(URL_memcached,          expandconstant(targetPath + Filename_memcached));
-        itd_addfile(URL_phpext_memcached,   expandconstant(targetPath + Filename_phpext_memcached));
+        itd_addfile(URL_phpext_memcached,   expandconstant(targetPath + Filename_phpext_memcache));
     end;
 
     if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,   expandconstant(targetPath + Filename_phpmyadmin));
@@ -314,7 +340,7 @@ begin
   if Pos('memcached', selectedComponents) > 0 then
   begin
     DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-    DoUnzip(targetPath + Filename_phpext_memcached, ExpandConstant('{app}\bin\php\ext'));
+    DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir

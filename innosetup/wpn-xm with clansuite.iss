@@ -1,14 +1,19 @@
 //
-//    WPN-XM Server Stack
+//    WPN-XM Server Stack - Inno Setup Script File
 //
 //    WPN-XM is a free and open-source web server solution stack for 
 //    professional PHP development on the Windows platform.
 //
 //    The groundation of this stack consists of NGINX, MariaDb and PHP.
+//
 //    The stack contains several additional tools you might install:
+//
+//    - Server Control Panel for controlling server daemons,
+//    - WPN-XM Webinterface for administration of the stack,
 //    - Xdebug, Xhprof, webgrind for php debugging purposes,
 //    - phpMyAdmin for MySQL database administration,
-//    - memcached and APC for caching purposes.
+//    - memcached and APC for caching purposes,
+//    - junctions for creating symlinks.
 //
 //    This bundle contains also the lastest version of
 //    "Clansuite - just an eSports CMS".
@@ -18,34 +23,51 @@
 //    License:  GNU/GPLv2+
 //
 
+// toggle for enabling/disabling the debug mode
 # define DEBUG "false"
 
+// defines the root folder
 # define SOURCE_ROOT AddBackslash(SourcePath);
+
+// defines for the setup section
+#define AppName "WPN-XM Server Stack"
+// the -APPVERSION- token is replaced during the nant build process 
+#define AppVersion "@APPVERSION@"
+#define AppPublisher "Jens-André Koch"
+#define AppURL "http://wpn-xm.org/"
+#define AppSupportURL "https://github.com/jakoch/WPN-XM/issues/"
 
 // we need to include the Sherlock Software\InnoTools\Downloader
 # include SOURCE_ROOT + "..\bin\InnoToolsDownloader\it_download.iss"
 
 [Setup]
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
-AppName=WPN-XM Server Stack
-AppVerName="WPN-XM Server Stack 0.1"
-AppVersion=0.1
-AppPublisher="Jens-André Koch"
-AppCopyright=© Jens-André Koch
-AppPublisherURL="http://wpn-xm.org"
-AppSupportURL="https://github.com/jakoch/WPN-XM/issues/"
-AppUpdatesURL="http://wpn-xm.org"
+AppName={#AppName}
+AppVerName={#AppName} {#AppVersion}
+AppVersion={#AppVersion}
+AppPublisher={#AppPublisher}
+AppCopyright=© {#AppPublisher}
+AppPublisherURL={#AppURL}
+AppSupportURL={#AppSupportURL}
+AppUpdatesURL={#AppURL}
+
 // default installation folder is "c:\server". but user might change this via dialog.
 DefaultDirName={sd}\server
-DefaultGroupName="WPN-XM Server Stack"
-OutputBaseFilename="WPNXM-0.1"
+DefaultGroupName="{#AppName}"
+OutputBaseFilename="WPNXM-{#AppVersion}-Setup"
 Compression=lzma/ultra
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
-VersionInfoVersion=0.1
+
+VersionInfoVersion={#AppVersion}
+VersionInfoCompany={#AppPublisher}
+VersionInfoDescription={#AppName} {#AppVersion}
+VersionInfoTextVersion={#AppVersion}
+VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reserved.
+
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 //WizardImageFile={#SOURCE_ROOT}bin\icons\wizardimage.bmp
 //WizardSmallImageFile={#SOURCE_ROOT}bin\icons\wizardsmallimage.bmp
