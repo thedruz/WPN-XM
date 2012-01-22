@@ -34,6 +34,9 @@ cache/**/*
 # PHPUnit
 phpunit.xml
 
+# Folder for Inno Setup compiled executables and preprocessed scripts
+/build 
+
 # Folder for Qt Executables
 /Output
 # Qt - Bin, Debug and Release directories (only on Windows)
