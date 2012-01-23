@@ -13,22 +13,7 @@ if not exist "%cd%\logs" (
 SET HIDECONSOLE=%cd%\bin\tools\RunHiddenConsole.exe
 
 echo Starting PHP FastCGI...
-
-:: 
-:: PHP Bug?
-::
-:: PHP assumes the base path as "C:\php" and fails to load extensions
-::
-:: The two following lines will not work as expected:
-::
-:: SET PHPRC=%cd%\bin\php is not working
-:: %HIDECONSOLE% %cd%\bin\php\php-cgi.exe -b 127.0.0.1:9000 -c %cd%\bin\php\php.ini
-
-:: change dirs, so php will look in the current path for extensions first
-%HIDECONSOLE% cd %cd%\bin\php
-%HIDECONSOLE% php-cgi.exe -b 127.0.0.1:9000 -c php.ini
-%HIDECONSOLE% cd ..
-%HIDECONSOLE% cd ..
+%HIDECONSOLE% %cd%\bin\php\php-cgi.exe -b 127.0.0.1:9000 -c %cd%\bin\php\php.ini
 echo.
 
 echo Starting MariaDb...
