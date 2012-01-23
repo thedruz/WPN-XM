@@ -21,8 +21,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://nginx.org/">
-                                            <b>NGINX <?php echo Wpnxm_Serverstack::getNGINXVersion(); ?></b>
+                                            <b>NGINX</b>
                                         </a>
+                                        <?php echo Wpnxm_Serverstack::getNGINXVersion(); ?>
                                         <br /><br />
                                         <small>NGINX [engine x] is a high performance http and reverse proxy server, as well as a mail proxy server written by Igor Sysoev.</small>
                                         <p>
@@ -42,8 +43,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://php.net/">
-                                            <b>PHP <?php echo Wpnxm_Serverstack::getPHPVersion(); ?></b>
+                                            <b>PHP</b>
                                         </a>
+                                        <?php echo Wpnxm_Serverstack::getPHPVersion(); ?>
                                         <br /><br />
                                         <small>PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML.</small>
                                         <p>
@@ -63,8 +65,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://mariadb.org/">
-                                            <b>MariaDB <?php echo Wpnxm_Serverstack::getMariaDBVersion(); ?></b>
+                                            <b>MariaDB</b>
                                         </a>
+                                        <?php echo Wpnxm_Serverstack::getMariaDBVersion(); ?>
                                         <br /><br />
                                         <small>MariaDB is a fork of the world's most popular open source database MySQL by the original author. MariaDb is a binary drop-in replacement for MySQL.</small>
                                         <p>
@@ -84,10 +87,11 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://memcached.org/">
-                                            <b>Memcached <?php echo Wpnxm_Serverstack::getMemcachedVersion(); ?></b>
+                                            <b>Memcached</b>
                                         </a>
+                                        <?php echo Wpnxm_Serverstack::getMemcachedVersion(); ?>
                                         <br /><br />
-                                        <small>memcached is a high-performance, distributed memory object caching system. originally intended for speeding up applications by alleviating database load.</small>
+                                        <small>Memcached is a high-performance, distributed memory object caching system. Originally intended for speeding up applications by alleviating database load.</small>
                                         <p>
                                         License: <a href="https://github.com/memcached/memcached/blob/master/LICENSE/">New BSD License</a>
                                         </p>
@@ -105,8 +109,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                 <div class="resourceheader">
                                     <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
                                         <a href="http://xdebug.org/">
-                                            <b>Xdebug <?php echo Wpnxm_Serverstack::getXdebugVersion(); ?></b>
+                                            <b>Xdebug</b>
                                         </a>
+                                        <?php echo Wpnxm_Serverstack::getXdebugVersion(); ?>
                                         <br /><br />
                                         <small>The Xdebug extension for PHP helps you debugging your scripts by providing a lot of valuable debug information.</small>
                                         <p>
