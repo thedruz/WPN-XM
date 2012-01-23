@@ -96,7 +96,7 @@ class Wpnxm_Serverstack
     {
         $xdebug_version = false;
         $matches = '';
-        $phpinfo = self::fetchPHPInfo();
+        $phpinfo = self::fetchPHPInfo(true);
 
         // Check phpinfo content for Xdebug as Zend Extension
         if ( preg_match( '/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches ) )
@@ -180,7 +180,7 @@ class Wpnxm_Serverstack
 
     public static function getXdebugExtensionType()
     {
-        $phpinfo = self::fetchPHPInfo();
+        $phpinfo = self::fetchPHPInfo(true);
         $matches = '';
 
         // Check phpinfo content for Xdebug as Zend Extension
@@ -253,9 +253,13 @@ class Wpnxm_Serverstack
     /**
      * Returns only the body content of phpinfo().
      *
+     * When settings $strip_tags true, the phpinfo body content is
+     * further reduced for better and faster processing with preg_match().
+     *
+     * @param boolean Strips tags from content when true.
      * @return string phpinfo
      */
-    public static function fetchPHPInfo()
+    public static function fetchPHPInfo($strip_tags = false)
     {
         $matches = '';
         $buffered_phpinfo = self::getPHPInfoContent();
@@ -264,6 +268,13 @@ class Wpnxm_Serverstack
         preg_match_all("=<body[^>]*>(.*)</body>=siU", $buffered_phpinfo, $matches);
         $phpinfo = $matches[1][0];
         $phpinfo = str_replace(";", "; ", $phpinfo);
+
+        if($strip_tags === true)
+        {
+            $phpinfo = strip_tags($phpinfo);
+            $phpinfo = str_replace('&nbsp;', ' ', $phpinfo);
+            $phpinfo = str_replace('  ', ' ', $phpinfo);
+        }
 
         return $phpinfo;
     }
