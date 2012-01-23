@@ -5,10 +5,10 @@ class HtmlElements
     {
         echo '<div class="main_menu">
                 <ul>
-                    <li class="first 1"><a href="' . WPNXM_WEBINTERFACE_ROOT . 'config.php">Configuration</a></li>
-                    <li class="2"><a href="' . WPNXM_WEBINTERFACE_ROOT . '">Projects & Tools</a></li>
-                    <li class="3"><a href="' . WPNXM_WEBINTERFACE_ROOT . 'phpinfo.php">PHP Info</a></li>
-                    <li class="4"><a href="' . WPNXM_WWW_ROOT . 'phpmyadmin/phpmyadmin.php">PHPMyAdmin</a></li>
+                    <li class="first 1"><a href="config.php">Configuration</a></li>
+                    <li class="2"><a href="index.php">Projects & Tools</a></li>
+                    <li class="3"><a href="phpinfo.php">PHP Info</a></li>
+                    <li class="4"><a href="'.WPNXM_ROOT.'phpmyadmin/phpmyadmin.php">PHPMyAdmin</a></li>
                     <li class="5"><a href="/5/">5</a></li>
                     <li class="last 6"><a href="/PHP on Windows/">http://windows.php.net/downloads/</a></li>
                 </ul>

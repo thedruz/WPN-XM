@@ -17,8 +17,18 @@ if(!defined('WPNXM_DIR'))
 
     // Web Path Constants -> "http://.."
     define('SERVER_URL', 'http://' . $_SERVER['SERVER_NAME'], false);
-    define('WPNXM_ROOT', SERVER_URL . dirname(dirname(dirname($_SERVER['PHP_SELF']))) . '/', false);
+    define('WPNXM_ROOT', SERVER_URL . ltrim(dirname(dirname(dirname($_SERVER['PHP_SELF']))), '\\') . '/', false);
     define('WPNXM_WWW_ROOT', WPNXM_ROOT . 'www/', false);
-    define('WPNXM_WEBINTERFACE_ROOT', WPNXM_ROOT . 'www/webinterface/', false);
+    define('WPNXM_WEBINTERFACE_ROOT', WPNXM_ROOT . 'webinterface/', false);
+}
+
+if(!function_exists('debug'))
+{
+    function debug()
+    {
+        # list path constants
+        $array = get_defined_constants(true);
+        var_dump($array['user']);
+    }
 }
 ?>

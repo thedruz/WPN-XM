@@ -24,7 +24,7 @@ class Projects
     {
         $dirs = array();
 
-        $handle=opendir(__DIR__);
+        $handle=opendir(WPNXM_WWW_DIR); # __DIR__
 
         while ($dir = readdir($handle))
         {
@@ -48,6 +48,8 @@ class Projects
         closedir($handle);
 
         asort($dirs);
+
+        var_dump($dirs);
 
         return $dirs;
     }
@@ -73,11 +75,11 @@ class Projects
         {
             if($href =='')
             {
-                echo '<li><a class="folder" href="' . WPNXM_WWW_ROOT . $dir . '">' . $dir . '</a></li>';
+                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a></li>';
             }
             else
             {
-                echo '<li><a class="folder" href="' . WPNXM_WWW_ROOT . $href . '">' . $dir . '</a></li>';
+                echo '<li><a class="folder" href="' . WPNXM_ROOT . $href . '">' . $dir . '</a></li>';
             }
         }
     }
