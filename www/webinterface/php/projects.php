@@ -49,8 +49,6 @@ class Projects
 
         asort($dirs);
 
-        var_dump($dirs);
-
         return $dirs;
     }
 
@@ -110,6 +108,7 @@ class Projects
     public function getNumberOfTools()
     {
         $this->checkWhichToolDirectoriesAreInstalled();
+        
         return count($this->toolDirectories);
     }
 }

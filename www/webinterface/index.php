@@ -12,20 +12,18 @@ $projects = new Projects();
 
         <div class="left-box">
             <div class="cs-message">
-                <!-- Widget: Projects (scanned project paths / www folder) -->
                 <div class="cs-message-content">
-                    <h2>Projects (<?=$projects->getNumberOfProjects();?>)</h2>
-                    <?php $projects->listProjects();?>
+                    <h2>Projects (<?php echo $projects->getNumberOfProjects(); ?>)</h2>
+                    <?php $projects->listProjects(); ?>
                 </div>
             </div>
         </div>
 
         <div class="right-box">
             <div class="cs-message">
-                <!-- Widget: Tools (selected set of paths / www folder) -->
                 <div class="cs-message-content">
-                    <h2>Tools (<?= $projects->getNumberOfTools(); ?>)</h2>
-                    <?=$projects->listTools();?>
+                    <h2>Tools (<?php echo $projects->getNumberOfTools(); ?>)</h2>
+                    <?php $projects->listTools(); ?>
                 </div>
             </div>
         </div>
