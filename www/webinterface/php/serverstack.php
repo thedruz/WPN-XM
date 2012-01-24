@@ -38,9 +38,9 @@ class Wpnxm_Serverstack
     public static function get_MySQL_datadir()
     {
         $myini_array = file("../mysql/my.ini");
-        $key_datadir =  key(preg_grep("/^datadir/", $myini_array));
-        $mysql_datadir_array = explode("\"",$myini_array[$key_datadir]);
-        $mysql_datadir = str_replace("/","\\", $mysql_datadir_array[1]);
+        $key_datadir = key(preg_grep("/^datadir/", $myini_array));
+        $mysql_datadir_array = explode("\"", $myini_array[$key_datadir]);
+        $mysql_datadir = str_replace("/", "\\", $mysql_datadir_array[1]);
 
         return $mysql_datadir;
     }
@@ -79,7 +79,7 @@ class Wpnxm_Serverstack
      */
     public static function getNGINXVersion()
     {
-        if (strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
+        if(strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
         {
             return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="You are using Apache!? You Traitor!">';
         }
@@ -96,10 +96,10 @@ class Wpnxm_Serverstack
     {
         $xdebug_version = false;
         $matches = '';
-        $phpinfo = self::fetchPHPInfo();
+        $phpinfo = self::fetchPHPInfo(true);
 
         // Check phpinfo content for Xdebug as Zend Extension
-        if ( preg_match( '/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches ) )
+        if(preg_match('/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches))
         {
             $xdebug_version = $matches[1];
         }
@@ -148,18 +148,19 @@ class Wpnxm_Serverstack
         $loaded = false;
         $matches = '';
 
-        switch ($extension) {
+        switch($extension)
+        {
             case "xdebug":
                 $phpinfo = self::fetchPHPInfo();
 
                 // Check phpinfo content for Xdebug as Zend Extension
-                if ( preg_match( '/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches ) )
+                if(preg_match('/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches))
                 {
                     $loaded = true;
                 }
 
                 // Check phpinfo content for Xdebug as normal PHP extension
-                if ( preg_match( '/xdebug support/', $phpinfo, $matches ) )
+                if(preg_match('/xdebug support/', $phpinfo, $matches))
                 {
                     $loaded = true;
                 }
@@ -180,22 +181,35 @@ class Wpnxm_Serverstack
 
     public static function getXdebugExtensionType()
     {
-        $phpinfo = self::fetchPHPInfo();
+        $phpinfo = self::fetchPHPInfo(true);
         $matches = '';
 
         // Check phpinfo content for Xdebug as Zend Extension
-        if ( preg_match( '/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches ) )
+        if(preg_match('/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches))
         {
             return 'Zend Extension';
         }
 
         // Check phpinfo content for Xdebug as normal PHP extension
-        if ( preg_match( '/xdebug support/', $phpinfo, $matches ) )
+        if(preg_match('/xdebug support/', $phpinfo, $matches))
         {
             return 'PHP Extension';
         }
 
         return ':(';
+    }
+
+    public static function getPHPExtensionDirectory()
+    {
+        $phpinfo = self::fetchPHPInfo(true);
+        $matches = '';
+
+        if(preg_match('/extension_dir([ =>\t]*)([^ =>\t]+)/', $phpinfo, $matches))
+        {
+            $extensionDir = $m[2];
+        }
+
+        return $extensionDir;
     }
 
     /**
@@ -207,14 +221,14 @@ class Wpnxm_Serverstack
      */
     public static function assertExtensionInstalled($extension)
     {
-         $installed = false;
+        $installed = false;
 
-         if(self::assertExtensionFileFound($extension) === true and self::assertExtensionConfigured($extension) === true)
-         {
-             $installed = true;
-         }
+        if(self::assertExtensionFileFound($extension) === true and self::assertExtensionConfigured($extension) === true)
+        {
+            $installed = true;
+        }
 
-         return $installed;
+        return $installed;
     }
 
     /**
@@ -224,12 +238,12 @@ class Wpnxm_Serverstack
      */
     public static function getMemcachedVersion()
     {
-        if (extension_loaded('memcache') === false)
+        if(extension_loaded('memcache') === false)
         {
             return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: memcached missing.">';
         }
 
-        $matches = new Memcached();
+        $matches = new Memcache;
         $matches->addServer('localhost', 11211);
         return $matches->getVersion();
     }
@@ -253,9 +267,13 @@ class Wpnxm_Serverstack
     /**
      * Returns only the body content of phpinfo().
      *
+     * When settings $strip_tags true, the phpinfo body content is
+     * further reduced for better and faster processing with preg_match().
+     *
+     * @param boolean Strips tags from content when true.
      * @return string phpinfo
      */
-    public static function fetchPHPInfo()
+    public static function fetchPHPInfo($strip_tags = false)
     {
         $matches = '';
         $buffered_phpinfo = self::getPHPInfoContent();
@@ -263,7 +281,16 @@ class Wpnxm_Serverstack
         # only the body content
         preg_match_all("=<body[^>]*>(.*)</body>=siU", $buffered_phpinfo, $matches);
         $phpinfo = $matches[1][0];
+
+        # enhance the readability of semicolon separated items
         $phpinfo = str_replace(";", "; ", $phpinfo);
+
+        if($strip_tags === true)
+        {
+            $phpinfo = strip_tags($phpinfo);
+            $phpinfo = str_replace('&nbsp;', ' ', $phpinfo);
+            $phpinfo = str_replace('  ', ' ', $phpinfo);
+        }
 
         return $phpinfo;
     }
@@ -286,11 +313,11 @@ class Wpnxm_Serverstack
      *
      * @return  bool
      */
-    public function isWebserverRunning()
+    public static function isWebserverRunning()
     {
         ini_set('default_socket_timeout', '3');
 
-        if (false !== ($handle = @fopen('http://127.0.0.1/', 'r')))
+        if(false !== ($handle = @fopen('http://127.0.0.1/', 'r')))
         {
             fclose($handle);
             unset($handle);

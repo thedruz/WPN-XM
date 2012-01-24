@@ -269,10 +269,13 @@ img
 {
     height: 80px;
     min-height: 0;
-    margin-left: auto;
+    /*margin-left: auto;
     margin-right: auto;
     padding-top: 0;
-    padding-bottom: 0;
+    padding-bottom: 0;*/
+    position: fixed;
+    right: 50px;
+
 }
 #highlight { background:yellow; }
 .highlight { background-color:yellow; color:inherit; text-decoration:inherit }
