@@ -44,7 +44,7 @@
 
 // defines for the setup section
 #define AppName "WPN-XM Server Stack"
-// the -APPVERSION- token is replaced during the nant build process 
+// the -APPVERSION- token is replaced during the nant build process
 #define AppVersion "@APPVERSION@"
 #define AppPublisher "Jens-André Koch"
 #define AppURL "http://wpn-xm.org/"
@@ -74,6 +74,7 @@ SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
+PrivilegesRequired=admin
 
 // create a log file, see [code] procedure CurStepChanged
 SetupLogging=yes
@@ -182,7 +183,7 @@ const
   DEBUG = {#DEBUG};
 
   // Define download URLs for the software packages
-  // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github. 
+  // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   URL_nginx             = 'http://www.nginx.org/download/nginx-1.1.10.zip';
   URL_php               = 'http://windows.php.net/downloads/releases/php-5.3.9-nts-Win32-VC9-x86.zip';
   URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.3.2-beta/win2008r2-vs2010-i386-packages/mariadb-5.3.2-beta-win32.zip';
@@ -431,11 +432,11 @@ begin
   begin
     // deactivated, because we are fetching from preinheimer's fork, see below
     // xhprof - rename "facebook-xhprof-gitref" directory
-    //Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\facebook-xhprof*') + '  ' + ExpandConstant('{app}\www\xhprof') + '"', 
+    //Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\facebook-xhprof*') + '  ' + ExpandConstant('{app}\www\xhprof') + '"',
     //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     // xhprof - rename "preinheimer-xhprof-gitref" directory
-    Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\preinheimer-xhprof*') + '  ' + ExpandConstant('{app}\www\xhprof') + '"', 
+    Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\preinheimer-xhprof*') + '  ' + ExpandConstant('{app}\www\xhprof') + '"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
