@@ -3,6 +3,13 @@
          name="WPN-XM" 
          default="all">
 
+    <!-- 
+         WPN-XM - NANT build file.
+
+         You might find the comprehensive Nant Task Reference under:
+         http://nant.sourceforge.net/release/latest/help/tasks/index.html
+    -->
+
     <!-- Version -->
     <property name="version.Major"          value="0"/>
     <property name="version.Minor"          value="2"/>
@@ -30,7 +37,7 @@
 
     <target name="update-iss-files">
         <!-- 
-             To get the version informations into the inno setup script file, the APPVERSION token is replaced.
+             To get the version information into the innosetup script file,
              This done via a copy operation with an applied filterchain, see below.
              The preprocessed iss files are moved from the /innosetup folder to the build directory.
              Then they are used for the actual build.

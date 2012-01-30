@@ -29,7 +29,26 @@ _____________________________________________________________________________
 Version 0.2 - REL    tbc
 ------------  ----------------------------------------------------------------
         
-        -->>  
+        -->>
+
+[22.01.2012]  NEW    added comments with links to nant & inno setup help
+              CHG    build.xml: build directory is now "_build"
+              NEW    ISS: define wizard application title and tray message
+              NEW    ISS: added SetupLogging and logfile copying to app dir
+              NEW    ISS: added bug url to start menu folder 
+[21.01.2012]  CHG    updated InnoToolsDownloader to be unicode compatible
+              NEW    added Mircosoft's junction tool for creation of symlinks
+[17.01.2012]  CHG    webinterface
+                     fixed centering bugs while displaying phpinfo
+                     removed menu.php, welcome.phpin favor of htmlelements.php
+              NEW    display counter for welcome message in webinterface
+              CHG    gitignore - ignores now QT and build folders
+              NEW    NANT build process automation complete
+              CHG    build.xml
+                     added build command clean-builddir
+                     added build command update-iss-files
+                     added build command compile-wpnxm-setup              
+              UPD    PHP 5.3.9
               NEW    added build.xml - the nant buildfile
               NEW    added build.bat - call to nant injecting the buildfile
               NEW    added NANT 0.91 to /bin/nant for build process automation
@@ -49,7 +68,7 @@ Version 0.2 - REL    tbc
 Version 0.1   REL    12. November 2011
 ------------  ----------------------------------------------------------------
 
-    		      NEW	   created and set up website wpn-xm.org    		      
+    		NEW	created and set up website wpn-xm.org    		      
                      PHP 5.3.8
                      NGINX 1.1.7
                      XDebug 2.1.2 (PHP Extension)
@@ -60,9 +79,9 @@ Version 0.1   REL    12. November 2011
                      Webgrind
                      Xhprof
                      APC (PHP Extension)
-    		      NEW 	 selected components for the server stack	
-    		      NEW 	 created base for wpn-xm server control tray application
-    		      NEW 	 created base for wpn-xm webinterface
+    		NEW 	selected components for the server stack	
+    		NEW 	created base for wpn-xm server control tray application
+    		NEW 	created base for wpn-xm webinterface
               NEW    two ISS files, for standalone and for bundled distribution
 [12.06.2011]  NEW    layed out a directory structure for the project
 

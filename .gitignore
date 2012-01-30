@@ -35,7 +35,7 @@ cache/**/*
 phpunit.xml
 
 # Folder for Inno Setup compiled executables and preprocessed scripts
-/build 
+/_build 
 
 # Folder for Qt Executables
 /Output

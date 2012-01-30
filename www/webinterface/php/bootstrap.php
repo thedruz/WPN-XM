@@ -1,5 +1,10 @@
 <?php
 /**
+ * Error Reporting 
+ */
+error_reporting(E_ALL);
+
+/**
  * Definition of Path Constants
  *
  * WPNXM_DIR        -> wpn-xm/ Root Folder (bin, configs, ....)
