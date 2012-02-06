@@ -11,7 +11,7 @@
     -->
 
     <!-- Debug Toggle -->
-    <property name="wpnxm.Debug"            value="true"/>
+    <property name="wpnxm.Debug"            value="false"/>
 
     <!-- Version -->
     <property name="version.Major"          value="0"/>
