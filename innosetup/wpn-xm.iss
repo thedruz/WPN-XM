@@ -180,17 +180,17 @@ const
 
   // Define download URLs for the software packages
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
-  URL_nginx             = 'http://www.nginx.org/download/nginx-1.1.10.zip';
-  URL_php               = 'http://windows.php.net/downloads/releases/php-5.3.9-nts-Win32-VC9-x86.zip';
-  URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.3.2-beta/win2008r2-vs2010-i386-packages/mariadb-5.3.2-beta-win32.zip';
-  URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.1.2-5.3-vc9-nts.dll';
+  URL_nginx             = 'http://www.nginx.org/download/nginx-1.1.11.zip';
+  URL_php               = 'http://windows.php.net/downloads/releases/php-5.3.10-nts-Win32-VC9-x86.zip';
+  URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.3.3-rc/win2008r2-vs2010-i386-packages/mariadb-5.3.3-win32.zip';
+  URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.1.3-5.3-vc9-nts.dll';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
   URL_xhprof            = 'http://nodeload.github.com/preinheimer/xhprof/zipball/master';
   URL_memcached         = 'http://downloads.northscale.com/memcached-1.4.5-x86.zip';
   URL_phpext_memcached  = 'http://downloads.php.net/pierre/php_memcache-2.2.6-5.3-vc9-x86.zip';
-  URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.8/phpMyAdmin-3.4.8-english.zip';
+  URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-english.zip';
   URL_junction          = 'http://download.sysinternals.com/Files/Junction.zip';
 
   // Define file names for the downloads

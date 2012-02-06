@@ -28,14 +28,20 @@ _____________________________________________________________________________
 ------------  ----------------------------------------------------------------
 Version 0.2 - REL    tbc
 ------------  ----------------------------------------------------------------
-        
+
         -->>
 
+[06.02.2012]  UPD    NGINX 1.1.11
+                     PHP 5.3.10
+                     MARIADB 5.3.3-rc
+                     XDEBUG 2.1.3
+                     PHPMYADMIN 3.4.9
+[04.02.2012]  NEW    added OpenCandy Ads to one version of the wizard
 [22.01.2012]  NEW    added comments with links to nant & inno setup help
               CHG    build.xml: build directory is now "_build"
               NEW    ISS: define wizard application title and tray message
               NEW    ISS: added SetupLogging and logfile copying to app dir
-              NEW    ISS: added bug url to start menu folder 
+              NEW    ISS: added bug url to start menu folder
 [21.01.2012]  CHG    updated InnoToolsDownloader to be unicode compatible
               NEW    added Mircosoft's junction tool for creation of symlinks
 [17.01.2012]  CHG    webinterface
@@ -47,18 +53,18 @@ Version 0.2 - REL    tbc
               CHG    build.xml
                      added build command clean-builddir
                      added build command update-iss-files
-                     added build command compile-wpnxm-setup              
+                     added build command compile-wpnxm-setup
               UPD    PHP 5.3.9
               NEW    added build.xml - the nant buildfile
               NEW    added build.bat - call to nant injecting the buildfile
               NEW    added NANT 0.91 to /bin/nant for build process automation
               NEW    added Inno Setup 5.4.3 Unicode to /bin/innosetup
-              CHG    cleanups 
+              CHG    cleanups
                      moved batch build file to /bin/build-old.bat
                      moved setup.ico to /bin/icons folder
                      moved iss files from toplevel to /innosetup folder
 [16.01.2012]  FIX    "set PHPRC" is not working; start-wpnxm.bat now changes
-                     into the php directory to find the php extensions; 
+                     into the php directory to find the php extensions;
               UPD    phpMyAdmin 3.4.8
               UPD    NGINX 1.1.10
               NEW    link for immediate redirection
@@ -68,7 +74,7 @@ Version 0.2 - REL    tbc
 Version 0.1   REL    12. November 2011
 ------------  ----------------------------------------------------------------
 
-    		NEW	created and set up website wpn-xm.org    		      
+    		NEW	created and set up website wpn-xm.org
                      PHP 5.3.8
                      NGINX 1.1.7
                      XDebug 2.1.2 (PHP Extension)
@@ -79,7 +85,7 @@ Version 0.1   REL    12. November 2011
                      Webgrind
                      Xhprof
                      APC (PHP Extension)
-    		NEW 	selected components for the server stack	
+    		NEW 	selected components for the server stack
     		NEW 	created base for wpn-xm server control tray application
     		NEW 	created base for wpn-xm webinterface
               NEW    two ISS files, for standalone and for bundled distribution
