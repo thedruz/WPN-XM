@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://nant.sf.net/release/0.91/nant.xsd"
-         name="WPN-XM" 
+         name="WPN-XM"
          default="all">
 
-    <!-- 
+    <!--
          WPN-XM - NANT build file.
 
          You might find the comprehensive Nant Task Reference under:
@@ -15,28 +15,28 @@
     <property name="version.Minor"          value="2"/>
     <property name="version.BuildNumber"    value="0"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
-    
+
     <!-- Paths -->
     <property name="dir.Base"               value="${project::get-base-directory()}"/>
     <property name="dir.Build"              value="${dir.Base}\_build"/>
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
-    
+
     <!-- File Names -->
     <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}-Setup"/>
     <property name="wpnxm.ExeFile"          value="${dir.Build}\${wpnxm.ExeFileName}"/>
 
     <property name="wpnxm.ZipFileName"      value="WPNXM-${wpnxm.Version}.zip"/>
-    <property name="wpnxm.ZipFile"          value="${dir.Build}\${wpnxm.ZipFileName}"/>     
+    <property name="wpnxm.ZipFile"          value="${dir.Build}\${wpnxm.ZipFileName}"/>
 
     <!-- Targets (Build Commands) -->
 
-    <target name="clean-builddir" description="Mr. Proper cleans the build environment and recreates it.">        
+    <target name="clean-builddir" description="Mr. Proper cleans the build environment and recreates it.">
         <delete dir="${dir.Build}"/>
         <mkdir dir="${dir.Build}"/>
     </target>
 
     <target name="update-iss-files">
-        <!-- 
+        <!--
              To get the version information into the innosetup script file,
              This done via a copy operation with an applied filterchain, see below.
              The preprocessed iss files are moved from the /innosetup folder to the build directory.
@@ -45,25 +45,26 @@
          -->
         <copy todir="${dir.Build}" overwrite="true">
             <fileset basedir="${dir.Base}/innosetup/">
-                <include name="wpn-xm.iss"/>       
-                <include name="wpn-xm with clansuite.iss"/>                
+                <include name="wpn-xm.iss"/>
+                <include name="wpn-xm with clansuite.iss"/>
+                <include name="wpn-xm with opencandy.iss"/>
             </fileset>
             <filterchain>
-                <replacetokens>                   
+                <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
                 </replacetokens>
             </filterchain>
         </copy>
     </target>
 
-    <target name="compile-wpnxm-setup" description="Builds the WPN-XM setup executable."> 
-        <exec program="${innosetupcompiler}">  
+    <target name="compile-wpnxm-setup" description="Builds the WPN-XM setup executable.">
+        <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}"/> 
+            <arg value="-f${wpnxm.ExeFileName}"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm.iss"/>            
+            <arg value="${dir.Build}\wpn-xm.iss"/>
         </exec>
     </target>
 
