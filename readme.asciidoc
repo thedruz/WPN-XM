@@ -25,21 +25,21 @@ Github:             https://github.com/jakoch/WPN-XM/
 
 5+^s|Base Components
 
-| MariaDB  | 5.3.2  | GNU GPL v2      | © 2010-2011 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
-| NGINX    | 1.1.10 | New BSD License | © 2002-2011 Igor Sysoev.      | http://nginx.org/
-| PHP      | 5.3.8  | PHP License     | © 1999-2011 The PHP Group.    | http://www.php.net/
+| MariaDB  | 5.3.3  | GNU GPL v2      | © 2010-2012 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
+| NGINX    | 1.1.11 | New BSD License | © 2002-2012 Igor Sysoev.      | http://nginx.org/
+| PHP      | 5.3.10 | PHP License     | © 1999-2012 The PHP Group.    | http://www.php.net/
 
 5+^s|PHP Extensions
 
-| XDebug    | 2.1.2 | Xdebug License | © 2002 - 2007 Derick Rethans. | http://xdebug.org/
+| XDebug    | 2.1.3 | Xdebug License | © 2002 - 2007 Derick Rethans. | http://xdebug.org/
 | APC       |       |                |                               |
 | Memcached | 2.2.6 |                |                               |
 
 5+^s|Additional Tools
 
-| xhProf     |       | Apache License v2 | © 2010 - 2011 Facebook. | http://pecl.php.net/package/xhprof/ +  https://github.com/facebook/xhprof/
-| Webgrind   | 1.0   | New BSD License   | © 2010 - J. Nygård, J. Oettinger. | https://github.com/jokkedk/webgrind/
-| phpMyAdmin | 3.4.8 | GNU GPL v2        | © 2003 - 2011 phpMyAdmin DevTeam. | http://www.phpmyadmin.net/
+| xhProf     |       | Apache License v2 | © 2010 - 2012 Facebook. | http://pecl.php.net/package/xhprof/ +  https://github.com/facebook/xhprof/
+| Webgrind   | 1.0   | New BSD License   | © 2010 J. Nygård, J. Oettinger.   | https://github.com/jokkedk/webgrind/
+| phpMyAdmin | 3.4.9 | GNU GPL v2        | © 2003 - 2012 phpMyAdmin DevTeam. | http://www.phpmyadmin.net/
 | Memcached  | 1.4.5 |                   |                                   |
 
 5+^s|Icons
@@ -66,6 +66,11 @@ Here’s a comprehensive list for your convenience:
 
 == HOW TO BUILD THE INSTALLER ==
 
+Just execute "build.bat". That's it.
+You might then find the setup executable in the folder "_build".
+
+== HOW TO BUILD THE INSTALLER MANUALLY ==
+
 *Requirements*
 
 * Windows OS
@@ -75,6 +80,7 @@ Here’s a comprehensive list for your convenience:
 *Build*
 
 * open "wpn-xm.iss" with InnoSetup or ISTools
+* search and replace any tokens like @DEBUG@
 * compile it
 * test it
 
