@@ -10,6 +10,9 @@
          http://nant.sourceforge.net/release/latest/help/tasks/index.html
     -->
 
+    <!-- Debug Toggle -->
+    <property name="wpnxm.Debug"            value="true"/>
+
     <!-- Version -->
     <property name="version.Major"          value="0"/>
     <property name="version.Minor"          value="2"/>
@@ -52,6 +55,7 @@
             <filterchain>
                 <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
+                    <token key="DEBUG" value="${wpnxm.Debug}"/>
                 </replacetokens>
             </filterchain>
         </copy>
@@ -68,6 +72,34 @@
         </exec>
     </target>
 
-    <target name="all" depends="clean-builddir, update-iss-files, compile-wpnxm-setup"></target>
+    <target name="compile-wpnxm-with-clansuite-setup" description="Builds the WPN-XM setup executable.">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-withClansuite"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm with clansuite.iss"/>
+        </exec>
+    </target>
+
+    <target name="compile-wpnxm-with-opencandy-setup" description="Builds the WPN-XM setup executable.">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-withOpenCandy"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm with opencandy.iss"/>
+        </exec>
+    </target>
+
+    <target name="all"
+        depends="clean-builddir,
+                 update-iss-files,
+                 compile-wpnxm-setup,
+                 compile-wpnxm-with-clansuite-setup,
+                 compile-wpnxm-with-opencandy-setup">
+    </target>
 
 </project>
