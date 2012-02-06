@@ -247,7 +247,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    <tr>
                         <td colspan="2">
                             <div class="resourceheader2 bold">
-                                XDebug
+                                Xdebug
                             </div>
                         </td>
                    </tr>
