@@ -25,7 +25,7 @@ mv jakoch-WPN-XM-* wpnxm
 #rm wpnxm/website-wpn-xm.org/publish-wpnxm-org.sh
 
 # publish, by copying the files to the webservers public folder
-cp wpnxm/website-wpn-xm.org/* /var/www/webs/KochSST/wpnxm
+cp -r wpnxm/website-wpn-xm.org/* /var/www/webs/KochSST/wpnxm
 
 # cleanup
 rm wpnxm-github-master.zip
