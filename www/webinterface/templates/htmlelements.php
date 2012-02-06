@@ -8,9 +8,7 @@ class HtmlElements
                     <li class="first 1"><a href="config.php">Configuration</a></li>
                     <li class="2"><a href="index.php">Projects & Tools</a></li>
                     <li class="3"><a href="phpinfo.php">PHP Info</a></li>
-                    <li class="4"><a href="'.WPNXM_ROOT.'phpmyadmin/phpmyadmin.php">PHPMyAdmin</a></li>
-                    <li class="5"><a href="/5/">5</a></li>
-                    <li class="last 6"><a href="/PHP on Windows/">http://windows.php.net/downloads/</a></li>
+                    <li class="last 4"><a href="'.WPNXM_ROOT.'phpmyadmin/phpmyadmin.php">PHPMyAdmin</a></li>
                 </ul>
             </div>';
     }
