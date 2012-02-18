@@ -1,20 +1,21 @@
-body { 
+﻿body {
     background: #ECECEC;
-    color: #333; 
+    color: #333;
     margin: 1.5em 0;
     font-family: 'Lucida Grande',Arial,sans-serif;
     font-size: 12px;
 }
 
 @font-face {
-	font-family: 'pictos';
-	src: url('../fonts/pictos-web.eot');
-	src: local('☺'), 
-         url('../fonts/pictos-web.woff') format('woff'),
-         url('../fonts/pictos-web.ttf') format('truetype'),
-         url('../fonts/pictos-web.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'WPNXMicoRegular';
+    src: url('../fonts/wpnxmfont-webfont.eot');
+    src: url('../fonts/wpnxmfont-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/wpnxmfont-webfont.woff') format('woff'),
+         url('../fonts/wpnxmfont-webfont.ttf') format('truetype'),
+         url('../fonts/wpnxmfont-webfont.svg#WPNXMicoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
 .inset-panel {
@@ -29,7 +30,7 @@ body {
 }
 
 #widget-twitter {
-    text-shadow: none;  
+    text-shadow: none;
 }
 
 a {
@@ -41,8 +42,8 @@ a {
 }
 
 /** checkmark = 2, heart= k, download: } **/
-.pictos, .mc-is h3:before, .download-icon {
-    font-family: pictos,pictos-web;
+.WPNXMicoRegular, .mc-is h3:before, .download-icon {
+    font-family: 'WPNXMicoRegular';
     font-style: normal;
     font-weight: normal;
     text-shadow: 1px 1px 0 #555555;
@@ -75,60 +76,70 @@ h2 {
 }
 
 h3#about:before {
-    content: "k"; /* heart icon */
+    content: "*"; /* heart icon */
 }
 
 h3#components:before {
-    content: "n"; /* list icon */
+    content: "'"; /* gear icon */
 }
 
 h3#download:before {
-    content: "R"; /* list icon */
+    content: "("; /* download icon */
 }
 
 h3#imprint:before {
-    content: "i"; /* info icon */
+    content: "§"; /* legal paragraph icon */
 }
 
 h3#twitter:before {
-    content: "B"; /* twitter bird icon */
+    content: "-"; /* twitter bird icon */
 }
 
 h3#mail:before {
-    content: "M"; /* letter icon */
-}
-
-h3#wiki:before {
-    content: "N"; /* letter icon */
-}
-
-h3#ads1:before {
     content: "$"; /* letter icon */
 }
 
-h3#ads2:before {
+h3#wiki:before {
     content: "$"; /* letter icon */
 }
 
 h3#usedby:before {
-    content: "g"; /* group icon */
+    content: "&"; /* group icon */
 }
 
 h3#using:before {
-    content: "2"; /* checkmark icon */
+    content: "+"; /* plus icon */
 }
 
 h3#why:before {
-    content: "?"; /* question mark icon */
+    content: "?"; /* is what it is: a question mark */
+    font-weight: bold;
 }
 
-h3#ads1, h3#ads2{
-    margin-bottom: 5px;
+h3#getinvolved:before {
+    content: "%"; /* bubble icon */
+}
+
+h3#contributors:before {
+    content: "&"; /* person icon */
+}
+
+a#git:before {
+    content: "0 ";
+    font-family: 'WPNXMicoRegular';
+    font-size: 2.2em;
+    vertical-align: sub;
+}
+
+#windows-icon:before {
+    content: "2 ";
+    font-family: 'WPNXMicoRegular';
+    font-size: 25px;
 }
 
 .download-icon:before {
-    content: "}";
-    font-size: 2em;
+    content: "(";
+    font-size: 5em;
 }
 
 h3:before {
@@ -139,7 +150,7 @@ h3:before {
 }
 
 h4 {
-    font-weight: bold;    
+    font-weight: bold;
 }
 
 /* Home = Red */
@@ -161,7 +172,7 @@ h4 {
 header {
     border-width: 4px;
     padding: 22px 0 0;
-    position: relative;   
+    position: relative;
 }
 
 .navbar { text-align: center; background: #514845;}
@@ -209,7 +220,7 @@ table tr td { vertical-align: top;}
 table.data-table tr td { vertical-align: top;}
 table.data-table tr td h3 { background: #B5463F; color: #fff; padding: 5px; }
 
-table#authors tr td { font-size: 120%; }                                           
+table#authors tr td { font-size: 120%; }
 
 .rounded { border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; }
 .centered { text-align: center; }
