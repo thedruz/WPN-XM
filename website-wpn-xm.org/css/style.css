@@ -140,6 +140,7 @@ a#git:before {
 .download-icon:before {
     content: "(";
     font-size: 5em;
+    color: #007000;
 }
 
 h3:before {
