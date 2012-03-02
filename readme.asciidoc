@@ -63,6 +63,7 @@ Here’s a comprehensive list for your convenience:
 * EasyWemp                http://projects.javatic.net/p/easywemp/source/tree/master/make-dist
 * XenStack                http://sourceforge.net/projects/xenstack/
 * EasyPHP                 http://easyphp.org
+* uWamp                   http://www.uwamp.com/
 
 == HOW TO BUILD THE INSTALLER ==
 
