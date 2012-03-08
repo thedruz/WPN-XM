@@ -53,7 +53,8 @@ Well, then go try a different Serverpack for Windows. I know you’ll come back.
 
 Here’s a comprehensive list for your convenience:
 
-* Overview                http://alternativeto.net/software/xampp/
+* Overview1               http://alternativeto.net/software/xampp/
+* Overview2               http://en.wikipedia.org/wiki/Comparison_of_WAMPs
 
 * XAMPP for Windows       http://www.apachefriends.org/de/xampp-windows.html
 * Zend Server CE          http://www.zend.com/de/products/server-ce/
@@ -64,6 +65,8 @@ Here’s a comprehensive list for your convenience:
 * XenStack                http://sourceforge.net/projects/xenstack/
 * EasyPHP                 http://easyphp.org
 * uWamp                   http://www.uwamp.com/
+* NimpBox                 http://nimpbox.ru/
+
 
 == HOW TO BUILD THE INSTALLER ==
 
