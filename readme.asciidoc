@@ -34,6 +34,7 @@ Github:             https://github.com/jakoch/WPN-XM/
 | XDebug    | 2.1.3 | Xdebug License | © 2002 - 2007 Derick Rethans. | http://xdebug.org/
 | APC       |       |                |                               |
 | Memcached | 2.2.6 |                |                               |
+| ZeroMQ    | 2.1   | GNU LGPL       | © iMatix Corporation          | http://zeromq.org
 
 5+^s|Additional Tools
 

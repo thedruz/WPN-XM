@@ -29,6 +29,8 @@ Version 0.3 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[12.03.2012]  UPD    readme, website to reflect the ZeroMQ php/ext arrival
+              NEW    PHP Extension for ZeroMQ v2.1
 
 ------------  ----------------------------------------------------------------
 Version 0.2 - REL    06. February 2012
