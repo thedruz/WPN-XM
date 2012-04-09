@@ -4,10 +4,19 @@ Copyright Notes for the Images
  
    Filename: 	wpnxm-logo.png, wpn-xm.xcf
    License: 	Public Domain
-   Author: 		J.A. Koch
+   Author: 	J.A. Koch
 
- - Tank Logo 
+ - Server Logo 
 
-   Filename: 	noun_project_218_tank.svg
-   Download: 	http://thenounproject.com/noun/tank/#icon-No218
+   Filename: 	server.svg
+   Download: 	http://www.clker.com/clipart-1907.html
    License: 	Public Domain
+
+ - System Software Update (globe)
+
+   Filename: 	systen-software-update.svg
+   Download:    http://www.clker.com/clipart-system-software-update.html
+   License: 	Public Domain
+ 
+   
+   
