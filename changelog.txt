@@ -29,6 +29,8 @@ Version 0.3 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[14.04.2012]  NEW    added twitter profile images to /resources dir
+[09.04.2012]  UPD    Logo
 [12.03.2012]  UPD    readme, website to reflect the ZeroMQ php/ext arrival
               NEW    PHP Extension for ZeroMQ v2.1
 
