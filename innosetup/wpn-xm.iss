@@ -83,8 +83,8 @@ VersionInfoTextVersion={#AppVersion}
 VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reserved.
 
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
-//WizardImageFile={#SOURCE_ROOT}bin\icons\wizardimage.bmp
-//WizardSmallImageFile={#SOURCE_ROOT}bin\icons\wizardsmallimage.bmp
+WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
+WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55.bmp
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
@@ -105,7 +105,7 @@ Name: "webgrind"; Description: "Webgrind - Xdebug profiling web frontend"; Extra
 Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; ExtraDiskSpaceRequired: 800000; Types: full debug
 // memcached install means the daemon and the php extension
 Name: "memcached"; Description: "Memcached - distributed memory caching"; ExtraDiskSpaceRequired: 400000; Types: full
-Name: "zeromq"; Description: "ZeroMQ - PHP Extension for concurrent socket magic"; ExtraDiskSpaceRequired: 300000; Types: full debug
+Name: "zeromq"; Description: "ZeroMQ - PHP Extension for concurrent socket magic"; ExtraDiskSpaceRequired: 300000; Types: full
 Name: "phpmyadmin"; Description: "phpMyAdmin - MySQL database administration webinterface"; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: "adminer"; Description: "Adminer - Database management in single PHP file"; ExtraDiskSpaceRequired: 200000; Types: full;
 Name: "junction"; Description: "junction - Mircosoft tool for creating junctions (symlinks)"; ExtraDiskSpaceRequired: 157000; Types: full
@@ -378,13 +378,13 @@ begin
     DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
   end;
 
-  if Pos('zeromq', selectedComponents) > 0 then DoUnzip(targetPath + Filename_zeromq, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+  if Pos('zeromq', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpext_zeromq, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
   // adminer is not a zipped, its just a php file, so copy it to the target path
   if Pos('adminer', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\adminer.php'), false);
-  
+
   if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
   // pear is not a zipped, its just a php phar package, so copy it to the php path

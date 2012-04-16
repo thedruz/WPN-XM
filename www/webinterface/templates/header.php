@@ -24,7 +24,7 @@ include dirname(__DIR__) . '/php/bootstrap.php';
         <h1 class="headline">
             WPИ-XM<br/>
             Serverstack for Windows<br/>
-            <small>Version 0.2</small>
+            <small>Version <?php echo WPNXM_VERSION; ?></small>
         </h1>
 
         <?php

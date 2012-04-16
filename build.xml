@@ -14,8 +14,9 @@
     <property name="wpnxm.Debug"            value="false"/>
 
     <!-- Version -->
+    <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
     <property name="version.Major"          value="0"/>
-    <property name="version.Minor"          value="2"/>
+    <property name="version.Minor"          value="3"/>
     <property name="version.BuildNumber"    value="0"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
 
@@ -33,15 +34,15 @@
 
     <!-- Targets (Build Commands) -->
 
-    <target name="clean-builddir" description="Mr. Proper cleans the build environment and recreates it.">
+    <target name="clean-build-dir" description="Mr. Proper cleans the build environment and recreates it.">
         <delete dir="${dir.Build}"/>
         <mkdir dir="${dir.Build}"/>
     </target>
 
-    <target name="update-iss-files">
+    <target name="bump-version-number">
         <!--
-             To get the version information into the innosetup script file,
-             This done via a copy operation with an applied filterchain, see below.
+             Insert the version number into the innosetup script files.
+             This is done via a copy operation with an applied filterchain, see below.
              The preprocessed iss files are moved from the /innosetup folder to the build directory.
              Then they are used for the actual build.
              Therefore this step must run before the "compile-wpnxm-setup" step.
@@ -59,6 +60,27 @@
                 </replacetokens>
             </filterchain>
         </copy>
+
+        <!--
+             Insert the version number into webinterface bootstrap php file.
+             This is done via a copy operation with an applied filterchain, see below.
+             The file is overwritten.
+         -->
+        <copy todir="${dir.Base}/www/webinterface/php" overwrite="true">
+            <fileset basedir="${dir.Base}/www/webinterface/php">
+                <include name="bootstrap.iss"/>
+            </fileset>
+            <filterchain>
+                <replacetokens>
+                    <token key="APPVERSION" value="${wpnxm.Version}"/>
+                    <token key="DEBUG" value="${wpnxm.Debug}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+
+    <target name="print-version-number">
+        <echo message="Building ${wpnxm.Name}-${wpnxm.Version} Setup Executable"/>
     </target>
 
     <target name="compile-wpnxm-setup" description="Builds the WPN-XM setup executable.">
@@ -95,8 +117,9 @@
     </target>
 
     <target name="all"
-        depends="clean-builddir,
-                 update-iss-files,
+        depends="clean-build-dir,
+                 bump-version-number,
+                 print-version-number,
                  compile-wpnxm-setup,
                  compile-wpnxm-with-clansuite-setup,
                  compile-wpnxm-with-opencandy-setup">

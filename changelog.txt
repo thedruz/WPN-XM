@@ -29,6 +29,9 @@ Version 0.3 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+              FIX    renamed var Filename_zeromq to Filename_phpext_zeromq
+              NEW    added versioning of webinterface during build process
+              CHG    updated webinterface menu accordingly
 [16.04.2012]  NEW    added Adminer 3.4.4 - Database management in one file
 [14.04.2012]  NEW    added twitter profile images to /resources dir
 [09.04.2012]  UPD    Logo

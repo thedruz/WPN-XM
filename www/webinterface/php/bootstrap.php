@@ -5,8 +5,12 @@
 error_reporting(E_ALL);
 
 /**
- * Definition of Path Constants
+ * Definition of Constants
+ * 
+ * WPNXM_VERSION    -> major.minor.buildnumber
  *
+ * Path Constants
+ * --------------
  * WPNXM_DIR        -> wpn-xm/ Root Folder (bin, configs, ....)
  * WPNXM_WWW_DIR    -> wpn-xm/www
  * WPNXM_PHP_DIR    -> wpn-xm/www/webinterface
@@ -14,6 +18,9 @@ error_reporting(E_ALL);
  */
 if(!defined('WPNXM_DIR'))
 {
+    // WPNXM Version String (replaced automatically during build)
+    define('WPNXM_VERSION', '@APPVERSION@');
+
     // Path Constants -> "c:/.."
     define('WPNXM_DIR', dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR);
     define('WPNXM_WWW_DIR', WPNXM_DIR . 'www\\');
