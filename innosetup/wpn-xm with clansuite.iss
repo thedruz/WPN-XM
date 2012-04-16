@@ -108,7 +108,9 @@ Name: "webgrind"; Description: "Webgrind - Xdebug profiling web frontend"; Extra
 Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; ExtraDiskSpaceRequired: 800000; Types: full debug
 // memcached install means the daemon and the php extension
 Name: "memcached"; Description: "Memcached - distributed memory caching"; ExtraDiskSpaceRequired: 400000; Types: full
+Name: "zeromq"; Description: "ZeroMQ - PHP Extension for concurrent socket magic"; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: "phpmyadmin"; Description: "phpMyAdmin - MySQL database administration webinterface"; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: "adminer"; Description: "Adminer - Database management in single PHP file"; ExtraDiskSpaceRequired: 200000; Types: full;
 Name: "junction"; Description: "junction - Mircosoft tool for creating junctions (symlinks)"; ExtraDiskSpaceRequired: 157000; Types: full
 Name: "clansuite"; Description: "Clansuite - just an eSports CMS"; ExtraDiskSpaceRequired: 20000000; Types: full
 
@@ -194,7 +196,9 @@ const
   URL_xhprof            = 'http://nodeload.github.com/preinheimer/xhprof/zipball/master';
   URL_memcached         = 'http://downloads.northscale.com/memcached-1.4.5-x86.zip';
   URL_phpext_memcached  = 'http://downloads.php.net/pierre/php_memcache-2.2.6-5.3-vc9-x86.zip';
+  URL_phpext_zeromq     = 'http://snapshot.zero.mq/download/win32/php53-ext/php-zmq-20111011_12-39.zip';
   URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-english.zip';
+  URL_adminer           = 'http://www.adminer.org/latest.php';
   URL_junction          = 'http://download.sysinternals.com/Files/Junction.zip';
   // Latest Clansuite Version from Gitub (svnsync) as ZIP
   URL_Clansuite         = 'http://nodeload.github.com/jakoch/Clansuite/zipball/svnsync';
@@ -208,7 +212,9 @@ const
   Filename_xhprof           = 'xhprof.zip';
   Filename_memcached        = 'memcached.zip';
   Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_zeromq    = 'zeromq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
   Filename_clansuite        = 'clansuite.zip';
 
@@ -310,7 +316,9 @@ begin
         itd_addfile(URL_phpext_memcached,   expandconstant(targetPath + Filename_phpext_memcache));
     end;
 
+    if IsComponentSelected('zeromq')     then itd_addfile(URL_phpext_zeromq, expandconstant(targetPath + Filename_phpext_zeromq));
     if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,   expandconstant(targetPath + Filename_phpmyadmin));
+    if IsComponentSelected('adminer') then itd_addfile(URL_adminer,   expandconstant(targetPath + Filename_adminer));
     if IsComponentSelected('junction') then itd_addfile(URL_junction,   expandconstant(targetPath + Filename_junction));
 
     if IsComponentSelected('clansuite') then itd_addfile(URL_clansuite, expandconstant(targetPath + Filename_clansuite));
@@ -375,8 +383,13 @@ begin
     DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
   end;
 
+  if Pos('zeromq', selectedComponents) > 0 then DoUnzip(targetPath + Filename_zeromq, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
+  // adminer is not a zipped, its just a php file, so copy it to the target path
+  if Pos('adminer', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\adminer.php'), false);
+  
   if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
   if Pos('clansuite', selectedComponents) > 0 then DoUnzip(targetPath + Filename_clansuite, ExpandConstant('{app}\www')); // no subfolder, brings own dir
@@ -448,6 +461,16 @@ begin
 
       // php.ini entry for loading the the extension
       SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file );
+  end;
+
+  if Pos('zeromq', selectedComponents) > 0 then
+  begin
+      // rename the existing directory
+      //Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\memcached-x86') + ' ' + ExpandConstant('{app}\bin\memcached') + '"',
+      //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+      // php.ini entry for loading the the extension
+      SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file );
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then

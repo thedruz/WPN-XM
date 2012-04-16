@@ -107,6 +107,7 @@ Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; Extra
 Name: "memcached"; Description: "Memcached - distributed memory caching"; ExtraDiskSpaceRequired: 400000; Types: full
 Name: "zeromq"; Description: "ZeroMQ - PHP Extension for concurrent socket magic"; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: "phpmyadmin"; Description: "phpMyAdmin - MySQL database administration webinterface"; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: "adminer"; Description: "Adminer - Database management in single PHP file"; ExtraDiskSpaceRequired: 200000; Types: full;
 Name: "junction"; Description: "junction - Mircosoft tool for creating junctions (symlinks)"; ExtraDiskSpaceRequired: 157000; Types: full
 Name: "pear"; Description: "PEAR - PHP Extension and Application Repository"; ExtraDiskSpaceRequired: 10000000; Types: full;
 
@@ -194,6 +195,7 @@ const
   URL_phpext_memcached  = 'http://downloads.php.net/pierre/php_memcache-2.2.6-5.3-vc9-x86.zip';
   URL_phpext_zeromq     = 'http://snapshot.zero.mq/download/win32/php53-ext/php-zmq-20111011_12-39.zip';
   URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-english.zip';
+  URL_adminer           = 'http://www.adminer.org/latest.php';
   URL_junction          = 'http://download.sysinternals.com/Files/Junction.zip';
   URL_pear              = 'http://pear.php.net/go-pear.phar';
 
@@ -208,6 +210,7 @@ const
   Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_zeromq    = 'zeromq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
   Filename_pear             = 'go-pear.phar';
 
@@ -311,6 +314,7 @@ begin
 
     if IsComponentSelected('zeromq')     then itd_addfile(URL_phpext_zeromq, expandconstant(targetPath + Filename_phpext_zeromq));
     if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,    expandconstant(targetPath + Filename_phpmyadmin));
+    if IsComponentSelected('adminer') then itd_addfile(URL_adminer,   expandconstant(targetPath + Filename_adminer));
     if IsComponentSelected('junction')   then itd_addfile(URL_junction,      expandconstant(targetPath + Filename_junction));
     if IsComponentSelected('pear')       then itd_addfile(URL_pear,          expandconstant(targetPath + Filename_pear));
 
@@ -378,6 +382,9 @@ begin
 
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
+  // adminer is not a zipped, its just a php file, so copy it to the target path
+  if Pos('adminer', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\adminer.php'), false);
+  
   if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
   // pear is not a zipped, its just a php phar package, so copy it to the php path

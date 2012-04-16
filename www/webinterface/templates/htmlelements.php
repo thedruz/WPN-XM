@@ -3,14 +3,33 @@ class HtmlElements
 {
     public static function renderMenu()
     {
-        echo '<div class="main_menu">
-                <ul>
+        $menu = '<div class="main_menu">
+                 <ul>
                     <li class="first 1"><a href="config.php">Configuration</a></li>
-                    <li class="2"><a href="index.php">Projects & Tools</a></li>
-                    <li class="3"><a href="phpinfo.php">PHP Info</a></li>
-                    <li class="last 4"><a href="'.WPNXM_ROOT.'phpmyadmin/">PHPMyAdmin</a></li>
+                    <li class="2"><a href="index.php">Projects & Tools</a></li>';
+
+                $item_number = 2;            
+
+                // is phpmyadmin installed?
+                if(is_dir(WPNXM_WWW_DIR.'phpmyadmin') === true)
+                {
+                    $item_number = $item_number + 1;
+                    $menu .= '<li class="'.$item_number.'"><a href="'.WPNXM_ROOT.'phpmyadmin/">PHPMyAdmin</a></li>';
+                }
+                
+                // is adminer installed?
+                if(is_dir(WPNXM_WWW_DIR.'adminer') === true)
+                {
+                    $item_number = $item_number + 1;
+                    $menu .= '<li class="'.$item_number.'"><a href="'.WPNXM_ROOT.'phpmyadmin/">PHPMyAdmin</a></li>';
+                }
+
+                    $item_number = $item_number + 1;
+        $menu .= '<li class="last '.$item_number.'"><a href="phpinfo.php">PHP Info</a></li>
                 </ul>
-            </div>';
+             </div>';
+
+        echo $menu;
     }
 
     public static function renderWelcome()
