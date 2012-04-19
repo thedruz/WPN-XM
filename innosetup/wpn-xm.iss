@@ -196,7 +196,7 @@ const
   URL_phpext_zeromq     = 'http://snapshot.zero.mq/download/win32/php53-ext/php-zmq-20111011_12-39.zip';
   URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-english.zip';
   URL_adminer           = 'http://www.adminer.org/latest.php';
-  URL_junction          = 'http://download.sysinternals.com/Files/Junction.zip';
+  URL_junction          = 'http://download.sysinternals.com/files/Junction.zip';
   URL_pear              = 'http://pear.php.net/go-pear.phar';
 
   // Define file names for the downloads

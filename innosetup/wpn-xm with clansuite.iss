@@ -199,7 +199,7 @@ const
   URL_phpext_zeromq     = 'http://snapshot.zero.mq/download/win32/php53-ext/php-zmq-20111011_12-39.zip';
   URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-english.zip';
   URL_adminer           = 'http://www.adminer.org/latest.php';
-  URL_junction          = 'http://download.sysinternals.com/Files/Junction.zip';
+  URL_junction          = 'http://download.sysinternals.com/files/Junction.zip';
   // Latest Clansuite Version from Gitub (svnsync) as ZIP
   URL_Clansuite         = 'http://nodeload.github.com/jakoch/Clansuite/zipball/svnsync';
 
