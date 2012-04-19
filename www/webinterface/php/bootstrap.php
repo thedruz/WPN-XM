@@ -1,12 +1,12 @@
 <?php
 /**
- * Error Reporting 
+ * Error Reporting
  */
 error_reporting(E_ALL);
 
 /**
  * Definition of Constants
- * 
+ *
  * WPNXM_VERSION    -> major.minor.buildnumber
  *
  * Path Constants
@@ -21,11 +21,13 @@ if(!defined('WPNXM_DIR'))
     // WPNXM Version String (replaced automatically during build)
     define('WPNXM_VERSION', '@APPVERSION@');
 
+    define('DS', DIRECTORY_SEPARATOR);
+
     // Path Constants -> "c:/.."
-    define('WPNXM_DIR', dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR);
-    define('WPNXM_WWW_DIR', WPNXM_DIR . 'www\\');
-    define('WPNXM_PHP_DIR', WPNXM_WWW_DIR . 'webinterface\php\\');
-    define('WPNXM_TEMPLATE', WPNXM_WWW_DIR . 'webinterface\templates\\');
+    define('WPNXM_DIR', dirname(dirname(dirname(__DIR__))) . DS);
+    define('WPNXM_WWW_DIR', WPNXM_DIR . 'www' . DS);
+    define('WPNXM_PHP_DIR', WPNXM_WWW_DIR . 'webinterface\php' . DS);
+    define('WPNXM_TEMPLATE', WPNXM_WWW_DIR . 'webinterface\templates'. DS);
 
     // Web Path Constants -> "http://.."
     define('SERVER_URL', 'http://' . $_SERVER['SERVER_NAME'], false);

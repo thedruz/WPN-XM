@@ -39,7 +39,7 @@ class Projects
                 continue;
             }
 
-            if (is_dir($dir) === true)
+            if (is_dir(WPNXM_WWW_DIR . $dir) === true)
             {
                 $dirs[] = $dir;
             }
@@ -108,7 +108,7 @@ class Projects
     public function getNumberOfTools()
     {
         $this->checkWhichToolDirectoriesAreInstalled();
-        
+
         return count($this->toolDirectories);
     }
 }
