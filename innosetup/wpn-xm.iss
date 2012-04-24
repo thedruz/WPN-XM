@@ -184,9 +184,9 @@ const
   // Define download URLs for the software packages
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   URL_nginx             = 'http://www.nginx.org/download/nginx-1.1.11.zip';
-  URL_php               = 'http://windows.php.net/downloads/releases/php-5.3.10-nts-Win32-VC9-x86.zip';
-  URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.3.3-rc/win2008r2-vs2010-i386-packages/mariadb-5.3.3-win32.zip';
-  URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.1.3-5.3-vc9-nts.dll';
+  URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.0-nts-Win32-VC9-x86.zip';
+  URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.23/win2008r2-vs2010-i386-packages/mariadb-5.5.23-win32.zip';
+  URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
@@ -254,6 +254,8 @@ begin
     if not DirExists(ExpandConstant('c:\wpnxm-downloads')) then ForceDirectories(ExpandConstant('c:\wpnxm-downloads'));
     // Initialize InnoTools Download Helper
     itd_init;
+    // Turns on detailed error message popups for debugging the download process
+    itd_setoption('Debug_Messages', '1');
     // Change from a simple overall progress bar to the detailed download view
     itd_setoption('UI_DetailedMode', '1');
     // when download fails, do not allow continuing with the installation
