@@ -34,9 +34,9 @@ echo.
 %SETCOLOR% 0A
 
 :: +-------------------------------------------------------------------------
-:: | Execute Nant with WPN-XM buildfile 
+:: | Execute Nant with WPN-XM build file
 :: +-------------------------------------------------------------------------
-bin\nant\bin\nant.exe -buildfile:build.xml all 
+bin\nant\bin\nant.exe -buildfile:build.xml all -logfile:build.log
 
 %SETCOLOR% 07
 
