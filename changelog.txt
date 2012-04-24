@@ -29,10 +29,12 @@ Version 0.3 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+              UPD    bumped version numbers on website
+              UPD    added PEAR to wizard images and WPN-XM string to icon
               NEW    added wpn-xm debug.iss for building a debug executable
                      added build task "compile-wpnxm-debug-setup"
-              UPD    NGINX 1.1.19 (development)
-                     PHP 5.4
+[24.04.2012]  UPD    NGINX 1.2.0
+                     PHP 5.4.0
                      MARIADB 5.5.23
                      XDEBUG 2.2.0RC2
 [19.04.2012]  FIX    download link to junctions was broken (case-sensitive)
