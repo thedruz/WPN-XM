@@ -116,11 +116,23 @@
         </exec>
     </target>
 
+    <target name="compile-wpnxm-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-Debug"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm debug.iss"/>
+        </exec>
+    </target>
+
     <target name="all"
         depends="clean-build-dir,
                  bump-version-number,
                  print-version-number,
                  compile-wpnxm-setup,
+                 compile-wpnxm-debug-setup,
                  compile-wpnxm-with-clansuite-setup,
                  compile-wpnxm-with-opencandy-setup">
     </target>
