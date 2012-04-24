@@ -61,6 +61,20 @@
             </filterchain>
         </copy>
 
+        <!-- DEBUG executable -->
+        <copy todir="${dir.Build}" overwrite="true">
+            <fileset basedir="${dir.Base}/innosetup/">
+                <include name="wpn-xm debug.iss"/>
+            </fileset>
+            <filterchain>
+                <replacetokens>
+                    <token key="APPVERSION" value="${wpnxm.Version}"/>
+                    <!-- Debug on -->
+                    <token key="DEBUG" value="true"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+
         <!--
              Insert the version number into webinterface bootstrap php file.
              This is done via a copy operation with an applied filterchain, see below.
