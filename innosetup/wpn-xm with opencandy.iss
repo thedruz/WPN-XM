@@ -132,6 +132,7 @@ Name: "zeromq"; Description: "ZeroMQ - PHP Extension for concurrent socket magic
 Name: "phpmyadmin"; Description: "phpMyAdmin - MySQL database administration webinterface"; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: "adminer"; Description: "Adminer - Database management in single PHP file"; ExtraDiskSpaceRequired: 200000; Types: full;
 Name: "junction"; Description: "junction - Mircosoft tool for creating junctions (symlinks)"; ExtraDiskSpaceRequired: 157000; Types: full
+Name: "pear"; Description: "PEAR - PHP Extension and Application Repository"; ExtraDiskSpaceRequired: 10000000; Types: full;
 
 [Files]
 // opencandy
@@ -211,9 +212,9 @@ const
   // Define download URLs for the software packages
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   URL_nginx             = 'http://www.nginx.org/download/nginx-1.1.11.zip';
-  URL_php               = 'http://windows.php.net/downloads/releases/php-5.3.10-nts-Win32-VC9-x86.zip';
-  URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.3.3-rc/win2008r2-vs2010-i386-packages/mariadb-5.3.3-win32.zip';
-  URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.1.3-5.3-vc9-nts.dll';
+  URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.0-nts-Win32-VC9-x86.zip';
+  URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.23/win2008r2-vs2010-i386-packages/mariadb-5.5.23-win32.zip';
+  URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
@@ -224,6 +225,7 @@ const
   URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-english.zip';
   URL_adminer           = 'http://www.adminer.org/latest.php';
   URL_junction          = 'http://download.sysinternals.com/files/Junction.zip';
+  URL_pear              = 'http://pear.php.net/go-pear.phar';
 
   // Define file names for the downloads
   Filename_nginx            = 'nginx.zip';
@@ -238,6 +240,7 @@ const
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
+  Filename_pear             = 'go-pear.phar';
 
 var
   unzipTool: String;    // path+filename of unzip helper for exec
@@ -287,6 +290,8 @@ begin
     if not DirExists(ExpandConstant('c:\wpnxm-downloads')) then ForceDirectories(ExpandConstant('c:\wpnxm-downloads'));
     // Initialize InnoTools Download Helper
     itd_init;
+    // Turns on detailed error message popups for debugging the download process
+    itd_setoption('Debug_Messages', '1');
     // Change from a simple overall progress bar to the detailed download view
     itd_setoption('UI_DetailedMode', '1');
     // when download fails, do not allow continuing with the installation
@@ -355,6 +360,7 @@ begin
     if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,   expandconstant(targetPath + Filename_phpmyadmin));
     if IsComponentSelected('adminer') then itd_addfile(URL_adminer,   expandconstant(targetPath + Filename_adminer));
     if IsComponentSelected('junction') then itd_addfile(URL_junction,   expandconstant(targetPath + Filename_junction));
+    if IsComponentSelected('pear')       then itd_addfile(URL_pear,          expandconstant(targetPath + Filename_pear));
 
   end;
 end;
@@ -423,6 +429,8 @@ begin
   
   if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
+  // pear is not a zipped, its just a php phar package, so copy it to the php path
+  if Pos('pear', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\go-pear.php'), false);
 end;
 
 procedure ApplyModifications();
