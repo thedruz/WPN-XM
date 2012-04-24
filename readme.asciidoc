@@ -17,7 +17,7 @@ Google Group:       http://groups.google.com/group/wpn-xm/
 Github:             https://github.com/jakoch/WPN-XM/
 
 
-== WPN-XM USES THE FOLLOWING THIRD PARTY SOFTWARE COMPONENTS ==
+=== WPN-XM USES THE FOLLOWING THIRD PARTY SOFTWARE COMPONENTS ===
 
 [options="header"]
 |====
@@ -49,7 +49,7 @@ Github:             https://github.com/jakoch/WPN-XM/
 | Fugue Icons | 3.3 | CCA 3.0 | © Yusuke Kamiyamane. | http://p.yusukekamiyamane.com/ + https://github.com/yusukekamiyamane/fugue-icons
 |====
 
-== STILL NOT CONVINCED? ==
+=== STILL NOT CONVINCED? ===
 
 Well, then go try a different Serverpack for Windows. I know you’ll come back.
 
@@ -70,12 +70,12 @@ Here’s a comprehensive list for your convenience:
 * NimpBox                 http://nimpbox.ru/
 
 
-== HOW TO BUILD THE INSTALLER ==
+=== HOW TO BUILD THE INSTALLER ===
 
 Just execute "build.bat". That's it.
-You might then find the setup executable in the folder "_build".
+You might then find the setup executable(s) in the folder "_build".
 
-== HOW TO BUILD THE INSTALLER MANUALLY ==
+==== HOW TO BUILD THE INSTALLER MANUALLY ====
 
 *Requirements*
 
