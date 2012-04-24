@@ -380,7 +380,7 @@ begin
     DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
   end;
 
-  if Pos('zeromq', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpext_zeromq, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+  if Pos('zeromq', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpext_zeromq, ExpandConstant('{app}\bin\php'));
 
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
