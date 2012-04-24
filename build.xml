@@ -82,7 +82,7 @@
          -->
         <copy todir="${dir.Base}/www/webinterface/php" overwrite="true">
             <fileset basedir="${dir.Base}/www/webinterface/php">
-                <include name="bootstrap.iss"/>
+                <include name="bootstrap.php"/>
             </fileset>
             <filterchain>
                 <replacetokens>
