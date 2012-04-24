@@ -40,7 +40,7 @@ echo %MYSQL_DIR%
 
 :: ############# Toplevel remove *.ini - replaced by our own
 
-:del /q /f "%MYSQL_DIR%\*.ini"
+:del /s /q "%MYSQL_DIR%\*.ini"
 
 :: ############# remove these folders completely
 

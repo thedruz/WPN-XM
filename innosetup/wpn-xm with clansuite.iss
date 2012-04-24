@@ -218,6 +218,7 @@ const
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
+  Filename_pear             = 'go-pear.phar';
   Filename_clansuite        = 'clansuite.zip';
 
 var
@@ -398,8 +399,9 @@ begin
   if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
   // pear is not a zipped, its just a php phar package, so copy it to the php path
+  if Pos('pear', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\go-pear.php'), false);
 
-if Pos('clansuite', selectedComponents) > 0 then DoUnzip(targetPath + Filename_clansuite, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+  if Pos('clansuite', selectedComponents) > 0 then DoUnzip(targetPath + Filename_clansuite, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
 end;
 
