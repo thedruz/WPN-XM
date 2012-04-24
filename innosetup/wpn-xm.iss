@@ -195,7 +195,7 @@ const
   URL_phpext_memcached  = 'http://downloads.php.net/pierre/php_memcache-2.2.6-5.3-vc9-x86.zip';
   URL_phpext_zeromq     = 'http://snapshot.zero.mq/download/win32/php53-ext/php-zmq-20111011_12-39.zip';
   URL_phpmyadmin        = 'http://netcologne.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-english.zip';
-  URL_adminer           = 'http://www.adminer.org/latest.php';
+  URL_adminer           = 'http://downloads.sourceforge.net/adminer/adminer-3.3.4.php';
   URL_junction          = 'http://download.sysinternals.com/files/Junction.zip';
   URL_pear              = 'http://pear.php.net/go-pear.phar';
 
