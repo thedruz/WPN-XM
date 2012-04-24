@@ -463,10 +463,6 @@ begin
 
   if Pos('zeromq', selectedComponents) > 0 then
   begin
-      // rename the existing directory
-      //Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\memcached-x86') + ' ' + ExpandConstant('{app}\bin\memcached') + '"',
-      //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
       // php.ini entry for loading the the extension
       SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file );
   end;

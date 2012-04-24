@@ -34,7 +34,7 @@
 //
 
 // toggle for enabling/disabling the debug mode
-# define DEBUG "true"
+# define DEBUG "@DEBUG@"
 
 // defines the root folder
 # define SOURCE_ROOT AddBackslash(SourcePath);
@@ -186,7 +186,7 @@ const
   URL_nginx             = 'http://www.nginx.org/download/nginx-1.2.0.zip';
   URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.0-nts-Win32-VC9-x86.zip';
   URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.23/win2008r2-vs2010-i386-packages/mariadb-5.5.23-win32.zip';
-  URL_phpext_xdebug     = '  http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
+  URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
@@ -463,10 +463,6 @@ begin
 
   if Pos('zeromq', selectedComponents) > 0 then
   begin
-      // rename the existing directory
-      //Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\memcached-x86') + ' ' + ExpandConstant('{app}\bin\memcached') + '"',
-      //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
       // php.ini entry for loading the the extension
       SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file );
   end;
