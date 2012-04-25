@@ -29,6 +29,10 @@ Version 0.3 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[25.04.2012]  FIX    renamed go-pear.php to go-pear.phar
+              NEW    added go-pear.bat to startfiles
+              NEW    added reset-db-pw.bat to startfiles
+              UPD    merged my-medium.ini of MariaDB 5.5.23 into /configs/my.ini
               UPD    bumped version numbers on website
               UPD    added PEAR to wizard images and WPN-XM string to icon
               NEW    added wpn-xm debug.iss for building a debug executable

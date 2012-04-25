@@ -125,6 +125,8 @@ Source: "..\startfiles\localhost.url"; DestDir: "{app}"
 Source: "..\startfiles\start-wpnxm.exe"; DestDir: "{app}"
 Source: "..\startfiles\stop-wpnxm.exe"; DestDir: "{app}"
 Source: "..\startfiles\status-wpnxm.bat"; DestDir: "{app}"
+Source: "..\startfiles\reset-db-pw.bat"; DestDir: "{app}"
+Source: "..\startfiles\go-pear.bat"; DestDir: "{app}\bin\php"
 // config files
 Source: "..\configs\php.ini"; DestDir: "{app}\bin\php"
 Source: "..\configs\nginx.conf"; DestDir: "{app}\bin\nginx\conf"
@@ -385,12 +387,15 @@ begin
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
   // adminer is not a zipped, its just a php file, so copy it to the target path
-  if Pos('adminer', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\adminer.php'), false);
+  if Pos('adminer', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
 
   if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
   // pear is not a zipped, its just a php phar package, so copy it to the php path
-  if Pos('pear', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\go-pear.php'), false);
+  if Pos('pear', selectedComponents) > 0 then
+  begin
+    FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
+  end;
 
 end;
 
