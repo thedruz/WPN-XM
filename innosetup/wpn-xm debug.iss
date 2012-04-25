@@ -416,9 +416,12 @@ begin
   Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\nginx-*') + ' ' + ExpandConstant('{app}\bin\nginx') + '"',
   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // mariadb - rename directory
+  // MariaDB - rename directory
   Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\mariadb-*') + '  ' + ExpandConstant('{app}\bin\mariadb') + '"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+  // MariaDB - install with user ROOT and password TOOP
+  Exec('cmd.exe', '/c ' + ExpandConstant('{app}\bin\mariadb\') + 'mysql_install_db.exe --default-user=root --password=toop --datadir="' + ExpandConstant('{app}\bin\mariadb\data') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // php
   SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
