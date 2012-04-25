@@ -309,8 +309,8 @@ begin
 
     if IsComponentSelected('serverstack') then
     begin
-      itd_addfile(URL_nginx, expandconstant(targetPath + Filename_nginx));
-      itd_addfile(URL_php, expandconstant(targetPath + Filename_php));
+      itd_addfile(URL_nginx,   expandconstant(targetPath + Filename_nginx));
+      itd_addfile(URL_php,     expandconstant(targetPath + Filename_php));
       itd_addfile(URL_mariadb, expandconstant(targetPath + Filename_mariadb));
     end;
 
@@ -319,17 +319,17 @@ begin
     if IsComponentSelected('xhprof')    then itd_addfile(URL_xhprof,        expandconstant(targetPath + Filename_xhprof));
     if IsComponentSelected('memcached') then
     begin
-        itd_addfile(URL_memcached,          expandconstant(targetPath + Filename_memcached));
-        itd_addfile(URL_phpext_memcached,   expandconstant(targetPath + Filename_phpext_memcache));
+        itd_addfile(URL_memcached,        expandconstant(targetPath + Filename_memcached));
+        itd_addfile(URL_phpext_memcached, expandconstant(targetPath + Filename_phpext_memcache));
     end;
 
     if IsComponentSelected('zeromq')     then itd_addfile(URL_phpext_zeromq, expandconstant(targetPath + Filename_phpext_zeromq));
-    if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,   expandconstant(targetPath + Filename_phpmyadmin));
-    if IsComponentSelected('adminer') then itd_addfile(URL_adminer,   expandconstant(targetPath + Filename_adminer));
-    if IsComponentSelected('junction') then itd_addfile(URL_junction,   expandconstant(targetPath + Filename_junction));
+    if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,    expandconstant(targetPath + Filename_phpmyadmin));
+    if IsComponentSelected('adminer')    then itd_addfile(URL_adminer,       expandconstant(targetPath + Filename_adminer));
+    if IsComponentSelected('junction')   then itd_addfile(URL_junction,      expandconstant(targetPath + Filename_junction));
     if IsComponentSelected('pear')       then itd_addfile(URL_pear,          expandconstant(targetPath + Filename_pear));
 
-    if IsComponentSelected('clansuite') then itd_addfile(URL_clansuite, expandconstant(targetPath + Filename_clansuite));
+    if IsComponentSelected('clansuite')  then itd_addfile(URL_clansuite,     expandconstant(targetPath + Filename_clansuite));
 
   end;
 
@@ -397,7 +397,7 @@ begin
 
   // adminer is not a zipped, its just a php file, so copy it to the target path
   if Pos('adminer', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
-  
+
   if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
 
   // pear is not a zipped, its just a php phar package, so copy it to the php path
@@ -432,12 +432,12 @@ begin
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // php
-  SetIniString('PHP', 'error_log',            ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
-  SetIniString('PHP', 'doc_root',             ExpandConstant('{app}\www'), php_ini_file );
-  SetIniString('PHP', 'include_path',         ExpandConstant('{app}\bin\php\pear'), php_ini_file );
-  SetIniString('PHP', 'upload_tmp_dir',       ExpandConstant('{app}\temp'), php_ini_file );
-  SetIniString('PHP', 'upload_max_filesize',  '8M', php_ini_file );
-  SetIniString('PHP', 'session.save_path',    ExpandConstant('{app}\temp'), php_ini_file );
+  SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
+  SetIniString('PHP', 'doc_root',            ExpandConstant('{app}\www'),                     php_ini_file );
+  SetIniString('PHP', 'include_path',        ExpandConstant('{app}\bin\php\pear'),            php_ini_file );
+  SetIniString('PHP', 'upload_tmp_dir',      ExpandConstant('{app}\temp'),                    php_ini_file );
+  SetIniString('PHP', 'upload_max_filesize', '8M',                                            php_ini_file );
+  SetIniString('PHP', 'session.save_path',   ExpandConstant('{app}\temp'),                    php_ini_file );
 
   // xdebug
   if Pos('xdebug', selectedComponents) > 0 then
@@ -449,10 +449,10 @@ begin
       end;
 
       // activate remote debugging
-      SetIniString('Xdebug', 'xdebug.remote_enable',  'on', php_ini_file );
-      SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp', php_ini_file );
+      SetIniString('Xdebug', 'xdebug.remote_enable',  'on',        php_ini_file );
+      SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file );
       SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file );
-      SetIniString('Xdebug', 'xdebug.remote_port',    '9000', php_ini_file );
+      SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file );
   end;
 
   if Pos('xhprof', selectedComponents) > 0 then
