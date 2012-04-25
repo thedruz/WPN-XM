@@ -99,6 +99,9 @@ after or during the installation procedure.
 
 You might also specify the target directory for the installation by using the parameter "/dir" (/dir="x:\dirname").
 
+Using the pieces of information provided above, then a complete silent installation cli call would look like this:
+"*setup.exe /VERYSILENT /SP- /DIR="C:\INSTALL_DIR" /NORESTART".
+
 The switches for Inno Setup Silent Installation are fully documented in the ISetup.hlp file in the Inno distribution.
 
 Silent uninstallation
