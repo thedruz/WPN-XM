@@ -79,13 +79,13 @@ class Wpnxm_Serverstack
         {
            # Daemon running? Login credentials correct?
            #echo ('No Connection: ' . mysql_error());
-           return printExclamationMark('MySQL Connection not possible. Access denied.');
+           return self::printExclamationMark('MySQL Connection not possible. Access denied.');
         }
         else
         {
             if(false === function_exists('mysql_get_server_info'))
             {
-                return printExclamationMark('PHP Extension: mysql, mysqli, mysqlnd missing.');
+                return self::printExclamationMark('PHP Extension: mysql, mysqli, mysqlnd missing.');
             }
 
             # mysql_get_server_info() returns e.g. "5.3.0-maria"
@@ -115,7 +115,7 @@ class Wpnxm_Serverstack
     {
         if(strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
         {
-            return printExclamationMark('You are using Apache!? You Traitor!');
+            return self::printExclamationMark('You are using Apache!? You Traitor!');
         }
 
         return substr($_SERVER["SERVER_SOFTWARE"], 6);
@@ -274,7 +274,7 @@ class Wpnxm_Serverstack
     {
         if(extension_loaded('memcache') === false)
         {
-            return printExclamationMark('PHP Extension: memcached missing.');
+            return self::printExclamationMark('PHP Extension: memcached missing.');
         }
 
         $matches = new Memcache;
