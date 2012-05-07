@@ -107,7 +107,7 @@ VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reser
 
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
-WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55.bmp
+WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
