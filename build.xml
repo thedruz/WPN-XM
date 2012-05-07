@@ -80,17 +80,16 @@
              This is done via a copy operation with an applied filterchain, see below.
              The file is overwritten.
          -->
-        <copy todir="${dir.Base}/www/webinterface/php" overwrite="true">
-            <fileset basedir="${dir.Base}/www/webinterface/php">
-                <include name="bootstrap.php"/>
-            </fileset>
+        <loadfile file="${dir.Base}/www/webinterface/php/bootstrap.php" property="filecontent.php.bootstrap">
             <filterchain>
                 <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
                     <token key="DEBUG" value="${wpnxm.Debug}"/>
                 </replacetokens>
             </filterchain>
-        </copy>
+        </loadfile>
+        <delete file="${dir.Base}/www/webinterface/php/bootstrap.php" />
+        <echo file="${dir.Base}/www/webinterface/php/bootstrap.php">${filecontent.php.bootstrap}</echo>
     </target>
 
     <target name="print-version-number">
