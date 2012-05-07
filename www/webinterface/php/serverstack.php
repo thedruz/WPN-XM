@@ -35,6 +35,18 @@
 
 class Wpnxm_Serverstack
 {
+    /**
+     * Prints the Exclaimation Mark Icon with title text.
+     *
+     * @param string $image_title_text
+     * @return string HTML
+     */
+    public static function printExclamationMark($image_title_text = '')
+    {
+        return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt=""
+                 title="'.$image_title_text.'">';
+    }
+
     public static function get_MySQL_datadir()
     {
         $myini_array = file("../mysql/my.ini");
@@ -46,20 +58,42 @@ class Wpnxm_Serverstack
     }
 
     /**
+     * Returns MySQL Database Connection
+     *
+     * @return boolean
+     */
+    public static function openMySQLConnection()
+    {
+        return mysql_connect('localhost', 'root', 'toop');
+    }
+
+    /**
      * Returns MariaDB Version.
      *
      * @return string MariaDB Version
      */
     public static function getMariaDBVersion()
     {
-        if(false === function_exists('mysql_get_server_info'))
+        $connection = self::openMySQLConnection();
+        if(false === $connection)
         {
-            return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: mysql, mysqli, mysqlnd missing.">';
+           # Daemon running? Login credentials correct?
+           #echo ('No Connection: ' . mysql_error());
+           return printExclamationMark('MySQL Connection not possible. Access denied.');
         }
+        else
+        {
+            if(false === function_exists('mysql_get_server_info'))
+            {
+                return printExclamationMark('PHP Extension: mysql, mysqli, mysqlnd missing.');
+            }
 
-        # mysql_get_server_info() returns e.g. "5.3.0-maria"
-        $arr = explode('-', mysql_get_server_info());
-        return $arr[0];
+            # mysql_get_server_info() returns e.g. "5.3.0-maria"
+            $arr = explode('-', mysql_get_server_info($connection));
+            return $arr[0];
+
+            mysql_close($connection);
+        }
     }
 
     /**
@@ -81,7 +115,7 @@ class Wpnxm_Serverstack
     {
         if(strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
         {
-            return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="You are using Apache!? You Traitor!">';
+            return printExclamationMark('You are using Apache!? You Traitor!');
         }
 
         return substr($_SERVER["SERVER_SOFTWARE"], 6);
@@ -240,7 +274,7 @@ class Wpnxm_Serverstack
     {
         if(extension_loaded('memcache') === false)
         {
-            return '<img style="float:right;" src="' . WPNXM_WEBINTERFACE_ROOT . 'img/exclamation-red-frame.png" alt="" title="PHP Extension: memcached missing.">';
+            return printExclamationMark('PHP Extension: memcached missing.');
         }
 
         $matches = new Memcache;
