@@ -54,6 +54,34 @@ void MainWindow::createActions()
      connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
  }
 
+void MainWindow::changeEvent(QEvent *event)
+{
+    switch (event->type())
+    {
+        //case QEvent::LanguageChange:
+        //    this->ui->retranslateUi(this);
+        //    break;
+        case QEvent::WindowStateChange:
+            {
+                // minimize to tray (do not minimize to taskbar)
+                if (this->windowState() & Qt::WindowMinimized)
+                {
+                    // @todo provide configuration options to let the user decide on this
+                    //if (Preferences::instance().minimizeToTray())
+                    //{
+                        QTimer::singleShot(0, this, SLOT(hide()));
+                    //}
+                }
+
+                break;
+            }
+        default:
+            break;
+    }
+
+    QMainWindow::changeEvent(event);
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (trayIcon->isVisible()) {
@@ -61,6 +89,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
                                  tr("The program will keep running in the system tray.<br>"
                                     "To terminate the program, choose <b>Quit</b> in the context menu of the system tray."));
         hide();
+
+        // do not propagate the event to the base class
         event->ignore();
     }
 }
@@ -77,10 +107,19 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
     switch (reason) {
         case QSystemTrayIcon::Trigger:
         case QSystemTrayIcon::DoubleClick:
-        case QSystemTrayIcon::MiddleClick:
-            setVisible(true);
+        //case QSystemTrayIcon::MiddleClick:
+
+            // clicking the tray icon, when the main window is hidden, shows the main window
+            if(!isVisible()) {
+                setVisible(true);
+                setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+            }
+            else {
+                // clicking the tray icon, when the main window is shown, hides it
+                setVisible(false);
+            }
+
             break;
-        default:
-            ;
+        default:;
     }
 }

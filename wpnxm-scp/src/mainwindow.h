@@ -14,6 +14,7 @@ class MainWindow : public QMainWindow
 
 protected:
     void closeEvent(QCloseEvent *event);
+    void changeEvent(QEvent *event);
 
 private slots:
      void iconActivated(QSystemTrayIcon::ActivationReason reason);

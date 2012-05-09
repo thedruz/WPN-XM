@@ -30,6 +30,7 @@
 #include <QtGui>
 
 // WPN-XM SCP includes
+#include "version.h"
 #include "main.h"
 #include "mainwindow.h"
 
@@ -51,13 +52,16 @@ int main(int argc, char * argv[])
     application.setWindowIcon(QIcon(":/wpnxm"));
 
     // if setStyle() is not used, the submenus are not displayed properly. bug?
-    application.setStyle("windowsxp");    
+    application.setStyle("windowsxp");
 
     // do not leave until Quit is clicked in the tray menu
     application.setQuitOnLastWindowClosed(false);
 
     MainWindow mainWindow;
     mainWindow.show();
+
+    qDebug() << APP_NAME;
+    qDebug() << APP_VERSION;
 
     // enter the Qt Event loop here
     return application.exec();
@@ -86,6 +90,6 @@ void exitIfAlreadyRunning()
       }
       else
       {
-        qDebug() << "application starting...";
+        qDebug() << "Application started and not already running.";
       }
 }
