@@ -110,17 +110,17 @@ void Tray::initializeConfiguration()
 
     cfgNginxDir             = globalSettings.value("path/nginx", "./bin/nginx").toString();
     cfgNginxExec            = globalSettings.value("nginx/exec", "/nginx.exe").toString();
-    cfgNginxSites           = globalSettings.value("nginx/sites", "/html").toString();
-    cfgNginxConfig          = globalSettings.value("nginx/config", "/conf").toString();
+    cfgNginxSites           = globalSettings.value("nginx/sites", "/www").toString();
+    cfgNginxConfig          = globalSettings.value("nginx/config", "./bin/nginx/conf/nginx.conf").toString();
     cfgNginxLogs            = globalSettings.value("nginx/logs", "/logs").toString();
 
-    cfgMySqlDir             = globalSettings.value("path/mysql", "./bin/mysql").toString();
-    cfgMySqlExec            = globalSettings.value("mysql/exec", "/bin/mysqld.exe").toString();
+    cfgMySqlDir             = globalSettings.value("path/mysql", "./bin/mariadb/bin").toString();
+    cfgMySqlExec            = globalSettings.value("mysql/exec", "/mysqld.exe").toString();
     cfgMySqlConfig          = globalSettings.value("mysql/config", "/my.ini").toString();
-    cfgMySqlClientExec      = globalSettings.value("mysql/clientExec", "/bin/mysql.exe").toString();
+    cfgMySqlClientExec      = globalSettings.value("mysql/clientExec", "./bin/mariadb/bin/mysql.exe").toString();
 
-    cfgMySqlWorkbenchDir    = globalSettings.value("path/mysqlworkbench", "./bin/mysqlworkbench").toString();
-    cfgMySqlWorkbenchExec   = globalSettings.value("mysqlworkbench/exec", "/MySQLWorkbench.exe").toString();
+    //cfgMySqlWorkbenchDir    = globalSettings.value("path/mysqlworkbench", "./bin/mysqlworkbench").toString();
+    //cfgMySqlWorkbenchExec   = globalSettings.value("mysqlworkbench/exec", "/MySQLWorkbench.exe").toString();
 }
 
 void Tray::createTrayIcon()
@@ -175,8 +175,8 @@ void Tray::createTrayIcon()
 
     QMenu* mysqlConfigSubmenu = new QMenu("MySql Config", MainMenu);
     mysqlConfigSubmenu->setIcon(QIcon(":/mysql"));
-    mysqlConfigSubmenu->addAction(QIcon(":/mysqlworkbench"), tr("Open MySQL workbench"), this, SLOT(openMySqlWorkbench()), QKeySequence());
-    mysqlConfigSubmenu->addAction(QIcon(":/cmd"), tr("Open MySQL client"), this, SLOT(openMySqlClient()), QKeySequence());
+    //mysqlConfigSubmenu->addAction(QIcon(":/mysqlworkbench"), tr("Open MySQL workbench"), this, SLOT(openMySqlWorkbench()), QKeySequence());
+    //mysqlConfigSubmenu->addAction(QIcon(":/cmd"), tr("Open MySQL client"), this, SLOT(openMySqlClient()), QKeySequence());
     mysqlConfigSubmenu->addSeparator();
     mysqlConfigSubmenu->addAction(tr("Open mysql config"), this, SLOT(openMySqlConfig()), QKeySequence());
 
@@ -196,6 +196,7 @@ void Tray::createTrayIcon()
     MainMenu->addMenu(phpConfigSubmenu);
     MainMenu->addMenu(mysqlConfigSubmenu);
     MainMenu->addSeparator();
+    MainMenu->addAction(tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
     MainMenu->addAction(tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
     MainMenu->addAction(tr("&Quit"), parent(), SLOT(quit()), QKeySequence());
     setContextMenu(MainMenu);
@@ -203,7 +204,12 @@ void Tray::createTrayIcon()
 
 void Tray::goToWebsiteHelp()
 {
-    QDesktopServices::openUrl(QUrl("http://www.clansuite.com/"));
+    QDesktopServices::openUrl(QUrl("http://wpn-xm.org/"));
+}
+
+void Tray::goToReportIssue()
+{
+    QDesktopServices::openUrl(QUrl("https://github.com/jakoch/WPN-XM/issues/"));
 }
 
 //*
@@ -475,17 +481,17 @@ void Tray::updateGlobalStatusImage()
  */
 void Tray::nginxProcessError(QProcess::ProcessError error)
 {
-    QMessageBox::warning(0, "Error - WPX-XM Server Control Panel", "Nginx error : "+getProcessErrorMessage(error));
+    QMessageBox::warning(0, APP_NAME " - Error", "Nginx Error. "+getProcessErrorMessage(error));
 }
 
 void Tray::phpProcessError(QProcess::ProcessError error)
 {
-    QMessageBox::warning(0, "Error - WPX-XM Server Control Panel", "PHP error : "+getProcessErrorMessage(error));
+    QMessageBox::warning(0, APP_NAME " - Error", "PHP Error. "+getProcessErrorMessage(error));
 }
 
 void Tray::mysqlProcessError(QProcess::ProcessError error)
 {
-    QMessageBox::warning(0, "Error - WPX-XM Server Control Panel", "MySQL error : "+getProcessErrorMessage(error));
+    QMessageBox::warning(0, APP_NAME " - Error", "MySQL Error. "+getProcessErrorMessage(error));
 }
 
 QString Tray::getProcessErrorMessage(QProcess::ProcessError error){

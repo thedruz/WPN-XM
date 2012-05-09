@@ -26,6 +26,7 @@
 
 #include <QSystemTrayIcon>
 #include <QProcess>
+#include "version.h"
 
 class QMenu;
 class QAction;
@@ -49,6 +50,7 @@ public slots:
         void stopAll();
         void restartAll();        
         void goToWebsiteHelp();
+        void goToReportIssue();
 
         // Nginx Action Slots
         void runNginx();

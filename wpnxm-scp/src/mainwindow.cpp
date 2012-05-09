@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setFixedWidth(600);
     setFixedHeight(270);
 
+    // overrides the window title defined in mainwindow.ui
+    setWindowTitle(APP_NAME_AND_VERSION);
+
     createActions();
 
     // The tray icon is an instance of the QSystemTrayIcon class.
@@ -24,14 +27,16 @@ MainWindow::MainWindow(QWidget *parent) :
     // we call the static QSystemTrayIcon::isSystemTrayAvailable() function.
     if (false == QSystemTrayIcon::isSystemTrayAvailable())
     {
-        QMessageBox::critical(0, tr("WPN-XM Server Control Panel"), tr("You don't have a system tray."));
+        QMessageBox::critical(0, APP_NAME, tr("You don't have a system tray."));
         //return 1;
     }
     else
-    {        
+    {
+        // instantiate and attach the tray icon to the system tray
         trayIcon = new Tray(qApp);
         trayIcon->show();
 
+        // handle clicks on the icon
         connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
     }
@@ -85,7 +90,7 @@ void MainWindow::changeEvent(QEvent *event)
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (trayIcon->isVisible()) {
-        QMessageBox::information(this, tr("WPN-XM Server Control Panel"),
+        QMessageBox::information(this, APP_NAME,
                                  tr("The program will keep running in the system tray.<br>"
                                     "To terminate the program, choose <b>Quit</b> in the context menu of the system tray."));
         hide();
@@ -112,7 +117,7 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
             // clicking the tray icon, when the main window is hidden, shows the main window
             if(!isVisible()) {
                 setVisible(true);
-                setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+                setWindowState( windowState() & ( ~Qt::WindowMinimized | Qt::WindowActive ) );
             }
             else {
                 // clicking the tray icon, when the main window is shown, hides it

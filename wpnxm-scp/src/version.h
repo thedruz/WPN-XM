@@ -1,5 +1,5 @@
-#ifndef APPVERSION_H_
-#define APPVERSION_H_
+#ifndef VERSION_H_
+#define VERSION_H_
 
 // Application version.
 // Its a token, replaced by Nant during the build process.
@@ -12,4 +12,4 @@
 // Application name and version
 #define APP_NAME_AND_VERSION "WPN-XM Server Control Panel v@APP_VERSION@"
 
-#endif /* APPVERSION_H_ */
+#endif /* VERSION_H_ */

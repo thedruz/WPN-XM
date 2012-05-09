@@ -20,11 +20,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 #
-# The application version. Its a token, replaced by Nant during the build process.
-VERSION = @APP_VERSION@
-# Define the preprocessor macro to get the application version in our application.
-DEFINES += APP_VERSION=\\\"$$VERSION\\\"
-HEADERS += src/main.h \
+DEPLOYMENT.display_name = WPN-XM Server Control Panel
+HEADERS += src/version.h \
+           src/main.h \
            src/tray.h \
            src/mainwindow.h \
            src/hostmanager/host.h \

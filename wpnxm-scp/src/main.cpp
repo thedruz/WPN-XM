@@ -30,7 +30,6 @@
 #include <QtGui>
 
 // WPN-XM SCP includes
-#include "version.h"
 #include "main.h"
 #include "mainwindow.h"
 
@@ -45,7 +44,7 @@ int main(int argc, char * argv[])
     QApplication application(argc, argv);
 
     // Application Meta Data
-    application.setApplicationName("WPN-XM Server Control Panel");
+    application.setApplicationName(APP_NAME);
     application.setApplicationVersion(APP_VERSION);
     application.setOrganizationName("Jens-André Koch");
     application.setOrganizationDomain("http://wpn-xm.org/");
@@ -81,7 +80,7 @@ void exitIfAlreadyRunning()
       if( !shared.create( 512, QSharedMemory::ReadWrite) )
       {
           QMessageBox msgBox;
-          msgBox.setWindowTitle("WPN-XM Server Control Panel");
+          msgBox.setWindowTitle(APP_NAME);
           msgBox.setText( QObject::tr("Application is already running.  Exiting.") );
           msgBox.setIcon( QMessageBox::Critical );
           msgBox.exec();

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "version.h"
 #include "tray.h"
 
 namespace Ui {
