@@ -34,26 +34,25 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QPlastiqueStyle>
-#include <QDebug>
+//#include <QDebug>
 
 // WPN-XM SCP includes
-#include "wpnxm-tray.h"
+#include "tray.h"
 #include "hostmanager/hostmanagerdialog.h"
 
 // Constructor
-WpnxmTray::WpnxmTray(QApplication *parent) : QSystemTrayIcon(parent)
+Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 {
     // Tray Icon
     setIcon(QIcon(":/wpnxm"));
 
     initializeConfiguration();
 
-    createTrayMenu();
+    createTrayIcon();
 
     timer = new QTimer(this);
     timer->setInterval(1000); // msec
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGlobalStatusImage()));
-
 
     processNginx = new QProcess(this);
     processNginx->setWorkingDirectory(cfgNginxDir);
@@ -77,8 +76,9 @@ WpnxmTray::WpnxmTray(QApplication *parent) : QSystemTrayIcon(parent)
 }
 
 // Destructor
-WpnxmTray::~WpnxmTray()
+Tray::~Tray()
 {
+    // @todo stop all daemons, when you quit the tray application? add option to configure dialog
     stopAll();
     processNginx->waitForFinished();
     processPhp->waitForFinished();
@@ -86,7 +86,7 @@ WpnxmTray::~WpnxmTray()
     delete MainMenu;
 }
 
-void WpnxmTray::initializeConfiguration()
+void Tray::initializeConfiguration()
 {
     // if the cfg file doesn't already exist, it is created
     QSettings globalSettings("wpnxm.ini", QSettings::IniFormat, this);
@@ -123,7 +123,7 @@ void WpnxmTray::initializeConfiguration()
     cfgMySqlWorkbenchExec   = globalSettings.value("mysqlworkbench/exec", "/MySQLWorkbench.exe").toString();
 }
 
-void WpnxmTray::createTrayMenu()
+void Tray::createTrayIcon()
 {
     MainMenu = new QMenu();
     //MainMenu->setStyle(new QPlastiqueStyle);
@@ -201,7 +201,7 @@ void WpnxmTray::createTrayMenu()
     setContextMenu(MainMenu);
 }
 
-void WpnxmTray::goToWebsiteHelp()
+void Tray::goToWebsiteHelp()
 {
     QDesktopServices::openUrl(QUrl("http://www.clansuite.com/"));
 }
@@ -209,21 +209,21 @@ void WpnxmTray::goToWebsiteHelp()
 //*
 //* Action slots
 //*
-void WpnxmTray::runAll()
+void Tray::runAll()
 {
     runNginx();
     runPhp();
     runMySQL();
 }
 
-void WpnxmTray::stopAll()
+void Tray::stopAll()
 {
     stopMySQL();
     stopPhp();
     stopNginx();
 }
 
-void WpnxmTray::restartAll()
+void Tray::restartAll()
 {
     restartNginx();
     restartPhp();
@@ -233,7 +233,7 @@ void WpnxmTray::restartAll()
 /*
  * Nginx - Actions: run, stop, restart
  */
-void WpnxmTray::runNginx()
+void Tray::runNginx()
 {
     if(processNginx->state() != QProcess::NotRunning)
     {
@@ -243,7 +243,7 @@ void WpnxmTray::runNginx()
     processNginx->start(cfgNginxDir+cfgNginxExec);
 }
 
-void WpnxmTray::stopNginx()
+void Tray::stopNginx()
 {
     QProcess processStopNginx;
     processStopNginx.setWorkingDirectory(cfgNginxDir);
@@ -251,7 +251,7 @@ void WpnxmTray::stopNginx()
     processStopNginx.waitForFinished();
 }
 
-void WpnxmTray::reloadNginx()
+void Tray::reloadNginx()
 {
     QProcess processStopNginx;
     processStopNginx.setWorkingDirectory(cfgNginxDir);
@@ -259,7 +259,7 @@ void WpnxmTray::reloadNginx()
     processStopNginx.waitForFinished();
 }
 
-void WpnxmTray::restartNginx()
+void Tray::restartNginx()
 {
     stopNginx();
     runNginx();
@@ -268,7 +268,7 @@ void WpnxmTray::restartNginx()
 /*
  * PHP - Actions: run, stop, restart
  */
-void WpnxmTray::runPhp()
+void Tray::runPhp()
 {
     if(processPhp->state() != QProcess::NotRunning)
     {
@@ -278,13 +278,13 @@ void WpnxmTray::runPhp()
     processPhp->start(cfgPhpDir+cfgPhpExec, QStringList() << "-b" << cfgPhpFastCgiHost+":"+cfgPhpFastCgiPort);
 }
 
-void WpnxmTray::stopPhp()
+void Tray::stopPhp()
 {
     processPhp->kill();
     processPhp->waitForFinished();
 }
 
-void WpnxmTray::restartPhp()
+void Tray::restartPhp()
 {
     stopPhp();
     runPhp();
@@ -293,7 +293,7 @@ void WpnxmTray::restartPhp()
 /*
  * MySql Actions - run, stop, restart
  */
-void WpnxmTray::runMySQL()
+void Tray::runMySQL()
 {
     if(processMySql->state() != QProcess::NotRunning){
         QMessageBox::warning(0, tr("MySQL"), tr("MySQL already running."));
@@ -304,13 +304,13 @@ void WpnxmTray::runMySQL()
     processMySql->start(cfgMySqlDir+cfgMySqlExec, QStringList() << "--basedir="+strDir);
 }
 
-void WpnxmTray::stopMySQL()
+void Tray::stopMySQL()
 {    
     processMySql->kill();
     processMySql->waitForFinished();
 }
 
-void WpnxmTray::restartMySQL()
+void Tray::restartMySQL()
 {
     stopMySQL();
     runMySQL();
@@ -319,13 +319,13 @@ void WpnxmTray::restartMySQL()
 /*
  * Config slots
  */
-void WpnxmTray::manageHosts()
+void Tray::manageHosts()
 {
     HostManagerDialog dlg;
     dlg.exec();
 }
 
-void WpnxmTray::openNginxSite()
+void Tray::openNginxSite()
 {
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgNginxDir+cfgNginxSites));
@@ -334,37 +334,37 @@ void WpnxmTray::openNginxSite()
     QProcess::startDetached("explorer", QStringList() << strDir);
 }
 
-void WpnxmTray::openNginxConfig(){
+void Tray::openNginxConfig(){
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgNginxDir+cfgNginxConfig));
     QProcess::startDetached("explorer", QStringList() << strDir);
 }
 
-void WpnxmTray::openNginxLogs()
+void Tray::openNginxLogs()
 {
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgNginxDir+cfgNginxLogs));
     QProcess::startDetached("explorer", QStringList() << strDir);
 }
 
-void WpnxmTray::openMySqlClient()
+void Tray::openMySqlClient()
 {
     QProcess::startDetached(cfgMySqlDir+cfgMySqlClientExec, QStringList(), cfgMySqlDir);
 }
 
-void WpnxmTray::openMySqlWorkbench()
+void Tray::openMySqlWorkbench()
 {
     QProcess::startDetached(cfgMySqlWorkbenchDir+cfgMySqlWorkbenchExec, QStringList(), cfgMySqlWorkbenchDir);
 }
 
-void WpnxmTray::openMySqlConfig()
+void Tray::openMySqlConfig()
 {
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMySqlDir+"/my.ini"));
     QProcess::startDetached("cmd", QStringList() << "/c" << "start "+strDir);
 }
 
-void WpnxmTray::openPhpConfig()
+void Tray::openPhpConfig()
 {
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgPhpDir+"/php.ini"));
@@ -374,7 +374,7 @@ void WpnxmTray::openPhpConfig()
 /*
  * State slots
  */
-void WpnxmTray::globalStateChanged()
+void Tray::globalStateChanged()
 {
     QProcess::ProcessState stateNginx = QProcess::Running;
     QProcess::ProcessState statePhp = QProcess::Running;
@@ -410,7 +410,7 @@ void WpnxmTray::globalStateChanged()
     return;
 }
 
-void WpnxmTray::nginxStateChanged(QProcess::ProcessState state)
+void Tray::nginxStateChanged(QProcess::ProcessState state)
 {
     switch(state)
     {
@@ -427,7 +427,7 @@ void WpnxmTray::nginxStateChanged(QProcess::ProcessState state)
     globalStateChanged();
 }
 
-void WpnxmTray::phpStateChanged(QProcess::ProcessState state)
+void Tray::phpStateChanged(QProcess::ProcessState state)
 {
     switch(state)
     {
@@ -444,7 +444,7 @@ void WpnxmTray::phpStateChanged(QProcess::ProcessState state)
     globalStateChanged();
 }
 
-void WpnxmTray::mysqlStateChanged(QProcess::ProcessState state)
+void Tray::mysqlStateChanged(QProcess::ProcessState state)
 {
     switch(state)
     {
@@ -461,7 +461,7 @@ void WpnxmTray::mysqlStateChanged(QProcess::ProcessState state)
     globalStateChanged();
 }
 
-void WpnxmTray::updateGlobalStatusImage()
+void Tray::updateGlobalStatusImage()
 {
     if(iCurrentImage < 1 || iCurrentImage > 4)
     {
@@ -473,22 +473,22 @@ void WpnxmTray::updateGlobalStatusImage()
 /*
  * Error slots
  */
-void WpnxmTray::nginxProcessError(QProcess::ProcessError error)
+void Tray::nginxProcessError(QProcess::ProcessError error)
 {
     QMessageBox::warning(0, "Error - WPX-XM Server Control Panel", "Nginx error : "+getProcessErrorMessage(error));
 }
 
-void WpnxmTray::phpProcessError(QProcess::ProcessError error)
+void Tray::phpProcessError(QProcess::ProcessError error)
 {
     QMessageBox::warning(0, "Error - WPX-XM Server Control Panel", "PHP error : "+getProcessErrorMessage(error));
 }
 
-void WpnxmTray::mysqlProcessError(QProcess::ProcessError error)
+void Tray::mysqlProcessError(QProcess::ProcessError error)
 {
     QMessageBox::warning(0, "Error - WPX-XM Server Control Panel", "MySQL error : "+getProcessErrorMessage(error));
 }
 
-QString WpnxmTray::getProcessErrorMessage(QProcess::ProcessError error){
+QString Tray::getProcessErrorMessage(QProcess::ProcessError error){
     QString ret;
     switch(error){
         case QProcess::FailedToStart:

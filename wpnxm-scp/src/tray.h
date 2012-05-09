@@ -21,8 +21,8 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WpnxmTRAY_H
-#define WpnxmTRAY_H
+#ifndef Tray_H
+#define Tray_H
 
 #include <QSystemTrayIcon>
 #include <QProcess>
@@ -32,16 +32,13 @@ class QAction;
 class QApplication;
 class QSettings;
 
-// declare interfaces
-void exitIfAlreadyRunning();
-
-class WpnxmTray : public QSystemTrayIcon
+class Tray : public QSystemTrayIcon
 {
         Q_OBJECT // Enables signals and slots
 
 public:
-        explicit WpnxmTray(QApplication *parent = 0);
-        ~WpnxmTray();
+        explicit Tray(QApplication *parent = 0);
+        ~Tray();
 
 signals:
 
@@ -130,7 +127,7 @@ private:
         QProcess* processMySql;
 
         // Menus
-        void createTrayMenu();
+        void createTrayIcon();
         QMenu* MainMenu;
         QMenu* globalStatusSubmenu;
         QMenu* nginxStatusSubmenu;
@@ -142,4 +139,4 @@ private:
         QString getProcessErrorMessage(QProcess::ProcessError);
 };
 
-#endif // WpnxmTRAY_H
+#endif // Tray_H

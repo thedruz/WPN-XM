@@ -20,13 +20,20 @@
 #    You should have received a copy of the GNU General Public License
 #    along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 #
-HEADERS += src/wpnxm-tray.h \
+# The application version. Its a token, replaced by Nant during the build process.
+VERSION = @APP_VERSION@
+# Define the preprocessor macro to get the application version in our application.
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+HEADERS += src/main.h \
+           src/tray.h \
+           src/mainwindow.h \
            src/hostmanager/host.h \
            src/hostmanager/hosttablemodel.h \
            src/hostmanager/adddialog.h \
            src/hostmanager/hostmanagerdialog.h
 SOURCES += src/main.cpp \
-           src/wpnxm-tray.cpp \
+           src/tray.cpp \
+           src/mainwindow.cpp \
            src/hostmanager/host.cpp \
            src/hostmanager/hosttablemodel.cpp \
            src/hostmanager/adddialog.cpp \
@@ -37,4 +44,5 @@ DESTDIR = bin
 release:TARGET = wpnxm-scp
 build_pass:CONFIG(debug, debug|release):TARGET = wpnxm-scp-debug
 OTHER_FILES += appico.rc
-FORMS += 
+FORMS += src/mainwindow.ui
+

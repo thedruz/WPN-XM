@@ -27,37 +27,37 @@
 #include <QSystemTrayIcon>
 #include <QMessageBox>
 #include <QSharedMemory>
+#include <QtGui>
 
 // WPN-XM SCP includes
-#include "wpnxm-tray.h"
+#include "main.h"
+#include "mainwindow.h"
 
 // main method
 int main(int argc, char * argv[])
 {
-    QApplication application(argc, argv);
-
+    // Single Instance Check
     exitIfAlreadyRunning();
+
+    Q_INIT_RESOURCE(Resources);
+
+    QApplication application(argc, argv);
 
     // Application Meta Data
     application.setApplicationName("WPN-XM Server Control Panel");
+    application.setApplicationVersion(APP_VERSION);
     application.setOrganizationName("Jens-André Koch");
-    application.setOrganizationDomain("http://clansuite.com");
+    application.setOrganizationDomain("http://wpn-xm.org/");
     application.setWindowIcon(QIcon(":/wpnxm"));
 
     // if setStyle() is not used, the submenus are not displayed properly. bug?
-    application.setStyle("windowsxp");
-
-    if (false == QSystemTrayIcon::isSystemTrayAvailable())
-    {
-        QMessageBox::critical(0, QObject::tr("Systray"), QObject::tr("You don't have a system tray."));
-        return 1;
-    }
-
-    WpnxmTray trayIcon(&application);
-    trayIcon.show();
+    application.setStyle("windowsxp");    
 
     // do not leave until Quit is clicked in the tray menu
     application.setQuitOnLastWindowClosed(false);
+
+    MainWindow mainWindow;
+    mainWindow.show();
 
     // enter the Qt Event loop here
     return application.exec();
@@ -73,14 +73,19 @@ void exitIfAlreadyRunning()
       // Set GUID for WPN-XM Server Control Panel to memory
       QSharedMemory shared("004d54f6-7d00-4478-b612-f242f081b023");
 
-      // theres only one GUID
-      if(false == shared.create( 512, QSharedMemory::ReadWrite) )
+      // already running
+      if( !shared.create( 512, QSharedMemory::ReadWrite) )
       {
           QMessageBox msgBox;
+          msgBox.setWindowTitle("WPN-XM Server Control Panel");
           msgBox.setText( QObject::tr("Application is already running.  Exiting.") );
           msgBox.setIcon( QMessageBox::Critical );
           msgBox.exec();
 
           exit(0);
+      }
+      else
+      {
+        qDebug() << "application starting...";
       }
 }
