@@ -21,6 +21,8 @@
 #    along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 #
 DEPLOYMENT.display_name = WPN-XM Server Control Panel
+# disable qDebug() output to console
+#DEFINES += QT_NO_DEBUG_OUTPUT
 HEADERS += src/version.h \
            src/main.h \
            src/tray.h \
