@@ -62,7 +62,7 @@ class Projects
         {
             foreach($this->dirs as $dir)
             {
-                echo '<li><a class="folder" href="' . $dir . '">' . $dir . '</a></li>';
+                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a></li>';
             }
         }
     }
