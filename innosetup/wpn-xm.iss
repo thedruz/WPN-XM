@@ -208,12 +208,12 @@ const
   Filename_php              = 'php.zip';
   Filename_mariadb          = 'mariadb.zip';
   Filename_phpext_xdebug    = 'xdebug.dll';
-  Filename_phpext_apc       = 'apc.zip';  // zip contains dirs ts/nts
+  Filename_phpext_apc       = 'phpext-apc.zip';
   Filename_webgrind         = 'webgrind.zip';
   Filename_xhprof           = 'xhprof.zip';
   Filename_memcached        = 'memcached.zip';
-  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_zeromq    = 'zeromq.zip'; // zip contains dirs ts/nts
+  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
+  Filename_phpext_zeromq    = 'phpext-zmq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
@@ -395,9 +395,11 @@ begin
 
   if Pos('zeromq', selectedComponents) > 0 then
   begin
-    // archive contains ts/nts folders, unzip to temp dir, copy file from there
+    // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
     DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
     FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+    // b) archive contains lib_zmq.dll which must be copied to php
+    FileCopy(ExpandConstant(targetPath + '\zmq\libzmq.dll'), ExpandConstant('{app}\bin\php\libzmq.dll'), false);
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir

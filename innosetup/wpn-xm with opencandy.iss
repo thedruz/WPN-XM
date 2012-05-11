@@ -124,6 +124,7 @@ Name: "serverstack"; Description: "Base of the WPN-XM Server Stack (Nginx & PHP 
 Name: "webinterface"; Description: "WPN-XM - Webinterface for Serveradministration"; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: "consoleinterface"; Description: "WPN-XM - Tray App for Serveradministration"; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: "xdebug"; Description: "Xdebug - PHP Extension for Debugging"; ExtraDiskSpaceRequired: 300000; Types: full debug
+Name: "apc"; Description: "APC - PHP Extension for Caching (Alternative PHP Cache)"; ExtraDiskSpaceRequired: 100000; Types: full debug
 Name: "webgrind"; Description: "Webgrind - Xdebug profiling web frontend"; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; ExtraDiskSpaceRequired: 800000; Types: full debug
 // memcached install means the daemon and the php extension
@@ -217,6 +218,7 @@ const
   URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.3-nts-Win32-VC9-x86.zip';
   URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.23/win2008r2-vs2010-i386-packages/mariadb-5.5.23-win32.zip';
   URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
+  URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
@@ -234,11 +236,12 @@ const
   Filename_php              = 'php.zip';
   Filename_mariadb          = 'mariadb.zip';
   Filename_phpext_xdebug    = 'xdebug.dll';
+  Filename_phpext_apc       = 'phpext-apc.zip';
   Filename_webgrind         = 'webgrind.zip';
   Filename_xhprof           = 'xhprof.zip';
   Filename_memcached        = 'memcached.zip';
-  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_zeromq    = 'zeromq.zip';
+  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
+  Filename_phpext_zeromq    = 'phpext-zmq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
@@ -350,6 +353,7 @@ begin
     end;
 
     if IsComponentSelected('xdebug')    then itd_addfile(URL_phpext_xdebug, expandconstant(targetPath + Filename_phpext_xdebug));
+    if IsComponentSelected('apc')       then itd_addfile(URL_phpext_apc,    expandconstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('webgrind')  then itd_addfile(URL_webgrind,      expandconstant(targetPath + Filename_webgrind));
     if IsComponentSelected('xhprof')    then itd_addfile(URL_xhprof,        expandconstant(targetPath + Filename_xhprof));
     if IsComponentSelected('memcached') then
@@ -412,6 +416,13 @@ begin
   // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
 
+  if Pos('apc', selectedComponents) > 0 then
+  begin
+    // archive contains ts/nts folders, unzip to temp dir, copy file from there
+    DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
+    FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
+  end;
+
   if Pos('webgrind', selectedComponents) > 0 then DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
   if Pos('xhprof', selectedComponents) > 0 then DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
@@ -422,7 +433,14 @@ begin
     DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
   end;
 
-  if Pos('zeromq', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpext_zeromq, ExpandConstant('{app}\bin\php'));
+  if Pos('zeromq', selectedComponents) > 0 then
+  begin
+    // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
+    DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
+    FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+    // b) archive contains lib_zmq.dll which must be copied to php
+    FileCopy(ExpandConstant(targetPath + '\zmq\libzmq.dll'), ExpandConstant('{app}\bin\php\libzmq.dll'), false);
+  end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
