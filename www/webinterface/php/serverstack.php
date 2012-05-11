@@ -64,7 +64,7 @@ class Wpnxm_Serverstack
      */
     public static function openMySQLConnection()
     {
-        return mysql_connect('localhost', 'root', 'toop');
+        return @mysql_connect('localhost', 'root', 'toop');
     }
 
     /**
@@ -89,7 +89,7 @@ class Wpnxm_Serverstack
             }
 
             # mysql_get_server_info() returns e.g. "5.3.0-maria"
-            $arr = explode('-', mysql_get_server_info($connection));
+            $arr = explode('-', @mysql_get_server_info($connection));
             return $arr[0];
 
             mysql_close($connection);
