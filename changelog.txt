@@ -29,6 +29,7 @@ Version 0.3 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[11.05.2012]  UPD    PHP 5.4.3
 [07.05.2012]  UPD    PHP 5.4.2
               NEW    using stamped icon in installation wizard
 [25.04.2012]  FIX    renamed go-pear.php to go-pear.phar
