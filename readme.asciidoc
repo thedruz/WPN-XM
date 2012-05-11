@@ -68,6 +68,7 @@ Here’s a comprehensive list for your convenience:
 * EasyPHP                 http://easyphp.org
 * uWamp                   http://www.uwamp.com/
 * NimpBox                 http://nimpbox.ru/
+* UniformServer           http://www.uniformserver.com/
 
 
 === HOW TO BUILD THE INSTALLER ===
