@@ -379,7 +379,7 @@ begin
   if Pos('apc', selectedComponents) > 0 then
   begin
     // archive contains ts/nts folders, unzip to temp dir, copy file from there
-    DoUnzip(targetPath + Filename_phpext_apc, ExpandConstant('{targetPath}\apc'));
+    DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
     FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
   end;
 
@@ -396,7 +396,7 @@ begin
   if Pos('zeromq', selectedComponents) > 0 then
   begin
     // archive contains ts/nts folders, unzip to temp dir, copy file from there
-    DoUnzip(targetPath + Filename_phpext_zeromq, ExpandConstant('{targetPath}\zmq'));
+    DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
     FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
   end;
 
