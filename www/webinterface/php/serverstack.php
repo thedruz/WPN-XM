@@ -57,23 +57,13 @@ class Wpnxm_Serverstack
     }
 
     /**
-     * Returns MySQL Database Connection
-     *
-     * @return boolean
-     */
-    public static function openMySQLConnection()
-    {
-        return @mysql_connect('localhost', 'root', 'toop');
-    }
-
-    /**
      * Returns MariaDB Version.
      *
      * @return string MariaDB Version
      */
     public static function getMariaDBVersion()
     {
-        $connection = self::openMySQLConnection();
+        $connection = @mysql_connect('localhost', 'root', 'toop');
 
         if(false === $connection)
         {
@@ -284,7 +274,7 @@ class Wpnxm_Serverstack
     {
         $installed = false;
 
-        if(self::assertExtensionFileFound($extension) === true and 
+        if(self::assertExtensionFileFound($extension) === true and
            self::assertExtensionConfigured($extension) === true)
         {
             $installed = true;
@@ -382,19 +372,21 @@ class Wpnxm_Serverstack
 
     /**
      * Attempts to establish a connection to the specified port (on localhost)
+     *
+     * @param  string $daemon Daemon/Service name.
+     * @return boolean
      */
     public static function portCheck($daemon)
     {
         switch ($daemon) {
             case 'nginx':
-                return self::checkPort('http://127.0.0.1/', '80');
+                return self::checkPort('127.0.0.1', '80');
                 break;
             case 'mariadb':
-                return self::checkPort('http://127.0.0.1/', 'xxxx');
+                return self::checkPort('127.0.0.1', '3306');
                 break;
-
             case 'memcache':
-                return self::checkPort('http://127.0.0.1/', 'xxxx');
+                return self::checkPort('127.0.0.1', '11221');
                 break;
 
             default:
@@ -414,12 +406,14 @@ class Wpnxm_Serverstack
      * @param string $host Hostname
      * @param integer $port Portnumber
      * @param integer $timeout Timeout for socket connection in seconds (default is 30).
-     *
      * @return string
      */
     public static function checkPort($host, $port, $timeout = 30)
     {
-        $socket = @fsockopen($host, $port, $errorNumber, $errorString, $timeout);
+        $socket = fsockopen($host, $port, $errorNumber, $errorString, $timeout);
+
+        echo $host . $port;
+        echo $socket;
 
         if (!$socket) {
             return false;
@@ -432,9 +426,10 @@ class Wpnxm_Serverstack
     /**
      * Get name of the service that is listening on a certain port.
      *
+     * self::getServiceNameByPort('80')
+     *
      * @param integer $port     Portnumber
      * @param string  $protocol Protocol (Is either tcp or udp. Default is tcp.)
-     *
      * @return string  Name of the Internet service associated with $service
      */
      public static function getServiceNameByPort($port, $protocol = "tcp")
@@ -447,7 +442,6 @@ class Wpnxm_Serverstack
      *
      * @param string $service  Name of the service
      * @param string $protocol Protocol (Is either tcp or udp. Default is tcp.)
-     *
      * @return integer Internet port which corresponds to $service
      */
      public static function getPortByServiceName($service, $protocol = "tcp")
