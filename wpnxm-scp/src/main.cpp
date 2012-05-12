@@ -81,7 +81,7 @@ void exitIfAlreadyRunning()
       {
           QMessageBox msgBox;
           msgBox.setWindowTitle(APP_NAME);
-          msgBox.setText( QObject::tr("Application is already running.  Exiting.") );
+          msgBox.setText( QObject::tr("WPN-XM is already running.") );
           msgBox.setIcon( QMessageBox::Critical );
           msgBox.exec();
 
