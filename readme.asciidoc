@@ -3,7 +3,7 @@ WPИ-XM
 
 *WPИ-XM is a free and open-source web server solution stack for professional PHP development on the Windows platform.*
 
-The groundation of the server stack consists of NGINX, PHP and MariaDB. Additionally XDebug, XhProf and Webgrind were added for profiling and debugging purposes; phpMyAdmin for MySQL database administration purposes; memcached and APC for caching.
+The groundation of the server stack consists of NGINX, PHP and MariaDB. Additionally XDebug, XhProf and Webgrind were added for profiling and debugging purposes; phpMyAdmin and Adminer for MySQL database administration purposes; memcached and APC for caching; ZeroMQ for socket magic.
 WPИ-XM provides a webinterface for server administration and a server control panel (tray application) which makes starting and stopping of daemons easy.
 The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX, XDebug and MariaDB.
 
@@ -73,8 +73,11 @@ Here’s a comprehensive list for your convenience:
 
 === HOW TO BUILD THE INSTALLER ===
 
-Just execute "build.bat". That's it.
+Just execute "build.bat". That's it. It's a one-click build.
 You might then find the setup executable(s) in the folder "_build".
+
+Find a detailed description on how this works in the one-click build process documentation.
+https://github.com/jakoch/WPN-XM/wiki/Description-of-the-one-click-build-process
 
 ==== HOW TO BUILD THE INSTALLER MANUALLY ====
 
@@ -90,8 +93,7 @@ the InnoSetup Script with Innosetup.
 *Build*
 
 * open "wpn-xm.iss" with InnoSetup or ISTools
-* search and replace any tokens like @DEBUG@
-* compile it
-* test it
+* search and replace any tokens like @DEBUG@ (true/false) and @APPVERSION@ (1.2.3)
+* use GUI to compile it
 
 *Regards, Jens-André Koch*
