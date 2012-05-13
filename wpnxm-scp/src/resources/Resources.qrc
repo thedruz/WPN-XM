@@ -6,6 +6,7 @@
         <file alias="action_reload">action_reload.png</file>
         <file alias="action_run">action_run.png</file>
         <file alias="action_stop">action_stop.png</file>
+        <file alias="action_restart">action_restart.png</file>
         <file alias="status_run">status_run.png</file>
         <file alias="status_runstop">status_runstop.png</file>
         <file alias="status_stop">status_stop.png</file>
@@ -14,9 +15,11 @@
         <file alias="load2">loading2.png</file>
         <file alias="load3">loading3.png</file>
         <file alias="load4">loading4.png</file>
-        <file alias="action_restart">action_restart.png</file>
         <file alias="wpnxm">wpnxm.png</file>
         <file alias="cmd">cmd.png</file>
         <file alias="mysqlworkbench">mysqlworkbench.png</file>
+        <file alias="report_bug">bug.png</file>
+        <file>quit.png</file>
+        <file>help.png</file>
     </qresource>
 </RCC>
