@@ -25,6 +25,7 @@
 #include "host.h"
 
 #include <QList>
+#include <QDebug>
 
 HostTableModel::HostTableModel(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -162,12 +163,13 @@ bool HostTableModel::removeRows(int position, int rows, const QModelIndex &index
 
 void HostTableModel::setList(QList<Host*> listHost)
 {
-    //listHost = listHost; // ??
+    listHost = listHost;
     QModelIndex root = index(0,0);
     emit(dataChanged(root, index(rowCount(QModelIndex()), columnCount(QModelIndex()))));
 }
 
 QList<Host*> HostTableModel::getList()
 {
+    qDebug() << listHost;
     return listHost;
 }

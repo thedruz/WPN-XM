@@ -64,7 +64,7 @@ QList<Host*> Host::GetHosts()
             Host* host = new Host(strList[1], strList[0]);
             listReturn << host;
         }
-    }
+    }    
 
     return listReturn;
 }

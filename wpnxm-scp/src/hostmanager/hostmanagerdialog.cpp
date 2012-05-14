@@ -36,6 +36,7 @@
 #include <QLineEdit>
 #include <QToolBar>
 #include <QApplication>
+#include <QDebug>
 
 HostManagerDialog::HostManagerDialog(QWidget *parent) : QDialog(parent)
 {
@@ -75,7 +76,7 @@ HostManagerDialog::HostManagerDialog(QWidget *parent) : QDialog(parent)
 
     connect(btnOk, SIGNAL(clicked()), this, SLOT(accept()));
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
-    //connect(tableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SIGNAL(selectionChanged(QItemSelection)));
+    connect(table->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SIGNAL(selectionChanged(QItemSelection)));
     setWindowTitle(tr("Host File Manager - WPX-XM Server Control Panel"));
 }
 

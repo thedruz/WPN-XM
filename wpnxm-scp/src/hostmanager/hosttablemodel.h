@@ -52,7 +52,7 @@ public:
         bool insertRows(int position, int rows, const QModelIndex &index=QModelIndex());
         bool removeRows(int position, int rows, const QModelIndex &index=QModelIndex());
 
-        void setList(QList<Host*> lstHost);
+        void setList(QList<Host*> listHost);
         QList<Host*> getList();
 
 signals:
