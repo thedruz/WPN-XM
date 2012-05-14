@@ -33,9 +33,6 @@
 
 AddDialog::AddDialog(QWidget *parent) : QDialog(parent)
 {
-    QPushButton* btnOk = new QPushButton("OK", this);
-    QPushButton* btnCancel = new QPushButton("Cancel", this);
-
     lineedit_Name = new QLineEdit(this);
     lineedit_Address = new QLineEdit(this);
     lineedit_Address->setText("127.0.0.1");
@@ -47,6 +44,9 @@ AddDialog::AddDialog(QWidget *parent) : QDialog(parent)
 
     gLayout->addWidget(new QLabel("Name", this), 1, 0);
     gLayout->addWidget(lineedit_Name, 1, 1);
+
+    QPushButton* btnOk = new QPushButton("OK", this);
+    QPushButton* btnCancel = new QPushButton("Cancel", this);
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget(btnOk);

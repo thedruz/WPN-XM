@@ -128,16 +128,8 @@ void Tray::createTrayIcon()
     MainMenu = new QMenu();
     //MainMenu->setStyle(new QPlastiqueStyle);
 
-    // Global status
-    globalStatusSubmenu = new QMenu("Global status", MainMenu);
-    globalStatusSubmenu->setIcon(QIcon(":/status_stop"));
-    globalStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart All"), this, SLOT(restartAll()), QKeySequence());
-    globalStatusSubmenu->addSeparator();
-    globalStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(runAll()), QKeySequence());
-    globalStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop All"), this, SLOT(stopAll()), QKeySequence());
-
     // Nginx
-    nginxStatusSubmenu = new QMenu("NGINX status", MainMenu);
+    nginxStatusSubmenu = new QMenu("Nginx", MainMenu);
     nginxStatusSubmenu->setIcon(QIcon(":/status_stop"));
     nginxStatusSubmenu->addAction(QIcon(":/action_reload"), tr("Reload"), this, SLOT(reloadNginx()), QKeySequence());
     nginxStatusSubmenu->addSeparator();
@@ -146,59 +138,60 @@ void Tray::createTrayIcon()
     nginxStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(runNginx()), QKeySequence());
     nginxStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopNginx()), QKeySequence());
 
-    QMenu* nginxConfigSubmenu = new QMenu("NGINX config", MainMenu);
-    nginxConfigSubmenu->setIcon(QIcon(":/nginx"));
-    nginxConfigSubmenu->addAction(tr("Open site folder"), this, SLOT(openNginxSite()), QKeySequence());
-    nginxConfigSubmenu->addSeparator();
-    nginxConfigSubmenu->addAction(tr("Open configuration folder"), this, SLOT(openNginxConfig()), QKeySequence());
-    nginxConfigSubmenu->addAction(tr("Open log folder"), this, SLOT(openNginxLogs()), QKeySequence());
+//    QMenu* nginxConfigSubmenu = new QMenu("NGINX config", MainMenu);
+//    nginxConfigSubmenu->setIcon(QIcon(":/nginx"));
+//    nginxConfigSubmenu->addAction(tr("Open site folder"), this, SLOT(openNginxSite()), QKeySequence());
+//    nginxConfigSubmenu->addSeparator();
+//    nginxConfigSubmenu->addAction(tr("Open configuration folder"), this, SLOT(openNginxConfig()), QKeySequence());
+//    nginxConfigSubmenu->addAction(tr("Open log folder"), this, SLOT(openNginxLogs()), QKeySequence());
 
     // PHP
-    phpStatusSubmenu = new QMenu("PHP status", MainMenu);
+    phpStatusSubmenu = new QMenu("PHP", MainMenu);
     phpStatusSubmenu->setIcon(QIcon(":/status_stop"));
     phpStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartPhp()), QKeySequence());
     phpStatusSubmenu->addSeparator();
     phpStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(runPhp()), QKeySequence());
     phpStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopPhp()), QKeySequence());
 
-    QMenu* phpConfigSubmenu = new QMenu("PHP Config", MainMenu);
-    phpConfigSubmenu->setIcon(QIcon(":/php"));
-    phpConfigSubmenu->addAction("Open php config", this, SLOT(openPhpConfig()), QKeySequence());
+//    QMenu* phpConfigSubmenu = new QMenu("PHP Config", MainMenu);
+//    phpConfigSubmenu->setIcon(QIcon(":/php"));
+//    phpConfigSubmenu->addAction("Open php config", this, SLOT(openPhpConfig()), QKeySequence());
 
     // MySQL
-    mysqlStatusSubmenu = new QMenu("MySql status", MainMenu);
+    mysqlStatusSubmenu = new QMenu("MariaDb", MainMenu);
     mysqlStatusSubmenu->setIcon(QIcon(":/status_stop"));
     mysqlStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartMySQL()), QKeySequence());
     mysqlStatusSubmenu->addSeparator();
     mysqlStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(runMySQL()), QKeySequence());
     mysqlStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopMySQL()), QKeySequence());
 
-    QMenu* mysqlConfigSubmenu = new QMenu("MySql Config", MainMenu);
-    mysqlConfigSubmenu->setIcon(QIcon(":/mysql"));
+    //QMenu* mysqlConfigSubmenu = new QMenu("MySql Config", MainMenu);
+    //mysqlConfigSubmenu->setIcon(QIcon(":/mysql"));
     //mysqlConfigSubmenu->addAction(QIcon(":/mysqlworkbench"), tr("Open MySQL workbench"), this, SLOT(openMySqlWorkbench()), QKeySequence());
     //mysqlConfigSubmenu->addAction(QIcon(":/cmd"), tr("Open MySQL client"), this, SLOT(openMySqlClient()), QKeySequence());
-    mysqlConfigSubmenu->addSeparator();
-    mysqlConfigSubmenu->addAction(tr("Open mysql config"), this, SLOT(openMySqlConfig()), QKeySequence());
+    //mysqlConfigSubmenu->addSeparator();
+    //mysqlConfigSubmenu->addAction(tr("Open mysql config"), this, SLOT(openMySqlConfig()), QKeySequence());
 
     //QUrl url(SUPPORT_URL);
     //QDesktopServices::openUrl(url);
     // QDesktopServices::openUrl(QUrl("file:///C:/Documents and Settings/All Users/Desktop", QUrl::TolerantMode));
 
     // Build main menu
-    MainMenu->addMenu(globalStatusSubmenu);
+    MainMenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(runAll()), QKeySequence());
+    MainMenu->addAction(QIcon(":/action_stop"), tr("Stop All"), this, SLOT(stopAll()), QKeySequence());
     MainMenu->addSeparator();
     MainMenu->addMenu(nginxStatusSubmenu);
     MainMenu->addMenu(phpStatusSubmenu);
     MainMenu->addMenu(mysqlStatusSubmenu);
     MainMenu->addSeparator();
-    MainMenu->addAction(tr("Manage Hosts"), this, SLOT(manageHosts()), QKeySequence());
-    MainMenu->addMenu(nginxConfigSubmenu);
-    MainMenu->addMenu(phpConfigSubmenu);
-    MainMenu->addMenu(mysqlConfigSubmenu);
+    MainMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(manageHosts()), QKeySequence());
+    //MainMenu->addMenu(nginxConfigSubmenu);
+    //MainMenu->addMenu(phpConfigSubmenu);
+    //MainMenu->addMenu(mysqlConfigSubmenu);
     MainMenu->addSeparator();
-    MainMenu->addAction(tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
-    MainMenu->addAction(tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
-    MainMenu->addAction(tr("&Quit"), parent(), SLOT(quit()), QKeySequence());
+    MainMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
+    MainMenu->addAction(QIcon(":/help"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
+    MainMenu->addAction(QIcon(":/quit"),tr("&Quit"), parent(), SLOT(quit()), QKeySequence());
     setContextMenu(MainMenu);
 }
 
@@ -400,19 +393,19 @@ void Tray::globalStateChanged()
         setIcon(QIcon(":/wpnxm"));
     }
 
-    if(stateNginx==QProcess::NotRunning && statePhp==QProcess::NotRunning && stateMySql==QProcess::NotRunning)
-    {
-        globalStatusSubmenu->setIcon(QIcon(":/status_stop"));
-        return;
-    }
+//    if(stateNginx==QProcess::NotRunning && statePhp==QProcess::NotRunning && stateMySql==QProcess::NotRunning)
+//    {
+//        globalStatusSubmenu->setIcon(QIcon(":/status_stop"));
+//        return;
+//    }
 
-    if(stateNginx==QProcess::Running && statePhp==QProcess::Running && stateMySql==QProcess::Running)
-    {
-        globalStatusSubmenu->setIcon(QIcon(":/status_run"));
-        return;
-    }
+//    if(stateNginx==QProcess::Running && statePhp==QProcess::Running && stateMySql==QProcess::Running)
+//    {
+//        globalStatusSubmenu->setIcon(QIcon(":/status_run"));
+//        return;
+//    }
 
-    globalStatusSubmenu->setIcon(QIcon(":/status_runstop"));
+//    globalStatusSubmenu->setIcon(QIcon(":/status_runstop"));
     return;
 }
 

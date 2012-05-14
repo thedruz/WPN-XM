@@ -47,7 +47,6 @@ HostManagerDialog::HostManagerDialog(QWidget *parent) : QDialog(parent)
     QPushButton* btnOk = new QPushButton(QApplication::style()->standardIcon(QStyle::SP_VistaShield), "OK", this);
     QPushButton* btnCancel = new QPushButton("Cancel", this);
 
-
     HostTableModel* tableModel = new HostTableModel(this);
     tableModel->setList(Host::GetHosts());
 

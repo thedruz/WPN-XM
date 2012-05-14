@@ -131,7 +131,6 @@ private:
         // Menus
         void createTrayIcon();
         QMenu* MainMenu;
-        QMenu* globalStatusSubmenu;
         QMenu* nginxStatusSubmenu;
         QMenu* phpStatusSubmenu;
         QMenu* mysqlStatusSubmenu;        

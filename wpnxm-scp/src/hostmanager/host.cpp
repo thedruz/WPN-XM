@@ -34,6 +34,7 @@
 #include <QTemporaryFile>
 #include <QDir>
 #include <QThread>
+#include <QDebug>
 
 // WPNXM
 #include "host.h"
@@ -50,7 +51,8 @@ QList<Host*> Host::GetHosts()
         QString strLine;
         while (!(strLine = hostStream.readLine()).isNull())
         {
-            strLine = strLine.trimmed();
+            strLine = strLine.trimmed();            
+
             QStringList strList = strLine.split(QRegExp("[ \t]"), QString::SkipEmptyParts);
 
             // skip comment line
@@ -137,7 +139,7 @@ void Host::writeHostFile(QList<Host*> listHosts)
 
 QString Host::getHostFile()
 {
-    QString windir(getenv ("windir"));
+    QString windir(getenv("windir"));
     return windir+"\\System32\\drivers\\etc\\hosts";
 }
 

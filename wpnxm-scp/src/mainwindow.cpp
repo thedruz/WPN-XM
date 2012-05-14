@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // disable Maximize functionality
     setWindowFlags( (windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowMaximizeButtonHint);
-    setFixedWidth(600);
-    setFixedHeight(270);
+    //setFixedWidth(600);
+    //setFixedHeight(270);
 
     // overrides the window title defined in mainwindow.ui
     setWindowTitle(APP_NAME_AND_VERSION);
