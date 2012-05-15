@@ -41,7 +41,7 @@ public:
             COLUMN_NAME=1,
         };
 
-        explicit HostTableModel(QObject *parent = 0);
+        //explicit HostTableModel(QObject *parent = 0);
 
         int rowCount(const QModelIndex &parent) const;
         int columnCount(const QModelIndex &parent) const;
@@ -52,16 +52,14 @@ public:
         bool insertRows(int position, int rows, const QModelIndex &index=QModelIndex());
         bool removeRows(int position, int rows, const QModelIndex &index=QModelIndex());
 
-        void setList(QList<Host*> listHost);
+        void setList(QList<Host*> lstHost);
         QList<Host*> getList();
-
 signals:
 
 public slots:
 
 private:
-
-        QList<Host*> listHost;
+        QList<Host*> m_lstHost;
 
 };
 

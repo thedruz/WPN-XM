@@ -25,66 +25,55 @@
 #include "host.h"
 
 #include <QList>
-#include <QDebug>
 
-HostTableModel::HostTableModel(QObject *parent) : QAbstractTableModel(parent)
+HostTableModel::HostTableModel(QObject *parent) :
+    QAbstractTableModel(parent)
 {
 }
 
-int HostTableModel::rowCount(const QModelIndex &parent) const
-{
+int HostTableModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return listHost.size();
+    return m_lstHost.size();
 }
 
-int HostTableModel::columnCount(const QModelIndex &parent) const
-{
+int HostTableModel::columnCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
     return 2;
 }
 
-QVariant HostTableModel::data(const QModelIndex &index, int role) const
-{
+QVariant HostTableModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid())
-    {
         return QVariant();
-    }
 
-    if (index.row() >= listHost.size() || index.row() < 0)
-    {
+    if (index.row() >= m_lstHost.size() || index.row() < 0)
         return QVariant();
-    }
 
-    qDebug() << role;
+    Host* host = m_lstHost.at(index.row());
 
-    if (role == Qt::DisplayRole) // DisplayRole = 0
-    {
-        Host* host = listHost.at(index.row());
-
-        qDebug() << host->address();
-
-        switch(index.column())
-        {
-            case COLUMN_ADDRESS:
-                return host->address();
-            case COLUMN_NAME:
-                return host->name();
+    /*
+    if (role == Qt::CheckStateRole){
+        switch(index.column()){
+        case COLUMN_ADDRESS:
+            return host->isEnable()?Qt::Checked:Qt::Unchecked;
+        }
+    }*/
+    if (role == Qt::DisplayRole) {
+        switch(index.column()){
+        case COLUMN_ADDRESS:
+            return host->address();
+        case COLUMN_NAME:
+            return host->name();
         }
     }
     return QVariant();
 }
 
-QVariant HostTableModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
+QVariant HostTableModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (role != Qt::DisplayRole)
-    {
         return QVariant();
-    }
 
-    if (orientation == Qt::Horizontal)
-    {
-        switch (section)
-        {
+    if (orientation == Qt::Horizontal) {
+        switch (section) {
             case COLUMN_ADDRESS:
                 return "Address";
             case COLUMN_NAME:
@@ -97,34 +86,28 @@ QVariant HostTableModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-Qt::ItemFlags HostTableModel::flags(const QModelIndex &index) const
-{
+Qt::ItemFlags HostTableModel::flags(const QModelIndex &index) const {
     if (!index.isValid())
-    {
         return Qt::ItemIsEnabled;
-    }
 
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool HostTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    if (index.isValid() && role == Qt::EditRole)
-    {
+bool HostTableModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+    if (index.isValid() && role == Qt::EditRole) {
         int row = index.row();
 
-        Host* host = listHost.value(row);
+        Host* host = m_lstHost.value(row);
 
-        switch(index.column())
-        {
-            case COLUMN_ADDRESS:
-                host->setAddress(value.toString());
-                break;
-            case COLUMN_NAME:
-                host->setName(value.toString());
-                break;
-            default:
-                return false;
+        switch(index.column()){
+        case COLUMN_ADDRESS:
+            host->setAddress(value.toString());
+            break;
+        case COLUMN_NAME:
+            host->setName(value.toString());
+            break;
+        default:
+            return false;
         }
 
         emit(dataChanged(index, index));
@@ -135,29 +118,25 @@ bool HostTableModel::setData(const QModelIndex &index, const QVariant &value, in
     return false;
 }
 
-bool HostTableModel::insertRows(int position, int rows, const QModelIndex &index)
-{
+bool HostTableModel::insertRows(int position, int rows, const QModelIndex &index) {
     Q_UNUSED(index);
     beginInsertRows(QModelIndex(), position, position+rows-1);
 
-    for (int row=0; row < rows; row++)
-    {
+    for (int row=0; row < rows; row++) {
         Host* host = new Host();
-        listHost.insert(position, host);
+        m_lstHost.insert(position, host);
     }
 
     endInsertRows();
     return true;
 }
 
-bool HostTableModel::removeRows(int position, int rows, const QModelIndex &index)
-{
+bool HostTableModel::removeRows(int position, int rows, const QModelIndex &index) {
     Q_UNUSED(index);
     beginRemoveRows(QModelIndex(), position, position+rows-1);
 
-    for (int row=0; row < rows; ++row)
-    {
-        Host* host = listHost.takeAt(position);
+    for (int row=0; row < rows; ++row) {
+        Host* host = m_lstHost.takeAt(position);
         delete host;
     }
 
@@ -165,15 +144,12 @@ bool HostTableModel::removeRows(int position, int rows, const QModelIndex &index
     return true;
 }
 
-void HostTableModel::setList(QList<Host*> listHost)
-{
-    listHost = listHost;
+void HostTableModel::setList(QList<Host*> lstHost){
+    m_lstHost = lstHost;
     QModelIndex root = index(0,0);
     emit(dataChanged(root, index(rowCount(QModelIndex()), columnCount(QModelIndex()))));
 }
 
-QList<Host*> HostTableModel::getList()
-{
-    qDebug() << listHost;
-    return listHost;
+QList<Host*> HostTableModel::getList(){
+    return m_lstHost;
 }

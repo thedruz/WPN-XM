@@ -35,21 +35,18 @@ class AddDialog : public QDialog
         Q_OBJECT
 
 public:
-
         explicit AddDialog(QWidget *parent = 0);
         QString name();
         QString address();
 
         void edit(QString name, QString adress);
-
 signals:
 
 public slots:
 
 private:
-
-        QLineEdit *lineedit_Name;
-        QLineEdit *lineedit_Address;
+        QLineEdit *m_lineedit_Name;
+        QLineEdit *m_lineedit_Address;
 };
 
 #endif // ADDDIALOG_H

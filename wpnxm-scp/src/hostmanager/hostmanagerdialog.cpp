@@ -36,9 +36,9 @@
 #include <QLineEdit>
 #include <QToolBar>
 #include <QApplication>
-#include <QDebug>
 
-HostManagerDialog::HostManagerDialog(QWidget *parent) : QDialog(parent)
+HostManagerDialog::HostManagerDialog(QWidget *parent) :
+    QDialog(parent)
 {
     QToolBar* toolbar = new QToolBar(this);
     toolbar->addAction("Add", this, SLOT(addEntry()));
@@ -48,21 +48,22 @@ HostManagerDialog::HostManagerDialog(QWidget *parent) : QDialog(parent)
     QPushButton* btnOk = new QPushButton(QApplication::style()->standardIcon(QStyle::SP_VistaShield), "OK", this);
     QPushButton* btnCancel = new QPushButton("Cancel", this);
 
+
     HostTableModel* tableModel = new HostTableModel(this);
     tableModel->setList(Host::GetHosts());
 
-    table = new QTableView(this);
-    table->setModel(tableModel);
-    table->setSelectionBehavior(QAbstractItemView::SelectRows);
-    table->horizontalHeader()->setStretchLastSection(true);
-    table->verticalHeader()->setVisible(false);
-    table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    table->setSelectionMode(QAbstractItemView::SingleSelection);
-    table->setMinimumWidth(300);
+    m_tableView = new QTableView(this);
+    m_tableView->setModel(tableModel);
+    m_tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_tableView->horizontalHeader()->setStretchLastSection(true);
+    m_tableView->verticalHeader()->setVisible(false);
+    m_tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_tableView->setMinimumWidth(300);
 
     QGridLayout *gLayout = new QGridLayout;
     gLayout->addWidget(toolbar, 0, 0);
-    gLayout->addWidget(table, 1, 0);
+    gLayout->addWidget(m_tableView, 1, 0);
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget(btnOk);
@@ -76,52 +77,46 @@ HostManagerDialog::HostManagerDialog(QWidget *parent) : QDialog(parent)
 
     connect(btnOk, SIGNAL(clicked()), this, SLOT(accept()));
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
-    connect(table->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SIGNAL(selectionChanged(QItemSelection)));
+    //connect(tableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SIGNAL(selectionChanged(QItemSelection)));
 
     setWindowTitle(tr("Host File Manager - WPX-XM Server Control Panel"));
     setFixedWidth(400);
 }
 
-HostManagerDialog::~HostManagerDialog()
-{
-    HostTableModel *model = static_cast<HostTableModel*>(table->model());
+HostManagerDialog::~HostManagerDialog(){
+    HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
     qDeleteAll(model->getList());
 }
 
-void HostManagerDialog::addEntry()
-{
+void HostManagerDialog::addEntry() {
     AddDialog aDialog;
 
-    if (aDialog.exec())
-    {
+    if (aDialog.exec()) {
         QString name = aDialog.name();
         QString address = aDialog.address();
 
-        HostTableModel *model = static_cast<HostTableModel*>(table->model());
+        HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
         QList<Host*> list = model->getList();
 
         //do the add
         Host host(name, address);
-        if (!list.contains(&host))
-        {
+        if (!list.contains(&host)) {
             model->insertRows(0, 1, QModelIndex());
 
             QModelIndex index = model->index(0, HostTableModel::COLUMN_NAME, QModelIndex());
             model->setData(index, name, Qt::EditRole);
             index = model->index(0, HostTableModel::COLUMN_ADDRESS, QModelIndex());
             model->setData(index, address, Qt::EditRole);
-        }
-        else
-        {
+        } else {
             QMessageBox::information(this, tr("Duplicate Entry"), tr("The host mapping already exists."));
         }
     }
 }
 
 void HostManagerDialog::editEntry()
-{
-     HostTableModel *model = static_cast<HostTableModel*>(table->model());
-     QItemSelectionModel *selectionModel = table->selectionModel();
+ {
+     HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
+     QItemSelectionModel *selectionModel = m_tableView->selectionModel();
 
      QModelIndexList indexes = selectionModel->selectedRows();
      QModelIndex index;
@@ -129,10 +124,8 @@ void HostManagerDialog::editEntry()
      QString name;
      QString address;
 
-     if(!indexes.empty())
-     {
-         foreach (index, indexes)
-         {
+     if(!indexes.empty()){
+         foreach (index, indexes) {
              row = index.row();
 
              QModelIndex indexName = model->index(row, HostTableModel::COLUMN_NAME, QModelIndex());
@@ -147,12 +140,9 @@ void HostManagerDialog::editEntry()
          AddDialog aDialog;
          aDialog.edit(name, address);
 
-         if (aDialog.exec())
-         {
+         if (aDialog.exec()) {
               QString newAddress = aDialog.address();
-
-              if (newAddress != address)
-              {
+              if (newAddress != address) {
                   QModelIndex i = model->index(row, HostTableModel::COLUMN_ADDRESS, QModelIndex());
                   model->setData(i, newAddress, Qt::EditRole);
               }
@@ -160,23 +150,20 @@ void HostManagerDialog::editEntry()
      }
 }
 
-void HostManagerDialog::removeEntry()
-{
-    HostTableModel *model = static_cast<HostTableModel*>(table->model());
-    QItemSelectionModel *selectionModel = table->selectionModel();
+void HostManagerDialog::removeEntry(){
+    HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
+    QItemSelectionModel *selectionModel = m_tableView->selectionModel();
 
     QModelIndexList indexes = selectionModel->selectedRows();
     QModelIndex index;
 
-    foreach (index, indexes)
-    {
+    foreach (index, indexes) {
         model->removeRows(index.row(), 1, QModelIndex());
     }
 }
 
-void HostManagerDialog::accept()
-{
-    HostTableModel *model = static_cast<HostTableModel*>(table->model());
-    Host::writeHostFile(model->getList());
+void HostManagerDialog::accept(){
+    HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
+    Host::SetHosts(model->getList());
     QDialog::accept();
 }

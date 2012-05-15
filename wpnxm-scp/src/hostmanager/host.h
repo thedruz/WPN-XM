@@ -30,11 +30,9 @@
 
 class Host
 {
-
 public:
-
     static QList<Host*> GetHosts();
-    static void writeHostFile(QList<Host*> listHost);
+    static void SetHosts(QList<Host*> listHosts);
 
     explicit Host();
     explicit Host(QString strName, QString strAddress);
@@ -45,14 +43,16 @@ public:
     QString address();
     void setAddress(QString strAddress);
 
+    //bool isEnable();
+    //void setEnable(bool bEnable);
+
     bool operator==(const Host &host) const;
-
 private:
-
     static QString getHostFile();
 
-    QString strName;
-    QString strAddress;
+    //bool m_bIsEnable;
+    QString m_strName;
+    QString m_strAddress;
 };
 
 #endif // HOST_H
