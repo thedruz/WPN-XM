@@ -40,6 +40,11 @@
 #include "tray.h"
 #include "hostmanager/hostmanagerdialog.h"
 
+// ShellExecute() used by openFileWithDefaultHandler() needs Windows API
+#include "qt_windows.h"
+#include "qwindowdefs_win.h"
+#include <shellapi.h>
+
 // Constructor
 Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 {
@@ -50,9 +55,9 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 
     createTrayIcon();
 
+    // the timer is used for monitoring the process state of each daemon
     timer = new QTimer(this);
-    timer->setInterval(1000); // msec
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateGlobalStatusImage()));
+    timer->setInterval(1000); // msec = 1sec
 
     processNginx = new QProcess(this);
     processNginx->setWorkingDirectory(cfgNginxDir);
@@ -69,6 +74,7 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
     connect(processMySql, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(mysqlStateChanged(QProcess::ProcessState)));
     connect(processMySql, SIGNAL(error(QProcess::ProcessError)), this, SLOT(mysqlProcessError(QProcess::ProcessError)));
 
+    // @todo make this a configuration option in user preference dialog
     if(bAutostartDaemons)
     {
         runAll();
@@ -102,21 +108,22 @@ void Tray::initializeConfiguration()
      * Declation of Default Settings for WPN-XM Server Control Panel
      */
     bAutostartDaemons       = globalSettings.value("global/autostartdaemons", true).toBool();
+    cfgLogsDir              = globalSettings.value("path/logs", "/logs").toString();
 
     cfgPhpDir               = globalSettings.value("path/php", "./bin/php").toString();
     cfgPhpExec              = globalSettings.value("php/exec", "/php-cgi.exe").toString();
+    cfgPhpConfig            = globalSettings.value("php/config", "./bin/php/php.ini").toString();
     cfgPhpFastCgiHost       = globalSettings.value("php/fastcgi-bindaddress", "localhost").toString();
     cfgPhpFastCgiPort       = globalSettings.value("php/fastcgi-bindport", "9000").toString();
 
     cfgNginxDir             = globalSettings.value("path/nginx", "./bin/nginx").toString();
-    cfgNginxExec            = globalSettings.value("nginx/exec", "/nginx.exe").toString();
-    cfgNginxSites           = globalSettings.value("nginx/sites", "/www").toString();
+    cfgNginxExec            = globalSettings.value("nginx/exec", "/nginx.exe").toString();    
     cfgNginxConfig          = globalSettings.value("nginx/config", "./bin/nginx/conf/nginx.conf").toString();
-    cfgNginxLogs            = globalSettings.value("nginx/logs", "/logs").toString();
+    cfgNginxSites           = globalSettings.value("nginx/sites", "/www").toString();
 
     cfgMySqlDir             = globalSettings.value("path/mysql", "./bin/mariadb/bin").toString();
     cfgMySqlExec            = globalSettings.value("mysql/exec", "/mysqld.exe").toString();
-    cfgMySqlConfig          = globalSettings.value("mysql/config", "/my.ini").toString();
+    cfgMySqlConfig          = globalSettings.value("mysql/config", "./bin/mariadb/my.ini").toString();
     cfgMySqlClientExec      = globalSettings.value("mysql/clientExec", "./bin/mariadb/bin/mysql.exe").toString();
 
     //cfgMySqlWorkbenchDir    = globalSettings.value("path/mysqlworkbench", "./bin/mysqlworkbench").toString();
@@ -335,14 +342,14 @@ void Tray::openNginxSite()
 
 void Tray::openNginxConfig(){
     QDir dir(QDir::currentPath());
-    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgNginxDir+cfgNginxConfig));
+    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgNginxConfig));
     QProcess::startDetached("explorer", QStringList() << strDir);
 }
 
 void Tray::openNginxLogs()
 {
     QDir dir(QDir::currentPath());
-    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgNginxDir+cfgNginxLogs));
+    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgLogsDir));
     QProcess::startDetached("explorer", QStringList() << strDir);
 }
 
@@ -359,14 +366,14 @@ void Tray::openMySqlWorkbench()
 void Tray::openMySqlConfig()
 {
     QDir dir(QDir::currentPath());
-    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMySqlDir+"/my.ini"));
+    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMySqlConfig));
     QProcess::startDetached("cmd", QStringList() << "/c" << "start "+strDir);
 }
 
 void Tray::openPhpConfig()
 {
     QDir dir(QDir::currentPath());
-    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgPhpDir+"/php.ini"));
+    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgPhpConfig));
     QProcess::startDetached("cmd", QStringList() << "/c" << "start "+strDir);
 }
 
@@ -393,19 +400,6 @@ void Tray::globalStateChanged()
         setIcon(QIcon(":/wpnxm"));
     }
 
-//    if(stateNginx==QProcess::NotRunning && statePhp==QProcess::NotRunning && stateMySql==QProcess::NotRunning)
-//    {
-//        globalStatusSubmenu->setIcon(QIcon(":/status_stop"));
-//        return;
-//    }
-
-//    if(stateNginx==QProcess::Running && statePhp==QProcess::Running && stateMySql==QProcess::Running)
-//    {
-//        globalStatusSubmenu->setIcon(QIcon(":/status_run"));
-//        return;
-//    }
-
-//    globalStatusSubmenu->setIcon(QIcon(":/status_runstop"));
     return;
 }
 
@@ -460,15 +454,6 @@ void Tray::mysqlStateChanged(QProcess::ProcessState state)
     globalStateChanged();
 }
 
-void Tray::updateGlobalStatusImage()
-{
-    if(iCurrentImage < 1 || iCurrentImage > 4)
-    {
-        iCurrentImage = 0;
-    }    
-    setIcon(QIcon(":/load"+iCurrentImage));
-}
-
 /*
  * Error slots
  */
@@ -510,4 +495,62 @@ QString Tray::getProcessErrorMessage(QProcess::ProcessError error){
             break;
     }
     return ret;
+}
+
+void Tray::openFileWithDefaultHandler( QString p_target_path )
+{
+    p_target_path = p_target_path.remove( "\"" );
+
+    HINSTANCE result = ShellExecute( NULL, TEXT("open"), (LPCWSTR) p_target_path.utf16(), NULL, NULL, SW_SHOWNORMAL );
+
+    QString error_string = "";
+
+    int result_code = (int) result;
+
+    switch( result_code )
+    {
+    case 0:
+        error_string = "Your operating system is out of memory or resources.";
+        break;
+    case ERROR_FILE_NOT_FOUND:
+        error_string = "The specified file was not found.";
+        break;
+    case ERROR_PATH_NOT_FOUND:
+        error_string = "The specified path was not found.";
+        break;
+    case ERROR_BAD_FORMAT:
+        error_string = "The .exe file is invalid (non-Win32 .exe or error in .exe image).";
+        break;
+    case SE_ERR_ACCESSDENIED:
+        error_string = "Your operating system denied access to the specified file.";
+        break;
+    case SE_ERR_ASSOCINCOMPLETE:
+        error_string = "The file name association is incomplete or invalid.";
+        break;
+    case SE_ERR_DDEBUSY:
+        error_string = "The DDE transaction could not be completed because other DDE transactions were being processed.";
+        break;
+    case SE_ERR_DDEFAIL:
+        error_string = "The DDE transaction failed.";
+        break;
+    case SE_ERR_DDETIMEOUT:
+        error_string = "The DDE transaction could not be completed because the request timed out.";
+        break;
+    case SE_ERR_DLLNOTFOUND:
+        error_string = "The specified DLL was not found.";
+        break;
+    case SE_ERR_NOASSOC:
+        error_string = "There is no application associated with the given file name extension.\nThis error will also be returned if you attempt to print a file that is not printable.";
+        break;
+    case SE_ERR_OOM:
+        error_string = "There was not enough memory to complete the operation.";
+        break;
+    case SE_ERR_SHARE:
+        error_string = "A sharing violation occurred.";
+        break;
+    default:
+        return;
+    }
+
+    QMessageBox::warning(0, APP_NAME " - Error", error_string );
 }

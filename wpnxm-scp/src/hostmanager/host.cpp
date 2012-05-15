@@ -49,9 +49,10 @@ QList<Host*> Host::GetHosts()
     {
         QTextStream hostStream(&hostFile);
         QString strLine;
+
         while (!(strLine = hostStream.readLine()).isNull())
         {
-            strLine = strLine.trimmed();            
+            strLine = strLine.trimmed();
 
             QStringList strList = strLine.split(QRegExp("[ \t]"), QString::SkipEmptyParts);
 
@@ -60,6 +61,8 @@ QList<Host*> Host::GetHosts()
             {
                 continue;
             }
+
+            qDebug() << strList;
 
             Host* host = new Host(strList[1], strList[0]);
             listReturn << host;
@@ -73,6 +76,7 @@ void Host::writeHostFile(QList<Host*> listHosts)
 {
     QFile hostFile(getHostFile());
     QTemporaryFile tempFile;
+
     tempFile.setAutoRemove(false);
 
     if(hostFile.open(QFile::ReadOnly) && tempFile.open())

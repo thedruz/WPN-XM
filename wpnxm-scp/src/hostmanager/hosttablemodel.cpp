@@ -55,10 +55,14 @@ QVariant HostTableModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    Host* host = listHost.at(index.row());
+    qDebug() << role;
 
-    if (role == Qt::DisplayRole)
+    if (role == Qt::DisplayRole) // DisplayRole = 0
     {
+        Host* host = listHost.at(index.row());
+
+        qDebug() << host->address();
+
         switch(index.column())
         {
             case COLUMN_ADDRESS:

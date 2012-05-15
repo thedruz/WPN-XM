@@ -83,7 +83,6 @@ public slots:
 
         // Status Action Slots
         void globalStateChanged();
-        void updateGlobalStatusImage();
         void nginxStateChanged(QProcess::ProcessState state);
         void phpStateChanged(QProcess::ProcessState state);
         void mysqlStateChanged(QProcess::ProcessState state);
@@ -99,10 +98,14 @@ private:
 
         bool bAutostartDaemons;
 
+        // Global
+         QString cfgLogsDir;
+
         // PHP
 #define PHPCGI_EXEC "/php-cgi.exe"
-        QString cfgPhpDir;
+        QString cfgPhpDir;        
         QString cfgPhpExec;
+        QString cfgPhpConfig;
         QString cfgPhpFastCgiHost;
         QString cfgPhpFastCgiPort;
 
@@ -111,7 +114,6 @@ private:
         QString cfgNginxExec;
         QString cfgNginxSites;
         QString cfgNginxConfig;
-        QString cfgNginxLogs;
 
         // MySQL
         QString cfgMySqlDir;
@@ -136,6 +138,9 @@ private:
         QMenu* mysqlStatusSubmenu;        
 
         void initializeConfiguration();
+
+        QString p_target_path;
+        void openFileWithDefaultHandler(QString p_target_path);
 
         QString getProcessErrorMessage(QProcess::ProcessError);
 };
