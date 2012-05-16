@@ -37,17 +37,17 @@ AddDialog::AddDialog(QWidget *parent) :
     QPushButton* btnOk = new QPushButton("OK", this);
     QPushButton* btnCancel = new QPushButton("Cancel", this);
 
-    m_lineeditName = new QLineEdit(this);
-    m_lineeditAddress = new QLineEdit(this);
-    m_lineeditAddress->setText("127.0.0.1");
+    m_lineedit_Name = new QLineEdit(this);
+    m_lineedit_Address = new QLineEdit(this);
+    m_lineedit_Address->setText("127.0.0.1");
 
     QGridLayout *gLayout = new QGridLayout;
     gLayout->setColumnStretch(1, 2);
     gLayout->addWidget(new QLabel("Address", this), 0, 0);
-    gLayout->addWidget(m_lineeditAddress, 0, 1);
+    gLayout->addWidget(m_lineedit_Address, 0, 1);
 
     gLayout->addWidget(new QLabel("Name", this), 1, 0);
-    gLayout->addWidget(m_lineeditName, 1, 1);
+    gLayout->addWidget(m_lineedit_Name, 1, 1);
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget(btnOk);
@@ -66,16 +66,16 @@ AddDialog::AddDialog(QWidget *parent) :
 }
 
 QString AddDialog::name(){
-    return m_lineeditName->text().trimmed();
+    return m_lineedit_Name->text().trimmed();
 }
 
 QString AddDialog::address(){
-    return m_lineeditAddress->text().trimmed();
+    return m_lineedit_Address->text().trimmed();
 }
 
 void AddDialog::edit(QString name, QString adress){
     setWindowTitle(tr("Edit Host"));
    // m_leName->setEnabled(false);
-    m_lineeditName->setText(name);
-    m_lineeditAddress->setText(adress);
+    m_lineedit_Name->setText(name);
+    m_lineedit_Address->setText(adress);
 }

@@ -50,6 +50,8 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 {
     // Tray Icon
     setIcon(QIcon(":/wpnxm"));
+    // @todo append to tooltip the status of the daemons
+    setToolTip("WPN-XM");
 
     initializeConfiguration();
 

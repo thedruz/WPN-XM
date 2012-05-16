@@ -79,7 +79,7 @@ HostManagerDialog::HostManagerDialog(QWidget *parent) :
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
     //connect(tableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SIGNAL(selectionChanged(QItemSelection)));
 
-    setWindowTitle(tr("Host File Manager - WPX-XM Server Control Panel"));
+    setWindowTitle(tr("WPX-XM Server Control Panel - Host File Manager"));
     setFixedWidth(400);
 }
 

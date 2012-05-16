@@ -36,6 +36,12 @@ public:
     ~MainWindow();
 
     void setVisible(bool visible);
+
+    void getNginxVersion();
+    void getMariaVersion();
+    void getPHPVersion();
+    void parseVersionNumber(QString stringWithVersion);
+
 };
 
 #endif // MAINWINDOW_H

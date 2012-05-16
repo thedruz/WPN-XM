@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QSharedMemory>
 #include <QtGui>
+#include <QRegExp>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -40,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
     }
+
+    parseVersionNumber("PHP 5.4.0 (cli) (built: Feb 29 2012 19:06:50)");
+    getMariaVersion();
 }
 
 MainWindow::~MainWindow()
@@ -126,5 +130,75 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
             break;
         default:;
+    }
+}
+
+void MainWindow::getNginxVersion()
+{
+    QProcess* processNginx;
+
+    processNginx = new QProcess(this);
+    //processNginx->setWorkingDirectory(cfgNginxDir);
+    //processNginx->start("./nginx", QStringList() << "-v");
+    processNginx->waitForFinished(-1);
+
+    QString p_stdout = processNginx->readAllStandardOutput();
+    QString p_stderr = processNginx->readAllStandardError();
+
+    qDebug() << p_stdout;
+    qDebug() << p_stderr;
+
+    return parseVersionNumber(p_stdout); // nginx version: nginx/1.1.11
+}
+
+void MainWindow::getMariaVersion()
+{
+    QProcess* processMaria;
+
+    processMaria = new QProcess(this);
+    //processMaria->setWorkingDirectory(cfgMariaDir);
+    processMaria->start("./mysqld", QStringList() << "-V"); // upper-case V
+    processMaria->waitForFinished(-1);
+
+    QString p_stdout = processMaria->readAllStandardOutput();
+    QString p_stderr = processMaria->readAllStandardError();
+
+    qDebug() << p_stdout;
+    qDebug() << p_stderr;
+
+    return parseVersionNumber(p_stdout); // mysql  Ver 15.1 Distrib 5.5.23-MariaDB, for Win32 (x86)
+}
+
+void MainWindow::getPHPVersion()
+{
+    QProcess* processPhp;
+
+    processPhp = new QProcess(this);
+    //processPhp->setWorkingDirectory(cfgPHPDir);
+    //processPhp->start(cfgPHPDir+cfgPHPExec, QStringList() << "-v");
+    processPhp->waitForFinished(-1);
+
+    QString p_stdout = processPhp->readAllStandardOutput();
+    QString p_stderr = processPhp->readAllStandardError();
+
+    qDebug() << p_stdout;
+    qDebug() << p_stderr;
+
+    return parseVersionNumber(p_stdout); // PHP 5.4.0 (cli) (built: Feb 29 2012 19:06:50)
+}
+
+void MainWindow::parseVersionNumber(QString stringWithVersion)
+{
+    // split string at space
+    //QStringList listVersionString = stringWithVersion.split("\t");
+    QRegExp rx("^(?:(\\d+)\\.)?(?:(\\d+)\\.)?(\\*|\\d+)$");
+
+    //int pos = rx.indexIn(stringWithVersion);
+    QStringList list = rx.capturedTexts();
+
+    QStringList::iterator it = list.begin();
+    while (it != list.end()) {
+        qDebug() << it; // processing cmd here
+        ++it;
     }
 }

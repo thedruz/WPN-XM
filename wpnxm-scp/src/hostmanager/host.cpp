@@ -124,7 +124,7 @@ void Host::SetHosts(QList<Host*> listHosts){
 
 QString Host::getHostFile(){
     QString windir(getenv ("windir"));
-    return windir+"\\System32\\drivers\\etc\\hosts";
+    return windir+"\\System32\\drivers\\etc\\hosts"; // Win XP
 }
 
 //--------------------------------

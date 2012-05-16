@@ -31,7 +31,6 @@ class Host;
 
 class HostTableModel : public QAbstractTableModel
 {
-
         Q_OBJECT
 
 public:
@@ -41,7 +40,7 @@ public:
             COLUMN_NAME=1,
         };
 
-        //explicit HostTableModel(QObject *parent = 0);
+        explicit HostTableModel(QObject *parent = 0);
 
         int rowCount(const QModelIndex &parent) const;
         int columnCount(const QModelIndex &parent) const;
