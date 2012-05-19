@@ -198,7 +198,7 @@ void MainWindow::parseVersionNumber(QString stringWithVersion)
 
     QStringList::iterator it = list.begin();
     while (it != list.end()) {
-        qDebug() << it; // processing cmd here
+        qDebug() << *it; // processing cmd here
         ++it;
     }
 }

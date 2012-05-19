@@ -26,6 +26,7 @@
 
 #include <QSystemTrayIcon>
 #include <QProcess>
+#include <QDebug>
 #include "version.h"
 
 class QMenu;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
-    <height>322</height>
+    <width>620</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,22 +15,31 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="DaemonStatusGroupBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
+      <y>70</y>
       <width>471</width>
-      <height>151</height>
+      <height>141</height>
      </rect>
     </property>
     <property name="title">
-     <string>Daemon Status</string>
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
     </property>
     <widget class="QWidget" name="formLayoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>10</y>
        <width>451</width>
        <height>123</height>
       </rect>
@@ -46,7 +55,7 @@
        <number>10</number>
       </property>
       <item row="1" column="1">
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="label_Nginx_Port">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -56,7 +65,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="label_PHP_Port">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -66,7 +75,7 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="label_MariaDb_Port">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -76,7 +85,7 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_12">
+       <widget class="QLabel" name="label_MariaDB_Status">
         <property name="text">
          <string/>
         </property>
@@ -89,7 +98,7 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_13">
+       <widget class="QLabel" name="label_PHP_Status">
         <property name="text">
          <string/>
         </property>
@@ -102,7 +111,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="label_Nginx_Status">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -118,7 +127,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLabel" name="nginxLabel">
+       <widget class="QLabel" name="label_nginx">
         <property name="text">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -132,7 +141,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QLabel" name="phpLabel">
+       <widget class="QLabel" name="label_php">
         <property name="text">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -149,7 +158,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="3" column="2">
-       <widget class="QLabel" name="mariaDbLabel">
+       <widget class="QLabel" name="label_mariaDb">
         <property name="text">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -203,7 +212,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="3" column="5">
-       <widget class="QPushButton" name="pushButton_8">
+       <widget class="QPushButton" name="pushButton_Log_MariaDB">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -226,7 +235,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="2" column="5">
-       <widget class="QPushButton" name="pushButton_19">
+       <widget class="QPushButton" name="pushButton_Log_PHP">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -246,7 +255,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="1" column="3">
-       <widget class="QLabel" name="label_15">
+       <widget class="QLabel" name="label_PHP_Version">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -254,7 +263,7 @@ p, li { white-space: pre-wrap; }
          <set>Qt::AlignCenter</set>
         </property>
         <property name="buddy">
-         <cstring>pushButton_6</cstring>
+         <cstring>pushButton_ConfigureNginx</cstring>
         </property>
        </widget>
       </item>
@@ -269,7 +278,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="3" column="3">
-       <widget class="QLabel" name="label_17">
+       <widget class="QLabel" name="label_MariaDb_Version">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -277,12 +286,12 @@ p, li { white-space: pre-wrap; }
          <set>Qt::AlignCenter</set>
         </property>
         <property name="buddy">
-         <cstring>pushButton_5</cstring>
+         <cstring>pushButton_ConfigureMariaDB</cstring>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="label_Status">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -298,7 +307,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="label_Port">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -314,7 +323,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="label_Version">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -330,7 +339,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_Daemon">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -369,7 +378,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="0" column="5" colspan="2">
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="label_Logs">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -385,7 +394,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="1" column="8">
-       <widget class="QPushButton" name="pushButton_ShowNginxAccessLog_2">
+       <widget class="QPushButton" name="pushButton_StartNginx">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -405,7 +414,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="1" column="7">
-       <widget class="QPushButton" name="pushButton_ShowNginxAccessLog_5">
+       <widget class="QPushButton" name="pushButton_StopNginx">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -425,7 +434,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="0" column="7" colspan="2">
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="label_Actions">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -441,7 +450,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="2" column="8">
-       <widget class="QPushButton" name="pushButton_ShowNginxAccessLog_4">
+       <widget class="QPushButton" name="pushButton_StartPHP">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -461,7 +470,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="3" column="8">
-       <widget class="QPushButton" name="pushButton_ShowNginxAccessLog_3">
+       <widget class="QPushButton" name="pushButton_StartMariaDb">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -481,7 +490,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="2" column="7">
-       <widget class="QPushButton" name="pushButton_ShowNginxAccessLog_6">
+       <widget class="QPushButton" name="pushButton_StopPHP">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -501,7 +510,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="3" column="7">
-       <widget class="QPushButton" name="pushButton_ShowNginxAccessLog_7">
+       <widget class="QPushButton" name="pushButton_StopMariaDb">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -521,7 +530,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="3" column="4">
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="pushButton_ConfigureMariaDB">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -538,7 +547,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="2" column="4">
-       <widget class="QPushButton" name="pushButton_14">
+       <widget class="QPushButton" name="pushButton_ConfigurePHP">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -555,7 +564,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="1" column="4">
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="pushButton_ConfigureNginx">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -572,7 +581,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="0" column="4">
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="label_Config">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -602,7 +611,10 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Open Projects Folder</string>
     </property>
-    <widget class="QPushButton" name="pushButton_11">
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <widget class="QPushButton" name="pushButton_OpenProjects_browser">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -615,7 +627,7 @@ p, li { white-space: pre-wrap; }
       <string>Browser</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_12">
+    <widget class="QPushButton" name="pushButton_OpenProjects_Explorer">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -641,7 +653,10 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Tools</string>
     </property>
-    <widget class="QPushButton" name="pushButton_13">
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <widget class="QPushButton" name="pushButton_tools_webgrind">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -654,7 +669,7 @@ p, li { white-space: pre-wrap; }
       <string>webgrind</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_9">
+    <widget class="QPushButton" name="pushButton_tools_phpmyadmin">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -667,7 +682,7 @@ p, li { white-space: pre-wrap; }
       <string>PHPMyAdmin</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_10">
+    <widget class="QPushButton" name="pushButton_tools_phpinfo">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -681,15 +696,15 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QLabel" name="label_WPNXM_Logo">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>0</x>
       <y>0</y>
-      <width>401</width>
+      <width>291</width>
       <height>61</height>
      </rect>
     </property>
@@ -759,7 +774,7 @@ p, li { white-space: pre-wrap; }
       <number>0</number>
      </property>
      <item>
-      <widget class="QPushButton" name="pushButton_15">
+      <widget class="QPushButton" name="pushButton_Configuration">
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
@@ -791,7 +806,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="pushButton_Help">
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -805,7 +820,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_16">
+      <widget class="QPushButton" name="pushButton_About">
        <property name="text">
         <string>About</string>
        </property>
@@ -816,7 +831,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="pushButton_Close">
        <property name="text">
         <string>Close</string>
        </property>
@@ -840,7 +855,10 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>All Daemons</string>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <widget class="QPushButton" name="pushButton_AllDaemons_Start">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1271,7 +1289,7 @@ p, li { white-space: pre-wrap; }
       <string notr="true">Start</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="pushButton_AllDaemons_Stop">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1706,15 +1724,15 @@ p, li { white-space: pre-wrap; }
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>410</x>
       <y>0</y>
-      <width>191</width>
+      <width>201</width>
       <height>61</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton_17">
+      <widget class="QPushButton" name="pushButton_Website">
        <property name="toolTip">
         <string>Visit wpn-xm.org.</string>
        </property>
@@ -1749,7 +1767,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_20">
+      <widget class="QPushButton" name="pushButton_GoogleGroup">
        <property name="toolTip">
         <string>Go to WPN-XM Mailinglist.</string>
        </property>
@@ -1784,7 +1802,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_21">
+      <widget class="QPushButton" name="pushButton_ReportBug">
        <property name="toolTip">
         <string>Report Issue or Request Feature!</string>
        </property>
@@ -1819,7 +1837,13 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_22">
+      <widget class="QPushButton" name="pushButton_Donate">
+       <property name="maximumSize">
+        <size>
+         <width>101</width>
+         <height>26</height>
+        </size>
+       </property>
        <property name="toolTip">
         <string>Help improving WPN-XM by donating.</string>
        </property>
@@ -1859,25 +1883,25 @@ p, li { white-space: pre-wrap; }
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>pushButton_4</tabstop>
-  <tabstop>pushButton_16</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton_15</tabstop>
-  <tabstop>pushButton_10</tabstop>
-  <tabstop>pushButton_9</tabstop>
-  <tabstop>pushButton_13</tabstop>
-  <tabstop>pushButton_11</tabstop>
-  <tabstop>pushButton_12</tabstop>
-  <tabstop>pushButton_6</tabstop>
+  <tabstop>pushButton_AllDaemons_Start</tabstop>
+  <tabstop>pushButton_AllDaemons_Stop</tabstop>
+  <tabstop>pushButton_Close</tabstop>
+  <tabstop>pushButton_About</tabstop>
+  <tabstop>pushButton_Help</tabstop>
+  <tabstop>pushButton_Configuration</tabstop>
+  <tabstop>pushButton_tools_phpinfo</tabstop>
+  <tabstop>pushButton_tools_phpmyadmin</tabstop>
+  <tabstop>pushButton_tools_webgrind</tabstop>
+  <tabstop>pushButton_OpenProjects_browser</tabstop>
+  <tabstop>pushButton_OpenProjects_Explorer</tabstop>
+  <tabstop>pushButton_ConfigureNginx</tabstop>
   <tabstop>pushButton_ShowNginxAccessLog</tabstop>
   <tabstop>pushButton_ShowNginxErrorLog</tabstop>
   <tabstop>comboBoxPHPVersionSelection</tabstop>
-  <tabstop>pushButton_14</tabstop>
-  <tabstop>pushButton_19</tabstop>
-  <tabstop>pushButton_5</tabstop>
-  <tabstop>pushButton_8</tabstop>
+  <tabstop>pushButton_ConfigurePHP</tabstop>
+  <tabstop>pushButton_Log_PHP</tabstop>
+  <tabstop>pushButton_ConfigureMariaDB</tabstop>
+  <tabstop>pushButton_Log_MariaDB</tabstop>
   <tabstop>pushButton_18</tabstop>
  </tabstops>
  <resources>
