@@ -36,12 +36,12 @@
 // main method
 int main(int argc, char * argv[])
 {
-    // Single Instance Check
-    exitIfAlreadyRunning();
-
     Q_INIT_RESOURCE(Resources);
 
     QApplication application(argc, argv);
+
+    // Single Instance Check
+    exitIfAlreadyRunning();
 
     // Application Meta Data
     application.setApplicationName(APP_NAME);
@@ -74,7 +74,9 @@ int main(int argc, char * argv[])
 void exitIfAlreadyRunning()
 {
       // Set GUID for WPN-XM Server Control Panel to memory
-      QSharedMemory shared("004d54f6-7d00-4478-b612-f242f081b023");
+      // It needs to be "static", because the QSharedMemory instance gets destroyed
+      // at the end of the function and so does the shared memory segment.
+      static QSharedMemory shared("004d54f6-7d00-4478-b612-f242f081b023");
 
       // already running
       if( !shared.create( 512, QSharedMemory::ReadWrite) )
@@ -89,6 +91,6 @@ void exitIfAlreadyRunning()
       }
       else
       {
-        qDebug() << "Application started and not already running.";
+          qDebug() << "Application started and not already running.";
       }
 }
