@@ -193,14 +193,14 @@ void Tray::createTrayIcon()
     MainMenu->addMenu(phpStatusSubmenu);
     MainMenu->addMenu(mysqlStatusSubmenu);
     MainMenu->addSeparator();
-    MainMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(manageHosts()), QKeySequence());
+    MainMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(openHostManagerDialog()), QKeySequence());
     //MainMenu->addMenu(nginxConfigSubmenu);
     //MainMenu->addMenu(phpConfigSubmenu);
     //MainMenu->addMenu(mysqlConfigSubmenu);
     MainMenu->addSeparator();
     MainMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
     MainMenu->addAction(QIcon(":/help"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
-    MainMenu->addAction(QIcon(":/quit"),tr("&Quit"), parent(), SLOT(quit()), QKeySequence());
+    MainMenu->addAction(QIcon(":/quit"),tr("&Quit"), qApp, SLOT(quit()), QKeySequence());
     setContextMenu(MainMenu);
 }
 
@@ -327,10 +327,22 @@ void Tray::restartMySQL()
 /*
  * Config slots
  */
-void Tray::manageHosts()
+void Tray::openHostManagerDialog()
 {
-    HostManagerDialog dlg;
+    HostsManagerDialog dlg;
     dlg.exec();
+}
+
+void Tray::openAboutDialog()
+{
+    //AboutDialog dlg;
+    //dlg.exec();
+}
+
+void Tray::openConfigurationDialog()
+{
+    //ConfigDialog dlg;
+    //dlg.exec();
 }
 
 void Tray::openNginxSite()

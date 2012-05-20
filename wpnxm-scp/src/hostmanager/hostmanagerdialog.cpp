@@ -37,7 +37,7 @@
 #include <QToolBar>
 #include <QApplication>
 
-HostManagerDialog::HostManagerDialog(QWidget *parent) :
+HostsManagerDialog::HostsManagerDialog(QWidget *parent) :
     QDialog(parent)
 {
     QToolBar* toolbar = new QToolBar(this);
@@ -49,7 +49,7 @@ HostManagerDialog::HostManagerDialog(QWidget *parent) :
     QPushButton* btnCancel = new QPushButton("Cancel", this);
 
 
-    HostTableModel* tableModel = new HostTableModel(this);
+    HostsTableModel* tableModel = new HostsTableModel(this);
     tableModel->setList(Host::GetHosts());
 
     m_tableView = new QTableView(this);
@@ -83,19 +83,19 @@ HostManagerDialog::HostManagerDialog(QWidget *parent) :
     setFixedWidth(400);
 }
 
-HostManagerDialog::~HostManagerDialog(){
-    HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
+HostsManagerDialog::~HostsManagerDialog(){
+    HostsTableModel *model = static_cast<HostsTableModel*>(m_tableView->model());
     qDeleteAll(model->getList());
 }
 
-void HostManagerDialog::addEntry() {
-    AddDialog aDialog;
+void HostsManagerDialog::addEntry() {
+    HostsAddDialog aDialog;
 
     if (aDialog.exec()) {
         QString name = aDialog.name();
         QString address = aDialog.address();
 
-        HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
+        HostsTableModel *model = static_cast<HostsTableModel*>(m_tableView->model());
         QList<Host*> list = model->getList();
 
         //do the add
@@ -103,9 +103,9 @@ void HostManagerDialog::addEntry() {
         if (!list.contains(&host)) {
             model->insertRows(0, 1, QModelIndex());
 
-            QModelIndex index = model->index(0, HostTableModel::COLUMN_NAME, QModelIndex());
+            QModelIndex index = model->index(0, HostsTableModel::COLUMN_NAME, QModelIndex());
             model->setData(index, name, Qt::EditRole);
-            index = model->index(0, HostTableModel::COLUMN_ADDRESS, QModelIndex());
+            index = model->index(0, HostsTableModel::COLUMN_ADDRESS, QModelIndex());
             model->setData(index, address, Qt::EditRole);
         } else {
             QMessageBox::information(this, tr("Duplicate Entry"), tr("The host mapping already exists."));
@@ -113,9 +113,9 @@ void HostManagerDialog::addEntry() {
     }
 }
 
-void HostManagerDialog::editEntry()
+void HostsManagerDialog::editEntry()
  {
-     HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
+     HostsTableModel *model = static_cast<HostsTableModel*>(m_tableView->model());
      QItemSelectionModel *selectionModel = m_tableView->selectionModel();
 
      QModelIndexList indexes = selectionModel->selectedRows();
@@ -128,30 +128,30 @@ void HostManagerDialog::editEntry()
          foreach (index, indexes) {
              row = index.row();
 
-             QModelIndex indexName = model->index(row, HostTableModel::COLUMN_NAME, QModelIndex());
+             QModelIndex indexName = model->index(row, HostsTableModel::COLUMN_NAME, QModelIndex());
              QVariant varName = model->data(indexName, Qt::DisplayRole);
              name = varName.toString();
 
-             QModelIndex indexAddress = model->index(row, HostTableModel::COLUMN_ADDRESS, QModelIndex());
+             QModelIndex indexAddress = model->index(row, HostsTableModel::COLUMN_ADDRESS, QModelIndex());
              QVariant varAddr = model->data(indexAddress, Qt::DisplayRole);
              address = varAddr.toString();
          }
 
-         AddDialog aDialog;
+         HostsAddDialog aDialog;
          aDialog.edit(name, address);
 
          if (aDialog.exec()) {
               QString newAddress = aDialog.address();
               if (newAddress != address) {
-                  QModelIndex i = model->index(row, HostTableModel::COLUMN_ADDRESS, QModelIndex());
+                  QModelIndex i = model->index(row, HostsTableModel::COLUMN_ADDRESS, QModelIndex());
                   model->setData(i, newAddress, Qt::EditRole);
               }
          }
      }
 }
 
-void HostManagerDialog::removeEntry(){
-    HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
+void HostsManagerDialog::removeEntry(){
+    HostsTableModel *model = static_cast<HostsTableModel*>(m_tableView->model());
     QItemSelectionModel *selectionModel = m_tableView->selectionModel();
 
     QModelIndexList indexes = selectionModel->selectedRows();
@@ -162,8 +162,8 @@ void HostManagerDialog::removeEntry(){
     }
 }
 
-void HostManagerDialog::accept(){
-    HostTableModel *model = static_cast<HostTableModel*>(m_tableView->model());
+void HostsManagerDialog::accept(){
+    HostsTableModel *model = static_cast<HostsTableModel*>(m_tableView->model());
     Host::SetHosts(model->getList());
     QDialog::accept();
 }

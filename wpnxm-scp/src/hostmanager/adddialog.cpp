@@ -31,7 +31,7 @@
 #include "adddialog.h"
 #include "host.h"
 
-AddDialog::AddDialog(QWidget *parent) :
+HostsAddDialog::HostsAddDialog(QWidget *parent) :
     QDialog(parent)
 {
     QPushButton* btnOk = new QPushButton("OK", this);
@@ -65,15 +65,15 @@ AddDialog::AddDialog(QWidget *parent) :
     setWindowTitle(tr("Add Host"));
 }
 
-QString AddDialog::name(){
+QString HostsAddDialog::name(){
     return m_lineedit_Name->text().trimmed();
 }
 
-QString AddDialog::address(){
+QString HostsAddDialog::address(){
     return m_lineedit_Address->text().trimmed();
 }
 
-void AddDialog::edit(QString name, QString adress){
+void HostsAddDialog::edit(QString name, QString adress){
     setWindowTitle(tr("Edit Host"));
    // m_leName->setEnabled(false);
     m_lineedit_Name->setText(name);

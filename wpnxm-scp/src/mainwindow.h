@@ -29,8 +29,6 @@ private:
     QAction *restoreAction;
     QAction *quitAction;
 
-    QSystemTrayIcon *trayIcon;
-
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -41,6 +39,19 @@ public:
     void getMariaVersion();
     void getPHPVersion();
     void parseVersionNumber(QString stringWithVersion);
+
+    QSystemTrayIcon *trayIcon;
+
+public slots:
+
+    void goToWebsite();
+    void goToGoogleGroup();
+    void goToReportIssue();
+    void goToDonate();
+
+    void openConfigurationDialog();
+    void openHelpDialog();
+    void openAboutDialog();
 
 };
 

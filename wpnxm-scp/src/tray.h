@@ -42,8 +42,6 @@ public:
         explicit Tray(QApplication *parent = 0);
         ~Tray();
 
-signals:
-
 public slots:
 
         // General Action Slots
@@ -70,7 +68,9 @@ public slots:
         void restartMySQL();
 
         // Config Action Slots
-        void manageHosts();
+        void openHostManagerDialog();
+        void openConfigurationDialog();
+        void openAboutDialog();
 
         void openNginxSite();
         void openNginxConfig();

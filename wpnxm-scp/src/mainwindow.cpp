@@ -6,6 +6,8 @@
 #include <QSharedMemory>
 #include <QtGui>
 #include <QRegExp>
+#include <QDesktopServices>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -60,7 +62,30 @@ void MainWindow::createActions()
      connect(restoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
 
      quitAction = new QAction(tr("&Quit"), this);
+     // qApp is global pointer to QApplication
      connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+     // PushButtons:: Website, ReportBug, Donate
+     connect(ui->pushButton_Website, SIGNAL(clicked()), this, SLOT(goToWebsite()));
+     connect(ui->pushButton_GoogleGroup, SIGNAL(clicked()), this, SLOT(goToGoogleGroup()));
+     connect(ui->pushButton_ReportBug, SIGNAL(clicked()), this, SLOT(goToReportIssue()));
+     connect(ui->pushButton_Donate, SIGNAL(clicked()), this, SLOT(goToDonate()));
+
+     // PushButtons: Configuration, Help, About, Close
+     connect(ui->pushButton_Configuration, SIGNAL(clicked()), this, SLOT(openConfigurationDialog()));
+     connect(ui->pushButton_Help, SIGNAL(clicked()), this, SLOT(openHelpDialog()));
+     connect(ui->pushButton_About, SIGNAL(clicked()), this, SLOT(openAboutDialog()));
+     connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));
+
+     // Actions - Start
+     connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(runNginx()));
+     connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(runPhp()));
+     connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(runMySQL()));
+
+     // Actions - Stop
+     connect(ui->pushButton_StopNginx, SIGNAL(clicked()), trayIcon, SLOT(stopNginx()));
+     connect(ui->pushButton_StopPHP, SIGNAL(clicked()), trayIcon, SLOT(stopPhp()));
+     connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMySQL()));
  }
 
 void MainWindow::changeEvent(QEvent *event)
@@ -202,3 +227,40 @@ void MainWindow::parseVersionNumber(QString stringWithVersion)
         ++it;
     }
 }
+
+void MainWindow::goToWebsite()
+{
+    QDesktopServices::openUrl(QUrl("http://wpn-xm.org/"));
+}
+
+void MainWindow::goToGoogleGroup()
+{
+    QDesktopServices::openUrl(QUrl("http://groups.google.com/group/wpn-xm/"));
+}
+
+void MainWindow::goToReportIssue()
+{
+    QDesktopServices::openUrl(QUrl("https://github.com/jakoch/WPN-XM/issues/"));
+}
+
+void MainWindow::goToDonate()
+{
+    QDesktopServices::openUrl(QUrl("http://wpn-xm.org/#donate"));
+}
+
+void MainWindow::openHelpDialog()
+{
+
+}
+
+void MainWindow::openConfigurationDialog()
+{
+
+}
+
+void MainWindow::openAboutDialog()
+{
+
+}
+
+

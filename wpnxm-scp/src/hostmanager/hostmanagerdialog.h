@@ -29,12 +29,12 @@ class QTableView;
 class QItemSelection;
 class Host;
 
-class HostManagerDialog : public QDialog
+class HostsManagerDialog : public QDialog
 {
 Q_OBJECT
 public:
-    explicit HostManagerDialog(QWidget *parent = 0);
-    ~HostManagerDialog();
+    explicit HostsManagerDialog(QWidget *parent = 0);
+    ~HostsManagerDialog();
 
 signals:
     void selectionChanged (const QItemSelection &selected);

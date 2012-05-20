@@ -26,22 +26,22 @@
 
 #include <QList>
 
-HostTableModel::HostTableModel(QObject *parent) :
+HostsTableModel::HostsTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
 }
 
-int HostTableModel::rowCount(const QModelIndex &parent) const {
+int HostsTableModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
     return m_lstHost.size();
 }
 
-int HostTableModel::columnCount(const QModelIndex &parent) const {
+int HostsTableModel::columnCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
     return 2;
 }
 
-QVariant HostTableModel::data(const QModelIndex &index, int role) const {
+QVariant HostsTableModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid())
         return QVariant();
 
@@ -68,7 +68,7 @@ QVariant HostTableModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-QVariant HostTableModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant HostsTableModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (role != Qt::DisplayRole)
         return QVariant();
 
@@ -86,14 +86,14 @@ QVariant HostTableModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-Qt::ItemFlags HostTableModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags HostsTableModel::flags(const QModelIndex &index) const {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool HostTableModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+bool HostsTableModel::setData(const QModelIndex &index, const QVariant &value, int role) {
     if (index.isValid() && role == Qt::EditRole) {
         int row = index.row();
 
@@ -118,7 +118,7 @@ bool HostTableModel::setData(const QModelIndex &index, const QVariant &value, in
     return false;
 }
 
-bool HostTableModel::insertRows(int position, int rows, const QModelIndex &index) {
+bool HostsTableModel::insertRows(int position, int rows, const QModelIndex &index) {
     Q_UNUSED(index);
     beginInsertRows(QModelIndex(), position, position+rows-1);
 
@@ -131,7 +131,7 @@ bool HostTableModel::insertRows(int position, int rows, const QModelIndex &index
     return true;
 }
 
-bool HostTableModel::removeRows(int position, int rows, const QModelIndex &index) {
+bool HostsTableModel::removeRows(int position, int rows, const QModelIndex &index) {
     Q_UNUSED(index);
     beginRemoveRows(QModelIndex(), position, position+rows-1);
 
@@ -144,12 +144,12 @@ bool HostTableModel::removeRows(int position, int rows, const QModelIndex &index
     return true;
 }
 
-void HostTableModel::setList(QList<Host*> lstHost){
+void HostsTableModel::setList(QList<Host*> lstHost){
     m_lstHost = lstHost;
     QModelIndex root = index(0,0);
     emit(dataChanged(root, index(rowCount(QModelIndex()), columnCount(QModelIndex()))));
 }
 
-QList<Host*> HostTableModel::getList(){
+QList<Host*> HostsTableModel::getList(){
     return m_lstHost;
 }

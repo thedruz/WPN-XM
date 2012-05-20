@@ -30,12 +30,12 @@ class QLineEdit;
 class QLabel;
 class QPushButton;
 
-class AddDialog : public QDialog
+class HostsAddDialog : public QDialog
 {
         Q_OBJECT
 
 public:
-        explicit AddDialog(QWidget *parent = 0);
+        explicit HostsAddDialog(QWidget *parent = 0);
         QString name();
         QString address();
 
