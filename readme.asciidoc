@@ -69,6 +69,7 @@ Here’s a comprehensive list for your convenience:
 * uWamp                   http://www.uwamp.com/
 * NimpBox                 http://nimpbox.ru/
 * UniformServer           http://www.uniformserver.com/
+* AppServNetwork          http://www.appservnetwork.com/
 
 
 === HOW TO BUILD THE INSTALLER ===
