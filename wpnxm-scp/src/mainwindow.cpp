@@ -78,14 +78,14 @@ void MainWindow::createActions()
      connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));
 
      // Actions - Start
-     connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(runNginx()));
-     connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(runPhp()));
-     connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(runMySQL()));
+     //connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(runNginx()));
+     //connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(runPhp()));
+     //connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(runMySQL()));
 
      // Actions - Stop
-     connect(ui->pushButton_StopNginx, SIGNAL(clicked()), trayIcon, SLOT(stopNginx()));
-     connect(ui->pushButton_StopPHP, SIGNAL(clicked()), trayIcon, SLOT(stopPhp()));
-     connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMySQL()));
+    // connect(ui->pushButton_StopNginx, SIGNAL(clicked()), trayIcon, SLOT(stopNginx()));
+    // connect(ui->pushButton_StopPHP, SIGNAL(clicked()), trayIcon, SLOT(stopPhp()));
+     //connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMySQL()));
  }
 
 void MainWindow::changeEvent(QEvent *event)
@@ -223,7 +223,7 @@ void MainWindow::parseVersionNumber(QString stringWithVersion)
 
     QStringList::iterator it = list.begin();
     while (it != list.end()) {
-        qDebug() << *it; // processing cmd here
+        qDebug() << "CapList" << *it; // processing cmd here
         ++it;
     }
 }

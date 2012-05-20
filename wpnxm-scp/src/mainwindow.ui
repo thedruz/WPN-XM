@@ -748,7 +748,7 @@ p, li { white-space: pre-wrap; }
      <string notr="true"/>
     </property>
     <property name="pixmap">
-     <pixmap>../../website-wpn-xm.org/images/wpnxm-logo-dark-transparent3.png</pixmap>
+     <pixmap resource="resources/Resources.qrc">:/wpnxm-logo-dark-transparent.png</pixmap>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
