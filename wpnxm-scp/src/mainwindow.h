@@ -24,6 +24,7 @@ private:
     Ui::MainWindow *ui;
 
     void createActions();
+    void createTrayIcon();
 
     QAction *minimizeAction;
     QAction *restoreAction;
@@ -35,10 +36,10 @@ public:
 
     void setVisible(bool visible);
 
-    void getNginxVersion();
-    void getMariaVersion();
-    void getPHPVersion();
-    void parseVersionNumber(QString stringWithVersion);
+    QString getNginxVersion();
+    QString getMariaVersion();
+    QString getPHPVersion();
+    QString parseVersionNumber(QString stringWithVersion);
 
     QSystemTrayIcon *trayIcon;
 

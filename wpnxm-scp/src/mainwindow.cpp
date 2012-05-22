@@ -25,6 +25,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createActions();
 
+    createTrayIcon();
+
+    // fetch version numbers from the daemons and set label text
+    ui->label_Nginx_Version->setText( getNginxVersion() );
+    ui->label_PHP_Version->setText( getPHPVersion() );
+    ui->label_MariaDb_Version->setText( getMariaVersion() );
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::createTrayIcon()
+{
     // The tray icon is an instance of the QSystemTrayIcon class.
     // To check whether a system tray is present on the user's desktop,
     // we call the static QSystemTrayIcon::isSystemTrayAvailable() function.
@@ -43,14 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
     }
-
-    parseVersionNumber("PHP 5.4.0 (cli) (built: Feb 29 2012 19:06:50)");
-    getMariaVersion();
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
 }
 
 void MainWindow::createActions()
@@ -158,7 +165,7 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
-void MainWindow::getNginxVersion()
+QString MainWindow::getNginxVersion()
 {
     QProcess* processNginx;
 
@@ -167,16 +174,19 @@ void MainWindow::getNginxVersion()
     //processNginx->start("./nginx", QStringList() << "-v");
     processNginx->waitForFinished(-1);
 
-    QString p_stdout = processNginx->readAllStandardOutput();
+    //QString p_stdout = processNginx->readAllStandardOutput();
     QString p_stderr = processNginx->readAllStandardError();
+
+    // test
+    QString p_stdout = "nginx version: nginx/1.1.11";
 
     qDebug() << p_stdout;
     qDebug() << p_stderr;
 
-    return parseVersionNumber(p_stdout); // nginx version: nginx/1.1.11
+    return parseVersionNumber(p_stdout);
 }
 
-void MainWindow::getMariaVersion()
+QString MainWindow::getMariaVersion()
 {
     QProcess* processMaria;
 
@@ -185,16 +195,19 @@ void MainWindow::getMariaVersion()
     processMaria->start("./mysqld", QStringList() << "-V"); // upper-case V
     processMaria->waitForFinished(-1);
 
-    QString p_stdout = processMaria->readAllStandardOutput();
+    //QString p_stdout = processMaria->readAllStandardOutput();
     QString p_stderr = processMaria->readAllStandardError();
+
+    // test
+    QString p_stdout = "mysql  Ver 15.1 Distrib 5.5.23-MariaDB, for Win32 (x86)";
 
     qDebug() << p_stdout;
     qDebug() << p_stderr;
 
-    return parseVersionNumber(p_stdout); // mysql  Ver 15.1 Distrib 5.5.23-MariaDB, for Win32 (x86)
+    return parseVersionNumber(p_stdout.mid(15));
 }
 
-void MainWindow::getPHPVersion()
+QString MainWindow::getPHPVersion()
 {
     QProcess* processPhp;
 
@@ -203,29 +216,43 @@ void MainWindow::getPHPVersion()
     //processPhp->start(cfgPHPDir+cfgPHPExec, QStringList() << "-v");
     processPhp->waitForFinished(-1);
 
-    QString p_stdout = processPhp->readAllStandardOutput();
+    //QString p_stdout = processPhp->readAllStandardOutput();
     QString p_stderr = processPhp->readAllStandardError();
+
+    // test
+    QString p_stdout = "PHP 5.4.0 (cli) (built: Feb 29 2012 19:06:50)";
 
     qDebug() << p_stdout;
     qDebug() << p_stderr;
 
-    return parseVersionNumber(p_stdout); // PHP 5.4.0 (cli) (built: Feb 29 2012 19:06:50)
+    return parseVersionNumber(p_stdout);
 }
 
-void MainWindow::parseVersionNumber(QString stringWithVersion)
+QString MainWindow::parseVersionNumber(QString stringWithVersion)
 {
-    // split string at space
-    //QStringList listVersionString = stringWithVersion.split("\t");
-    QRegExp rx("^(?:(\\d+)\\.)?(?:(\\d+)\\.)?(\\*|\\d+)$");
+    qDebug() << stringWithVersion;
 
-    //int pos = rx.indexIn(stringWithVersion);
-    QStringList list = rx.capturedTexts();
+    // The RegExp for matching version numbers is (\d+\.)?(\d+\.)?(\d+\.)?(\*|\d+)
+    // The following one is escaped:
+    QRegExp regex("(\\d+\\.)?(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)");
 
-    QStringList::iterator it = list.begin();
-    while (it != list.end()) {
-        qDebug() << "CapList" << *it; // processing cmd here
-        ++it;
-    }
+    // match
+    regex.indexIn(stringWithVersion);
+
+    qDebug() << regex.cap(0);
+    QString cap = regex.cap(0);
+    return cap;
+
+// Leave this for debugging reasons
+//    int pos = 0;
+//    while((pos = regex.indexIn(stringWithVersion, pos)) != -1)
+//    {
+//        qDebug() << "Match at pos " << pos
+//                 << " with length " << regex.matchedLength()
+//                 << ", captured = " << regex.capturedTexts().at(0).toLatin1().data()
+//                 << ".\n";
+//        pos += regex.matchedLength();
+//    }
 }
 
 void MainWindow::goToWebsite()
