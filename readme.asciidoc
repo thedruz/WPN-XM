@@ -51,24 +51,9 @@ Github:             https://github.com/jakoch/WPN-XM/
 
 === STILL NOT CONVINCED? ===
 
-Well, then go try a different Serverpack for Windows. I know you’ll come back.
-
-Here’s a comprehensive list for your convenience:
-
-* Overview1               http://alternativeto.net/software/xampp/
-* Overview2               http://en.wikipedia.org/wiki/Comparison_of_WAMPs
-
-* XAMPP for Windows       http://www.apachefriends.org/de/xampp-windows.html
-* Zend Server CE          http://www.zend.com/de/products/server-ce/
-* VertrigoServ            http://vertrigo.sourceforge.net/
-* Bitname WAMPStack       http://bitnami.org/stack/wampstack
-* NginxMP                 http://www.sourceforge.net/projects/nginxmp/
-* EasyWemp                http://projects.javatic.net/p/easywemp/source/tree/master/make-dist
-* XenStack                http://sourceforge.net/projects/xenstack/
-* EasyPHP                 http://easyphp.org
-* uWamp                   http://www.uwamp.com/
-* NimpBox                 http://nimpbox.ru/
-
+Well, then go try a different Serverpack for Windows. 
+You might find a https://github.com/jakoch/WPN-XM/wiki/Comprehensive-list-of-server-stacks[comprehensive list of server stacks] in our wiki.
+I know you’ll come back.
 
 === HOW TO BUILD THE INSTALLER ===
 
