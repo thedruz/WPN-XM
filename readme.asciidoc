@@ -16,6 +16,9 @@ Google Group:       http://groups.google.com/group/wpn-xm/
 
 Github:             https://github.com/jakoch/WPN-XM/
 
+=== Installing WPN-XM on Windows
+
+https://github.com/jakoch/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation Guide]
 
 === WPN-XM USES THE FOLLOWING THIRD PARTY SOFTWARE COMPONENTS ===
 
