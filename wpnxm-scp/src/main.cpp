@@ -21,17 +21,17 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// QT includes
+// local WPN-XM SCP includes
+#include "main.h"
+#include "mainwindow.h"
+
+// global QT includes
 #include <QApplication>
 #include <QObject>
 #include <QSystemTrayIcon>
 #include <QMessageBox>
 #include <QSharedMemory>
 #include <QtGui>
-
-// WPN-XM SCP includes
-#include "main.h"
-#include "mainwindow.h"
 
 // main method
 int main(int argc, char * argv[])

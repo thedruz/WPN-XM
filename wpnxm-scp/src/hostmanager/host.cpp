@@ -21,15 +21,15 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// WPNXM
+// Local includes - WPNXM
 #include "host.h"
 
-// C++ & Windows
+// Global includes - C++ & Windows
 #include <stdlib.h>
 #include <windows.h>
 #include <string>
 
-// QT
+// Global includes - QT
 #include <QStringList>
 #include <QTextStream>
 #include <QDebug>

@@ -21,11 +21,13 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Local includes
 #include "hostmanagerdialog.h"
 #include "hosttablemodel.h"
 #include "adddialog.h"
 #include "host.h"
 
+// Global includes
 #include <QTableView>
 #include <QHeaderView>
 #include <QMessageBox>

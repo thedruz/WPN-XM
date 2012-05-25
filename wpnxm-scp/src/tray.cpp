@@ -21,7 +21,11 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// QT includes
+// Local WPN-XM SCP includes
+#include "tray.h"
+#include "hostmanager/hostmanagerdialog.h"
+
+// Global QT includes
 #include <QApplication>
 #include <QMenu>
 #include <QAction>
@@ -36,11 +40,7 @@
 #include <QPlastiqueStyle>
 //#include <QDebug>
 
-// WPN-XM SCP includes
-#include "tray.h"
-#include "hostmanager/hostmanagerdialog.h"
-
-// ShellExecute() used by openFileWithDefaultHandler() needs Windows API
+// Global ShellExecute() used by openFileWithDefaultHandler() needs Windows API
 #include "qt_windows.h"
 #include "qwindowdefs_win.h"
 #include <shellapi.h>

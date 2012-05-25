@@ -21,15 +21,17 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Local includes
+#include "adddialog.h"
+#include "host.h"
+
+// Global includes
 #include <QLineEdit>
 #include <QLabel>
 #include <QPushButton>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-
-#include "adddialog.h"
-#include "host.h"
 
 HostsAddDialog::HostsAddDialog(QWidget *parent) :
     QDialog(parent)

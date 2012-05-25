@@ -21,10 +21,12 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Local includes
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tray.h"
 
+// Global includes
 #include <QMessageBox>
 #include <QSharedMemory>
 #include <QtGui>
@@ -98,7 +100,6 @@ void MainWindow::createTrayIcon()
     {
         // instantiate and attach the tray icon to the system tray
         trayIcon = new Tray(qApp);
-        trayIcon->show();
 
         // handle clicks on the icon
         connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -126,6 +127,8 @@ void MainWindow::createTrayIcon()
         //connect(ui->pushButton_tools_phpinfo,SIGNAL(clicked()), this, SLOT(openToolPhpinfo()));
         //connect(ui->pushButton_tools_phpmyadmin,SIGNAL(clicked()), this, SLOT(openToolPhpmyadmin()));
         //connect(ui->pushButton_tools_webgrind,SIGNAL(clicked()), this, SLOT(openToolWebgrind()));
+
+        trayIcon->show();
     }
 }
 

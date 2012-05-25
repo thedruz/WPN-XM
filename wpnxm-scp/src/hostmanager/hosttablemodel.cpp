@@ -21,9 +21,11 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Local includes
 #include "hosttablemodel.h"
 #include "host.h"
 
+// Global includes
 #include <QList>
 
 HostsTableModel::HostsTableModel(QObject *parent) :
