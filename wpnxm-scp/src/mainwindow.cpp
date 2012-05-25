@@ -17,8 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // disable Maximize functionality
     setWindowFlags( (windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowMaximizeButtonHint);
-    //setFixedWidth(600);
-    //setFixedHeight(270);
+    setFixedWidth(620);
+    setFixedHeight(320);
 
     // overrides the window title defined in mainwindow.ui
     setWindowTitle(APP_NAME_AND_VERSION);
@@ -55,7 +55,7 @@ void MainWindow::setLabelStatusActive(QString label, bool enabled)
         ui->label_PHP_Status->setEnabled(enabled);
     }
 
-    if(label == "nginx")
+    if(label == "mariadb")
     {
         ui->label_MariaDB_Status->setEnabled(enabled);
     }
@@ -315,14 +315,17 @@ void MainWindow::openConfigurationDialog()
 void MainWindow::openAboutDialog()
 {
     QMessageBox::about(this, tr("About WPN-XM"),
-        tr("<b>"  APP_NAME_AND_VERSION "</b><br>"
+        tr("<b>WPN-XM Server Control Panel</b><br>" // APP_NAME_AND_VERSION
+        "<table><tr><td><img src=\":/cappuccino64\"></img>&nbsp;&nbsp;</td><td>"
         "<table>"
         "<tr><td><b>Website</b></td><td><a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a></td></tr>"
         "<tr><td><b>License</b></td><td>GNU/GPL version 3, or any later version.</td></tr>"
         "<tr><td><b>Author(s)</b></td><td>Yann Le Moigne (c) 2010,</td></tr>"
         "<tr><td>&nbsp;</td><td>Jens-André Koch (c) 2011 - onwards.</td></tr>"
         "<tr><td><b>Github</b></td><td><a href=\"https://github.com/jakoch/WPN-XM/\">https://github.com/jakoch/WPN-XM/</a>"
-        "</td></tr></table>"));
+        "</td></tr></table></td></tr></table>"
+        "The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE."
+        ));
 }
 
 
