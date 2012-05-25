@@ -27,15 +27,38 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createTrayIcon();
 
-    // fetch version numbers from the daemons and set label text
+    // fetch version numbers from the daemons and set label text accordingly
     ui->label_Nginx_Version->setText( getNginxVersion() );
     ui->label_PHP_Version->setText( getPHPVersion() );
     ui->label_MariaDb_Version->setText( getMariaVersion() );
+
+    // the initial state of daemon status icons is disabled
+    ui->label_Nginx_Status->setEnabled(false);
+    ui->label_PHP_Status->setEnabled(false);
+    ui->label_MariaDB_Status->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::setLabelStatusActive(QString label, bool enabled)
+{
+    if(label == "nginx")
+    {
+        ui->label_Nginx_Status->setEnabled(enabled);
+    }
+
+    if(label == "php")
+    {
+        ui->label_PHP_Status->setEnabled(enabled);
+    }
+
+    if(label == "nginx")
+    {
+        ui->label_MariaDB_Status->setEnabled(enabled);
+    }
 }
 
 void MainWindow::createTrayIcon()
@@ -57,6 +80,10 @@ void MainWindow::createTrayIcon()
         // handle clicks on the icon
         connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+
+        // if process state of a daemon changes, then change the label status in UI::MainWindow too
+        connect(trayIcon, SIGNAL(signalSetLabelStatusActive(QString, bool)),
+                this, SLOT(setLabelStatusActive(QString, bool)));
     }
 }
 
@@ -287,7 +314,10 @@ void MainWindow::openConfigurationDialog()
 
 void MainWindow::openAboutDialog()
 {
-
+    QMessageBox::about(this, tr("About WPN-XM"),
+              tr("<b>"  APP_NAME_AND_VERSION "</b><br><br>"
+                 "<b>License</b>: GNU/GPL v3+.<br><br>"
+                 "<b>Author(s)</b>: Yann Le Moigne (c) 2010, Jens-André Koch (c) 2011 - onwards.<br><br>"
+                 "<b>Website</b>: <a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a><br>"
+                 "<b>Github</b>: <a href=\"https://github.com/jakoch/WPN-XM/\">https://github.com/jakoch/WPN-XM/</a>"));
 }
-
-
