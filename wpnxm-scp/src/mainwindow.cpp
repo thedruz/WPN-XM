@@ -315,9 +315,14 @@ void MainWindow::openConfigurationDialog()
 void MainWindow::openAboutDialog()
 {
     QMessageBox::about(this, tr("About WPN-XM"),
-              tr("<b>"  APP_NAME_AND_VERSION "</b><br><br>"
-                 "<b>License</b>: GNU/GPL v3+.<br><br>"
-                 "<b>Author(s)</b>: Yann Le Moigne (c) 2010, Jens-André Koch (c) 2011 - onwards.<br><br>"
-                 "<b>Website</b>: <a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a><br>"
-                 "<b>Github</b>: <a href=\"https://github.com/jakoch/WPN-XM/\">https://github.com/jakoch/WPN-XM/</a>"));
+        tr("<b>"  APP_NAME_AND_VERSION "</b><br>"
+        "<table>"
+        "<tr><td><b>Website</b></td><td><a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a></td></tr>"
+        "<tr><td><b>License</b></td><td>GNU/GPL version 3, or any later version.</td></tr>"
+        "<tr><td><b>Author(s)</b></td><td>Yann Le Moigne (c) 2010,</td></tr>"
+        "<tr><td>&nbsp;</td><td>Jens-André Koch (c) 2011 - onwards.</td></tr>"
+        "<tr><td><b>Github</b></td><td><a href=\"https://github.com/jakoch/WPN-XM/\">https://github.com/jakoch/WPN-XM/</a>"
+        "</td></tr></table>"));
 }
+
+
