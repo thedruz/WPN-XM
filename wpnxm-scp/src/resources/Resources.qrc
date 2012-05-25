@@ -28,5 +28,6 @@
         <file>home.png</file>
         <file>mail.png</file>
         <file>wpnxm-logo-dark-transparent.png</file>
+        <file alias="cappuccino64">cappuccino-64px.png</file>
     </qresource>
 </RCC>
