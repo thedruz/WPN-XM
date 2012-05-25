@@ -107,6 +107,25 @@ void MainWindow::createTrayIcon()
         // if process state of a daemon changes, then change the label status in UI::MainWindow too
         connect(trayIcon, SIGNAL(signalSetLabelStatusActive(QString, bool)),
                 this, SLOT(setLabelStatusActive(QString, bool)));
+
+        // Actions - Start
+        connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(runNginx()));
+        connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(runPhp()));
+        connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(runMySQL()));
+
+        // Actions - Stop
+        connect(ui->pushButton_StopNginx, SIGNAL(clicked()), trayIcon, SLOT(stopNginx()));
+        connect(ui->pushButton_StopPHP, SIGNAL(clicked()), trayIcon, SLOT(stopPhp()));
+        connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMySQL()));
+
+        // Actions - AllDaemons Start, Stop
+        connect(ui->pushButton_AllDaemons_Start, SIGNAL(clicked()), trayIcon, SLOT(runAll()));
+        connect(ui->pushButton_AllDaemons_Stop, SIGNAL(clicked()), trayIcon, SLOT(stopAll()));
+
+        // Actions - Tools
+        //connect(ui->pushButton_tools_phpinfo,SIGNAL(clicked()), this, SLOT(openToolPhpinfo()));
+        //connect(ui->pushButton_tools_phpmyadmin,SIGNAL(clicked()), this, SLOT(openToolPhpmyadmin()));
+        //connect(ui->pushButton_tools_webgrind,SIGNAL(clicked()), this, SLOT(openToolWebgrind()));
     }
 }
 
@@ -132,17 +151,7 @@ void MainWindow::createActions()
      connect(ui->pushButton_Configuration, SIGNAL(clicked()), this, SLOT(openConfigurationDialog()));
      connect(ui->pushButton_Help, SIGNAL(clicked()), this, SLOT(openHelpDialog()));
      connect(ui->pushButton_About, SIGNAL(clicked()), this, SLOT(openAboutDialog()));
-     connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));
-
-     // Actions - Start
-     //connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(runNginx()));
-     //connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(runPhp()));
-     //connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(runMySQL()));
-
-     // Actions - Stop
-    // connect(ui->pushButton_StopNginx, SIGNAL(clicked()), trayIcon, SLOT(stopNginx()));
-    // connect(ui->pushButton_StopPHP, SIGNAL(clicked()), trayIcon, SLOT(stopPhp()));
-     //connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMySQL()));
+     connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));     
  }
 
 void MainWindow::changeEvent(QEvent *event)
@@ -177,8 +186,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (trayIcon->isVisible()) {
         QMessageBox::information(this, APP_NAME,
-                                 tr("The program will keep running in the system tray.<br>"
-                                    "To terminate the program, choose <b>Quit</b> in the context menu of the system tray."));
+             tr("The program will keep running in the system tray.<br>"
+                "To terminate the program, choose <b>Quit</b> in the context menu of the system tray."));
         hide();
 
         // do not propagate the event to the base class
@@ -341,14 +350,12 @@ void MainWindow::openAboutDialog()
         tr("<b>WPN-XM Server Control Panel</b><br>" // APP_NAME_AND_VERSION
         "<table><tr><td><img src=\":/cappuccino64\"></img>&nbsp;&nbsp;</td><td>"
         "<table>"
-        "<tr><td><b>Website</b></td><td><a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a></td></tr>"
-        "<tr><td><b>License</b></td><td>GNU/GPL version 3, or any later version.</td></tr>"
-        "<tr><td><b>Author(s)</b></td><td>Yann Le Moigne (c) 2010,</td></tr>"
-        "<tr><td>&nbsp;</td><td>Jens-André Koch (c) 2011 - onwards.</td></tr>"
+        "<tr><td><b>Website</b></td><td><a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a><br></td></tr>"
+        "<tr><td><b>License</b></td><td>GNU/GPL version 3, or any later version.<br></td></tr>"
+        "<tr><td><b>Author(s)</b></td><td>Yann Le Moigne (c) 2010,<br></td></tr>"
+        "<tr><td>&nbsp;</td><td>Jens-André Koch (c) 2011 - onwards.<br></td></tr>"
         "<tr><td><b>Github</b></td><td><a href=\"https://github.com/jakoch/WPN-XM/\">https://github.com/jakoch/WPN-XM/</a>"
         "</td></tr></table></td></tr></table>"
-        "The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE."
+        "<br><br>The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE."
         ));
 }
-
-

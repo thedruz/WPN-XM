@@ -93,6 +93,7 @@ public slots:
         void mysqlProcessError(QProcess::ProcessError error);
 
 signals:
+        // following signal is connected to MainWindow::setLabelStatusActive()
         void signalSetLabelStatusActive(QString label, bool enabled);
 
 private:
