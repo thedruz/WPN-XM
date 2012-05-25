@@ -47,7 +47,7 @@ public slots:
         // General Action Slots
         void runAll();
         void stopAll();
-        void restartAll();        
+        void restartAll();
         void goToWebsiteHelp();
         void goToReportIssue();
 
@@ -92,19 +92,21 @@ public slots:
         void phpProcessError(QProcess::ProcessError error);
         void mysqlProcessError(QProcess::ProcessError error);
 
-private:
+signals:
+        void signalSetLabelStatusActive(QString label, bool enabled);
 
+private:
         QTimer* timer;
         int iCurrentImage;
 
         bool bAutostartDaemons;
 
         // Global
-         QString cfgLogsDir;
+        QString cfgLogsDir;
 
         // PHP
 #define PHPCGI_EXEC "/php-cgi.exe"
-        QString cfgPhpDir;        
+        QString cfgPhpDir;
         QString cfgPhpExec;
         QString cfgPhpConfig;
         QString cfgPhpFastCgiHost;
@@ -136,7 +138,7 @@ private:
         QMenu* MainMenu;
         QMenu* nginxStatusSubmenu;
         QMenu* phpStatusSubmenu;
-        QMenu* mysqlStatusSubmenu;        
+        QMenu* mysqlStatusSubmenu;
 
         void initializeConfiguration();
 
