@@ -423,9 +423,11 @@ void Tray::nginxStateChanged(QProcess::ProcessState state)
     {
         case QProcess::NotRunning:
             nginxStatusSubmenu->setIcon(QIcon(":/status_stop"));
+            emit signalSetLabelStatusActive("nginx", false);
             break;
         case QProcess::Running:
             nginxStatusSubmenu->setIcon(QIcon(":/status_run"));
+            emit signalSetLabelStatusActive("nginx", true);
             break;
         case QProcess::Starting:
             nginxStatusSubmenu->setIcon(QIcon(":/status_reload"));
@@ -440,13 +442,15 @@ void Tray::phpStateChanged(QProcess::ProcessState state)
     {
         case QProcess::NotRunning:
             phpStatusSubmenu->setIcon(QIcon(":/status_stop"));
+            emit signalSetLabelStatusActive("php", false);
             break;
         case QProcess::Running:
             phpStatusSubmenu->setIcon(QIcon(":/status_run"));
+            emit signalSetLabelStatusActive("php", true);
             break;
         case QProcess::Starting:
             phpStatusSubmenu->setIcon(QIcon(":/status_reload"));
-            break;
+            break;            
     }
     globalStateChanged();
 }
@@ -457,9 +461,11 @@ void Tray::mysqlStateChanged(QProcess::ProcessState state)
     {
         case QProcess::NotRunning:
             mysqlStatusSubmenu->setIcon(QIcon(":/status_stop"));
+            emit signalSetLabelStatusActive("mariadb", false);
             break;
         case QProcess::Running:
             mysqlStatusSubmenu->setIcon(QIcon(":/status_run"));
+            emit signalSetLabelStatusActive("mariadb", true);
             break;
         case QProcess::Starting:
             mysqlStatusSubmenu->setIcon(QIcon(":/status_reload"));
