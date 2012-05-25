@@ -54,6 +54,7 @@ public slots:
     void openHelpDialog();
     void openAboutDialog();
 
+    void setLabelStatusActive(QString label, bool enabled);
 };
 
 #endif // MAINWINDOW_H
