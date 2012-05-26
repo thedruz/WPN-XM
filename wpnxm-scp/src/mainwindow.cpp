@@ -344,27 +344,27 @@ void MainWindow::goToDonate()
 
 void MainWindow::openToolPHPInfo()
 {
-    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/phpinfo"));
+    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/phpinfo.php"));
 }
 
 void MainWindow::openToolPHPMyAdmin()
 {
-    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/phpmyadmin"));
+    QDesktopServices::openUrl(QUrl("http://localhost/phpmyadmin/"));
 }
 
 void MainWindow::openToolWebgrind()
 {
-    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/webgrind"));
+    QDesktopServices::openUrl(QUrl("http://localhost/webgrind/"));
 }
 
 void MainWindow::openToolAdminer()
 {
-    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/adminer"));
+    QDesktopServices::openUrl(QUrl("http://localhost/adminer/"));
 }
 
 void MainWindow::openProjectFolderInBrowser()
 {
-    QDesktopServices::openUrl(QUrl("http://localhost/www"));
+    QDesktopServices::openUrl(QUrl("http://localhost"));
 }
 
 void MainWindow::openProjectFolderInExplorer()
