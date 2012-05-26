@@ -73,6 +73,14 @@ public slots:
     void goToReportIssue();
     void goToDonate();
 
+    void openToolPHPInfo();
+    void openToolPHPMyAdmin();
+    void openToolWebgrind();
+    void openToolAdminer();
+
+    void openProjectFolderInBrowser();
+    void openProjectFolderInExplorer();
+
     void openConfigurationDialog();
     void openHelpDialog();
     void openAboutDialog();

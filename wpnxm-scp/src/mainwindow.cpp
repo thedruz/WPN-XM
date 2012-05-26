@@ -123,11 +123,6 @@ void MainWindow::createTrayIcon()
         connect(ui->pushButton_AllDaemons_Start, SIGNAL(clicked()), trayIcon, SLOT(runAll()));
         connect(ui->pushButton_AllDaemons_Stop, SIGNAL(clicked()), trayIcon, SLOT(stopAll()));
 
-        // Actions - Tools
-        //connect(ui->pushButton_tools_phpinfo,SIGNAL(clicked()), this, SLOT(openToolPhpinfo()));
-        //connect(ui->pushButton_tools_phpmyadmin,SIGNAL(clicked()), this, SLOT(openToolPhpmyadmin()));
-        //connect(ui->pushButton_tools_webgrind,SIGNAL(clicked()), this, SLOT(openToolWebgrind()));
-
         trayIcon->show();
     }
 }
@@ -154,7 +149,17 @@ void MainWindow::createActions()
      connect(ui->pushButton_Configuration, SIGNAL(clicked()), this, SLOT(openConfigurationDialog()));
      connect(ui->pushButton_Help, SIGNAL(clicked()), this, SLOT(openHelpDialog()));
      connect(ui->pushButton_About, SIGNAL(clicked()), this, SLOT(openAboutDialog()));
-     connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));     
+     connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));
+
+     // Actions - Tools
+     connect(ui->pushButton_tools_phpinfo, SIGNAL(clicked()), this, SLOT(openToolPHPInfo()));
+     connect(ui->pushButton_tools_phpmyadmin, SIGNAL(clicked()), this, SLOT(openToolPHPMyAdmin()));
+     connect(ui->pushButton_tools_webgrind, SIGNAL(clicked()), this, SLOT(openToolWebgrind()));
+     //connect(ui->pushButton_tools_adminer, SIGNAL(clicked()), this, SLOT(openToolAdminer()));
+
+     // Actions - Open Projects Folder
+     connect(ui->pushButton_OpenProjects_browser, SIGNAL(clicked()), this, SLOT(openProjectFolderInBrowser()));
+     connect(ui->pushButton_OpenProjects_Explorer, SIGNAL(clicked()), this, SLOT(openProjectFolderInExplorer()));
  }
 
 void MainWindow::changeEvent(QEvent *event)
@@ -337,12 +342,42 @@ void MainWindow::goToDonate()
     QDesktopServices::openUrl(QUrl("http://wpn-xm.org/#donate"));
 }
 
-void MainWindow::openHelpDialog()
+void MainWindow::openToolPHPInfo()
+{
+    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/phpinfo"));
+}
+
+void MainWindow::openToolPHPMyAdmin()
+{
+    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/phpmyadmin"));
+}
+
+void MainWindow::openToolWebgrind()
+{
+    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/webgrind"));
+}
+
+void MainWindow::openToolAdminer()
+{
+    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/adminer"));
+}
+
+void MainWindow::openProjectFolderInBrowser()
+{
+    QDesktopServices::openUrl(QUrl("http://localhost/www"));
+}
+
+void MainWindow::openProjectFolderInExplorer()
+{
+    // exec explorer with path to projects
+}
+
+void MainWindow::openConfigurationDialog()
 {
 
 }
 
-void MainWindow::openConfigurationDialog()
+void MainWindow::openHelpDialog()
 {
 
 }
