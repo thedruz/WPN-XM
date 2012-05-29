@@ -176,6 +176,9 @@ p, li { white-space: pre-wrap; }
           <height>16777215</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Opens Nginx Access Log</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -199,6 +202,9 @@ p, li { white-space: pre-wrap; }
           <height>16777215</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Opens MariaDb Log</string>
+        </property>
         <property name="text">
          <string notr="true"/>
         </property>
@@ -218,6 +224,9 @@ p, li { white-space: pre-wrap; }
           <width>32</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Opens PHP Error Log</string>
         </property>
         <property name="text">
          <string notr="true"/>
@@ -345,6 +354,9 @@ p, li { white-space: pre-wrap; }
           <height>16777215</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Start Nginx</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -364,6 +376,9 @@ p, li { white-space: pre-wrap; }
           <width>32</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Stop Nginx</string>
         </property>
         <property name="text">
          <string/>
@@ -401,6 +416,9 @@ p, li { white-space: pre-wrap; }
           <height>16777215</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Start PHP</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -420,6 +438,9 @@ p, li { white-space: pre-wrap; }
           <width>32</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Start MariaDb</string>
         </property>
         <property name="text">
          <string/>
@@ -441,6 +462,9 @@ p, li { white-space: pre-wrap; }
           <height>16777215</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Stop PHP</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -460,6 +484,9 @@ p, li { white-space: pre-wrap; }
           <width>32</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Stop MariaDb</string>
         </property>
         <property name="text">
          <string/>
@@ -547,6 +574,9 @@ p, li { white-space: pre-wrap; }
           <width>32</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Opens Nginx Error Log</string>
         </property>
         <property name="text">
          <string/>

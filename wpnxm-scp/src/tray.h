@@ -45,25 +45,25 @@ public:
 public slots:
 
         // General Action Slots
-        void runAll();
-        void stopAll();
+        void startAllDaemons();
+        void stopAllDaemons();
         void restartAll();
         void goToWebsiteHelp();
         void goToReportIssue();
 
         // Nginx Action Slots
-        void runNginx();
+        void startNginx();
         void stopNginx();
         void reloadNginx();
         void restartNginx();
 
         // PHP Action Slots
-        void runPhp();
+        void startPhp();
         void stopPhp();
         void restartPhp();
 
         // MySQL Action Slots
-        void runMySQL();
+        void startMySQL();
         void stopMySQL();
         void restartMySQL();
 

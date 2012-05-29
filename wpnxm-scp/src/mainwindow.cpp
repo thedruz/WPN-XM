@@ -149,9 +149,9 @@ void MainWindow::createTrayIcon()
                 this, SLOT(setLabelStatusActive(QString, bool)));
 
         // Actions - Status Table (Action Column) - Start
-        connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(runNginx()));
-        connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(runPhp()));
-        connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(runMySQL()));
+        connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(startNginx()));
+        connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(startPhp()));
+        connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(startMySQL()));
 
         // // Actions - Status Table (Action Column) - Stop
         connect(ui->pushButton_StopNginx, SIGNAL(clicked()), trayIcon, SLOT(stopNginx()));
@@ -159,8 +159,8 @@ void MainWindow::createTrayIcon()
         connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMySQL()));
 
         // Actions - AllDaemons Start, Stop
-        connect(ui->pushButton_AllDaemons_Start, SIGNAL(clicked()), trayIcon, SLOT(runAll()));
-        connect(ui->pushButton_AllDaemons_Stop, SIGNAL(clicked()), trayIcon, SLOT(stopAll()));
+        connect(ui->pushButton_AllDaemons_Start, SIGNAL(clicked()), trayIcon, SLOT(startAllDaemons()));
+        connect(ui->pushButton_AllDaemons_Stop, SIGNAL(clicked()), trayIcon, SLOT(stopAllDaemons()));
 
         // finally: show the tray icon
         trayIcon->show();
@@ -488,8 +488,8 @@ void MainWindow::openHelpDialog()
 void MainWindow::openAboutDialog()
 {
     QMessageBox::about(this, tr("About WPN-XM"),
-        "<b>" APP_NAME_AND_VERSION "</b><br>" +
-        tr("<table><tr><td><img src=\":/cappuccino64\"></img>&nbsp;&nbsp;</td><td>"
+        tr("<b>WPN-XM Server Control Panel</b><br>"
+        "<table><tr><td><img src=\":/cappuccino64\"></img>&nbsp;&nbsp;</td><td>"
         "<table>"
         "<tr><td><b>Website</b></td><td><a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a><br></td></tr>"
         "<tr><td><b>License</b></td><td>GNU/GPL version 3, or any later version.<br></td></tr>"

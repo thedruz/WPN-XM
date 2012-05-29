@@ -68,7 +68,7 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
     // @todo make this a configuration option in user preference dialog
     if(bAutostartDaemons)
     {
-        runAll();
+        startAllDaemons();
     }
 
     /* Auto-connect Slots
@@ -83,11 +83,10 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 // Destructor
 Tray::~Tray()
 {
-    // @todo all daemons, when you quit the tray application? add option to configure dialog
-    stopAll();
-    processNginx->waitForFinished();
-    processPhp->waitForFinished();
-    processMySql->waitForFinished();
+    // @todo stop all daemons, when you quit the tray application?
+    // add option to configure dialog
+    stopAllDaemons();
+
     delete trayMenu;
 }
 
@@ -166,7 +165,7 @@ void Tray::createTrayMenu()
     nginxStatusSubmenu->addSeparator();
     nginxStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartNginx()), QKeySequence());
     nginxStatusSubmenu->addSeparator();
-    nginxStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(runNginx()), QKeySequence());
+    nginxStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startNginx()), QKeySequence());
     nginxStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopNginx()), QKeySequence());
 
 //    QMenu* nginxConfigSubmenu = new QMenu("NGINX config", MainMenu);
@@ -181,7 +180,7 @@ void Tray::createTrayMenu()
     phpStatusSubmenu->setIcon(QIcon(":/status_stop"));
     phpStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartPhp()), QKeySequence());
     phpStatusSubmenu->addSeparator();
-    phpStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(runPhp()), QKeySequence());
+    phpStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startPhp()), QKeySequence());
     phpStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopPhp()), QKeySequence());
 
 //    QMenu* phpConfigSubmenu = new QMenu("PHP Config", MainMenu);
@@ -193,7 +192,7 @@ void Tray::createTrayMenu()
     mysqlStatusSubmenu->setIcon(QIcon(":/status_stop"));
     mysqlStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartMySQL()), QKeySequence());
     mysqlStatusSubmenu->addSeparator();
-    mysqlStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(runMySQL()), QKeySequence());
+    mysqlStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startMySQL()), QKeySequence());
     mysqlStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopMySQL()), QKeySequence());
 
     //QMenu* mysqlConfigSubmenu = new QMenu("MySql Config", MainMenu);
@@ -218,8 +217,8 @@ void Tray::createTrayMenu()
     */
 
     trayMenu->addSeparator();
-    trayMenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(runAll()), QKeySequence());
-    trayMenu->addAction(QIcon(":/action_stop"), tr("Stop All"), this, SLOT(stopAll()), QKeySequence());
+    trayMenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(startAllDaemons()), QKeySequence());
+    trayMenu->addAction(QIcon(":/action_stop"), tr("Stop All"), this, SLOT(stopAllDaemons()), QKeySequence());
     trayMenu->addSeparator();
     trayMenu->addMenu(nginxStatusSubmenu);
     trayMenu->addMenu(phpStatusSubmenu);
@@ -249,14 +248,14 @@ void Tray::goToReportIssue()
 //*
 //* Action slots
 //*
-void Tray::runAll()
+void Tray::startAllDaemons()
 {
-    runNginx();
-    runPhp();
-    runMySQL();
+    startNginx();
+    startPhp();
+    startMySQL();
 }
 
-void Tray::stopAll()
+void Tray::stopAllDaemons()
 {
     stopMySQL();
     stopPhp();
@@ -273,7 +272,7 @@ void Tray::restartAll()
 /*
  * Nginx - Actions: run, stop, restart
  */
-void Tray::runNginx()
+void Tray::startNginx()
 {
     if(processNginx->state() != QProcess::NotRunning)
     {
@@ -302,24 +301,39 @@ void Tray::reloadNginx()
 void Tray::restartNginx()
 {
     stopNginx();
-    runNginx();
+    startNginx();
 }
 
 /*
  * PHP - Actions: run, stop, restart
  */
-void Tray::runPhp()
+void Tray::startPhp()
 {
+    // already running
     if(processPhp->state() != QProcess::NotRunning)
     {
         QMessageBox::warning(0, tr("PHP"), tr("PHP is already running."));
         return;
     }
+
+    // start
     processPhp->start(cfgPhpDir+cfgPhpExec, QStringList() << "-b" << cfgPhpFastCgiHost+":"+cfgPhpFastCgiPort);
+
+    // re-connect the process monitoring; see stopPhp()
+    connect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
+
 }
 
 void Tray::stopPhp()
 {
+    // 1) processPhp->terminate(); will fail because WM_CLOSE message not handled
+    // 2) By killing the process, we are crashing it!
+    //    The user will get a "Process Crashed" Error MessageBox.
+    //    Therefore we need to disconnect signal/sender from method/receiver.
+    //    The result is, that crashing the php daemon intentionally is not shown as error.
+    disconnect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
+
+    // kill PHP daemon
     processPhp->kill();
     processPhp->waitForFinished();
 }
@@ -327,13 +341,13 @@ void Tray::stopPhp()
 void Tray::restartPhp()
 {
     stopPhp();
-    runPhp();
+    startPhp();
 }
 
 /*
  * MySql Actions - run, stop, restart
  */
-void Tray::runMySQL()
+void Tray::startMySQL()
 {
     if(processMySql->state() != QProcess::NotRunning){
         QMessageBox::warning(0, tr("MySQL"), tr("MySQL already running."));
@@ -353,7 +367,7 @@ void Tray::stopMySQL()
 void Tray::restartMySQL()
 {
     stopMySQL();
-    runMySQL();
+    startMySQL();
 }
 
 /*
