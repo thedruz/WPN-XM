@@ -16,6 +16,10 @@ Google Group:       http://groups.google.com/group/wpn-xm/
 
 Github:             https://github.com/jakoch/WPN-XM/
 
+IRC:                Server: irc.freenode.net Channel: #koch
+
+For issue tracking: https://github.com/jakoch/WPN-XM/issues
+
 === Installing WPN-XM on Windows
 
 https://github.com/jakoch/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation Guide]
