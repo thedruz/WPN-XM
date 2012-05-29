@@ -30,19 +30,25 @@ HEADERS += src/version.h \
            src/hostmanager/host.h \
            src/hostmanager/hosttablemodel.h \
            src/hostmanager/adddialog.h \
-           src/hostmanager/hostmanagerdialog.h
+           src/hostmanager/hostmanagerdialog.h \
+           src/configurationdialog.h
 SOURCES += src/main.cpp \
            src/tray.cpp \
            src/mainwindow.cpp \
            src/hostmanager/host.cpp \
            src/hostmanager/hosttablemodel.cpp \
            src/hostmanager/adddialog.cpp \
-           src/hostmanager/hostmanagerdialog.cpp
+           src/hostmanager/hostmanagerdialog.cpp \
+           src/configurationdialog.cpp
 RESOURCES += src/resources/Resources.qrc
 RC_FILE = src/resources/appico.rc
 DESTDIR = bin
 release:TARGET = wpnxm-scp
 build_pass:CONFIG(debug, debug|release):TARGET = wpnxm-scp-debug
 OTHER_FILES += appico.rc
-FORMS += src/mainwindow.ui
+FORMS += src/mainwindow.ui \
+         src/configurationdialog.ui
 
+CONFIG(static) {
+    QMAKE_LFLAGS *= -static -static-libgcc -enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
+}
