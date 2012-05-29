@@ -21,8 +21,9 @@
 #    along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 #
 DEPLOYMENT.display_name = WPN-XM Server Control Panel
-# disable qDebug() output to console
+# this define disables qDebug() output to console
 #DEFINES += QT_NO_DEBUG_OUTPUT
+# Header files
 HEADERS += src/version.h \
            src/main.h \
            src/tray.h \
@@ -32,6 +33,7 @@ HEADERS += src/version.h \
            src/hostmanager/adddialog.h \
            src/hostmanager/hostmanagerdialog.h \
            src/configurationdialog.h
+# Source files
 SOURCES += src/main.cpp \
            src/tray.cpp \
            src/mainwindow.cpp \
@@ -40,15 +42,29 @@ SOURCES += src/main.cpp \
            src/hostmanager/adddialog.cpp \
            src/hostmanager/hostmanagerdialog.cpp \
            src/configurationdialog.cpp
+# Resource file(s)
 RESOURCES += src/resources/Resources.qrc
 RC_FILE = src/resources/appico.rc
-DESTDIR = bin
-release:TARGET = wpnxm-scp
-build_pass:CONFIG(debug, debug|release):TARGET = wpnxm-scp-debug
 OTHER_FILES += appico.rc
 FORMS += src/mainwindow.ui \
          src/configurationdialog.ui
 
-CONFIG(static) {
+DESTDIR = bin
+release:TARGET = wpnxm-scp
+build_pass:CONFIG(debug, debug|release):TARGET = wpnxm-scp-debug
+
+CONFIG += qt warn_on static staticlib
+
+# change the name of the binary, if it is build in debug mode
+CONFIG(debug, debug|release) {
+         win32: TARGET = $$join(TARGET,,,_debug)
+}
+
+static {                                      # everything below takes effect with CONFIG += static
+    CONFIG += static
+    CONFIG += staticlib                       # this is needed if you create a static library, not a static executable
+    DEFINES += STATIC
+    message("~~~ static build ~~~")           # this is for information, that the static build is done
+    win32: TARGET = $$join(TARGET,,,_static)  # this adds an s in the end, so you can seperate static build from non static build
     QMAKE_LFLAGS *= -static -static-libgcc -enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
 }
