@@ -25,6 +25,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tray.h"
+#include "configurationdialog.h"
 
 // Global includes
 #include <QMessageBox>
@@ -33,6 +34,7 @@
 #include <QRegExp>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -61,11 +63,47 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label_Nginx_Status->setEnabled(false);
     ui->label_PHP_Status->setEnabled(false);
     ui->label_MariaDB_Status->setEnabled(false);
+
+    showPushButtonsOnlyForInstalledTools();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::showPushButtonsOnlyForInstalledTools()
+{
+
+    // get all PushButtons from the Tools GroupBox
+    QList<QPushButton *> allPushButtonsButtons = ui->ToolsGroupBox->findChildren<QPushButton *>();
+
+    // set all PushButtons invisible
+    for(int i = 0; i < allPushButtonsButtons.size(); ++i)
+    {
+       allPushButtonsButtons[i]->setVisible(false);
+    }
+
+    // if tool directory exists, show pushButton
+    if(QDir(getProjectFolder() + "/www/webinterface").exists())
+    {
+        ui->pushButton_tools_phpinfo->setVisible(true);
+    }
+
+    if(QDir(getProjectFolder() + "/phpmyadmin").exists())
+    {
+        ui->pushButton_tools_phpmyadmin->setVisible(true);
+    }
+
+    if(QDir(getProjectFolder() + "/adminer").exists())
+    {
+        ui->pushButton_tools_phpmyadmin->setVisible(true);
+    }
+
+    if(QDir(getProjectFolder() + "/webgrind").exists())
+    {
+        ui->pushButton_tools_phpmyadmin->setVisible(true);
+    }
 }
 
 void MainWindow::setLabelStatusActive(QString label, bool enabled)
@@ -105,16 +143,17 @@ void MainWindow::createTrayIcon()
         connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
+        // Actions - Status Table (Status Column)
         // if process state of a daemon changes, then change the label status in UI::MainWindow too
         connect(trayIcon, SIGNAL(signalSetLabelStatusActive(QString, bool)),
                 this, SLOT(setLabelStatusActive(QString, bool)));
 
-        // Actions - Start
+        // Actions - Status Table (Action Column) - Start
         connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(runNginx()));
         connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(runPhp()));
         connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(runMySQL()));
 
-        // Actions - Stop
+        // // Actions - Status Table (Action Column) - Stop
         connect(ui->pushButton_StopNginx, SIGNAL(clicked()), trayIcon, SLOT(stopNginx()));
         connect(ui->pushButton_StopPHP, SIGNAL(clicked()), trayIcon, SLOT(stopPhp()));
         connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMySQL()));
@@ -123,6 +162,7 @@ void MainWindow::createTrayIcon()
         connect(ui->pushButton_AllDaemons_Start, SIGNAL(clicked()), trayIcon, SLOT(runAll()));
         connect(ui->pushButton_AllDaemons_Stop, SIGNAL(clicked()), trayIcon, SLOT(stopAll()));
 
+        // finally: show the tray icon
         trayIcon->show();
     }
 }
@@ -160,6 +200,17 @@ void MainWindow::createActions()
      // Actions - Open Projects Folder
      connect(ui->pushButton_OpenProjects_browser, SIGNAL(clicked()), this, SLOT(openProjectFolderInBrowser()));
      connect(ui->pushButton_OpenProjects_Explorer, SIGNAL(clicked()), this, SLOT(openProjectFolderInExplorer()));
+
+     // Actions - Status Table (Config)
+     connect(ui->pushButton_ConfigureNginx, SIGNAL(clicked()), this, SLOT(openConfigurationDialogNginx()));
+     connect(ui->pushButton_ConfigurePHP, SIGNAL(clicked()), this, SLOT(openConfigurationDialogPHP()));
+     connect(ui->pushButton_ConfigureMariaDB, SIGNAL(clicked()), this, SLOT(openConfigurationDialogMariaDB()));
+
+     // Actions - Status Table (Logs)
+     connect(ui->pushButton_ShowLog_NginxAccess, SIGNAL(clicked()), this, SLOT(openLogNginxAccess()));
+     connect(ui->pushButton_ShowLog_NginxError, SIGNAL(clicked()), this, SLOT(openLogNginxError()));
+     connect(ui->pushButton_ShowLog_PHP, SIGNAL(clicked()), this, SLOT(openLogPHP()));
+     connect(ui->pushButton_ShowLog_MariaDB, SIGNAL(clicked()), this, SLOT(openLogMariaDB()));
  }
 
 void MainWindow::changeEvent(QEvent *event)
@@ -204,11 +255,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 
 void MainWindow::setVisible(bool visible)
- {
-     minimizeAction->setEnabled(visible);
-     restoreAction->setEnabled(isMaximized() || !visible);
-     QMainWindow::setVisible(visible);
- }
+{
+    minimizeAction->setEnabled(visible);
+    restoreAction->setEnabled(isMaximized() || !visible);
+    QMainWindow::setVisible(visible);
+}
 
 void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
@@ -369,12 +420,64 @@ void MainWindow::openProjectFolderInBrowser()
 
 void MainWindow::openProjectFolderInExplorer()
 {
-    // exec explorer with path to projects
+    if(QDir(getProjectFolder()).exists())
+    {
+        // exec explorer with path to projects
+        QDesktopServices::openUrl(QUrl("file:///" + getProjectFolder(), QUrl::TolerantMode));
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("Warning"), tr("The projects folder was not found."));
+    }
+}
+
+QString MainWindow::getProjectFolder() const
+{
+    return QDir::toNativeSeparators(QApplication::applicationDirPath() + "/www");
 }
 
 void MainWindow::openConfigurationDialog()
 {
+    ConfigurationDialog cfgDlg;
+    cfgDlg.setWindowTitle(APP_NAME "- Configuration");
 
+    cfgDlg.exec();
+}
+
+void MainWindow::openConfigurationDialogNginx()
+{
+
+}
+
+void MainWindow::openConfigurationDialogPHP()
+{}
+
+void MainWindow::openConfigurationDialogMariaDB()
+{}
+
+void MainWindow::openLogNginxAccess()
+{
+
+    qDebug() << qApp->applicationDirPath() + "/logs/access.log";
+    QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/access.log", QUrl::TolerantMode));
+}
+
+void MainWindow::openLogNginxError()
+{
+    qDebug() << qApp->applicationDirPath() + "/logs/error.log";
+    QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/error.log", QUrl::TolerantMode));
+}
+
+void MainWindow::openLogPHP()
+{
+    qDebug() << qApp->applicationDirPath() + "/logs/php.log";
+    QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/php.log", QUrl::TolerantMode));
+}
+
+void MainWindow::openLogMariaDB()
+{
+    qDebug() << qApp->applicationDirPath() + "/logs/mariadb.log";
+    QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/mariadb.log", QUrl::TolerantMode));
 }
 
 void MainWindow::openHelpDialog()
@@ -385,8 +488,8 @@ void MainWindow::openHelpDialog()
 void MainWindow::openAboutDialog()
 {
     QMessageBox::about(this, tr("About WPN-XM"),
-        tr("<b>WPN-XM Server Control Panel</b><br>" // APP_NAME_AND_VERSION
-        "<table><tr><td><img src=\":/cappuccino64\"></img>&nbsp;&nbsp;</td><td>"
+        "<b>" APP_NAME_AND_VERSION "</b><br>" +
+        tr("<table><tr><td><img src=\":/cappuccino64\"></img>&nbsp;&nbsp;</td><td>"
         "<table>"
         "<tr><td><b>Website</b></td><td><a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a><br></td></tr>"
         "<tr><td><b>License</b></td><td>GNU/GPL version 3, or any later version.<br></td></tr>"

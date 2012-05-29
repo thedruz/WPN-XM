@@ -134,14 +134,16 @@ private:
         QProcess* processPhp;
         QProcess* processMySql;
 
-        // Menus
-        void createTrayIcon();
-        QMenu* MainMenu;
+        // The Tray Menu
+        void createTrayMenu();
+        // The Submenus of the Tray Menu
+        QMenu* trayMenu;
         QMenu* nginxStatusSubmenu;
         QMenu* phpStatusSubmenu;
         QMenu* mysqlStatusSubmenu;
 
         void initializeConfiguration();
+        void startMonitoringDaemonProcesses();
 
         QString p_target_path;
         void openFileWithDefaultHandler(QString p_target_path);

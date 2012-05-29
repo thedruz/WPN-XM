@@ -50,17 +50,49 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 {
     // Tray Icon
     setIcon(QIcon(":/wpnxm"));
-    // @todo append to tooltip the status of the daemons
+
+    // @todo append status of the daemons to tooltip
+    // or create seperate popup?
     setToolTip("WPN-XM");
 
     initializeConfiguration();
 
-    createTrayIcon();
+    createTrayMenu();
 
     // the timer is used for monitoring the process state of each daemon
     timer = new QTimer(this);
     timer->setInterval(1000); // msec = 1sec
 
+    startMonitoringDaemonProcesses();
+
+    // @todo make this a configuration option in user preference dialog
+    if(bAutostartDaemons)
+    {
+        runAll();
+    }
+
+    /* Auto-connect Slots
+       The following definition isneeded:
+                void on_<object name>_<signal name>(<signal parameters>);
+       like:    private slots: void on_okButton_clicked();
+                or  void on_xy_triggered();
+    */
+    // QMetaObject::connectSlotsByName(this);
+}
+
+// Destructor
+Tray::~Tray()
+{
+    // @todo all daemons, when you quit the tray application? add option to configure dialog
+    stopAll();
+    processNginx->waitForFinished();
+    processPhp->waitForFinished();
+    processMySql->waitForFinished();
+    delete trayMenu;
+}
+
+void Tray::startMonitoringDaemonProcesses()
+{
     processNginx = new QProcess(this);
     processNginx->setWorkingDirectory(cfgNginxDir);
     connect(processNginx, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(nginxStateChanged(QProcess::ProcessState)));
@@ -75,23 +107,6 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
     processMySql->setWorkingDirectory(cfgMySqlDir);
     connect(processMySql, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(mysqlStateChanged(QProcess::ProcessState)));
     connect(processMySql, SIGNAL(error(QProcess::ProcessError)), this, SLOT(mysqlProcessError(QProcess::ProcessError)));
-
-    // @todo make this a configuration option in user preference dialog
-    if(bAutostartDaemons)
-    {
-        runAll();
-    }
-}
-
-// Destructor
-Tray::~Tray()
-{
-    // @todo stop all daemons, when you quit the tray application? add option to configure dialog
-    stopAll();
-    processNginx->waitForFinished();
-    processPhp->waitForFinished();
-    processMySql->waitForFinished();
-    delete MainMenu;
 }
 
 void Tray::initializeConfiguration()
@@ -132,13 +147,20 @@ void Tray::initializeConfiguration()
     //cfgMySqlWorkbenchExec   = globalSettings.value("mysqlworkbench/exec", "/MySQLWorkbench.exe").toString();
 }
 
-void Tray::createTrayIcon()
+void Tray::createTrayMenu()
 {
-    MainMenu = new QMenu();
-    //MainMenu->setStyle(new QPlastiqueStyle);
+    QMenu *trayMenu = contextMenu();
+
+    if (trayMenu) {
+        trayMenu->clear();
+    } else {
+        trayMenu = new QMenu;
+        setContextMenu(trayMenu);
+        //MainMenu->setStyle(new QPlastiqueStyle);
+    }
 
     // Nginx
-    nginxStatusSubmenu = new QMenu("Nginx", MainMenu);
+    nginxStatusSubmenu = new QMenu("Nginx", trayMenu);
     nginxStatusSubmenu->setIcon(QIcon(":/status_stop"));
     nginxStatusSubmenu->addAction(QIcon(":/action_reload"), tr("Reload"), this, SLOT(reloadNginx()), QKeySequence());
     nginxStatusSubmenu->addSeparator();
@@ -155,7 +177,7 @@ void Tray::createTrayIcon()
 //    nginxConfigSubmenu->addAction(tr("Open log folder"), this, SLOT(openNginxLogs()), QKeySequence());
 
     // PHP
-    phpStatusSubmenu = new QMenu("PHP", MainMenu);
+    phpStatusSubmenu = new QMenu("PHP", trayMenu);
     phpStatusSubmenu->setIcon(QIcon(":/status_stop"));
     phpStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartPhp()), QKeySequence());
     phpStatusSubmenu->addSeparator();
@@ -167,7 +189,7 @@ void Tray::createTrayIcon()
 //    phpConfigSubmenu->addAction("Open php config", this, SLOT(openPhpConfig()), QKeySequence());
 
     // MySQL
-    mysqlStatusSubmenu = new QMenu("MariaDb", MainMenu);
+    mysqlStatusSubmenu = new QMenu("MariaDb", trayMenu);
     mysqlStatusSubmenu->setIcon(QIcon(":/status_stop"));
     mysqlStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartMySQL()), QKeySequence());
     mysqlStatusSubmenu->addSeparator();
@@ -185,23 +207,33 @@ void Tray::createTrayIcon()
     //QDesktopServices::openUrl(url);
     // QDesktopServices::openUrl(QUrl("file:///C:/Documents and Settings/All Users/Desktop", QUrl::TolerantMode));
 
-    // Build main menu
-    MainMenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(runAll()), QKeySequence());
-    MainMenu->addAction(QIcon(":/action_stop"), tr("Stop All"), this, SLOT(stopAll()), QKeySequence());
-    MainMenu->addSeparator();
-    MainMenu->addMenu(nginxStatusSubmenu);
-    MainMenu->addMenu(phpStatusSubmenu);
-    MainMenu->addMenu(mysqlStatusSubmenu);
-    MainMenu->addSeparator();
-    MainMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(openHostManagerDialog()), QKeySequence());
+    // Build Tray Menu
+
+    /* @todo add Name of App as first entry?
+    QAction *act = trayMenu->addAction(QIcon(":/"), "WPN-XM SCP");
+    // Create a bold font and set it for default action text
+    QFont actionFont = QFont();
+    actionFont.setBold(true);
+    act->setFont(actionFont);
+    */
+
+    trayMenu->addSeparator();
+    trayMenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(runAll()), QKeySequence());
+    trayMenu->addAction(QIcon(":/action_stop"), tr("Stop All"), this, SLOT(stopAll()), QKeySequence());
+    trayMenu->addSeparator();
+    trayMenu->addMenu(nginxStatusSubmenu);
+    trayMenu->addMenu(phpStatusSubmenu);
+    trayMenu->addMenu(mysqlStatusSubmenu);
+    trayMenu->addSeparator();
+    trayMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(openHostManagerDialog()), QKeySequence());
     //MainMenu->addMenu(nginxConfigSubmenu);
     //MainMenu->addMenu(phpConfigSubmenu);
     //MainMenu->addMenu(mysqlConfigSubmenu);
-    MainMenu->addSeparator();
-    MainMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
-    MainMenu->addAction(QIcon(":/help"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
-    MainMenu->addAction(QIcon(":/quit"),tr("&Quit"), qApp, SLOT(quit()), QKeySequence());
-    setContextMenu(MainMenu);
+    trayMenu->addSeparator();
+    trayMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
+    trayMenu->addAction(QIcon(":/help"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
+    trayMenu->addAction(QIcon(":/quit"),tr("&Quit"), qApp, SLOT(quit()), QKeySequence());
+    setContextMenu(trayMenu);
 }
 
 void Tray::goToWebsiteHelp()

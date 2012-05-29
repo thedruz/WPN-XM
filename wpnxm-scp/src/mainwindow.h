@@ -48,10 +48,15 @@ private:
 
     void createActions();
     void createTrayIcon();
+    void startMonitoringDaemonProcesses();
 
     QAction *minimizeAction;
     QAction *restoreAction;
     QAction *quitAction;
+
+    /// Returns full path to project folder (appPath + www).
+    QString getProjectFolder() const;
+    void showPushButtonsOnlyForInstalledTools();
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -84,6 +89,16 @@ public slots:
     void openConfigurationDialog();
     void openHelpDialog();
     void openAboutDialog();
+
+    void openConfigurationDialogNginx();
+    void openConfigurationDialogPHP();
+    void openConfigurationDialogMariaDB();
+
+    void openLogNginxAccess();
+    void openLogNginxError();
+    void openLogPHP();
+    void openLogMariaDB();
+
 
     void setLabelStatusActive(QString label, bool enabled);
 };

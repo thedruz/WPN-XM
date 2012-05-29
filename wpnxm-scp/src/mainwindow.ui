@@ -40,7 +40,7 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>457</width>
+       <width>461</width>
        <height>123</height>
       </rect>
      </property>
@@ -169,7 +169,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="1" column="5">
-       <widget class="QPushButton" name="pushButton_ShowNginxAccessLog">
+       <widget class="QPushButton" name="pushButton_ShowLog_NginxAccess">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -189,7 +189,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="3" column="5">
-       <widget class="QPushButton" name="pushButton_Log_MariaDB">
+       <widget class="QPushButton" name="pushButton_ShowLog_MariaDB">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -212,7 +212,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="2" column="5">
-       <widget class="QPushButton" name="pushButton_Log_PHP">
+       <widget class="QPushButton" name="pushButton_ShowLog_PHP">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -541,7 +541,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="1" column="6">
-       <widget class="QPushButton" name="pushButton_ShowNginxErrorLog">
+       <widget class="QPushButton" name="pushButton_ShowLog_NginxError">
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -1875,12 +1875,12 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushButton_OpenProjects_browser</tabstop>
   <tabstop>pushButton_OpenProjects_Explorer</tabstop>
   <tabstop>pushButton_ConfigureNginx</tabstop>
-  <tabstop>pushButton_ShowNginxAccessLog</tabstop>
-  <tabstop>pushButton_ShowNginxErrorLog</tabstop>
+  <tabstop>pushButton_ShowLog_NginxAccess</tabstop>
+  <tabstop>pushButton_ShowLog_NginxError</tabstop>
   <tabstop>pushButton_ConfigurePHP</tabstop>
-  <tabstop>pushButton_Log_PHP</tabstop>
+  <tabstop>pushButton_ShowLog_PHP</tabstop>
   <tabstop>pushButton_ConfigureMariaDB</tabstop>
-  <tabstop>pushButton_Log_MariaDB</tabstop>
+  <tabstop>pushButton_ShowLog_MariaDB</tabstop>
  </tabstops>
  <resources>
   <include location="resources/Resources.qrc"/>
