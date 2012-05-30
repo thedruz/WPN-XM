@@ -78,7 +78,6 @@ public slots:
 
         void openPhpConfig();
 
-        void openMySqlWorkbench();
         void openMySqlClient();
         void openMySqlConfig();
 
@@ -106,28 +105,24 @@ private:
         QString cfgLogsDir;
 
         // PHP
-#define PHPCGI_EXEC "/php-cgi.exe"
         QString cfgPhpDir;
-        QString cfgPhpExec;
+#define PHPCGI_EXEC "/php-cgi.exe"
         QString cfgPhpConfig;
         QString cfgPhpFastCgiHost;
         QString cfgPhpFastCgiPort;
 
         // NGINX
         QString cfgNginxDir;
-        QString cfgNginxExec;
-        QString cfgNginxSites;
+#define NGINX_EXEC "/nginx.exe"
         QString cfgNginxConfig;
+        QString cfgNginxSites;
 
         // MySQL
-        QString cfgMySqlDir;
-        QString cfgMySqlExec;
-        QString cfgMySqlConfig;
-        QString cfgMySqlClientExec;
-
-        // MySQL Workbench
-        QString cfgMySqlWorkbenchExec;
-        QString cfgMySqlWorkbenchDir;
+        QString cfgMariaDBDir;
+#define MARIADB_EXEC "/mysqld.exe"
+#define MARIADB_CLIENT_EXEC "/mysql.exe"
+        QString cfgMariaDBConfig;
+        QString cfgMariaDBClientExec;
 
         // Process Monitoring
         QProcess* processNginx;
@@ -135,9 +130,9 @@ private:
         QProcess* processMySql;
 
         // The Tray Menu
-        void createTrayMenu();
-        // The Submenus of the Tray Menu
+        void createTrayMenu();       
         QMenu* trayMenu;
+         // The Submenus of the Tray Menu
         QMenu* nginxStatusSubmenu;
         QMenu* phpStatusSubmenu;
         QMenu* mysqlStatusSubmenu;

@@ -40,9 +40,9 @@
 //#include <QDebug>
 
 // Global ShellExecute() used by openFileWithDefaultHandler() needs Windows API
-#include "qt_windows.h"
-#include "qwindowdefs_win.h"
-#include <shellapi.h>
+//#include "qt_windows.h"
+//#include "qwindowdefs_win.h"
+//#include <shellapi.h>
 
 // Constructor
 Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
@@ -102,7 +102,7 @@ void Tray::startMonitoringDaemonProcesses()
     connect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
 
     processMySql = new QProcess(this);
-    processMySql->setWorkingDirectory(cfgMySqlDir);
+    processMySql->setWorkingDirectory(cfgMariaDBDir);
     connect(processMySql, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(mysqlStateChanged(QProcess::ProcessState)));
     connect(processMySql, SIGNAL(error(QProcess::ProcessError)), this, SLOT(mysqlProcessError(QProcess::ProcessError)));
 }
@@ -126,23 +126,16 @@ void Tray::initializeConfiguration()
     cfgLogsDir              = globalSettings.value("path/logs", "/logs").toString();
 
     cfgPhpDir               = globalSettings.value("path/php", "./bin/php").toString();
-    cfgPhpExec              = globalSettings.value("php/exec", "/php-cgi.exe").toString();
     cfgPhpConfig            = globalSettings.value("php/config", "./bin/php/php.ini").toString();
-    cfgPhpFastCgiHost       = globalSettings.value("php/fastcgi-bindaddress", "localhost").toString();
-    cfgPhpFastCgiPort       = globalSettings.value("php/fastcgi-bindport", "9000").toString();
+    cfgPhpFastCgiHost       = globalSettings.value("php/fastcgi-host", "localhost").toString();
+    cfgPhpFastCgiPort       = globalSettings.value("php/fastcgi-port", "9000").toString();
 
-    cfgNginxDir             = globalSettings.value("path/nginx", "./bin/nginx").toString();
-    cfgNginxExec            = globalSettings.value("nginx/exec", "/nginx.exe").toString();    
+    cfgNginxDir             = globalSettings.value("path/nginx", "./bin/nginx").toString();   
     cfgNginxConfig          = globalSettings.value("nginx/config", "./bin/nginx/conf/nginx.conf").toString();
     cfgNginxSites           = globalSettings.value("nginx/sites", "/www").toString();
 
-    cfgMySqlDir             = globalSettings.value("path/mysql", "./bin/mariadb/bin").toString();
-    cfgMySqlExec            = globalSettings.value("mysql/exec", "/mysqld.exe").toString();
-    cfgMySqlConfig          = globalSettings.value("mysql/config", "./bin/mariadb/my.ini").toString();
-    cfgMySqlClientExec      = globalSettings.value("mysql/clientExec", "./bin/mariadb/bin/mysql.exe").toString();
-
-    //cfgMySqlWorkbenchDir    = globalSettings.value("path/mysqlworkbench", "./bin/mysqlworkbench").toString();
-    //cfgMySqlWorkbenchExec   = globalSettings.value("mysqlworkbench/exec", "/MySQLWorkbench.exe").toString();
+    cfgMariaDBDir           = globalSettings.value("path/mysql", "./bin/mariadb/bin").toString();
+    cfgMariaDBConfig        = globalSettings.value("mysql/config", "./bin/mariadb/my.ini").toString();
 }
 
 void Tray::createTrayMenu()
@@ -166,13 +159,6 @@ void Tray::createTrayMenu()
     nginxStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startNginx()), QKeySequence());
     nginxStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopNginx()), QKeySequence());
 
-//    QMenu* nginxConfigSubmenu = new QMenu("NGINX config", MainMenu);
-//    nginxConfigSubmenu->setIcon(QIcon(":/nginx"));
-//    nginxConfigSubmenu->addAction(tr("Open site folder"), this, SLOT(openNginxSite()), QKeySequence());
-//    nginxConfigSubmenu->addSeparator();
-//    nginxConfigSubmenu->addAction(tr("Open configuration folder"), this, SLOT(openNginxConfig()), QKeySequence());
-//    nginxConfigSubmenu->addAction(tr("Open log folder"), this, SLOT(openNginxLogs()), QKeySequence());
-
     // PHP
     phpStatusSubmenu = new QMenu("PHP", trayMenu);
     phpStatusSubmenu->setIcon(QIcon(":/status_stop"));
@@ -180,10 +166,6 @@ void Tray::createTrayMenu()
     phpStatusSubmenu->addSeparator();
     phpStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startPhp()), QKeySequence());
     phpStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopPhp()), QKeySequence());
-
-//    QMenu* phpConfigSubmenu = new QMenu("PHP Config", MainMenu);
-//    phpConfigSubmenu->setIcon(QIcon(":/php"));
-//    phpConfigSubmenu->addAction("Open php config", this, SLOT(openPhpConfig()), QKeySequence());
 
     // MySQL
     mysqlStatusSubmenu = new QMenu("MariaDb", trayMenu);
@@ -193,26 +175,7 @@ void Tray::createTrayMenu()
     mysqlStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startMySQL()), QKeySequence());
     mysqlStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopMySQL()), QKeySequence());
 
-    //QMenu* mysqlConfigSubmenu = new QMenu("MySql Config", MainMenu);
-    //mysqlConfigSubmenu->setIcon(QIcon(":/mysql"));
-    //mysqlConfigSubmenu->addAction(QIcon(":/mysqlworkbench"), tr("Open MySQL workbench"), this, SLOT(openMySqlWorkbench()), QKeySequence());
-    //mysqlConfigSubmenu->addAction(QIcon(":/cmd"), tr("Open MySQL client"), this, SLOT(openMySqlClient()), QKeySequence());
-    //mysqlConfigSubmenu->addSeparator();
-    //mysqlConfigSubmenu->addAction(tr("Open mysql config"), this, SLOT(openMySqlConfig()), QKeySequence());
-
-    //QUrl url(SUPPORT_URL);
-    //QDesktopServices::openUrl(url);
-    // QDesktopServices::openUrl(QUrl("file:///C:/Documents and Settings/All Users/Desktop", QUrl::TolerantMode));
-
     // Build Tray Menu
-
-    /* @todo add Name of App as first entry?
-    QAction *act = trayMenu->addAction(QIcon(":/"), "WPN-XM SCP");
-    // Create a bold font and set it for default action text
-    QFont actionFont = QFont();
-    actionFont.setBold(true);
-    act->setFont(actionFont);
-    */
 
     trayMenu->addSeparator();
     trayMenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(startAllDaemons()), QKeySequence());
@@ -223,9 +186,6 @@ void Tray::createTrayMenu()
     trayMenu->addMenu(mysqlStatusSubmenu);
     trayMenu->addSeparator();
     trayMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(openHostManagerDialog()), QKeySequence());
-    //MainMenu->addMenu(nginxConfigSubmenu);
-    //MainMenu->addMenu(phpConfigSubmenu);
-    //MainMenu->addMenu(mysqlConfigSubmenu);
     trayMenu->addSeparator();
     trayMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
     trayMenu->addAction(QIcon(":/help"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
@@ -280,14 +240,14 @@ void Tray::startNginx()
     }
 
     // start daemon
-    processNginx->start(cfgNginxDir+cfgNginxExec);
+    processNginx->start(cfgNginxDir+NGINX_EXEC);
 }
 
 void Tray::stopNginx()
 {
     QProcess processStopNginx;
     processStopNginx.setWorkingDirectory(cfgNginxDir);
-    processStopNginx.start(cfgNginxDir+cfgNginxExec, QStringList() << "-s" << "stop");
+    processStopNginx.start(cfgNginxDir+NGINX_EXEC, QStringList() << "-s" << "stop");
     processStopNginx.waitForFinished();
 }
 
@@ -295,7 +255,7 @@ void Tray::reloadNginx()
 {
     QProcess processStopNginx;
     processStopNginx.setWorkingDirectory(cfgNginxDir);
-    processStopNginx.start(cfgNginxDir+cfgNginxExec, QStringList() << "-s" << "reload");
+    processStopNginx.start(cfgNginxDir+NGINX_EXEC, QStringList() << "-s" << "reload");
     processStopNginx.waitForFinished();
 }
 
@@ -318,11 +278,9 @@ void Tray::startPhp()
     }
 
     // start daemon
-    processPhp->start(cfgPhpDir+cfgPhpExec, QStringList() << "-b" << cfgPhpFastCgiHost+":"+cfgPhpFastCgiPort);
+    processPhp->start(cfgPhpDir+PHPCGI_EXEC, QStringList() << "-b" << cfgPhpFastCgiHost+":"+cfgPhpFastCgiPort);
 
-    // re-connect the process monitoring; see stopPhp()
-    connect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
-
+    emit signalSetLabelStatusActive("nginx", true);
 }
 
 void Tray::stopPhp()
@@ -358,8 +316,8 @@ void Tray::startMySQL()
 
     // start
     QDir dir(QDir::currentPath());
-    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMySqlDir));
-    processMySql->start(cfgMySqlDir+cfgMySqlExec, QStringList() << "--basedir="+strDir);
+    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMariaDBDir));
+    processMySql->start(cfgMariaDBDir+MARIADB_EXEC, QStringList() << "--basedir="+strDir);
 }
 
 void Tray::stopMySQL()
@@ -419,18 +377,13 @@ void Tray::openNginxLogs()
 
 void Tray::openMySqlClient()
 {
-    QProcess::startDetached(cfgMySqlDir+cfgMySqlClientExec, QStringList(), cfgMySqlDir);
-}
-
-void Tray::openMySqlWorkbench()
-{
-    QProcess::startDetached(cfgMySqlWorkbenchDir+cfgMySqlWorkbenchExec, QStringList(), cfgMySqlWorkbenchDir);
+    QProcess::startDetached(cfgMariaDBDir+MARIADB_CLIENT_EXEC, QStringList(), cfgMariaDBDir);
 }
 
 void Tray::openMySqlConfig()
 {
     QDir dir(QDir::currentPath());
-    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMySqlConfig));
+    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMariaDBConfig));
     QProcess::startDetached("cmd", QStringList() << "/c" << "start "+strDir);
 }
 
@@ -566,7 +519,7 @@ QString Tray::getProcessErrorMessage(QProcess::ProcessError error){
     }
     return ret;
 }
-
+/*
 void Tray::openFileWithDefaultHandler( QString p_target_path )
 {
     p_target_path = p_target_path.remove( "\"" );
@@ -623,4 +576,4 @@ void Tray::openFileWithDefaultHandler( QString p_target_path )
     }
 
     QMessageBox::warning(0, APP_NAME " - Error", error_string );
-}
+}*/
