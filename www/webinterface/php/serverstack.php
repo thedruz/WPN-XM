@@ -152,14 +152,7 @@ class Wpnxm_Serverstack
 
         $file = WPNXM_DIR . $files[$extension];
 
-        if(is_file($file) === true)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return is_file($file);
     }
 
     /**
@@ -386,7 +379,7 @@ class Wpnxm_Serverstack
                 return self::checkPort('127.0.0.1', '3306');
                 break;
             case 'memcache':
-                return self::checkPort('127.0.0.1', '11221');
+                return self::checkPort('127.0.0.1', '11211');
                 break;
 
             default:
