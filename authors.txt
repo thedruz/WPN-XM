@@ -5,3 +5,4 @@ WPN-XM is primarily authored by:
 Contributors include:
 
 * Tobias Fichtner
+* Daniel Winterfeldt (beta testing)
