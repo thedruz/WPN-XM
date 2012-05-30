@@ -37,7 +37,6 @@
 #include <QTimer>
 #include <QDesktopServices>
 #include <QUrl>
-#include <QPlastiqueStyle>
 //#include <QDebug>
 
 // Global ShellExecute() used by openFileWithDefaultHandler() needs Windows API
@@ -65,7 +64,7 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 
     startMonitoringDaemonProcesses();
 
-    // @todo make this a configuration option in user preference dialog
+    // @todo make this a configuration option in user preferences dialog
     if(bAutostartDaemons)
     {
         startAllDaemons();
@@ -155,7 +154,6 @@ void Tray::createTrayMenu()
     } else {
         trayMenu = new QMenu;
         setContextMenu(trayMenu);
-        //MainMenu->setStyle(new QPlastiqueStyle);
     }
 
     // Nginx
@@ -274,11 +272,14 @@ void Tray::restartAll()
  */
 void Tray::startNginx()
 {
+    // already running
     if(processNginx->state() != QProcess::NotRunning)
     {
         QMessageBox::warning(0, tr("Nginx"), tr("Nginx already running."));
         return;
     }
+
+    // start daemon
     processNginx->start(cfgNginxDir+cfgNginxExec);
 }
 
@@ -316,7 +317,7 @@ void Tray::startPhp()
         return;
     }
 
-    // start
+    // start daemon
     processPhp->start(cfgPhpDir+cfgPhpExec, QStringList() << "-b" << cfgPhpFastCgiHost+":"+cfgPhpFastCgiPort);
 
     // re-connect the process monitoring; see stopPhp()
@@ -349,10 +350,13 @@ void Tray::restartPhp()
  */
 void Tray::startMySQL()
 {
+    // already running
     if(processMySql->state() != QProcess::NotRunning){
         QMessageBox::warning(0, tr("MySQL"), tr("MySQL already running."));
         return;
     }
+
+    // start
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMySqlDir));
     processMySql->start(cfgMySqlDir+cfgMySqlExec, QStringList() << "--basedir="+strDir);
