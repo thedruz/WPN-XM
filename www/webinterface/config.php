@@ -145,11 +145,11 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    </tr>
                    <tr>
                      <td>Directory</td>
-                     <td class="right"><?php WPNXM_WWW_DIR . 'bin\nginx'; ?></td>
+                     <td class="right"><?php echo WPNXM_WWW_DIR . 'bin\nginx'; ?></td>
                    </tr>
                    <tr>
                      <td>Config</td>
-                     <td class="right"><?php WPNXM_WWW_DIR . 'bin\nginx\conf\nginx.conf'; ?></td>
+                     <td class="right"><?php echo WPNXM_WWW_DIR . 'bin\nginx\conf\nginx.conf'; ?></td>
                    </tr>
                    <tr>
                      <td colspan="2" class="right">
@@ -174,7 +174,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    </tr>
                    <tr>
                      <td>Directory</td>
-                     <td class="right"><?php WPNXM_WWW_DIR . 'bin\php'; ?></td>
+                     <td class="right"><?php echo WPNXM_WWW_DIR . 'bin\php'; ?></td>
                    </tr>
                    <tr>
                      <td>Config</td>
@@ -207,11 +207,11 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    </tr>
                    <tr>
                      <td>Directory</td>
-                     <td class="right"><?php WPNXM_WWW_DIR . 'bin\mariadb';?></td>
+                     <td class="right"><?php echo WPNXM_WWW_DIR . 'bin\mariadb';?></td>
                    </tr>
                    <tr>
                      <td>Config</td>
-                     <td class="right"><?php WPNXM_WWW_DIR . 'mariadb\my.ini';?></td>
+                     <td class="right"><?php echo WPNXM_WWW_DIR . 'mariadb\my.ini';?></td>
                    </tr>
                    <tr>
                      <td colspan="2" class="right"><span class="aButton">Configure</span><span class="aButton">Show Log</span><span class="aButton">Reset Password</span>
