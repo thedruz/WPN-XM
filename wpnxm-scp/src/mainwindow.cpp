@@ -414,6 +414,7 @@ void MainWindow::openToolAdminer()
 
 void MainWindow::openProjectFolderInBrowser()
 {
+    // @todo open only, when Nginx and PHP are running...
     QDesktopServices::openUrl(QUrl("http://localhost"));
 }
 
