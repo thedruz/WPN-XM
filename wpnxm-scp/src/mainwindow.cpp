@@ -74,7 +74,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::showPushButtonsOnlyForInstalledTools()
 {
-
     // get all PushButtons from the Tools GroupBox
     QList<QPushButton *> allPushButtonsButtons = ui->ToolsGroupBox->findChildren<QPushButton *>();
 
@@ -439,7 +438,7 @@ QString MainWindow::getProjectFolder() const
 void MainWindow::openConfigurationDialog()
 {
     ConfigurationDialog cfgDlg;
-    cfgDlg.setWindowTitle(APP_NAME "- Configuration");
+    cfgDlg.setWindowTitle("WPN-XM Server Control Panel - Configuration");
 
     cfgDlg.exec();
 }
