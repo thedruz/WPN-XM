@@ -66,7 +66,7 @@ del /q /f "%MYSQL_DIR%\bin\aria_ftpdump.exe"
 del /q /f "%MYSQL_DIR%\bin\aria_pack.exe"
 del /q /f "%MYSQL_DIR%\bin\aria_read_log.exe"
 :: keep my_print_defaults.exe
-del /q /f "%MYSQL_DIR%\bin\myisam_ftpdump.exe"
+del /q /f "%MYSQL_DIR%\bin\myisam_ftdump.exe"
 del /q /f "%MYSQL_DIR%\bin\myisamchk.exe"
 del /q /f "%MYSQL_DIR%\bin\myisamlog.exe"
 del /q /f "%MYSQL_DIR%\bin\myisampack.exe"
