@@ -71,7 +71,7 @@ del /q /f "%MYSQL_DIR%\bin\myisamchk.exe"
 del /q /f "%MYSQL_DIR%\bin\myisamlog.exe"
 del /q /f "%MYSQL_DIR%\bin\myisampack.exe"
 :: keep mysql.exe
-del /q /f "%MYSQL_DIR%\bin\mysqld-embedded.exe"
+del /q /f "%MYSQL_DIR%\bin\mysqld_embedded.exe"
 :: keep mysql_install_db.exe
 del /q /f "%MYSQL_DIR%\bin\mysql_plugin.exe"
 del /q /f "%MYSQL_DIR%\bin\mysql_tzinfo_to_sql.exe"
@@ -98,7 +98,7 @@ del /q /f "%MYSQL_DIR%\bin\replace.exe"
 del /q /f "%MYSQL_DIR%\bin\mysql_convert_table_format.pl"
 del /q /f "%MYSQL_DIR%\bin\mysql_secure_installation.pl"
 del /q /f "%MYSQL_DIR%\bin\mysqld_multi.pl"
-del /q /f "%MYSQL_DIR%\bin\mysqlddumpslow.pl"
+del /q /f "%MYSQL_DIR%\bin\mysqldumpslow.pl"
 del /q /f "%MYSQL_DIR%\bin\mysqlhotcopy.pl"
 
 :: ############# process the /data folder
