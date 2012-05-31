@@ -142,7 +142,7 @@ Source: "{#OC_OCSETUPHLP_FILE_PATH}"; Flags: dontcopy ignoreversion;
 Source: "..\bin\UnxUtils\unzip.exe"; DestDir: "{tmp}"; Flags: dontcopy
 Source: "..\bin\HideConsole\RunHiddenConsole.exe"; DestDir: "{app}\bin\tools\"
 Source: "..\bin\killprocess\Process.exe"; DestDir: "{app}\bin\tools\"
-Source: "..\bin\cleanup-mysql-5.5.15-win32.bat"; DestDir: "{tmp}"
+Source: "..\bin\create-mariadb-light-win32.bat"; DestDir: "{tmp}"
 // incorporate the whole "www" folder into the setup
 Source: "..\www\*"; DestDir: "{app}\www";  Flags: recursesubdirs; Excludes: "*\nbproject*"
 // incorporate several startfiles
