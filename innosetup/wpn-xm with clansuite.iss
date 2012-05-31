@@ -100,20 +100,21 @@ Name: "debug"; Description: "Server Stack with Debugtools"
 Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
 [Components]
-Name: "serverstack"; Description: "Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb)"; ExtraDiskSpaceRequired: 155000000; Types: full serverstack debug custom; Flags: fixed
+// Base Package Size is: PHP 15MB + MariaDB 180MB + Nginx 2 MB = 197 MB
+Name: "serverstack"; Description: "Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb)"; ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: "webinterface"; Description: "WPN-XM - Webinterface for Serveradministration"; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: "consoleinterface"; Description: "WPN-XM - Tray App for Serveradministration"; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: "xdebug"; Description: "Xdebug - PHP Extension for Debugging"; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: "apc"; Description: "APC - PHP Extension for Caching (Alternative PHP Cache)"; ExtraDiskSpaceRequired: 100000; Types: full debug
 Name: "webgrind"; Description: "Webgrind - Xdebug profiling web frontend"; ExtraDiskSpaceRequired: 500000; Types: full debug
-Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; ExtraDiskSpaceRequired: 800000; Types: full debug
+Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; ExtraDiskSpaceRequired: 1000000; Types: full debug
 // memcached install means the daemon and the php extension
 Name: "memcached"; Description: "Memcached - distributed memory caching"; ExtraDiskSpaceRequired: 400000; Types: full
 Name: "zeromq"; Description: "ZeroMQ - PHP Extension for concurrent socket magic"; ExtraDiskSpaceRequired: 300000; Types: full
 Name: "phpmyadmin"; Description: "phpMyAdmin - MySQL database administration webinterface"; ExtraDiskSpaceRequired: 3300000; Types: full
-Name: "adminer"; Description: "Adminer - Database management in single PHP file"; ExtraDiskSpaceRequired: 200000; Types: full;
+Name: "adminer"; Description: "Adminer - Database management in single PHP file"; ExtraDiskSpaceRequired: 355000; Types: full;
 Name: "junction"; Description: "junction - Mircosoft tool for creating junctions (symlinks)"; ExtraDiskSpaceRequired: 157000; Types: full
-Name: "pear"; Description: "PEAR - PHP Extension and Application Repository"; ExtraDiskSpaceRequired: 10000000; Types: full;
+Name: "pear"; Description: "PEAR - PHP Extension and Application Repository"; ExtraDiskSpaceRequired: 3510000; Types: full;
 Name: "clansuite"; Description: "Clansuite - just an eSports CMS"; ExtraDiskSpaceRequired: 20000000; Types: full
 
 [Files]
