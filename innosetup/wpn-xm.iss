@@ -34,7 +34,7 @@
 //
 
 // toggle for enabling/disabling the debug mode
-#define DEBUG "true"
+#define DEBUG "false"
 
 // defines the root folder
 #define SOURCE_ROOT AddBackslash(SourcePath);
@@ -101,7 +101,7 @@ Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceR
 Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
-// memcached install means the daemon and the php extension: 
+// memcached install means the daemon and the php extension
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: zeromq; Description: ZeroMQ - PHP Extension for concurrent socket magic; ExtraDiskSpaceRequired: 300000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
@@ -313,7 +313,7 @@ begin
   CurrentComponentLabel.Width := 20;  
   CurrentComponentLabel.Left := CurrentComponentProgressBar.Width;
   CurrentComponentLabel.Alignment := taRightJustify;
-  CurrentComponentLabel.Caption := '123456789-123456789-';
+  CurrentComponentLabel.Caption := '';
   CurrentComponentLabel.Font.Style := [fsBold];
   CurrentComponentLabel.Parent := InstallPage.Surface;
   
@@ -584,73 +584,83 @@ begin
 
   // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then
-  begin 
-    FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
-      UpdateTotalProgressBar();
+  begin
+    UpdateCurrentComponentProgressBarName('Xdebug');
+      FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+        UpdateTotalProgressBar();
   end;
              
   if Pos('apc', selectedComponents) > 0 then
   begin
-    // archive contains ts/nts folders, unzip to temp dir, copy file from there
-    DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
-    FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
-    UpdateTotalProgressBar();
+    UpdateCurrentComponentProgressBarName('APC');
+      // archive contains ts/nts folders, unzip to temp dir, copy file from there
+      DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
+      FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
+        UpdateTotalProgressBar();
   end;
 
   if Pos('webgrind', selectedComponents) > 0 then
-  begin 
-    DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-    UpdateTotalProgressBar();
+  begin
+    UpdateCurrentComponentProgressBarName('Webgrind');
+      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
   end;
 
   if Pos('xhprof', selectedComponents) > 0 then 
   begin 
-   DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-   UpdateTotalProgressBar;
+    UpdateCurrentComponentProgressBarName('XHProf');
+      DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar;
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
-    DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-    DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
-    UpdateTotalProgressBar();
+    UpdateCurrentComponentProgressBarName('Memcached');
+      DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
+        UpdateTotalProgressBar();
   end;
 
   if Pos('zeromq', selectedComponents) > 0 then
   begin
-    // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
-    DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
-    FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
-    // b) archive contains lib_zmq.dll which must be copied to php
-    FileCopy(ExpandConstant(targetPath + '\zmq\libzmq.dll'), ExpandConstant('{app}\bin\php\libzmq.dll'), false);
-    UpdateTotalProgressBar();
+    UpdateCurrentComponentProgressBarName('ZeroMQ');
+      // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
+      DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
+      FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+      // b) archive contains lib_zmq.dll which must be copied to php
+      FileCopy(ExpandConstant(targetPath + '\zmq\libzmq.dll'), ExpandConstant('{app}\bin\php\libzmq.dll'), false);
+        UpdateTotalProgressBar();
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then 
-  begin 
-    DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-    UpdateTotalProgressBar;
+  begin
+    UpdateCurrentComponentProgressBarName('phpMyAdmin');
+      DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar;
   end;
 
   // adminer is not a zipped, its just a php file, so copy it to the target path
   if Pos('adminer', selectedComponents) > 0 then 
-  begin 
-    FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
-    UpdateTotalProgressBar();
+  begin
+    UpdateCurrentComponentProgressBarName('Adminer');
+      FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
+        UpdateTotalProgressBar();
   end;
 
   if Pos('junction', selectedComponents) > 0 then
-  begin 
-    DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
-    UpdateTotalProgressBar();
+  begin
+    UpdateCurrentComponentProgressBarName('Junction');
+      DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
+        UpdateTotalProgressBar();
   end;
 
   // pear is not a zipped, its just a php phar package, so copy it to the php path
   if Pos('pear', selectedComponents) > 0 then
   begin
-    CreateDir(ExpandConstant('{app}\bin\php\PEAR\')); // isn't this done by filecopy?
-    FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
-    UpdateTotalProgressBar();
+    UpdateCurrentComponentProgressBarName('PEAR');
+      CreateDir(ExpandConstant('{app}\bin\php\PEAR\')); // isn't this done by filecopy?
+      FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
+        UpdateTotalProgressBar();
   end;
 
 end;
