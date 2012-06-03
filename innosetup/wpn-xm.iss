@@ -110,14 +110,14 @@ Name: junction; Description: junction - Mircosoft tool for creating junctions (s
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 
 [Files]
-// tools: 
+// tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
-// incorporate the whole "www" folder into the setup: 
+// incorporate the whole "www" folder into the setup:
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*
-// incorporate several startfiles: 
+// incorporate several startfiles:
 Source: ..\startfiles\administration.url; DestDir: {app}
 Source: ..\startfiles\localhost.url; DestDir: {app}
 Source: ..\startfiles\start-wpnxm.exe; DestDir: {app}
@@ -125,7 +125,7 @@ Source: ..\startfiles\stop-wpnxm.exe; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
-// config files: 
+// config files:
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\vhosts.conf; DestDir: {app}\bin\nginx\conf
@@ -222,7 +222,7 @@ var
   targetPath  : String;   // if debug true will download to app/downloads, else temp dir
 
   InstallPage                   : TWizardPage;
-  { can't fetch them via FindComponents and declaring them log => "could not call proc" }  
+  { can't fetch them via FindComponents and declaring them log => "could not call proc" }
   TotalProgressBar                : TNewProgressBar;
   TotalProgressLabel              : TLabel;
   CurrentComponentProgressBar     : TNewProgressBar;
@@ -259,8 +259,8 @@ var
   //CurrentComponentLabel         : TNewStaticText;  // declared global
   //CurrentComponentProgressBar   : TNewProgressBar; // declared global
 
-begin                              
-  // CustomPage is shown after the wpReady page 
+begin
+  // CustomPage is shown after the wpReady page
   InstallPage := CreateCustomPage(wpReady,'Installation', 'Description');
 
   { Total Progress Bar }
@@ -281,7 +281,7 @@ begin
   TotalProgressBar.Parent := InstallPage.Surface;
 
   TotalProgressLabel := TLabel.Create(InstallPage);
-  TotalProgressLabel.Top := TotalProgressStaticText.Top;  
+  TotalProgressLabel.Top := TotalProgressStaticText.Top;
   TotalProgressLabel.Left := TotalProgressBar.Width;
   TotalProgressLabel.Caption := '0 %';
   TotalProgressLabel.Alignment := taRightJustify;
@@ -307,17 +307,17 @@ begin
 
   CurrentComponentLabel := TLabel.Create(InstallPage);
   CurrentComponentLabel.Top := CurrentComponentStaticText.Top;
-  CurrentComponentLabel.Width := 20;  
+  CurrentComponentLabel.Width := 20;
   CurrentComponentLabel.Left := CurrentComponentProgressBar.Width;
   CurrentComponentLabel.Alignment := taRightJustify;
   CurrentComponentLabel.Caption := '';
   CurrentComponentLabel.Font.Style := [fsBold];
   CurrentComponentLabel.Parent := InstallPage.Surface;
-  
+
   { Render Page }
-        
+
   InstallPage.Surface.Show;       // show the new page
-  InstallPage.Surface.Update;     // activate showing updates on this page 
+  InstallPage.Surface.Update;     // activate showing updates on this page
 end;
 
 procedure InitializeWizard();
@@ -341,7 +341,7 @@ begin
   // Initialize InnoTools Download Helper
   ITD_Init;
   // Turns on detailed error message popups for debugging the download process
-  if (DEBUG = true) then ITD_SetOption('Debug_Messages', '1'); 
+  if (DEBUG = true) then ITD_SetOption('Debug_Messages', '1');
   // Change from a simple overall progress bar to the detailed download view
   ITD_SetOption('UI_DetailedMode', '1');
   // when download fails, do not allow continuing with the installation
@@ -387,15 +387,15 @@ begin
   UrlLabel.Parent     := WizardForm;
 
   // Show that Debug Mode is active
-  if DEBUG = true then 
-  begin 
+  if DEBUG = true then
+  begin
     DebugLabel            := TNewStaticText.Create(WizardForm);
     DebugLabel.Top        := UrlLabel.Top;
     DebugLabel.Left       := UrlLabel.Left + UrlLabel.Width + 12;
     DebugLabel.Caption    := ExpandConstant('DEBUG ON');
     DebugLabel.Font.Style := [fsBold];
     DebugLabel.Parent     := WizardForm;
-  end; 
+  end;
 end;
 
 function NextButtonClick(CurPage: Integer): Boolean;
@@ -403,8 +403,6 @@ function NextButtonClick(CurPage: Integer): Boolean;
 	Called when the user clicks the Next button. If you return True, the wizard will move to the next page.
 	If you return False, it will remain on the current page (specified by CurPageID).
 *)
-var 
-  size: Cardinal;
 begin
   if CurPage = wpSelectComponents then
   begin
@@ -447,7 +445,7 @@ begin
 
     if IsComponentSelected('xdebug')    then ITD_AddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
     if IsComponentSelected('apc')       then ITD_AddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
-    if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);                                              
+    if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
     if IsComponentSelected('xhprof')    then ITD_AddFile(URL_xhprof,        ExpandConstant(targetPath + Filename_xhprof));
 
     if IsComponentSelected('memcached') then
@@ -461,7 +459,7 @@ begin
     if IsComponentSelected('adminer')    then ITD_AddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
     if IsComponentSelected('junction')   then ITD_AddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
     if IsComponentSelected('pear')       then ITD_AddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
-    
+
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
 
@@ -494,7 +492,7 @@ end;
 
 {
   Calculates the percentage per component.
-  
+
   total = 100%
   total / 6 components  = 16,67 % per component
   total / 4 component   = 25 %   per component
@@ -505,7 +503,7 @@ begin
 end;
 
 procedure UpdateTotalProgressBar();
-var 
+var
   newTotalPercentage : integer;
 begin
     // calculate new total percentage
@@ -525,10 +523,10 @@ begin
 end;
 
 procedure UnzipFiles();
-var  
+var
   selectedComponents     : String;
   intTotalComponents     : Integer;
-  i                      : Integer;     
+  i                      : Integer;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
@@ -541,7 +539,7 @@ begin
 
   // serverstack base are 3 components in 1 so we have to add 2 to the counter
   intTotalComponents:=intTotalComponents+2;
-  
+
   // When processing a component is finished, this value is added to the progress bar.
   // When all values are added, we will reach 100 % in total on the progress bar.
   percentagePerComponent := getPercentagePerComponent(intTotalComponents);
@@ -555,16 +553,16 @@ begin
 
   // Update Progress Bars
 
-  { 
-     Bug in InnoSetup 
+  {
+     Bug in InnoSetup
      ProgressBar can not be fetched + declared local, must be global!
      Runtime Error 109:1014 - Could not call proc
-  
+
      TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
   }
 
   // always unzip the serverstack base  (3 components)
-  
+
   UpdateCurrentComponentProgressBarName('Nginx');
     DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
       UpdateTotalProgressBar();
@@ -572,7 +570,7 @@ begin
   CurrentComponentLabel.Caption := 'PHP';
     DoUnzip(targetPath + Filename_php, ExpandConstant('{app}\bin\php'));
       UpdateTotalProgressBar();
-  
+
   CurrentComponentLabel.Caption := 'MariaDB';
     DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       UpdateTotalProgressBar();
@@ -586,7 +584,7 @@ begin
       FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
         UpdateTotalProgressBar();
   end;
-             
+
   if Pos('apc', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentProgressBarName('APC');
@@ -603,8 +601,8 @@ begin
         UpdateTotalProgressBar();
   end;
 
-  if Pos('xhprof', selectedComponents) > 0 then 
-  begin 
+  if Pos('xhprof', selectedComponents) > 0 then
+  begin
     UpdateCurrentComponentProgressBarName('XHProf');
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar;
@@ -629,7 +627,7 @@ begin
         UpdateTotalProgressBar();
   end;
 
-  if Pos('phpmyadmin', selectedComponents) > 0 then 
+  if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentProgressBarName('phpMyAdmin');
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
@@ -637,7 +635,7 @@ begin
   end;
 
   // adminer is not a zipped, its just a php file, so copy it to the target path
-  if Pos('adminer', selectedComponents) > 0 then 
+  if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentProgressBarName('Adminer');
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
@@ -748,27 +746,27 @@ begin
 end;
 
 {
-   DoPreInstall will be called after the user clicks Next on the wpReady page, 
+   DoPreInstall will be called after the user clicks Next on the wpReady page,
    but before Inno installs any of the [Files] and other standard script items.
-   
+
    Its triggerd by CurStep == ssInstall. see procedure CurStepChanged().
-   
+
    wpReady to Install -> Click Next (Triggers ssInstall) -> wpInstalling
 }
 procedure DoPreInstall();
 begin
   MsgBox('DoPreInstall called. UnzipFiles() next call.', mbInformation, MB_OK);
-  UnzipFiles();  
+  UnzipFiles();
 end;
 
 {
-  DoPostInstall will be called after Inno has completed installing all of 
-  the [Files], [Registry] entries, and so forth, and also after all the 
-  non-postinstall [Run] entries, but before the wpInfoAfter or wpFinished pages. 
+  DoPostInstall will be called after Inno has completed installing all of
+  the [Files], [Registry] entries, and so forth, and also after all the
+  non-postinstall [Run] entries, but before the wpInfoAfter or wpFinished pages.
 
   Its triggerd by CurStep == ssPostInstall. see procedure CurStepChanged().
 
-  wpInstalling Install finshed -> ssPostInstall 
+  wpInstalling Install finshed -> ssPostInstall
 }
 procedure DoPostInstall();
 begin
@@ -784,17 +782,17 @@ begin
   if CurStep = ssInstall then
   begin
     DoPreInstall();
-  end; 
-  
+  end;
+
   if CurStep = ssPostInstall then
   begin
     DoPostInstall();
   end;
- 
+
  // when the setup wizward is finished
  if CurStep = ssDone then
    begin
-     // copy logfile from tmp dir to the application dir 
+     // copy logfile from tmp dir to the application dir
      logfilepathname := ExpandConstant('{log}');
      logfilename := ExtractFileName(logfilepathname);
      newfilepathname := ExpandConstant('{app}\') +logfilename;
