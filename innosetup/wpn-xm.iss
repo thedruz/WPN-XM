@@ -34,7 +34,7 @@
 //
 
 // toggle for enabling/disabling the debug mode
-#define DEBUG "false"
+# define DEBUG "@DEBUG@"
 
 // defines the root folder
 #define SOURCE_ROOT AddBackslash(SourcePath);
@@ -42,7 +42,7 @@
 // defines for the setup section
 #define AppName "WPN-XM Server Stack"
 // the -APPVERSION- token is replaced during the nant build process
-#define AppVersion "1.2.3"
+#define AppVersion "@APPVERSION@"
 #define AppPublisher "Jens-André Koch"
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/jakoch/WPN-XM/issues/new/"
@@ -148,22 +148,19 @@ Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}
 //Name: desktopicon; Description: Create a &Desktop icon; GroupDescription: Additional icons:; Flags: unchecked
 
 [Run]
-// Automatically started...: 
+// Automatically started...
 Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
 //Filename: {app}\SETUP.EXE; Parameters: /x
-// User selected... these files are shown for launch after everything is done: 
+// User selected... these files are shown for launch after everything is done
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
 //Filename: {app}\SETUP.EXE; Description: Configure Server Stack; Flags: postinstall nowait skipifsilent unchecked
 
 [INI]
 ;Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
-//Filename: {app}\direct.ini; section: InstallSettings; key: DnsWebService_Vdir; string: DnsService; Components: dnswebservice
-//Filename: {app}\direct.ini; section: InstallSettings; key: ConfigWebService_Vdir; string: ConfigService; Components: configwebservice
-//Filename: {app}\direct.ini; section: InstallSettings; key: ConfigUiWebApp_Vdir; string: ConfigUI; Components: configui
 
 [Messages]
-// define wizard title and tray status msg=
-// both are normally defined in /bin/innosetup/default.isl=
+// define wizard title and tray status msg
+// both are normally defined in /bin/innosetup/default.isl
 SetupAppTitle =Setup WPN-XM {#AppVersion}
 SetupWindowTitle =Setup - {#AppName} {#AppVersion}
 
