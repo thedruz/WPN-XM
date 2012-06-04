@@ -142,12 +142,12 @@ Name: {group}\Administration; Filename: {app}\administration.url
 Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}
 Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}
 Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}
-//Name: {userdesktop}\My Program; Filename: {app}\start-wpnxm.exe; Tasks: desktopicon
-//Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: quicklaunchicon
+Name: {userdesktop}\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: quicklaunchicon
 
 [Tasks]
-//Name: quicklaunchicon; Description: Create a &Quick Launch icon; GroupDescription: Additional icons:; Flags: unchecked
-//Name: desktopicon; Description: Create a &Desktop icon; GroupDescription: Additional icons:; Flags: unchecked
+Name: quicklaunchicon; Description: Create a &Quick Launch icon; GroupDescription: Additional icons:; Flags: unchecked
+Name: desktopicon; Description: Create a &Desktop icon; GroupDescription: Additional icons:; Flags: unchecked
 
 [Run]
 // Automatically started...
@@ -161,6 +161,7 @@ Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
 ;Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
 
 [Registry]
+; a registr change also needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin" Flags: preservestringtype
 
