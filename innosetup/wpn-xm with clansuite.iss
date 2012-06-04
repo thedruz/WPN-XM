@@ -119,9 +119,9 @@ Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
-// incorporate the whole "www" folder into the setup:
+// incorporate the whole "www" folder into the setup
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*
-// incorporate several startfiles:
+// incorporate several startfiles
 Source: ..\startfiles\administration.url; DestDir: {app}
 Source: ..\startfiles\localhost.url; DestDir: {app}
 Source: ..\startfiles\start-wpnxm.exe; DestDir: {app}
@@ -129,7 +129,7 @@ Source: ..\startfiles\stop-wpnxm.exe; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
-// config files:
+// config files
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\vhosts.conf; DestDir: {app}\bin\nginx\conf
@@ -498,11 +498,9 @@ begin
 end;
 
 {
-  Calculates the percentage per component.
-
-  total = 100%
-  total / 6 components  = 16,67 % per component
-  total / 4 component   = 25 %   per component
+  Calculates the percentage per component
+  (100% / components) = ppc
+  (ppc * components) = 100%
 }
 function getPercentagePerComponent(intTotalComponents: Integer): integer;
 begin
@@ -645,6 +643,7 @@ begin
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentProgressBarName('Adminer');
+      CreateDir(ExpandConstant('{app}\www\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
         UpdateTotalProgressBar();
   end;
@@ -660,7 +659,7 @@ begin
   if Pos('pear', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentProgressBarName('PEAR');
-      CreateDir(ExpandConstant('{app}\bin\php\PEAR\')); // isn't this done by filecopy?
+      CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
       FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
         UpdateTotalProgressBar();
   end;
@@ -674,18 +673,11 @@ begin
 
 end;
 
-procedure ApplyModifications();
+procedure MoveFiles();
 var
-  php_ini_file : String;
   selectedComponents: String;
 begin
   selectedComponents := WizardSelectedComponents(false);
-
-  // config files
-
-  php_ini_file := ExpandConstant('{app}\bin\php\php.ini');
-
-  // modifications to the config files
 
   // nginx - rename directory
   Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\nginx-*') + ' ' + ExpandConstant('{app}\bin\nginx') + '"',
@@ -696,31 +688,8 @@ begin
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - install with user ROOT and password TOOP
-  Exec('cmd.exe', '/c ' + ExpandConstant('{app}\bin\mariadb\') + 'mysql_install_db.exe --default-user=root --password=toop --datadir="' + ExpandConstant('{app}\bin\mariadb\data') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-  // php
-  SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
-  SetIniString('PHP', 'doc_root',            ExpandConstant('{app}\www'),                     php_ini_file );
-  SetIniString('PHP', 'include_path',        ExpandConstant('{app}\bin\php\pear'),            php_ini_file );
-  SetIniString('PHP', 'upload_tmp_dir',      ExpandConstant('{app}\temp'),                    php_ini_file );
-  SetIniString('PHP', 'upload_max_filesize', '8M',                                            php_ini_file );
-  SetIniString('PHP', 'session.save_path',   ExpandConstant('{app}\temp'),                    php_ini_file );
-
-  // xdebug
-  if Pos('xdebug', selectedComponents) > 0 then
-  begin
-      // add loading of xdebug.dll to php.ini
-      if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
-      begin
-          SetIniString('Zend', 'zend_extension', ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), php_ini_file );
-      end;
-
-      // activate remote debugging
-      SetIniString('Xdebug', 'xdebug.remote_enable',  'on',        php_ini_file );
-      SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file );
-      SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file );
-      SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file );
-  end;
+  Exec('cmd.exe', '/c ' + ExpandConstant('{app}\bin\mariadb\') + 'mysql_install_db.exe --default-user=root --password=toop --datadir="' + ExpandConstant('{app}\bin\mariadb\data') + '"',
+   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
@@ -739,15 +708,6 @@ begin
       // rename the existing directory
       Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\memcached-x86') + ' ' + ExpandConstant('{app}\bin\memcached') + '"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-      // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file );
-  end;
-
-  if Pos('zeromq', selectedComponents) > 0 then
-  begin
-      // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file );
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
@@ -757,11 +717,6 @@ begin
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
-  if Pos('clansuite', selectedComponents) > 0 then
-  begin
-    Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\jakoch*') + ' ' + ExpandConstant('{app}\www\clansuite') + '"',
-    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-  end;
 end;
 
 {
@@ -776,6 +731,63 @@ procedure DoPreInstall();
 begin
   MsgBox('DoPreInstall called. UnzipFiles() next call.', mbInformation, MB_OK);
   UnzipFiles();
+  MoveFiles();
+end;
+
+procedure Configure();
+var
+  php_ini_file : String;
+  selectedComponents: String;
+begin
+  selectedComponents := WizardSelectedComponents(false);
+
+  // config files
+
+  php_ini_file := ExpandConstant('{app}\bin\php\php.ini');
+
+  // modifications to the config files
+
+  // PHP
+  SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
+  SetIniString('PHP', 'doc_root',            ExpandConstant('{app}\www'),                     php_ini_file );
+  SetIniString('PHP', 'include_path',        ExpandConstant('{app}\bin\php\pear'),            php_ini_file );
+  SetIniString('PHP', 'upload_tmp_dir',      ExpandConstant('{app}\temp'),                    php_ini_file );
+  SetIniString('PHP', 'upload_max_filesize', '8M',                                            php_ini_file );
+  SetIniString('PHP', 'session.save_path',   ExpandConstant('{app}\temp'),                    php_ini_file );
+
+  // Xdebug
+  if Pos('xdebug', selectedComponents) > 0 then
+  begin
+      // add loading of xdebug.dll to php.ini
+      if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
+      begin
+          SetIniString('Zend', 'zend_extension', ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), php_ini_file );
+      end;
+
+      // activate remote debugging
+      SetIniString('Xdebug', 'xdebug.remote_enable',  'on',        php_ini_file );
+      SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file );
+      SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file );
+      SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file );
+  end;
+
+  if Pos('zeromq', selectedComponents) > 0 then
+  begin
+      // php.ini entry for loading the the extension
+      SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file );
+  end;
+
+  if Pos('memcached', selectedComponents) > 0 then
+  begin
+      // php.ini entry for loading the the extension
+      SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file );
+  end;
+
+  if Pos('apc', selectedComponents) > 0 then
+  begin
+      // php.ini entry for loading the the extension
+      SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file );
+  end;
 end;
 
 {
@@ -789,7 +801,7 @@ end;
 }
 procedure DoPostInstall();
 begin
-  ApplyModifications();
+  Configure()
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
