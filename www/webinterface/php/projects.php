@@ -9,6 +9,7 @@ class Projects
      * This is used for exclusion of folders when fetching project directories.
      */
     private $toolDirectories = array(
+        'adminer' => '',
         'phpmyadmin' => '',
         'webgrind' => '',
         'webinterface' => '',
