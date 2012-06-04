@@ -21,7 +21,7 @@ class HtmlElements
                 if(is_dir(WPNXM_WWW_DIR.'adminer') === true)
                 {
                     $item_number = $item_number + 1;
-                    $menu .= '<li class="'.$item_number.'"><a href="'.WPNXM_ROOT.'phpmyadmin/">Adminer</a></li>';
+                    $menu .= '<li class="'.$item_number.'"><a href="'.WPNXM_ROOT.'adminer/adminer.php">Adminer</a></li>';
                 }
 
                     $item_number = $item_number + 1;
