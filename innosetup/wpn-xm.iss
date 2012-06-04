@@ -81,6 +81,8 @@ VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reser
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
+; Tell Windows Explorer to reload the environment (because we are adding the PHP path to env var PATH)
+ChangesEnvironment=yes
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
@@ -157,6 +159,10 @@ Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
 
 [INI]
 ;Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
+
+[Registry]
+; add PHP path to environment variable PATH
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin" Flags: preservestringtype
 
 [Messages]
 // define wizard title and tray status msg
