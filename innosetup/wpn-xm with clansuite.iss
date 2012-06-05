@@ -198,7 +198,9 @@ const
   URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.3-nts-Win32-VC9-x86.zip';
   URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.23/win2008r2-vs2010-i386-packages/mariadb-5.5.23-win32.zip';
   URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
-  URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
+  // pierre's APC is buggy, see https://bugs.php.net/bug.php?id=61984
+  //URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
+  URL_phpext_apc        = 'http://wpn-xm.org/files/php_apc-3.1.10-5.4-vc9-x86-xp.zip';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
@@ -234,14 +236,8 @@ var
   unzipTool   : String;   // path+filename of unzip helper for exec
   returnCode  : Integer;  // errorcode
   targetPath  : String;   // if debug true will download to app/downloads, else temp dir
-
-  InstallPage                   : TWizardPage;
-  { can't fetch them via FindComponents and declaring them log => "could not call proc" }
-  TotalProgressBar                : TNewProgressBar;
-  TotalProgressLabel              : TLabel;
-  CurrentComponentProgressBar     : TNewProgressBar;
-  CurrentComponentLabel           : TLabel;
-  percentagePerComponent          : Integer;
+  InstallPage               : TWizardPage;
+  percentagePerComponent    : Integer;
 
 procedure UrlLabelClick(Sender: TObject);
 var
@@ -264,14 +260,14 @@ end;
 procedure CustomWpInstallingPage;
 var
   { Total Progress Bar }
+  TotalProgressBar                : TNewProgressBar;
+  TotalProgressLabel              : TLabel;
   TotalProgressStaticText         : TNewStaticText;
-  //TotalProgressLabel            : TNewStaticText;  // declared global
-  //TotalProgressBar              : TNewProgressBar; // declared global
 
   { Current Component Progress Bar }
+  CurrentComponentProgressBar     : TNewProgressBar;
+  CurrentComponentLabel           : TLabel;
   CurrentComponentStaticText      : TNewStaticText;
-  //CurrentComponentLabel         : TNewStaticText;  // declared global
-  //CurrentComponentProgressBar   : TNewProgressBar; // declared global
 
 begin
   // CustomPage is shown after the wpReady page
@@ -286,6 +282,7 @@ begin
   TotalProgressStaticText.Parent := InstallPage.Surface;
 
   TotalProgressBar := TNewProgressBar.Create(InstallPage);
+  TotalProgressBar.Name := 'TotalProgressBar'; // needed for FindComponent()
   TotalProgressBar.Left := 24;
   TotalProgressBar.Top := 40;
   TotalProgressBar.Width := 366;
@@ -295,6 +292,7 @@ begin
   TotalProgressBar.Parent := InstallPage.Surface;
 
   TotalProgressLabel := TLabel.Create(InstallPage);
+  TotalProgressLabel.Name := 'TotalProgressLabel'; // needed for FindComponent()
   TotalProgressLabel.Top := TotalProgressStaticText.Top;
   TotalProgressLabel.Left := TotalProgressBar.Width;
   TotalProgressLabel.Caption := '0 %';
@@ -311,15 +309,19 @@ begin
   CurrentComponentStaticText.Parent := InstallPage.Surface;
 
   CurrentComponentProgressBar := TNewProgressBar.Create(InstallPage);
+  CurrentComponentProgressBar.Name := 'CurrentComponentProgressBar'; // needed for FindComponent()
   CurrentComponentProgressBar.Left := 24;
   CurrentComponentProgressBar.Top := 104;
   CurrentComponentProgressBar.Width := 366;
   CurrentComponentProgressBar.Height := 24;
   CurrentComponentProgressBar.Min := 0
   CurrentComponentProgressBar.Max := 100
+  // Marquee displays some activity on the progressbar (pseudo progress)
+  CurrentComponentProgressBar.Style := npbstMarquee;
   CurrentComponentProgressBar.Parent := InstallPage.Surface;
 
   CurrentComponentLabel := TLabel.Create(InstallPage);
+  CurrentComponentLabel.Name := 'CurrentComponentLabel'; // needed for FindComponent()
   CurrentComponentLabel.Top := CurrentComponentStaticText.Top;
   CurrentComponentLabel.Width := 20;
   CurrentComponentLabel.Left := CurrentComponentProgressBar.Width;
@@ -516,20 +518,27 @@ end;
 
 procedure UpdateTotalProgressBar();
 var
-  newTotalPercentage : integer;
+    newTotalPercentage : integer;
 begin
+    // Fetch ProgressBar
+    TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
     // calculate new total percentage
     newTotalPercentage := TotalProgressBar.Position + percentagePerComponent;
     // set to progress bar
-    TotalProgressBar.Position := TotalProgressBar.Position + percentagePerComponent;
+    TotalProgressBar.Position := newTotalPercentage;
+
+    // Fetch Label
+    TotalProgressLabel := TLabel(InstallPage.FindComponent('TotalProgressLabel'));
     // set to label
     TotalProgressLabel.Caption := intToStr(newTotalPercentage) + ' %';
 end;
 
-procedure UpdateCurrentComponentProgressBarName(component: String);
+procedure UpdateCurrentComponentName(component: String);
+var
+    CurrentComponentLabel : TLabel;
 begin
-    // pseudo progress - just some activity on the progressbar
-    CurrentComponentProgressBar.Style := npbstMarquee;
+    // fetch label
+    CurrentComponentLabel := TLabel(InstallPage.FindComponent('CurrentComponentLabel'));
     // set to label
     CurrentComponentLabel.Caption := component;
 end;
@@ -565,25 +574,17 @@ begin
 
   // Update Progress Bars
 
-  {
-     Bug in InnoSetup
-     ProgressBar can not be fetched + declared local, must be global!
-     Runtime Error 109:1014 - Could not call proc
-
-     TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
-  }
-
   // always unzip the serverstack base  (3 components)
 
-  UpdateCurrentComponentProgressBarName('Nginx');
+  UpdateCurrentComponentName('Nginx');
     DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
       UpdateTotalProgressBar();
 
-  CurrentComponentLabel.Caption := 'PHP';
+  UpdateCurrentComponentName('PHP');
     DoUnzip(targetPath + Filename_php, ExpandConstant('{app}\bin\php'));
       UpdateTotalProgressBar();
 
-  CurrentComponentLabel.Caption := 'MariaDB';
+  UpdateCurrentComponentName('MariaDB');
     DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       UpdateTotalProgressBar();
 
@@ -592,14 +593,14 @@ begin
   // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('Xdebug');
+    UpdateCurrentComponentName('Xdebug');
       FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
         UpdateTotalProgressBar();
   end;
 
   if Pos('apc', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('APC');
+    UpdateCurrentComponentName('APC');
       // archive contains ts/nts folders, unzip to temp dir, copy file from there
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
@@ -608,21 +609,21 @@ begin
 
   if Pos('webgrind', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('Webgrind');
+    UpdateCurrentComponentName('Webgrind');
       DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
   end;
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('XHProf');
+    UpdateCurrentComponentName('XHProf');
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar;
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('Memcached');
+    UpdateCurrentComponentName('Memcached');
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
         UpdateTotalProgressBar();
@@ -630,7 +631,7 @@ begin
 
   if Pos('zeromq', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('ZeroMQ');
+    UpdateCurrentComponentName('ZeroMQ');
       // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
       DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
       FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
@@ -641,7 +642,7 @@ begin
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('phpMyAdmin');
+    UpdateCurrentComponentName('phpMyAdmin');
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar;
   end;
@@ -649,7 +650,7 @@ begin
   // adminer is not a zipped, its just a php file, so copy it to the target path
   if Pos('adminer', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('Adminer');
+    UpdateCurrentComponentName('Adminer');
       CreateDir(ExpandConstant('{app}\www\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
         UpdateTotalProgressBar();
@@ -657,7 +658,7 @@ begin
 
   if Pos('junction', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('Junction');
+    UpdateCurrentComponentName('Junction');
       DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
         UpdateTotalProgressBar();
   end;
@@ -665,7 +666,7 @@ begin
   // pear is not a zipped, its just a php phar package, so copy it to the php path
   if Pos('pear', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('PEAR');
+    UpdateCurrentComponentName('PEAR');
       CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
       FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
         UpdateTotalProgressBar();
@@ -673,7 +674,7 @@ begin
 
   if Pos('clansuite', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentProgressBarName('PEAR');
+    UpdateCurrentComponentName('PEAR');
       DoUnzip(targetPath + Filename_clansuite, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
   end;
@@ -736,7 +737,6 @@ end;
 }
 procedure DoPreInstall();
 begin
-  MsgBox('DoPreInstall called. UnzipFiles() next call.', mbInformation, MB_OK);
   UnzipFiles();
   MoveFiles();
 end;
