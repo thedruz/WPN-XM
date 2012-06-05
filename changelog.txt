@@ -29,6 +29,11 @@ Version 0.3 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[05.06.2012]  UPD    NGINX 1.2.1
+[05.06.2012]  NEW    php is added to environment variable PATH
+[04.06.2012]  FIX    fixed cfg edit order: config files are copied, then modified
+[04.06.2012]  FIX    installations seems stuck, while extraction of zip files
+                     added two progressbars showing total progess and component
 [01.06.2012]  UPD    InnoSetup 5.5.0
 [11.05.2012]  UPD    PHP 5.4.3
                      APC 3.1.10-5.4
