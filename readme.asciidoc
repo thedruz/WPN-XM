@@ -8,17 +8,17 @@ WPИ-XM provides a webinterface for server administration and a server control p
 The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX, XDebug and MariaDB.
 
 
-Official Website:   http://wpn-xm.org/
+**Official Website:**   http://wpn-xm.org/
 
-Twitter:            http://twitter.com/wpnxm/
+**Twitter:**            http://twitter.com/wpnxm/
 
-Google Group:       http://groups.google.com/group/wpn-xm/
+**Mailing List:**       http://groups.google.com/group/wpn-xm/
 
-Github:             https://github.com/jakoch/WPN-XM/
+**Github:**             https://github.com/jakoch/WPN-XM/
 
-IRC:                Server: irc.freenode.net Channel: #koch
+**IRC:**                Server: irc.freenode.net Channel: #koch
 
-For issue tracking: https://github.com/jakoch/WPN-XM/issues
+**Issue tracking:**     https://github.com/jakoch/WPN-XM/issues
 
 === Installing WPN-XM on Windows
 
