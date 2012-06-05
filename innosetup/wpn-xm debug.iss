@@ -163,7 +163,7 @@ Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
 [Registry]
 ; a registr change also needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin" Flags: preservestringtype
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype
 
 [Messages]
 // define wizard title and tray status msg
