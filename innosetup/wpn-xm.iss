@@ -194,7 +194,9 @@ const
   URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.3-nts-Win32-VC9-x86.zip';
   URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.23/win2008r2-vs2010-i386-packages/mariadb-5.5.23-win32.zip';
   URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
-  URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
+  // pierre's APC is buggy, see https://bugs.php.net/bug.php?id=61984
+  //URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
+  URL_phpext_apc        = 'http://wpn-xm.org/files/php_apc-3.1.10-5.4-vc9-x86-xp.zip';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
