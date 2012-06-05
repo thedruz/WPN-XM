@@ -23,7 +23,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                         <a href="http://nginx.org/">
                                             <b>NGINX</b>
                                         </a>
-                                        <?php echo Wpnxm_Serverstack::getNGINXVersion(); ?>
+                                        <span class="version"><?php echo Wpnxm_Serverstack::getNGINXVersion(); ?></span>
                                         <br /><br />
                                         <small>NGINX [engine x] is a high performance http and reverse proxy server, as well as a mail proxy server written by Igor Sysoev.</small>
                                         <p>
@@ -45,7 +45,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                         <a href="http://php.net/">
                                             <b>PHP</b>
                                         </a>
-                                        <?php echo Wpnxm_Serverstack::getPHPVersion(); ?>
+                                        <span class="version"><?php echo Wpnxm_Serverstack::getPHPVersion(); ?></span>
                                         <br /><br />
                                         <small>PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML.</small>
                                         <p>
@@ -67,7 +67,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                         <a href="http://mariadb.org/">
                                             <b>MariaDB</b>
                                         </a>
-                                        <?php echo Wpnxm_Serverstack::getMariaDBVersion(); ?>
+                                        <span class="version"><?php echo Wpnxm_Serverstack::getMariaDBVersion(); ?></span>
                                         <br /><br />
                                         <small>MariaDB is a fork of the world's most popular open source database MySQL by the original author. MariaDb is a binary drop-in replacement for MySQL.</small>
                                         <p>
@@ -89,7 +89,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                         <a href="http://memcached.org/">
                                             <b>Memcached</b>
                                         </a>
-                                        <?php echo Wpnxm_Serverstack::getMemcachedVersion(); ?>
+                                        <span class="version"><?php echo Wpnxm_Serverstack::getMemcachedVersion(); ?></span>
                                         <br /><br />
                                         <small>Memcached is a high-performance, distributed memory object caching system. Originally intended for speeding up applications by alleviating database load.</small>
                                         <p>
@@ -111,7 +111,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                                         <a href="http://xdebug.org/">
                                             <b>Xdebug</b>
                                         </a>
-                                        <?php echo Wpnxm_Serverstack::getXdebugVersion(); ?>
+                                        <span class="version"><?php echo Wpnxm_Serverstack::getXdebugVersion(); ?></span>
                                         <br /><br />
                                         <small>The Xdebug extension for PHP helps you debugging your scripts by providing a lot of valuable debug information.</small>
                                         <p>
