@@ -34,7 +34,7 @@
 //
 
 // toggle for enabling/disabling the debug mode
-# define DEBUG "true"
+# define DEBUG "@DEBUG@"
 
 // defines the root folder
 #define SOURCE_ROOT AddBackslash(SourcePath);
@@ -745,7 +745,7 @@ begin
   // PHP
   SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
   SetIniString('PHP', 'doc_root',            ExpandConstant('{app}\www'),                     php_ini_file );
-  SetIniString('PHP', 'include_path',        ExpandConstant('{app}\bin\php\pear'),            php_ini_file );
+  SetIniString('PHP', 'include_path',        ExpandConstant('.;{app}\bin\php\pear'),          php_ini_file );
   SetIniString('PHP', 'upload_tmp_dir',      ExpandConstant('{app}\temp'),                    php_ini_file );
   SetIniString('PHP', 'upload_max_filesize', '8M',                                            php_ini_file );
   SetIniString('PHP', 'session.save_path',   ExpandConstant('{app}\temp'),                    php_ini_file );

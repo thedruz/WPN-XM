@@ -519,6 +519,8 @@ end;
 procedure UpdateTotalProgressBar();
 var
     newTotalPercentage : integer;
+    TotalProgressBar   : TNewProgressBar;
+    TotalProgressLabel : TLabel;
 begin
     // Fetch ProgressBar
     TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
