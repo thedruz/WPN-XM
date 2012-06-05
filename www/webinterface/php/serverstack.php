@@ -63,6 +63,12 @@ class Wpnxm_Serverstack
      */
     public static function getMariaDBVersion()
     {
+        # fail safe, for unconfigured php.ini files
+        if(!function_exists('mysql_connect'))
+        {
+            return self::printExclamationMark('Enable mysql extension in php.ini.');
+        }
+
         $connection = @mysql_connect('localhost', 'root', 'toop');
 
         if(false === $connection)
