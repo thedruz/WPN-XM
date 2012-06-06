@@ -747,7 +747,7 @@ begin
   // MariaDb
 
   // http://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-error
-  SetIniString('MYSQLD', 'log-error',        ExpandConstant('{app}\logs\mariadb_error.log'),  php_ini_file );
+  SetIniString('mysqld', 'log-error',        ExpandConstant('{app}\logs\mariadb_error.log'),  mariadb_ini_file );
 
   // PHP
   SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs\php_error.log'),      php_ini_file );
