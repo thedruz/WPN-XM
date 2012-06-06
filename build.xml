@@ -146,8 +146,8 @@
                  print-version-number,
                  compile-wpnxm-setup,
                  compile-wpnxm-debug-setup,
-                 compile-wpnxm-with-clansuite-setup,
-                 compile-wpnxm-with-opencandy-setup">
+                 compile-wpnxm-with-clansuite-setup">
+                 <!--compile-wpnxm-with-opencandy-setup-->
     </target>
 
 </project>
