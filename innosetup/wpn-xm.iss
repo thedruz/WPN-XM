@@ -731,31 +731,39 @@ end;
 
 procedure Configure();
 var
+  selectedComponents: String;
+  appPath, appPathWithSlashes : String;
   php_ini_file : String;
   mariadb_ini_file : String;
-  selectedComponents: String;
 begin
   selectedComponents := WizardSelectedComponents(false);
+  appPath := ExpandConstant('{app}');
+  { Explanation: StringChange(S,FromStr,ToStr): Change all occurances in S of FromStr to ToStr.
+    StringChange works on the string! = StringChange does not return S.
+  }
+  appPathWithSlashes := ExpandConstant('{app}');
+  StringChange (appPathWithSlashes, '\', '/');
 
   // config files
 
-  php_ini_file := ExpandConstant('{app}\bin\php\php.ini');
-  mariadb_ini_file := ExpandConstant('{app}\bin\mariadb\my.ini');
+  php_ini_file := appPath + '\bin\php\php.ini';
+  mariadb_ini_file := appPath + '\bin\mariadb\my.ini';
 
   // modifications to the config files
 
   // MariaDb
-
+    
   // http://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-error
-  SetIniString('mysqld', 'log-error',        ExpandConstant('{app}\logs\mariadb_error.log'),  mariadb_ini_file );
+  // waring: mysqld will not start if backslashes (\) are used. fwd slashes (/) needed!
+  SetIniString('mysqld', 'log-error',        appPathWithSlashes + '/logs/mariadb_error.log',  mariadb_ini_file );
 
   // PHP
-  SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs\php_error.log'),      php_ini_file );
-  SetIniString('PHP', 'doc_root',            ExpandConstant('{app}\www'),                     php_ini_file );
-  SetIniString('PHP', 'include_path',        ExpandConstant('.;{app}\bin\php\pear'),          php_ini_file );
-  SetIniString('PHP', 'upload_tmp_dir',      ExpandConstant('{app}\temp'),                    php_ini_file );
-  SetIniString('PHP', 'upload_max_filesize', '8M',                                            php_ini_file );
-  SetIniString('PHP', 'session.save_path',   ExpandConstant('{app}\temp'),                    php_ini_file );
+  SetIniString('PHP', 'error_log',           appPath + '\logs\php_error.log',       php_ini_file );
+  SetIniString('PHP', 'doc_root',            appPath + '\www',                      php_ini_file );
+  SetIniString('PHP', 'include_path',        '.;' + appPath + '\bin\php\pear',      php_ini_file );
+  SetIniString('PHP', 'upload_tmp_dir',      appPath + '\temp',                     php_ini_file );
+  SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file );
+  SetIniString('PHP', 'session.save_path',   appPath + '\temp',                     php_ini_file );
 
   // Xdebug
   if Pos('xdebug', selectedComponents) > 0 then
@@ -763,7 +771,7 @@ begin
       // add loading of xdebug.dll to php.ini
       if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
       begin
-          SetIniString('Zend', 'zend_extension', ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), php_ini_file );
+          SetIniString('Zend', 'zend_extension', appPath + '\bin\php\ext\php_xdebug.dll', php_ini_file );
       end;
 
       // activate remote debugging
