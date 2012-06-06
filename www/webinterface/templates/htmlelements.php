@@ -55,26 +55,26 @@ class HtmlElements
     {
         $max_counts = (int) $max_counts;
 
-        # file to write
+        // file to write
         $file = (string) $file;
 
-        # if file not existing, create and start counting with 1
+        // if file not existing, create and start counting with 1
         if(is_file($file) === false)
         {
             file_put_contents($file, 1);
         }
         else
         {
-            # read file
+            // read file
             $current = file_get_contents($file);
 
-            # comparison
+            // comparison
             if($current == $max_counts)
             {
                 return true;
             }
 
-            # increase counter
+            // increase counter
             if($current < $max_counts)
             {
                 $current++;

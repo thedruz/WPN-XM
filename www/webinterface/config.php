@@ -1,5 +1,5 @@
 <?php
-# common bootstrap file with constants, etc.
+// common WPN-XM bootstrap file with constants, etc.
 include __DIR__ . '/php/bootstrap.php';
 include WPNXM_TEMPLATE . 'header.php';
 include WPNXM_PHP_DIR . 'serverstack.php';
@@ -154,8 +154,10 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    <tr>
                      <td colspan="2" class="right">
                         <span class="aButton">Configure</span>
-                        <span class="aButton">Access Log</span>
-                        <span class="aButton">Error Log</span>
+                        <a href="file:///I:/serverstack-test2/logs/access.log">Access Log</a>
+                        <a href="#" onClick="window.open('file:///localhost///<?php echo WPNXM_DIR?>logs/access.log', 'Access Log');">Access Log</a>
+                        <span class="aButton" href="file:///<?php echo WPNXM_DIR?>logs\access.log">Access Log</span>
+                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-error-log'; ?>">Error Log</a>
                      </td>
                    </tr>
                    </table>
