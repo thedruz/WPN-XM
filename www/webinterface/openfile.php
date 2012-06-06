@@ -14,6 +14,9 @@ switch ($file) {
     case 'php-error-log':
         openFile(WPNXM_DIR . 'logs\php_error.log');
         break;
+    case 'mariadb-error-log':
+        openFile(WPNXM_DIR . 'logs\mariadb_error.log');
+        break;
     default:
         echo 'You need to append the parameter "file" to the URL, e.g. "openfile.php?file=nginx-access-log". Other values include: "nginx-error-log", "php-error-log".';
         break;

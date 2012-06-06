@@ -739,11 +739,17 @@ begin
   // config files
 
   php_ini_file := ExpandConstant('{app}\bin\php\php.ini');
+  mariadb_ini_file := ExpandConstant('{app}\bin\mariadb\my.ini');
 
   // modifications to the config files
 
+  // MariaDb
+
+  // http://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-error
+  SetIniString('MYSQLD', 'log-error',        ExpandConstant('{app}\logs'\mariadb_error.log'), php_ini_file );
+
   // PHP
-  SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
+  SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs\php_error.log'),      php_ini_file );
   SetIniString('PHP', 'doc_root',            ExpandConstant('{app}\www'),                     php_ini_file );
   SetIniString('PHP', 'include_path',        ExpandConstant('.;{app}\bin\php\pear'),          php_ini_file );
   SetIniString('PHP', 'upload_tmp_dir',      ExpandConstant('{app}\temp'),                    php_ini_file );

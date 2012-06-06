@@ -154,9 +154,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    <tr>
                      <td colspan="2" class="right">
                         <span class="aButton">Configure</span>
-                        <a href="file:///I:/serverstack-test2/logs/access.log">Access Log</a>
-                        <a href="#" onClick="window.open('file:///localhost///<?php echo WPNXM_DIR?>logs/access.log', 'Access Log');">Access Log</a>
-                        <span class="aButton" href="file:///<?php echo WPNXM_DIR?>logs\access.log">Access Log</span>
+                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-access-log'; ?>">Access Log</a>
                         <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-error-log'; ?>">Error Log</a>
                      </td>
                    </tr>
@@ -185,7 +183,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    <tr>
                      <td colspan="2" class="right">
                         <span class="aButton">Configure</span>
-                        <span class="aButton">Show Log</span>
+                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=php-error-log'; ?>">Show Log</a>
                         <a class="aButton" href="phpinfo.php">Show phpinfo()</a>
                      </td>
                    </tr>
@@ -216,7 +214,10 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                      <td class="right"><?php echo WPNXM_WWW_DIR . 'mariadb\my.ini';?></td>
                    </tr>
                    <tr>
-                     <td colspan="2" class="right"><span class="aButton">Configure</span><span class="aButton">Show Log</span><span class="aButton">Reset Password</span>
+                     <td colspan="2" class="right">
+                        <span class="aButton">Configure</span>
+                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=mariadb-error-log'; ?>">Show Log</a>
+                        <span class="aButton">Reset Password</span>
                      </td>
                    </tr>
                    </table>
