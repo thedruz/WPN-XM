@@ -732,6 +732,7 @@ end;
 procedure Configure();
 var
   php_ini_file : String;
+  mariadb_ini_file : String;
   selectedComponents: String;
 begin
   selectedComponents := WizardSelectedComponents(false);
