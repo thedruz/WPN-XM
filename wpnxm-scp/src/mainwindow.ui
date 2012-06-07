@@ -825,7 +825,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="resources/Resources.qrc">
-         <normaloff>:/help.png</normaloff>:/help.png</iconset>
+         <normaloff>:/question.png</normaloff>:/question.png</iconset>
        </property>
       </widget>
      </item>
@@ -1736,7 +1736,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>410</x>
       <y>0</y>
-      <width>201</width>
+      <width>211</width>
       <height>61</height>
      </rect>
     </property>
@@ -1855,7 +1855,7 @@ p, li { white-space: pre-wrap; }
         </size>
        </property>
        <property name="toolTip">
-        <string>Help improving WPN-XM by donating.</string>
+        <string>Support the development of WPN-XM by donating.</string>
        </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
@@ -1871,7 +1871,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="resources/Resources.qrc">
-         <normaloff>:/gear.png</normaloff>:/gear.png</iconset>
+         <normaloff>:/money</normaloff>:/money</iconset>
        </property>
        <property name="iconSize">
         <size>

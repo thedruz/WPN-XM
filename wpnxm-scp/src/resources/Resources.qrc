@@ -20,7 +20,6 @@
         <file alias="mysqlworkbench">mysqlworkbench.png</file>
         <file alias="report_bug">bug.png</file>
         <file>quit.png</file>
-        <file>help.png</file>
         <file>gear.png</file>
         <file>report.png</file>
         <file>report--exclamation.png</file>
@@ -29,5 +28,7 @@
         <file>mail.png</file>
         <file>wpnxm-logo-dark-transparent.png</file>
         <file alias="cappuccino64">cappuccino-64px.png</file>
+        <file alias="money">money-coin.png</file>
+        <file>question.png</file>
     </qresource>
 </RCC>
