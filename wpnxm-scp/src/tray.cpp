@@ -177,7 +177,9 @@ void Tray::createTrayMenu()
 
     // Build Tray Menu
 
-    trayMenu->addSeparator();
+    // add title entry like for WPN-XM in KVirc style (background gray, bold, small font)
+    // trayMenu->addAction("WPN-XM SCP")->setFont(QFont("Arial", 8, QFont::Bold));
+
     trayMenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(startAllDaemons()), QKeySequence());
     trayMenu->addAction(QIcon(":/action_stop"), tr("Stop All"), this, SLOT(stopAllDaemons()), QKeySequence());
     trayMenu->addSeparator();
@@ -188,7 +190,7 @@ void Tray::createTrayMenu()
     trayMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(openHostManagerDialog()), QKeySequence());
     trayMenu->addSeparator();
     trayMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
-    trayMenu->addAction(QIcon(":/help"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
+    trayMenu->addAction(QIcon(":/question"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
     trayMenu->addAction(QIcon(":/quit"),tr("&Quit"), qApp, SLOT(quit()), QKeySequence());
     setContextMenu(trayMenu);
 }

@@ -29,6 +29,6 @@
         <file>wpnxm-logo-dark-transparent.png</file>
         <file alias="cappuccino64">cappuccino-64px.png</file>
         <file alias="money">money-coin.png</file>
-        <file>question.png</file>
+        <file alias="question">question.png</file>
     </qresource>
 </RCC>

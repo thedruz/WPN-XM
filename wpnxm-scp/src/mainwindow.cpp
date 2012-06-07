@@ -263,20 +263,20 @@ void MainWindow::setVisible(bool visible)
 void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason) {
-        case QSystemTrayIcon::Trigger:
-        case QSystemTrayIcon::DoubleClick:
+        //case QSystemTrayIcon::Trigger:
         //case QSystemTrayIcon::MiddleClick:
 
-            // clicking the tray icon, when the main window is hidden, shows the main window
-            if(!isVisible()) {
-                setVisible(true);
-                setWindowState( windowState() & ( ~Qt::WindowMinimized | Qt::WindowActive ) );
-            }
-            else {
+        // Double click toggles dialog display
+        case QSystemTrayIcon::DoubleClick:
+            if( isVisible() )
                 // clicking the tray icon, when the main window is shown, hides it
                 setVisible(false);
+            else {
+                // clicking the tray icon, when the main window is hidden, shows the main window
+                show();
+                setFocus();
+                setWindowState( windowState() & ( ~Qt::WindowMinimized | Qt::WindowActive ) );
             }
-
             break;
         default:;
     }
@@ -439,7 +439,7 @@ QString MainWindow::getProjectFolder() const
 void MainWindow::openConfigurationDialog()
 {
     ConfigurationDialog cfgDlg;
-    cfgDlg.setWindowTitle("WPN-XM Server Control Panel - Configuration");
+    cfgDlg.setWindowTitle("Server Control Panel - Configuration");
 
     cfgDlg.exec();
 }
@@ -493,10 +493,11 @@ void MainWindow::openAboutDialog()
         "<table>"
         "<tr><td><b>Website</b></td><td><a href=\"http://wpn-xm.org/\">http://wpn-xm.org/</a><br></td></tr>"
         "<tr><td><b>License</b></td><td>GNU/GPL version 3, or any later version.<br></td></tr>"
-        "<tr><td><b>Author(s)</b></td><td>Yann Le Moigne (c) 2010,<br></td></tr>"
-        "<tr><td>&nbsp;</td><td>Jens-André Koch (c) 2011 - onwards.<br></td></tr>"
-        "<tr><td><b>Github</b></td><td><a href=\"https://github.com/jakoch/WPN-XM/\">https://github.com/jakoch/WPN-XM/</a>"
+        "<tr><td><b>Author(s)</b></td><td>Yann Le Moigne (C) 2010,<br>Jens-André Koch (C) 2011 - onwards.<br></td></tr>"
+        "<tr><td><b>Github</b></td><td>WPN-XM is developed on Github.<br><a href=\"https://github.com/jakoch/WPN-XM/\">https://github.com/jakoch/WPN-XM/</a><br></td></tr>"
+        "<tr><td><b>Icons</b></td><td>We are using Yusukue Kamiyamane's Fugue Icon Set.<br><a href=\"http://p.yusukekamiyamane.com/\">http://p.yusukekamiyamane.com/</a><br></td></tr>"
+        "<tr><td><b>+1?</b></td><td>If you like using WPN-XM, consider supporting it:<br><a href=\"http://wpn-xm.org/donate.html\">http://wpn-xm.org/donate.html</a><br></td></tr>"
         "</td></tr></table></td></tr></table>"
-        "<br><br>The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE."
+        "<br><br>The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.<br>"
         ));
 }

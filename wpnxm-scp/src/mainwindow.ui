@@ -825,7 +825,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="resources/Resources.qrc">
-         <normaloff>:/question.png</normaloff>:/question.png</iconset>
+         <normaloff>:/question</normaloff>:/question</iconset>
        </property>
       </widget>
      </item>
@@ -1734,7 +1734,7 @@ p, li { white-space: pre-wrap; }
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>400</x>
       <y>0</y>
       <width>211</width>
       <height>61</height>
