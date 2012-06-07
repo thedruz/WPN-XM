@@ -470,14 +470,14 @@ void MainWindow::openLogNginxError()
 
 void MainWindow::openLogPHP()
 {
-    qDebug() << qApp->applicationDirPath() + "/logs/php.log";
-    QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/php.log", QUrl::TolerantMode));
+    qDebug() << qApp->applicationDirPath() + "/logs/php_error.log";
+    QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/php_error.log", QUrl::TolerantMode));
 }
 
 void MainWindow::openLogMariaDB()
 {
-    qDebug() << qApp->applicationDirPath() + "/logs/mariadb.log";
-    QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/mariadb.log", QUrl::TolerantMode));
+    qDebug() << qApp->applicationDirPath() + "/logs/mariadb_error.log";
+    QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/mariadb_error.log", QUrl::TolerantMode));
 }
 
 void MainWindow::openHelpDialog()
