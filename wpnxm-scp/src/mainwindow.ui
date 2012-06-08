@@ -705,6 +705,19 @@ p, li { white-space: pre-wrap; }
       <string>phpinfo()</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_tools_adminer">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>50</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>adminer</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="label_WPNXM_Logo">
     <property name="enabled">
