@@ -25,7 +25,7 @@ Github:             https://github.com/jakoch/WPN-XM/
 
 5+^s|Base Components
 
-| MariaDB  | 5.5.23 | GNU GPL v2      | © 2010-2012 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
+| MariaDB  | 5.5.24 | GNU GPL v2      | © 2010-2012 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
 | NGINX    | 1.2.1  | New BSD License | © 2002-2012 Igor Sysoev.      | http://nginx.org/
 | PHP      | 5.4.3  | PHP License     | © 1999-2012 The PHP Group.    | http://www.php.net/
 

@@ -29,6 +29,11 @@ Version 0.3 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[08.06.2012]  UPD    MARIADB 5.5.24 w32
+                     Our bugreport about inclusion of debug files was included.
+                     The download size of maria.zip decreased from 180 to 130mb.
+[08.06.2012]  FIX    Status led not updated at initial start
+                     https://github.com/jakoch/WPN-XM/issues/20
 [05.06.2012]  UPD    NGINX 1.2.1
 [05.06.2012]  NEW    php is added to environment variable PATH
 [04.06.2012]  FIX    fixed cfg edit order: config files are copied, then modified
