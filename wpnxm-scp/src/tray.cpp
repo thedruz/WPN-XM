@@ -1,7 +1,7 @@
 /*
     WPN-XM Server Control Panel
 
-    WPN-XM SCP is a tool to manage Nginx, PHP and MariaDb daemons under windows.
+    WPN-XM SCP is a tool to manage Nginx, PHP and MariaDB daemons under windows.
     It's a fork of Easy WEMP originally written by Yann Le Moigne and (c) 2010.
     WPN-XM SCP is written by Jens-Andre Koch and (c) 2011 - onwards.
         
@@ -96,12 +96,10 @@ void Tray::startMonitoringDaemonProcesses()
     connect(processPhp, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(phpStateChanged(QProcess::ProcessState)));
     connect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
 
-    processMySql = new QProcess(this);
-    processMySql->setWorkingDirectory(cfgMariaDBDir);
-    connect(processMySql, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(mysqlStateChanged(QProcess::ProcessState)));
-    connect(processMySql, SIGNAL(error(QProcess::ProcessError)), this, SLOT(mysqlProcessError(QProcess::ProcessError)));
-
-
+    processMariaDB = new QProcess(this);
+    processMariaDB->setWorkingDirectory(cfgMariaDBDir);
+    connect(processMariaDB, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(mariaDBStateChanged(QProcess::ProcessState)));
+    connect(processMariaDB, SIGNAL(error(QProcess::ProcessError)), this, SLOT(mariaDBProcessError(QProcess::ProcessError)));
 }
 
 void Tray::initializeConfiguration()
@@ -131,8 +129,8 @@ void Tray::initializeConfiguration()
     cfgNginxConfig          = globalSettings.value("nginx/config", "./bin/nginx/conf/nginx.conf").toString();
     cfgNginxSites           = globalSettings.value("nginx/sites", "/www").toString();
 
-    cfgMariaDBDir           = globalSettings.value("path/mysql", "./bin/mariadb/bin").toString();
-    cfgMariaDBConfig        = globalSettings.value("mysql/config", "./bin/mariadb/my.ini").toString();
+    cfgMariaDBDir           = globalSettings.value("path/mariaDB", "./bin/mariaDB/bin").toString();
+    cfgMariaDBConfig        = globalSettings.value("mariaDB/config", "./bin/mariaDB/my.ini").toString();
 }
 
 void Tray::createTrayMenu()
@@ -164,13 +162,13 @@ void Tray::createTrayMenu()
     phpStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startPhp()), QKeySequence());
     phpStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopPhp()), QKeySequence());
 
-    // MySQL
-    mysqlStatusSubmenu = new QMenu("MariaDb", trayMenu);
-    mysqlStatusSubmenu->setIcon(QIcon(":/status_stop"));
-    mysqlStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartMySQL()), QKeySequence());
-    mysqlStatusSubmenu->addSeparator();
-    mysqlStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startMySQL()), QKeySequence());
-    mysqlStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopMySQL()), QKeySequence());
+    // MariaDB / MySQL
+    mariaDBStatusSubmenu = new QMenu("MariaDB", trayMenu);
+    mariaDBStatusSubmenu->setIcon(QIcon(":/status_stop"));
+    mariaDBStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartMariaDB()), QKeySequence());
+    mariaDBStatusSubmenu->addSeparator();
+    mariaDBStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startMariaDB()), QKeySequence());
+    mariaDBStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopMariaDB()), QKeySequence());
 
     // Build Tray Menu
 
@@ -182,7 +180,7 @@ void Tray::createTrayMenu()
     trayMenu->addSeparator();
     trayMenu->addMenu(nginxStatusSubmenu);
     trayMenu->addMenu(phpStatusSubmenu);
-    trayMenu->addMenu(mysqlStatusSubmenu);
+    trayMenu->addMenu(mariaDBStatusSubmenu);
     trayMenu->addSeparator();
     trayMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(openHostManagerDialog()), QKeySequence());
     trayMenu->addSeparator();
@@ -207,14 +205,14 @@ void Tray::goToReportIssue()
 //*
 void Tray::startAllDaemons()
 {
-    startNginx();    
+    startNginx();
     startPhp();
-    startMySQL();
+    startMariaDB();
 }
 
 void Tray::stopAllDaemons()
 {
-    stopMySQL();
+    stopMariaDB();
     stopPhp();
     stopNginx();
 }
@@ -223,7 +221,7 @@ void Tray::restartAll()
 {
     restartNginx();
     restartPhp();
-    restartMySQL();
+    restartMariaDB();
 }
 
 /*
@@ -301,32 +299,33 @@ void Tray::restartPhp()
 }
 
 /*
- * MySql Actions - run, stop, restart
+ * MariaDB / MySql Actions - run, stop, restart
  */
-void Tray::startMySQL()
+void Tray::startMariaDB()
 {
     // already running
-    if(processMySql->state() != QProcess::NotRunning){
-        QMessageBox::warning(0, tr("MySQL"), tr("MySQL already running."));
+    if(processMariaDB->state() != QProcess::NotRunning){
+        QMessageBox::warning(0, tr("MariaDB / MySQL"), tr("MariaDB / MySQL already running."));
         return;
     }
 
     // start
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMariaDBDir));
-    processMySql->start(cfgMariaDBDir+MARIADB_EXEC, QStringList() << "--basedir="+strDir);
+    qDebug() << cfgMariaDBDir+MARIADB_EXEC;
+    processMariaDB->start(cfgMariaDBDir+MARIADB_EXEC, QStringList() << "--basedir="+strDir);
 }
 
-void Tray::stopMySQL()
+void Tray::stopMariaDB()
 {    
-    processMySql->kill();
-    processMySql->waitForFinished();
+    processMariaDB->kill();
+    processMariaDB->waitForFinished();
 }
 
-void Tray::restartMySQL()
+void Tray::restartMariaDB()
 {
-    stopMySQL();
-    startMySQL();
+    stopMariaDB();
+    startMariaDB();
 }
 
 /*
@@ -372,12 +371,12 @@ void Tray::openNginxLogs()
     QProcess::startDetached("explorer", QStringList() << strDir);
 }
 
-void Tray::openMySqlClient()
+void Tray::openMariaDBClient()
 {
     QProcess::startDetached(cfgMariaDBDir+MARIADB_CLIENT_EXEC, QStringList(), cfgMariaDBDir);
 }
 
-void Tray::openMySqlConfig()
+void Tray::openMariaDBConfig()
 {
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMariaDBConfig));
@@ -398,13 +397,13 @@ void Tray::globalStateChanged()
 {
     QProcess::ProcessState stateNginx = QProcess::Running;
     QProcess::ProcessState statePhp = QProcess::Running;
-    QProcess::ProcessState stateMySql = QProcess::Running;
+    QProcess::ProcessState stateMariaDB = QProcess::Running;
 
     stateNginx = processNginx->state();
     statePhp = processPhp->state();
-    stateMySql = processMySql->state();
+    stateMariaDB = processMariaDB->state();
 
-    if(stateNginx==QProcess::Starting || statePhp==QProcess::Starting || stateMySql==QProcess::Starting)
+    if(stateNginx==QProcess::Starting || statePhp==QProcess::Starting || stateMariaDB==QProcess::Starting)
     {
         timer->start();
     }
@@ -423,10 +422,12 @@ void Tray::nginxStateChanged(QProcess::ProcessState state)
     {
         case QProcess::NotRunning:
             nginxStatusSubmenu->setIcon(QIcon(":/status_stop"));
+            //qDebug() << "NGINX - State: Not Running. Emitting Signal: nginx, false to mainwindow::ui.";
             emit signalSetLabelStatusActive("nginx", false);
             break;
         case QProcess::Running:
             nginxStatusSubmenu->setIcon(QIcon(":/status_run"));
+            //qDebug() << "NGINX - State: Running. Emitting Signal: nginx, true to mainwindow::ui.";
             emit signalSetLabelStatusActive("nginx", true);
             break;
         case QProcess::Starting:
@@ -455,20 +456,20 @@ void Tray::phpStateChanged(QProcess::ProcessState state)
     globalStateChanged();
 }
 
-void Tray::mysqlStateChanged(QProcess::ProcessState state)
+void Tray::mariaDBStateChanged(QProcess::ProcessState state)
 {
     switch(state)
     {
         case QProcess::NotRunning:
-            mysqlStatusSubmenu->setIcon(QIcon(":/status_stop"));
+            mariaDBStatusSubmenu->setIcon(QIcon(":/status_stop"));
             emit signalSetLabelStatusActive("mariadb", false);
             break;
         case QProcess::Running:
-            mysqlStatusSubmenu->setIcon(QIcon(":/status_run"));
+            mariaDBStatusSubmenu->setIcon(QIcon(":/status_run"));
             emit signalSetLabelStatusActive("mariadb", true);
             break;
         case QProcess::Starting:
-            mysqlStatusSubmenu->setIcon(QIcon(":/status_reload"));
+            mariaDBStatusSubmenu->setIcon(QIcon(":/status_reload"));
             break;
     }
     globalStateChanged();
@@ -487,9 +488,9 @@ void Tray::phpProcessError(QProcess::ProcessError error)
     QMessageBox::warning(0, APP_NAME " - Error", "PHP Error. "+getProcessErrorMessage(error));
 }
 
-void Tray::mysqlProcessError(QProcess::ProcessError error)
+void Tray::mariaDBProcessError(QProcess::ProcessError error)
 {
-    QMessageBox::warning(0, APP_NAME " - Error", "MySQL Error. "+getProcessErrorMessage(error));
+    QMessageBox::warning(0, APP_NAME " - Error", "MariaDB / MySQL Error. "+getProcessErrorMessage(error));
 }
 
 QString Tray::getProcessErrorMessage(QProcess::ProcessError error){

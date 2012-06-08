@@ -1,7 +1,7 @@
 /*
     WPN-XM Server Control Panel
 
-    WPN-XM SCP is a tool to manage Nginx, PHP and MariaDb daemons under windows.
+    WPN-XM SCP is a tool to manage Nginx, PHP and MariaDB daemons under windows.
     It's a fork of Easy WEMP originally written by Yann Le Moigne and (c) 2010.
     WPN-XM SCP is written by Jens-Andre Koch and (c) 2011 - onwards.
 
@@ -63,9 +63,9 @@ public slots:
         void restartPhp();
 
         // MySQL Action Slots
-        void startMySQL();
-        void stopMySQL();
-        void restartMySQL();
+        void startMariaDB();
+        void stopMariaDB();
+        void restartMariaDB();
 
         // Config Action Slots
         void openHostManagerDialog();
@@ -78,18 +78,18 @@ public slots:
 
         void openPhpConfig();
 
-        void openMySqlClient();
-        void openMySqlConfig();
+        void openMariaDBClient();
+        void openMariaDBConfig();
 
         // Status Action Slots
         void globalStateChanged();
         void nginxStateChanged(QProcess::ProcessState state);
         void phpStateChanged(QProcess::ProcessState state);
-        void mysqlStateChanged(QProcess::ProcessState state);
+        void mariaDBStateChanged(QProcess::ProcessState state);
 
         void nginxProcessError(QProcess::ProcessError error);
         void phpProcessError(QProcess::ProcessError error);
-        void mysqlProcessError(QProcess::ProcessError error);
+        void mariaDBProcessError(QProcess::ProcessError error);
 
 signals:
         // following signal is connected to MainWindow::setLabelStatusActive()
@@ -127,7 +127,7 @@ private:
         // Process Monitoring
         QProcess* processNginx;
         QProcess* processPhp;
-        QProcess* processMySql;
+        QProcess* processMariaDB;
 
         // The Tray Menu
         void createTrayMenu();       
@@ -135,7 +135,7 @@ private:
          // The Submenus of the Tray Menu
         QMenu* nginxStatusSubmenu;
         QMenu* phpStatusSubmenu;
-        QMenu* mysqlStatusSubmenu;
+        QMenu* mariaDBStatusSubmenu;
 
         void initializeConfiguration();
         void startMonitoringDaemonProcesses();

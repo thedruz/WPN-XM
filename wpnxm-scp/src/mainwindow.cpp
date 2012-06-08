@@ -59,11 +59,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label_PHP_Version->setText( getPHPVersion() );
     ui->label_MariaDb_Version->setText( getMariaVersion() );
 
-    // the initial state of daemon status icons is disabled
-    ui->label_Nginx_Status->setEnabled(false);
-    ui->label_PHP_Status->setEnabled(false);
-    ui->label_MariaDB_Status->setEnabled(false);
-
     showPushButtonsOnlyForInstalledTools();
 }
 
@@ -139,26 +134,29 @@ void MainWindow::createTrayIcon()
         // instantiate and attach the tray icon to the system tray
         trayIcon = new Tray(qApp);
 
+        // the following actions point to SLOTS in the trayIcon object
+        // therefore connections must be made, after constructing trayIcon
+
         // handle clicks on the icon
         connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
-        // Actions - Status Table (Status Column)
+        // Connect Actions for Status Table - Column Status
         // if process state of a daemon changes, then change the label status in UI::MainWindow too
         connect(trayIcon, SIGNAL(signalSetLabelStatusActive(QString, bool)),
                 this, SLOT(setLabelStatusActive(QString, bool)));
 
-        // Actions - Status Table (Action Column) - Start
+        // Connect Actions for Status Table - Column Action (Start)
         connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(startNginx()));
         connect(ui->pushButton_StartPHP, SIGNAL(clicked()), trayIcon, SLOT(startPhp()));
-        connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(startMySQL()));
+        connect(ui->pushButton_StartMariaDb, SIGNAL(clicked()), trayIcon, SLOT(startMariaDB()));
 
-        // // Actions - Status Table (Action Column) - Stop
+         // Connect Actions for Status Table - Column Action - Stop
         connect(ui->pushButton_StopNginx, SIGNAL(clicked()), trayIcon, SLOT(stopNginx()));
         connect(ui->pushButton_StopPHP, SIGNAL(clicked()), trayIcon, SLOT(stopPhp()));
-        connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMySQL()));
+        connect(ui->pushButton_StopMariaDb, SIGNAL(clicked()), trayIcon, SLOT(stopMariaDB()));
 
-        // Actions - AllDaemons Start, Stop
+         // Connect Actions for Status Table - AllDaemons Start, Stop
         connect(ui->pushButton_AllDaemons_Start, SIGNAL(clicked()), trayIcon, SLOT(startAllDaemons()));
         connect(ui->pushButton_AllDaemons_Stop, SIGNAL(clicked()), trayIcon, SLOT(stopAllDaemons()));
 
