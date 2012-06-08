@@ -129,8 +129,8 @@ void Tray::initializeConfiguration()
     cfgNginxConfig          = globalSettings.value("nginx/config", "./bin/nginx/conf/nginx.conf").toString();
     cfgNginxSites           = globalSettings.value("nginx/sites", "/www").toString();
 
-    cfgMariaDBDir           = globalSettings.value("path/mariaDB", "./bin/mariaDB/bin").toString();
-    cfgMariaDBConfig        = globalSettings.value("mariaDB/config", "./bin/mariaDB/my.ini").toString();
+    cfgMariaDBDir           = globalSettings.value("path/mariadb", "./bin/mariadb/bin").toString();
+    cfgMariaDBConfig        = globalSettings.value("mariadb/config", "./bin/mariadb/my.ini").toString();
 }
 
 void Tray::createTrayMenu()
@@ -310,10 +310,7 @@ void Tray::startMariaDB()
     }
 
     // start
-    QDir dir(QDir::currentPath());
-    QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgMariaDBDir));
-    qDebug() << cfgMariaDBDir+MARIADB_EXEC;
-    processMariaDB->start(cfgMariaDBDir+MARIADB_EXEC, QStringList() << "--basedir="+strDir);
+    processMariaDB->start(cfgMariaDBDir+MARIADB_EXEC);
 }
 
 void Tray::stopMariaDB()
