@@ -456,26 +456,25 @@ void MainWindow::openConfigurationDialogMariaDB()
 
 void MainWindow::openLogNginxAccess()
 {
-
-    qDebug() << qApp->applicationDirPath() + "/logs/access.log";
+    //qDebug() << qApp->applicationDirPath() + "/logs/access.log";
     QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/access.log", QUrl::TolerantMode));
 }
 
 void MainWindow::openLogNginxError()
 {
-    qDebug() << qApp->applicationDirPath() + "/logs/error.log";
+    //qDebug() << qApp->applicationDirPath() + "/logs/error.log";
     QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/error.log", QUrl::TolerantMode));
 }
 
 void MainWindow::openLogPHP()
 {
-    qDebug() << qApp->applicationDirPath() + "/logs/php_error.log";
+    //qDebug() << qApp->applicationDirPath() + "/logs/php_error.log";
     QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/php_error.log", QUrl::TolerantMode));
 }
 
 void MainWindow::openLogMariaDB()
 {
-    qDebug() << qApp->applicationDirPath() + "/logs/mariadb_error.log";
+    //qDebug() << qApp->applicationDirPath() + "/logs/mariadb_error.log";
     QDesktopServices::openUrl(QUrl("file:///" + qApp->applicationDirPath() + "/logs/mariadb_error.log", QUrl::TolerantMode));
 }
 
