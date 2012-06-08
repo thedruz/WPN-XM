@@ -39,11 +39,6 @@
 #include <QUrl>
 //#include <QDebug>
 
-// Global ShellExecute() used by openFileWithDefaultHandler() needs Windows API
-//#include "qt_windows.h"
-//#include "qwindowdefs_win.h"
-//#include <shellapi.h>
-
 // Constructor
 Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 {
@@ -56,13 +51,9 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 
     initializeConfiguration();
 
-    createTrayMenu();
-
-    // the timer is used for monitoring the process state of each daemon
-    timer = new QTimer(this);
-    timer->setInterval(1000); // msec = 1sec
-
     startMonitoringDaemonProcesses();
+
+    createTrayMenu();
 
     // @todo make this a configuration option in user preferences dialog
     if(bAutostartDaemons)
@@ -91,6 +82,10 @@ Tray::~Tray()
 
 void Tray::startMonitoringDaemonProcesses()
 {
+    // the timer is used for monitoring the process state of each daemon
+    timer = new QTimer(this);
+    timer->setInterval(1000); // msec = 1sec
+
     processNginx = new QProcess(this);
     processNginx->setWorkingDirectory(cfgNginxDir);
     connect(processNginx, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(nginxStateChanged(QProcess::ProcessState)));
@@ -105,6 +100,8 @@ void Tray::startMonitoringDaemonProcesses()
     processMySql->setWorkingDirectory(cfgMariaDBDir);
     connect(processMySql, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(mysqlStateChanged(QProcess::ProcessState)));
     connect(processMySql, SIGNAL(error(QProcess::ProcessError)), this, SLOT(mysqlProcessError(QProcess::ProcessError)));
+
+
 }
 
 void Tray::initializeConfiguration()
@@ -210,7 +207,7 @@ void Tray::goToReportIssue()
 //*
 void Tray::startAllDaemons()
 {
-    startNginx();
+    startNginx();    
     startPhp();
     startMySQL();
 }
@@ -281,8 +278,6 @@ void Tray::startPhp()
 
     // start daemon
     processPhp->start(cfgPhpDir+PHPCGI_EXEC, QStringList() << "-b" << cfgPhpFastCgiHost+":"+cfgPhpFastCgiPort);
-
-    emit signalSetLabelStatusActive("nginx", true);
 }
 
 void Tray::stopPhp()
@@ -521,61 +516,3 @@ QString Tray::getProcessErrorMessage(QProcess::ProcessError error){
     }
     return ret;
 }
-/*
-void Tray::openFileWithDefaultHandler( QString p_target_path )
-{
-    p_target_path = p_target_path.remove( "\"" );
-
-    HINSTANCE result = ShellExecute( NULL, TEXT("open"), (LPCWSTR) p_target_path.utf16(), NULL, NULL, SW_SHOWNORMAL );
-
-    QString error_string = "";
-
-    int result_code = (int) result;
-
-    switch( result_code )
-    {
-    case 0:
-        error_string = "Your operating system is out of memory or resources.";
-        break;
-    case ERROR_FILE_NOT_FOUND:
-        error_string = "The specified file was not found.";
-        break;
-    case ERROR_PATH_NOT_FOUND:
-        error_string = "The specified path was not found.";
-        break;
-    case ERROR_BAD_FORMAT:
-        error_string = "The .exe file is invalid (non-Win32 .exe or error in .exe image).";
-        break;
-    case SE_ERR_ACCESSDENIED:
-        error_string = "Your operating system denied access to the specified file.";
-        break;
-    case SE_ERR_ASSOCINCOMPLETE:
-        error_string = "The file name association is incomplete or invalid.";
-        break;
-    case SE_ERR_DDEBUSY:
-        error_string = "The DDE transaction could not be completed because other DDE transactions were being processed.";
-        break;
-    case SE_ERR_DDEFAIL:
-        error_string = "The DDE transaction failed.";
-        break;
-    case SE_ERR_DDETIMEOUT:
-        error_string = "The DDE transaction could not be completed because the request timed out.";
-        break;
-    case SE_ERR_DLLNOTFOUND:
-        error_string = "The specified DLL was not found.";
-        break;
-    case SE_ERR_NOASSOC:
-        error_string = "There is no application associated with the given file name extension.\nThis error will also be returned if you attempt to print a file that is not printable.";
-        break;
-    case SE_ERR_OOM:
-        error_string = "There was not enough memory to complete the operation.";
-        break;
-    case SE_ERR_SHARE:
-        error_string = "A sharing violation occurred.";
-        break;
-    default:
-        return;
-    }
-
-    QMessageBox::warning(0, APP_NAME " - Error", error_string );
-}*/

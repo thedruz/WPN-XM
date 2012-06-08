@@ -140,9 +140,6 @@ private:
         void initializeConfiguration();
         void startMonitoringDaemonProcesses();
 
-        QString p_target_path;
-        void openFileWithDefaultHandler(QString p_target_path);
-
         QString getProcessErrorMessage(QProcess::ProcessError);
 };
 
