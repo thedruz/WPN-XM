@@ -84,7 +84,8 @@ void MainWindow::showPushButtonsOnlyForInstalledTools()
     }
 
     // if tool directory exists, show pushButton
-    if(QDir(getProjectFolder() + "/www/webinterface").exists())
+
+    if(QDir(getProjectFolder() + "/webinterface").exists())
     {
         ui->pushButton_tools_phpinfo->setVisible(true);
     }
@@ -96,12 +97,12 @@ void MainWindow::showPushButtonsOnlyForInstalledTools()
 
     if(QDir(getProjectFolder() + "/adminer").exists())
     {
-        ui->pushButton_tools_phpmyadmin->setVisible(true);
+        ui->pushButton_tools_adminer->setVisible(true);
     }
 
     if(QDir(getProjectFolder() + "/webgrind").exists())
     {
-        ui->pushButton_tools_phpmyadmin->setVisible(true);
+        ui->pushButton_tools_webgrind->setVisible(true);
     }
 }
 
@@ -194,7 +195,7 @@ void MainWindow::createActions()
      connect(ui->pushButton_tools_phpinfo, SIGNAL(clicked()), this, SLOT(openToolPHPInfo()));
      connect(ui->pushButton_tools_phpmyadmin, SIGNAL(clicked()), this, SLOT(openToolPHPMyAdmin()));
      connect(ui->pushButton_tools_webgrind, SIGNAL(clicked()), this, SLOT(openToolWebgrind()));
-     //connect(ui->pushButton_tools_adminer, SIGNAL(clicked()), this, SLOT(openToolAdminer()));
+     connect(ui->pushButton_tools_adminer, SIGNAL(clicked()), this, SLOT(openToolAdminer()));
 
      // Actions - Open Projects Folder
      connect(ui->pushButton_OpenProjects_browser, SIGNAL(clicked()), this, SLOT(openProjectFolderInBrowser()));
