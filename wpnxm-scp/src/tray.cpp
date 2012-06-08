@@ -355,7 +355,8 @@ void Tray::openNginxSite()
     QProcess::startDetached("explorer", QStringList() << strDir);
 }
 
-void Tray::openNginxConfig(){
+void Tray::openNginxConfig()
+{
     QDir dir(QDir::currentPath());
     QString strDir = QDir::toNativeSeparators(dir.absoluteFilePath(cfgNginxConfig));
     QProcess::startDetached("explorer", QStringList() << strDir);

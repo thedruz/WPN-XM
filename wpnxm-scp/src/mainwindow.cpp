@@ -294,7 +294,7 @@ QString MainWindow::getNginxVersion()
     QString p_stderr = processNginx->readAllStandardError();
 
     // test
-    QString p_stdout = "nginx version: nginx/1.1.11";
+    QString p_stdout = "nginx version: nginx/1.2.1";
 
     qDebug() << p_stdout;
     qDebug() << p_stderr;
@@ -315,7 +315,7 @@ QString MainWindow::getMariaVersion()
     QString p_stderr = processMaria->readAllStandardError();
 
     // test
-    QString p_stdout = "mysql  Ver 15.1 Distrib 5.5.23-MariaDB, for Win32 (x86)";
+    QString p_stdout = "mysql  Ver 15.1 Distrib 5.5.24-MariaDB, for Win32 (x86)";
 
     qDebug() << p_stdout;
     qDebug() << p_stderr;
@@ -336,7 +336,7 @@ QString MainWindow::getPHPVersion()
     QString p_stderr = processPhp->readAllStandardError();
 
     // test
-    QString p_stdout = "PHP 5.4.0 (cli) (built: Feb 29 2012 19:06:50)";
+    QString p_stdout = "PHP 5.4.3 (cli) (built: Feb 29 2012 19:06:50)";
 
     qDebug() << p_stdout;
     qDebug() << p_stderr;
