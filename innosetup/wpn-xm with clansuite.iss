@@ -63,7 +63,7 @@ AppCopyright=© {#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppSupportURL}
 AppUpdatesURL={#AppURL}
-// default installation folder is "c:\server". but user might change this via dialog.=
+// default installation folder is "c:\server". but user might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#AppName}
 OutputBaseFilename=WPNXM-{#AppVersion}-Setup
@@ -74,7 +74,7 @@ CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
 PrivilegesRequired=admin
-// create a log file, see [code] procedure CurStepChanged=
+// create a log file, see [code] procedure CurStepChanged
 SetupLogging=yes
 VersionInfoVersion={#AppVersion}
 VersionInfoCompany={#AppPublisher}
@@ -196,7 +196,7 @@ const
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   URL_nginx             = 'http://www.nginx.org/download/nginx-1.2.1.zip';
   URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.3-nts-Win32-VC9-x86.zip';
-  URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.23/win2008r2-vs2010-i386-packages/mariadb-5.5.23-win32.zip';
+  URL_mariadb           = 'http://mirror3.layerjet.com/mariadb/mariadb-5.5.24/windows/mariadb-5.5.24-win32.zip';
   URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
   // pierre's APC is buggy, see https://bugs.php.net/bug.php?id=61984
   //URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
@@ -236,6 +236,7 @@ var
   unzipTool   : String;   // path+filename of unzip helper for exec
   returnCode  : Integer;  // errorcode
   targetPath  : String;   // if debug true will download to app/downloads, else temp dir
+  appPath     : String;   // application path (= the installaton folder)
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
 
@@ -344,6 +345,9 @@ var
   VersionLabel2 : TLabel;
   CancelBtn     : TButton;
 begin
+  // set application path as global variable
+  appPath := ExpandConstant('{app}');
+
   //change background colors of wizard pages and panels
   WizardForm.Mainpanel.Color:=$ECECEC;
   WizardForm.TasksList.Color:=$ECECEC;
@@ -416,7 +420,8 @@ end;
 
 function NextButtonClick(CurPage: Integer): Boolean;
 (*
-	Called when the user clicks the Next button. If you return True, the wizard will move to the next page.
+	Called when the user clicks the Next button.
+    If you return True, the wizard will move to the next page.
 	If you return False, it will remain on the current page (specified by CurPageID).
 *)
 begin
@@ -506,17 +511,11 @@ begin
     end;
 end;
 
-{
-  Calculates the percentage per component
-  (100% / components) = ppc
-  (ppc * components) = 100%
-}
-function getPercentagePerComponent(intTotalComponents: Integer): integer;
-begin
-    Result := (100 div intTotalComponents);
-end;
-
 procedure UpdateTotalProgressBar();
+{
+  This procedure is called, when installing a component is finished.
+  It updates the TotalProgessBar and the Label in the InstallationScreen with the new percentage.
+}
 var
     newTotalPercentage : integer;
     TotalProgressBar   : TNewProgressBar;
@@ -535,6 +534,10 @@ begin
     TotalProgressLabel.Caption := intToStr(newTotalPercentage) + ' %';
 end;
 
+{
+  This procedure is called, when installing a new component starts.
+  It updates the CurrentComponentLabel with the name of the component.
+}
 procedure UpdateCurrentComponentName(component: String);
 var
     CurrentComponentLabel : TLabel;
@@ -563,9 +566,14 @@ begin
   // serverstack base are 3 components in 1 so we have to add 2 to the counter
   intTotalComponents:=intTotalComponents+2;
 
-  // When processing a component is finished, this value is added to the progress bar.
-  // When all values are added, we will reach 100 % in total on the progress bar.
-  percentagePerComponent := getPercentagePerComponent(intTotalComponents);
+  {
+    Calculate the percentage per component: (100% / components) = ppc
+
+    When processing a component is finished, this value is added to the progress bar.
+    When all values are added (UpdateTotalProgressBar()), we will reach 100 % in total on the progress bar. (ppc * components) = 100%
+  }
+  percentagePerComponent := (100 div intTotalComponents);
+
   if (DEBUG = true) then MsgBox('Each processed component will add ' + intToStr(percentagePerComponent) + ' % to the progress bar.', mbInformation, MB_OK);
 
   // fetch the unzip command from the compressed setup
@@ -576,7 +584,7 @@ begin
 
   // Update Progress Bars
 
-  // always unzip the serverstack base  (3 components)
+  // always unzip the serverstack base (3 components)
 
   UpdateCurrentComponentName('Nginx');
     DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
@@ -690,54 +698,54 @@ begin
   selectedComponents := WizardSelectedComponents(false);
 
   // nginx - rename directory
-  Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\nginx-*') + ' ' + ExpandConstant('{app}\bin\nginx') + '"',
+  Exec('cmd.exe', '/c "move ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"',
   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - rename directory
-  Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\mariadb-*') + '  ' + ExpandConstant('{app}\bin\mariadb') + '"',
+  Exec('cmd.exe', '/c "move ' + appPath + '\bin\mariadb-*  ' + appPath + '\bin\mariadb"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - install with user ROOT and password TOOP
-  Exec('cmd.exe', '/c ' + ExpandConstant('{app}\bin\mariadb\') + 'mysql_install_db.exe --default-user=root --password=toop --datadir="' + ExpandConstant('{app}\bin\mariadb\data') + '"',
+  Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\mysql_install_db.exe --default-user=root --password=toop --datadir="' + appPath + '\bin\mariadb\data"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     // deactivated, because we are fetching from preinheimer's fork, see below
     // xhprof - rename "facebook-xhprof-gitref" directory
-    //Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\facebook-xhprof*') + '  ' + ExpandConstant('{app}\www\xhprof') + '"',
+    //Exec('cmd.exe', '/c "move ' + appPath + '\www\facebook-xhprof* ' + appPath + '\www\xhprof"',
     //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     // xhprof - rename "preinheimer-xhprof-gitref" directory
-    Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\preinheimer-xhprof*') + '  ' + ExpandConstant('{app}\www\xhprof') + '"',
+    Exec('cmd.exe', '/c "move ' + appPath + '\www\preinheimer-xhprof* ' + appPath + '\www\xhprof"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
       // rename the existing directory
-      Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\memcached-x86') + ' ' + ExpandConstant('{app}\bin\memcached') + '"',
+      Exec('cmd.exe', '/c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
      // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
-    Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\phpMyAdmin-*') + '  ' + ExpandConstant('{app}\www\phpmyadmin') + '"',
+    Exec('cmd.exe', '/c "move ' + appPath + '\www\phpMyAdmin-*  ' + appPath + '\www\phpmyadmin"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
 end;
 
+procedure DoPreInstall();
 {
    DoPreInstall will be called after the user clicks Next on the wpReady page,
    but before Inno installs any of the [Files] and other standard script items.
 
-   Its triggerd by CurStep == ssInstall. see procedure CurStepChanged().
+   Its triggered by CurStep == ssInstall in procedure CurStepChanged().
 
-   wpReady to Install -> Click Next (Triggers ssInstall) -> wpInstalling
+   Workflow: wpReady to Install -> Click Next (Triggers ssInstall) -> wpInstalling
 }
-procedure DoPreInstall();
 begin
   UnzipFiles();
   MoveFiles();
@@ -745,24 +753,39 @@ end;
 
 procedure Configure();
 var
-  php_ini_file : String;
   selectedComponents: String;
+  appPathWithSlashes : String;
+  php_ini_file : String;
+  mariadb_ini_file : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
+  { Explanation: StringChange(S,FromStr,ToStr): Change all occurances in S of FromStr to ToStr.
+    StringChange works on the string!! StringChange does not return S!
+  }
+  appPathWithSlashes := appPath;
+  StringChange (appPathWithSlashes, '\', '/');
+
   // config files
 
-  php_ini_file := ExpandConstant('{app}\bin\php\php.ini');
+  php_ini_file := appPath + '\bin\php\php.ini';
+  mariadb_ini_file := appPath + '\bin\mariadb\my.ini';
 
   // modifications to the config files
 
+  // MariaDb
+
+  // http://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-error
+  // waring: mysqld will not start if backslashes (\) are used. fwd slashes (/) needed!
+  SetIniString('mysqld', 'log-error',        appPathWithSlashes + '/logs/mariadb_error.log',  mariadb_ini_file );
+
   // PHP
-  SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
-  SetIniString('PHP', 'doc_root',            ExpandConstant('{app}\www'),                     php_ini_file );
-  SetIniString('PHP', 'include_path',        ExpandConstant('{app}\bin\php\pear'),            php_ini_file );
-  SetIniString('PHP', 'upload_tmp_dir',      ExpandConstant('{app}\temp'),                    php_ini_file );
-  SetIniString('PHP', 'upload_max_filesize', '8M',                                            php_ini_file );
-  SetIniString('PHP', 'session.save_path',   ExpandConstant('{app}\temp'),                    php_ini_file );
+  SetIniString('PHP', 'error_log',           appPath + '\logs\php_error.log',       php_ini_file );
+  SetIniString('PHP', 'doc_root',            appPath + '\www',                      php_ini_file );
+  SetIniString('PHP', 'include_path',        '.;' + appPath + '\bin\php\pear',      php_ini_file );
+  SetIniString('PHP', 'upload_tmp_dir',      appPath + '\temp',                     php_ini_file );
+  SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file );
+  SetIniString('PHP', 'session.save_path',   appPath + '\temp',                     php_ini_file );
 
   // Xdebug
   if Pos('xdebug', selectedComponents) > 0 then
@@ -770,7 +793,7 @@ begin
       // add loading of xdebug.dll to php.ini
       if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
       begin
-          SetIniString('Zend', 'zend_extension', ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), php_ini_file );
+          SetIniString('Zend', 'zend_extension', appPath + '\bin\php\ext\php_xdebug.dll', php_ini_file );
       end;
 
       // activate remote debugging
@@ -835,7 +858,7 @@ begin
      // copy logfile from tmp dir to the application dir
      logfilepathname := ExpandConstant('{log}');
      logfilename := ExtractFileName(logfilepathname);
-     newfilepathname := ExpandConstant('{app}\') +logfilename;
+     newfilepathname := ExpandConstant('{app}\') + logfilename;
      filecopy(logfilepathname, newfilepathname, false);
    end;
 end;
@@ -844,5 +867,3 @@ procedure CurPageChanged(CurPageID: Integer);
 begin
   if CurPageID=wpInstalling then CustomWpInstallingPage();
 end;
-
-
