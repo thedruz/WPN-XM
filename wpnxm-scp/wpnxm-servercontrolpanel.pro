@@ -31,8 +31,8 @@ HEADERS += src/version.h \
            src/hostmanager/host.h \
            src/hostmanager/hosttablemodel.h \
            src/hostmanager/adddialog.h \
-           src/hostmanager/hostmanagerdialog.h #\
-           #src/configurationdialog.h
+           src/hostmanager/hostmanagerdialog.h \
+           src/configurationdialog.h
 # Source files
 SOURCES += src/main.cpp \
            src/tray.cpp \
@@ -40,14 +40,14 @@ SOURCES += src/main.cpp \
            src/hostmanager/host.cpp \
            src/hostmanager/hosttablemodel.cpp \
            src/hostmanager/adddialog.cpp \
-           src/hostmanager/hostmanagerdialog.cpp #\
-           #src/configurationdialog.cpp
+           src/hostmanager/hostmanagerdialog.cpp \
+           src/configurationdialog.cpp
 # Resource file(s)
 RESOURCES += src/resources/Resources.qrc
 RC_FILE = src/resources/appico.rc
 OTHER_FILES += appico.rc
-FORMS += src/mainwindow.ui #\
-         #src/configurationdialog.ui
+FORMS += src/mainwindow.ui \
+         src/configurationdialog.ui
 
 DESTDIR = bin
 release:TARGET = wpnxm-scp
@@ -62,5 +62,5 @@ static {                                      # everything below takes effect wi
     DEFINES += STATIC
     message("~~~ static build ~~~")           # this is for information, that the static build is done
     win32: TARGET = $$join(TARGET,,,_static)  # this adds an s in the end, so you can seperate static build from non static build
-    QMAKE_LFLAGS *= -static -static-libgcc -enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
+    #QMAKE_LFLAGS *= -static -static-libgcc -enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
 }

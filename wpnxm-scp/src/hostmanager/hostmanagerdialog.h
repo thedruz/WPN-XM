@@ -27,11 +27,12 @@
 #include <QDialog>
 class QTableView;
 class QItemSelection;
-class Host;
+//class Host;
 
 class HostsManagerDialog : public QDialog
 {
-Q_OBJECT
+    Q_OBJECT
+
 public:
     explicit HostsManagerDialog(QWidget *parent = 0);
     ~HostsManagerDialog();
@@ -45,6 +46,7 @@ public slots:
     void removeEntry();
 
     void accept();
+
 private:
     QTableView* m_tableView;
 };

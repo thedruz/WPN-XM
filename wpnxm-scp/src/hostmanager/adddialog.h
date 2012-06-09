@@ -27,26 +27,27 @@
 
 #include <QDialog>
 class QLineEdit;
-class QLabel;
-class QPushButton;
+//class QLabel;
+//class QPushButton;
 
 class HostsAddDialog : public QDialog
 {
-        Q_OBJECT
+    Q_OBJECT
 
 public:
-        explicit HostsAddDialog(QWidget *parent = 0);
-        QString name();
-        QString address();
+    explicit HostsAddDialog(QWidget *parent = 0);
+    QString name();
+    QString address();
 
-        void edit(QString name, QString adress);
+    void edit(QString name, QString adress);
+
 signals:
 
 public slots:
 
 private:
-        QLineEdit *m_lineedit_Name;
-        QLineEdit *m_lineedit_Address;
+    QLineEdit *m_lineedit_Name;
+    QLineEdit *m_lineedit_Address;
 };
 
 #endif // ADDDIALOG_H

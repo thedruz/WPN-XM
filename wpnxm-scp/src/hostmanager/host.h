@@ -47,6 +47,7 @@ public:
     //void setEnable(bool bEnable);
 
     bool operator==(const Host &host) const;
+
 private:
     static QString getHostFile();
 

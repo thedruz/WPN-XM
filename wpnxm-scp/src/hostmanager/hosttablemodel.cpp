@@ -35,7 +35,7 @@ HostsTableModel::HostsTableModel(QObject *parent) :
 
 int HostsTableModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return m_lstHost.size();
+    return m_listHosts.size();
 }
 
 int HostsTableModel::columnCount(const QModelIndex &parent) const {
@@ -47,10 +47,10 @@ QVariant HostsTableModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= m_lstHost.size() || index.row() < 0)
+    if (index.row() >= m_listHosts.size() || index.row() < 0)
         return QVariant();
 
-    Host* host = m_lstHost.at(index.row());
+    Host* host = m_listHosts.at(index.row());
 
     /*
     if (role == Qt::CheckStateRole){
@@ -99,7 +99,7 @@ bool HostsTableModel::setData(const QModelIndex &index, const QVariant &value, i
     if (index.isValid() && role == Qt::EditRole) {
         int row = index.row();
 
-        Host* host = m_lstHost.value(row);
+        Host* host = m_listHosts.value(row);
 
         switch(index.column()){
         case COLUMN_ADDRESS:
@@ -126,7 +126,7 @@ bool HostsTableModel::insertRows(int position, int rows, const QModelIndex &inde
 
     for (int row=0; row < rows; row++) {
         Host* host = new Host();
-        m_lstHost.insert(position, host);
+        m_listHosts.insert(position, host);
     }
 
     endInsertRows();
@@ -138,7 +138,7 @@ bool HostsTableModel::removeRows(int position, int rows, const QModelIndex &inde
     beginRemoveRows(QModelIndex(), position, position+rows-1);
 
     for (int row=0; row < rows; ++row) {
-        Host* host = m_lstHost.takeAt(position);
+        Host* host = m_listHosts.takeAt(position);
         delete host;
     }
 
@@ -146,12 +146,12 @@ bool HostsTableModel::removeRows(int position, int rows, const QModelIndex &inde
     return true;
 }
 
-void HostsTableModel::setList(QList<Host*> lstHost){
-    m_lstHost = lstHost;
+void HostsTableModel::setList(QList<Host*> listHosts){
+    m_listHosts = listHosts;
     QModelIndex root = index(0,0);
     emit(dataChanged(root, index(rowCount(QModelIndex()), columnCount(QModelIndex()))));
 }
 
 QList<Host*> HostsTableModel::getList(){
-    return m_lstHost;
+    return m_listHosts;
 }
