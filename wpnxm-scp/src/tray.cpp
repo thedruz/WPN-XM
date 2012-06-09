@@ -56,10 +56,10 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
     createTrayMenu();
 
     // @todo make this a configuration option in user preferences dialog
-    if(bAutostartDaemons)
+    /*if(bAutostartDaemons)
     {
         startAllDaemons();
-    }
+    }*/
 
     /* Auto-connect Slots
        The following definition isneeded:
