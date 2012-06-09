@@ -1,6 +1,6 @@
 <?php
    /**
-    * WPИ-XM Server Stack
+    * WPИ-XM Server Stack - Webinterface
     * Jens-André Koch © 2010 - onwards
     * http://wpn-xm.org/
     *
@@ -26,7 +26,7 @@
     |                                                                                  |
     +----------------------------------------------------------------------------------+
     *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "license.txt".
+    * @license    GNU/GPL v2 or (at your option) any later version..
     * @author     Jens-André Koch <jakoch@web.de>
     * @copyright  Jens-André Koch (2010 - 2012)
     * @link       http://wpn-xm.org/
