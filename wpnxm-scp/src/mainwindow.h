@@ -99,7 +99,6 @@ public slots:
     void openLogPHP();
     void openLogMariaDB();
 
-
     void setLabelStatusActive(QString label, bool enabled);
 };
 

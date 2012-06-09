@@ -123,7 +123,9 @@ void Host::SetHosts(QList<Host*> listHosts){
 }
 
 QString Host::getHostFile(){
-    QString windir(getenv ("windir")); // unsafe warning MSVC10: use _dupenv_s()
+    // unsafe warning, when compiling with MSVC10: use _dupenv_s()
+    QString windir(getenv ("windir"));
+
     return windir+"\\System32\\drivers\\etc\\hosts"; // Win XP
 }
 

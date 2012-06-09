@@ -502,6 +502,9 @@ p, li { white-space: pre-wrap; }
       </item>
       <item row="3" column="4">
        <widget class="QPushButton" name="pushButton_ConfigureMariaDB">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -519,6 +522,9 @@ p, li { white-space: pre-wrap; }
       </item>
       <item row="2" column="4">
        <widget class="QPushButton" name="pushButton_ConfigurePHP">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -536,6 +542,9 @@ p, li { white-space: pre-wrap; }
       </item>
       <item row="1" column="4">
        <widget class="QPushButton" name="pushButton_ConfigureNginx">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="maximumSize">
          <size>
           <width>32</width>
@@ -798,6 +807,9 @@ p, li { white-space: pre-wrap; }
      </property>
      <item>
       <widget class="QPushButton" name="pushButton_Configuration">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
@@ -830,6 +842,9 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_Help">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -1861,6 +1876,9 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_Donate">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="maximumSize">
         <size>
          <width>101</width>

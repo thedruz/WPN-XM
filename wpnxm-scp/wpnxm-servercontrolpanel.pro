@@ -31,8 +31,8 @@ HEADERS += src/version.h \
            src/hostmanager/host.h \
            src/hostmanager/hosttablemodel.h \
            src/hostmanager/adddialog.h \
-           src/hostmanager/hostmanagerdialog.h \
-           src/configurationdialog.h
+           src/hostmanager/hostmanagerdialog.h #\
+           #src/configurationdialog.h
 # Source files
 SOURCES += src/main.cpp \
            src/tray.cpp \
@@ -40,25 +40,21 @@ SOURCES += src/main.cpp \
            src/hostmanager/host.cpp \
            src/hostmanager/hosttablemodel.cpp \
            src/hostmanager/adddialog.cpp \
-           src/hostmanager/hostmanagerdialog.cpp \
-           src/configurationdialog.cpp
+           src/hostmanager/hostmanagerdialog.cpp #\
+           #src/configurationdialog.cpp
 # Resource file(s)
 RESOURCES += src/resources/Resources.qrc
 RC_FILE = src/resources/appico.rc
 OTHER_FILES += appico.rc
-FORMS += src/mainwindow.ui \
-         src/configurationdialog.ui
+FORMS += src/mainwindow.ui #\
+         #src/configurationdialog.ui
 
 DESTDIR = bin
 release:TARGET = wpnxm-scp
+# change the name of the binary, if it is build in debug mode
 build_pass:CONFIG(debug, debug|release):TARGET = wpnxm-scp-debug
 
-CONFIG += qt warn_on static staticlib
-
-# change the name of the binary, if it is build in debug mode
-CONFIG(debug, debug|release) {
-         win32: TARGET = $$join(TARGET,,,_debug)
-}
+CONFIG += qt console warn_on static staticlib
 
 static {                                      # everything below takes effect with CONFIG += static
     CONFIG += static

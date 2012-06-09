@@ -69,7 +69,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::showPushButtonsOnlyForInstalledTools()
 {
-    // get all PushButtons from the Tools GroupBox
+    // get all PushButtons from the Tools GroupBox of MainWindow::UI
     QList<QPushButton *> allPushButtonsButtons = ui->ToolsGroupBox->findChildren<QPushButton *>();
 
     // set all PushButtons invisible
@@ -167,14 +167,19 @@ void MainWindow::createTrayIcon()
 
 void MainWindow::createActions()
  {
+     // title bar - minimize
      minimizeAction = new QAction(tr("Mi&nimize"), this);
      connect(minimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
 
+     // title bar - restore
      restoreAction = new QAction(tr("&Restore"), this);
      connect(restoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
 
-     quitAction = new QAction(tr("&Quit"), this);
+     // title bar - close
+     // this action is intercepted by MainWindow::closeEvent()
+     // its modified from "quit" to "close to tray" with a msgbox
      // qApp is global pointer to QApplication
+     quitAction = new QAction(tr("&Quit"), this);     
      connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
      // PushButtons:: Website, ReportBug, Donate
@@ -274,79 +279,73 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
                 // clicking the tray icon, when the main window is hidden, shows the main window
                 show();
                 setFocus();
-                setWindowState( windowState() & ( ~Qt::WindowMinimized | Qt::WindowActive ) );
+                setWindowState( windowState() & ( ~Qt::WindowMinimized | Qt::WindowActive | Qt::WindowMaximized ) );
             }
             break;
-        default:;
+        default:
+            break;
     }
 }
 
 QString MainWindow::getNginxVersion()
 {
-    QProcess* processNginx;
+    /*QProcess* processNginx;
 
     processNginx = new QProcess(this);
     //processNginx->setWorkingDirectory(cfgNginxDir);
     //processNginx->start("./nginx", QStringList() << "-v");
     processNginx->waitForFinished(-1);
 
-    //QString p_stdout = processNginx->readAllStandardOutput();
-    QString p_stderr = processNginx->readAllStandardError();
+    //QString p_stdout = processNginx->readAllStandardOutput();*/
 
     // test
     QString p_stdout = "nginx version: nginx/1.2.1";
 
-    qDebug() << p_stdout;
-    qDebug() << p_stderr;
+    //qDebug() << p_stdout;
 
     return parseVersionNumber(p_stdout);
 }
 
 QString MainWindow::getMariaVersion()
 {
-    QProcess* processMaria;
-
+    /*QProcess* processMaria;
     processMaria = new QProcess(this);
     //processMaria->setWorkingDirectory(cfgMariaDir);
     processMaria->start("./mysqld", QStringList() << "-V"); // upper-case V
     processMaria->waitForFinished(-1);
 
-    //QString p_stdout = processMaria->readAllStandardOutput();
-    QString p_stderr = processMaria->readAllStandardError();
+    //QString p_stdout = processMaria->readAllStandardOutput();*/
 
     // test
     QString p_stdout = "mysql  Ver 15.1 Distrib 5.5.24-MariaDB, for Win32 (x86)";
 
-    qDebug() << p_stdout;
-    qDebug() << p_stderr;
+    //qDebug() << p_stdout;
 
     return parseVersionNumber(p_stdout.mid(15));
 }
 
 QString MainWindow::getPHPVersion()
 {
-    QProcess* processPhp;
+    /*QProcess* processPhp;
 
     processPhp = new QProcess(this);
     //processPhp->setWorkingDirectory(cfgPHPDir);
     //processPhp->start(cfgPHPDir+cfgPHPExec, QStringList() << "-v");
     processPhp->waitForFinished(-1);
 
-    //QString p_stdout = processPhp->readAllStandardOutput();
-    QString p_stderr = processPhp->readAllStandardError();
+    //QString p_stdout = processPhp->readAllStandardOutput();;*/
 
     // test
     QString p_stdout = "PHP 5.4.3 (cli) (built: Feb 29 2012 19:06:50)";
 
-    qDebug() << p_stdout;
-    qDebug() << p_stderr;
+    //qDebug() << p_stdout;
 
     return parseVersionNumber(p_stdout);
 }
 
 QString MainWindow::parseVersionNumber(QString stringWithVersion)
 {
-    qDebug() << stringWithVersion;
+    //qDebug() << stringWithVersion;
 
     // The RegExp for matching version numbers is (\d+\.)?(\d+\.)?(\d+\.)?(\*|\d+)
     // The following one is escaped:
@@ -355,7 +354,7 @@ QString MainWindow::parseVersionNumber(QString stringWithVersion)
     // match
     regex.indexIn(stringWithVersion);
 
-    qDebug() << regex.cap(0);
+    //qDebug() << regex.cap(0);
     QString cap = regex.cap(0);
     return cap;
 
@@ -437,10 +436,10 @@ QString MainWindow::getProjectFolder() const
 
 void MainWindow::openConfigurationDialog()
 {
-    ConfigurationDialog cfgDlg;
+    /*ConfigurationDialog cfgDlg;
     cfgDlg.setWindowTitle("Server Control Panel - Configuration");
 
-    cfgDlg.exec();
+    cfgDlg.exec();*/
 }
 
 void MainWindow::openConfigurationDialogNginx()

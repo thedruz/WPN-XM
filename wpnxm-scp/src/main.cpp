@@ -59,8 +59,8 @@ int main(int argc, char * argv[])
     MainWindow mainWindow;
     mainWindow.show();
 
-    qDebug() << APP_NAME;
-    qDebug() << APP_VERSION;
+    //qDebug() << APP_NAME;
+    //qDebug() << APP_VERSION;
 
     // enter the Qt Event loop here
     return application.exec();

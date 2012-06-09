@@ -187,7 +187,7 @@ void Tray::createTrayMenu()
     trayMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
     trayMenu->addAction(QIcon(":/question"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
     trayMenu->addAction(QIcon(":/quit"),tr("&Quit"), qApp, SLOT(quit()), QKeySequence());
-    setContextMenu(trayMenu);
+
 }
 
 void Tray::goToWebsiteHelp()
@@ -282,10 +282,10 @@ void Tray::stopPhp()
 {
     // 1) processPhp->terminate(); will fail because WM_CLOSE message not handled
     // 2) By killing the process, we are crashing it!
-    //    The user will get a "Process Crashed" Error MessageBox.
+    //    The user will then get a "Process Crashed" Error MessageBox.
     //    Therefore we need to disconnect signal/sender from method/receiver.
     //    The result is, that crashing the php daemon intentionally is not shown as error.
-    disconnect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
+    //disconnect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
 
     // kill PHP daemon
     processPhp->kill();
@@ -420,12 +420,10 @@ void Tray::nginxStateChanged(QProcess::ProcessState state)
     {
         case QProcess::NotRunning:
             nginxStatusSubmenu->setIcon(QIcon(":/status_stop"));
-            //qDebug() << "NGINX - State: Not Running. Emitting Signal: nginx, false to mainwindow::ui.";
             emit signalSetLabelStatusActive("nginx", false);
             break;
         case QProcess::Running:
             nginxStatusSubmenu->setIcon(QIcon(":/status_run"));
-            //qDebug() << "NGINX - State: Running. Emitting Signal: nginx, true to mainwindow::ui.";
             emit signalSetLabelStatusActive("nginx", true);
             break;
         case QProcess::Starting:
