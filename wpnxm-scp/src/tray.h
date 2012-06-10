@@ -97,7 +97,6 @@ signals:
 
 private:
         QTimer* timer;
-        int iCurrentImage;
 
         bool bAutostartDaemons;
 

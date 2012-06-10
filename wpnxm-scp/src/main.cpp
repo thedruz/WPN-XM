@@ -50,9 +50,6 @@ int main(int argc, char * argv[])
     application.setOrganizationDomain("http://wpn-xm.org/");
     application.setWindowIcon(QIcon(":/wpnxm"));
 
-    // if setStyle() is not used, the submenus are not displayed properly. bug?
-    //application.setStyle("windowsxp");
-
     // do not leave until Quit is clicked in the tray menu
     application.setQuitOnLastWindowClosed(false);
 

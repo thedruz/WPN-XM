@@ -28,6 +28,7 @@
 #include "configurationdialog.h"
 
 // Global includes
+#include <QApplication>
 #include <QMessageBox>
 #include <QSharedMemory>
 #include <QtGui>
@@ -179,10 +180,10 @@ void MainWindow::createActions()
      // this action is intercepted by MainWindow::closeEvent()
      // its modified from "quit" to "close to tray" with a msgbox
      // qApp is global pointer to QApplication
-     quitAction = new QAction(tr("&Quit"), this);     
+     quitAction = new QAction(tr("&Quit"), this);
      connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
-     // PushButtons:: Website, ReportBug, Donate
+     // PushButtons:: Website, Mailinglist, ReportBug, Donate
      connect(ui->pushButton_Website, SIGNAL(clicked()), this, SLOT(goToWebsite()));
      connect(ui->pushButton_GoogleGroup, SIGNAL(clicked()), this, SLOT(goToGoogleGroup()));
      connect(ui->pushButton_ReportBug, SIGNAL(clicked()), this, SLOT(goToReportIssue()));
