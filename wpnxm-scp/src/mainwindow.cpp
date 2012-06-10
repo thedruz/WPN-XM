@@ -450,14 +450,18 @@ void MainWindow::openConfigurationDialog()
 
 void MainWindow::openConfigurationDialogNginx()
 {
-
+    // Open Configuration Dialog - Tab for Nginx
 }
 
 void MainWindow::openConfigurationDialogPHP()
-{}
+{
+    // Open Configuration Dialog - Tab for PHP
+}
 
 void MainWindow::openConfigurationDialogMariaDB()
-{}
+{
+    // Open Configuration Dialog - Tab for MariaDB
+}
 
 void MainWindow::openLogNginxAccess()
 {

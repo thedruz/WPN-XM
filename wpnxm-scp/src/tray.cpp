@@ -174,7 +174,6 @@ void Tray::createTrayMenu()
 
     // add title entry like for WPN-XM in KVirc style (background gray, bold, small font)
     // trayMenu->addAction("WPN-XM SCP")->setFont(QFont("Arial", 8, QFont::Bold));
-
     trayMenu->addAction(QIcon(":/action_run"), tr("Start All"), this, SLOT(startAllDaemons()), QKeySequence());
     trayMenu->addAction(QIcon(":/action_stop"), tr("Stop All"), this, SLOT(stopAllDaemons()), QKeySequence());
     trayMenu->addSeparator();

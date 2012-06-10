@@ -34,12 +34,12 @@
     <rect>
      <x>60</x>
      <y>50</y>
-     <width>241</width>
+     <width>271</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>Run WPN-XM SCP at startup</string>
+    <string>Run WPN-XM SCP at Windows startup</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="runOnStartUp_2">

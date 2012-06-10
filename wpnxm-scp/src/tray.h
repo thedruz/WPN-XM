@@ -24,9 +24,13 @@
 #ifndef Tray_H
 #define Tray_H
 
+// global includes
 #include <QSystemTrayIcon>
 #include <QProcess>
 #include <QDebug>
+
+// local includes
+#include "settings.h"
 #include "version.h"
 
 class QMenu;
@@ -97,6 +101,9 @@ signals:
 
 private:
         QTimer* timer;
+
+        /// The settings manager.
+        Settings m_settings;
 
         bool bAutostartDaemons;
 

@@ -41,18 +41,20 @@ protected:
     void changeEvent(QEvent *event);
 
 private slots:
+
+     // when tray icon is activated
      void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
     Ui::MainWindow *ui;
 
-    void createActions();
-    void createTrayIcon();
-    void startMonitoringDaemonProcesses();
-
     QAction *minimizeAction;
     QAction *restoreAction;
     QAction *quitAction;
+
+    void createActions();
+    void createTrayIcon();
+    void startMonitoringDaemonProcesses();
 
     /// Returns full path to project folder (appPath + www).
     QString getProjectFolder() const;
