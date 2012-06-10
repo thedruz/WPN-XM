@@ -60,6 +60,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label_PHP_Version->setText( getPHPVersion() );
     ui->label_MariaDb_Version->setText( getMariaVersion() );
 
+    // hardcode ports for v0.3.0
+    ui->label_Nginx_Port->setText("80");
+    ui->label_PHP_Port->setText("9000");
+    ui->label_MariaDb_Port->setText("3306");
+
     showPushButtonsOnlyForInstalledTools();
 }
 
