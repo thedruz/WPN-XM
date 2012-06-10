@@ -38,20 +38,20 @@ int main(int argc, char * argv[])
 {
     Q_INIT_RESOURCE(Resources);
 
-    QApplication application(argc, argv);
+    QApplication app(argc, argv);
 
     // Single Instance Check
     exitIfAlreadyRunning();
 
     // Application Meta Data
-    application.setApplicationName(APP_NAME);
-    application.setApplicationVersion(APP_VERSION);
-    application.setOrganizationName("Jens-André Koch");
-    application.setOrganizationDomain("http://wpn-xm.org/");
-    application.setWindowIcon(QIcon(":/wpnxm"));
+    app.setApplicationName(APP_NAME);
+    app.setApplicationVersion(APP_VERSION);
+    app.setOrganizationName("Jens-André Koch");
+    app.setOrganizationDomain("http://wpn-xm.org/");
+    app.setWindowIcon(QIcon(":/wpnxm"));
 
     // do not leave until Quit is clicked in the tray menu
-    application.setQuitOnLastWindowClosed(false);
+    app.setQuitOnLastWindowClosed(false);
 
     MainWindow mainWindow;
     mainWindow.show();
@@ -60,7 +60,7 @@ int main(int argc, char * argv[])
     //qDebug() << APP_VERSION;
 
     // enter the Qt Event loop here
-    return application.exec();
+    return app.exec();
 }
 
 /*
