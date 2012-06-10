@@ -50,14 +50,11 @@ int main(int argc, char * argv[])
     app.setOrganizationDomain("http://wpn-xm.org/");
     app.setWindowIcon(QIcon(":/wpnxm"));
 
-    // do not leave until Quit is clicked in the tray menu
+    // do not leave application, until Quit is clicked in the tray menu
     app.setQuitOnLastWindowClosed(false);
 
     MainWindow mainWindow;
     mainWindow.show();
-
-    //qDebug() << APP_NAME;
-    //qDebug() << APP_VERSION;
 
     // enter the Qt Event loop here
     return app.exec();
