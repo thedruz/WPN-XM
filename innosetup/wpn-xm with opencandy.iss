@@ -122,7 +122,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 // Base Package Size is: PHP 15MB + MariaDB 180MB + Nginx 2 MB = 197 MB
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: consoleinterface; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
@@ -237,6 +237,7 @@ const
   URL_adminer           = 'http://downloads.sourceforge.net/adminer/adminer-3.3.4.php';
   URL_junction          = 'http://download.sysinternals.com/files/Junction.zip';
   URL_pear              = 'http://pear.php.net/go-pear.phar';
+  URL_wpnxmscp          = 'http://wpn-xm.org/files/wpn-xm-scp-0.3.0.zip';
 
   // Define file names for the downloads
   Filename_nginx            = 'nginx.zip';
@@ -253,6 +254,7 @@ const
   Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
   Filename_pear             = 'go-pear.phar';
+  Filename_wpnxmscp         = 'wpnxmscp.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -486,6 +488,11 @@ begin
       ITD_AddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
     end;
 
+    if IsComponentSelected('servercontrolpanel') then
+    begin
+      ITD_AddFile(URL_wpnxmscp,   ExpandConstant(targetPath + Filename_wpnxmscp));
+    end;
+
     if IsComponentSelected('xdebug')    then ITD_AddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
     if IsComponentSelected('apc')       then ITD_AddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
@@ -621,6 +628,13 @@ begin
       UpdateTotalProgressBar();
 
   // unzip selected components
+
+  if Pos('servercontrolpanel', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('WPN-XM Server Control Panel');
+      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app})); // no subfolder, top level
+        UpdateTotalProgressBar();
+  end;
 
   // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then
