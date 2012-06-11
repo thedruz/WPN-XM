@@ -83,8 +83,4 @@ void exitIfAlreadyRunning()
 
           exit(0);
       }
-      else
-      {
-          qDebug() << "Application started and not already running.";
-      }
 }
