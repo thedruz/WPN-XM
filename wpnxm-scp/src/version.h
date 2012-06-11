@@ -26,13 +26,13 @@
 
 // Application version.
 // Its a token, replaced by Nant during the build process.
-#define VERSION = @APP_VERSION@
-#define APP_VERSION "@APP_VERSION@"
+#define VERSION = @APPVERSION@
+#define APP_VERSION "@APPVERSION@"
 
 // Application name
 #define APP_NAME "WPN-XM Server Control Panel"
 
 // Application name and version
-#define APP_NAME_AND_VERSION "WPN-XM Server Control Panel v@APP_VERSION@"
+#define APP_NAME_AND_VERSION "WPN-XM Server Control Panel @APPVERSION@"
 
 #endif /* VERSION_H_ */
