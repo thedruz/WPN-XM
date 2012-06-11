@@ -32,7 +32,9 @@ HEADERS += src/version.h \
            src/hostmanager/hosttablemodel.h \
            src/hostmanager/adddialog.h \
            src/hostmanager/hostmanagerdialog.h \
-           src/configurationdialog.h
+           src/configurationdialog.h \
+           src/settings.h \
+           src/settingsTable.h
 # Source files
 SOURCES += src/main.cpp \
            src/tray.cpp \
@@ -41,7 +43,9 @@ SOURCES += src/main.cpp \
            src/hostmanager/hosttablemodel.cpp \
            src/hostmanager/adddialog.cpp \
            src/hostmanager/hostmanagerdialog.cpp \
-           src/configurationdialog.cpp
+           src/configurationdialog.cpp \
+           src/settings.cpp \
+           src/settingsTable.cpp
 # Resource file(s)
 RESOURCES += src/resources/Resources.qrc
 RC_FILE = src/resources/appico.rc
