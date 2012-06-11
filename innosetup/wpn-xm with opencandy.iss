@@ -445,7 +445,7 @@ end;
 function NextButtonClick(CurPage: Integer): Boolean;
 (*
 	Called when the user clicks the Next button.
-  If you return True, the wizard will move to the next page.
+    If you return True, the wizard will move to the next page.
 	If you return False, it will remain on the current page (specified by CurPageID).
 *)
 begin
@@ -632,7 +632,7 @@ begin
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
-      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app})); // no subfolder, top level
+      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
         UpdateTotalProgressBar();
   end;
 

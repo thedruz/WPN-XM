@@ -600,7 +600,7 @@ begin
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
-      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app})); // no subfolder, top level
+      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
         UpdateTotalProgressBar();
   end;
 
