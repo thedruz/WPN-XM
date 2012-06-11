@@ -146,7 +146,13 @@ void MainWindow::createActions()
      connect(ui->pushButton_Configuration, SIGNAL(clicked()), this, SLOT(openConfigurationDialog()));
      connect(ui->pushButton_Help, SIGNAL(clicked()), this, SLOT(openHelpDialog()));
      connect(ui->pushButton_About, SIGNAL(clicked()), this, SLOT(openAboutDialog()));
-     connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));
+
+     // BUG! the following line crashes the app with error message:
+     // QApplication::qAppName: Please instantiate the QApplication object first
+     // whenn you look at quitAction above, qApp is used there, too!
+     // connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));
+     // workaround is to not quit, but hide the window
+     connect(ui->pushButton_Close, SIGNAL(clicked()), this, SLOT(hide()));
 
      // Actions - Tools
      connect(ui->pushButton_tools_phpinfo, SIGNAL(clicked()), this, SLOT(openToolPHPInfo()));
