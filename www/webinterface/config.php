@@ -187,8 +187,12 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    <tr>
                      <td colspan="2" class="right">
                         <span class="aButton">Configure</span>
-                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-access-log'; ?>">Access Log</a>
-                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-error-log'; ?>">Error Log</a>
+                        <a class="aButton"
+                           <?php if(!is_file(WPNXM_DIR . 'logs\access.log')) { echo "onclick=\"alert('Nginx Access Log not available. File not found.');\""; } ?>
+                           href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-access-log'; ?>">Access Log</a>
+                        <a class="aButton"
+                           <?php if(!is_file(WPNXM_DIR . 'logs\error.log')) { echo "onclick=\"alert('Nginx Error Log not available. File not found.');\""; } ?>
+                           href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-error-log'; ?>">Error Log</a>
                      </td>
                    </tr>
                    </table>
@@ -216,7 +220,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    <tr>
                      <td colspan="2" class="right">
                         <span class="aButton">Configure</span>
-                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=php-error-log'; ?>">Show Log</a>
+                        <a class="aButton"
+                           <?php if(!is_file(WPNXM_DIR . 'logs\php_error.log')) { echo "onclick=\"alert('PHP Error Log not available. File not found.');\""; } ?>
+                           href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=php-error-log'; ?>">Show Log</a>
                         <a class="aButton" href="phpinfo.php">Show phpinfo()</a>
                      </td>
                    </tr>
@@ -249,7 +255,9 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    <tr>
                      <td colspan="2" class="right">
                         <span class="aButton">Configure</span>
-                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=mariadb-error-log'; ?>">Show Log</a>
+                        <a class="aButton"
+                           <?php if(!is_file(WPNXM_DIR . 'logs\mariadb_error.log')) { echo "onclick=\"alert('MariaDB Error Log not available. File not found.');\""; } ?>
+                           href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=mariadb-error-log'; ?>">Show Log</a>
                         <span class="aButton">Reset Password</span>
                      </td>
                    </tr>
