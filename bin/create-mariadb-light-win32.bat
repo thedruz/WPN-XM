@@ -62,7 +62,7 @@ del /s /q "%MYSQL_DIR%\bin\*.pdb"
 
 del /q /f "%MYSQL_DIR%\bin\aria_chk.exe"
 del /q /f "%MYSQL_DIR%\bin\aria_dump_log.exe"
-del /q /f "%MYSQL_DIR%\bin\aria_ftpdump.exe"
+del /q /f "%MYSQL_DIR%\bin\aria_ftdump.exe"
 del /q /f "%MYSQL_DIR%\bin\aria_pack.exe"
 del /q /f "%MYSQL_DIR%\bin\aria_read_log.exe"
 :: keep my_print_defaults.exe
