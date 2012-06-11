@@ -458,7 +458,7 @@ begin
 
     if IsComponentSelected('servercontrolpanel') then
     begin
-      ITD_AddFile(URL_wpnxmscp,   ExpandConstant(targetPath + Filename_wpnxmscp));
+      ITD_AddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
     end;
 
     if IsComponentSelected('xdebug')    then ITD_AddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
@@ -815,13 +815,13 @@ begin
   if Pos('memcached', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file );
+      //SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file ); // disabled in v0.3.0: MODULE API=20090625 != PHP API 20100525
   end;
 
   if Pos('apc', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file );
+      //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
   end;
 end;
 
