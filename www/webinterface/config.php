@@ -301,7 +301,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    </tr>
                    <tr>
                      <td class="width-42 left">Host : Port</td>
-                     <td class="right">localhost:port</td>
+                     <td class="right">localhost:9000</td>
                    </tr>
                    <tr>
                      <td>Installed & Configured</td>
