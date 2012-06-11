@@ -51,6 +51,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // overrides the window title defined in mainwindow.ui
     setWindowTitle(APP_NAME_AND_VERSION);
 
+    // inital state of status leds is disabled
+    ui->label_Nginx_Status->setEnabled(false);
+    ui->label_PHP_Status->setEnabled(false);
+    ui->label_MariaDb_Status->setEnabled(false);
+
     createActions();
 
     createTrayIcon();
@@ -62,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // hardcode ports for v0.3.0
     ui->label_Nginx_Port->setText("80");
-    ui->label_PHP_Port->setText("9000");
+    ui->label_PHP_Port->setText("9100");
     ui->label_MariaDb_Port->setText("3306");
 
     showPushButtonsOnlyForInstalledTools();
@@ -71,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete trayIcon;
 }
 
 void MainWindow::createTrayIcon()
@@ -147,9 +153,7 @@ void MainWindow::createActions()
      connect(ui->pushButton_Help, SIGNAL(clicked()), this, SLOT(openHelpDialog()));
      connect(ui->pushButton_About, SIGNAL(clicked()), this, SLOT(openAboutDialog()));
 
-     // BUG! the following line crashes the app with error message:
-     // QApplication::qAppName: Please instantiate the QApplication object first
-     // whenn you look at quitAction above, qApp is used there, too!
+     // @todo the following action is not intercepted by the closeEvent()
      // connect(ui->pushButton_Close, SIGNAL(clicked()), qApp, SLOT(quit()));
      // workaround is to not quit, but hide the window
      connect(ui->pushButton_Close, SIGNAL(clicked()), this, SLOT(hide()));
@@ -297,7 +301,7 @@ void MainWindow::setLabelStatusActive(QString label, bool enabled)
 
     if(label == "mariadb")
     {
-        ui->label_MariaDB_Status->setEnabled(enabled);
+        ui->label_MariaDb_Status->setEnabled(enabled);
     }
 }
 
@@ -306,6 +310,7 @@ QString MainWindow::getNginxVersion()
     /*QProcess* processNginx;
 
     processNginx = new QProcess(this);
+    process.setProcessChannelMode(QProcess::MergedChannels);
     //processNginx->setWorkingDirectory(cfgNginxDir);
     //processNginx->start("./nginx", QStringList() << "-v");
     processNginx->waitForFinished(-1);
@@ -324,6 +329,7 @@ QString MainWindow::getMariaVersion()
 {
     /*QProcess* processMaria;
     processMaria = new QProcess(this);
+    process.setProcessChannelMode(QProcess::MergedChannels);
     //processMaria->setWorkingDirectory(cfgMariaDir);
     processMaria->start("./mysqld", QStringList() << "-V"); // upper-case V
     processMaria->waitForFinished(-1);
@@ -343,6 +349,7 @@ QString MainWindow::getPHPVersion()
     /*QProcess* processPhp;
 
     processPhp = new QProcess(this);
+    process.setProcessChannelMode(QProcess::MergedChannels);
     //processPhp->setWorkingDirectory(cfgPHPDir);
     //processPhp->start(cfgPHPDir+cfgPHPExec, QStringList() << "-v");
     processPhp->waitForFinished(-1);
@@ -516,3 +523,24 @@ void MainWindow::openAboutDialog()
         "<br><br>The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.<br>"
         ));
 }
+
+/*
+void MainWindow::checkActiveProcesses()
+{
+    // Check list of active processes for
+    // apache
+    // nginx
+    // mariadb
+    // php-cgi
+    // memcached
+    // and report if processes are already running.
+
+    // wmic.exe /OUTPUT:STDOUT PROCESS get Caption
+    // wmic process get workingsetsize,commandline /format:csv
+    // wmic process | sort
+
+    // psapi.h -> enumProcesses()
+    // LIBS += -lpsapi
+    // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682623%28v=vs.85%29.aspx
+}
+*/
