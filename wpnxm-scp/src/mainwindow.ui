@@ -870,6 +870,12 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_Close">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="toolTip">
+        <string>Close to tray.</string>
+       </property>
        <property name="text">
         <string>Close</string>
        </property>
@@ -1877,7 +1883,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="pushButton_Donate">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="maximumSize">
         <size>
@@ -1946,22 +1952,5 @@ p, li { white-space: pre-wrap; }
  <resources>
   <include location="resources/Resources.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>pushButton_Close</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>600</x>
-     <y>186</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>326</x>
-     <y>36</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

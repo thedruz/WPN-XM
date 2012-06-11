@@ -24,9 +24,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+// local includes
 #include "version.h"
 #include "tray.h"
+
+// global includes
+#include <QMainWindow>
 
 namespace Ui {
     class MainWindow;
@@ -60,6 +63,8 @@ private:
     QString getProjectFolder() const;
     void showPushButtonsOnlyForInstalledTools();
 
+    QSystemTrayIcon *trayIcon;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -70,8 +75,6 @@ public:
     QString getMariaVersion();
     QString getPHPVersion();
     QString parseVersionNumber(QString stringWithVersion);
-
-    QSystemTrayIcon *trayIcon;
 
 public slots:
 

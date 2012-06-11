@@ -28,7 +28,9 @@
 #include <QDialog>
 
 // forward declarations
+QT_BEGIN_NAMESPACE
 class QCheckBox;
+QT_END_NAMESPACE
 
 namespace Ui {
 class ConfigurationDialog;

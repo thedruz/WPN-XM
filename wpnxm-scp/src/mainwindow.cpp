@@ -73,58 +73,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::showPushButtonsOnlyForInstalledTools()
-{
-    // get all PushButtons from the Tools GroupBox of MainWindow::UI
-    QList<QPushButton *> allPushButtonsButtons = ui->ToolsGroupBox->findChildren<QPushButton *>();
-
-    // set all PushButtons invisible
-    for(int i = 0; i < allPushButtonsButtons.size(); ++i)
-    {
-       allPushButtonsButtons[i]->setVisible(false);
-    }
-
-    // if tool directory exists, show pushButton
-
-    if(QDir(getProjectFolder() + "/webinterface").exists())
-    {
-        ui->pushButton_tools_phpinfo->setVisible(true);
-    }
-
-    if(QDir(getProjectFolder() + "/phpmyadmin").exists())
-    {
-        ui->pushButton_tools_phpmyadmin->setVisible(true);
-    }
-
-    if(QDir(getProjectFolder() + "/adminer").exists())
-    {
-        ui->pushButton_tools_adminer->setVisible(true);
-    }
-
-    if(QDir(getProjectFolder() + "/webgrind").exists())
-    {
-        ui->pushButton_tools_webgrind->setVisible(true);
-    }
-}
-
-void MainWindow::setLabelStatusActive(QString label, bool enabled)
-{
-    if(label == "nginx")
-    {
-        ui->label_Nginx_Status->setEnabled(enabled);
-    }
-
-    if(label == "php")
-    {
-        ui->label_PHP_Status->setEnabled(enabled);
-    }
-
-    if(label == "mariadb")
-    {
-        ui->label_MariaDB_Status->setEnabled(enabled);
-    }
-}
-
 void MainWindow::createTrayIcon()
 {
     // The tray icon is an instance of the QSystemTrayIcon class.
@@ -182,8 +130,8 @@ void MainWindow::createActions()
      connect(restoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
 
      // title bar - close
-     // this action is intercepted by MainWindow::closeEvent()
-     // its modified from "quit" to "close to tray" with a msgbox
+     // Note that this action is intercepted by MainWindow::closeEvent()
+     // Its modified from "quit" to "close to tray" with a msgbox
      // qApp is global pointer to QApplication
      quitAction = new QAction(tr("&Quit"), this);
      connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
@@ -256,6 +204,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
         QMessageBox::information(this, APP_NAME,
              tr("The program will keep running in the system tray.<br>"
                 "To terminate the program, choose <b>Quit</b> in the context menu of the system tray."));
+
+        // hide mainwindow
         hide();
 
         // do not propagate the event to the base class
@@ -290,6 +240,58 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
             break;
         default:
             break;
+    }
+}
+
+void MainWindow::showPushButtonsOnlyForInstalledTools()
+{
+    // get all PushButtons from the Tools GroupBox of MainWindow::UI
+    QList<QPushButton *> allPushButtonsButtons = ui->ToolsGroupBox->findChildren<QPushButton *>();
+
+    // set all PushButtons invisible
+    for(int i = 0; i < allPushButtonsButtons.size(); ++i)
+    {
+       allPushButtonsButtons[i]->setVisible(false);
+    }
+
+    // if tool directory exists, show pushButton
+
+    if(QDir(getProjectFolder() + "/webinterface").exists())
+    {
+        ui->pushButton_tools_phpinfo->setVisible(true);
+    }
+
+    if(QDir(getProjectFolder() + "/phpmyadmin").exists())
+    {
+        ui->pushButton_tools_phpmyadmin->setVisible(true);
+    }
+
+    if(QDir(getProjectFolder() + "/adminer").exists())
+    {
+        ui->pushButton_tools_adminer->setVisible(true);
+    }
+
+    if(QDir(getProjectFolder() + "/webgrind").exists())
+    {
+        ui->pushButton_tools_webgrind->setVisible(true);
+    }
+}
+
+void MainWindow::setLabelStatusActive(QString label, bool enabled)
+{
+    if(label == "nginx")
+    {
+        ui->label_Nginx_Status->setEnabled(enabled);
+    }
+
+    if(label == "php")
+    {
+        ui->label_PHP_Status->setEnabled(enabled);
+    }
+
+    if(label == "mariadb")
+    {
+        ui->label_MariaDB_Status->setEnabled(enabled);
     }
 }
 

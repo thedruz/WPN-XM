@@ -26,11 +26,6 @@
 #include "mainwindow.h"
 
 // global QT includes
-#include <QApplication>
-#include <QObject>
-#include <QSystemTrayIcon>
-#include <QMessageBox>
-#include <QSharedMemory>
 #include <QtGui>
 
 // main method

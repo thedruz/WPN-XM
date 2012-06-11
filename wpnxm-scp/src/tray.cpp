@@ -25,7 +25,7 @@
 #include "tray.h"
 #include "hostmanager/hostmanagerdialog.h"
 
-// Global QT includes
+// Global Qt includes
 #include <QApplication>
 #include <QMenu>
 #include <QAction>

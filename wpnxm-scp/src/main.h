@@ -24,6 +24,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+// global includes
 #include <QtGui>
 
 // declare interfaces

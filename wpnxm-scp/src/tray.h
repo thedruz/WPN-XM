@@ -33,11 +33,19 @@
 #include "settings.h"
 #include "version.h"
 
-class QMenu;
+QT_BEGIN_NAMESPACE
 class QAction;
 class QApplication;
+class QMenu;
 class QSettings;
+QT_END_NAMESPACE
 
+/// Implements a tray menu with icons.
+/*!
+    This class creates a tray menu with icons.
+    The tray might be used to control the daemons
+    and shows their state.
+*/
 class Tray : public QSystemTrayIcon
 {
         Q_OBJECT // Enables signals and slots
@@ -102,7 +110,7 @@ signals:
 private:
         QTimer* timer;
 
-        /// The settings manager.
+        // The settings manager.
         Settings m_settings;
 
         bool bAutostartDaemons;
