@@ -345,9 +345,6 @@ var
   VersionLabel2 : TLabel;
   CancelBtn     : TButton;
 begin
-  // set application path as global variable
-  appPath := ExpandConstant('{app}');
-
   //change background colors of wizard pages and panels
   WizardForm.Mainpanel.Color:=$ECECEC;
   WizardForm.TasksList.Color:=$ECECEC;
@@ -697,6 +694,9 @@ var
 begin
   selectedComponents := WizardSelectedComponents(false);
 
+  // set application path as global variable
+  appPath := ExpandConstant('{app}');
+
   // nginx - rename directory
   Exec('cmd.exe', '/c "move ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"',
   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
@@ -759,6 +759,9 @@ var
   mariadb_ini_file : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
+
+  // set application path as global variable
+  appPath := ExpandConstant('{app}');
 
   { Explanation: StringChange(S,FromStr,ToStr): Change all occurances in S of FromStr to ToStr.
     StringChange works on the string!! StringChange does not return S!
