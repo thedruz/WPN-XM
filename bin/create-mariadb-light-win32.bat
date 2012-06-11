@@ -71,7 +71,7 @@ del /q /f "%MYSQL_DIR%\bin\myisamchk.exe"
 del /q /f "%MYSQL_DIR%\bin\myisamlog.exe"
 del /q /f "%MYSQL_DIR%\bin\myisampack.exe"
 :: keep mysql.exe
-del /q /f "%MYSQL_DIR%\bin\mysqld_embedded.exe"
+del /q /f "%MYSQL_DIR%\bin\mysql_embedded.exe"
 :: keep mysql_install_db.exe
 del /q /f "%MYSQL_DIR%\bin\mysql_plugin.exe"
 del /q /f "%MYSQL_DIR%\bin\mysql_tzinfo_to_sql.exe"
