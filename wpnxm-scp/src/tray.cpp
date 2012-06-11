@@ -57,7 +57,7 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 
     // @todo make this a configuration option in user preferences dialog
     /*if(bAutostartDaemons)
-    {
+    {        
         startAllDaemons();
     }*/
 
@@ -123,7 +123,8 @@ void Tray::initializeConfiguration()
     cfgPhpDir               = globalSettings.value("path/php", "./bin/php").toString();
     cfgPhpConfig            = globalSettings.value("php/config", "./bin/php/php.ini").toString();
     cfgPhpFastCgiHost       = globalSettings.value("php/fastcgi-host", "localhost").toString();
-    cfgPhpFastCgiPort       = globalSettings.value("php/fastcgi-port", "9000").toString();
+    // use port 9100 for php-cgi to avoid collision with xdebug on port 9000
+    cfgPhpFastCgiPort       = globalSettings.value("php/fastcgi-port", "9100").toString();
 
     cfgNginxDir             = globalSettings.value("path/nginx", "./bin/nginx").toString();   
     cfgNginxConfig          = globalSettings.value("nginx/config", "./bin/nginx/conf/nginx.conf").toString();
@@ -185,8 +186,7 @@ void Tray::createTrayMenu()
     trayMenu->addSeparator();
     trayMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
     trayMenu->addAction(QIcon(":/question"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
-    trayMenu->addAction(QIcon(":/quit"),tr("&Quit"), qApp, SLOT(quit()), QKeySequence());
-
+    trayMenu->addAction(QIcon(":/quit"),tr("&Quit"), parent(), SLOT(quit()), QKeySequence());
 }
 
 void Tray::goToWebsiteHelp()
@@ -284,7 +284,7 @@ void Tray::stopPhp()
     //    The user will then get a "Process Crashed" Error MessageBox.
     //    Therefore we need to disconnect signal/sender from method/receiver.
     //    The result is, that crashing the php daemon intentionally is not shown as error.
-    //disconnect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
+    disconnect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
 
     // kill PHP daemon
     processPhp->kill();
@@ -309,6 +309,7 @@ void Tray::startMariaDB()
     }
 
     // start
+    qDebug() << cfgMariaDBDir+MARIADB_EXEC;
     processMariaDB->start(cfgMariaDBDir+MARIADB_EXEC);
 }
 
