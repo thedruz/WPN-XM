@@ -280,16 +280,14 @@ void Tray::startPhp()
 void Tray::stopPhp()
 {
     // 1) processPhp->terminate(); will fail because WM_CLOSE message not handled
-    //    testing this
     // 2) By killing the process, we are crashing it!
     //    The user will then get a "Process Crashed" Error MessageBox.
     //    Therefore we need to disconnect signal/sender from method/receiver.
     //    The result is, that crashing the php daemon intentionally is not shown as error.
-    //disconnect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
+    disconnect(processPhp, SIGNAL(error(QProcess::ProcessError)), this, SLOT(phpProcessError(QProcess::ProcessError)));
 
     // kill PHP daemon
-    processPhp->terminate();
-    QTimer::singleShot( 5000, processPhp, SLOT( kill() ) );
+    processPhp->kill();
     processPhp->waitForFinished();
 }
 
@@ -317,8 +315,7 @@ void Tray::startMariaDB()
 
 void Tray::stopMariaDB()
 {    
-    processMariaDB->terminate();
-    QTimer::singleShot( 5000, processMariaDB, SLOT( kill() ) );
+    processMariaDB->kill();
     processMariaDB->waitForFinished();
 }
 
