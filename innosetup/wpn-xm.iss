@@ -809,7 +809,7 @@ begin
   if Pos('zeromq', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file );
+      //SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file ); // disabled in v0.3.x: MODULE API=20090625 != PHP API 20100525
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
