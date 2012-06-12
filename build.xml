@@ -75,22 +75,32 @@
             </filterchain>
         </copy>
 
+        <!-- WPN-XM Server Control Panel -->
+        <loadfile file="${dir.Base}/wpnxm-scp/src/version.h" property="filecontent.wpnxm.version">
+            <filterchain>
+                <replacetokens>
+                     <token key="APPVERSION" value="${wpnxm.Version}"/>
+                </replacetokens>
+            </filterchain>
+        </loadfile>
+        <delete file="${dir.Base}/wpnxm-scp/src/version.h" />
+        <echo file="${dir.Base}/wpnxm-scp/src/version.h">${filecontent.wpnxm.version}</echo>
+
         <!--
              Insert the version number into webinterface bootstrap php file.
              This is done via a copy operation with an applied filterchain, see below.
              The file is overwritten.
          -->
-        <copy todir="${dir.Base}/www/webinterface/php" overwrite="true">
-            <fileset basedir="${dir.Base}/www/webinterface/php">
-                <include name="bootstrap.php"/>
-            </fileset>
+        <loadfile file="${dir.Base}/www/webinterface/php/bootstrap.php" property="filecontent.php.bootstrap">
             <filterchain>
                 <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
                     <token key="DEBUG" value="${wpnxm.Debug}"/>
                 </replacetokens>
             </filterchain>
-        </copy>
+        </loadfile>
+        <delete file="${dir.Base}/www/webinterface/php/bootstrap.php" />
+        <echo file="${dir.Base}/www/webinterface/php/bootstrap.php">${filecontent.php.bootstrap}</echo>
     </target>
 
     <target name="print-version-number">
@@ -147,8 +157,8 @@
                  print-version-number,
                  compile-wpnxm-setup,
                  compile-wpnxm-debug-setup,
-                 compile-wpnxm-with-clansuite-setup,
-                 compile-wpnxm-with-opencandy-setup">
+                 compile-wpnxm-with-clansuite-setup">
+                 <!--compile-wpnxm-with-opencandy-setup-->
     </target>
 
 </project>

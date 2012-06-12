@@ -20,7 +20,7 @@
           <a href="../types/index.html">Type Reference</a>
           <img alt="-&gt;" src="../images/arrow.gif" /> &lt;fileset&gt;</td>
         <td class="NavBar-Cell" align="right">
-                        v0.91-nightly-2011-05-08</td>
+                        v0.92-nightly-2012-05-07</td>
       </tr>
     </table>
     <h1>&lt;fileset&gt;</h1>
@@ -51,22 +51,28 @@
     <h3>Default Excludes</h3>
     <p> There are a set of definitions that are excluded by default from all tasks that use filesets. They are: </p>
     <ul style="list-style-type: disc;">
-      <li> **/*~ </li>
-      <li> **/#*# </li>
-      <li> **/.#* </li>
-      <li> **/%*% </li>
-      <li> **/CVS </li>
-      <li> **/CVS/** </li>
-      <li> **/.cvsignore </li>
-      <li> **/.svn </li>
-      <li> **/.svn/** </li>
-      <li> **/_svn </li>
-      <li> **/_svn/** </li>
-      <li> **/SCCS </li>
-      <li> **/SCCS/** </li>
-      <li> **/vssver.scc </li>
-      <li> **/vssver2.scc </li>
-      <li> **/_vti_cnf/** </li>
+      <li>**/.svn</li>
+      <li>**/.svn/**</li>
+      <li>**/_svn</li>
+      <li>**/_svn/**</li>
+      <li>**/.git</li>
+      <li>**/.git/**</li>
+      <li>**/.git* (eg. .gitignore)</li>
+      <li>**/.hg</li>
+      <li>**/.hg/**</li>
+      <li>**/.hg* (eg. .hgignore)</li>
+      <li>**/SCCS</li>
+      <li>**/SCCS/**</li>
+      <li>**/vssver.scc</li>
+      <li>**/vssver2.scc</li>
+      <li>**/_vti_cnf/**</li>
+      <li>**/*~</li>
+      <li>**/#*#</li>
+      <li>**/.#*</li>
+      <li>**/%*%</li>
+      <li>**/CVS</li>
+      <li>**/CVS/**</li>
+      <li>**/.cvsignore</li>
     </ul>
     <p> If you do not want these default excludes applied, you may disable them by setting <code>defaultexcludes</code> to <b>false</b>. </p>
     <h3>Parameters</h3>
@@ -298,7 +304,7 @@
     </ul>
     <h3>Requirements</h3>
     <div style="margin-left: 20px;">
-      <b>Assembly:</b> NAnt.Core (0.91.4145.0)
+      <b>Assembly:</b> NAnt.Core (0.92.4510.0)
             </div>
     <h3>See Also</h3>
     <a href="../types/patternset.html">&lt;patternset&gt;</a>

@@ -21,6 +21,11 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Local includes
+#include "adddialog.h"
+#include "host.h"
+
+// Global includes
 #include <QLineEdit>
 #include <QLabel>
 #include <QPushButton>
@@ -28,25 +33,26 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-#include "adddialog.h"
-#include "host.h"
-
-AddDialog::AddDialog(QWidget *parent) : QDialog(parent)
+HostsAddDialog::HostsAddDialog(QWidget *parent) :
+    QDialog(parent)
 {
+    // remove question mark (?) from the title bar
+    setWindowFlags(Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
+
     QPushButton* btnOk = new QPushButton("OK", this);
     QPushButton* btnCancel = new QPushButton("Cancel", this);
 
-    lineedit_Name = new QLineEdit(this);
-    lineedit_Address = new QLineEdit(this);
-    lineedit_Address->setText("127.0.0.1");
+    m_lineedit_Name = new QLineEdit(this);
+    m_lineedit_Address = new QLineEdit(this);
+    m_lineedit_Address->setText("127.0.0.1");
 
     QGridLayout *gLayout = new QGridLayout;
     gLayout->setColumnStretch(1, 2);
     gLayout->addWidget(new QLabel("Address", this), 0, 0);
-    gLayout->addWidget(lineedit_Address, 0, 1);
+    gLayout->addWidget(m_lineedit_Address, 0, 1);
 
     gLayout->addWidget(new QLabel("Name", this), 1, 0);
-    gLayout->addWidget(lineedit_Name, 1, 1);
+    gLayout->addWidget(m_lineedit_Name, 1, 1);
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget(btnOk);
@@ -64,19 +70,17 @@ AddDialog::AddDialog(QWidget *parent) : QDialog(parent)
     setWindowTitle(tr("Add Host"));
 }
 
-QString AddDialog::name()
-{
-    return lineedit_Name->text().trimmed();
+QString HostsAddDialog::name(){
+    return m_lineedit_Name->text().trimmed();
 }
 
-QString AddDialog::address()
-{
-    return lineedit_Address->text().trimmed();
+QString HostsAddDialog::address(){
+    return m_lineedit_Address->text().trimmed();
 }
 
-void AddDialog::edit(QString name, QString adress)
-{
+void HostsAddDialog::edit(QString name, QString adress){
     setWindowTitle(tr("Edit Host"));
-    lineedit_Name->setText(name);
-    lineedit_Address->setText(adress);
+   // m_leName->setEnabled(false);
+    m_lineedit_Name->setText(name);
+    m_lineedit_Address->setText(adress);
 }

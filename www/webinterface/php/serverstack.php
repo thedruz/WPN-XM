@@ -1,6 +1,6 @@
 <?php
    /**
-    * WPИ-XM Server Stack
+    * WPИ-XM Server Stack - Webinterface
     * Jens-André Koch © 2010 - onwards
     * http://wpn-xm.org/
     *
@@ -26,11 +26,10 @@
     |                                                                                  |
     +----------------------------------------------------------------------------------+
     *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "license.txt".
+    * @license    GNU/GPL v2 or (at your option) any later version..
     * @author     Jens-André Koch <jakoch@web.de>
-    * @copyright  Jens-André Koch (2010 - 2011)
+    * @copyright  Jens-André Koch (2010 - 2012)
     * @link       http://wpn-xm.org/
-    * @version    SVN: $Id: serverstack.core.php 5795 2011-11-09 12:39:38Z vain $
     */
 
 class Wpnxm_Serverstack
@@ -58,38 +57,35 @@ class Wpnxm_Serverstack
     }
 
     /**
-     * Returns MySQL Database Connection
-     *
-     * @return boolean
-     */
-    public static function openMySQLConnection()
-    {
-        return mysql_connect('localhost', 'root', 'toop');
-    }
-
-    /**
      * Returns MariaDB Version.
      *
      * @return string MariaDB Version
      */
     public static function getMariaDBVersion()
     {
-        $connection = self::openMySQLConnection();
+        # fail safe, for unconfigured php.ini files
+        if(!function_exists('mysql_connect'))
+        {
+            return self::printExclamationMark('Enable mysql extension in php.ini.');
+        }
+
+        $connection = @mysql_connect('localhost', 'root', 'toop');
+
         if(false === $connection)
         {
            # Daemon running? Login credentials correct?
            #echo ('No Connection: ' . mysql_error());
-           return printExclamationMark('MySQL Connection not possible. Access denied.');
+           return self::printExclamationMark('MySQL Connection not possible. Access denied.');
         }
         else
         {
             if(false === function_exists('mysql_get_server_info'))
             {
-                return printExclamationMark('PHP Extension: mysql, mysqli, mysqlnd missing.');
+                return self::printExclamationMark('PHP Extension: mysql, mysqli, mysqlnd missing.');
             }
 
             # mysql_get_server_info() returns e.g. "5.3.0-maria"
-            $arr = explode('-', mysql_get_server_info($connection));
+            $arr = explode('-', @mysql_get_server_info($connection));
             return $arr[0];
 
             mysql_close($connection);
@@ -115,7 +111,7 @@ class Wpnxm_Serverstack
     {
         if(strpos($_SERVER["SERVER_SOFTWARE"], 'Apache') !== false)
         {
-            return printExclamationMark('You are using Apache!? You Traitor!');
+            return self::printExclamationMark('You are using Apache!? You Traitor!');
         }
 
         return substr($_SERVER["SERVER_SOFTWARE"], 6);
@@ -154,6 +150,7 @@ class Wpnxm_Serverstack
             'xdebug'    => 'bin\php\ext\php_xdebug.dll',
             'xhprof'    => 'bin\php\ext\php_xhprof.dll',
             'memcached' => 'bin\php\ext\php_memcache.dll',
+            'zeromq'    => 'bin\php\ext\php_zmq.dll',
             'nginx'     => 'bin\nginx\nginx.conf',
             'mariadb'   => 'bin\mariadb\my.ini',
             'php'       => 'bin\php\php.ini',
@@ -161,18 +158,13 @@ class Wpnxm_Serverstack
 
         $file = WPNXM_DIR . $files[$extension];
 
-        if(is_file($file) === true)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return is_file($file);
     }
 
     /**
-     * Tests, if an extension is correctly configured and loaded.
+     * Tests, if an extension is correctly configured.
+     * An Extension is configured, when it gets loaded.
+     * An Extension is loaded, when the PHP Screen says so.
      *
      * @param string $extension Extension to check.
      * @return bool True if loaded, false otherwise.
@@ -182,10 +174,11 @@ class Wpnxm_Serverstack
         $loaded = false;
         $matches = '';
 
+        $phpinfo = self::fetchPHPInfo();
+
         switch($extension)
         {
             case "xdebug":
-                $phpinfo = self::fetchPHPInfo();
 
                 // Check phpinfo content for Xdebug as Zend Extension
                 if(preg_match('/with\sXdebug\sv([0-9.rcdevalphabeta-]+),/', $phpinfo, $matches))
@@ -199,16 +192,37 @@ class Wpnxm_Serverstack
                     $loaded = true;
                 }
 
-                unset($phpinfo);
-
                 break;
+
             case "memcached":
-                if(is_file(WPNXM_DIR . 'bin\php\ext\php_memcache.dll') === true)
+
+                 if(preg_match('/memcache/', $phpinfo, $matches))
                 {
                     $loaded = true;
                 }
+
+                break;
+
+            case "apc":
+
+                 if(preg_match('/apc/', $phpinfo, $matches))
+                {
+                    $loaded = true;
+                }
+
+                break;
+
+             case "zeromq":
+
+                 if(preg_match('/zeromq/', $phpinfo, $matches))
+                {
+                    $loaded = true;
+                }
+
                 break;
         }
+
+        unset($phpinfo);
 
         return $loaded;
     }
@@ -230,7 +244,7 @@ class Wpnxm_Serverstack
             return 'PHP Extension';
         }
 
-        return ':(';
+        return ':( XDebug not loaded.';
     }
 
     public static function getPHPExtensionDirectory()
@@ -249,6 +263,8 @@ class Wpnxm_Serverstack
     /**
      * Tests, if an extension is installed,
      * by ensuring that the extension file exists and is correctly configured.
+     * Installed: when files exist.
+     * Loaded: when PHP Infos Screen says so.
      *
      * @param string $extension Extension to check.
      * @return bool True if installed, false otherwise.
@@ -257,7 +273,8 @@ class Wpnxm_Serverstack
     {
         $installed = false;
 
-        if(self::assertExtensionFileFound($extension) === true and self::assertExtensionConfigured($extension) === true)
+        if(self::assertExtensionFileFound($extension) === true and
+           self::assertExtensionConfigured($extension) === true)
         {
             $installed = true;
         }
@@ -274,11 +291,12 @@ class Wpnxm_Serverstack
     {
         if(extension_loaded('memcache') === false)
         {
-            return printExclamationMark('PHP Extension: memcached missing.');
+            return self::printExclamationMark('PHP Extension: memcached missing.');
         }
 
         $matches = new Memcache;
         $matches->addServer('localhost', 11211);
+
         return $matches->getVersion();
     }
 
@@ -331,35 +349,103 @@ class Wpnxm_Serverstack
 
     public static function determinePort($daemon)
     {
+        switch ($daemon) {
+            case 'nginx':
+                # code...
+                # read from 1) config file, 2) startup parameter or 3) getPortByServiceName() ?
+                break;
 
+            case 'mariadb':
+                # code...
+                break;
+
+            case 'memcache':
+                # code...
+                break;
+
+            default:
+                # code...
+                break;
+        }
     }
 
     /**
      * Attempts to establish a connection to the specified port (on localhost)
+     *
+     * @param  string $daemon Daemon/Service name.
+     * @return boolean
      */
     public static function portCheck($daemon)
     {
+        switch ($daemon) {
+            case 'nginx':
+                return self::checkPort('127.0.0.1', '80');
+                break;
+            case 'mariadb':
+                return self::checkPort('127.0.0.1', '3306');
+                break;
+            case 'memcache':
+                return self::checkPort('127.0.0.1', '11211');
+                break;
 
+            default:
+                # code...
+                break;
+        }
     }
 
     /**
-     * Checks, if webserver is running.
+     * Check if there is a service available at a certain port.
      *
-     * @return  bool
+     * This function tries to open a connection to the port
+     * $port on the machine $host. If the connection can be
+     * established, there is a service listening on the port.
+     * If the connection fails, there is no service.
+     *
+     * @param string $host Hostname
+     * @param integer $port Portnumber
+     * @param integer $timeout Timeout for socket connection in seconds (default is 30).
+     * @return string
      */
-    public static function isWebserverRunning()
+    public static function checkPort($host, $port, $timeout = 30)
     {
-        ini_set('default_socket_timeout', '3');
+        $socket = fsockopen($host, $port, $errorNumber, $errorString, $timeout);
 
-        if(false !== ($handle = @fopen('http://127.0.0.1/', 'r')))
-        {
-            fclose($handle);
-            unset($handle);
+        echo $host . $port;
+        echo $socket;
 
-            return true;
+        if (!$socket) {
+            return false;
         }
 
-        return false;
+        @fclose($socket);
+        return true;
+    }
+
+    /**
+     * Get name of the service that is listening on a certain port.
+     *
+     * self::getServiceNameByPort('80')
+     *
+     * @param integer $port     Portnumber
+     * @param string  $protocol Protocol (Is either tcp or udp. Default is tcp.)
+     * @return string  Name of the Internet service associated with $service
+     */
+     public static function getServiceNameByPort($port, $protocol = "tcp")
+    {
+        return @getservbyport($port, $protocol);
+    }
+
+    /**
+     * Get port that a certain service uses.
+     *
+     * @param string $service  Name of the service
+     * @param string $protocol Protocol (Is either tcp or udp. Default is tcp.)
+     * @return integer Internet port which corresponds to $service
+     */
+     public static function getPortByServiceName($service, $protocol = "tcp")
+    {
+        return @getservbyname($service, $protocol);
     }
 
 }

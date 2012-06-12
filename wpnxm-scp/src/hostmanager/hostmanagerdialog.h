@@ -25,35 +25,30 @@
 #define HOSTMANAGERDIALOG_H
 
 #include <QDialog>
-
 class QTableView;
 class QItemSelection;
-class Host;
+//class Host;
 
-class HostManagerDialog : public QDialog
+class HostsManagerDialog : public QDialog
 {
-        Q_OBJECT
+    Q_OBJECT
 
 public:
-
-        explicit HostManagerDialog(QWidget *parent = 0);
-        ~HostManagerDialog();
+    explicit HostsManagerDialog(QWidget *parent = 0);
+    ~HostsManagerDialog();
 
 signals:
-
-        void selectionChanged (const QItemSelection &selected);
+    void selectionChanged (const QItemSelection &selected);
 
 public slots:
+    void addEntry();
+    void editEntry();
+    void removeEntry();
 
-        void addEntry();
-        void editEntry();
-        void removeEntry();
-
-        void accept();
+    void accept();
 
 private:
-
-        QTableView* table;
+    QTableView* m_tableView;
 };
 
 #endif // HOSTMANAGERDIALOG_H

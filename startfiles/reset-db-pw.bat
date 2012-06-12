@@ -15,12 +15,12 @@ echo Press any key to reset the password for the user "root" to "%password%" (wi
 pause>nul
 
 echo.
-echo UPDATE mysql.user SET Password=PASSWORD('%password%') WHERE User='root'; | bin\mysqld.exe --default-storage-engine=myisam --ignore-builtin-innodb --pbxt=off --bootstrap --console
+echo UPDATE mysql.user SET Password=PASSWORD('%password%') WHERE User='root'; | bin\mysqld.exe --bootstrap --console
 
 echo.
 echo DONE !
 echo The password for the user "root" has now been reset to "%password%" (without quotes).
 echo.
-echo Remember to restart the database daemon. 
-echo Press any key to exit. 
+echo Remember to restart the database daemon.
+echo Press any key to exit.
 pause>nul

@@ -37,7 +37,7 @@
 # define DEBUG "@DEBUG@"
 
 // defines the root folder
-# define SOURCE_ROOT AddBackslash(SourcePath);
+#define SOURCE_ROOT AddBackslash(SourcePath);
 
 // defines for the setup section
 #define AppName "WPN-XM Server Stack"
@@ -60,111 +60,116 @@ AppCopyright=© {#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppSupportURL}
 AppUpdatesURL={#AppURL}
-
 // default installation folder is "c:\server". but user might change this via dialog.
 DefaultDirName={sd}\server
-DefaultGroupName="{#AppName}"
-OutputBaseFilename="WPNXM-{#AppVersion}-Setup"
-Compression=lzma/ultra
+DefaultGroupName={#AppName}
+OutputBaseFilename=WPNXM-{#AppVersion}-Setup
+Compression=lzma2/ultra
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
 PrivilegesRequired=admin
-
 // create a log file, see [code] procedure CurStepChanged
 SetupLogging=yes
-
 VersionInfoVersion={#AppVersion}
 VersionInfoCompany={#AppPublisher}
 VersionInfoDescription={#AppName} {#AppVersion}
 VersionInfoTextVersion={#AppVersion}
 VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reserved.
-
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
-WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55.bmp
+WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
+; Tell Windows Explorer to reload the environment (because we are adding the PHP path to env var PATH)
+ChangesEnvironment=yes
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
 Name: de; MessagesFile: compiler:languages\German.isl
 
 [Types]
-Name: "full"; Description: "Full installation"
-Name: "serverstack"; Description: "Server Stack with Administration Tools"
-Name: "debug"; Description: "Server Stack with Debugtools"
-Name: "custom"; Description: "Custom installation"; Flags: iscustom
+Name: full; Description: Full installation
+Name: serverstack; Description: Server Stack with Administration Tools
+Name: debug; Description: Server Stack with Debugtools
+Name: custom; Description: Custom installation; Flags: iscustom
 
 [Components]
-Name: "serverstack"; Description: "Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb)"; ExtraDiskSpaceRequired: 155000000; Types: full serverstack debug custom; Flags: fixed
-Name: "webinterface"; Description: "WPN-XM - Webinterface for Serveradministration"; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: "consoleinterface"; Description: "WPN-XM - Tray App for Serveradministration"; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: "xdebug"; Description: "Xdebug - PHP Extension for Debugging"; ExtraDiskSpaceRequired: 300000; Types: full debug
-Name: "webgrind"; Description: "Webgrind - Xdebug profiling web frontend"; ExtraDiskSpaceRequired: 500000; Types: full debug
-Name: "xhprof"; Description: "XhProfiler - Hierarchical Profiler for PHP"; ExtraDiskSpaceRequired: 800000; Types: full debug
+// Base Package Size is: PHP 15MB + MariaDB 180MB + Nginx 2 MB = 197 MB
+Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
+Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
+Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full debug
+Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
+Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 // memcached install means the daemon and the php extension
-Name: "memcached"; Description: "Memcached - distributed memory caching"; ExtraDiskSpaceRequired: 400000; Types: full
-Name: "zeromq"; Description: "ZeroMQ - PHP Extension for concurrent socket magic"; ExtraDiskSpaceRequired: 300000; Types: full
-Name: "phpmyadmin"; Description: "phpMyAdmin - MySQL database administration webinterface"; ExtraDiskSpaceRequired: 3300000; Types: full
-Name: "adminer"; Description: "Adminer - Database management in single PHP file"; ExtraDiskSpaceRequired: 200000; Types: full;
-Name: "junction"; Description: "junction - Mircosoft tool for creating junctions (symlinks)"; ExtraDiskSpaceRequired: 157000; Types: full
-Name: "pear"; Description: "PEAR - PHP Extension and Application Repository"; ExtraDiskSpaceRequired: 10000000; Types: full;
+Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
+Name: zeromq; Description: ZeroMQ - PHP Extension for concurrent socket magic; ExtraDiskSpaceRequired: 300000; Types: full
+Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
+Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
+Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 
 [Files]
-// tools
-Source: "..\bin\UnxUtils\unzip.exe"; DestDir: "{tmp}"; Flags: dontcopy
-Source: "..\bin\HideConsole\RunHiddenConsole.exe"; DestDir: "{app}\bin\tools\"
-Source: "..\bin\killprocess\Process.exe"; DestDir: "{app}\bin\tools\"
-Source: "..\bin\cleanup-mysql-5.5.15-win32.bat"; DestDir: "{tmp}"
+// tools:
+Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
+Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
+Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
 // incorporate the whole "www" folder into the setup
-Source: "..\www\*"; DestDir: "{app}\www";  Flags: recursesubdirs; Excludes: "*\nbproject*"
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*
 // incorporate several startfiles
-Source: "..\startfiles\administration.url"; DestDir: "{app}"
-Source: "..\startfiles\localhost.url"; DestDir: "{app}"
-Source: "..\startfiles\start-wpnxm.exe"; DestDir: "{app}"
-Source: "..\startfiles\stop-wpnxm.exe"; DestDir: "{app}"
-Source: "..\startfiles\status-wpnxm.bat"; DestDir: "{app}"
-Source: "..\startfiles\reset-db-pw.bat"; DestDir: "{app}"
-Source: "..\startfiles\go-pear.bat"; DestDir: "{app}\bin\php"
+Source: ..\startfiles\administration.url; DestDir: {app}
+Source: ..\startfiles\localhost.url; DestDir: {app}
+Source: ..\startfiles\start-wpnxm.exe; DestDir: {app}
+Source: ..\startfiles\stop-wpnxm.exe; DestDir: {app}
+Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
+Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 // config files
-Source: "..\configs\php.ini"; DestDir: "{app}\bin\php"
-Source: "..\configs\nginx.conf"; DestDir: "{app}\bin\nginx\conf"
-Source: "..\configs\vhosts.conf"; DestDir: "{app}\bin\nginx\conf"
-Source: "..\configs\my.ini"; DestDir: "{app}\bin\mariadb"
+Source: ..\configs\php.ini; DestDir: {app}\bin\php
+Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\configs\vhosts.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
 
 [Icons]
-Name: "{group}\Start WPN-XM"; Filename: "{app}\start-wpnxm.exe"
-Name: "{group}\Stop WPN-XM"; Filename: "{app}\stop-wpnxm.exe"
-Name: "{group}\Status of WPN-XM"; Filename: "{app}\status-wpnxm.bat"
-Name: "{group}\Localhost"; Filename: "{app}\localhost.url"
-Name: "{group}\Administration"; Filename: "{app}\administration.url"
+Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.exe
+Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.exe
+Name: {group}\Status of WPN-XM; Filename: {app}\status-wpnxm.bat
+Name: {group}\Localhost; Filename: {app}\localhost.url
+Name: {group}\Administration; Filename: {app}\administration.url
 Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}
 Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}
-Name: "{group}\{cm:RemoveApp}"; Filename: "{uninstallexe}"
-//Name: "{userdesktop}\My Program"; Filename: "{app}\start-wpnxm.exe"; Tasks: desktopicon
-//Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM"; Filename: "{app}\start-wpnxm.exe"; Tasks: quicklaunchicon
+Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}
+Name: {userdesktop}\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: quicklaunchicon
 
 [Tasks]
-//Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescription: "Additional icons:"; Flags: unchecked
-//Name: "desktopicon"; Description: "Create a &Desktop icon"; GroupDescription: "Additional icons:"; Flags: unchecked
+Name: quicklaunchicon; Description: Create a &Quick Launch icon; GroupDescription: Additional icons:; Flags: unchecked
+Name: desktopicon; Description: Create a &Desktop icon; GroupDescription: Additional icons:; Flags: unchecked
 
 [Run]
 // Automatically started...
-Filename: "{tmp}\cleanup-mysql-5.5.15-win32.bat"; Parameters: "{app}\bin\mariadb";
-//Filename: "{app}\SETUP.EXE"; Parameters: "/x"
+Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
+//Filename: {app}\SETUP.EXE; Parameters: /x
 // User selected... these files are shown for launch after everything is done
-//Filename: "{app}\README.TXT"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent
-//Filename: "{app}\SETUP.EXE"; Description: "Configure Server Stack"; Flags: postinstall nowait skipifsilent unchecked
+//Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
+//Filename: {app}\SETUP.EXE; Description: Configure Server Stack; Flags: postinstall nowait skipifsilent unchecked
 
 [INI]
-;Filename: {app}\php\php.ini,Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
+;Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
+
+[Registry]
+; a registr change also needs the following directive: [SETUP] ChangesEnvironment=yes
+; add PHP path to environment variable PATH
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype
 
 [Messages]
 // define wizard title and tray status msg
 // both are normally defined in /bin/innosetup/default.isl
-SetupAppTitle = Setup WPN-XM {#AppVersion}
-SetupWindowTitle = Setup - {#AppName} {#AppVersion}
+SetupAppTitle =Setup WPN-XM {#AppVersion}
+SetupWindowTitle =Setup - {#AppName} {#AppVersion}
 
 [CustomMessages]
 de.WebsiteLink={#AppURL}
@@ -175,7 +180,7 @@ de.RemoveApp=WPN-XM Server Stack deinstallieren
 en.RemoveApp=Uninstall WPN-XM Server Stack
 
 [Dirs]
-Name: "{app}\www"
+Name: {app}\www
 
 [Code]
 // Constants and global variables
@@ -185,10 +190,13 @@ const
 
   // Define download URLs for the software packages
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
-  URL_nginx             = 'http://www.nginx.org/download/nginx-1.2.0.zip';
-  URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.0-nts-Win32-VC9-x86.zip';
-  URL_mariadb           = 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.23/win2008r2-vs2010-i386-packages/mariadb-5.5.23-win32.zip';
+  URL_nginx             = 'http://www.nginx.org/download/nginx-1.2.1.zip';
+  URL_php               = 'http://windows.php.net/downloads/releases/php-5.4.3-nts-Win32-VC9-x86.zip';
+  URL_mariadb           = 'http://mirror3.layerjet.com/mariadb/mariadb-5.5.24/windows/mariadb-5.5.24-win32.zip';
   URL_phpext_xdebug     = 'http://xdebug.org/files/php_xdebug-2.2.0RC2-5.4-vc9-nts.dll';
+  // pierre's APC is buggy, see https://bugs.php.net/bug.php?id=61984
+  //URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
+  URL_phpext_apc        = 'http://wpn-xm.org/files/php_apc-3.1.10-5.4-vc9-x86-xp.zip';
   URL_webgrind          = 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
@@ -200,26 +208,32 @@ const
   URL_adminer           = 'http://downloads.sourceforge.net/adminer/adminer-3.3.4.php';
   URL_junction          = 'http://download.sysinternals.com/files/Junction.zip';
   URL_pear              = 'http://pear.php.net/go-pear.phar';
+  URL_wpnxmscp          = 'http://wpn-xm.org/files/wpn-xm-scp-0.3.0.zip';
 
   // Define file names for the downloads
   Filename_nginx            = 'nginx.zip';
   Filename_php              = 'php.zip';
   Filename_mariadb          = 'mariadb.zip';
   Filename_phpext_xdebug    = 'xdebug.dll';
+  Filename_phpext_apc       = 'phpext-apc.zip';
   Filename_webgrind         = 'webgrind.zip';
   Filename_xhprof           = 'xhprof.zip';
   Filename_memcached        = 'memcached.zip';
-  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_zeromq    = 'zeromq.zip';
+  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
+  Filename_phpext_zeromq    = 'phpext-zmq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
   Filename_pear             = 'go-pear.phar';
+  Filename_wpnxmscp         = 'wpnxmscp.zip';
 
 var
-  unzipTool: String;    // path+filename of unzip helper for exec
-  returnCode: Integer;  // errorcode
-  targetPath: String;   // if debug true will download to app/downloads, else temp dir
+  unzipTool   : String;   // path+filename of unzip helper for exec
+  returnCode  : Integer;  // errorcode
+  targetPath  : String;   // if debug true will download to app/downloads, else temp dir
+  appPath     : String;   // application path (= the installaton folder)
+  InstallPage               : TWizardPage;
+  percentagePerComponent    : Integer;
 
 procedure UrlLabelClick(Sender: TObject);
 var
@@ -228,101 +242,248 @@ begin
   ShellExec('','http://wpn-xm.org/','','', SW_SHOWNORMAL, ewNoWait, errorCode);
 end;
 
+{
+  Custom wpInstalling Page with two progress bars.
+
+  The first progress bar shows the total progress.
+    (1 of 10 zips to unzip = 10 %)
+  The second progress bar shows the current operation progress
+    (unzipping component 2: 25% of 100%)
+
+  Page is put into the install page loop via
+  CurPageChanged(CurPageID) -> CurPageID=wpInstalling then CustomWpInstallingPage;
+}
+procedure CustomWpInstallingPage;
+var
+  { Total Progress Bar }
+  TotalProgressBar                : TNewProgressBar;
+  TotalProgressLabel              : TLabel;
+  TotalProgressStaticText         : TNewStaticText;
+
+  { Current Component Progress Bar }
+  CurrentComponentProgressBar     : TNewProgressBar;
+  CurrentComponentLabel           : TLabel;
+  CurrentComponentStaticText      : TNewStaticText;
+
+begin
+  // CustomPage is shown after the wpReady page
+  InstallPage := CreateCustomPage(wpReady,'Installation', 'Description');
+
+  { Total Progress Bar }
+
+  TotalProgressStaticText := TNewStaticText.Create(InstallPage);
+  TotalProgressStaticText.Top := 16;
+  TotalProgressStaticText.Caption := 'Total Progress';
+  TotalProgressStaticText.AutoSize := True;
+  TotalProgressStaticText.Parent := InstallPage.Surface;
+
+  TotalProgressBar := TNewProgressBar.Create(InstallPage);
+  TotalProgressBar.Name := 'TotalProgressBar'; // needed for FindComponent()
+  TotalProgressBar.Left := 24;
+  TotalProgressBar.Top := 40;
+  TotalProgressBar.Width := 366;
+  TotalProgressBar.Height := 24;
+  TotalProgressBar.Min := 0
+  TotalProgressBar.Max := 100
+  TotalProgressBar.Parent := InstallPage.Surface;
+
+  TotalProgressLabel := TLabel.Create(InstallPage);
+  TotalProgressLabel.Name := 'TotalProgressLabel'; // needed for FindComponent()
+  TotalProgressLabel.Top := TotalProgressStaticText.Top;
+  TotalProgressLabel.Left := TotalProgressBar.Width;
+  TotalProgressLabel.Caption := '0 %';
+  TotalProgressLabel.Alignment := taRightJustify;
+  TotalProgressLabel.Font.Style := [fsBold];
+  TotalProgressLabel.Parent := InstallPage.Surface;
+
+  { Current Component Progress Bar }
+
+  CurrentComponentStaticText := TNewStaticText.Create(InstallPage);
+  CurrentComponentStaticText.Top := 80;
+  CurrentComponentStaticText.Caption := 'Extracting Component';
+  CurrentComponentStaticText.AutoSize := True;
+  CurrentComponentStaticText.Parent := InstallPage.Surface;
+
+  CurrentComponentProgressBar := TNewProgressBar.Create(InstallPage);
+  CurrentComponentProgressBar.Name := 'CurrentComponentProgressBar'; // needed for FindComponent()
+  CurrentComponentProgressBar.Left := 24;
+  CurrentComponentProgressBar.Top := 104;
+  CurrentComponentProgressBar.Width := 366;
+  CurrentComponentProgressBar.Height := 24;
+  CurrentComponentProgressBar.Min := 0
+  CurrentComponentProgressBar.Max := 100
+  // Marquee displays some activity on the progressbar (pseudo progress)
+  CurrentComponentProgressBar.Style := npbstMarquee;
+  CurrentComponentProgressBar.Parent := InstallPage.Surface;
+
+  CurrentComponentLabel := TLabel.Create(InstallPage);
+  CurrentComponentLabel.Name := 'CurrentComponentLabel'; // needed for FindComponent()
+  CurrentComponentLabel.Top := CurrentComponentStaticText.Top;
+  CurrentComponentLabel.Width := 20;
+  CurrentComponentLabel.Left := CurrentComponentProgressBar.Width;
+  CurrentComponentLabel.Alignment := taRightJustify;
+  CurrentComponentLabel.Caption := '';
+  CurrentComponentLabel.Font.Style := [fsBold];
+  CurrentComponentLabel.Parent := InstallPage.Surface;
+
+  { Render Page }
+
+  InstallPage.Surface.Show;       // show the new page
+  InstallPage.Surface.Update;     // activate showing updates on this page
+end;
+
 procedure InitializeWizard();
 var
-  UrlLabel  : TNewStaticText;
-  CancelBtn : TButton;
+  UrlLabel      : TNewStaticText;
+  DebugLabel    : TNewStaticText;
+  VersionLabel  : TLabel;
+  VersionLabel2 : TLabel;
+  CancelBtn     : TButton;
 begin
+  //change background colors of wizard pages and panels
+  WizardForm.Mainpanel.Color:=$ECECEC;
+  WizardForm.TasksList.Color:=$ECECEC;
+  WizardForm.ReadyMemo.Color:=$ECECEC;
+  WizardForm.WelcomePage.Color:=$ECECEC;
+  WizardForm.FinishedPage.Color:=$ECECEC;
+  WizardForm.WizardSmallBitmapImage.BackColor:=$ECECEC;
 
-  // download target path depends on debug constant
-  if DEBUG = false then
+  //  Setup InnoTools Download Helper
+
+  // Initialize InnoTools Download Helper
+  ITD_Init;
+  // Turns on detailed error message popups for debugging the download process
+  if (DEBUG = true) then ITD_SetOption('Debug_Messages', '1');
+  // Change from a simple overall progress bar to the detailed download view
+  ITD_SetOption('UI_DetailedMode', '1');
+  // when download fails, do not allow continuing with the installation
+  ITD_SetOption('UI_AllowContinue', '0');
+  // Start the download after the "Ready to install" screen is shown
+  ITD_DownloadAfter(wpReady);
+  // reset files to download
+  ITD_ClearFiles();
+
+  // Display the Version Number as overlay on the WizardImageFile (banner-left)
+  // Label for the WelcomePage
+  VersionLabel            := TLabel.Create(WizardForm);
+  VersionLabel.Top        := 43;
+  VersionLabel.Left       := 129;
+  VersionLabel.Caption    := ExpandConstant('{#AppVersion}');
+  VersionLabel.Font.Name  := 'Tahoma';
+  VersionLabel.Font.Size  := 7;
+  VersionLabel.Font.Style := [fsBold];
+  VersionLabel.Font.Color := $343434;
+  VersionLabel.Parent     := WizardForm.WelcomePage;
+  // Label for the Finished Page
+  // ( @todo because i don't know how to attach one object to both wizard pages )
+  VersionLabel2            := TLabel.Create(WizardForm);
+  VersionLabel2.Top        := 43;
+  VersionLabel2.Left       := 129;
+  VersionLabel2.Caption    := ExpandConstant('{#AppVersion}');
+  VersionLabel2.Font.Name  := 'Tahoma';
+  VersionLabel2.Font.Size  := 7;
+  VersionLabel2.Font.Style := [fsBold];
+  VersionLabel2.Font.Color := $343434;
+  VersionLabel2.Parent     := WizardForm.FinishedPage;
+
+  // Display website link in the bottom left corner of the install wizard
+  CancelBtn           := WizardForm.CancelButton;
+  UrlLabel            := TNewStaticText.Create(WizardForm);
+  UrlLabel.Top        := CancelBtn.Top + (CancelBtn.Height div 2) - (UrlLabel.Height div 2);
+  UrlLabel.Left       := WizardForm.ClientWidth - CancelBtn.Left - CancelBtn.Width;
+  UrlLabel.Caption    := ExpandConstant('{cm:WebsiteLink}');
+  UrlLabel.Font.Style := UrlLabel.Font.Style + [fsUnderline];
+  UrlLabel.Cursor     := crHand;
+  UrlLabel.Font.Color := clHighlight;
+  UrlLabel.OnClick    := @UrlLabelClick;
+  UrlLabel.Parent     := WizardForm;
+
+  // Show that Debug Mode is active
+  if DEBUG = true then
   begin
-    // Initialize InnoTools Download Helper
-    itd_init;
-    // Change from a simple overall progress bar to the detailed download view
-    itd_setoption('UI_DetailedMode', '1');
-    // when download fails, do not allow continuing with the installation
-    itd_setoption('UI_AllowContinue', '0');
-    // Start the download after the "Ready to install" screen is shown
-    itd_downloadafter(wpReady);
-    // reset files to download
-    itd_clearfiles();
+    DebugLabel            := TNewStaticText.Create(WizardForm);
+    DebugLabel.Top        := UrlLabel.Top;
+    DebugLabel.Left       := UrlLabel.Left + UrlLabel.Width + 12;
+    DebugLabel.Caption    := ExpandConstant('DEBUG ON');
+    DebugLabel.Font.Style := [fsBold];
+    DebugLabel.Parent     := WizardForm;
   end;
-
-  // when debug enabled, do a one-time download of all components to a local folder
-  if (DEBUG = true) and (FileExists(expandconstant('c:\wpnxm-downloads\nginx.zip')) = false) then
-  begin
-    // re-create the server stack folder
-    if not DirExists(ExpandConstant('c:\wpnxm-downloads')) then ForceDirectories(ExpandConstant('c:\wpnxm-downloads'));
-    // Initialize InnoTools Download Helper
-    itd_init;
-    // Turns on detailed error message popups for debugging the download process
-    itd_setoption('Debug_Messages', '1');
-    // Change from a simple overall progress bar to the detailed download view
-    itd_setoption('UI_DetailedMode', '1');
-    // when download fails, do not allow continuing with the installation
-    itd_setoption('UI_AllowContinue', '0');
-    // Start the download after the "Ready to install" screen is shown
-    itd_downloadafter(wpReady);
-    // reset files to download
-    itd_clearfiles();
-  end;
-
- // display website link in the bottom left corner of the install wizard
- CancelBtn := WizardForm.CancelButton;
- UrlLabel      := TNewStaticText.Create(WizardForm);
- UrlLabel.Top  := CancelBtn.Top + (CancelBtn.Height div 2) - (UrlLabel.Height div 2);
- UrlLabel.Left := WizardForm.ClientWidth - CancelBtn.Left - CancelBtn.Width;
- UrlLabel.Caption    := ExpandConstant('{cm:WebsiteLink}');
- UrlLabel.Font.Style := UrlLabel.Font.Style + [fsUnderline];
- UrlLabel.Cursor     := crHand;
- UrlLabel.Font.Color := clHighlight;
- UrlLabel.OnClick    := @UrlLabelClick;
- UrlLabel.Parent     := WizardForm;
-
- if DEBUG = true then  UrlLabel.Caption  := 'DEBUG ON    ' + UrlLabel.Caption;
 end;
 
 function NextButtonClick(CurPage: Integer): Boolean;
+(*
+	Called when the user clicks the Next button.
+    If you return True, the wizard will move to the next page.
+	If you return False, it will remain on the current page (specified by CurPageID).
+*)
 begin
   if CurPage = wpSelectComponents then
   begin
 
+    // Define "targetPath" for the downloads. It depends on the debug mode.
+
     if DEBUG = false then
     begin
-      // using this path, the downloaded components are deleted after installation
-      targetPath := expandconstant('{tmp}\');
+      // In non debug mode the temp path is used for downloading.
+      // The downloaded components are deleted after installation.
+      targetPath := ExpandConstant('{tmp}\');
     end else
     begin
-      // using this path, the downloaded components are not deleted after installation
-      targetPath := expandconstant('c:\wpnxm-downloads\');
+      // In debug mode the "c:\wpnxm-downloads" path is used.
+      // The downloaded components are not deleted after installation.
+      // If you reinstall, the components are taken from there (no download).
+      targetPath := ExpandConstant('c:\wpnxm-downloads\');
+
+      // create folder, if it doesn't exist
+      if not DirExists(ExpandConstant(targetPath)) then ForceDirectories(ExpandConstant(targetPath));
     end;
 
-    // add files to download handler
+    {
+      Leave this!   - It's for determining the download file sizes manually
+      There is a strange bug, when trying to get the filesize from googlecode.
+      So webgrind has a size of 0. Thats way "unknown" is shown as total progress.
+
+      ITD_GetFileSize(URL_xhprof, size);
+      MsgBox(intToStr(size), mbError, MB_OK);
+    }
+
+    // Add Files to Download Handler
 
     if IsComponentSelected('serverstack') then
     begin
-      itd_addfile(URL_nginx,   expandconstant(targetPath + Filename_nginx));
-      itd_addfile(URL_php,     expandconstant(targetPath + Filename_php));
-      itd_addfile(URL_mariadb, expandconstant(targetPath + Filename_mariadb));
+      ITD_AddFile(URL_nginx,   ExpandConstant(targetPath + Filename_nginx));
+      ITD_AddFile(URL_php,     ExpandConstant(targetPath + Filename_php));
+      ITD_AddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
     end;
 
-    if IsComponentSelected('xdebug')    then itd_addfile(URL_phpext_xdebug, expandconstant(targetPath + Filename_phpext_xdebug));
-    if IsComponentSelected('webgrind')  then itd_addfile(URL_webgrind,      expandconstant(targetPath + Filename_webgrind));
-    if IsComponentSelected('xhprof')    then itd_addfile(URL_xhprof,        expandconstant(targetPath + Filename_xhprof));
+    if IsComponentSelected('servercontrolpanel') then
+    begin
+      ITD_AddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
+    end;
+
+    if IsComponentSelected('xdebug')    then ITD_AddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
+    if IsComponentSelected('apc')       then ITD_AddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
+    if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
+    if IsComponentSelected('xhprof')    then ITD_AddFile(URL_xhprof,        ExpandConstant(targetPath + Filename_xhprof));
+
     if IsComponentSelected('memcached') then
     begin
-        itd_addfile(URL_memcached,        expandconstant(targetPath + Filename_memcached));
-        itd_addfile(URL_phpext_memcached, expandconstant(targetPath + Filename_phpext_memcache));
+        ITD_AddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
+        ITD_AddFile(URL_phpext_memcached, ExpandConstant(targetPath + Filename_phpext_memcache));
     end;
 
-    if IsComponentSelected('zeromq')     then itd_addfile(URL_phpext_zeromq, expandconstant(targetPath + Filename_phpext_zeromq));
-    if IsComponentSelected('phpmyadmin') then itd_addfile(URL_phpmyadmin,    expandconstant(targetPath + Filename_phpmyadmin));
-    if IsComponentSelected('adminer')    then itd_addfile(URL_adminer,       expandconstant(targetPath + Filename_adminer));
-    if IsComponentSelected('junction')   then itd_addfile(URL_junction,      expandconstant(targetPath + Filename_junction));
-    if IsComponentSelected('pear')       then itd_addfile(URL_pear,          expandconstant(targetPath + Filename_pear));
+    if IsComponentSelected('zeromq')     then ITD_AddFile(URL_phpext_zeromq, ExpandConstant(targetPath + Filename_phpext_zeromq));
+    if IsComponentSelected('phpmyadmin') then ITD_AddFile(URL_phpmyadmin,    ExpandConstant(targetPath + Filename_phpmyadmin));
+    if IsComponentSelected('adminer')    then ITD_AddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
+    if IsComponentSelected('junction')   then ITD_AddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
+    if IsComponentSelected('pear')       then ITD_AddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
 
-  end;
+    // if DEBUG On and already downloaded, skip downloading files, by resetting files
+    if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
+
+    if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then ITD_ClearFiles();
+
+  end; // of wpSelectComponents
 
   Result := True;
 end;
@@ -347,97 +508,295 @@ begin
     end;
 end;
 
+procedure UpdateTotalProgressBar();
+{
+  This procedure is called, when installing a component is finished.
+  It updates the TotalProgessBar and the Label in the InstallationScreen with the new percentage.
+}
+var
+    newTotalPercentage : integer;
+    TotalProgressBar   : TNewProgressBar;
+    TotalProgressLabel : TLabel;
+begin
+    // Fetch ProgressBar
+    TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
+    // calculate new total percentage
+    newTotalPercentage := TotalProgressBar.Position + percentagePerComponent;
+    // set to progress bar
+    TotalProgressBar.Position := newTotalPercentage;
+
+    // Fetch Label
+    TotalProgressLabel := TLabel(InstallPage.FindComponent('TotalProgressLabel'));
+    // set to label
+    TotalProgressLabel.Caption := intToStr(newTotalPercentage) + ' %';
+end;
+
+{
+  This procedure is called, when installing a new component starts.
+  It updates the CurrentComponentLabel with the name of the component.
+}
+procedure UpdateCurrentComponentName(component: String);
+var
+    CurrentComponentLabel : TLabel;
+begin
+    // fetch label
+    CurrentComponentLabel := TLabel(InstallPage.FindComponent('CurrentComponentLabel'));
+    // set to label
+    CurrentComponentLabel.Caption := component;
+end;
+
 procedure UnzipFiles();
 var
-  selectedComponents: String;
+  selectedComponents     : String;
+  intTotalComponents     : Integer;
+  i                      : Integer;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
-  // lets fetch the unzip command from the compressed setup
+  // count components (get only the selected ones from the total number of components to unzip)
+  for i := 0 to WizardForm.ComponentsList.Items.Count - 1 do
+    if WizardForm.ComponentsList.Checked[i]=true then
+    intTotalComponents:=intTotalComponents+1;
+
+  if (DEBUG = true) then MsgBox('The following components are selected:' + selectedComponents + '. Counter: ' + IntToStr(intTotalComponents), mbInformation, MB_OK);
+
+  // serverstack base are 3 components in 1 so we have to add 2 to the counter
+  intTotalComponents:=intTotalComponents+2;
+
+  {
+    Calculate the percentage per component: (100% / components) = ppc
+
+    When processing a component is finished, this value is added to the progress bar.
+    When all values are added (UpdateTotalProgressBar()), we will reach 100 % in total on the progress bar. (ppc * components) = 100%
+  }
+  percentagePerComponent := (100 div intTotalComponents);
+
+  if (DEBUG = true) then MsgBox('Each processed component will add ' + intToStr(percentagePerComponent) + ' % to the progress bar.', mbInformation, MB_OK);
+
+  // fetch the unzip command from the compressed setup
   ExtractTemporaryFile('unzip.exe');
 
   if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
   if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
 
-  // always unzip the serverstack base
+  // Update Progress Bars
 
-  DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
+  // always unzip the serverstack base (3 components)
 
-  DoUnzip(targetPath + Filename_php, ExpandConstant('{app}\bin\php'));
+  UpdateCurrentComponentName('Nginx');
+    DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
+      UpdateTotalProgressBar();
 
-  DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+  UpdateCurrentComponentName('PHP');
+    DoUnzip(targetPath + Filename_php, ExpandConstant('{app}\bin\php'));
+      UpdateTotalProgressBar();
+
+  UpdateCurrentComponentName('MariaDB');
+    DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      UpdateTotalProgressBar();
 
   // unzip selected components
 
+  if Pos('servercontrolpanel', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('WPN-XM Server Control Panel');
+      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
+        UpdateTotalProgressBar();
+  end;
+
   // xdebug is not a zipped, its just a dll file, so copy it to the target path
-  if Pos('xdebug', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+  if Pos('xdebug', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Xdebug');
+      FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+        UpdateTotalProgressBar();
+  end;
 
-  if Pos('webgrind', selectedComponents) > 0 then DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+  if Pos('apc', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('APC');
+      // archive contains ts/nts folders, unzip to temp dir, copy file from there
+      DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
+      FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
+        UpdateTotalProgressBar();
+  end;
 
-  if Pos('xhprof', selectedComponents) > 0 then DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+  if Pos('webgrind', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Webgrind');
+      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('xhprof', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('XHProf');
+      DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar;
+  end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
-    DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-    DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
+    UpdateCurrentComponentName('Memcached');
+      DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
+        UpdateTotalProgressBar();
   end;
 
-  if Pos('zeromq', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpext_zeromq, ExpandConstant('{app}\bin\php'));
+  if Pos('zeromq', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('ZeroMQ');
+      // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
+      DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
+      FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+      // b) archive contains lib_zmq.dll which must be copied to php
+      FileCopy(ExpandConstant(targetPath + '\zmq\libzmq.dll'), ExpandConstant('{app}\bin\php\libzmq.dll'), false);
+        UpdateTotalProgressBar();
+  end;
 
-  if Pos('phpmyadmin', selectedComponents) > 0 then DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+  if Pos('phpmyadmin', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('phpMyAdmin');
+      DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar;
+  end;
 
   // adminer is not a zipped, its just a php file, so copy it to the target path
-  if Pos('adminer', selectedComponents) > 0 then FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
+  if Pos('adminer', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Adminer');
+      CreateDir(ExpandConstant('{app}\www\adminer\'));
+      FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
+        UpdateTotalProgressBar();
+  end;
 
-  if Pos('junction', selectedComponents) > 0 then DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
+  if Pos('junction', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Junction');
+      DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
+        UpdateTotalProgressBar();
+  end;
 
   // pear is not a zipped, its just a php phar package, so copy it to the php path
   if Pos('pear', selectedComponents) > 0 then
   begin
-    FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
+    UpdateCurrentComponentName('PEAR');
+      CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
+      FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
+        UpdateTotalProgressBar();
   end;
 
 end;
 
-procedure ApplyModifications();
+procedure MoveFiles();
 var
-  php_ini_file : String;
   selectedComponents: String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
-  // config files
-
-  php_ini_file := ExpandConstant('{app}\bin\php\php.ini');
-
-  // modifications to the config files
+  // set application path as global variable
+  appPath := ExpandConstant('{app}');
 
   // nginx - rename directory
-  Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\nginx-*') + ' ' + ExpandConstant('{app}\bin\nginx') + '"',
+  Exec('cmd.exe', '/c "move ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"',
   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - rename directory
-  Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\mariadb-*') + '  ' + ExpandConstant('{app}\bin\mariadb') + '"',
+  Exec('cmd.exe', '/c "move ' + appPath + '\bin\mariadb-*  ' + appPath + '\bin\mariadb"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - install with user ROOT and password TOOP
-  Exec('cmd.exe', '/c ' + ExpandConstant('{app}\bin\mariadb\') + 'mysql_install_db.exe --default-user=root --password=toop --datadir="' + ExpandConstant('{app}\bin\mariadb\data') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\mysql_install_db.exe --default-user=root --password=toop --datadir="' + appPath + '\bin\mariadb\data"',
+   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // php
-  SetIniString('PHP', 'error_log',           ExpandConstant('{app}\logs') + '\php_error.log', php_ini_file );
-  SetIniString('PHP', 'doc_root',            ExpandConstant('{app}\www'),                     php_ini_file );
-  SetIniString('PHP', 'include_path',        ExpandConstant('{app}\bin\php\pear'),            php_ini_file );
-  SetIniString('PHP', 'upload_tmp_dir',      ExpandConstant('{app}\temp'),                    php_ini_file );
-  SetIniString('PHP', 'upload_max_filesize', '8M',                                            php_ini_file );
-  SetIniString('PHP', 'session.save_path',   ExpandConstant('{app}\temp'),                    php_ini_file );
+  if Pos('xhprof', selectedComponents) > 0 then
+  begin
+    // deactivated, because we are fetching from preinheimer's fork, see below
+    // xhprof - rename "facebook-xhprof-gitref" directory
+    //Exec('cmd.exe', '/c "move ' + appPath + '\www\facebook-xhprof* ' + appPath + '\www\xhprof"',
+    //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // xdebug
+    // xhprof - rename "preinheimer-xhprof-gitref" directory
+    Exec('cmd.exe', '/c "move ' + appPath + '\www\preinheimer-xhprof* ' + appPath + '\www\xhprof"',
+    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
+  if Pos('memcached', selectedComponents) > 0 then
+  begin
+      // rename the existing directory
+      Exec('cmd.exe', '/c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"',
+      '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
+  if Pos('phpmyadmin', selectedComponents) > 0 then
+  begin
+     // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
+    Exec('cmd.exe', '/c "move ' + appPath + '\www\phpMyAdmin-*  ' + appPath + '\www\phpmyadmin"',
+    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
+end;
+
+procedure DoPreInstall();
+{
+   DoPreInstall will be called after the user clicks Next on the wpReady page,
+   but before Inno installs any of the [Files] and other standard script items.
+
+   Its triggered by CurStep == ssInstall in procedure CurStepChanged().
+
+   Workflow: wpReady to Install -> Click Next (Triggers ssInstall) -> wpInstalling
+}
+begin
+  UnzipFiles();
+  MoveFiles();
+end;
+
+procedure Configure();
+var
+  selectedComponents: String;
+  appPathWithSlashes : String;
+  php_ini_file : String;
+  mariadb_ini_file : String;
+begin
+  selectedComponents := WizardSelectedComponents(false);
+
+  // set application path as global variable
+  appPath := ExpandConstant('{app}');
+
+  { Explanation: StringChange(S,FromStr,ToStr): Change all occurances in S of FromStr to ToStr.
+    StringChange works on the string!! StringChange does not return S!
+  }
+  appPathWithSlashes := appPath;
+  StringChange (appPathWithSlashes, '\', '/');
+
+  // config files
+
+  php_ini_file := appPath + '\bin\php\php.ini';
+  mariadb_ini_file := appPath + '\bin\mariadb\my.ini';
+
+  // modifications to the config files
+
+  // MariaDb
+
+  // http://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-error
+  // waring: mysqld will not start if backslashes (\) are used. fwd slashes (/) needed!
+  SetIniString('mysqld', 'log-error',        appPathWithSlashes + '/logs/mariadb_error.log',  mariadb_ini_file );
+
+  // PHP
+  SetIniString('PHP', 'error_log',           appPath + '\logs\php_error.log',       php_ini_file );
+  SetIniString('PHP', 'doc_root',            appPath + '\www',                      php_ini_file );
+  SetIniString('PHP', 'include_path',        '.;' + appPath + '\bin\php\pear',      php_ini_file );
+  SetIniString('PHP', 'upload_tmp_dir',      appPath + '\temp',                     php_ini_file );
+  SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file );
+  SetIniString('PHP', 'session.save_path',   appPath + '\temp',                     php_ini_file );
+
+  // Xdebug
   if Pos('xdebug', selectedComponents) > 0 then
   begin
       // add loading of xdebug.dll to php.ini
       if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
       begin
-          SetIniString('Zend', 'zend_extension', ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), php_ini_file );
+          SetIniString('Zend', 'zend_extension', appPath + '\bin\php\ext\php_xdebug.dll', php_ini_file );
       end;
 
       // activate remote debugging
@@ -447,41 +806,37 @@ begin
       SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file );
   end;
 
-  if Pos('xhprof', selectedComponents) > 0 then
-  begin
-    // deactivated, because we are fetching from preinheimer's fork, see below
-    // xhprof - rename "facebook-xhprof-gitref" directory
-    //Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\facebook-xhprof*') + '  ' + ExpandConstant('{app}\www\xhprof') + '"',
-    //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-    // xhprof - rename "preinheimer-xhprof-gitref" directory
-    Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\preinheimer-xhprof*') + '  ' + ExpandConstant('{app}\www\xhprof') + '"',
-    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-  end;
-
-  if Pos('memcached', selectedComponents) > 0 then
-  begin
-      // rename the existing directory
-      Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\bin\memcached-x86') + ' ' + ExpandConstant('{app}\bin\memcached') + '"',
-      '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-      // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file );
-  end;
-
   if Pos('zeromq', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
       SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file );
   end;
 
-  if Pos('phpmyadmin', selectedComponents) > 0 then
+  if Pos('memcached', selectedComponents) > 0 then
   begin
-     // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
-    Exec('cmd.exe', '/c "move ' + ExpandConstant('{app}\www\phpMyAdmin-*') + '  ' + ExpandConstant('{app}\www\phpmyadmin') + '"',
-    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      // php.ini entry for loading the the extension
+      //SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file ); // disabled in v0.3.0: MODULE API=20090625 != PHP API 20100525
   end;
 
+  if Pos('apc', selectedComponents) > 0 then
+  begin
+      // php.ini entry for loading the the extension
+      //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
+  end;
+end;
+
+{
+  DoPostInstall will be called after Inno has completed installing all of
+  the [Files], [Registry] entries, and so forth, and also after all the
+  non-postinstall [Run] entries, but before the wpInfoAfter or wpFinished pages.
+
+  Its triggerd by CurStep == ssPostInstall. see procedure CurStepChanged().
+
+  wpInstalling Install finshed -> ssPostInstall
+}
+procedure DoPostInstall();
+begin
+  Configure()
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
@@ -490,18 +845,28 @@ var
   logfilename : String;
   newfilepathname : String;
 begin
- if CurStep=ssInstall then
-   begin
-    UnzipFiles();
-    ApplyModifications();
-   end;
+  if CurStep = ssInstall then
+  begin
+    DoPreInstall();
+  end;
 
+  if CurStep = ssPostInstall then
+  begin
+    DoPostInstall();
+  end;
+
+ // when the setup wizward is finished
  if CurStep = ssDone then
    begin
-     // copy logfile from tmp dir to the application dir, when the setup wizward is finished
+     // copy logfile from tmp dir to the application dir
      logfilepathname := ExpandConstant('{log}');
      logfilename := ExtractFileName(logfilepathname);
-     newfilepathname := ExpandConstant('{app}\') +logfilename;
+     newfilepathname := ExpandConstant('{app}\') + logfilename;
      filecopy(logfilepathname, newfilepathname, false);
    end;
+end;
+
+procedure CurPageChanged(CurPageID: Integer);
+begin
+  if CurPageID=wpInstalling then CustomWpInstallingPage();
 end;

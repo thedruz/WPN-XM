@@ -21,12 +21,15 @@
     along with WPN-XM SCP. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// C++
+// Local includes - WPNXM
+#include "host.h"
+
+// Global includes - C++ & Windows
 #include <stdlib.h>
 #include <windows.h>
 #include <string>
 
-// QT
+// Global includes - QT
 #include <QStringList>
 #include <QTextStream>
 #include <QDebug>
@@ -35,31 +38,22 @@
 #include <QDir>
 #include <QThread>
 
-// WPNXM
-#include "host.h"
-
-QList<Host*> Host::GetHosts()
-{
+QList<Host*> Host::GetHosts(){
     QList<Host*> listReturn;
 
     QFile hostFile(getHostFile());
-
-    if(hostFile.open(QFile::ReadOnly))
-    {
+    if(hostFile.open(QFile::ReadOnly)){
         QTextStream hostStream(&hostFile);
         QString strLine;
-        while (!(strLine = hostStream.readLine()).isNull())
-        {
+        while (!(strLine = hostStream.readLine()).isNull()){
             strLine = strLine.trimmed();
-            QStringList strList = strLine.split(QRegExp("[ \t]"), QString::SkipEmptyParts);
+            QStringList lst = strLine.split(QRegExp("[ \t]"), QString::SkipEmptyParts);
 
-            // skip comment line
-            if(strList.empty() || strList.startsWith("#"))
-            {
+            //Skip comment line
+            if(lst.empty() || lst.startsWith("#"))
                 continue;
-            }
 
-            Host* host = new Host(strList[1], strList[0]);
+            Host* host = new Host(lst[1], lst[0]);
             listReturn << host;
         }
     }
@@ -67,22 +61,17 @@ QList<Host*> Host::GetHosts()
     return listReturn;
 }
 
-void Host::writeHostFile(QList<Host*> listHosts)
-{
+void Host::SetHosts(QList<Host*> listHosts){
     QFile hostFile(getHostFile());
     QTemporaryFile tempFile;
     tempFile.setAutoRemove(false);
-
-    if(hostFile.open(QFile::ReadOnly) && tempFile.open())
-    {
+    if(hostFile.open(QFile::ReadOnly) && tempFile.open()){
          QTextStream hostStream(&hostFile);
          QTextStream tempStream(&tempFile);
 
          QString strLine;
-         while (!(strLine = hostStream.readLine()).isNull())
-         {
-             if(strLine.trimmed().isEmpty() || strLine.startsWith("#"))
-             {
+         while (!(strLine = hostStream.readLine()).isNull()){
+             if(strLine.trimmed().isEmpty() || strLine.startsWith("#")){
                 tempStream << strLine << "\r\n";
                 continue;
              }
@@ -93,8 +82,7 @@ void Host::writeHostFile(QList<Host*> listHosts)
              Host hostFromFile(lst[1], lst[0]);
              int index = listHosts.indexOf(&hostFromFile);
              // It match an host setup
-             if(index>=0)
-             {
+             if(index>=0){
                 Host* host = listHosts.takeAt(index);
                 tempStream << host->address() << "       " << host->name() << "\r\n";
              }
@@ -102,8 +90,7 @@ void Host::writeHostFile(QList<Host*> listHosts)
 
          // Copy remaining hosts
          tempStream << "\r\n";
-         while(!listHosts.isEmpty())
-         {
+         while(!listHosts.isEmpty()){
              Host* host = listHosts.takeFirst();
              tempStream << host->address() << "       " << host->name() << "\r\n";
          }
@@ -135,42 +122,48 @@ void Host::writeHostFile(QList<Host*> listHosts)
     ShellExecuteEx(&shExecInfo);
 }
 
-QString Host::getHostFile()
-{
+QString Host::getHostFile(){
+    // unsafe warning, when compiling with MSVC10: use _dupenv_s()
     QString windir(getenv ("windir"));
-    return windir+"\\System32\\drivers\\etc\\hosts";
+
+    return windir+"\\System32\\drivers\\etc\\hosts"; // Win XP
 }
 
 //--------------------------------
-Host::Host() {}
+Host::Host(){
+    //m_bIsEnable = true;
+}
 
-Host::Host(QString strName, QString strAddress)
-{
+Host::Host(QString strName, QString strAddress){
     setName(strName);
     setAddress(strAddress);
+    //m_bIsEnable = true;
 }
 
-void Host::setAddress(QString strAddress)
-{
-    strAddress = strAddress.trimmed();
+void Host::setAddress(QString strAddress){
+    m_strAddress = strAddress.trimmed();
 }
 
-QString Host::address()
-{
-    return strAddress;
+QString Host::address(){
+    return m_strAddress;
 }
 
-void Host::setName(QString strName)
-{
-    strName = strName.trimmed();
+void Host::setName(QString strName){
+    m_strName = strName.trimmed();
 }
 
-QString Host::name()
-{
-    return strName;
+QString Host::name(){
+    return m_strName;
 }
 
-bool Host::operator==(const Host &host) const
-{
-    return strName == host.strName && strAddress == host.strAddress;
+//void Host::setEnable(bool bEnable){
+//    m_bIsEnable = bEnable;
+//}
+
+//bool Host::isEnable(){
+//    return m_bIsEnable;
+//}
+
+bool Host::operator==(const Host &host) const{
+    return m_strName == host.m_strName && m_strAddress == host.m_strAddress;
 }

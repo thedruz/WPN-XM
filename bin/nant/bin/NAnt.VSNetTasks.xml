@@ -245,6 +245,11 @@
               </code>
             </example>
         </member>
+        <member name="F:NAnt.VSNet.Tasks.SolutionTask._customproperties">
+            <summary>
+            Private var containing custom properties.
+            </summary>
+        </member>
         <member name="M:NAnt.VSNet.Tasks.SolutionTask.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:NAnt.VSNet.Tasks.SolutionTask"/> class.
@@ -354,6 +359,16 @@
                 <para>WebDAV support requires permission changes to be made on your project server.  These changes may affect          
                 the security of the server and should not be applied to a public installation.</para>
                 <para>Consult your web server or the NAnt Wiki documentation for more information.</para>
+            </remarks>
+        </member>
+        <member name="P:NAnt.VSNet.Tasks.SolutionTask.CustomProperties">
+            <summary>
+            Set of properties set at solution level. Builders for projects in solution may or may not use them.
+            </summary>
+            <remarks>
+            <para>
+            TODO: some documentataion which properties could be defined here.
+            </para>
             </remarks>
         </member>
         <member name="P:NAnt.VSNet.Tasks.SolutionTask.AssemblyFolderList">
@@ -2251,6 +2266,16 @@
         <member name="F:NAnt.VSNet.ProductVersion.Whidbey">
             <summary>
             Visual Studio 2005
+            </summary>
+        </member>
+        <member name="F:NAnt.VSNet.ProductVersion.Orcas">
+            <summary>
+            Visual Studio 2008
+            </summary>
+        </member>
+        <member name="F:NAnt.VSNet.ProductVersion.Rosario">
+            <summary>
+            Visual Studio 2010
             </summary>
         </member>
         <member name="T:NAnt.VSNet.ProjectLocation">

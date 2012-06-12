@@ -13,7 +13,7 @@ if not exist "%cd%\logs" (
 SET HIDECONSOLE=%cd%\bin\tools\RunHiddenConsole.exe
 
 echo Starting PHP FastCGI...
-%HIDECONSOLE% %cd%\bin\php\php-cgi.exe -b 127.0.0.1:9000 -c %cd%\bin\php\php.ini
+%HIDECONSOLE% %cd%\bin\php\php-cgi.exe -b 127.0.0.1:9100 -c %cd%\bin\php\php.ini
 echo.
 
 echo Starting MariaDb...
