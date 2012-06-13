@@ -4,7 +4,7 @@
     WPN-XM SCP is a tool to manage Nginx, PHP and MariaDB daemons under windows.
     It's a fork of Easy WEMP originally written by Yann Le Moigne and (c) 2010.
     WPN-XM SCP is written by Jens-Andre Koch and (c) 2011 - onwards.
-        
+
     This file is part of WPN-XM Serverpack for Windows.
 
     WPN-XM SCP is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
 #include <QTimer>
 #include <QDesktopServices>
 #include <QUrl>
-//#include <QDebug>
+#include <QDebug>
 
 // Constructor
 Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
@@ -57,7 +57,7 @@ Tray::Tray(QApplication *parent) : QSystemTrayIcon(parent)
 
     // @todo make this a configuration option in user preferences dialog
     /*if(bAutostartDaemons)
-    {        
+    {
         startAllDaemons();
     }*/
 
@@ -314,7 +314,7 @@ void Tray::startMariaDB()
 }
 
 void Tray::stopMariaDB()
-{    
+{
     // disconnect process monitoring, before crashing the process
     disconnect(processMariaDB, SIGNAL(error(QProcess::ProcessError)), this, SLOT(mariaDBProcessError(QProcess::ProcessError)));
 
@@ -414,6 +414,18 @@ void Tray::globalStateChanged()
         setIcon(QIcon(":/wpnxm"));
     }
 
+    // if NGINX or PHP are not running, disable Tools PushButtons, because target URL not available
+    if(processNginx->state() == QProcess::NotRunning or processPhp->state() == QProcess::NotRunning)
+    {
+        emit signalEnableToolsPushButtons(false);
+    }
+
+    // if NGINX and PHP are running, enable Tolls PushButtons
+    if(processNginx->state() == QProcess::Running and processPhp->state() == QProcess::Running)
+    {
+        emit signalEnableToolsPushButtons(true);
+    }
+
     return;
 }
 
@@ -450,7 +462,7 @@ void Tray::phpStateChanged(QProcess::ProcessState state)
             break;
         case QProcess::Starting:
             phpStatusSubmenu->setIcon(QIcon(":/status_reload"));
-            break;            
+            break;
     }
     globalStateChanged();
 }

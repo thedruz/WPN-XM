@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // overrides the window title defined in mainwindow.ui
     setWindowTitle(APP_NAME_AND_VERSION);
 
+    checkAlreadyActiveDaemons();
+
     // inital state of status leds is disabled
     ui->label_Nginx_Status->setEnabled(false);
     ui->label_PHP_Status->setEnabled(false);
@@ -71,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label_MariaDb_Port->setText("3306");
 
     showPushButtonsOnlyForInstalledTools();
+    enableToolsPushButtons(false);
 }
 
 MainWindow::~MainWindow()
@@ -105,6 +108,11 @@ void MainWindow::createTrayIcon()
         // if process state of a daemon changes, then change the label status in UI::MainWindow too
         connect(trayIcon, SIGNAL(signalSetLabelStatusActive(QString, bool)),
                 this, SLOT(setLabelStatusActive(QString, bool)));
+
+        // Connect Action for, if process state of NGINX and PHP changes,
+        // then change the disabled/ enabled state of pushButtons too
+        connect(trayIcon, SIGNAL(signalEnableToolsPushButtons(bool)),
+                this, SLOT(enableToolsPushButtons(bool)));
 
         // Connect Actions for Status Table - Column Action (Start)
         connect(ui->pushButton_StartNginx, SIGNAL(clicked()), trayIcon, SLOT(startNginx()));
@@ -251,6 +259,27 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
         default:
             break;
     }
+}
+
+void MainWindow::enableToolsPushButtons(bool enabled)
+{
+    qDebug() << "enableToolsPushButtons started";
+
+    // get all PushButtons from the Tools GroupBox of MainWindow::UI
+    QList<QPushButton *> allPushButtonsButtons = ui->ToolsGroupBox->findChildren<QPushButton *>();
+
+    // set all PushButtons enabled/disabled
+    for(int i = 0; i < allPushButtonsButtons.size(); ++i)
+    {
+        qDebug() << "enableToolsPushButtons changing " + enabled;
+
+       allPushButtonsButtons[i]->setEnabled(enabled);
+    }
+
+    // change state of "Open Projects Folder" >> "Browser" button
+    ui->OpenProjectFolderGroupBox
+      ->findChild<QPushButton*>("pushButton_OpenProjects_browser")
+      ->setEnabled(enabled);
 }
 
 void MainWindow::showPushButtonsOnlyForInstalledTools()
@@ -524,23 +553,82 @@ void MainWindow::openAboutDialog()
         ));
 }
 
-/*
-void MainWindow::checkActiveProcesses()
+void MainWindow::checkAlreadyActiveDaemons()
 {
     // Check list of active processes for
-    // apache
-    // nginx
-    // mariadb
-    // php-cgi
-    // memcached
+    // apache, nginx, mysql, php-cgi, memcached
     // and report if processes are already running.
+    // we take a look for these processes to avoid collisions
 
-    // wmic.exe /OUTPUT:STDOUT PROCESS get Caption
-    // wmic process get workingsetsize,commandline /format:csv
-    // wmic process | sort
+    // Provide messagebox with Checkboxes to select
+    // the processes to Leave Running or Shutdown.
 
-    // psapi.h -> enumProcesses()
-    // LIBS += -lpsapi
-    // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682623%28v=vs.85%29.aspx
+    // a) fetch processes via tasklist stdout
+    QProcess process;
+    process.setReadChannel(QProcess::StandardOutput);
+    process.setReadChannelMode(QProcess::MergedChannels);
+    process.start("cmd", QStringList() << "/c tasklist.exe");
+    process.waitForFinished();
+    // processList contains the tasklist output
+    QByteArray processList = process.readAll();
+    //qDebug() << "Read" << processList.length() << "bytes";
+    //qDebug() << processList;
+
+    // b) define processes to look for
+    QStringList processesToSearch;
+    processesToSearch << "nginx"
+                      << "apache"
+                      << "memcached"
+                      << "mysqld"
+                      << "php-cgi";
+
+    // c) init a list for found processes
+    QStringList processesFoundList;
+
+    // d) foreach processesToSearch take a look in the processList
+    for (int i = 0; i < processesToSearch.size(); ++i)
+    {
+        //qDebug() << "Searching for process: " << processesToSearch.at(i).toLocal8Bit().constData() << endl;
+
+        if(processList.contains( processesToSearch.at(i).toAscii().constData() ))
+        {
+            // process found
+            processesFoundList << processesToSearch.at(i).toAscii().constData();
+        }
+    }
+
+    qDebug() << "Processes found : " << processesFoundList;
+
+    QLabel *labelA = new QLabel(tr("The following processes are already running:"));
+
+    QGroupBox *groupBox = new QGroupBox(tr("Running Processes"));
+
+    QCheckBox *checkBox1 = new QCheckBox(tr("&Checkbox 1"));
+    QCheckBox *checkBox2 = new QCheckBox(tr("C&heckbox 2"));
+    checkBox2->setChecked(true);
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(checkBox1);
+    vbox->addWidget(checkBox2);
+    //vbox->addStretch(1);
+    groupBox->setLayout(vbox);
+
+    QLabel *labelB = new QLabel(tr("Please select the processes you wish to shutdown."));
+
+    //QPushButton *okButton = new QPushButton("Shutdown & Proceed");
+    //QPushButton *cancelButton = new QPushButton("Leave them & Proceed");
+
+    // e) build dialog to inform user about running processes
+    QGridLayout *grid = new QGridLayout;
+    grid->addWidget(labelA);
+    grid->addWidget(groupBox);
+    grid->addWidget(labelB);
+
+    QDialog dlg;
+    dlg.setWindowModality(Qt::WindowModal);
+    dlg.setLayout(grid);
+    dlg.resize(250, 100);
+    dlg.setWindowTitle(tr(APP_NAME));
+    dlg.exec();
 }
-*/
+

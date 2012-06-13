@@ -55,6 +55,7 @@ private:
     QAction *restoreAction;
     QAction *quitAction;
 
+    void checkAlreadyActiveDaemons();
     void createActions();
     void createTrayIcon();
     void startMonitoringDaemonProcesses();
@@ -105,6 +106,7 @@ public slots:
     void openLogMariaDB();
 
     void setLabelStatusActive(QString label, bool enabled);
+    void enableToolsPushButtons(bool enabled);
 };
 
 #endif // MAINWINDOW_H
