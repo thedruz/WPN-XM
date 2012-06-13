@@ -315,6 +315,9 @@ void Tray::startMariaDB()
 
 void Tray::stopMariaDB()
 {    
+    // disconnect process monitoring, before crashing the process
+    disconnect(processMariaDB, SIGNAL(error(QProcess::ProcessError)), this, SLOT(mariaDBProcessError(QProcess::ProcessError)));
+
     processMariaDB->kill();
     processMariaDB->waitForFinished();
 }
