@@ -52,7 +52,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                             </td>
                             <td>
                                 <div class="resourceheader">
-                                    <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
+                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/report.png" alt="Report Icon" />
                                         <a href="http://nginx.org/">
                                             <b>NGINX</b>
                                         </a>
@@ -74,7 +74,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                             </td>
                             <td>
                                 <div class="resourceheader">
-                                    <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
+                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/report.png" alt="Report Icon" />
                                         <a href="http://php.net/">
                                             <b>PHP</b>
                                         </a>
@@ -96,7 +96,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                             </td>
                             <td>
                                 <div class="resourceheader">
-                                    <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
+                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/report.png" alt="Report Icon" />
                                         <a href="http://mariadb.org/">
                                             <b>MariaDB</b>
                                         </a>
@@ -118,7 +118,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                             </td>
                             <td>
                                 <div class="resourceheader">
-                                    <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
+                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/report.png" alt="Report Icon" />
                                         <a href="http://memcached.org/">
                                             <b>Memcached</b>
                                         </a>
@@ -140,7 +140,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                             </td>
                             <td>
                                 <div class="resourceheader">
-                                    <img class="res-header-icon" src="http://cdn.clansuite.com/images/report.png" alt="Report Icon" />
+                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/report.png" alt="Report Icon" />
                                         <a href="http://xdebug.org/">
                                             <b>Xdebug</b>
                                         </a>
