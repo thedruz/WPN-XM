@@ -259,20 +259,6 @@ img
     border: 0px;
 }
 
-.resourceheader
-{
-    margin-left:    10px;
-    text-align:     left;
-    font-size:      12px;
-}
-
-.td-with-image
-{
-    border-right:   1px dotted #B4B4B4;
-    padding-right:  10px;
-    width:          55px;
-}
-
 .inset-panel, #phpinfo table {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.04);
     box-shadow: 0 1px 1px white, 0 0 1px 0 rgba(0, 0, 0, 0.5) inset;
