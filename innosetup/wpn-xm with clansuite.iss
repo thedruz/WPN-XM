@@ -120,6 +120,8 @@ Name: "clansuite"; Description: "Clansuite - just an eSports CMS"; ExtraDiskSpac
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
+// psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
+Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
 // incorporate the whole "www" folder into the setup
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*
@@ -465,7 +467,7 @@ begin
 
     if IsComponentSelected('servercontrolpanel') then
     begin
-      ITD_AddFile(URL_wpnxmscp,   ExpandConstant(targetPath + Filename_wpnxmscp));
+      ITD_AddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
     end;
 
     if IsComponentSelected('xdebug')    then ITD_AddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
@@ -823,19 +825,19 @@ begin
   if Pos('zeromq', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file );
+      //SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file ); // disabled in v0.3.x: MODULE API=20090625 != PHP API 20100525
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file );
+      //SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file ); // disabled in v0.3.0: MODULE API=20090625 != PHP API 20100525
   end;
 
   if Pos('apc', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file );
+      //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
   end;
 end;
 
@@ -883,4 +885,132 @@ end;
 procedure CurPageChanged(CurPageID: Integer);
 begin
   if CurPageID=wpInstalling then CustomWpInstallingPage();
+end;
+
+{
+  Uninstaller
+
+  a) Display Dialogbox
+     Warning the user about the deletion of the WPN-XM folder.
+     This is ensures no user projects get lost (/www/projects).
+
+  b) Check for running daemon processes before uninstallation.
+     Provide Button to shut them down.
+     Shutdown is needed, in order to delete them.
+}
+
+// boolean function for calling IsModuleLoaded on psvince.dll
+function IsModuleLoaded(modulename: String ):  Boolean;
+external 'IsModuleLoaded@{app}\bin\tools\psvince.dll stdcall uninstallonly';
+
+function ProcessesRunningWhenUninstall(): Boolean;
+var
+  index : Integer;
+  processes: Array [1..4] of String;
+begin
+  // fill processes array with process executables to look for
+  processes[1] := 'nginx.exe';
+  processes[2] := 'memcached.exe';
+  processes[3] := 'php-cgi.exe';
+  processes[4] := 'mysqld.exe';
+
+  // method return value defaults to false, meaning that no processes is running
+  Result := false;
+
+  // iterate processes
+  for index := 1 to 4 do
+  begin
+    // and check if process is running (using external call to psvince.dll)
+    if ( IsModuleLoaded( processes[index] ) = true ) then
+    begin
+     // MsgBox( processes[index] + ' is running, please close it and run again uninstall.', mbError, MB_OK );
+     Result := true;
+    end;
+
+  end;
+end;
+
+function InitializeUninstall(): Boolean;
+var
+  ResultCode: Integer;
+  ButtonPressed: Integer;
+begin
+  ButtonPressed := IDRETRY;
+
+  // Check if daemons are running or if the user has pressed the cancel button.
+  // We need to perform a check for running daemon processes,
+  // because files of running processes can not be deleted while running.
+  while ProcessesRunningWhenUninstall and ( ButtonPressed <> IDCANCEL ) do
+  begin
+    ButtonPressed := MsgBox('Some server processes are still running.'#13#10 +
+                            'Click Retry to shut them down and continue uninstallation, or click Cancel to quit the uninstaller.',
+                            mbError, MB_RETRYCANCEL );
+
+    if( ButtonPressed = IDRETRY ) then
+    begin
+      // "Yes/Retry" clicked, now shutdown the processes
+      if Exec('cmd.exe', '/c ' + ExpandConstant('{app}\stop-wpnxm.exe'), '', SW_HIDE,
+         ewWaitUntilTerminated, ResultCode) then
+      begin
+        Result := ResultCode > 0;
+      end;
+    end;
+
+    // "Cancel" clicked, quits the un-installer
+    if( ButtonPressed = IDCANCEL ) then
+    begin
+      Result := false;
+      Exit;
+    end;
+
+  end;
+
+  // unload the dll, otherwise the psvince.dll is not deleted, because in use
+  UnloadDLL(ExpandConstant('{app}\bin\tools\psvince.dll'));
+
+  Result := true;
+end;
+
+{
+  Watch it! Recursion!
+}
+procedure DeleteWPNXM(ADirName: string);
+var
+  FindRec: TFindRec;
+begin
+  MsgBox('Deleting WPNXM (' + ADirName + '\*.*)', mbError, MB_OK);
+
+  if FindFirst( ADirName + '\*.*', FindRec) then begin
+    try
+      repeat
+        // delete folder
+        if FindRec.Attributes and FILE_ATTRIBUTE_DIRECTORY <> 0 then begin
+          if (FindRec.Name <> '.') and (FindRec.Name <> '..') then begin
+            DeleteWPNXM(ADirName + '\' + FindRec.Name);
+            RemoveDir(ADirName + '\' + FindRec.Name);
+          end;
+        end;
+        // delete file
+        DeleteFile(ADirName + '\' + FindRec.Name);
+      until not FindNext(FindRec);
+    finally
+      FindClose(FindRec);
+    end;
+  end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usUninstall then begin
+    if MsgBox('***WARNING***'#13#10#13#10 +
+              'The WPN-XM installation folder is [ '+ ExpandConstant('{app}') +' ].'#13#10 +
+              'You are about to delete this folder and all its subfolders,'#13#10 +
+              'including [ '+ ExpandConstant('{app}') +'\www ], which may contain your projects.'#13#10#13#10 +
+              'This is your last chance to do a backup of your files.'#13#10#13#10 +
+              'Do you want to proceed?'#13#10, mbConfirmation,
+        MB_YESNO) = IDYES
+    then begin
+      DeleteWPNXM(ExpandConstant('{app}'));
+    end;
+  end;
 end;
