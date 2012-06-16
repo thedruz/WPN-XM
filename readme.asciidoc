@@ -34,7 +34,7 @@ https://github.com/jakoch/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 
 | MariaDB  | 5.5.24 | GNU GPL v2      | © 2010-2012 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
 | NGINX    | 1.2.1  | New BSD License | © 2002-2012 Igor Sysoev.      | http://nginx.org/
-| PHP      | 5.4.3  | PHP License     | © 1999-2012 The PHP Group.    | http://www.php.net/
+| PHP      | 5.4.4  | PHP License     | © 1999-2012 The PHP Group.    | http://www.php.net/
 
 5+^s|PHP Extensions
 
@@ -58,7 +58,7 @@ https://github.com/jakoch/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 
 === STILL NOT CONVINCED? ===
 
-Well, then go try a different Serverpack for Windows. 
+Well, then go try a different Serverpack for Windows.
 You might find a https://github.com/jakoch/WPN-XM/wiki/Comprehensive-list-of-server-stacks[comprehensive list of server stacks] in our wiki.
 I know you’ll come back.
 
