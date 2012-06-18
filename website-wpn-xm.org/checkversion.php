@@ -12,7 +12,7 @@
 
 if(!extension_loaded('curl'))
 {
-	exit('Enable PHP extension cURL.');
+    exit('Enable PHP extension cURL.');
 }
 
 require_once __DIR__ . 'php/goutte.phar';
