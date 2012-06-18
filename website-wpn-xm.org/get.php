@@ -27,10 +27,7 @@ $pool = array(
 if(isset($_GET['s']) && !empty($_GET['s']) && array_key_exists($_GET['s'], $pool)) {
     header("Location: " . $pool[$_GET['s']] );
 } else {
-    // header for fcgi
-    header("Status: 404 Not Found");
-    // header for non-fcgi
-    @header("HTTP/1.0 404 Not Found");
+    header("HTTP/1.0 404 Not Found");
 }
 
 ?>
