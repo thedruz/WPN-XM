@@ -64,31 +64,26 @@ class Wpnxm_Serverstack
     public static function getMariaDBVersion()
     {
         # fail safe, for unconfigured php.ini files
-        if(!function_exists('mysql_connect'))
+        if(!function_exists('mysqli_connect'))
         {
-            return self::printExclamationMark('Enable mysql extension in php.ini.');
+            return self::printExclamationMark('Enable mysqli extension in php.ini.');
         }
 
-        $connection = @mysql_connect('localhost', 'root', 'toop');
+        $connection = mysqli_connect('localhost', 'root');
 
         if(false === $connection)
         {
            # Daemon running? Login credentials correct?
-           #echo ('No Connection: ' . mysql_error());
+           #echo ('MySQLi Connection error' . mysqli_connect_errno());
            return self::printExclamationMark('MySQL Connection not possible. Access denied.');
         }
         else
         {
-            if(false === function_exists('mysql_get_server_info'))
-            {
-                return self::printExclamationMark('PHP Extension: mysql, mysqli, mysqlnd missing.');
-            }
-
-            # mysql_get_server_info() returns e.g. "5.3.0-maria"
-            $arr = explode('-', @mysql_get_server_info($connection));
+            # $mysqli->server_info returns e.g. "5.3.0-maria"
+            $arr = explode('-', $connection->server_info);
             return $arr[0];
 
-            mysql_close($connection);
+            $connection->close();
         }
     }
 
