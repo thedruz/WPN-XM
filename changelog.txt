@@ -30,12 +30,16 @@ Version 0.4 - REL    tbc
 
         -->>
 
+[18.06.2012]  NEW    added icons tp config page (php, nginx, mariadb, xdebug)
+[18.06.2012]  FIX    getMariaDBVersion() and switched to mysqli methods
 [16.06.2012]  UPD    PHP 5.4.4
 [15.06.2012]  FIX    build.xml bootstrap.php encoding (read/write token nant)
 [15.06.2012]  FIX    installation wizard - uninstaller now working
               NEW    detect running processes before uninstalling
               NEW    dialog to warn user about deletion of projects folder
               FIX    report icon was fetch from the web
+              NEW    synced the state (enabled/disabled) of tool pushbuttons
+                     in the SCP with the daemon, they rely on (php+nginx)
 
 ------------  ----------------------------------------------------------------
 Version 0.3 - REL    11.06.2012
