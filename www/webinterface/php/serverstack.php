@@ -349,15 +349,18 @@ class Wpnxm_Serverstack
                 # code...
                 # read from 1) config file, 2) startup parameter or 3) getPortByServiceName() ?
                 break;
-
             case 'mariadb':
                 # code...
                 break;
-
             case 'memcache':
                 # code...
                 break;
-
+            case 'xdebug':
+                # code...
+                break;
+            case 'php':
+                # code...
+                break;
             default:
                 # code...
                 break;
@@ -382,7 +385,12 @@ class Wpnxm_Serverstack
             case 'memcache':
                 return self::checkPort('127.0.0.1', '11211');
                 break;
-
+            case 'php':
+                return self::checkPort('127.0.0.1', '9000');
+                break;
+            case 'xdebug':
+                return self::checkPort('127.0.0.1', '9100');
+                break;
             default:
                 # code...
                 break;
