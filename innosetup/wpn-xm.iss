@@ -192,25 +192,25 @@ const
 
   // Define download URLs for the software packages
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
-  URL_nginx             = 'http://wpn-xm.org/mirror.php?s=nginx';
-  URL_php               = 'http://wpn-xm.org/mirror.php?s=php';
-  URL_mariadb           = 'http://wpn-xm.org/mirror.php?s=mariadb';
-  URL_phpext_xdebug     = 'http://wpn-xm.org/mirror.php?s=phpext_xdebug';
+  URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
+  URL_php               = 'http://wpn-xm.org/get.php?s=php';
+  URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
+  URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   // pierre's APC is buggy, see https://bugs.php.net/bug.php?id=61984
   //URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
-  URL_phpext_apc        = 'http://wpn-xm.org/mirror.php?s=phpext_apc';
-  URL_webgrind          = 'http://wpn-xm.org/mirror.php?s=webgrind';
+  URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
+  URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
-  URL_xhprof            = 'http://wpn-xm.org/mirror.php?s=xhprof';
-  URL_memcached         = 'http://wpn-xm.org/mirror.php?s=memcached';
-  URL_phpext_memcached  = 'http://wpn-xm.org/mirror.php?s=phpext_memcache';
-  URL_phpext_zeromq     = 'http://wpn-xm.org/mirror.php?s=phpext_zeromq';
-  URL_phpmyadmin        = 'http://wpn-xm.org/mirror.php?s=phpmyadmin';
-  URL_adminer           = 'http://wpn-xm.org/mirror.php?s=adminer';
-  URL_junction          = 'http://wpn-xm.org/mirror.php?s=junction';
-  URL_pear              = 'http://wpn-xm.org/mirror.php?s=pear';
-  URL_wpnxmscp          = 'http://wpn-xm.org/mirror.php?s=wpnxmscp';
+  URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
+  URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
+  URL_phpext_memcached  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
+  URL_phpext_zeromq     = 'http://wpn-xm.org/get.php?s=phpext_zeromq';
+  URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
+  URL_adminer           = 'http://wpn-xm.org/get.php?s=adminer';
+  URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
+  URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
+  URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
 
   // Define file names for the downloads
   Filename_nginx            = 'nginx.zip';

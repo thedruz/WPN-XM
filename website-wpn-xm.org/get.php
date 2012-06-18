@@ -24,7 +24,7 @@ $pool = array(
     'clansuite'         => 'http://nodeload.github.com/jakoch/Clansuite/zipball/svnsync'
 );
 
-if(isset($_GET['s']) && !empty($_GET['s']) && array_key_exists( $_GET['s'] , $pool)) {
+if(isset($_GET['s']) && !empty($_GET['s']) && array_key_exists($_GET['s'], $pool)) {
     header("Location: " . $pool[$_GET['s']] );
 } else {
     // header for fcgi
