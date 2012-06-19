@@ -24,8 +24,10 @@ $pool = array(
     'clansuite'         => 'http://nodeload.github.com/jakoch/Clansuite/zipball/svnsync'
 );
 
-if(isset($_GET['s']) && !empty($_GET['s']) && array_key_exists($_GET['s'], $pool)) {
-    header("Location: " . $pool[$_GET['s']] );
+$s = filter_input(INPUT_GET, 's', FILTER_SANITIZE_STRING);
+
+if(isset($s) && array_key_exists($s, $pool)) {
+    header("Location: " . $pool[$s]);
 } else {
     header("HTTP/1.0 404 Not Found");
 }
