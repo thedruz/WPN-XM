@@ -21,6 +21,7 @@ $pool = array(
     'wpnxmscp'          => 'http://wpn-xm.org/files/wpn-xm-scp-0.3.0.zip',
     'webgrind'          => 'http://webgrind.googlecode.com/files/webgrind-release-1.0.zip',
     'xhprof'            => 'http://nodeload.github.com/preinheimer/xhprof/zipball/master',
+    'composer'          => 'http://getcomposer.org/composer.phar',
     'clansuite'         => 'http://nodeload.github.com/jakoch/Clansuite/zipball/svnsync'
 );
 

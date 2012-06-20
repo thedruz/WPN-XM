@@ -34,7 +34,7 @@
 //
 
 // toggle for enabling/disabling the debug mode
-# define DEBUG "@DEBUG@"
+# define DEBUG "true"
 
 // defines the root folder
 #define SOURCE_ROOT AddBackslash(SourcePath);
@@ -110,6 +110,7 @@ Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webint
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
+Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 
 [Files]
 // tools:
@@ -210,6 +211,7 @@ const
   URL_adminer           = 'http://wpn-xm.org/get.php?s=adminer';
   URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
+  URL_composer          = 'http://wpn-xm.org/get.php?s=composer';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
 
   // Define file names for the downloads
@@ -227,6 +229,7 @@ const
   Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
   Filename_pear             = 'go-pear.phar';
+  Filename_composer         = 'composer.phar';
   Filename_wpnxmscp         = 'wpnxmscp.zip';
 
 var
@@ -479,6 +482,7 @@ begin
     if IsComponentSelected('adminer')    then ITD_AddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
     if IsComponentSelected('junction')   then ITD_AddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
     if IsComponentSelected('pear')       then ITD_AddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
+    if IsComponentSelected('composer')   then ITD_AddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
@@ -679,12 +683,20 @@ begin
         UpdateTotalProgressBar();
   end;
 
-  // pear is not a zipped, its just a php phar package, so copy it to the php path
+  // pear is not a zipped, its just a php phar package, so copy it to php\pear subfolder
   if Pos('pear', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PEAR');
       CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
       FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
+        UpdateTotalProgressBar();
+  end;
+
+  // composer is not a zipped, its just a php phar package, so copy it to the php path
+  if Pos('composer', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('composer');
+      FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
         UpdateTotalProgressBar();
   end;
 
