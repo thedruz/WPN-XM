@@ -263,17 +263,13 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::enableToolsPushButtons(bool enabled)
 {
-    qDebug() << "enableToolsPushButtons started";
-
     // get all PushButtons from the Tools GroupBox of MainWindow::UI
     QList<QPushButton *> allPushButtonsButtons = ui->ToolsGroupBox->findChildren<QPushButton *>();
 
     // set all PushButtons enabled/disabled
     for(int i = 0; i < allPushButtonsButtons.size(); ++i)
     {
-        qDebug() << "enableToolsPushButtons changing " + enabled;
-
-       allPushButtonsButtons[i]->setEnabled(enabled);
+        allPushButtonsButtons[i]->setEnabled(enabled);
     }
 
     // change state of "Open Projects Folder" >> "Browser" button
@@ -558,10 +554,10 @@ void MainWindow::checkAlreadyActiveDaemons()
     // Check list of active processes for
     // apache, nginx, mysql, php-cgi, memcached
     // and report if processes are already running.
-    // we take a look for these processes to avoid collisions
+    // We take a look for these processes to avoid collisions.
 
-    // Provide messagebox with Checkboxes to select
-    // the processes to Leave Running or Shutdown.
+    // Provide a modal dialog with checkboxes for all running processes
+    // The user might then select the processes to Leave Running or Shutdown.
 
     // a) fetch processes via tasklist stdout
     QProcess process;
@@ -597,38 +593,62 @@ void MainWindow::checkAlreadyActiveDaemons()
         }
     }
 
-    qDebug() << "Processes found : " << processesFoundList;
+    qDebug() << "Already running Processes found : " << processesFoundList;
 
-    QLabel *labelA = new QLabel(tr("The following processes are already running:"));
+    // only show the "process shutdown" dialog, when there are processes to shutdown
+    if(false == processesFoundList.isEmpty())
+    {
+        QLabel *labelA = new QLabel(tr("The following processes are already running:"));
 
-    QGroupBox *groupBox = new QGroupBox(tr("Running Processes"));
+        QGroupBox *groupBox = new QGroupBox(tr("Running Processes"));
 
-    QCheckBox *checkBox1 = new QCheckBox(tr("&Checkbox 1"));
-    QCheckBox *checkBox2 = new QCheckBox(tr("C&heckbox 2"));
-    checkBox2->setChecked(true);
+        QCheckBox *checkBox1 = new QCheckBox(tr("&Checkbox 1"));
+        QCheckBox *checkBox2 = new QCheckBox(tr("C&heckbox 2"));
+        checkBox2->setChecked(true);
 
-    QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addWidget(checkBox1);
-    vbox->addWidget(checkBox2);
-    //vbox->addStretch(1);
-    groupBox->setLayout(vbox);
+        QVBoxLayout *vbox = new QVBoxLayout;
+        vbox->addWidget(checkBox1);
+        vbox->addWidget(checkBox2);
+        //vbox->addStretch(1);
+        groupBox->setLayout(vbox);
 
-    QLabel *labelB = new QLabel(tr("Please select the processes you wish to shutdown."));
+        QLabel *labelB = new QLabel(tr("Please select the processes you wish to shutdown.<br>"
+                                       "Click Yes to shut processes down and continue installation, or click No to proceed.<br>"));
 
-    //QPushButton *okButton = new QPushButton("Shutdown & Proceed");
-    //QPushButton *cancelButton = new QPushButton("Leave them & Proceed");
+        QPushButton *okShutdownButton = new QPushButton(tr("Shutdown"));
+        QPushButton *noShutdownButton = new QPushButton(tr("Continue"));
+        okShutdownButton->setDefault(true);
 
-    // e) build dialog to inform user about running processes
-    QGridLayout *grid = new QGridLayout;
-    grid->addWidget(labelA);
-    grid->addWidget(groupBox);
-    grid->addWidget(labelB);
+        QDialogButtonBox *buttonBox = new QDialogButtonBox(Qt::Horizontal);
+        buttonBox->addButton(okShutdownButton, QDialogButtonBox::ActionRole);
+        buttonBox->addButton(noShutdownButton, QDialogButtonBox::ActionRole);
 
-    QDialog dlg;
-    dlg.setWindowModality(Qt::WindowModal);
-    dlg.setLayout(grid);
-    dlg.resize(250, 100);
-    dlg.setWindowTitle(tr(APP_NAME));
-    dlg.exec();
+        // e) build dialog to inform user about running processes
+        QGridLayout *grid = new QGridLayout;
+        grid->addWidget(labelA);
+        grid->addWidget(groupBox);
+        grid->addWidget(labelB);
+        grid->addWidget(buttonBox);
+
+        // Set signal and slot for "Buttons"
+        connect(noShutdownButton, SIGNAL(clicked()), this, SLOT(noShutdownButtonClicked()));
+        connect(okShutdownButton, SIGNAL(clicked()), this, SLOT(okShutdownButtonClicked()));
+
+        QDialog dlg;
+        dlg.setWindowModality(Qt::WindowModal);
+        dlg.setLayout(grid);
+        dlg.resize(250, 100);
+        dlg.setWindowTitle(tr(APP_NAME));
+        dlg.exec();
+    }
 }
 
+void MainWindow::noShutdownButtonClicked()
+{
+
+}
+
+void MainWindow::okShutdownButtonClicked()
+{
+
+}

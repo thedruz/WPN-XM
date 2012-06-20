@@ -117,6 +117,7 @@ Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpa
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
+Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
@@ -135,7 +136,7 @@ Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\vhosts.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
-Source: ..\bin\hosts\hosts.exe;; DestDir: {app}\bin\tools\
+Source: ..\configs\config.inc.php; DestDir: {app}\www\phpmyadmin; Components: phpmyadmin
 
 [Icons]
 Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.exe
@@ -800,7 +801,6 @@ begin
 
   // PHP
   SetIniString('PHP', 'error_log',           appPath + '\logs\php_error.log',       php_ini_file );
-  SetIniString('PHP', 'doc_root',            appPath + '\www',                      php_ini_file );
   SetIniString('PHP', 'include_path',        '.;' + appPath + '\bin\php\pear',      php_ini_file );
   SetIniString('PHP', 'upload_tmp_dir',      appPath + '\temp',                     php_ini_file );
   SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file );

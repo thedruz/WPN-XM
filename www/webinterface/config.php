@@ -34,293 +34,156 @@
 
 // common WPN-XM bootstrap file with constants, etc.
 include __DIR__ . '/php/bootstrap.php';
+// additional constant, telling header.php to load jquery and plugins
+define('LOAD_JQUERY', 1);
 include WPNXM_TEMPLATE . 'header.php';
 include WPNXM_PHP_DIR . 'serverstack.php';
 ?>
-<div class="centered">
 
-        <div class="left-box">
+<script>
+function setupTreeTable() {
+  // Apply some configuration settings
+  $("table#treeTable").treeTable({
+    clickableNodeNames: true
+  });
 
-                <h2>Server Software</h2>
+  // Make visible that a row is clicked
+  $("table#treeTable tbody tr").mousedown(function () {
+    $("tr.selected").removeClass("selected"); // Deselect currently selected rows
+    $(this).addClass("selected");
+  });
 
-                <div class="cs-message">
+  // Make row selected, when span is clicked
+  $("table#treeTable tbody tr span").mousedown(function () {
+    $($(this).parents("tr")[0]).trigger("mousedown");
+  });
+}
 
-                        <table class="cs-message-content">
-                        <tr>
-                            <td class="td-with-image">
-                                Webserver
-                            </td>
-                            <td>
-                                <div class="resourceheader">
-                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/nginx.png" alt="Report Icon" />
-                                        <a href="http://nginx.org/">
-                                            <b>NGINX</b>
-                                        </a>
-                                        <span class="version"><?php echo Wpnxm_Serverstack::getNGINXVersion(); ?></span>
-                                        <br /><br />
-                                        <small>NGINX [engine x] is a high performance http and reverse proxy server, as well as a mail proxy server written by Igor Sysoev.</small>
-                                        <p>
-                                        License: <a href="http://nginx.org/LICENSE">2-clause BSD-like license</a>
-                                        </p>
-                                </div>
-                            </td>
-                        </tr>
-                        </table>
+function setupjEditable() {
+  $('.editable').editable(submitEdit, {
+         indicator : 'Saving...',
+         tooltip   : 'Click to edit...'
+     });
+  $('.edit_area').editable(submitEdit, {
+         type      : 'textarea',
+         cancel    : 'Cancel',
+         submit    : 'OK',
+         indicator : '<img src="img/ajax-spinner.gif">',
+         tooltip   : 'Click to edit..' //<img src="img/pencil.png">
+     });
+}
 
-                        <table class="cs-message-content">
-                        <tr>
-                            <td class="td-with-image">
-                                Scripting Language
-                            </td>
-                            <td>
-                                <div class="resourceheader">
-                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/php.png" alt="Report Icon" />
-                                        <a href="http://php.net/">
-                                            <b>PHP</b>
-                                        </a>
-                                        <span class="version"><?php echo Wpnxm_Serverstack::getPHPVersion(); ?></span>
-                                        <br /><br />
-                                        <small>PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML.</small>
-                                        <p>
-                                        License: <a href="http://php.net/license/index.php">PHP License</a>
-                                        </p>
-                                 </div>
-                            </td>
-                        </tr>
-                        </table>
+function submitEdit(value, settings) {
+  var edits = new Object();
+  var origvalue = this.revert;
+  var textbox = this;
+  var result = value;
 
-                        <table class="cs-message-content">
-                        <tr>
-                            <td class="td-with-image">
-                               Database
-                            </td>
-                            <td>
-                                <div class="resourceheader">
-                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/mariadb.png" alt="Report Icon" />
-                                        <a href="http://mariadb.org/">
-                                            <b>MariaDB</b>
-                                        </a>
-                                        <span class="version"><?php echo Wpnxm_Serverstack::getMariaDBVersion(); ?></span>
-                                        <br /><br />
-                                        <small>MariaDB is a fork of the world's most popular open source database MySQL by the original author. MariaDb is a binary drop-in replacement for MySQL.</small>
-                                        <p>
-                                        License: <a href="http://kb.askmonty.org/en/mariadb-license/">GNU/GPL v2</a>
-                                        </p>
-                                 </div>
-                            </td>
-                        </tr>
-                        </table>
+  // ok, we have the value, but not the "name of the directive".
+  // therefore let's fetch the html value of the first td tag from the row,
+  // which we are currently editing the value of (in the second td).
+  var directive = $('td:first', $(this).parents('tr')).html();
 
-                        <table class="cs-message-content">
-                        <tr>
-                            <td class="td-with-image">
-                               Memcached
-                            </td>
-                            <td>
-                                <div class="resourceheader">
-                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/report.png" alt="Report Icon" />
-                                        <a href="http://memcached.org/">
-                                            <b>Memcached</b>
-                                        </a>
-                                        <span class="version"><?php echo Wpnxm_Serverstack::getMemcachedVersion(); ?></span>
-                                        <br /><br />
-                                        <small>Memcached is a high-performance, distributed memory object caching system. Originally intended for speeding up applications by alleviating database load.</small>
-                                        <p>
-                                        License: <a href="https://github.com/memcached/memcached/blob/master/LICENSE/">New BSD License</a>
-                                        </p>
-                                 </div>
-                            </td>
-                        </tr>
-                        </table>
+  //console.log(edits);
+  //alert("You changed the setting "+ directive +" to the value "+ value +".");
 
-                         <table class="cs-message-content">
-                        <tr>
-                            <td class="td-with-image">
-                               Xdebug
-                            </td>
-                            <td>
-                                <div class="resourceheader">
-                                    <img class="res-header-icon" src="<?php WPNXM_WEBINTERFACE_ROOT ?>img/xdebug.png" alt="Report Icon" />
-                                        <a href="http://xdebug.org/">
-                                            <b>Xdebug</b>
-                                        </a>
-                                        <span class="version"><?php echo Wpnxm_Serverstack::getXdebugVersion(); ?></span>
-                                        <br /><br />
-                                        <small>The Xdebug extension for PHP helps you debugging your scripts by providing a lot of valuable debug information.</small>
-                                        <p>
-                                        License: <a href="http://xdebug.org/license.php">Xdebug License</a>
-                                        </p>
-                                 </div>
-                            </td>
-                        </tr>
-                        </table>
+  // build array for sending data as json
+  edits['directive'] = directive;
+  edits['value'] = value;
 
-                 </div>
+  var returned = $.ajax({
+      //url: 'configtabs.php?tab=php', // @todo set tab dynamically. the content posted is from the "current active tab"
+      url: 'configtabs.php?action=save-phpini-setting',
+      type: "POST",
+      data : edits,
+      dataType : "json",
+      complete: function(xhr, textStatus) {
+          var response = xhr.responseText;
+      }
+  });
+  return(result);
+};
+
+function loadTab(tabObj) {
+
+  if (!tabObj || !tabObj.length) {
+    return;
+  }
+
+  // get the page from the href
+  var href = tabObj.attr('href');   // href="configtabs.php?tab=home"
+  var page = href.split('=')[1].toLowerCase(); // [configtabs.php?tab=, home], return 1st element from array
+
+  // target content for the incoming content
+  var containerId = 'div#tab-content';  // selector for the target container
+
+  // load content via ajax, load additional js for certain pages and "activate" it
+  $(containerId).load(href, function () {
+    if (page === 'php') {
+      setupTreeTable();
+      setupjEditable();
+    }
+    $(containerId).fadeIn('fast');
+  });
+}
+
+function setupTabs() {
+  // define selectors
+  var tabsNavigation = 'div#organic-tabs > ul.nav';
+  var activeTab = tabsNavigation + ' li a.current';
+
+  // load the first tab on page load (current active tab)
+  if ($(activeTab).length > 0) {
+    loadTab($(activeTab));
+  }
+
+  // intercept clicks on the tab items
+  $(tabsNavigation + ' li a').click(function () {
+
+      // do not reload content of current tab
+      if ($(this).hasClass('current')) {
+        return false;
+      }
+      // switch current to the new tab
+      $(tabsNavigation + ' li a.current').removeClass('current');
+      $(this).addClass('current');
+
+      // show ajax loading indicator
+      $('div#tab-content').html('<p style="text-align: center;"><img src="img/ajax-spinner.gif" width="64" height="64" /></p>');
+
+      // load content
+      loadTab($(this));
+
+      return false;
+  });
+}
+
+$(function () {
+  setupTabs();
+});
+</script>
+
+<h2 class="heading">Configuration</h2>
+
+<div class="left-box">
+    <div class="cs-message">
+        <div class="cs-message-content" style="width: auto; height: auto; padding-top: 40px;">
+
+            <div id="organic-tabs">
+
+                <ul class="nav headings-level-1">
+                  <li><a href="configtabs.php?tab=help" class="current">Help</a></li>
+                  <li><a href="configtabs.php?tab=php">PHP</a></li>
+                  <li><a href="configtabs.php?tab=nginx">Nginx</a></li>
+                </ul>
+
+                <div id="tab-content"></div>
+
             </div>
 
-            <div class="right-box">
-
-                <h2>Configuration</h2>
-
-                <div class="cs-message">
-
-                   <table class="cs-message-content">
-                   <tr>
-                        <td colspan="2">
-                            <div class="resourceheader2 bold">
-                                Nginx
-                            </div>
-                        </td>
-                   </tr>
-                   <tr>
-                     <td class="width-25">Host : Port</td>
-                     <td class="right"><?php echo $_SERVER['SERVER_NAME'] ?>:<?php echo $_SERVER['SERVER_PORT'] ?> </td>
-                   </tr>
-                   <tr>
-                     <td>Directory</td>
-                     <td class="right"><?php echo WPNXM_WWW_DIR . 'bin\nginx'; ?></td>
-                   </tr>
-                   <tr>
-                     <td>Config</td>
-                     <td class="right"><?php echo WPNXM_WWW_DIR . 'bin\nginx\conf\nginx.conf'; ?></td>
-                   </tr>
-                   <tr>
-                     <td colspan="2" class="right">
-                        <span class="aButton">Configure</span>
-                        <a class="aButton"
-                           <?php if(!is_file(WPNXM_DIR . 'logs\access.log'))
-                                 { echo "onclick=\"alert('Nginx Access Log not available. File not found.'); return false;\""; } ?>
-                           href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-access-log'; ?>">Access Log</a>
-                        <a class="aButton"
-                           <?php if(!is_file(WPNXM_DIR . 'logs\error.log'))
-                                 { echo "onclick=\"alert('Nginx Error Log not available. File not found.'); return false;\""; } ?>
-                           href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=nginx-error-log'; ?>">Error Log</a>
-                     </td>
-                   </tr>
-                   </table>
-
-                   <table class="cs-message-content">
-                   <tr>
-                        <td colspan="2">
-                            <div class="resourceheader2 bold">
-                                PHP
-                            </div>
-                        </td>
-                   </tr>
-                   <tr>
-                     <td class="width-42 left">Host : Port</td>
-                     <td class="right"><?php echo $_SERVER['SERVER_NAME'] ?>:<?php echo $_SERVER['SERVER_PORT'] ?></td>
-                   </tr>
-                   <tr>
-                     <td>Directory</td>
-                     <td class="right"><?php echo WPNXM_WWW_DIR . 'bin\php'; ?></td>
-                   </tr>
-                   <tr>
-                     <td>Config</td>
-                     <td class="right"><?php echo get_cfg_var('cfg_file_path'); ?></td>
-                   </tr>
-                   <tr>
-                     <td colspan="2" class="right">
-                        <span class="aButton">Configure</span>
-                        <a class="aButton"
-                           <?php if(!is_file(WPNXM_DIR . 'logs\php_error.log'))
-                                 { echo "onclick=\"alert('PHP Error Log not available. File not found.'); return false;\""; } ?>
-                           href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=php-error-log'; ?>">Show Log</a>
-                        <a class="aButton" href="phpinfo.php">Show phpinfo()</a>
-                     </td>
-                   </tr>
-                   </table>
-
-                   <table class="cs-message-content">
-                   <tr>
-                        <td colspan="2">
-                            <div class="resourceheader2 bold">
-                                MariaDB
-                            </div>
-                        </td>
-                   </tr>
-                   <tr>
-                     <td class="width-42 left">Host : Port</td>
-                     <td class="right">localhost:3306</td>
-                   </tr>
-                   <tr>
-                     <td>Username | Password</td>
-                     <td class="right"><span class="red">root</span> | <span class="red">toop</span></td>
-                   </tr>
-                   <tr>
-                     <td>Directory</td>
-                     <td class="right"><?php echo WPNXM_WWW_DIR . 'bin\mariadb';?></td>
-                   </tr>
-                   <tr>
-                     <td>Config</td>
-                     <td class="right"><?php echo WPNXM_WWW_DIR . 'mariadb\my.ini';?></td>
-                   </tr>
-                   <tr>
-                     <td colspan="2" class="right">
-                        <span class="aButton">Configure</span>
-                        <a class="aButton"
-                           <?php if(!is_file(WPNXM_DIR . 'logs\mariadb_error.log'))
-                                 { echo "onclick=\"alert('MariaDB Error Log not available. File not found.'); return false;\""; } ?>
-                           href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=mariadb-error-log'; ?>">Show Log</a>
-                        <span class="aButton">Reset Password</span>
-                     </td>
-                   </tr>
-                   </table>
-
-                   <table class="cs-message-content">
-                   <tr>
-                        <td colspan="2">
-                            <div class="resourceheader2 bold">
-                                Memcached
-                            </div>
-                        </td>
-                   </tr>
-                   <tr>
-                     <td class="width-42 left">Host : Port</td>
-                     <td class="right">localhost:11211</td>
-                   </tr>
-                   <tr>
-                     <td>PHP Extension</td>
-                     <td class="right"><?php echo Wpnxm_Serverstack::assertExtensionInstalled('memcached');?></td>
-                   </tr>
-                   <tr>
-                     <td colspan="2" class="right">
-                         <span class="aButton">Configure</span>
-                         <span class="aButton">Switch on/off</span>
-                     </td>
-                   </tr>
-                   </table>
-
-                   <table class="cs-message-content">
-                   <tr>
-                        <td colspan="2">
-                            <div class="resourceheader2 bold">
-                                Xdebug
-                            </div>
-                        </td>
-                   </tr>
-                   <tr>
-                     <td class="width-42 left">Host : Port</td>
-                     <td class="right">localhost:9000</td>
-                   </tr>
-                   <tr>
-                     <td>Installed & Configured</td>
-                     <td class="right"><?php echo Wpnxm_Serverstack::assertExtensionInstalled('xdebug');?></td>
-                   </tr>
-                   <tr>
-                     <td>Extension Type</td>
-                     <td class="right"><?php echo Wpnxm_Serverstack::getXdebugExtensionType();?></td>
-                   </tr>
-                   <tr>
-                     <td colspan="2" class="right">
-                         <span class="aButton">Configure</span>
-                         <span class="aButton">Switch on/off</span>
-                     </td>
-                   </tr>
-                   </table>
-
-                </div>
-           </div>
+          </div>
+    </div>
+</div>
 
 </div>
 

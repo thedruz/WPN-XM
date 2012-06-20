@@ -10,23 +10,28 @@
  * ----------------------------------------------------------------------------
  */
 
-if(!extension_loaded('curl'))
-{
-    exit('Enable PHP extension cURL.');
-}
+set_time_limit(120);
 
 require_once __DIR__ . '/php/goutte.phar';
 
 use Goutte\Client;
 
+// load software components registry
+require_once __DIR__ . 'wpnxm-software-registry.php';
+
+// ensure registry array is available
+if(!is_array($registry))
+{
+    header("HTTP/1.0 404 Not Found");
+}
 $version = array();
-$version['nginx']['current']       = '1.2.1';
-$version['php']['current']         = '5.4.3';
-$version['mariadb']['current']     = '5.5.24';
-$version['xdebug']['current']      = '2.2.0';
-$version['apc']['current']         = '3.1.10';
-$version['phpmyadmin']['current']  = '3.4.9';
-$version['adminer']['current']     = '3.3.4';
+$version['nginx']['current']       = '1.2.1';   # $registry['nginx']['current']['version'];
+$version['php']['current']         = '5.4.3';   # $registry['php']['current']['version'];
+$version['mariadb']['current']     = '5.5.24';  # $registry['mariadb']['current']['version'];
+$version['xdebug']['current']      = '2.2.0';   # $registry['nginx']['current']['version'];
+$version['apc']['current']         = '3.1.10';  # $registry['nginx']['current']['version'];
+$version['phpmyadmin']['current']  = '3.4.9';   # $registry['nginx']['current']['version'];
+$version['adminer']['current']     = '3.3.4';   # $registry['nginx']['current']['version'];
 
 $client = new Client();
 
@@ -139,6 +144,12 @@ $crawler = $client->request('GET', 'http://www.adminer.org/#download');
 
 add('adminer', $adminer_latest);
 
+/**
+ * Removes all keys with value "null" from the array and returns the array.
+ *
+ * @param $array Array
+ * @return $array
+ */
 function array_unset_null_values(array $array)
 {
     foreach ($array as $key => $value) {
@@ -149,10 +160,17 @@ function array_unset_null_values(array $array)
     return $array;
 }
 
+/**
+ * Adds array data to the main software component array.
+ *
+ * @param $name Name of Software Component
+ * @param $array Subarray of a software component, which should be added to the main array.
+ */
 function add($name, array $array)
 {
     global $version;
 
+    // remove all null values
     $array = array_unset_null_values($array);
 
     $version[$name]['latest'] = array_pop($array);

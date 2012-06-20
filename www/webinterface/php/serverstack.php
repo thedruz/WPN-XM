@@ -434,7 +434,7 @@ class Wpnxm_Serverstack
      * @param string  $protocol Protocol (Is either tcp or udp. Default is tcp.)
      * @return string  Name of the Internet service associated with $service
      */
-     public static function getServiceNameByPort($port, $protocol = "tcp")
+    public static function getServiceNameByPort($port, $protocol = "tcp")
     {
         return @getservbyport($port, $protocol);
     }
@@ -446,9 +446,23 @@ class Wpnxm_Serverstack
      * @param string $protocol Protocol (Is either tcp or udp. Default is tcp.)
      * @return integer Internet port which corresponds to $service
      */
-     public static function getPortByServiceName($service, $protocol = "tcp")
+    public static function getPortByServiceName($service, $protocol = "tcp")
     {
         return @getservbyname($service, $protocol);
+    }
+
+    /**
+     * Returns the current IP of the user by asking the WPN-XM webserver.
+     */
+    public static function getMyIP()
+    {
+        $ip = @file_get_contents('http://wpn-xm.org/myip.php');
+        if (preg_match('/^\d+\.\d+\.\d+\.\d+$/', $ip) === 1) {
+            return $ip;
+        }
+        else {
+            return '0.0.0.0';
+        }
     }
 
 }

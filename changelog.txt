@@ -29,9 +29,16 @@ Version 0.4 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[26.06.2012]  FIX    PHPMYADMIN default config added
+[25.06.2012]  ADD    Website - added screenshot carousel for feature screens
+[24.06.2012]  ADD    added HOSTS tool and nginx vhost creation script
+                     https://github.com/jakoch/WPN-XM/pull/31
 [20.06.2012]  NEW    added COMPOSER 1.0 - http://getcomposer.org/
 [19.06.2012]  UPD    PHPMYADMIN 3.5.1
-[18.06.2012]  NEW    added icons tp config page (php, nginx, mariadb, xdebug)
+[18.06.2012]  CHG    removed hardcoded URLs from Innosetup Scripts
+                     download URLs point to a header redirection script
+                     https://github.com/jakoch/WPN-XM/pull/30
+[18.06.2012]  NEW    added icons to config page (php, nginx, mariadb, xdebug)
 [18.06.2012]  FIX    getMariaDBVersion() and switched to mysqli methods
 [16.06.2012]  UPD    PHP 5.4.4
 [15.06.2012]  FIX    build.xml bootstrap.php encoding (read/write token nant)

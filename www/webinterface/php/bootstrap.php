@@ -37,6 +37,8 @@
  */
 error_reporting(E_ALL);
 
+ini_set('memory_limit', -1);
+
 /**
  * Definition of Constants
  *
@@ -67,6 +69,10 @@ if(!defined('WPNXM_DIR'))
     define('WPNXM_ROOT', SERVER_URL . ltrim(dirname(dirname(dirname($_SERVER['PHP_SELF']))), '\\') . '/', false);
     define('WPNXM_WWW_ROOT', WPNXM_ROOT . 'www/', false);
     define('WPNXM_WEBINTERFACE_ROOT', WPNXM_ROOT . 'webinterface/', false);
+
+    // NGINX Configuration and vhosts
+    define('NGINX_CONF_DIR',   WPNXM_DIR . '/bin/nginx/conf/');
+    define('NGINX_VHOSTS_DIR', WPNXM_DIR . '/bin/nginx/conf/vhosts/');
 }
 
 if(!function_exists('debug'))

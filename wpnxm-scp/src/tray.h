@@ -62,6 +62,7 @@ public slots:
         void restartAll();
         void goToWebsiteHelp();
         void goToReportIssue();
+        void goToWebinterface();
 
         // Nginx Action Slots
         void startNginx();

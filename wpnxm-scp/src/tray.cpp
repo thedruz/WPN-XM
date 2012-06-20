@@ -163,7 +163,7 @@ void Tray::createTrayMenu()
     phpStatusSubmenu->addAction(QIcon(":/action_run"), tr("Start"), this, SLOT(startPhp()), QKeySequence());
     phpStatusSubmenu->addAction(QIcon(":/action_stop"), tr("Stop"), this, SLOT(stopPhp()), QKeySequence());
 
-    // MariaDB / MySQL
+    // MariaDB
     mariaDBStatusSubmenu = new QMenu("MariaDB", trayMenu);
     mariaDBStatusSubmenu->setIcon(QIcon(":/status_stop"));
     mariaDBStatusSubmenu->addAction(QIcon(":/action_restart"), tr("Restart"), this, SLOT(restartMariaDB()), QKeySequence());
@@ -183,20 +183,26 @@ void Tray::createTrayMenu()
     trayMenu->addMenu(mariaDBStatusSubmenu);
     trayMenu->addSeparator();
     trayMenu->addAction(QIcon(":/gear"), tr("Manage Hosts"), this, SLOT(openHostManagerDialog()), QKeySequence());
+    trayMenu->addAction(QIcon(":/gear"), tr("Webinterface"), this, SLOT(goToWebinterface()), QKeySequence());
     trayMenu->addSeparator();
     trayMenu->addAction(QIcon(":/report_bug"), tr("&Report Bug"), this, SLOT(goToReportIssue()), QKeySequence());
     trayMenu->addAction(QIcon(":/question"),tr("&Help"), this, SLOT(goToWebsiteHelp()), QKeySequence());
     trayMenu->addAction(QIcon(":/quit"),tr("&Quit"), parent(), SLOT(quit()), QKeySequence());
 }
 
-void Tray::goToWebsiteHelp()
+void Tray::goToWebinterface()
 {
-    QDesktopServices::openUrl(QUrl("http://wpn-xm.org/"));
+    QDesktopServices::openUrl(QUrl("http://localhost/webinterface/"));
 }
 
 void Tray::goToReportIssue()
 {
     QDesktopServices::openUrl(QUrl("https://github.com/jakoch/WPN-XM/issues/"));
+}
+
+void Tray::goToWebsiteHelp()
+{
+    QDesktopServices::openUrl(QUrl("http://wpn-xm.org/"));
 }
 
 //*
@@ -298,13 +304,13 @@ void Tray::restartPhp()
 }
 
 /*
- * MariaDB / MySql Actions - run, stop, restart
+ * MariaDB Actions - run, stop, restart
  */
 void Tray::startMariaDB()
 {
     // already running
     if(processMariaDB->state() != QProcess::NotRunning){
-        QMessageBox::warning(0, tr("MariaDB / MySQL"), tr("MariaDB / MySQL already running."));
+        QMessageBox::warning(0, tr("MariaDB"), tr("MariaDB already running."));
         return;
     }
 
@@ -501,7 +507,7 @@ void Tray::phpProcessError(QProcess::ProcessError error)
 
 void Tray::mariaDBProcessError(QProcess::ProcessError error)
 {
-    QMessageBox::warning(0, APP_NAME " - Error", "MariaDB / MySQL Error. "+getProcessErrorMessage(error));
+    QMessageBox::warning(0, APP_NAME " - Error", "MariaDB Error. "+getProcessErrorMessage(error));
 }
 
 QString Tray::getProcessErrorMessage(QProcess::ProcessError error){

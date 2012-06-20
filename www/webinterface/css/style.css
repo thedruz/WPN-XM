@@ -86,10 +86,11 @@ img
     padding: 10px;
     margin-top: 3px;
     margin-bottom: 2px;
-    width: 370px;
+    width: 380px;
     height: 100px;
     text-align: left;
     min-height: 152px;
+    box-shadow: 1px 1px 0 #777777;
 }
 
 .cs-message h3
@@ -101,6 +102,23 @@ img
 .res-header-icon
 {
     vertical-align: text-top;
+}
+
+h1#logo {
+    background: url("../images/wpnxm-logo.png") no-repeat scroll 0 0 transparent;
+    height: 88px;
+    margin: 31px auto 18px;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -9999px;
+    width: 423px;
+}
+h1 strong, h2 strong, h3 strong, h4 strong, h5 strong, h6 strong {
+    color: #D40408;
+}
+
+h1#logo {
+    background-position: center bottom;
 }
 
 h1, h2 {
@@ -124,6 +142,8 @@ h1, h2 {
     margin-left: 3px;
     margin-top: 3px;
     cursor: pointer;
+    text-shadow: 0 1px 0 #FFFFFF;
+    white-space: nowrap;
 }
 .aButton:active {
     position:relative;
@@ -177,6 +197,7 @@ box-shadow: 0 1px 0 white;
 div.right-box {float:left; margin-left: 2em;}
 td.width-42 {width:42%;}
 td.width-25 {width:25%;}
+td.width-20 {width:20%;}
 .left { text-align: left; }
 .right { text-align: right; }
 .center { text-align: center; }
@@ -231,6 +252,8 @@ li {
     text-align: center;
     min-width: 130px;
     font-weight: bold;
+    border-left: 1px solid white;
+    border-right: 1px solid #888888;
 }
 .main_menu li a, .main_menu li a:hover {
     color: #333333;
@@ -238,6 +261,7 @@ li {
     line-height: 16px;
     padding: 10px;
     text-shadow: 0 1px #FFFFFF;
+
 }
 .main_menu li a:hover, .main_menu li.selected {
     background: #FFFFFF;
@@ -245,10 +269,11 @@ li {
 }
 .main_menu li.first, .main_menu li.first a:hover {
     border-radius: 8px 0 0 8px;
-    border-left: 0 none;
+
 }
 .main_menu li.last, .main_menu li.last a:hover {
     border-radius: 0 8px 8px 0;
+    border-right: 0 none;
 }
 .clear_fix {
     display: block;
@@ -259,7 +284,7 @@ img
     border: 0px;
 }
 
-.inset-panel, #phpinfo table {
+.inset-panel, #phpinfo table, #organic-tabs {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.04);
     box-shadow: 0 1px 1px white, 0 0 1px 0 rgba(0, 0, 0, 0.5) inset;
     padding: 10px;
@@ -298,3 +323,56 @@ img
 #phpinfo .vr { background-color: #cccccc; text-align: right; color: #000000; }
 #phpinfo img { border: 0 none; float: right; }
 #phpinfo hr { background-color: #CCCCCC; border: 0 none; color: #000000; height: 1px; width: 600px; }
+
+/* Organic Tabs */
+
+/* Generic Utility */
+.hide { display: none; }
+.clear { clear: both; }
+
+/* Tab Style*/
+#organic-tabs { background: #eee; padding: 10px; margin: 0 0 20px 0; -moz-box-shadow: 0 0 5px #666; -webkit-box-shadow: 0 0 5px #666; width: 700px; }
+
+#organic-tabs .nav { overflow: hidden; margin: -33px 0 10px 0; border-bottom: 1px solid #ddd;}
+#organic-tabs .nav li { width: 85px; float: left; margin: 0 5px 0 0; }
+#organic-tabs .nav li.last { margin-right: 0; }
+#organic-tabs .nav li a { display: block; padding: 5px; background: #959290; color: white; font-size: 10px; text-align: center; border: 1px solid #666;
+                          border-radius: 4px 4px 0 0; border-bottom: 0px;}
+#organic-tabs .nav li a:hover { background-color: #EEE; color: #666;}
+
+#organic-tabs ul { list-style: none; padding: 0;}
+#organic-tabs ul li a { display: block; border-bottom: 1px solid #666; padding: 4px; color: #666; }
+#organic-tabs ul li a:hover { background: #fe4902; color: white; border-bottom: 0px; }
+/* #organic-tabs ul li:last-child a { border: none; } */
+
+#organic-tabs ul li.nav-one a.current, #organic-tabs ul.featured li a:hover { background-color: #0575f4; color: white;}
+#organic-tabs ul li.nav-two a.current, #organic-tabs ul.core li a:hover { background-color: #d30000; color: white; }
+#organic-tabs ul li.nav-three a.current, #organic-tabs ul.jquerytuts li a:hover { background-color: #8d01b0; color: white; }
+#organic-tabs ul li.nav-four a.current, #organic-tabs ul.classics li a:hover { background-color: #FE4902; color: white; }
+
+.floatleft {
+    float: left;
+}
+
+.floatright {
+    float: right;
+}
+
+.new-project-btn-position {
+    position: relative;
+    right: 6px;
+    top: 6px;
+}
+.new-project-btn-position:active {
+    position: relative;
+    top: 7px;
+}
+
+/* jEditable */
+.editable {
+    font-weight: bold;
+}
+.editable-hover {
+    background-image:  url("img/pencil.png");
+    background-repeat: no-repeat;
+}

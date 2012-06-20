@@ -46,7 +46,16 @@ include dirname(__DIR__) . '/php/bootstrap.php';
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="WPИ-XM Serverstack for Windows - Webinterface.">
     <link rel="shortcut icon" href="http://wpn-xm.org/favicon.ico" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="css/style.css"  media="screen, projection" />
+    <?php if(defined('LOAD_JQUERY')) { ?>
+    <!-- jQuery & jQuery UI -->
+    <script type="text/javascript" src='js/jquery-1.7.2.min.js'></script>
+    <!-- jQuery Plugins -->
+    <script type="text/javascript" src="js/jquery.organicTabs.js"></script>
+    <script type="text/javascript" src="js/jquery.treeTable.js"></script>
+    <script type="text/javascript" src="js/jquery.jeditable.js"></script>
+    <link type="text/css" href="css/jquery.treeTable.css" rel="stylesheet" />
+    <?php } ?>
 </head>
 <body>
 

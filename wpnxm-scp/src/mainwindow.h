@@ -48,6 +48,12 @@ private slots:
      // when tray icon is activated
      void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
+     // when clicked 'No' in the stop processes dialog at startup
+     void noShutdownButtonClicked();
+
+     // when clicked 'Yes' in the stop processes dialog at startup
+     void okShutdownButtonClicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -56,6 +62,7 @@ private:
     QAction *quitAction;
 
     void checkAlreadyActiveDaemons();
+
     void createActions();
     void createTrayIcon();
     void startMonitoringDaemonProcesses();

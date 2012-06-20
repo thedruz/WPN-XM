@@ -37,10 +37,22 @@
 
         <div id="footer">
             <hr class="footer-line"/>
-            WPN-XM uses <a href="https://github.com/yusukekamiyamane/fugue-icons/">Fugue Icons</a> by <a href="http://p.yusukekamiyamane.com/">Yusuke Kamiyamane</a>.
-            <p>&copy; 2010-<?php echo date("Y"); ?> by Jens-Andr&#x00E9; Koch Softwaresystemtechnik.
-                <br />
-            </p>
+            <div style="margin: auto; width: 780px;">
+                <p style="float:left">
+                    <a target="_blank" href="http://wpn-xm.org/">Home</a> |
+                    <a target="_blank" href="https://github.com/jakoch/WPN-XM/">Github</a> |
+                    <a target="_blank" href="https://github.com/jakoch/WPN-XM/issues">Issues</a> |
+                    <a target="_blank" href="http://wpn-xm.org/#donate">Donate</a>
+                </p>
+                <p style="float:right"><a href="#">Back to top</a></p>
+            </div>
+
+            <div style="clear:both">
+                WPN-XM uses <a href="https://github.com/yusukekamiyamane/fugue-icons/">Fugue Icons</a> by <a href="http://p.yusukekamiyamane.com/">Yusuke Kamiyamane</a>.
+                <p>&copy; 2010-<?php echo date("Y"); ?> by Jens-Andr&#x00E9; Koch Softwaresystemtechnik.
+                    <br />
+                </p>
+            </div>
         </div>
     </div>
 </div>

@@ -38,10 +38,12 @@ class HtmlElements
     {
         $menu = '<div class="main_menu">
                  <ul>
-                    <li class="first 1"><a href="config.php">Configuration</a></li>
-                    <li class="2"><a href="index.php">Projects & Tools</a></li>';
+                    <li class="first 1"><a href="overview.php">Overview</a></li>
+                    <li class="2"><a href="config.php">Configuration</a></li>
+                    <li class="3"><a href="index.php">Projects & Tools</a></li>';
 
-                $item_number = 2;
+                // enter the number from the class attribute above
+                $item_number = 3;
 
                 // is phpmyadmin installed?
                 if(is_dir(WPNXM_WWW_DIR.'phpmyadmin') === true)
