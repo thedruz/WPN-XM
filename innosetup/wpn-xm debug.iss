@@ -135,6 +135,7 @@ Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\vhosts.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
+Source: ..\bin\hosts\hosts.exe;; DestDir: {app}\bin\tools\
 
 [Icons]
 Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.exe
