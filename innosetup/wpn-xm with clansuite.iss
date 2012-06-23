@@ -188,6 +188,7 @@ en.RemoveApp=Uninstall WPN-XM Server Stack
 
 [Dirs]
 Name: {app}\www
+Name: {app}\bin\nginx\conf\vhosts
 
 [Code]
 // Constants and global variables
