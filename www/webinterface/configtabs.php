@@ -63,6 +63,7 @@ function showPage_PHPConfiguration()
     //print_r($ini['ini_array']);
 
     echo 'You are editing '. $ini['ini_file'];
+    echo '<br>You are only able to modify existing values.'
 
     $index = 0;
     $node_name = '';
