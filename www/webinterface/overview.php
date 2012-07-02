@@ -34,9 +34,11 @@
 
 // common WPN-XM bootstrap file with constants, etc.
 include __DIR__ . '/php/bootstrap.php';
+define('LOAD_JQUERY', true);
 include WPNXM_TEMPLATE . 'header.php';
 include WPNXM_PHP_DIR . 'serverstack.php';
 ?>
+
 <div class="centered">
 
         <div class="left-box">
@@ -266,7 +268,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                            <?php if(!is_file(WPNXM_DIR . 'logs\mariadb_error.log'))
                                  { echo "onclick=\"alert('MariaDB Error Log not available. File not found.'); return false;\""; } ?>
                            href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'openfile.php?file=mariadb-error-log'; ?>">Show Log</a>
-                        <a class="aButton" target="_blank" onclick='window.open("<?php echo WPNXM_WEBINTERFACE_ROOT; ?>reset_db_pw.php", "Zweitfenster", "innerWidth=500,innerHeight=400,scrollbars=no");'>Reset Password</a>
+                        <a class="aButton" href="reset_db_pw.php?action=show" rel="modal:open">Reset Password</a>                       
                      </td>
                    </tr>
                    </table>

@@ -54,6 +54,7 @@ include dirname(__DIR__) . '/php/bootstrap.php';
     <script type="text/javascript" src="js/jquery.organicTabs.js"></script>
     <script type="text/javascript" src="js/jquery.treeTable.js"></script>
     <script type="text/javascript" src="js/jquery.jeditable.js"></script>
+    <script type="text/javascript" src="js/jquery.modal.js"></script>
     <link type="text/css" href="css/jquery.treeTable.css" rel="stylesheet" />
     <?php } ?>
 </head>
@@ -70,11 +71,9 @@ include dirname(__DIR__) . '/php/bootstrap.php';
         </h1>
 
         <?php
-        	if(!defined('WPNXM_NON_MENUE_HEADER')){
-	            include WPNXM_TEMPLATE . 'htmlelements.php';
-	            HtmlElements::renderMenu();
-            	HtmlElements::renderWelcome();
-        	}
+            include WPNXM_TEMPLATE . 'htmlelements.php';
+            HtmlElements::renderMenu();
+        	HtmlElements::renderWelcome();
         ?>
 
         <div class="content-centered">

@@ -69,13 +69,13 @@ class Wpnxm_Serverstack
             return self::printExclamationMark('Enable mysqli extension in php.ini.');
         }
 
-        $connection = mysqli_connect('localhost', 'root');
+        $connection = @mysqli_connect('localhost', 'root');
 
         if(false === $connection)
         {
            # Daemon running? Login credentials correct?
            #echo ('MySQLi Connection error' . mysqli_connect_errno());
-           return self::printExclamationMark('MySQL Connection not possible. Access denied.');
+           return self::printExclamationMark('MySQL Connection not possible. Access denied. Check credentials.');
         }
         else
         {
