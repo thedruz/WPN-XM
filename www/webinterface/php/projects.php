@@ -128,7 +128,7 @@ class Projects
     /**
      * check if a seperate vhost is added in \bin\nginx\conf\vhosts\
      */
-    public function vhost_exists($dir) {
+    public function isVhost($dir) {
         return is_file( WPNXM_DIR . '/bin/nginx/conf/vhosts/' . $dir . '.conf' );
     }
 
