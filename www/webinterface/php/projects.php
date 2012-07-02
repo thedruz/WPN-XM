@@ -96,17 +96,15 @@ class Projects
         {
             foreach($this->dirs as $dir)
             {
-                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a></li>';
-            }
-
-            if(false === $this->isVhost($dir))
-            {
-                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
-                echo '<a class="btn-new-vhost floatright" href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">New vhost</a></li>';
-            }
-            else
-            {
-                echo '<li><a class="folder" href="http://' . $dir . '/">' . $dir . '</a></li>';
+                if(false === $this->isVhost($dir))
+                {
+                    echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
+                    echo '<a class="btn-new-vhost floatright" href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">New vhost</a></li>';
+                }
+                else
+                {
+                    echo '<li><a class="folder" href="http://' . $dir . '/">' . $dir . '</a></li>';
+                }
             }
         }
     }
