@@ -101,7 +101,8 @@ class Projects
 
             if(false === $this->isVhost($dir))
             {
-                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a> <a href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">Add VHost</a></li>';
+                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
+                echo '<a class="btn-new-vhost floatright" href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">New vhost</a></li>';
             }
             else
             {
