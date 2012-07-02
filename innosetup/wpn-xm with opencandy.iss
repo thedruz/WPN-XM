@@ -13,11 +13,13 @@
 // |                                                                      |
 // |  The stack contains several additional tools you might install:      |
 // |                                                                      |
-// |   - Server Control Panel for controlling server daemons,             |
-// |   - WPN-XM Webinterface for administration of the stack,             |
+// |   - WPN-XM Server Control Panel and WPN-XM Webinterface              |
+// |     for controlling server daemons and administration of the stack,  |
 // |   - Xdebug, Xhprof, webgrind for php debugging purposes,             |
-// |   - phpMyAdmin for MySQL database administration,                    |
+// |   - phpMyAdmin and Adminer for MySQL database administration,        |
 // |   - memcached and APC for caching purposes,                          |
+// |   - ZeroMQ for socket magic,                                         |
+// |   - PEAR and Composer for PHP package management,                    |
 // |   - junctions for creating symlinks.                                 |
 // |                                                                      |
 // |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
