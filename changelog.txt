@@ -29,6 +29,11 @@ Version 0.4 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[02.07.2012]  UPD    UPD ADMINER 3.4.0
+              FIX    CSS, font-sizes, shadows
+              UPD    innosetup wizard image
+              ADD    Webinterface > Configuration > Tab (PHP)
+                     AJAX PHP.INI Editor
 [26.06.2012]  FIX    PHPMYADMIN default config added
 [25.06.2012]  ADD    Website - added screenshot carousel for feature screens
 [24.06.2012]  ADD    added HOSTS tool and nginx vhost creation script

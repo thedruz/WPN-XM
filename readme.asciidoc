@@ -48,7 +48,7 @@ https://github.com/jakoch/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 | xhProf     |       | Apache License v2 | © 2010 - 2012 Facebook. | http://pecl.php.net/package/xhprof/ +  https://github.com/facebook/xhprof/
 | Webgrind   | 1.0   | New BSD License   | © 2010 J. Nygård, J. Oettinger.   | https://github.com/jokkedk/webgrind/
 | phpMyAdmin | 3.5.1 | GNU GPL v2        | © 2003 - 2012 phpMyAdmin DevTeam. | http://phpmyadmin.net/
-| Adminer    | 3.3.4 | Apache License v2 GNU GPL v2  | © 2003 - 2012 Jakub Vrána. | http://adminer.org/
+| Adminer    | 3.4.0 | Apache License v2 GNU GPL v2  | © 2003 - 2012 Jakub Vrána. | http://adminer.org/
 | Memcached  | 1.4.5 |                   |       |
 | Junctions  |       | Sysinternals Software License | © 2010 Mark Russinovich | http://technet.microsoft.com/de-de/sysinternals/bb896768.aspx
 | PEAR       |       |                   |                                   |
