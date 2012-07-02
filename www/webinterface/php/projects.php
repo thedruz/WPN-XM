@@ -96,14 +96,17 @@ class Projects
         {
             foreach($this->dirs as $dir)
             {
+                // always display the folder
+                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
+
                 if(false === $this->isVhost($dir))
                 {
-                    echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
                     echo '<a class="btn-new-vhost floatright" href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">New vhost</a></li>';
                 }
                 else
                 {
-                    echo '<li><a class="folder" href="http://' . $dir . '/">' . $dir . '</a></li>';
+                    // if there is a vhost config file, display a link to the vhost, too
+                    echo '<a class="floatright" href="http://' . $dir . '/">' . $dir . '</a></li>';
                 }
             }
         }
