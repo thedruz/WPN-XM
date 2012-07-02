@@ -98,6 +98,15 @@ class Projects
             {
                 echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a></li>';
             }
+
+            if(false === $this->isVhost($dir))
+            {
+                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a> <a href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">Add VHost</a></li>';
+            }
+            else
+            {
+                echo '<li><a class="folder" href="http://' . $dir . '/">' . $dir . '</a></li>';
+            }
         }
     }
 
@@ -114,6 +123,13 @@ class Projects
                 echo '<li><a class="folder" href="' . WPNXM_ROOT . $href . '">' . $dir . '</a></li>';
             }
         }
+    }
+
+    /**
+     * check if a seperate vhost is added in \bin\nginx\conf\vhosts\
+     */
+    public function vhost_exists($dir) {
+        return is_file( WPNXM_DIR . '/bin/nginx/conf/vhosts/' . $dir . '.conf' );
     }
 
     /**
