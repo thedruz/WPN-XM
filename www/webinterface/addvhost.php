@@ -56,19 +56,21 @@ server {
         # example: # server_name www.[domain].com [domain].com;
         server_name  %%vhost%%;
 
+        # the document root of this vhost
+        root           www/%%vhost%%;
+
         log_not_found off;
 
         # vhost specific access log
         access_log  logs/%%vhost%%.log  main;
 
         location / {
-            root   www/%%vhost%%;
             index  index.php index.html index.htm;
         }
 
         # pass PHP files for processing to the cgi-daemon
         location ~ \.php$ {
-            root           www/%%vhost%%;
+
             fastcgi_pass   127.0.0.1:9100;
             fastcgi_index  index.php;
             fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
@@ -95,32 +97,12 @@ if(isset($_GET['newvhost']) && !empty($_GET))
     {
         mkdir(NGINX_VHOSTS_DIR, 0777);
     }
-    else
-    {
-        // ensure that writing to the folder is possible
-        // try to change permissions, if writing not possible
-        if(!is_writable(NGINX_VHOSTS_DIR && !chmod(NGINX_VHOSTS_DIR, 0777)))
-        {
-            // inform user, that changing permissions failed
-            exit('The NGINX vhost folder is not writeable. Please modify permissions.');
-        }
-    }
 
-	// add vhosts configuration file to "\bin\nginx\conf\vhosts"
-    // try to change permissions, if writing not possible
-	if(!is_writable($vhost_file) && !chmod($vhost_file, 0777))
-    {
-        // inform user, that changing permissions failed
-        exit('The vhost configuration file is not writeable. Please modify permissions.');
-	}
-    else
-    {
-        // replace the host name in the vhost template
-        $content = str_replace('%%vhost%%', $new_vhost, VHOST_TEMPLATE);
+    // replace the host name in the vhost template
+    $content = str_replace('%%vhost%%', $new_vhost, VHOST_TEMPLATE);
 
-        // write new vhost file using the vhost template as content
-        file_put_contents($vhost_file, $content);
-    }
+    // write new vhost file using the vhost template as content
+    file_put_contents($vhost_file, $content);
 
 	// Add include-line for new vhost file in "\bin\nginx\conf\vhosts.conf"
 
