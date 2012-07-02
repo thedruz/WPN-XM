@@ -62,6 +62,12 @@ function showPage_PHPConfiguration()
     // $ini array structure = 'ini_file', 'ini_array'
     //print_r($ini['ini_array']);
 
+    echo '<h2>PHP INI Editor</h2>';
+    echo 'The editor allows modifications of existing values in your php.ini.
+          Click on a bold section to expand all directives for that section.
+          You might then click on the value to edit it.
+          Pressing the enter key will saves the new value to your php.ini. Take care!
+          Do not forget to restart the PHP daemon in order to let the new settings become alive!';
     echo '<div class="info">';
     echo 'You are editing '. $ini['ini_file'];
     echo '<br>You are only able to modify existing values.';
