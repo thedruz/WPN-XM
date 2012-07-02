@@ -40,6 +40,14 @@ include WPNXM_TEMPLATE . 'header.php';
 include WPNXM_PHP_DIR . 'serverstack.php';
 ?>
 
+<!-- This css style will come alive only, when javascript is disabled.
+     Its for displaying a message for all the security nerds with disabled javascript.
+     We need this reminder, because the WPN-XM configuration pages depend on AJAX. -->
+<noscript><style type="text/css">
+  #page{ display:none; }
+  #javascript-off-errorbox { display:block; font-size:20px; color:red; }
+</style></noscript>
+
 <script>
 function setupTreeTable() {
   // Apply some configuration settings
@@ -164,6 +172,12 @@ $(function () {
 </script>
 
 <h2 class="heading">Configuration</h2>
+
+<div id="javascript-off-errorbox">
+  <div class="error">
+  Please enable "javascript" in your browser in order to use this application.
+  </div>
+</div>
 
 <div class="left-box">
     <div class="cs-message">

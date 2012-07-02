@@ -410,3 +410,10 @@ img
     background-color: #FFBABA;
     background-image: url('../img/messagebox/error.png');
 }
+
+/* do not display the javascript off error box,
+   it's enabled by the css set by the noscript section
+   in the configuration page */
+#javascript-off-errorbox {
+    display: none;
+}
