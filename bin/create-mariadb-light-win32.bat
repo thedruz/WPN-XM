@@ -78,7 +78,7 @@ del /q /f "%MYSQL_DIR%\bin\mysql_tzinfo_to_sql.exe"
 :: keep mysql_upgrade.exe
 :: keep mysql_upgrade_service.exe
 :: keep mysql_upgrade_wizard.exe
-:: keep mysql_admin.exe
+:: keep mysqladmin.exe
 del /q /f "%MYSQL_DIR%\bin\mysqlbinlog.exe"
 :: keep mysqlcheck.exe
 :: keep mysqld.exe
