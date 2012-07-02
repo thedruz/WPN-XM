@@ -99,7 +99,7 @@ if(isset($_GET['newvhost']) && !empty($_GET))
     {
         // ensure that writing to the folder is possible
         // try to change permissions, if writing not possible
-        if(!is_writable(NGINX_VHOSTS_DIR && !chmod(NGINX_VHOSTS_DIR, 0777))
+        if(!is_writable(NGINX_VHOSTS_DIR && !chmod(NGINX_VHOSTS_DIR, 0777)))
         {
             // inform user, that changing permissions failed
             exit('The NGINX vhost folder is not writeable. Please modify permissions.');
