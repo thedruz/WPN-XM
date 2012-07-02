@@ -1,4 +1,4 @@
-<?php
+﻿<?php
    /**
     * WPИ-XM Server Stack - Webinterface
     * Jens-André Koch © 2010 - onwards
