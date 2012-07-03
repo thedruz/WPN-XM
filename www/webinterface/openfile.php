@@ -55,7 +55,7 @@ switch ($file) {
         break;
 }
 
-header('Location: ' . WPNXM_WEBINTERFACE_ROOT . 'config.php');
+header('Location: ' . WPNXM_WEBINTERFACE_ROOT . 'overview.php');
 
 exit();
 

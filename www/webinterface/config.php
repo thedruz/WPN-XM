@@ -40,14 +40,6 @@ include WPNXM_TEMPLATE . 'header.php';
 include WPNXM_PHP_DIR . 'serverstack.php';
 ?>
 
-<!-- This css style will come alive only, when javascript is disabled.
-     Its for displaying a message for all the security nerds with disabled javascript.
-     We need this reminder, because the WPN-XM configuration pages depend on AJAX. -->
-<noscript><style type="text/css">
-  #page{ display:none; }
-  #javascript-off-errorbox { display:block; font-size:20px; color:red; }
-</style></noscript>
-
 <script>
 function setupTreeTable() {
   // Apply some configuration settings
@@ -166,18 +158,21 @@ function setupTabs() {
   });
 }
 
+function handleRedirectToTab() {
+  var anchor = window.location.href.split('#')[1];
+  if (anchor != '') {
+        var tabToSelect = $('#organic-tabs').find('a[name="'+anchor+'"]');
+        $(tabToSelect).trigger('click');
+  }
+}
+
 $(function () {
   setupTabs();
+  handleRedirectToTab();
 });
 </script>
 
 <h2 class="heading">Configuration</h2>
-
-<div id="javascript-off-errorbox">
-  <div class="error">
-  Please enable "javascript" in your browser in order to use this application.
-  </div>
-</div>
 
 <div class="left-box">
     <div class="cs-message">
@@ -186,9 +181,12 @@ $(function () {
             <div id="organic-tabs">
 
                 <ul class="nav headings-level-1">
-                  <li><a href="configtabs.php?tab=help" class="current">Help</a></li>
-                  <li><a href="configtabs.php?tab=php">PHP</a></li>
-                  <li><a href="configtabs.php?tab=nginx">Nginx</a></li>
+                  <li><a name="help" href="configtabs.php?tab=help" class="current">Help</a></li>
+                  <li><a name="php" href="configtabs.php?tab=php">PHP</a></li>
+                  <li><a name="php-ext" href="configtabs.php?tab=php-ext">PHP Extensions</a></li>
+                  <li><a name="nginx" href="configtabs.php?tab=nginx">NGINX</a></li>
+                  <li><a name="nginx-vhosts" href="configtabs.php?tab=nginx-vhosts">NGINX vHosts</a></li>
+                  <li><a name="mariadb" href="configtabs.php?tab=mariadb">MariaDB</a></li>
                 </ul>
 
                 <div id="tab-content"></div>

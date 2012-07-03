@@ -67,10 +67,13 @@ if(!defined('WPNXM_DIR'))
     define('WPNXM_TEMPLATE', WPNXM_WWW_DIR . 'webinterface\templates'. DS);
 
     // Web Path Constants -> "http://.."
-    define('SERVER_URL', 'http://' . $_SERVER['SERVER_NAME'], false);
-    define('WPNXM_ROOT', SERVER_URL . ltrim(dirname(dirname(dirname($_SERVER['PHP_SELF']))), '\\') . '/', false);
-    define('WPNXM_WWW_ROOT', WPNXM_ROOT . 'www/', false);
-    define('WPNXM_WEBINTERFACE_ROOT', WPNXM_ROOT . 'webinterface/', false);
+    define('SERVER_URL', 'http://' . $_SERVER['SERVER_NAME']);
+    define('WPNXM_ROOT', SERVER_URL . ltrim(dirname(dirname(dirname($_SERVER['PHP_SELF']))), '\\') . '/');
+    define('WPNXM_WWW_ROOT', WPNXM_ROOT . 'www/');
+    define('WPNXM_WEBINTERFACE_ROOT', WPNXM_ROOT . 'webinterface/');
+
+    // WPNXM Configuration File
+    define('WPNXM_INI', WPNXM_DIR . 'wpnxm.ini');
 
     // NGINX Configuration and vhosts
     define('NGINX_CONF_DIR',   WPNXM_DIR . '/bin/nginx/conf/');

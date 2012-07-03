@@ -82,6 +82,16 @@ class PHPINI
  */
 class ini {
     protected $lines;
+    protected $file;
+
+    public function __construct($file = '')
+    {
+        if($file != '')
+        {
+            $this->file = $file;
+            $this->read($file);
+        }
+    }
 
     public function read($file)
     {
@@ -102,6 +112,8 @@ class ini {
                 $this->lines[] = array('type' => 'entry', 'data' => $line, 'section' => $section, 'key' => $match[1], 'value' => $match[2]);
             }
         }
+
+        return $this;
     }
 
     public function get($section, $key)
@@ -113,26 +125,29 @@ class ini {
             return $line['value'];
         }
 
-        throw new Exception('Missing Section or Key');
+        //throw new Exception('Missing Section or Key');
     }
 
     public function set($section, $key, $value)
     {
         foreach($this->lines as &$line) {
             if($line['type'] != 'entry') continue;
-            //if($line['section'] != $section) continue;
+            if($line['section'] != $section) continue;
             if($line['key'] != $key) continue;
             $line['value'] = $value;
             $line['data'] = $key . " = " . $value . "\r\n";
             return;
         }
-        var_dump($lines);
 
         throw new Exception('Missing Section or Key');
     }
 
-    public function write($file)
+    public function write($file = '')
     {
+        if($file == '') {
+            $file = $this->file;
+        }
+
         $fp = fopen($file, 'w');
 
         foreach($this->lines as $line) {
@@ -145,6 +160,99 @@ class ini {
     public function returnArray()
     {
         return $this->lines;
+    }
+}
+
+/**
+ * Wrapper for handling php extensions and the php.ini extension section.
+ */
+class phpextension {
+
+    public function disable($name)
+    {
+        $this->comment($name);
+    }
+
+    public function enabled($name)
+    {
+        $this->uncomment($name);
+    }
+
+    private function comment($name)
+    {
+        $old_line = $this->getExtensionLineFromPHPINI($name);
+        $new_line = ';' + $line;
+
+        $this->replaceLineInPHPINI($old_line, $new_line);
+    }
+
+    private function uncomment($name)
+    {
+
+    }
+
+    /**
+     * Fetches the line from php.ini where the php extension is found.
+     */
+    private function getExtensionLineFromPHPINI($name)
+    {
+        return $line;
+    }
+
+    private function replaceLineInPHPINI($old_line, $new_line)
+    {
+        $ini_file = php_ini_loaded_file();
+
+        $ini = new ini();
+        $ini->read(php_ini_loaded_file());
+        $ini_array  = $ini->returnArray();
+
+    }
+
+    public static function getExtensionDirFileList()
+    {
+        $glob = $list = array(); // PHP SYNTAX reminder $glob, $list = array();
+
+        $glob = glob(WPNXM_DIR ."bin/php/ext/*");
+
+        foreach ($glob as $key => $file)
+        {
+            // $list array has the following structure
+            // key = filename without suffix
+            // value = filename with suffix 
+            // e.g. $list = array ( 'php_apc' => 'php_apc.dll' )
+            $list[ basename($file, '.dll') ] = basename($file);
+        }          
+
+        unset($glob);
+
+        return $list;
+    }
+
+    public static function getEnabledExtensions()
+    {
+        $enabled_extensions = array();
+
+        // read php.ini
+        $ini_file = php_ini_loaded_file();
+        $ini = new ini();
+        $ini->read($ini_file);
+        $lines = $ini->returnArray();
+
+        // check php.ini array for extension entries
+        foreach($lines as $line)
+        {
+            if($line['type'] != 'entry') continue;
+            if($line['key'] != 'extension') continue;
+            // and stuff them in the array
+            $enabled_extensions[] = $line['value'];
+        }
+
+        // do a key/value flip, to get rid of the numeric index.
+        // this is for being able to easily check for a extension filename with isset in foreach.
+        $enabled_extensions = array_flip($enabled_extensions);
+
+        return $enabled_extensions;
     }
 }
 ?>

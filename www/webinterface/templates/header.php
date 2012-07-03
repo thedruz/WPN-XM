@@ -47,6 +47,7 @@ include dirname(__DIR__) . '/php/bootstrap.php';
     <meta name="description" content="WPИ-XM Serverstack for Windows - Webinterface.">
     <link rel="shortcut icon" href="http://wpn-xm.org/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="css/style.css"  media="screen, projection" />
+    <script type="text/javascript" src="js/wpnxm.js"></script>
     <?php if(defined('LOAD_JQUERY')) { ?>
     <!-- jQuery & jQuery UI -->
     <script type="text/javascript" src='js/jquery-1.7.2.min.js'></script>
@@ -59,6 +60,14 @@ include dirname(__DIR__) . '/php/bootstrap.php';
     <?php } ?>
 </head>
 <body>
+
+<!-- This css style will come alive only, when javascript is disabled.
+     Its for displaying a message for all the security nerds with disabled javascript.
+     We need this reminder, because the WPN-XM configuration pages depend on AJAX. -->
+<noscript><style type="text/css">
+  #page{ display:none; }
+  #javascript-off-errorbox { display:block; font-size:20px; color:red; }
+</style></noscript>
 
 <div class="page-wrapper">
 
@@ -75,5 +84,11 @@ include dirname(__DIR__) . '/php/bootstrap.php';
             HtmlElements::renderMenu();
         	HtmlElements::renderWelcome();
         ?>
+
+        <div id="javascript-off-errorbox">
+          <div class="error">
+          Please enable "javascript" in your browser in order to use this application.
+          </div>
+        </div>
 
         <div class="content-centered">

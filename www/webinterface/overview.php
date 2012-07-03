@@ -192,7 +192,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    </tr>
                    <tr>
                      <td colspan="2" class="right">
-                        <span class="aButton">Configure</span>
+                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'config.php#nginx'; ?>">Configure</a>
                         <a class="aButton"
                            <?php if(!is_file(WPNXM_DIR . 'logs\access.log'))
                                  { echo "onclick=\"alert('Nginx Access Log not available. File not found.'); return false;\""; } ?>
@@ -227,7 +227,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    </tr>
                    <tr>
                      <td colspan="2" class="right">
-                        <span class="aButton">Configure</span>
+                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'config.php#php'; ?>">Configure</a>
                         <a class="aButton"
                            <?php if(!is_file(WPNXM_DIR . 'logs\php_error.log'))
                                  { echo "onclick=\"alert('PHP Error Log not available. File not found.'); return false;\""; } ?>
@@ -251,7 +251,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    </tr>
                    <tr>
                      <td>Username | Password</td>
-                     <td class="right"><span class="red">root</span> | <span class="red">toop</span></td>
+                     <td class="right"><span class="red">root</span> | <span class="red"><?php echo Wpnxm_Serverstack::getMariaDBPassword(); ?></span></td>
                    </tr>
                    <tr>
                      <td>Directory</td>
@@ -263,7 +263,7 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                    </tr>
                    <tr>
                      <td colspan="2" class="right">
-                        <span class="aButton">Configure</span>
+                        <a class="aButton" href="<?php echo WPNXM_WEBINTERFACE_ROOT . 'config.php#mariadb'; ?>">Configure</a>
                         <a class="aButton"
                            <?php if(!is_file(WPNXM_DIR . 'logs\mariadb_error.log'))
                                  { echo "onclick=\"alert('MariaDB Error Log not available. File not found.'); return false;\""; } ?>
@@ -293,13 +293,13 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                      <td colspan="2" class="right">
                          <span class="aButton">Configure</span>
                          <span class="aButton"
-                           <?php if (function_exists('xdebug_call_file') === true) {
-                              # if xdebug is loaded, the button must say and turn Xdebug off
+                           <?php if (extension_loaded('memcached') === true) {
+                              # if memcached is loaded, the button must say and turn Memcached off
                               $button_text = 'Switch off';
-                              $url = WPNXM_WEBINTERFACE_ROOT . 'configtab.php?tab=disableXdebug';
+                              $url = WPNXM_WEBINTERFACE_ROOT . 'configtab.php?action=disableMemcached';
                             } else {
                               $button_text = 'Switch on';
-                              $url = WPNXM_WEBINTERFACE_ROOT . 'configtab.php?tab=enableXdebug';
+                              $url = WPNXM_WEBINTERFACE_ROOT . 'configtab.php?action=enableMemcached';
                             }
                             ?>
                             href="<?php echo $url; ?>">
@@ -336,10 +336,10 @@ include WPNXM_PHP_DIR . 'serverstack.php';
                             <?php if (function_exists('xdebug_call_file') === true) {
                               # if xdebug is loaded, the button must say and turn Xdebug off
                               $button_text = 'Switch off';
-                              $url = WPNXM_WEBINTERFACE_ROOT . 'configtab.php?tab=disableXdebug';
+                              $url = WPNXM_WEBINTERFACE_ROOT . 'configtab.php?action=disableXdebug';
                             } else {
                               $button_text = 'Switch on';
-                              $url = WPNXM_WEBINTERFACE_ROOT . 'configtab.php?tab=enableXdebug';
+                              $url = WPNXM_WEBINTERFACE_ROOT . 'configtab.php?action=enableXdebug';
                             }
                             ?>
                             href="<?php echo $url; ?>">

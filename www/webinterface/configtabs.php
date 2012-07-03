@@ -45,18 +45,104 @@ $tab = filter_input(INPUT_GET, 'tab');
 switch ($tab)
 {
     case 'help':
-        echo 'Help';
+        echo showTab_Help();
         break;
     case 'php':
-        echo showPage_PHPConfiguration();
+        echo showTab_PHPConfiguration();
         break;
-
+    case 'php-ext':
+        echo showTab_PHPExtensionConfiguration();
+        break;
+    case 'nginx':
+        echo showTab_NginxConfiguration();
+        break;
+    case 'nginx-vhosts':
+        echo showTab_NginxVhostConfiguration();
+        break;
+    case 'mariadb':
+        echo showTab_MariaDbConfiguration();
+        break;
     default:
         # code...
         break;
 }
 
-function showPage_PHPConfiguration()
+function showTab_NginxVhostConfiguration()
+{
+    $return = '<h2>NGINX vHosts</h2>';
+
+    echo $return;
+}
+
+function showTab_MariaDbConfiguration()
+{
+    $return = '<h2>MariaDB</h2>';
+
+    echo $return;
+}
+
+function showTab_NginxConfiguration()
+{
+    $return = '<h2>NGINX</h2>';
+
+    echo $return;
+}
+
+function showTab_PHPExtensionConfiguration()
+{
+    $return = '<h2>PHP Extensions</h2>';
+
+    $available_extensions = phpextension::getExtensionDirFileList();
+    $enabled_extensions = phpextension::getEnabledExtensions();
+   
+    // use list of available_extensions to draw checkboxes
+    $html_checkboxes = '';  
+
+    foreach($available_extensions as $name => $file)
+    {       
+        // in case the extension is enabled, check the checkbox
+        $checked = '';
+        if(isset($enabled_extensions[$file]))
+        {
+            $checked = 'checked="checked"';
+        }
+
+        /**
+         * Deactivate the checkbox for the XDebug Extension.
+         * XDebug is not loaded as normal PHP extension ([PHP]extension=).
+         * It is loaded as a Zend Engine extension ([ZEND]zend_extension=).
+         */
+        $disabled = '';
+        if($name === 'php_xdebug')
+        {
+            $disabled = 'disabled';
+        }
+
+        $html_checkboxes .= '<input type="checkbox" name="extensions[]" value="'.$file.'" '.$checked.' '.$disabled.'><label>'.$name.'</label><br/>';
+    }   
+
+    echo $return . $html_checkboxes;
+}
+
+function showTab_Help()
+{
+    $return = '<h2>Help</h2>
+               <p>The configuration page is divided into tabs for each of the components.
+                  <br/>
+                  You will find the following functionality there:
+               </p>
+               <ol>
+               <li>Home - The page you are currently reading.</li>
+               <li>PHP - Provides an editor for modifying the PHP configuration file (php.ini).</li>
+               <li>PHP Extensions - Shows the list of loaded and all available PHP Extensions for activation or deactivation.</li>
+               <li>Nginx - Provides an editor for modifying the NGINX configuration file (nginx.conf).</li>
+               <li>MariaDB - Provides an editor for modifying the MariaDB configuration file (my.cnf).</li>
+               </ol>';
+
+    echo $return;
+}
+
+function showTab_PHPConfiguration()
 {
     $ini = PHPINI::read();
     // $ini array structure = 'ini_file', 'ini_array'
@@ -117,28 +203,75 @@ switch ($action)
     case 'save-phpini-setting':
         echo save_phpini_setting();
         break;
-    /* @todo https://github.com/jakoch/WPN-XM/issues/35
     case 'disableMemcached':
-        echo disable_memcached();
+        disable_memcached();
+        break;
     case 'enableMemcached':
-        echo enable_memcached();
+        enable_memcached();
+        break;
     case 'disableXdebug':
-        echo disable_xdebug();
+        disable_xdebug();
+        break;
     case 'enableXdebug':
-        echo enable_xdebug();*/
+        enable_xdebug();
+        break;
 }
 
 function save_phpini_setting()
 {
     //var_dump($_POST);
 
-    $section = ''; // @todo section? this is not needed to save the directive, because string (directive=>value) is unique
+    $section = ''; // @todo section? needed to save the directive? string (directive=>value) is unique!?
     $directive = filter_input(INPUT_POST, 'directive');
     $value = filter_input(INPUT_POST, 'value');
 
     PHPINI::setDirective($section, $directive, $value);
 
     echo 'Entry saved.';
+}
+
+function disableMemcached()
+{
+    // kill running memcached daemon
+    Wpnxm_Serverstack::stopDaemon('memcached');
+
+    // remove memcached php extension
+    phpextension::disable('memcached');
+
+    // restart php daemon
+    Wpnxm_Serverstack::startDaemon('memcached');
+}
+
+
+function enableMemcached()
+{
+    // add memcached php extension
+    phpextension::enable('memcached');
+
+    // restart php daemon
+    Wpnxm_Serverstack::restartDaemon('php');
+
+    // start memcached daemon
+    Wpnxm_Serverstack::startDaemon('memcached');
+}
+
+function disableXdebug()
+{
+    // remove xdebug php extension
+    phpextension::disable('xdebug');
+
+    // restart php daemon
+    Wpnxm_Serverstack::restartDaemon('php');
+}
+
+
+function enableXdebug()
+{
+    // add xdebug php extension
+    phpextension::enable('xdebug');
+
+    // restart php daemon
+    Wpnxm_Serverstack::restartDaemon('php');
 }
 
 ?>

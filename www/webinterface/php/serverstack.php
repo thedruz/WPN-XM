@@ -69,7 +69,7 @@ class Wpnxm_Serverstack
             return self::printExclamationMark('Enable mysqli extension in php.ini.');
         }
 
-        $connection = @mysqli_connect('localhost', 'root');
+        $connection = @mysqli_connect('localhost', 'root', self::getMariaDBPassword());
 
         if(false === $connection)
         {
@@ -83,8 +83,20 @@ class Wpnxm_Serverstack
             $arr = explode('-', $connection->server_info);
             return $arr[0];
 
+            // @todo printSuccessMark('MariaDB is up. Connection successful.')
+
             $connection->close();
         }
+    }
+
+    public static function getMariaDBPassword()
+    {
+        if(!class_exists('ini')) {
+            include WPNXM_PHP_DIR . 'phpini.php';
+        }
+       
+        $ini = new ini(WPNXM_INI);
+        return $ini->get('MariaDB', 'password');
     }
 
     /**
@@ -352,7 +364,7 @@ class Wpnxm_Serverstack
             case 'mariadb':
                 # code...
                 break;
-            case 'memcache':
+            case 'memcached':
                 # code...
                 break;
             case 'xdebug':
@@ -382,7 +394,7 @@ class Wpnxm_Serverstack
             case 'mariadb':
                 return self::checkPort('127.0.0.1', '3306');
                 break;
-            case 'memcache':
+            case 'memcached':
                 return self::checkPort('127.0.0.1', '11211');
                 break;
             case 'php':
@@ -465,5 +477,55 @@ class Wpnxm_Serverstack
         }
     }
 
+    public static function stopDaemon($daemon)
+    {
+        $hide_console = WPNXM_DIR . 'bin\tools\runhiddenconsole.exe ';
+        $process_kill = WPNXM_DIR . 'bin\tools\process.exe -k  ';
+
+        switch ($daemon) {
+            case 'nginx':
+                exec($hide_console . $process_kill . 'nginx.exe');
+                break;
+            case 'mariadb':
+                exec($hide_console . $process_kill . 'mysqld.exe');
+                break;
+            case 'memcached':
+                exec($hide_console . $process_kill . 'memcached.exe');
+                break;
+            case 'php':
+                exec($hide_console . $process_kill . 'php-cgi.exe');
+                break;
+        }
+    }
+
+    public static function startDaemon($daemon, $options = '')
+    {
+        $hide_console = WPNXM_DIR . 'bin\tools\runhiddenconsole.exe ';
+
+        switch ($daemon) {
+            case 'nginx':
+                $nginx_daemon = WPNXM_DIR . 'bin\nginx\bin\nginx.exe ';
+                exec($hide_console . $nginx_daemon . $options);
+                break;
+            case 'mariadb':
+                $mysqld_daemon = WPNXM_DIR . 'bin\mariadb\bin\mysqld.exe ';
+                exec($hide_console . $mysqld_daemon . $options);
+                break;
+            case 'memcached':
+                $memcached_daemon = WPNXM_DIR . 'bin\memcached\bin\memcached.exe ';
+                exec($hide_console . $memcached_daemon . $options);
+                break;
+            case 'php':
+                $php_daemon = WPNXM_DIR . 'bin\php\bin\php-cgi.exe ';
+                exec($hide_console . $php_daemon . $options);
+                break;
+        }
+    }
+
+    public static function  restartDaemon($daemon)
+    {
+        self::stopDaemon($daemon);
+        self::startDaemon($daemon);
+    }
 }
 ?>
