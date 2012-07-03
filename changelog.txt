@@ -151,7 +151,7 @@ Version 0.2 - REL    06. February 2012
 Version 0.1   REL    12. November 2011
 ------------  ----------------------------------------------------------------
 
-    		NEW	created and set up website wpn-xm.org
+                NEW    created and set up website wpn-xm.org
                      PHP 5.3.8
                      NGINX 1.1.7
                      XDebug 2.1.2 (PHP Extension)
@@ -162,9 +162,9 @@ Version 0.1   REL    12. November 2011
                      Webgrind
                      Xhprof
                      APC (PHP Extension)
-    		NEW 	selected components for the server stack
-    		NEW 	created base for wpn-xm server control tray application
-    		NEW 	created base for wpn-xm webinterface
+                NEW      selected components for the server stack
+                NEW      created base for wpn-xm server control tray application
+                NEW      created base for wpn-xm webinterface
               NEW    two ISS files, for standalone and for bundled distribution
 [12.06.2011]  NEW    layed out a directory structure for the project
 
