@@ -161,12 +161,7 @@ table.cs-message-content tr:hover {
     background-color: #ddd;
 }*/
 a:hover {
-    color:#114477;
-    text-decoration:underline;
-}
-a:hover {
-    color:red;
-    text-decoration:underline;
+    color:red;   
 }
 a, a:link, a:visited {
     text-decoration:none;
