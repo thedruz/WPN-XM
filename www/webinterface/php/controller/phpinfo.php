@@ -25,5 +25,20 @@
     |    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA    |
     |                                                                                  |
     +----------------------------------------------------------------------------------+
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version..
+    * @author     Jens-André Koch <jakoch@web.de>
+    * @copyright  Jens-André Koch (2010 - 2012)
+    * @link       http://wpn-xm.org/
     */
-header("Location: projects.php");
+
+include WPNXM_HELPER_DIR . 'serverstack.php';
+
+function index()
+{
+    $tpl_data = array(
+        'php_info' => Serverstack::fetchPHPInfo()
+    );
+
+    render('page-action', $tpl_data);
+}

@@ -130,6 +130,7 @@ Source: ..\startfiles\administration.url; DestDir: {app}
 Source: ..\startfiles\localhost.url; DestDir: {app}
 Source: ..\startfiles\start-wpnxm.exe; DestDir: {app}
 Source: ..\startfiles\stop-wpnxm.exe; DestDir: {app}
+Source: ..\startfiles\restart-wpnxm.exe; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php

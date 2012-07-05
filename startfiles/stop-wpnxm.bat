@@ -28,20 +28,47 @@ GOTO :EOF
 
 :kill-processes
 
-echo Stopping Nginx
-%KILL-PROCESS% nginx.exe
-echo.
+:: kill all daemons, if no argument given (default)
+IF "%~1"=="" (
+    call:stop-php
+    call:stop-mariadb
+    call:stop-memcached
+    call:stop-nginx
+    call:stop-browser
+) ELSE ( 
+    :: stop specific daemon
+    :: where $1 is the first cli argument, e.g. "stop-wpnxm.bat php"
+    call:stop-%1 
+)
+GOTO END
 
-echo Stopping PHP-CGI
-%KILL-PROCESS% php-cgi.exe
-echo.
+:stop-nginx
+    echo Stopping Nginx
+    %KILL-PROCESS% nginx.exe
+    echo.
+goto :eof :: return to caller
 
-echo Stopping MySQL
-%KILL-PROCESS% mysqld.exe
-echo.
+:stop-php
+    echo Stopping PHP-CGI
+    %KILL-PROCESS% php-cgi.exe
+    echo.
+goto :eof :: return to caller
 
-echo Stopping Memcache
-%KILL-PROCESS% memcached.exe
-echo.
+:stop-mariadb
+    echo Stopping MySQL
+    %KILL-PROCESS% mysqld.exe
+    echo.
+goto :eof :: return to caller
 
-:EOF
+:stop-memcached
+    echo Stopping Memcached
+    %KILL-PROCESS% memcached.exe
+    echo.
+goto :eof :: return to caller
+
+goto END
+
+:ERROR
+pause>nul
+
+:END

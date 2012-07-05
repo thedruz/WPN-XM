@@ -32,9 +32,6 @@
     * @link       http://wpn-xm.org/
     */
 
-/**
- * Error Reporting
- */
 error_reporting(E_ALL);
 
 ini_set('memory_limit', -1);
@@ -50,43 +47,53 @@ date_default_timezone_set('Europe/Berlin');
  * --------------
  * WPNXM_DIR        -> wpn-xm/ Root Folder (bin, configs, ....)
  * WPNXM_WWW_DIR    -> wpn-xm/www
- * WPNXM_PHP_DIR    -> wpn-xm/www/webinterface
+ * WPNXM_HELPER_DIR -> wpn-xm/www/webinterface/helper
  * WPNXM_WWW_ROOT   -> www path (http:// to the www folder)
  */
-if(!defined('WPNXM_DIR'))
-{
+if (!defined('WPNXM_DIR')) {
     // WPNXM Version String (replaced automatically during build)
     define('WPNXM_VERSION', '@APPVERSION@');
 
     define('DS', DIRECTORY_SEPARATOR);
 
     // Path Constants -> "c:/.."
-    define('WPNXM_DIR', dirname(dirname(dirname(__DIR__))) . DS);
+    define('WPNXM_DIR', dirname(dirname(__DIR__)) . DS);
     define('WPNXM_WWW_DIR', WPNXM_DIR . 'www' . DS);
-    define('WPNXM_PHP_DIR', WPNXM_WWW_DIR . 'webinterface\php' . DS);
-    define('WPNXM_TEMPLATE', WPNXM_WWW_DIR . 'webinterface\templates'. DS);
+    define('WPNXM_CONTROLLER_DIR', WPNXM_WWW_DIR . 'webinterface\php\controller' . DS);
+    define('WPNXM_HELPER_DIR', WPNXM_WWW_DIR . 'webinterface\php\helper' . DS);
+    define('WPNXM_VIEW_DIR', WPNXM_WWW_DIR . 'webinterface\php\view' . DS);
 
     // Web Path Constants -> "http://.."
     define('SERVER_URL', 'http://' . $_SERVER['SERVER_NAME']);
     define('WPNXM_ROOT', SERVER_URL . ltrim(dirname(dirname(dirname($_SERVER['PHP_SELF']))), '\\') . '/');
     define('WPNXM_WWW_ROOT', WPNXM_ROOT . 'www/');
     define('WPNXM_WEBINTERFACE_ROOT', WPNXM_ROOT . 'webinterface/');
+    define('WPNXM_IMAGES_DIR', WPNXM_WEBINTERFACE_ROOT . 'assets/img');
 
     // WPNXM Configuration File
     define('WPNXM_INI', WPNXM_DIR . 'wpnxm.ini');
 
     // NGINX Configuration and vhosts
-    define('NGINX_CONF_DIR',   WPNXM_DIR . '/bin/nginx/conf/');
-    define('NGINX_VHOSTS_DIR', WPNXM_DIR . '/bin/nginx/conf/vhosts/');
+    define('NGINX_CONF_DIR',   WPNXM_DIR . 'bin\nginx\conf' . DS);
+    define('NGINX_VHOSTS_DIR', WPNXM_DIR . 'bin\nginx\conf\vhosts' . DS);
+
+    /**
+     * Feature Flags
+     */
+    define('FEATURE_1', 0); // "create new project dialog" in php/view/projects-index.php
+    define('FEATURE_2', 0); // memcached configure button and dialog
 }
 
-if(!function_exists('debug'))
-{
-    function debug()
+if (!function_exists('showConstants')) {
+    function showConstants()
     {
         # list path constants
         $array = get_defined_constants(true);
+        echo '<pre>';
         var_dump($array['user']);
+        echo '</pre>';
+        exit;
     }
 }
+//showConstants();
 ?>

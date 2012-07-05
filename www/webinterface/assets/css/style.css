@@ -327,7 +327,7 @@ img
 .clear { clear: both; }
 
 /* Tab Style*/
-#organic-tabs { background: #eee; padding: 10px; margin: 0 0 20px 0; -moz-box-shadow: 0 0 5px #666; -webkit-box-shadow: 0 0 5px #666; width: 700px; }
+#organic-tabs { background: #eee; padding: 10px; margin: 0 0 20px 0; -moz-box-shadow: 0 0 5px #666; -webkit-box-shadow: 0 0 5px #666; width: 820px; }
 
 #organic-tabs .nav { overflow: hidden; margin: -33px 0 10px 0;}
 #organic-tabs .nav li { min-width: 85px; width: auto; float: left; margin: 0 5px 0 0; }
@@ -379,7 +379,7 @@ img
     font-weight: bold;
 }
 .editable-hover {
-    background-image:  url("img/pencil.png");
+    background-image:  url("../img/pencil.png");
     background-repeat: no-repeat;
 }
 
@@ -467,4 +467,10 @@ img
   -o-border-radius: 8px;
   -ms-border-radius: 8px;
   border-radius: 8px;
+}
+
+#form label,
+#form li:first-child span:first-child,
+#form textarea {
+  display: block;
 }

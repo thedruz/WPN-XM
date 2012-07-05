@@ -25,5 +25,36 @@
     |    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA    |
     |                                                                                  |
     +----------------------------------------------------------------------------------+
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version..
+    * @author     Jens-André Koch <jakoch@web.de>
+    * @copyright  Jens-André Koch (2010 - 2012)
+    * @link       http://wpn-xm.org/
     */
-header("Location: projects.php");
+?>
+            </div>
+        </div>
+
+        <div id="footer">
+            <hr class="footer-line"/>
+            <div style="margin: auto; width: 780px;">
+                <p style="float:left">
+                    <a target="_blank" href="http://wpn-xm.org/">Home</a> |
+                    <a target="_blank" href="https://github.com/jakoch/WPN-XM/">Github</a> |
+                    <a target="_blank" href="https://github.com/jakoch/WPN-XM/issues">Issues</a> |
+                    <a target="_blank" href="http://wpn-xm.org/#donate">Donate</a>
+                </p>
+                <p style="float:right"><a href="#">Back to top</a></p>
+            </div>
+
+            <div style="clear:both">
+                WPN-XM uses <a href="https://github.com/yusukekamiyamane/fugue-icons/">Fugue Icons</a> by <a href="http://p.yusukekamiyamane.com/">Yusuke Kamiyamane</a>.
+                <p>&#169; 2010-<?php echo date("Y"); ?> by Jens-Andr&#x00E9; Koch Softwaresystemtechnik.
+                    <br />
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

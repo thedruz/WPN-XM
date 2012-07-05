@@ -25,5 +25,33 @@
     |    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA    |
     |                                                                                  |
     +----------------------------------------------------------------------------------+
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version..
+    * @author     Jens-André Koch <jakoch@web.de>
+    * @copyright  Jens-André Koch (2010 - 2012)
+    * @link       http://wpn-xm.org/
     */
-header("Location: projects.php");
+
+/**
+ * Opens the file (in a background process)
+ * @param $file The file to open.
+ */
+function openFile($file)
+{
+    if (false === is_file($file)) {
+        echo 'Error - File "' . $file . '" not found.';
+
+        return;
+    }
+
+    // @todo ask user for the tool to use, for now open with notepad
+    $tool = 'notepad';
+
+    /**
+     * Notice, that we are not using exec() here.
+     * Using exec() would leave the page loading, till the executed app window is closed.
+     * Running via WScript.Shell will launch the process in the background.
+     */
+    $WshShell = new COM("WScript.Shell");
+    $oExec = $WshShell->run('cmd /c ' . $tool . ' ' . $file, 0, false);
+}

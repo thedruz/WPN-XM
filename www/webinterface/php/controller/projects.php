@@ -25,5 +25,23 @@
     |    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA    |
     |                                                                                  |
     +----------------------------------------------------------------------------------+
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version..
+    * @author     Jens-André Koch <jakoch@web.de>
+    * @copyright  Jens-André Koch (2010 - 2012)
+    * @link       http://wpn-xm.org/
     */
-header("Location: projects.php");
+
+function index()
+{
+    $projects = new Projects();
+
+    $tpl_data = array(
+        'numberOfProjects' => $projects->getNumberOfProjects(),
+        'listProjects' => $projects->listProjects(),
+        'numberOfTools' => $projects->getNumberOfTools(),
+        'listTools' => $projects->listTools()
+    );
+
+    render('page-action', $tpl_data);
+}

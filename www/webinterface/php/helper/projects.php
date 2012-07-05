@@ -32,7 +32,7 @@
     * @link       http://wpn-xm.org/
     */
 
-class Projects
+class projects
 {
     private $dirs = array();
 
@@ -49,32 +49,28 @@ class Projects
         'xhprof' => 'xhprof/xhprof_html'
     );
 
-    function __construct()
+    public function __construct()
     {
         $this->dirs = $this->fetchProjectDirectories();
     }
 
-    private function fetchProjectDirectories()
+    public function fetchProjectDirectories($all = false)
     {
         $dirs = array();
 
         $handle=opendir(WPNXM_WWW_DIR); # __DIR__
 
-        while ($dir = readdir($handle))
-        {
-            if ($dir == "." or $dir == "..")
-            {
+        while ($dir = readdir($handle)) {
+            if ($dir == "." or $dir == "..") {
                 continue;
             }
 
             // exclude WPN-XM infrastructure and tool directories
-            if (array_key_exists($dir, $this->toolDirectories))
-            {
+            if (array_key_exists($dir, $this->toolDirectories) and ($all === false)) {
                 continue;
             }
 
-            if (is_dir(WPNXM_WWW_DIR . $dir) === true)
-            {
+            if (is_dir(WPNXM_WWW_DIR . $dir) === true) {
                 $dirs[] = $dir;
             }
         }
@@ -88,49 +84,47 @@ class Projects
 
     public function listProjects()
     {
-        if ($this->getNumberOfProjects() == 0)
-        {
-            echo "No project dirs found.";
-        }
-        else
-        {
-            foreach($this->dirs as $dir)
-            {
-                // always display the folder
-                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
+        $html = '';
 
-                if(false === $this->isVhost($dir))
-                {
-                    echo '<a class="btn-new-vhost floatright" href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">New vhost</a></li>';
-                }
-                else
-                {
+        if ($this->getNumberOfProjects() == 0) {
+            $html = "No project dirs found.";
+        } else {
+            foreach ($this->dirs as $dir) {
+                // always display the folder
+                 $html .= '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
+
+                if (false === $this->isVhost($dir)) {
+                    $html .= '<a class="btn-new-vhost floatright" href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">New vhost</a></li>';
+                } else {
                     // if there is a vhost config file, display a link to the vhost, too
-                    echo '<a class="floatright" href="http://' . $dir . '/">' . $dir . '</a></li>';
+                    $html .=  '<a class="floatright" href="http://' . $dir . '/">' . $dir . '</a></li>';
                 }
             }
         }
+
+         return $html;
     }
 
     public function listTools()
     {
-        foreach($this->toolDirectories as $dir => $href)
-        {
-            if($href =='')
-            {
-                echo '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a></li>';
-            }
-            else
-            {
-                echo '<li><a class="folder" href="' . WPNXM_ROOT . $href . '">' . $dir . '</a></li>';
+        $html = '';
+
+        foreach ($this->toolDirectories as $dir => $href) {
+            if ($href =='') {
+                $html .= '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a></li>';
+            } else {
+                $html .='<li><a class="folder" href="' . WPNXM_ROOT . $href . '">' . $dir . '</a></li>';
             }
         }
+
+        return $html;
     }
 
     /**
      * check if a seperate vhost is added in \bin\nginx\conf\vhosts\
      */
-    public function isVhost($dir) {
+    public function isVhost($dir)
+    {
         return is_file( WPNXM_DIR . '/bin/nginx/conf/vhosts/' . $dir . '.conf' );
     }
 
@@ -143,10 +137,8 @@ class Projects
      */
     public function checkWhichToolDirectoriesAreInstalled()
     {
-        foreach($this->toolDirectories as $dir => $href)
-        {
-            if(is_dir(WPNXM_WWW_DIR . $dir) === false)
-            {
+        foreach ($this->toolDirectories as $dir => $href) {
+            if (is_dir(WPNXM_WWW_DIR . $dir) === false) {
                 unset($this->toolDirectories[$dir]);
             }
         }
@@ -164,4 +156,3 @@ class Projects
         return count($this->toolDirectories);
     }
 }
-?>
