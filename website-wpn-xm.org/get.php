@@ -33,7 +33,7 @@
  */
 
 // load software components registry
-include _DIR_ . 'wpnxm-software-registry.php';
+include __DIR__ . 'wpnxm-software-registry.php';
 
 // ensure registry array is available
 if(!is_array($registry))
@@ -46,14 +46,18 @@ $s = filter_input(INPUT_GET, 's', FILTER_SANITIZE_STRING);
 // $_GET['v'] = version
 $v = filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
 
+// does the requested software exist in our registry?
 if(isset($s) && array_key_exists($s, $registry)) {
+    // yes, and does the requested version of it exist?
     if(isset($v) && array_key_exists($v, $registry[$s])) {
+        // yes, return download url
         header("Location: " . $registry[$s][$v]); // e.g. $registry['nginx']['1.2.1'];
     } else {
+        // no, requested version not existing, return latest version instead
         header("Location: " . $registry[$s]['latest']['url']); // e.g. $registry['nginx']['latest']['url'];
     }
 } else {
+    // software does not exist, download will fail.
     header("HTTP/1.0 404 Not Found");
 }
-
 ?>

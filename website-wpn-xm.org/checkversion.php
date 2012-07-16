@@ -24,6 +24,8 @@ if(!is_array($registry))
 {
     header("HTTP/1.0 404 Not Found");
 }
+
+// current versions (hardcoded, next step would be to detected them on the client's localhost)
 $version = array();
 $version['nginx']['current']       = '1.2.1';   # $registry['nginx']['current']['version'];
 $version['php']['current']         = '5.4.3';   # $registry['php']['current']['version'];
