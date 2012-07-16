@@ -105,3 +105,72 @@ function xdebug_ini_keys()
 {
     $ini_xdebug = ini_get_all('xdebug');
 }
+
+/**
+ * Returns an array with all vhost conf files
+ * associated with their loading state.
+ */
+function getVhosts()
+{
+    // fetch all vhosts config files
+    $vhost_files = array();
+    $vhost_files = glob( NGINX_VHOSTS_DIR . '*.conf' );
+
+    // enhance the array structure a bit, by adding pure filenames
+    $vhosts = array();
+    foreach ($vhost_files as $key => $fqpn) {
+        $vhosts[] = array(
+            'fqpn' => $fqpn,
+            'filename' => basename($fqpn)
+        );
+    }
+    unset($vhost_files);
+
+    // ensure the vhost.conf is included in nginx.conf
+    if (isVhostsConfIncludedInNginxConf()) {
+        // we might have some vhosts loaded
+        $loaded_vhosts = array();
+
+        // take a look at vhost.conf
+        $vhost_conf_lines = file( NGINX_CONF_DIR . 'vhosts.conf' );
+
+        // examine each line
+        foreach ($vhost_conf_lines as $vhost_conf_line) {
+            // and match all lines with string "included vhosts", but not the ones commented out/off
+            // on match, $matches[1] contains the "filename.conf"
+            if (preg_match('/[^;#]include vhosts\/(.*\\.conf)/', $vhost_conf_line, $matches)) {
+                // add the conf to the loaded vhosts array
+                $loaded_vhosts['filename'] = $matches[1];
+            }
+        }
+    } else {
+        throw new Exception('Line missing in nginx.conf to load the vhosts configuration. Add "include vhosts.conf;".');
+    }
+
+    // loop over all available files
+    foreach ($vhosts as $key => $vhost) {
+        // loop over each loaded_vhost
+        foreach ($loaded_vhosts as $loaded_vhost) {
+            // compare the filenames
+            if ($vhost['filename'] === $loaded_vhost) {
+                // mark the loaded files
+                $vhosts[$key]['loaded'] = true;
+            }
+        }
+    }
+
+    return $vhosts;
+}
+
+function isVhostsConfIncludedInNginxConf()
+{
+    $nginx_conf_lines = file( NGINX_CONF_DIR . 'nginx.conf' );
+
+    foreach ($nginx_conf_lines as $nginx_conf_line) {
+       if (strpos($nginx_conf_line, 'include vhosts.conf;') !== false) {
+            return true;
+       }
+    }
+
+    return false;
+}

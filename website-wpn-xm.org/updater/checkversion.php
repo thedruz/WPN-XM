@@ -1,4 +1,34 @@
 <?php
+   /**
+    * WPИ-XM Server Stack
+    * Jens-André Koch © 2010 - onwards
+    * http://wpn-xm.org/
+    *
+    *        _\|/_
+    *        (o o)
+    +-----oOO-{_}-OOo------------------------------------------------------------------+
+    |                                                                                  |
+    |    LICENSE                                                                       |
+    |                                                                                  |
+    |    WPИ-XM Serverstack is free software; you can redistribute it and/or modify    |
+    |    it under the terms of the GNU General Public License as published by          |
+    |    the Free Software Foundation; either version 2 of the License, or             |
+    |    (at your option) any later version.                                           |
+    |                                                                                  |
+    |    WPИ-XM Serverstack is distributed in the hope that it will be useful,         |
+    |    but WITHOUT ANY WARRANTY; without even the implied warranty of                |
+    |    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                 |
+    |    GNU General Public License for more details.                                  |
+    |                                                                                  |
+    |    You should have received a copy of the GNU General Public License             |
+    |    along with this program; if not, write to the Free Software                   |
+    |    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA    |
+    |                                                                                  |
+    +----------------------------------------------------------------------------------+
+    *
+    * @author Daniel Winterfeldt <daniel.winterfeldt@gmail.com>
+    * @author Jens-Andre Koch <jakoch@web.de>
+    */
 
 /*
  * ----------------------------------------------------------------------------
@@ -10,141 +40,187 @@
  * ----------------------------------------------------------------------------
  */
 
-set_time_limit(120);
+set_time_limit(60*3);
+
+date_default_timezone_set('UTC');
+
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+
+if (!extension_loaded('curl')) {
+    exit('Error: PHP Extension cURL required.');
+}
 
 require_once __DIR__ . '/vendor/goutte.phar';
 
 use Goutte\Client;
 
 // load software components registry
-require_once __DIR__ . 'wpnxm-software-registry.php';
+$registry = include __DIR__ . DIRECTORY_SEPARATOR . '\wpnxm-software-registry.php';
 
 // ensure registry array is available
-if(!is_array($registry))
-{
+if (!is_array($registry)) {
     header("HTTP/1.0 404 Not Found");
 }
 
 // current versions (hardcoded, next step would be to detected them on the client's localhost)
 $version = array();
-$version['nginx']['current']       = '1.2.1';   # $registry['nginx']['current']['version'];
-$version['php']['current']         = '5.4.3';   # $registry['php']['current']['version'];
-$version['mariadb']['current']     = '5.5.24';  # $registry['mariadb']['current']['version'];
-$version['xdebug']['current']      = '2.2.0';   # $registry['nginx']['current']['version'];
-$version['apc']['current']         = '3.1.10';  # $registry['nginx']['current']['version'];
-$version['phpmyadmin']['current']  = '3.4.9';   # $registry['nginx']['current']['version'];
-$version['adminer']['current']     = '3.3.4';   # $registry['nginx']['current']['version'];
+$version['nginx']['current']       = '1.2.1';
+$version['php']['current']         = '5.4.3';
+$version['mariadb']['current']     = '5.5.24';
+$version['xdebug']['current']      = '2.2.0';
+$version['apc']['current']         = '3.1.10';
+$version['phpmyadmin']['current']  = '3.4.9';
+$version['adminer']['current']     = '3.3.4';
+//echo "version: "; var_dump($version);
 
-$client = new Client();
+$goutte_client = new Client();
 
 /**
  * NGINX
  */
-$crawler = $client->request('GET', 'http://www.nginx.org/download/');
+function get_latest_version_of_nginx()
+{
+    global $goutte_client, $version;
 
- $nginx_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
-    if(preg_match("#(\d+\.\d+(\.\d+)*)(.zip)$#i", $node->nodeValue, $matches)) {
-        if ($version['nginx']['current'] <= $matches[1]) {
-            return array('version' => $matches[1], 'url' => 'http://www.nginx.org/download/' . $node->nodeValue);
+    $crawler = $goutte_client->request('GET', 'http://www.nginx.org/download/');
+
+    return $nginx_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
+        if (preg_match("#(\d+\.\d+(\.\d+)*)(.zip)$#i", $node->nodeValue, $matches)) {
+            if ($version['nginx']['current'] <= $matches[1]) {
+                return array('version' => $matches[1], 'url' => 'http://www.nginx.org/download/' . $node->nodeValue);
+            }
         }
-    }
-});
+    });
+}
 
-add('nginx', $nginx_latest);
+add('nginx', get_latest_version_of_nginx() );
 
 /**
  * PHP
  */
-$crawler = $client->request('GET', 'http://windows.php.net/downloads/releases/');
+function get_latest_version_of_php()
+{
+    global $goutte_client, $version;
 
- $php_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
-    if(preg_match("#php-+(\d+\.\d+(\.\d+)*)-nts-Win32-VC9-x86.zip$#", $node->nodeValue, $matches)) {
-        if ($version['php']['current'] <= $matches[1]) {
-            return array('version' => $matches[1], 'url' => 'http://windows.php.net/downloads/releases/' . $node->nodeValue);
+    $crawler = $goutte_client->request('GET', 'http://windows.php.net/downloads/releases/');
+
+    return $php_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
+        if (preg_match("#php-+(\d+\.\d+(\.\d+)*)-nts-Win32-VC9-x86.zip$#", $node->nodeValue, $matches)) {
+            if ($version['php']['current'] <= $matches[1]) {
+                return array('version' => $matches[1], 'url' => 'http://windows.php.net/downloads/releases/' . $node->nodeValue);
+            }
         }
-    }
-});
+    });
+}
 
-add('php', $php_latest);
+add('php', get_latest_version_of_php() );
 
 /**
  * MariaDB
  */
-$crawler = $client->request('GET', 'http://downloads.mariadb.org/MariaDB/+files/');
+function get_latest_version_of_mariadb()
+{
+    global $goutte_client, $version;
 
- $mariadb_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
-    if(preg_match("#(\d+\.\d+(\.\d+)*)(.*)(win32.zip)$#", $node->nodeValue, $matches)) {
-        if ($version['mariadb']['current'] <= $matches[0] and '7' > $matches[0]) {
-            return array('version' => $matches[1], 'url' => 'http://downloads.mariadb.org/MariaDB/+files/' . trim($node->nodeValue));
+    $crawler = $goutte_client->request('GET', 'http://downloads.mariadb.org/MariaDB/+files/');
+
+    return $mariadb_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
+        if (preg_match("#(\d+\.\d+(\.\d+)*)(.*)(win32.zip)$#", $node->nodeValue, $matches)) {
+            if ($version['mariadb']['current'] <= $matches[0] and '7' > $matches[0]) {
+                return array('version' => $matches[1], 'url' => 'http://downloads.mariadb.org/MariaDB/+files/' . trim($node->nodeValue));
+            }
         }
-    }
-});
+    });
+}
 
-add('mariadb', $mariadb_latest);
+add('mariadb', get_latest_version_of_mariadb() );
 
 /**
  * XDebug - PHP Extension
  */
-$crawler = $client->request('GET', 'http://xdebug.org/files/');
+function get_latest_version_of_xdebug()
+{
+    global $goutte_client, $version;
 
- $xdebug_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
-    if(preg_match("#((\d+\.)?(\d+\.)?(\d+\.)?(\*|\d+))([^\s]+nts(\.(?i)(dll))$)#i", $node->nodeValue, $matches)) {
-            if ($version['xdebug']['current'] <= $matches[1] ){
-                return array('version' => $matches[1], 'url' => 'http://xdebug.org/files/' . $node->nodeValue);
-            }
-    }
-});
+    $crawler = $goutte_client->request('GET', 'http://xdebug.org/files/');
 
-add('xdebug', $xdebug_latest);
+    return $xdebug_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
+        if (preg_match("#((\d+\.)?(\d+\.)?(\d+\.)?(\*|\d+))([^\s]+nts(\.(?i)(dll))$)#i", $node->nodeValue, $matches)) {
+                if ($version['xdebug']['current'] <= $matches[1]) {
+                    return array('version' => $matches[1], 'url' => 'http://xdebug.org/files/' . $node->nodeValue);
+                }
+        }
+    });
+}
+
+add('xdebug', get_latest_version_of_xdebug() );
 
 /**
  * APC - PHP Extension
  */
-$crawler = $client->request('GET', 'http://downloads.php.net/pierre/');
+function get_latest_version_of_apc()
+{
+    global $goutte_client, $version;
 
- $apc_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
-    if(preg_match("#php_apc-(\d+\.\d+(\.\d+)*)(.*)-vc9-x86.zip$#", $node->nodeValue, $matches)) {
-        if ($version['apc']['current'] <= $matches[1]) {
-            return array('version' => $matches[1], 'url' => 'http://downloads.php.net/pierre/' . $node->nodeValue);
+    $crawler = $goutte_client->request('GET', 'http://downloads.php.net/pierre/');
+
+    return  $apc_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
+        if (preg_match("#php_apc-(\d+\.\d+(\.\d+)*)(.*)-vc9-x86.zip$#", $node->nodeValue, $matches)) {
+            if ($version['apc']['current'] <= $matches[1]) {
+                return array('version' => $matches[1], 'url' => 'http://downloads.php.net/pierre/' . $node->nodeValue);
+            }
         }
-    }
-});
+    });
+}
 
-add('apc', $apc_latest);
+add('apc', get_latest_version_of_apc() );
 
 //$version['apc_latest'] = substr($version['apc_latest'], 8); // remove "php_ext-" (8)
 
 /**
  * phpMyAdmin
  */
-$crawler = $client->request('GET', 'http://www.phpmyadmin.net/home_page/downloads.php');
+function get_latest_version_of_phpmyadmin()
+{
+    global $goutte_client, $version;
 
- $phpmyadmin_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
-    if(preg_match("#(\d+\.\d+(\.\d+)*)#", $node->nodeValue, $matches)) {
-        if ($version['phpmyadmin']['current'] <= $matches[0]) {
-            $url = 'http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/'.$matches[0].'/phpMyAdmin-'.$matches[0].'-english.zip/download?use_mirror=autoselect';
-            return array('version' => $matches[0], 'url' => $url);
+    $crawler = $goutte_client->request('GET', 'http://www.phpmyadmin.net/home_page/downloads.php');
+
+    return $phpmyadmin_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
+        if (preg_match("#(\d+\.\d+(\.\d+)*)#", $node->nodeValue, $matches)) {
+            if ($version['phpmyadmin']['current'] <= $matches[0]) {
+                $url = 'http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/'.$matches[0].'/phpMyAdmin-'.$matches[0].'-english.zip/download?use_mirror=autoselect';
+
+                return array('version' => $matches[0], 'url' => $url);
+            }
         }
-    }
-});
+    });
+}
 
-add('phpmyadmin', $phpmyadmin_latest);
+add('phpmyadmin', get_latest_version_of_phpmyadmin() );
 
 /**
  * Adminer
  */
-$crawler = $client->request('GET', 'http://www.adminer.org/#download');
+function get_latest_version_of_adminer()
+{
+    global $goutte_client, $version;
 
- $adminer_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
-    if(preg_match("#(\d+\.\d+(\.\d+)*)#", $node->nodeValue, $matches)) {
-        if ($version['adminer']['current'] <= $matches[0]) {
-            $url = 'http://sourceforge.net/projects/adminer/files/Adminer/Adminer%20'.$matches[0].'/adminer-'.$matches[0].'.php/download?use_mirror=autoselect';
-            return array('version' => $matches[0], 'url' => $url);
+    $crawler = $goutte_client->request('GET', 'http://www.adminer.org/#download');
+
+    return $adminer_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
+        if (preg_match("#(\d+\.\d+(\.\d+)*)#", $node->nodeValue, $matches)) {
+            if ($version['adminer']['current'] <= $matches[0]) {
+                $url = 'http://sourceforge.net/projects/adminer/files/Adminer/Adminer%20'.$matches[0].'/adminer-'.$matches[0].'.php/download?use_mirror=autoselect';
+
+                return array('version' => $matches[0], 'url' => $url);
+            }
         }
-    }
-});
+    });
+}
 
-add('adminer', $adminer_latest);
+add('adminer', get_latest_version_of_adminer() );
 
 /**
  * Removes all keys with value "null" from the array and returns the array.
@@ -159,6 +235,7 @@ function array_unset_null_values(array $array)
             unset($array[$key]);
         }
     }
+
     return $array;
 }
 
@@ -172,15 +249,72 @@ function add($name, array $array)
 {
     global $version;
 
-    // remove all null values
+    // cleanup by removing all null values
     $array = array_unset_null_values($array);
 
+    // insert the last array item as [latest][version] => [url]
     $version[$name]['latest'] = array_pop($array);
-    $version[$name]['versions'] = array($version[$name]['latest']['version'] => $version[$name]['latest']['url']);
+
+    // insert the last array item also as a pure [version] => [url] relationship
+    $version[$name][ $version[$name]['latest']['version'] ] = $version[$name]['latest']['url'];
+
+    // added remaining array items as pure [version] => [url] relationships
+    foreach ($array as $new_version_entry) {
+        $version[$name][ $new_version_entry['version'] ] = $new_version_entry['url'];
+    }
+
+    asort($version[$name]);
 }
 
-var_dump($version);
+#var_dump($version);
 
+function array_unset_current_values(array $array)
+{
+    foreach ($array as $key => $value) {
+        if ($value === 'current') {
+            unset($array[$key][$value]);
+        }
+    }
+
+    return $array;
+}
+
+/**
+ * combine arrays
+ */
+$registry = $version + $registry;
+$registry = array_unset_current_values($registry);
+
+write_registry_file($registry);
+
+/**
+ * Writes the registry array to a php file for (re-)inclusion.
+ * e.g.
+ *  $registry = include 'registry.php';
+ *
+ * @param $registry The registry array.
+ */
+function write_registry_file(array $registry)
+{
+    // backup current registry
+    rename( 'wpnxm-software-registry.php', 'wpnxm-software-registry-old.php' );
+
+    // file header
+    $content = "<?php\n";
+    $content .= "\t/**\n";
+    $content .= "\t * WPN-XM Software Registry\n";
+    $content .= "\t * ------------------------\n";
+    $content .= "\t * Last Update " . date(DATE_RFC2822) . ". \n";
+    $content .= "\t * Do not edit manually! \n";
+    $content .= "\t */\n";
+    $content .= "\n return ";
+    // pretty print the array
+    $content .= var_export( $registry, true ) . ';';
+
+    // write new registry
+    file_put_contents( 'wpnxm-software-registry.php', $content );
+}
+//var_dump($registry['nginx']);
 ?>
 
 <table>

@@ -38,5 +38,5 @@ echo $html_checkboxes;
 <div style="clear:both; float:right;">
     <input type="submit" class="aButton" value=" Submit ">
     <input type="reset" class="aButton" value=" Reset ">
-<div>
+</div>
 </form>

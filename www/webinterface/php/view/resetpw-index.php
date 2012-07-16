@@ -25,7 +25,6 @@
             },
             // ajax error
           });
-
           return false;
         });
     });

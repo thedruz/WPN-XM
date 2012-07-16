@@ -89,6 +89,8 @@ class projects
         if ($this->getNumberOfProjects() == 0) {
             $html = "No project dirs found.";
         } else {
+            $html .= '<ul class="projects">';
+
             foreach ($this->dirs as $dir) {
                 // always display the folder
                  $html .= '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
@@ -102,12 +104,12 @@ class projects
             }
         }
 
-         return $html;
+         return $html . '</ul>';
     }
 
     public function listTools()
     {
-        $html = '';
+        $html = '<ul class="tools">';
 
         foreach ($this->toolDirectories as $dir => $href) {
             if ($href =='') {
@@ -117,7 +119,7 @@ class projects
             }
         }
 
-        return $html;
+        return $html . '</ul>';
     }
 
     /**
