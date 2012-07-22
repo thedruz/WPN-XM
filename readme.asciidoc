@@ -16,8 +16,6 @@ The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX,
 
 **Github:**             https://github.com/jakoch/WPN-XM/
 
-**IRC:**                Server: irc.freenode.net Channel: #koch
-
 **Issue tracking:**     https://github.com/jakoch/WPN-XM/issues
 
 === Installing WPN-XM on Windows

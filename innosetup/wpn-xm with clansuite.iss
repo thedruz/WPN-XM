@@ -202,7 +202,13 @@ const
   DEBUG = {#DEBUG};
 
   // Define download URLs for the software packages
+  // ----------------------------------------------
+  // The majority of download urls point to our redirection script.
+  // The WPN-XM redirection script uses an internal software registry for looking 
+  // up the latest version and pointing the installer to the download url.
+  //
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
+  // 
   URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
   URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
