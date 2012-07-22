@@ -91,7 +91,7 @@
              This is done via a copy operation with an applied filterchain, see below.
              The file is overwritten.
          -->
-        <loadfile file="${dir.Base}/www/webinterface/php/bootstrap.php" property="filecontent.php.bootstrap" encoding="UTF-8">
+        <loadfile file="${dir.Base}/www/webinterface/bootstrap.php" property="filecontent.php.bootstrap" encoding="UTF-8">
             <filterchain>
                 <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
@@ -99,8 +99,8 @@
                 </replacetokens>
             </filterchain>
         </loadfile>
-        <delete file="${dir.Base}/www/webinterface/php/bootstrap.php" />
-        <echo file="${dir.Base}/www/webinterface/php/bootstrap.php" encoding="UTF-8">${filecontent.php.bootstrap}</echo>
+        <delete file="${dir.Base}/www/webinterface/bootstrap.php" />
+        <echo file="${dir.Base}/www/webinterface/bootstrap.php" encoding="UTF-8">${filecontent.php.bootstrap}</echo>
     </target>
 
     <target name="print-version-number">
