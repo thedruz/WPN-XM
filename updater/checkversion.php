@@ -125,7 +125,7 @@ function get_latest_version_of_mariadb()
     return $mariadb_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
         if (preg_match("#(\d+\.\d+(\.\d+)*)(.*)(win32.zip)$#", $node->nodeValue, $matches)) {
             if ($version['mariadb']['current'] <= $matches[0] and '7' > $matches[0]) {
-                return array('version' => $matches[1], 'url' => 'http://downloads.mariadb.org/MariaDB/+files/' . trim($node->nodeValue));
+                return array('version' => $matches[1], 'url' => 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.25/windows/' . trim($node->nodeValue));
             }
         }
     });

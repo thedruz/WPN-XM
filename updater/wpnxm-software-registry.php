@@ -32,15 +32,15 @@
       'url' => 'http://windows.php.net/downloads/releases/php-5.4.5-nts-Win32-VC9-x86.zip',
     ),
   ),
-  'mariadb' => 
+  'mariadb' =>.
   array (
     'current' => '5.5.24',
-    '5.5.24' => 'http://downloads.mariadb.org/MariaDB/+files/mariadb-5.5.24-win32.zip',
-    '5.5.25' => 'http://downloads.mariadb.org/MariaDB/+files/mariadb-5.5.25-win32.zip',
-    'latest' => 
+    '5.5.24' => 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.25/windows/mariadb-5.5.24-win32.zip',
+    '5.5.25' => 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.25/windows/mariadb-5.5.25-win32.zip',
+    'latest' =>.
     array (
-      'version' => '5.5.24',
-      'url' => 'http://downloads.mariadb.org/MariaDB/+files/mariadb-5.5.24-win32.zip',
+      'version' => '5.5.25',
+      'url' => 'http://mirror2.hs-esslingen.de/mariadb/mariadb-5.5.25/windows/mariadb-5.5.25-win32.zip',
     ),
   ),
   'xdebug' => 
