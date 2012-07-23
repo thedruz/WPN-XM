@@ -29,6 +29,15 @@ Version 0.4 - REL    tbc
 ------------  ----------------------------------------------------------------
 
         -->>
+[16.07.2012]  ADD    wpnxm-software-registry + get & checkversion script
+                     get.php is a redirection script pointing to download urls
+                     checkversion uses software registry for version compares
+                     wpnxm-software-registry is an auto-updated array of 
+                     the software components of the stack and their urls
+              ADD    added twitters bootstrap css framework to enhance css
+                     of the webinterface; adjusted some styles                     
+[05.07.2012]  UPD    Rewrite of Webinterface - using frontcontroller pattern
+[03.07.2012]  UPD    Webinterface Updates - Modal Window for Reset Database PW
 [02.07.2012]  UPD    UPD ADMINER 3.4.0
               FIX    CSS, font-sizes, shadows
               UPD    innosetup wizard image
