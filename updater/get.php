@@ -28,12 +28,16 @@
     */
 
 /**
- * Redirection script for download sources of WPN-XM.
+ * Header redirection script
+ * -------------------------
+ * The script provides a header response to a software and version request
+ * in form of a header redirection to the download url.
+ *
  * @author Tobias Fichtner <github@tobiasfichtner.com>
  */
 
 // load software components registry
-include __DIR__ . DIRECTORY_SEPARATOR . 'wpnxm-software-registry.php';
+$registry = include __DIR__ . DIRECTORY_SEPARATOR . 'wpnxm-software-registry.php';
 
 // ensure registry array is available
 if (!is_array($registry)) {
