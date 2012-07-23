@@ -187,8 +187,10 @@ function get_latest_version_of_phpmyadmin()
     return $phpmyadmin_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
         if (preg_match("#(\d+\.\d+(\.\d+)*)#", $node->nodeValue, $matches)) {
             if ($version['phpmyadmin']['current'] <= $matches[0]) {
-                $url = 'http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/'.$matches[0].'/phpMyAdmin-'.$matches[0].'-english.zip/download?use_mirror=autoselect';
-
+                // mirror redirect fails somehow
+                //$url = 'http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/'.$matches[0].'/phpMyAdmin-'.$matches[0].'-english.zip/download?use_mirror=autoselect';
+                // using direkt link
+                $url = 'http://kent.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/'.$matches[0].'/phpMyAdmin-'.$matches[0].'-english.zip';
                 return array('version' => $matches[0], 'url' => $url);
             }
         }

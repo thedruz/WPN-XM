@@ -67,11 +67,12 @@
   'phpmyadmin' => 
   array (
     'current' => '3.4.9',
-    '3.5.2' => 'http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/3.5.2/phpMyAdmin-3.5.2-english.zip/download?use_mirror=autoselect',
+    '3.4.9' => 'http://kent.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-english.zip',
+    '3.5.2' => 'http://kent.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.5.2/phpMyAdmin-3.5.2-english.zip',
     'latest' => 
     array (
       'version' => '3.5.2',
-      'url' => 'http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/3.5.2/phpMyAdmin-3.5.2-english.zip/download?use_mirror=autoselect',
+      'url' => 'http://kent.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.5.2/phpMyAdmin-3.5.2-english.zip',
     ),
   ),
   'adminer' => 
