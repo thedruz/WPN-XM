@@ -1,15 +1,14 @@
 #!/bin/sh
 
 #
-# Publishes "wpn-xm.org".
+# Publishes the "wpn-xm.org" website.
 #
 # This script pulls the WPN-XM master branch zip from github.
-# Then moves the "website-wpm-xm.org" folder.
-# to the public folder of the webserver.
+# Then moves the "website-wpm-xm.org" folder to the public folder of the webserver.
 #
-# Do not forget to sync "develop" with "master".
-#
-# chmod +x publish-wpnxm-org.sh
+# Do not forget:
+# a) to sync "develop" with "master"
+# b) to chmod +x publish-wpnxm-org.sh
 #
 
 # pull master branch from github
@@ -21,10 +20,7 @@ unzip wpnxm-github-master.zip
 # rename the crappy github hash directory name
 mv jakoch-WPN-XM-* wpnxm
 
-# remove *this file* for safety reasons
-#rm wpnxm/website-wpn-xm.org/publish-wpnxm-org.sh
-
-# publish, by copying the files to the webservers public folder
+# publish, by copying "website-wpn-xm.org" sub-directory to the webservers public folder
 cp -r wpnxm/website-wpn-xm.org/* /var/www/webs/KochSST/wpnxm
 
 # cleanup

@@ -25,9 +25,6 @@
     |    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA    |
     |                                                                                  |
     +----------------------------------------------------------------------------------+
-    *
-    * @author Daniel Winterfeldt <daniel.winterfeldt@gmail.com>
-    * @author Jens-Andre Koch <jakoch@web.de>
     */
 
 /*
