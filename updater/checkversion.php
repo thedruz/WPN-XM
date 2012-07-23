@@ -211,7 +211,10 @@ function get_latest_version_of_adminer()
     return $adminer_latest = $crawler->filter('a')->each(function ($node, $i) use ($version) {
         if (preg_match("#(\d+\.\d+(\.\d+)*)#", $node->nodeValue, $matches)) {
             if ($version['adminer']['current'] <= $matches[0]) {
-                $url = 'http://sourceforge.net/projects/adminer/files/Adminer/Adminer%20'.$matches[0].'/adminer-'.$matches[0].'.php/download?use_mirror=autoselect';
+                // mirror redirect fails somehow
+                //$url = 'http://sourceforge.net/projects/adminer/files/Adminer/Adminer%20'.$matches[0].'/adminer-'.$matches[0].'.php/download?use_mirror=autoselect';
+                // using direkt link
+                $url = 'http://garr.dl.sourceforge.net/project/adminer/Adminer/Adminer%20'.$matches[0].'/adminer-'.$matches[0].'.php'
 
                 return array('version' => $matches[0], 'url' => $url);
             }

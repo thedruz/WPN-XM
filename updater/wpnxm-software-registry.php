@@ -78,11 +78,11 @@
   'adminer' => 
   array (
     'current' => '3.3.4',
-    '3.4.0' => 'http://sourceforge.net/projects/adminer/files/Adminer/Adminer%203.4.0/adminer-3.4.0.php/download?use_mirror=autoselect',
+    '3.4.0' => 'http://garr.dl.sourceforge.net/project/adminer/Adminer/Adminer%203.4.0/adminer-3.4.0.php',
     'latest' => 
     array (
       'version' => '3.4.0',
-      'url' => 'http://sourceforge.net/projects/adminer/files/Adminer/Adminer%203.4.0/adminer-3.4.0.php/download?use_mirror=autoselect',
+      'url' => 'http://garr.dl.sourceforge.net/project/adminer/Adminer/Adminer%203.4.0/adminer-3.4.0.php',
     ),
   ),
   'phpext_xdebug' => 
