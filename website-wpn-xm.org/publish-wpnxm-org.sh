@@ -20,8 +20,15 @@ unzip wpnxm-github-master.zip
 # rename the crappy github hash directory name
 mv jakoch-WPN-XM-* wpnxm
 
-# publish, by copying "website-wpn-xm.org" sub-directory to the webservers public folder
+# publish website
+# by copying "website-wpn-xm.org" sub-directory to the webservers public folder
 cp -r wpnxm/website-wpn-xm.org/* /var/www/webs/KochSST/wpnxm
+
+# add "updatecheck" and "get" (download redirection) scripts to the webfolder
+cp -r wpnxm/updater/get.php /var/www/webs/KochSST/wpnxm 
+cp -r wpnxm/updater/updatecheck.php /var/www/webs/KochSST/wpnxm 
+# add the "wpnxm software registry"
+cp -r wpnxm/updater/wpnxm-software-registry.php /var/www/webs/KochSST/wpnxm 
 
 # cleanup
 rm wpnxm-github-master.zip
