@@ -163,7 +163,6 @@ h2 {
 }
 .aButton:hover {
     border-color: #777;
-    box-shadow: 1px 1px #999999;
     color: #333;
     outline: 0 none;
 }
@@ -172,7 +171,7 @@ table.cs-message-content tr:hover {
     background-color: #ddd;
 }*/
 a:hover {
-    color:red;   
+    color:red;
 }
 a, a:link, a:visited {
     text-decoration:none;
@@ -188,7 +187,7 @@ a, a:link, a:visited {
     border-bottom: 1px solid #BBBBBB;
     box-shadow: 0 1px 0 white;
     margin-bottom: 10px;
-    padding-bottom: 3px;   
+    padding-bottom: 3px;
 }
 
 .res-header-icon
@@ -382,7 +381,7 @@ img
 
 .new-project-btn-position {
     position: relative;
-    right: 6px;   
+    right: 6px;
 }
 .new-project-btn-position:active {
     position: relative;
@@ -490,10 +489,10 @@ img
   display: block;
 }
 
-textarea, 
-input[type="text"],     input[type="password"], input[type="datetime"], input[type="datetime-local"], 
-input[type="date"],     input[type="month"],    input[type="time"],     input[type="week"], 
-input[type="number"],   input[type="email"],    input[type="url"],      input[type="search"], 
+textarea,
+input[type="text"],     input[type="password"], input[type="datetime"], input[type="datetime-local"],
+input[type="date"],     input[type="month"],    input[type="time"],     input[type="week"],
+input[type="number"],   input[type="email"],    input[type="url"],      input[type="search"],
 input[type="tel"],      input[type="color"], .uneditable-input {
     -moz-transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
     background-color: #FFFFFF;
@@ -502,8 +501,8 @@ input[type="tel"],      input[type="color"], .uneditable-input {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
 }
 
-select, textarea, 
-input[type="text"],     input[type="password"], input[type="datetime"], input[type="datetime-local"], 
+select, textarea,
+input[type="text"],     input[type="password"], input[type="datetime"], input[type="datetime-local"],
 input[type="date"],     input[type="month"],    input[type="time"],     input[type="week"],
 input[type="number"],   input[type="email"],    input[type="url"],      input[type="search"],
 input[type="tel"],      input[type="color"], .uneditable-input {
@@ -517,10 +516,10 @@ input[type="tel"],      input[type="color"], .uneditable-input {
     border-radius: 3px 3px 3px 3px;
 }
 
-textarea:focus, 
-input[type="text"]:focus,   input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, 
-input[type="date"]:focus,   input[type="month"]:focus,    input[type="time"]:focus,     input[type="week"]:focus, 
-input[type="number"]:focus, input[type="email"]:focus,    input[type="url"]:focus,      input[type="search"]:focus, 
+textarea:focus,
+input[type="text"]:focus,   input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus,
+input[type="date"]:focus,   input[type="month"]:focus,    input[type="time"]:focus,     input[type="week"]:focus,
+input[type="number"]:focus, input[type="email"]:focus,    input[type="url"]:focus,      input[type="search"]:focus,
 input[type="tel"]:focus,    input[type="color"]:focus, .uneditable-input:focus {
     border-color: rgba(82, 168, 236, 0.8);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6);
@@ -564,7 +563,7 @@ fieldset {
 }
 
 legend {
-    
+
 }
 
 /* Form Actions Section */
@@ -1019,7 +1018,7 @@ legend {
     background-position: -456px -144px;
 }
 
-ul.projects, ul.tools { 
-    padding-top: 10px; 
+ul.projects, ul.tools {
+    padding-top: 10px;
     margin: 2px;
 }
