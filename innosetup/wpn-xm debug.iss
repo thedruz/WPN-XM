@@ -218,6 +218,7 @@ const
   //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
   URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
+  URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
   URL_phpext_memcached  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_zeromq     = 'http://wpn-xm.org/get.php?s=phpext_zeromq';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
@@ -236,6 +237,7 @@ const
   Filename_webgrind         = 'webgrind.zip';
   Filename_xhprof           = 'xhprof.zip';
   Filename_memcached        = 'memcached.zip';
+  Filename_memadmin         = 'memadmin.zip';
   Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
   Filename_phpext_zeromq    = 'phpext-zmq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
@@ -488,6 +490,7 @@ begin
     begin
         ITD_AddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
         ITD_AddFile(URL_phpext_memcached, ExpandConstant(targetPath + Filename_phpext_memcache));
+        ITD_AddFile(URL_memadmin,         ExpandConstant(targetPath + Filename_memadmin));
     end;
 
     if IsComponentSelected('zeromq')     then ITD_AddFile(URL_phpext_zeromq, ExpandConstant(targetPath + Filename_phpext_zeromq));
@@ -659,6 +662,7 @@ begin
     UpdateCurrentComponentName('Memcached');
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
+      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
   end;
 
@@ -752,6 +756,9 @@ begin
   begin
       // rename the existing directory
       Exec('cmd.exe', '/c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"',
+      '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      // memadmin - rename folder name "junstor-memadmin-v1.0.11-0-g7587722" to "memadmin"
+      Exec('cmd.exe', '/c "move ' + appPath + '\www\junstor-memadmin* ' + appPath + '\www\memadmin"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
