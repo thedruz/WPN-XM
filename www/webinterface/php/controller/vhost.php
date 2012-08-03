@@ -71,6 +71,13 @@ function insert()
         file_put_contents($main_vhost_conf_file, "\n # automatically added vhost configuration file \n include vhosts/$new_vhost.conf;", FILE_APPEND);
     }
 
+    // check for "COM" (php_com_dotnet.dll)
+    if(!class_exists('COM') and !extension_loaded("com_dotnet")) {
+        $msg = 'COM class not found. Enable the extension by adding "extension=php_com_dotnet.dll" to your php.ini.';
+        throw new Exception($msg);
+    }
+
+
     $WshShell = new COM("WScript.Shell");
 
     // reload nginx configuration
