@@ -2,18 +2,18 @@
 
 <form action="index.php?page=config&action=update_phpextensions" method="post">
 <div style="float: left; width: 125px;">
-<?php 
+<?php
 // use list of available_extensions to draw checkboxes
-$html_checkboxes = '';  
+$html_checkboxes = '';
 $i = 0;
 
 foreach($available_extensions as $name => $file)
-{       
+{
     // in case the extension is enabled, check the checkbox
-    $checked = '';
+    $checked = false;
     if(isset($enabled_extensions[$file]))
     {
-        $checked = 'checked="checked"';
+        $checked = true;
     }
 
     /**
@@ -27,10 +27,15 @@ foreach($available_extensions as $name => $file)
         $disabled = 'disabled';
     }
 
-    $html_checkboxes .= '<input type="checkbox" name="extensions[]" value="'.$file.'" '.$checked.' '.$disabled.'><label style="vertical-align: 30%;">'.substr($name, 4).'</label><br/>';
-    
+    $html_checkboxes .= '<input type="checkbox" name="extensions[]" value="'.$file.'" ';
+    $html_checkboxes .= ($checked === true) ? 'checked="checked" ' : '';
+    $html_checkboxes .=  $disabled.'>';
+    $html_checkboxes .= '<label ';
+    $html_checkboxes .= ($checked === true) ? 'class="active-element" ' : '';
+    $html_checkboxes .= 'style="vertical-align: 30%;">'.substr($name, 4).'</label><br/>';
+
     $i++; if($i == 12) { $html_checkboxes .= '</div><div style="float: left; width: 125px;">'; $i = 0; }
-}   
+}
 
 echo $html_checkboxes;
 ?>
