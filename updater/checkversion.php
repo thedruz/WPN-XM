@@ -214,7 +214,7 @@ function get_latest_version_of_adminer()
                 // mirror redirect fails somehow
                 //$url = 'http://sourceforge.net/projects/adminer/files/Adminer/Adminer%20'.$matches[0].'/adminer-'.$matches[0].'.php/download?use_mirror=autoselect';
                 // using direkt link
-                $url = 'http://garr.dl.sourceforge.net/project/adminer/Adminer/Adminer%20'.$matches[0].'/adminer-'.$matches[0].'.php'
+                $url = 'http://garr.dl.sourceforge.net/project/adminer/Adminer/Adminer%20'.$matches[0].'/adminer-'.$matches[0].'.php';
 
                 return array('version' => $matches[0], 'url' => $url);
             }
