@@ -894,7 +894,7 @@ begin
      // copy logfile from tmp dir to the application dir
      logfilepathname := ExpandConstant('{log}');
      logfilename := ExtractFileName(logfilepathname);
-     newfilepathname := ExpandConstant('{app}\') + logfilename;
+     newfilepathname := ExpandConstant('{app}\logs\') + logfilename;
      filecopy(logfilepathname, newfilepathname, false);
    end;
 end;
