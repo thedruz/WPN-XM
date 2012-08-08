@@ -25,4 +25,6 @@ xdebug.profiler_output_name=cachegrind.out.%s.%t
 xdebug.profiler_output_dir = "%TEMP_DIR%"
 ; output enhancements
 xdebug.show_local_vars = 1
+; create clickable links, which open editor/ide with file and line highlighting
+xdebug.file_link_format = "netbeans://open/?f=%f:%l"
 
