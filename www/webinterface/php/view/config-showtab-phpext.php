@@ -27,12 +27,15 @@ foreach($available_extensions as $name => $file)
         $disabled = 'disabled';
     }
 
+    // the input tag is wrapped by the label tag
+    $html_checkboxes .= '<label ';
+    $html_checkboxes .= ($checked === true) ? 'class="active-element" ' : '';
+    $html_checkboxes .= 'style="vertical-align: 30%;">';
     $html_checkboxes .= '<input type="checkbox" name="extensions[]" value="'.$file.'" ';
     $html_checkboxes .= ($checked === true) ? 'checked="checked" ' : '';
     $html_checkboxes .=  $disabled.'>';
-    $html_checkboxes .= '<label ';
-    $html_checkboxes .= ($checked === true) ? 'class="active-element" ' : '';
-    $html_checkboxes .= 'style="vertical-align: 30%;">'.substr($name, 4).'</label><br/>';
+    $html_checkboxes .= substr($name, 4);
+    $html_checkboxes .= '</label><br/>';
 
     $i++; if($i == 12) { $html_checkboxes .= '</div><div style="float: left; width: 125px;">'; $i = 0; }
 }
