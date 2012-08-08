@@ -46,7 +46,8 @@ class projects
         'phpmyadmin' => '',
         'webgrind' => '',
         'webinterface' => '',
-        'xhprof' => 'xhprof/xhprof_html'
+        'xhprof' => 'xhprof/xhprof_html',
+        'memadmin' => '',
     );
 
     public function __construct()
