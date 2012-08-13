@@ -1,6 +1,6 @@
 <h2>PHP Extensions <small>(<?=count($enabled_extensions)?> of <?=count($available_extensions)?> loaded)</small></h2>
 
-<form action="index.php?page=config&action=update_phpextensions" method="post">
+<form action="index.php?page=config&amp;action=update_phpextensions" method="post">
 <div style="float: left; width: 125px;">
 <?php
 // use list of available_extensions to draw checkboxes
@@ -29,7 +29,7 @@ foreach($available_extensions as $name => $file)
 
     // the input tag is wrapped by the label tag
     $html_checkboxes .= '<label ';
-    $html_checkboxes .= ($checked === true) ? 'class="active-element" ' : '';
+    $html_checkboxes .= ($checked === true) ? 'class="checkbox active-element" ' : '';
     $html_checkboxes .= 'style="vertical-align: 30%;">';
     $html_checkboxes .= '<input type="checkbox" name="extensions[]" value="'.$file.'" ';
     $html_checkboxes .= ($checked === true) ? 'checked="checked" ' : '';
