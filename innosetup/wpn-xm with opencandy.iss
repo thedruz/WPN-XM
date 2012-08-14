@@ -80,11 +80,13 @@ DefaultDirName={sd}\server
 DefaultGroupName={#AppName}
 OutputBaseFilename=WPNXM-{#AppVersion}-Setup
 Compression=lzma2/ultra
+LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
+PrivilegesRequired=none // formerly admin
 ; [OpenCandy]
 	; OpenCandy requires PrivilegesRequired admin
 ; [/OpenCandy]

@@ -70,12 +70,13 @@ DefaultDirName={sd}\server
 DefaultGroupName={#AppName}
 OutputBaseFilename=WPNXM-{#AppVersion}-Setup
 Compression=lzma2/ultra
+LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
-PrivilegesRequired=admin
+PrivilegesRequired=none // formerly admin
 // create a log file, see [code] procedure CurStepChanged
 SetupLogging=yes
 VersionInfoVersion={#AppVersion}
