@@ -143,7 +143,7 @@ $(function () {
 
 <div class="left-box">
     <div class="cs-message">
-        <div class="cs-message-content" style="width: 850px; height: auto; padding-top: 40px;">
+        <div class="cs-message-content cs-message-content-config">
 
             <div id="organic-tabs">
 
@@ -151,10 +151,12 @@ $(function () {
                   <li><a name="help" href="index.php?page=config#help" class="current">Help</a></li>
                   <li><a name="php" href="index.php?page=config#php">PHP</a></li>
                   <li><a name="php-ext" href="index.php?page=config#php-ext">PHP Extensions</a></li>
+                   <?php if (FEATURE_3 == true) { ?>
                   <li><a name="nginx" href="index.php?page=config#nginx">NGINX</a></li>
                   <li><a name="nginx-vhosts" href="index.php?page=config#nginx-vhosts">NGINX vHosts</a></li>
                   <li><a name="mariadb" href="index.php?page=config#mariadb">MariaDB</a></li>
                   <li><a name="xdebug" href="index.php?page=config#xdebug">Xdebug</a></li>
+                  <?php } ?>
                 </ul>
 
                 <div id="tab-content" style="overflow: hidden;"></div>

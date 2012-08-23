@@ -96,11 +96,13 @@ class projects
                 // always display the folder
                  $html .= '<li><a class="folder" href="' . WPNXM_ROOT . $dir . '">' . $dir . '</a>';
 
-                if (false === $this->isVhost($dir)) {
-                    $html .= '<a class="btn-new-vhost floatright" href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">New vhost</a></li>';
-                } else {
-                    // if there is a vhost config file, display a link to the vhost, too
-                    $html .=  '<a class="floatright" href="http://' . $dir . '/">' . $dir . '</a></li>';
+                if(FEATURE_4 == true) { // create nginx vhost directly from project list
+                    if (false === $this->isVhost($dir)) {
+                        $html .= '<a class="btn-new-vhost floatright" href="' . WPNXM_ROOT . 'webinterface/addvhost.php?newvhost=' . $dir .'">New vhost</a></li>';
+                    } else {
+                        // if there is a vhost config file, display a link to the vhost, too
+                        $html .=  '<a class="floatright" href="http://' . $dir . '/">' . $dir . '</a></li>';
+                    }
                 }
             }
         }

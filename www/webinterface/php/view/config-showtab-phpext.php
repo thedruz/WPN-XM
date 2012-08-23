@@ -1,7 +1,7 @@
 <h2>PHP Extensions <small>(<?=count($enabled_extensions)?> of <?=count($available_extensions)?> loaded)</small></h2>
 
-<form action="index.php?page=config&amp;action=update_phpextensions" method="post">
-<div style="float: left; width: 125px;">
+<form class="form-horizontal" action="index.php?page=config&amp;action=update_phpextensions" method="post">
+<div class="control-group" style="float: left; width: 125px; margin: 10px;">
 <?php
 // use list of available_extensions to draw checkboxes
 $html_checkboxes = '';
@@ -28,16 +28,16 @@ foreach($available_extensions as $name => $file)
     }
 
     // the input tag is wrapped by the label tag
-    $html_checkboxes .= '<label ';
-    $html_checkboxes .= ($checked === true) ? 'class="checkbox active-element" ' : '';
+    $html_checkboxes .= '<label class="checkbox';
+    $html_checkboxes .= ($checked === true) ? ' active-element" ' : ' not-active-element" ';
     $html_checkboxes .= 'style="vertical-align: 30%;">';
     $html_checkboxes .= '<input type="checkbox" name="extensions[]" value="'.$file.'" ';
     $html_checkboxes .= ($checked === true) ? 'checked="checked" ' : '';
     $html_checkboxes .=  $disabled.'>';
     $html_checkboxes .= substr($name, 4);
-    $html_checkboxes .= '</label><br/>';
+    $html_checkboxes .= '</label>';
 
-    $i++; if($i == 12) { $html_checkboxes .= '</div><div style="float: left; width: 125px;">'; $i = 0; }
+    $i++; if($i == 12) { $html_checkboxes .= '</div><div style="float: left; width: 125px; margin: 10px;">'; $i = 0; }
 }
 
 echo $html_checkboxes;

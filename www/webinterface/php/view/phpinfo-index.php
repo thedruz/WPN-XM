@@ -37,7 +37,7 @@
 
     <div class="cs-message-content search">        
         <div id="search">
-            <label><h3>Search in phpinfo()</h3></label>
+            <label><h4>Search in phpinfo()</h4></label>
             <input id="textToHighlight" type="text" value="xdebug">
             <button id="highlightButton">Search</button>
             <button id="resetButton">Reset</button>

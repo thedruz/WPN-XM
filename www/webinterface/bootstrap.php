@@ -87,8 +87,10 @@ if (!defined('WPNXM_DIR')) {
     /**
      * Feature Flags
      */
-    define('FEATURE_1', 0); // "create new project dialog" in php/view/projects-index.php
-    define('FEATURE_2', 0); // memcached configure button and dialog
+    define('FEATURE_1', false); // "create new project dialog" in php/view/projects-index.php
+    define('FEATURE_2', false); // memcached configure button and dialog
+    define('FEATURE_3', false); // Configuration Tabs Nginx, Nginx Vhosts, MariaDB, Xdebug
+    define('FEATURE_4', false); // create nginx vhost directly from project list
 }
 
 if (!function_exists('showConstants')) {
