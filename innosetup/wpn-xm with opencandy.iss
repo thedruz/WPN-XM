@@ -86,7 +86,8 @@ SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
-PrivilegesRequired=none // formerly admin
+// formerly admin
+PrivilegesRequired=none
 ; [OpenCandy]
 	; OpenCandy requires PrivilegesRequired admin
 ; [/OpenCandy]

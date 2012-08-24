@@ -76,7 +76,8 @@ SolidCompression=true
 CreateAppDir=true
 ShowLanguageDialog=no
 BackColor=clBlack
-PrivilegesRequired=none // formerly admin
+// formerly admin
+PrivilegesRequired=none
 // create a log file, see [code] procedure CurStepChanged
 SetupLogging=yes
 VersionInfoVersion={#AppVersion}
