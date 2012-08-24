@@ -76,15 +76,15 @@
         </copy>
 
         <!-- WPN-XM Server Control Panel -->
-        <loadfile file="${dir.Base}/wpnxm-scp/src/version.h" property="filecontent.wpnxm.version">
+        <loadfile file="${dir.Base}/server-control-panel/src/version.h" property="filecontent.wpnxm.version">
             <filterchain>
                 <replacetokens>
                      <token key="APPVERSION" value="${wpnxm.Version}"/>
                 </replacetokens>
             </filterchain>
         </loadfile>
-        <delete file="${dir.Base}/wpnxm-scp/src/version.h" />
-        <echo file="${dir.Base}/wpnxm-scp/src/version.h">${filecontent.wpnxm.version}</echo>
+        <delete file="${dir.Base}/server-control-panel/src/version.h" />
+        <echo file="${dir.Base}/server-control-panel/src/version.h">${filecontent.wpnxm.version}</echo>
 
         <!--
              Insert the version number into webinterface bootstrap php file.

@@ -35,16 +35,16 @@ cache/**/*
 phpunit.xml
 
 # Folder for Inno Setup compiled executables and preprocessed scripts
-/_build 
+/_build
 
 # Folder for Qt Executables
 /Output
 # Qt - Bin, Debug and Release directories (only on Windows)
-/wpnxm-scp/bin
-/wpnxm-scp/debug
-/wpnxm-scp/release
+/server-control-panel/bin
+/server-control-panel/debug
+/server-control-panel/release
 # Qt - Files
-/wpnxm-scp/*makefile*
-/wpnxm-scp/*debug*
-/wpnxm-scp/*release*
-/wpnxm-scp/*.pro.user
+/server-control-panel/*makefile*
+/server-control-panel/*debug*
+/server-control-panel/*release*
+/server-control-panel/*.pro.user
