@@ -32,10 +32,10 @@ Version 0.4 - REL    tbc
 [16.07.2012]  ADD    wpnxm-software-registry + get & checkversion script
                      get.php is a redirection script pointing to download urls
                      checkversion uses software registry for version compares
-                     wpnxm-software-registry is an auto-updated array of 
+                     wpnxm-software-registry is an auto-updated array of
                      the software components of the stack and their urls
               ADD    added twitters bootstrap css framework to enhance css
-                     of the webinterface; adjusted some styles                     
+                     of the webinterface; adjusted some styles
 [05.07.2012]  UPD    Rewrite of Webinterface - using frontcontroller pattern
 [03.07.2012]  UPD    Webinterface Updates - Modal Window for Reset Database PW
 [02.07.2012]  UPD    UPD ADMINER 3.4.0
@@ -46,12 +46,12 @@ Version 0.4 - REL    tbc
 [26.06.2012]  FIX    PHPMYADMIN default config added
 [25.06.2012]  ADD    Website - added screenshot carousel for feature screens
 [24.06.2012]  ADD    added HOSTS tool and nginx vhost creation script
-                     https://github.com/jakoch/WPN-XM/pull/31
+                     https://github.com/WPN-XM/WPN-XM/pull/31
 [20.06.2012]  NEW    added COMPOSER 1.0 - http://getcomposer.org/
 [19.06.2012]  UPD    PHPMYADMIN 3.5.1
 [18.06.2012]  CHG    removed hardcoded URLs from Innosetup Scripts
                      download URLs point to a header redirection script
-                     https://github.com/jakoch/WPN-XM/pull/30
+                     https://github.com/WPN-XM/WPN-XM/pull/30
 [18.06.2012]  NEW    added icons to config page (php, nginx, mariadb, xdebug)
 [18.06.2012]  FIX    getMariaDBVersion() and switched to mysqli methods
 [16.06.2012]  UPD    PHP 5.4.4
@@ -73,7 +73,7 @@ Version 0.3 - REL    11.06.2012
                      Our bugreport about inclusion of debug files was included.
                      The download size of maria.zip decreased from 180 to 130mb.
 [08.06.2012]  FIX    Status led not updated at initial start
-                     https://github.com/jakoch/WPN-XM/issues/20
+                     https://github.com/WPN-XM/WPN-XM/issues/20
 [05.06.2012]  UPD    NGINX 1.2.1
 [05.06.2012]  NEW    php is added to environment variable PATH
 [04.06.2012]  FIX    fixed cfg edit order: config files are copied, then modified

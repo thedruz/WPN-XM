@@ -47,7 +47,7 @@
 #define AppVersion "@APPVERSION@"
 #define AppPublisher "Jens-André Koch"
 #define AppURL "http://wpn-xm.org/"
-#define AppSupportURL "https://github.com/jakoch/WPN-XM/issues/new/"
+#define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
 // we need to include the Sherlock Software\InnoTools\Downloader
 # include SOURCE_ROOT + "..\bin\InnoToolsDownloader\it_download.iss"

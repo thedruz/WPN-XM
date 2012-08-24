@@ -14,13 +14,13 @@ The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX,
 
 **Mailing List:**       http://groups.google.com/group/wpn-xm/
 
-**Github:**             https://github.com/jakoch/WPN-XM/
+**Github:**             https://github.com/WPN-XM/WPN-XM/
 
-**Issue tracking:**     https://github.com/jakoch/WPN-XM/issues
+**Issue tracking:**     https://github.com/WPN-XM/WPN-XM/issues
 
 === Installing WPN-XM on Windows
 
-https://github.com/jakoch/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation Guide]
+https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation Guide]
 
 === WPN-XM USES THE FOLLOWING THIRD PARTY SOFTWARE COMPONENTS ===
 
@@ -60,7 +60,7 @@ https://github.com/jakoch/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 === STILL NOT CONVINCED? ===
 
 Well, then go try a different Serverpack for Windows.
-You might find a https://github.com/jakoch/WPN-XM/wiki/Comprehensive-list-of-server-stacks[comprehensive list of server stacks] in our wiki.
+You might find a https://github.com/WPN-XM/WPN-XM/wiki/Comprehensive-list-of-server-stacks[comprehensive list of server stacks] in our wiki.
 I know you’ll come back.
 
 === HOW TO BUILD THE INSTALLER ===
@@ -69,7 +69,7 @@ Just execute "build.bat". That's it. It's a one-click build.
 You might then find the setup executable(s) in the folder "_build".
 
 Find a detailed description on how this works in the one-click build process documentation.
-https://github.com/jakoch/WPN-XM/wiki/Description-of-the-one-click-build-process
+https://github.com/WPN-XM/WPN-XM/wiki/Description-of-the-one-click-build-process
 
 ==== HOW TO BUILD THE INSTALLER MANUALLY ====
 
