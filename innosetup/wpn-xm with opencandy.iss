@@ -523,7 +523,7 @@ begin
     if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
 
     if IsComponentSelected('xhprof')    then
-    bergin
+    begin
         ITD_AddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
         ITD_AddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
     end;
