@@ -214,49 +214,48 @@ const
   //
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   //
-  URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
-  URL_php               = 'http://wpn-xm.org/get.php?s=php';
-  URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
-  URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
-  URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
-  URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
-  URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
-  URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
-  URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
-  URL_phpext_memcached  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
-  URL_phpext_zeromq     = 'http://wpn-xm.org/get.php?s=phpext_zeromq';
-  URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
-  URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_adminer           = 'http://wpn-xm.org/get.php?s=adminer';
-  URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
-  URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
+  URL_Clansuite         = 'http://wpn-xm.org/get.php?s=clansuite'; // Latest Clansuite Version from Gitub (svnsync) as ZIP
   URL_composer          = 'http://wpn-xm.org/get.php?s=composer';
-  URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
+  URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
+  URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
+  URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
+  URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
+  URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
+  URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
+  URL_php               = 'http://wpn-xm.org/get.php?s=php';
+  URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
+  URL_phpext_memcached  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
+  URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
+  URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
+  URL_phpext_zeromq     = 'http://wpn-xm.org/get.php?s=phpext_zeromq';
+  URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
-  // Latest Clansuite Version from Gitub (svnsync) as ZIP
-  URL_Clansuite         = 'http://wpn-xm.org/get.php?s=clansuite';
+  URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
+  URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
+  URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
 
   // Define file names for the downloads
-  Filename_nginx            = 'nginx.zip';
-  Filename_php              = 'php.zip';
-  Filename_mariadb          = 'mariadb.zip';
-  Filename_phpext_xdebug    = 'xdebug.dll';
-  Filename_phpext_apc       = 'phpext-apc.zip';
-  Filename_webgrind         = 'webgrind.zip';
-  Filename_xhprof           = 'xhprof.zip';
-  Filename_memcached        = 'memcached.zip';
-  Filename_memadmin         = 'memadmin.zip';
-  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
-  Filename_phpext_zeromq    = 'phpext-zmq.zip';
-  Filename_phpext_xhprof    = 'phpext-xhprof.zip';
-  Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_adminer          = 'adminer.php';
-  Filename_junction         = 'junction.zip';
-  Filename_pear             = 'go-pear.phar';
-  Filename_composer         = 'composer.phar';
-  Filename_wpnxmscp         = 'wpnxmscp.zip';
-  Filename_sendmail         = 'sendmail.zip';
   Filename_clansuite        = 'clansuite.zip';
+  Filename_composer         = 'composer.phar';
+  Filename_junction         = 'junction.zip';
+  Filename_mariadb          = 'mariadb.zip';
+  Filename_memadmin         = 'memadmin.zip';
+  Filename_memcached        = 'memcached.zip';
+  Filename_nginx            = 'nginx.zip';
+  Filename_pear             = 'go-pear.phar';
+  Filename_php              = 'php.zip';
+  Filename_phpext_apc       = 'phpext-apc.zip';
+  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
+  Filename_phpext_xdebug    = 'xdebug.dll';
+  Filename_phpext_xhprof    = 'phpext-xhprof.zip';
+  Filename_phpext_zeromq    = 'phpext-zmq.zip';
+  Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_sendmail         = 'sendmail.zip';
+  Filename_webgrind         = 'webgrind.zip';
+  Filename_wpnxmscp         = 'wpnxmscp.zip';
+  Filename_xhprof           = 'xhprof.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
