@@ -119,6 +119,7 @@ Name: adminer; Description: Adminer - Database management in single PHP file; Ex
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
+Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: "clansuite"; Description: "Clansuite - just an eSports CMS"; ExtraDiskSpaceRequired: 20000000; Types: full
 
 [Files]
@@ -231,6 +232,7 @@ const
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
   URL_composer          = 'http://wpn-xm.org/get.php?s=composer';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
+  URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
   // Latest Clansuite Version from Gitub (svnsync) as ZIP
   URL_Clansuite         = 'http://wpn-xm.org/get.php?s=clansuite';
 
@@ -253,6 +255,7 @@ const
   Filename_pear             = 'go-pear.phar';
   Filename_composer         = 'composer.phar';
   Filename_wpnxmscp         = 'wpnxmscp.zip';
+  Filename_sendmail         = 'sendmail.zip';
   Filename_clansuite        = 'clansuite.zip';
 
 var
@@ -512,6 +515,7 @@ begin
     if IsComponentSelected('junction')   then ITD_AddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
     if IsComponentSelected('pear')       then ITD_AddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
     if IsComponentSelected('composer')   then ITD_AddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
+    if IsComponentSelected('sendmail')   then ITD_AddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
@@ -728,6 +732,14 @@ begin
   begin
     UpdateCurrentComponentName('composer');
       FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('sendmail', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Sendmail');
+      CreateDir(ExpandConstant('{app}\bin\sendmail\'));
+      DoUnzip(targetPath + Filename_sendmail, ExpandConstant('{app}\bin\sendmail'));
         UpdateTotalProgressBar();
   end;
 
