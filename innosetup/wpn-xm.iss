@@ -109,7 +109,8 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 // memcached install means the daemon and the php extension
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
-Name: zeromq; Description: ZeroMQ - PHP Extension for concurrent socket magic; ExtraDiskSpaceRequired: 300000; Types: full
+// disabled zeromq, as there is currently no version of libzmq.dll for win32 and php5.4
+//Name: zeromq; Description: ZeroMQ - PHP Extension for concurrent socket magic; ExtraDiskSpaceRequired: 300000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
