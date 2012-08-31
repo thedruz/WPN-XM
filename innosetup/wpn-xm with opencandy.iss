@@ -242,8 +242,6 @@ const
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
   URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
-  // pierre's APC is buggy, see https://bugs.php.net/bug.php?id=61984
-  //URL_phpext_apc        = 'http://downloads.php.net/pierre/php_apc-3.1.10-5.4-vc9-x86.zip';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
