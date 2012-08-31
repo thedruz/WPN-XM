@@ -245,13 +245,12 @@ const
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
-  // Leave the original url of xhprof in here ! we are fetching from paul reinheimers fork !
-  //URL_xhprof          = 'http://nodeload.github.com/facebook/xhprof/zipball/master';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
   URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
   URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
   URL_phpext_memcached  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_zeromq     = 'http://wpn-xm.org/get.php?s=phpext_zeromq';
+  URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_adminer           = 'http://wpn-xm.org/get.php?s=adminer';
   URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
@@ -271,6 +270,7 @@ const
   Filename_memadmin         = 'memadmin.zip';
   Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
   Filename_phpext_zeromq    = 'phpext-zmq.zip';
+  Filename_phpext_xhprof    = 'phpext-xhprof.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_adminer          = 'adminer.php';
   Filename_junction         = 'junction.zip';
@@ -518,7 +518,12 @@ begin
     if IsComponentSelected('xdebug')    then ITD_AddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
     if IsComponentSelected('apc')       then ITD_AddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
-    if IsComponentSelected('xhprof')    then ITD_AddFile(URL_xhprof,        ExpandConstant(targetPath + Filename_xhprof));
+
+    if IsComponentSelected('xhprof')    then
+    bergin
+        ITD_AddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
+        ITD_AddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
+    end;
 
     if IsComponentSelected('memcached') then
     begin
@@ -688,6 +693,7 @@ begin
   begin
     UpdateCurrentComponentName('XHProf');
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_phpext_xhprof, ExpandConstant('{app}\bin\php\ext'));
         UpdateTotalProgressBar;
   end;
 
@@ -783,6 +789,10 @@ begin
 
     // xhprof - rename "preinheimer-xhprof-gitref" directory
     Exec('cmd.exe', '/c "move ' + appPath + '\www\preinheimer-xhprof* ' + appPath + '\www\xhprof"',
+    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+    // rename "xhprof_0.10.3_php54_vc9_nts.dll" to "xhprof.dll"
+        Exec('cmd.exe', '/c "move ' + appPath + '\bin\php\ext\xhprof_* ' + appPath + '\bin\php\ext\xhprof.dll"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
