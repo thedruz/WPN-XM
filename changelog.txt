@@ -25,10 +25,11 @@ VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-Version 0.4 - REL    tbc
+Version 0.4 - REL    01.09.2012
 ------------  ----------------------------------------------------------------
 
         -->>
+[30.08.2012]  ADD    server-control-panel shutdown already running processes
 [16.07.2012]  ADD    wpnxm-software-registry + get & checkversion script
                      get.php is a redirection script pointing to download urls
                      checkversion uses software registry for version compares
