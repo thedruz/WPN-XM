@@ -160,13 +160,16 @@ Name: {group}\Administration; Filename: {app}\administration.url
 Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}
 Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}
 Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}
-Name: {userdesktop}\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: quicklaunchicon
+Name: {userdesktop}\WPN-XM; Filename: {app}\wpnxm-scp.exe; Tasks: add_scp_desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpnxm-scp.exe; Tasks: add_scp_quicklaunchicon
+Name: {userdesktop}\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: add_basic_start_stop_desktopicons
+Name: {userdesktop}\WPN-XM; Filename: {app}\stop-wpnxm.exe; Tasks: add_basic_start_stop_desktopicons
 
 [Tasks]
 Name: portablemode; Description: "Portable Mode"; Flags: unchecked
-Name: quicklaunchicon; Description: Create a &Quick Launch icon; GroupDescription: Additional icons:; Flags: unchecked
-Name: desktopicon; Description: Create a &Desktop icon; GroupDescription: Additional icons:; Flags: unchecked
+Name: add_scp_quicklaunchicon; Description: Create a &Quick Launch icon for the Server Control Panel; GroupDescription: Additional icons:; Flags: unchecked
+Name: add_scp_desktopicon; Description: Create a &Desktop icon for the Server Control Panel; GroupDescription: Additional icons:; Flags: unchecked
+Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for starting and stopping WPN-XM; GroupDescription: Additional icons:; Flags: unchecked
 
 [Run]
 // Automatically started...
