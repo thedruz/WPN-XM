@@ -87,6 +87,11 @@ WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-1
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
 ; Tell Windows Explorer to reload the environment (because we are adding the PHP path to env var PATH)
 ChangesEnvironment=yes
+; Portable Mode
+; a) do no create registry keys for uninstallation
+CreateUninstallRegKey=not IsTaskSelected('portablemode')
+; b) do not include uninstaller
+Uninstallable=not IsTaskSelected('portablemode')
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
@@ -159,6 +164,7 @@ Name: {userdesktop}\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: quicklaunchicon
 
 [Tasks]
+Name: portablemode; Description: "Portable Mode"; Flags: unchecked
 Name: quicklaunchicon; Description: Create a &Quick Launch icon; GroupDescription: Additional icons:; Flags: unchecked
 Name: desktopicon; Description: Create a &Desktop icon; GroupDescription: Additional icons:; Flags: unchecked
 
