@@ -2,8 +2,8 @@
 :: Change this to ON when debugging this batch file.
 
 :: +-------------------------------------------------------------------------
-:: | MySQL 5.5.15 win32 - Stripdown Script
-:: |
+:: | MySQL 5.5.15 win32 - Stripdown Script for WPN-XM Server Stack
+:: | http://wpn-xm.org/
 :: | Author: Jens-André Koch
 :: +-----------------------------------------------------------------------<3
 
