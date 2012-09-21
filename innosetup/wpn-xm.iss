@@ -23,7 +23,7 @@
 // |   - junctions for creating symlinks.                                 |
 // |                                                                      |
 // |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
-// |  Website:  http://wpn-xm.org                                         |
+// |  Website:  http://wpn-xm.org/                                         |
 // |  License:  GNU/GPLv2+                                                |
 // |                                                                      |
 // |  Note for developers                                                 |
@@ -132,8 +132,10 @@ Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
-// incorporate the whole "www" folder into the setup
-Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*
+// incorporate the whole "www" folder into the setup, except webinterface folder
+// webinterface folder is only copied, if component is selected
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
+Source: ..\www\webinterface; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // incorporate several startfiles
 Source: ..\startfiles\administration.url; DestDir: {app}
 Source: ..\startfiles\localhost.url; DestDir: {app}
@@ -181,9 +183,6 @@ Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
 //Filename: {app}\SETUP.EXE; Description: Configure Server Stack; Flags: postinstall nowait skipifsilent unchecked
 
-[INI]
-;Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
-
 [Registry]
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
@@ -206,6 +205,7 @@ en.RemoveApp=Uninstall WPN-XM Server Stack
 
 [Dirs]
 Name: {app}\www
+Name: {app}\www\webinterface; Components: webinterface;
 Name: {app}\bin\nginx\conf\vhosts
 
 [Code]
@@ -218,7 +218,7 @@ const
   // ----------------------------------------------
   // The majority of download urls point to our redirection script.
   // The WPN-XM redirection script uses an internal software registry for looking
-  // up the latest version and pointing the installer to the download url.
+  // up the latest version and redirecting the installer to the download url.
   //
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   //
@@ -241,6 +241,7 @@ const
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
+  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist'
 
   // Define file names for the downloads
   Filename_adminer          = 'adminer.php';
@@ -262,6 +263,7 @@ const
   Filename_webgrind         = 'webgrind.zip';
   Filename_wpnxmscp         = 'wpnxmscp.zip';
   Filename_xhprof           = 'xhprof.zip';
+  Filename_vcredist         = 'vcredist_x86.exe';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -283,10 +285,10 @@ end;
 
   The first progress bar shows the total progress.
     (1 of 10 zips to unzip = 10 %)
-  The second progress bar shows the current operation progress
+  The second progress bar shows the current operation progress.
     (unzipping component 2: 25% of 100%)
 
-  Page is put into the install page loop via
+  The Page is put into the install page loop via
   CurPageChanged(CurPageID) -> CurPageID=wpInstalling then CustomWpInstallingPage;
 }
 procedure CustomWpInstallingPage;
@@ -492,6 +494,12 @@ begin
       ITD_AddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
     end;
 
+    if IsComponentSelected('webinterface') then
+    begin
+      // the webinterface depends on vc2008-redistributable .dll stuff
+      ITD_AddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
+    end;
+
     if IsComponentSelected('servercontrolpanel') then
     begin
       ITD_AddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
@@ -501,7 +509,7 @@ begin
     if IsComponentSelected('apc')       then ITD_AddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
 
-    if IsComponentSelected('xhprof')    then
+    if IsComponentSelected('xhprof') then
     begin
         ITD_AddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
         ITD_AddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
@@ -771,6 +779,11 @@ begin
   Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\mysql_install_db.exe --default-user=root --password=toop --datadir="' + appPath + '\bin\mariadb\data"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
+  if Pos('webinterface', selectedComponents) > 0 and VCRedistNeedsInstall then
+  begin
+    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing CRT...
+  end;
+
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     // deactivated, because we are fetching from preinheimer's fork, see below
@@ -891,6 +904,46 @@ begin
       // php.ini entry for loading the the extension
       //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
   end;
+end;
+
+// Make vcredist x86 install if needed
+// http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
+#IFDEF UNICODE
+  #DEFINE AW "W"
+#ELSE
+  #DEFINE AW "A"
+#ENDIF
+type
+  INSTALLSTATE = Longint;
+const
+  INSTALLSTATE_INVALIDARG = -2;  // An invalid parameter was passed to the function.
+  INSTALLSTATE_UNKNOWN = -1;     // The product is neither advertised or installed.
+  INSTALLSTATE_ADVERTISED = 1;   // The product is advertised but not installed.
+  INSTALLSTATE_ABSENT = 2;       // The product is installed for a different user.
+  INSTALLSTATE_DEFAULT = 5;      // The product is installed for the current user.
+
+  // software package = registry key to look for
+  VC_2008_REDIST_X86 = '{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}';
+
+function MsiQueryProductState(szProduct: string): INSTALLSTATE;
+  external 'MsiQueryProductState{#AW}@msi.dll stdcall';
+
+function VCVersionInstalled(const ProductID: string): Boolean;
+begin
+  Result := MsiQueryProductState(ProductID) = INSTALLSTATE_DEFAULT;
+end;
+
+{
+  // here the Result must be True when you need to install your VCRedist
+  // or False when you don't need to, so now it's upon you how you build
+  // this statement, the following won't install your VC redist only when
+  // the Visual C++ 2010 Redist (x86) and Visual C++ 2010 SP1 Redist(x86)
+  // are installed for the current user
+}
+function VCRedistributableNeedsInstall: Boolean;
+begin
+  //Result := not (VCVersionInstalled(VC_2008_REDIST_X86) and VCVersionInstalled(VC_2010_SP1_REDIST_X86));
+  Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
 end;
 
 {
