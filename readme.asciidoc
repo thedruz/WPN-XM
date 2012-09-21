@@ -38,24 +38,24 @@ https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 
 5+^s|PHP Extensions
 
-| XDebug    | 2.2.0RC2 | Xdebug License | © 2002 - 2007 Derick Rethans. | http://xdebug.org/
-| APC       | 3.1.12|                |                               |
-| Memcached | 3.0.6 |                |                               |
-| ZeroMQ    | 2.1   | GNU LGPL       | © iMatix Corporation          | http://zeromq.org
+| XDebug    | 2.2.1 | Xdebug License | © 2002 - 2007 Derick Rethans. | http://xdebug.org/
+| APC       | 3.1.12   | PHP License    |                               | http://pecl.php.net/package/APC
+| Memcached | 3.0.6    |                |                               |
+| ZeroMQ    | 2.1      | GNU LGPL       | © iMatix Corporation          | http://zeromq.org
 
 5+^s|Additional Tools
 
-| xhProf     | 0.10.3| Apache License v2 | © 2010 - 2012 Facebook. | http://pecl.php.net/package/xhprof/ +  https://github.com/facebook/xhprof/
-| Webgrind   | 1.0   | New BSD License   | © 2010 J. Nygård, J. Oettinger.   | https://github.com/jokkedk/webgrind/
+| xhProf     | 0.10.3 | Apache License v2 | © 2010 - 2012 Facebook. | http://pecl.php.net/package/xhprof/ +  https://github.com/facebook/xhprof/
+| Webgrind   | 1.0    | New BSD License   | © 2010 J. Nygård, J. Oettinger.   | https://github.com/jokkedk/webgrind/
 | phpMyAdmin | 3.5.2.2| GNU GPL v2        | © 2003 - 2012 phpMyAdmin DevTeam. | http://phpmyadmin.net/
-| Adminer    | 3.5.1 | Apache License v2 GNU GPL v2  | © 2003 - 2012 Jakub Vrána. | http://adminer.org/
-| Memcached  | 1.4.5 |
-| Memadmin   | 1.0.12|
-| XCache     | 2.0.1 |
-| Junctions  |       | Sysinternals Software License | © 2010 Mark Russinovich | http://technet.microsoft.com/de-de/sysinternals/bb896768.aspx
-| Sendmail   | 1.0   |
-| PEAR       |       |                   |                                   |
-| Composer   | 1.0   | MIT License       | © 2011 - 2012 N. Adermann, J. Boggiano. | http://getcomposer.org
+| Adminer    | 3.5.1  | Apache License v2 GNU GPL v2  | © 2003 - 2012 Jakub Vrána. | http://adminer.org/
+| Memcached  | 1.4.5  | . | . | .
+| Memadmin   | 1.0.12 | . | . | .
+| XCache     | 2.0.1  | . | . | .
+| Junctions  |        | Sysinternals Software License | © 2010 Mark Russinovich | http://technet.microsoft.com/de-de/sysinternals/bb896768.aspx
+| Sendmail   | 1.0    | . | . | .
+| PEAR       |        | . | . | .
+| Composer   | 1.0    | MIT License       | © 2011 - 2012 N. Adermann, J. Boggiano. | http://getcomposer.org
 
 5+^s|Icons
 
