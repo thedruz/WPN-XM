@@ -135,7 +135,7 @@ Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
 // incorporate the whole "www" folder into the setup, except webinterface folder
 // webinterface folder is only copied, if component is selected
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
-Source: ..\www\webinterface; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
+Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // incorporate several startfiles
 Source: ..\startfiles\administration.url; DestDir: {app}
 Source: ..\startfiles\localhost.url; DestDir: {app}
@@ -241,7 +241,7 @@ const
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
-  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist'
+  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
 
   // Define file names for the downloads
   Filename_adminer          = 'adminer.php';
@@ -272,6 +272,46 @@ var
   appPath     : String;   // application path (= the installaton folder)
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
+
+// Make vcredist x86 install if needed
+// http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
+#IFDEF UNICODE
+  #DEFINE AW "W"
+#ELSE
+  #DEFINE AW "A"
+#ENDIF
+type
+  INSTALLSTATE = Longint;
+const
+  INSTALLSTATE_INVALIDARG = -2;  // An invalid parameter was passed to the function.
+  INSTALLSTATE_UNKNOWN = -1;     // The product is neither advertised or installed.
+  INSTALLSTATE_ADVERTISED = 1;   // The product is advertised but not installed.
+  INSTALLSTATE_ABSENT = 2;       // The product is installed for a different user.
+  INSTALLSTATE_DEFAULT = 5;      // The product is installed for the current user.
+
+  // software package = registry key to look for
+  VC_2008_REDIST_X86 = '{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}';
+
+function MsiQueryProductState(szProduct: string): INSTALLSTATE;
+  external 'MsiQueryProductState{#AW}@msi.dll stdcall';
+
+function VCVersionInstalled(const ProductID: string): Boolean;
+begin
+  Result := MsiQueryProductState(ProductID) = INSTALLSTATE_DEFAULT;
+end;
+
+{
+  // here the Result must be True when you need to install your VCRedist
+  // or False when you don't need to, so now it's upon you how you build
+  // this statement, the following won't install your VC redist only when
+  // the Visual C++ 2010 Redist (x86) and Visual C++ 2010 SP1 Redist(x86)
+  // are installed for the current user
+}
+function VCRedistributableNeedsInstall: Boolean;
+begin
+  //Result := not (VCVersionInstalled(VC_2008_REDIST_X86) and VCVersionInstalled(VC_2010_SP1_REDIST_X86));
+  Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
+end;
 
 procedure UrlLabelClick(Sender: TObject);
 var
@@ -494,7 +534,7 @@ begin
       ITD_AddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
     end;
 
-    if IsComponentSelected('webinterface') then
+    if IsComponentSelected('webinterface') and VCRedistributableNeedsInstall then
     begin
       // the webinterface depends on vc2008-redistributable .dll stuff
       ITD_AddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
@@ -779,7 +819,7 @@ begin
   Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\mysql_install_db.exe --default-user=root --password=toop --datadir="' + appPath + '\bin\mariadb\data"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  if Pos('webinterface', selectedComponents) > 0 and VCRedistNeedsInstall then
+  if Pos('webinterface', selectedComponents) > 0 and VCRedistributableNeedsInstall then
   begin
     //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing CRT...
   end;
@@ -904,46 +944,6 @@ begin
       // php.ini entry for loading the the extension
       //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
   end;
-end;
-
-// Make vcredist x86 install if needed
-// http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
-#IFDEF UNICODE
-  #DEFINE AW "W"
-#ELSE
-  #DEFINE AW "A"
-#ENDIF
-type
-  INSTALLSTATE = Longint;
-const
-  INSTALLSTATE_INVALIDARG = -2;  // An invalid parameter was passed to the function.
-  INSTALLSTATE_UNKNOWN = -1;     // The product is neither advertised or installed.
-  INSTALLSTATE_ADVERTISED = 1;   // The product is advertised but not installed.
-  INSTALLSTATE_ABSENT = 2;       // The product is installed for a different user.
-  INSTALLSTATE_DEFAULT = 5;      // The product is installed for the current user.
-
-  // software package = registry key to look for
-  VC_2008_REDIST_X86 = '{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}';
-
-function MsiQueryProductState(szProduct: string): INSTALLSTATE;
-  external 'MsiQueryProductState{#AW}@msi.dll stdcall';
-
-function VCVersionInstalled(const ProductID: string): Boolean;
-begin
-  Result := MsiQueryProductState(ProductID) = INSTALLSTATE_DEFAULT;
-end;
-
-{
-  // here the Result must be True when you need to install your VCRedist
-  // or False when you don't need to, so now it's upon you how you build
-  // this statement, the following won't install your VC redist only when
-  // the Visual C++ 2010 Redist (x86) and Visual C++ 2010 SP1 Redist(x86)
-  // are installed for the current user
-}
-function VCRedistributableNeedsInstall: Boolean;
-begin
-  //Result := not (VCVersionInstalled(VC_2008_REDIST_X86) and VCVersionInstalled(VC_2010_SP1_REDIST_X86));
-  Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
 end;
 
 {
