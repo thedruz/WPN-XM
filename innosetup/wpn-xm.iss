@@ -23,7 +23,7 @@
 // |   - junctions for creating symlinks.                                 |
 // |                                                                      |
 // |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
-// |  Website:  http://wpn-xm.org/                                         |
+// |  Website:  http://wpn-xm.org/                                        |
 // |  License:  GNU/GPLv2+                                                |
 // |                                                                      |
 // |  Note for developers                                                 |
