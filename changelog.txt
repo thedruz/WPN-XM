@@ -25,11 +25,38 @@ VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-Version 0.4 - REL    01.09.2012
+tba           REL       tba   Version 0.4.1
 ------------  ----------------------------------------------------------------
 
-        -->>
+ next  -->>
+
+[22.09.2012]  ADD    wpn-xm logo SVG :)
+              ADD    experimental vcredistributable2008 check
+[20.09.2012]  ADD    experimental portable mode
+                     (create no registry key and drop uninstallation)
+              ADD    added additional task to innoscript for
+                     creation of start stop desktop icons,
+                     scp desktop and quick launch icon
+[02.09.2012]  ADD    enabled php_com_dotnet extensions by default
+
+------------  ----------------------------------------------------------------
+[01.09.2012]  REL    Version 0.4
+------------  ----------------------------------------------------------------
+
+[31.08.2012]  CHG    sorted all URLS and FILES in the innoscript
+[31.08.2012]  ADD    handling of phpext_xhprof
+              ADD    added FAKE-SENDMAIL
+[31.08.2012]  CHG    disabled extensions zeromq (not compat version atm)
 [30.08.2012]  ADD    server-control-panel shutdown already running processes
+[23.08.2012]  CHG    webinterface: fixed repository links
+              UPD    twitter bootstrap v2.1.0
+[13.08.2012]  MOD    website-wpn-xm.org is own git repository now
+                     server-control panel is an git submodule now
+                     updater is an own git repository now
+[07.08.2012]  CHG    copy the installation wizard log into the logs folder
+[05.08.2012]  FIX    fastcgi_read_timeout increased for xdebug step debugging
+[03.08.2012]  ADD    added MEMADMIN v1.0.12 - Webinterface for Memcached
+[23.07.2012]  MOD    webinterface is an git submodule now
 [16.07.2012]  ADD    wpnxm-software-registry + get & checkversion script
                      get.php is a redirection script pointing to download urls
                      checkversion uses software registry for version compares
@@ -65,7 +92,7 @@ Version 0.4 - REL    01.09.2012
                      in the SCP with the daemon, they rely on (php+nginx)
 
 ------------  ----------------------------------------------------------------
-Version 0.3 - REL    11.06.2012
+[11.06.2012]  REL    Version 0.3
 ------------  ----------------------------------------------------------------
 
 [11.06.2012]  NEW    added WPN-XM SCP 0.3.0
@@ -115,7 +142,7 @@ Version 0.3 - REL    11.06.2012
               NEW    PHP Extension for ZeroMQ v2.1
 
 ------------  ----------------------------------------------------------------
-Version 0.2 - REL    06. February 2012
+[06.02.2012]  REL    Version 0.2
 ------------  ----------------------------------------------------------------
 
 [06.02.2012]  UPD    NGINX 1.1.11
@@ -158,10 +185,10 @@ Version 0.2 - REL    06. February 2012
 [07.12.2011]  CHG    renamed severpack to server stack
 
 ------------  ----------------------------------------------------------------
-Version 0.1   REL    12. November 2011
+[12.11.2011]  REL    Version 0.1
 ------------  ----------------------------------------------------------------
 
-                NEW    created and set up website wpn-xm.org
+              NEW    created and set up website wpn-xm.org
                      PHP 5.3.8
                      NGINX 1.1.7
                      XDebug 2.1.2 (PHP Extension)
@@ -172,10 +199,10 @@ Version 0.1   REL    12. November 2011
                      Webgrind
                      Xhprof
                      APC (PHP Extension)
-                NEW      selected components for the server stack
-                NEW      created base for wpn-xm server control tray application
-                NEW      created base for wpn-xm webinterface
+              NEW    selected components for the server stack
+              NEW    created base for wpn-xm server control tray application
+              NEW    created base for wpn-xm webinterface
               NEW    two ISS files, for standalone and for bundled distribution
 [12.06.2011]  NEW    layed out a directory structure for the project
 
-------------  ----------------------------------------------------------------
+------------    ----------------------------------------------------------------
