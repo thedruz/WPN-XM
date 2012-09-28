@@ -819,7 +819,7 @@ begin
   Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\mysql_install_db.exe --default-user=root --password=toop --datadir="' + appPath + '\bin\mariadb\data"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  if Pos('webinterface', selectedComponents) > 0 and VCRedistributableNeedsInstall then
+  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
   begin
     //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing CRT...
   end;
