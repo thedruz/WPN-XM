@@ -301,15 +301,11 @@ begin
 end;
 
 {
-  // here the Result must be True when you need to install your VCRedist
-  // or False when you don't need to, so now it's upon you how you build
-  // this statement, the following won't install your VC redist only when
-  // the Visual C++ 2010 Redist (x86) and Visual C++ 2010 SP1 Redist(x86)
-  // are installed for the current user
+  // The Result must be "True" when you need to install your VCRedist
+  // or "False" when you don't need to.
 }
 function VCRedistributableNeedsInstall: Boolean;
 begin
-  //Result := not (VCVersionInstalled(VC_2008_REDIST_X86) and VCVersionInstalled(VC_2010_SP1_REDIST_X86));
   Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
 end;
 
