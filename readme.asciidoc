@@ -68,29 +68,4 @@ Well, then go try a different Serverpack for Windows.
 You might find a https://github.com/WPN-XM/WPN-XM/wiki/Comprehensive-list-of-server-stacks[comprehensive list of server stacks] in our wiki.
 I know you’ll come back.
 
-=== HOW TO BUILD THE INSTALLER ===
-
-Just execute "build.bat". That's it. It's a one-click build.
-You might then find the setup executable(s) in the folder "_build".
-
-Find a detailed description on how this works in the one-click build process documentation.
-https://github.com/WPN-XM/WPN-XM/wiki/Description-of-the-one-click-build-process
-
-==== HOW TO BUILD THE INSTALLER MANUALLY ====
-
-Building the installer manually means loading and compiling
-the InnoSetup Script with Innosetup.
-
-*Requirements*
-
-* Windows OS
-* Innosetup (http://www.jrsoftware.org/isinfo.php) or
-* ISTools (optional) (http://sourceforge.net/projects/istool/)
-
-*Build*
-
-* open "wpn-xm.iss" with InnoSetup or ISTools
-* search and replace any tokens like @DEBUG@ (true/false) and @APPVERSION@ (1.2.3)
-* use GUI to compile it
-
 *Regards, Jens-André Koch*
