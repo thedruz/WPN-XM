@@ -131,8 +131,10 @@ Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
-// incorporate the whole "www" folder into the setup
-Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*
+// incorporate the whole "www" folder into the setup, except webinterface folder
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
+// webinterface folder is only copied, if component is selected
+Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // incorporate several startfiles
 Source: ..\startfiles\administration.url; DestDir: {app}
 Source: ..\startfiles\localhost.url; DestDir: {app}

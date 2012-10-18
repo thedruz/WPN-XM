@@ -49,9 +49,6 @@
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
-// we need to include the Sherlock Software\InnoTools\Downloader
-# include SOURCE_ROOT + "..\bin\InnoToolsDownloader\it_download.iss"
-
 [Setup]
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
 AppName={#AppName}
@@ -133,8 +130,8 @@ Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
 // incorporate the whole "www" folder into the setup, except webinterface folder
-// webinterface folder is only copied, if component is selected
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
+// webinterface folder is only copied, if component is selected
 Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // incorporate several startfiles
 Source: ..\startfiles\administration.url; DestDir: {app}

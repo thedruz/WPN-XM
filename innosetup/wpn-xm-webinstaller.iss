@@ -133,8 +133,8 @@ Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
 // incorporate the whole "www" folder into the setup, except webinterface folder
-// webinterface folder is only copied, if component is selected
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
+// webinterface folder is only copied, if component is selected
 Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // incorporate several startfiles
 Source: ..\startfiles\administration.url; DestDir: {app}
