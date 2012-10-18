@@ -20,9 +20,14 @@
     <property name="version.BuildNumber"    value="1"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
 
+    <property name="nant.settings.currentframework" value="WPN-XM Server Stack ${wpnxm.Version}" />
+
     <!-- Paths -->
     <property name="dir.Base"               value="${project::get-base-directory()}"/>
     <property name="dir.Build"              value="${dir.Base}\_build"/>
+    <property name="dir.Downloads"          value="${dir.Base}\downloads"/>
+
+    <property name="wpnxm.DownloadFileList" value="${dir.Base}\download_filelist.csv"/>
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
 
     <!-- File Names -->
@@ -161,6 +166,18 @@
             <!-- use files from build folder (tokens replaced) -->
             <arg value="${dir.Build}\wpn-xm-webinstaller-debug.iss"/>
         </exec>
+    </target>
+
+    <target name="download-components" description="Downloads all components for building the AllInOne Installer."
+            depends="make-downloads-dir">
+        <foreach item="Line" in="download-filelist.csv" delim="," property="component,source,destination">
+            <echo message="&#xa; Downloading ${component} &#xa;" />
+            <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" />
+        </foreach>
+    </target>
+
+    <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
+         <mkdir dir="${dir.Downloads}"/>
     </target>
 
     <target name="all"
