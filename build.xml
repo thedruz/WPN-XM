@@ -26,7 +26,7 @@
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
 
     <!-- File Names -->
-    <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}-Setup"/>
+    <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}"/>
     <property name="wpnxm.ExeFile"          value="${dir.Build}\${wpnxm.ExeFileName}"/>
 
     <property name="wpnxm.ZipFileName"      value="WPNXM-${wpnxm.Version}.zip"/>
@@ -49,9 +49,10 @@
          -->
         <copy todir="${dir.Build}" overwrite="true">
             <fileset basedir="${dir.Base}/innosetup/">
-                <include name="wpn-xm.iss"/>
-                <include name="wpn-xm with clansuite.iss"/>
-                <include name="wpn-xm with opencandy.iss"/>
+                <include name="wpn-xm-webinstaller.iss"/>
+                <include name="wpn-xm-webinstaller-with-clansuite.iss"/>
+                <include name="wpn-xm-webinstaller-with-opencandy.iss"/>
+                <include name="wpn-xm-allinone-installer.iss"/>
             </fileset>
             <filterchain>
                 <replacetokens>
@@ -64,7 +65,7 @@
         <!-- DEBUG executable -->
         <copy todir="${dir.Build}" overwrite="true">
             <fileset basedir="${dir.Base}/innosetup/">
-                <include name="wpn-xm debug.iss"/>
+                <include name="wpn-xm-webinstaller-debug.iss"/>
             </fileset>
             <filterchain>
                 <replacetokens>
@@ -107,47 +108,58 @@
         <echo message="Building ${wpnxm.Name}-${wpnxm.Version} Setup Executable"/>
     </target>
 
-    <target name="compile-wpnxm-setup" description="Builds the WPN-XM setup executable.">
+    <target name="compile-wpnxm-webinstaller-setup" description="Builds the WPN-XM setup executable.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}"/>
+            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Setup"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm.iss"/>
+            <arg value="${dir.Build}\wpn-xm-webinstaller.iss"/>
         </exec>
     </target>
 
-    <target name="compile-wpnxm-with-clansuite-setup" description="Builds the WPN-XM setup executable.">
+    <target name="compile-wpnxm-webinstaller-with-clansuite-setup" description="Builds the WPN-XM setup executable.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-withClansuite"/>
+            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-with-Clansuite-Setup"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm with clansuite.iss"/>
+            <arg value="${dir.Build}\wpn-xm-webinstaller-with-clansuite.iss"/>
         </exec>
     </target>
 
-    <target name="compile-wpnxm-with-opencandy-setup" description="Builds the WPN-XM setup executable.">
+    <target name="compile-wpnxm-webinstaller-with-opencandy-setup" description="Builds the WPN-XM setup executable.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-withOpenCandy"/>
+            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-with-OpenCandy-Setup"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm with opencandy.iss"/>
+            <arg value="${dir.Build}\wpn-xm-webinstaller-with-opencandy.iss"/>
         </exec>
     </target>
 
-    <target name="compile-wpnxm-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
+        <target name="compile-wpnxm-allinone-installer" description="Builds the WPN-XM setup executable.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Debug"/>
+            <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm debug.iss"/>
+            <arg value="${dir.Build}\wpn-xm-allinone-installer.iss"/>
+        </exec>
+    </target>
+
+    <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-Debug-Setup"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm-webinstaller-debug.iss"/>
         </exec>
     </target>
 
@@ -155,10 +167,11 @@
         depends="clean-build-dir,
                  bump-version-number,
                  print-version-number,
-                 compile-wpnxm-setup,
-                 compile-wpnxm-debug-setup,
-                 compile-wpnxm-with-clansuite-setup">
-                 <!--compile-wpnxm-with-opencandy-setup-->
+                 compile-wpnxm-webinstaller-setup,
+                 compile-wpnxm-webinstaller-debug-setup,
+                 compile-wpnxm-webinstaller-with-clansuite-setup,
+                 compile-wpnxm-allinone-installer">
+                 <!--compile-wpnxm-webinstaller-with-opencandy-setup-->
     </target>
 
 </project>
