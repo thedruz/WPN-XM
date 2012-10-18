@@ -122,7 +122,7 @@ Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRe
 
 [Files]
 // incorporate the whole downloads folder (all in one)
-Source: ..\downloads\*; Flags: dontcopy;
+Source: ..\downloads\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
@@ -213,6 +213,26 @@ const
   // reassigning the preprocessor defined constant debug
   DEBUG = {#DEBUG};
 
+  // Define file names for the downloads
+  Filename_adminer          = 'adminer.php';
+  Filename_composer         = 'composer.phar';
+  Filename_junction         = 'junction.zip';
+  Filename_mariadb          = 'mariadb.zip';
+  Filename_memadmin         = 'memadmin.zip';
+  Filename_memcached        = 'memcached.zip';
+  Filename_nginx            = 'nginx.zip';
+  Filename_pear             = 'go-pear.phar';
+  Filename_php              = 'php.zip';
+  Filename_phpext_apc       = 'phpext-apc.zip';
+  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
+  Filename_phpext_xdebug    = 'xdebug.dll';
+  Filename_phpext_xhprof    = 'phpext-xhprof.zip';
+  Filename_phpext_zeromq    = 'phpext-zmq.zip';
+  Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_sendmail         = 'sendmail.zip';
+  Filename_webgrind         = 'webgrind.zip';
+  Filename_wpnxmscp         = 'wpnxmscp.zip';
+  Filename_xhprof           = 'xhprof.zip';
   // URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
   //Filename_vcredist         = 'vcredist_x86.exe';
 
@@ -549,14 +569,17 @@ begin
   // always unzip the serverstack base (3 components)
 
   UpdateCurrentComponentName('Nginx');
+    ExtractTemporaryFile(Filename_nginx);
     DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
       UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
+    ExtractTemporaryFile(Filename_php);
     DoUnzip(targetPath + Filename_php, ExpandConstant('{app}\bin\php'));
       UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('MariaDB');
+    ExtractTemporaryFile(Filename_mariadb);
     DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       UpdateTotalProgressBar();
 
@@ -565,6 +588,7 @@ begin
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
+      ExtractTemporaryFile(Filename_wpnxmscp);
       DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
         UpdateTotalProgressBar();
   end;
@@ -573,6 +597,7 @@ begin
   if Pos('xdebug', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Xdebug');
+      ExtractTemporaryFile(Filename_phpext_xdebug);
       FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
         UpdateTotalProgressBar();
   end;
@@ -580,6 +605,7 @@ begin
   if Pos('apc', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('APC');
+      ExtractTemporaryFile(Filename_phpext_apc);
       // archive contains ts/nts folders, unzip to temp dir, copy file from there
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
@@ -596,6 +622,8 @@ begin
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('XHProf');
+      ExtractTemporaryFile(Filename_xhprof);
+      ExtractTemporaryFile(Filename_phpext_xhprof);
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
       DoUnzip(targetPath + Filename_phpext_xhprof, ExpandConstant('{app}\bin\php\ext'));
         UpdateTotalProgressBar;
@@ -604,6 +632,9 @@ begin
   if Pos('memcached', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Memcached');
+      ExtractTemporaryFile(Filename_memcached);
+      ExtractTemporaryFile(Filename_phpext_memcache);
+      ExtractTemporaryFile(Filename_memadmin);
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
       DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
@@ -613,6 +644,7 @@ begin
   if Pos('zeromq', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('ZeroMQ');
+      ExtractTemporaryFile(Filename_phpext_zeromq);
       // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
       DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
       FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
@@ -624,6 +656,7 @@ begin
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpMyAdmin');
+      ExtractTemporaryFile(Filename_phpmyadmin);
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar;
   end;
@@ -632,6 +665,7 @@ begin
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Adminer');
+      ExtractTemporaryFile(Filename_adminer);
       CreateDir(ExpandConstant('{app}\www\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
         UpdateTotalProgressBar();
@@ -640,6 +674,7 @@ begin
   if Pos('junction', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Junction');
+      ExtractTemporaryFile(Filename_junction);
       DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
         UpdateTotalProgressBar();
   end;
@@ -648,6 +683,7 @@ begin
   if Pos('pear', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PEAR');
+      ExtractTemporaryFile(Filename_pear);
       CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
       FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
         UpdateTotalProgressBar();
@@ -657,6 +693,7 @@ begin
   if Pos('composer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('composer');
+    ExtractTemporaryFile(Filename_composer);
       FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
         UpdateTotalProgressBar();
   end;
@@ -664,6 +701,7 @@ begin
   if Pos('sendmail', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Sendmail');
+      ExtractTemporaryFile(Filename_sendmail);
       CreateDir(ExpandConstant('{app}\bin\sendmail\'));
       DoUnzip(targetPath + Filename_sendmail, ExpandConstant('{app}\bin\sendmail'));
         UpdateTotalProgressBar();

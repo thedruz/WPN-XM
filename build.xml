@@ -20,8 +20,6 @@
     <property name="version.BuildNumber"    value="1"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
 
-    <property name="nant.settings.currentframework" value="WPN-XM Server Stack ${wpnxm.Version}" />
-
     <!-- Paths -->
     <property name="dir.Base"               value="${project::get-base-directory()}"/>
     <property name="dir.Build"              value="${dir.Base}\_build"/>
