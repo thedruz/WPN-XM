@@ -121,6 +121,8 @@ Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpa
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
+// incorporate the whole downloads folder (all in one)
+Source: ..\downloads\*; Flags: dontcopy;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
@@ -211,56 +213,8 @@ const
   // reassigning the preprocessor defined constant debug
   DEBUG = {#DEBUG};
 
-  // Define download URLs for the software packages
-  // ----------------------------------------------
-  // The majority of download urls point to our redirection script.
-  // The WPN-XM redirection script uses an internal software registry for looking
-  // up the latest version and redirecting the installer to the download url.
-  //
-  // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
-  //
-  URL_adminer           = 'http://wpn-xm.org/get.php?s=adminer';
-  URL_composer          = 'http://wpn-xm.org/get.php?s=composer';
-  URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
-  URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
-  URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
-  URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
-  URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
-  URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
-  URL_php               = 'http://wpn-xm.org/get.php?s=php';
-  URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
-  URL_phpext_memcached  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
-  URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
-  URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
-  URL_phpext_zeromq     = 'http://wpn-xm.org/get.php?s=phpext_zeromq';
-  URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
-  URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
-  URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
-  URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
-  URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
-  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
-
-  // Define file names for the downloads
-  Filename_adminer          = 'adminer.php';
-  Filename_composer         = 'composer.phar';
-  Filename_junction         = 'junction.zip';
-  Filename_mariadb          = 'mariadb.zip';
-  Filename_memadmin         = 'memadmin.zip';
-  Filename_memcached        = 'memcached.zip';
-  Filename_nginx            = 'nginx.zip';
-  Filename_pear             = 'go-pear.phar';
-  Filename_php              = 'php.zip';
-  Filename_phpext_apc       = 'phpext-apc.zip';
-  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
-  Filename_phpext_xdebug    = 'xdebug.dll';
-  Filename_phpext_xhprof    = 'phpext-xhprof.zip';
-  Filename_phpext_zeromq    = 'phpext-zmq.zip';
-  Filename_phpmyadmin       = 'phpmyadmin.zip';
-  Filename_sendmail         = 'sendmail.zip';
-  Filename_webgrind         = 'webgrind.zip';
-  Filename_wpnxmscp         = 'wpnxmscp.zip';
-  Filename_xhprof           = 'xhprof.zip';
-  Filename_vcredist         = 'vcredist_x86.exe';
+  // URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
+  //Filename_vcredist         = 'vcredist_x86.exe';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -419,21 +373,6 @@ begin
   WizardForm.FinishedPage.Color:=$ECECEC;
   WizardForm.WizardSmallBitmapImage.BackColor:=$ECECEC;
 
-  //  Setup InnoTools Download Helper
-
-  // Initialize InnoTools Download Helper
-  ITD_Init;
-  // Turns on detailed error message popups for debugging the download process
-  if (DEBUG = true) then ITD_SetOption('Debug_Messages', '1');
-  // Change from a simple overall progress bar to the detailed download view
-  ITD_SetOption('UI_DetailedMode', '1');
-  // when download fails, do not allow continuing with the installation
-  ITD_SetOption('UI_AllowContinue', '0');
-  // Start the download after the "Ready to install" screen is shown
-  ITD_DownloadAfter(wpReady);
-  // reset files to download
-  ITD_ClearFiles();
-
   // Display the Version Number as overlay on the WizardImageFile (banner-left)
   // Label for the WelcomePage
   VersionLabel            := TLabel.Create(WizardForm);
@@ -508,65 +447,6 @@ begin
       // create folder, if it doesn't exist
       if not DirExists(ExpandConstant(targetPath)) then ForceDirectories(ExpandConstant(targetPath));
     end;
-
-    {
-      Leave this!   - It's for determining the download file sizes manually
-      There is a strange bug, when trying to get the filesize from googlecode.
-      So webgrind has a size of 0. Thats way "unknown" is shown as total progress.
-
-      ITD_GetFileSize(URL_xhprof, size);
-      MsgBox(intToStr(size), mbError, MB_OK);
-    }
-
-    // Add Files to Download Handler
-
-    if IsComponentSelected('serverstack') then
-    begin
-      ITD_AddFile(URL_nginx,   ExpandConstant(targetPath + Filename_nginx));
-      ITD_AddFile(URL_php,     ExpandConstant(targetPath + Filename_php));
-      ITD_AddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
-    end;
-
-    if IsComponentSelected('webinterface') and VCRedistributableNeedsInstall then
-    begin
-      // the webinterface depends on vc2008-redistributable .dll stuff
-      ITD_AddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
-    end;
-
-    if IsComponentSelected('servercontrolpanel') then
-    begin
-      ITD_AddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
-    end;
-
-    if IsComponentSelected('xdebug')    then ITD_AddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
-    if IsComponentSelected('apc')       then ITD_AddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
-    if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
-
-    if IsComponentSelected('xhprof') then
-    begin
-        ITD_AddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
-        ITD_AddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
-    end;
-
-    if IsComponentSelected('memcached') then
-    begin
-        ITD_AddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
-        ITD_AddFile(URL_phpext_memcached, ExpandConstant(targetPath + Filename_phpext_memcache));
-        ITD_AddFile(URL_memadmin,         ExpandConstant(targetPath + Filename_memadmin));
-    end;
-
-    if IsComponentSelected('zeromq')     then ITD_AddFile(URL_phpext_zeromq, ExpandConstant(targetPath + Filename_phpext_zeromq));
-    if IsComponentSelected('phpmyadmin') then ITD_AddFile(URL_phpmyadmin,    ExpandConstant(targetPath + Filename_phpmyadmin));
-    if IsComponentSelected('adminer')    then ITD_AddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
-    if IsComponentSelected('junction')   then ITD_AddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
-    if IsComponentSelected('pear')       then ITD_AddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
-    if IsComponentSelected('composer')   then ITD_AddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
-    if IsComponentSelected('sendmail')   then ITD_AddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
-
-    // if DEBUG On and already downloaded, skip downloading files, by resetting files
-    if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
-
-    if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then ITD_ClearFiles();
 
   end; // of wpSelectComponents
 
