@@ -11,7 +11,6 @@ phpext_apc,http://wpn-xm.org/get.php?s=phpext_apc,phpext_apc.zip
 phpext_memcached,http://wpn-xm.org/get.php?s=phpext_memcache,phpext_memcached.zip
 phpext_xdebug,http://wpn-xm.org/get.php?s=phpext_xdebug,phpext_xdebug.dll
 phpext_xhprof,http://wpn-xm.org/get.php?s=phpext_xhprof,phpext_xhprof.zip
-phpext_zeromq,http://wpn-xm.org/get.php?s=phpext_zeromq,phpext_zeromq.zip
 phpmyadmin,http://wpn-xm.org/get.php?s=phpmyadmin,phpmyadmin.zip
 sendmail,http://wpn-xm.org/get.php?s=sendmail,sendmail.zip
 webgrind,http://wpn-xm.org/get.php?s=webgrind,webgrind.zip
