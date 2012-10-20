@@ -225,7 +225,7 @@ const
   Filename_php              = 'php.zip';
   Filename_phpext_apc       = 'phpext-apc.zip';
   Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
-  Filename_phpext_xdebug    = 'xdebug.dll';
+  Filename_phpext_xdebug    = 'phpext-xdebug.dll';
   Filename_phpext_xhprof    = 'phpext-xhprof.zip';
   Filename_phpext_zeromq    = 'phpext-zmq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
