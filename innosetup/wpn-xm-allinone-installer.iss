@@ -119,6 +119,7 @@ Name: junction; Description: junction - Mircosoft tool for creating junctions (s
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -221,6 +222,7 @@ const
   Filename_memadmin         = 'memadmin.zip';
   Filename_memcached        = 'memcached.zip';
   Filename_nginx            = 'nginx.zip';
+  Filename_openssl          = 'openssl.exe';
   Filename_pear             = 'go-pear.phar';
   Filename_php              = 'php.zip';
   Filename_phpext_apc       = 'phpext-apc.zip';
@@ -590,6 +592,15 @@ begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
       ExtractTemporaryFile(Filename_wpnxmscp);
       DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('openssl', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('OpenSSL');
+      ExtractTemporaryFile(Filename_openssl);
+        Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
+        '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
         UpdateTotalProgressBar();
   end;
 
