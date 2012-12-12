@@ -18,7 +18,6 @@
 // |   - Xdebug, Xhprof, webgrind for php debugging purposes,             |
 // |   - phpMyAdmin and Adminer for MySQL database administration,        |
 // |   - memcached and APC for caching purposes,                          |
-// |   - ZeroMQ for socket magic,                                         |
 // |   - PEAR and Composer for PHP package management,                    |
 // |   - junctions for creating symlinks.                                 |
 // |                                                                      |
@@ -111,8 +110,6 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 // memcached install means the daemon and the php extension
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
-// disabled zeromq, as there is currently no version of libzmq.dll for win32 and php5.4
-//Name: zeromq; Description: ZeroMQ - PHP Extension for concurrent socket magic; ExtraDiskSpaceRequired: 300000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
@@ -229,7 +226,6 @@ const
   Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
   Filename_phpext_xdebug    = 'phpext-xdebug.dll';
   Filename_phpext_xhprof    = 'phpext-xhprof.zip';
-  Filename_phpext_zeromq    = 'phpext-zmq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_sendmail         = 'sendmail.zip';
   Filename_webgrind         = 'webgrind.zip';
@@ -652,18 +648,6 @@ begin
         UpdateTotalProgressBar();
   end;
 
-  if Pos('zeromq', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('ZeroMQ');
-      ExtractTemporaryFile(Filename_phpext_zeromq);
-      // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
-      DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
-      FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
-      // b) archive contains lib_zmq.dll which must be copied to php
-      FileCopy(ExpandConstant(targetPath + '\zmq\libzmq.dll'), ExpandConstant('{app}\bin\php\libzmq.dll'), false);
-        UpdateTotalProgressBar();
-  end;
-
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpMyAdmin');
@@ -847,12 +831,6 @@ begin
       SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file );
       SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file );
       SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file );
-  end;
-
-  if Pos('zeromq', selectedComponents) > 0 then
-  begin
-      // php.ini entry for loading the the extension
-      //SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file ); // disabled in v0.3.x: MODULE API=20090625 != PHP API 20100525
   end;
 
   if Pos('memcached', selectedComponents) > 0 then

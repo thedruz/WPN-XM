@@ -3,8 +3,8 @@
 //          (o o)
 // +-----oOO-{_}-OOo------------------------------------------------------+
 // |                                                                      |
-// |  WPN-XM Server Stack with Clansuite - Inno Setup Script File         |
-// |  -----------------------------------------------------------         |
+// |  WPN-XM Server Stack - Inno Setup Script File                        |
+// |  --------------------------------------------                        |
 // |                                                                      |
 // |  WPN-XM is a free and open-source web server solution stack for      |
 // |  professional PHP development on the Windows platform.               |
@@ -26,7 +26,7 @@
 // |  which is the lastest version of "Clansuite - just an eSports CMS".  |
 // |                                                                      |
 // |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
-// |  Website:  http://wpn-xm.org                                         |
+// |  Website:  http://wpn-xm.org/                                        |
 // |  License:  GNU/GPLv2+                                                |
 // |                                                                      |
 // |  Note for developers                                                 |
@@ -153,20 +153,26 @@ Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\config.inc.php; DestDir: {app}\www\phpmyadmin; Components: phpmyadmin
 
 [Icons]
-Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.exe
-Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.exe
-Name: {group}\Status of WPN-XM; Filename: {app}\status-wpnxm.bat
-Name: {group}\Localhost; Filename: {app}\localhost.url
-Name: {group}\Administration; Filename: {app}\administration.url
-Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}
-Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}
-Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}
-Name: {userdesktop}\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: quicklaunchicon
+Name: {group}\Server Control Panel; Filename: {app}\wpnxm-scp.exe; Tasks: add_startmenu_entries
+Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: add_startmenu_entries
+Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.exe; Tasks: add_startmenu_entries
+Name: {group}\Status of WPN-XM; Filename: {app}\status-wpnxm.bat; Tasks: add_startmenu_entries
+Name: {group}\Localhost; Filename: {app}\localhost.url; Tasks: add_startmenu_entries
+Name: {group}\Administration; Filename: {app}\administration.url; Tasks: add_startmenu_entries
+Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}; Tasks: add_startmenu_entries
+Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}; Tasks: add_startmenu_entries
+Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Tasks: add_startmenu_entries
+Name: {userdesktop}\WPN-XM Server-Control-Panel; Filename: {app}\wpnxm-scp.exe; Tasks: add_scp_desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpnxm-scp.exe; Tasks: add_scp_quicklaunchicon
+Name: {userdesktop}\WPN-XM Stop; Filename: {app}\start-wpnxm.exe; Tasks: add_basic_start_stop_desktopicons
+Name: {userdesktop}\WPN-XM Start; Filename: {app}\stop-wpnxm.exe; Tasks: add_basic_start_stop_desktopicons
 
 [Tasks]
-Name: quicklaunchicon; Description: Create a &Quick Launch icon; GroupDescription: Additional icons:; Flags: unchecked
-Name: desktopicon; Description: Create a &Desktop icon; GroupDescription: Additional icons:; Flags: unchecked
+Name: portablemode; Description: "Portable Mode"; Flags: unchecked
+Name: add_startmenu_entries; Description: Create Startmenu entries
+Name: add_scp_quicklaunchicon; Description: Create a &Quick Launch icon for the Server Control Panel; GroupDescription: Additional Icons:;
+Name: add_scp_desktopicon; Description: Create a &Desktop icon for the Server Control Panel; GroupDescription: Additional Icons:;
+Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for starting and stopping; GroupDescription: Additional Icons:; Flags: unchecked
 
 [Run]
 // Automatically started...
@@ -180,7 +186,7 @@ Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
 ;Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
 
 [Registry]
-; a registr change also needs the following directive: [SETUP] ChangesEnvironment=yes
+; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype
 
@@ -200,6 +206,7 @@ en.RemoveApp=Uninstall WPN-XM Server Stack
 
 [Dirs]
 Name: {app}\www
+Name: {app}\www\webinterface; Components: webinterface;
 Name: {app}\bin\nginx\conf\vhosts
 
 [Code]
@@ -212,7 +219,7 @@ const
   // ----------------------------------------------
   // The majority of download urls point to our redirection script.
   // The WPN-XM redirection script uses an internal software registry for looking
-  // up the latest version and pointing the installer to the download url.
+  // up the latest version and redirecting the installer to the download url.
   //
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   //
@@ -230,7 +237,6 @@ const
   URL_phpext_memcached  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
-  URL_phpext_zeromq     = 'http://wpn-xm.org/get.php?s=phpext_zeromq';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
@@ -252,7 +258,6 @@ const
   Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
   Filename_phpext_xdebug    = 'xdebug.dll';
   Filename_phpext_xhprof    = 'phpext-xhprof.zip';
-  Filename_phpext_zeromq    = 'phpext-zmq.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_sendmail         = 'sendmail.zip';
   Filename_webgrind         = 'webgrind.zip';
@@ -497,7 +502,7 @@ begin
     if IsComponentSelected('apc')       then ITD_AddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
 
-    if IsComponentSelected('xhprof')    then
+    if IsComponentSelected('xhprof') then
     begin
         ITD_AddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
         ITD_AddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
@@ -510,7 +515,6 @@ begin
         ITD_AddFile(URL_memadmin,         ExpandConstant(targetPath + Filename_memadmin));
     end;
 
-    if IsComponentSelected('zeromq')     then ITD_AddFile(URL_phpext_zeromq, ExpandConstant(targetPath + Filename_phpext_zeromq));
     if IsComponentSelected('phpmyadmin') then ITD_AddFile(URL_phpmyadmin,    ExpandConstant(targetPath + Filename_phpmyadmin));
     if IsComponentSelected('adminer')    then ITD_AddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
     if IsComponentSelected('junction')   then ITD_AddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
@@ -682,17 +686,6 @@ begin
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
       DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
-  end;
-
-  if Pos('zeromq', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('ZeroMQ');
-      // a) archive contains ts/nts folders, unzip to temp dir, copy file from there
-      DoUnzip(targetPath + Filename_phpext_zeromq, targetPath + '\zmq');
-      FileCopy(ExpandConstant(targetPath + '\zmq\nts\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
-      // b) archive contains lib_zmq.dll which must be copied to php
-      FileCopy(ExpandConstant(targetPath + '\zmq\libzmq.dll'), ExpandConstant('{app}\bin\php\libzmq.dll'), false);
         UpdateTotalProgressBar();
   end;
 
@@ -875,12 +868,6 @@ begin
       SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file );
       SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file );
       SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file );
-  end;
-
-  if Pos('zeromq', selectedComponents) > 0 then
-  begin
-      // php.ini entry for loading the the extension
-      //SetIniString('PHP', 'extension', 'php_zmq.dll', php_ini_file ); // disabled in v0.3.x: MODULE API=20090625 != PHP API 20100525
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
