@@ -1,1 +1,1 @@
-Inno Setup 5.5.0
+Inno Setup 5.5.2

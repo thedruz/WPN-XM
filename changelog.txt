@@ -29,7 +29,8 @@ tba           REL       tba   Version 0.4.1
 ------------  ----------------------------------------------------------------
 
  next  -->>
-
+[12.12.2012]  UPD    InnoSetup v5.5.2
+              ...
 [22.09.2012]  ADD    wpn-xm logo SVG :)
               ADD    experimental vcredistributable2008 check
 [20.09.2012]  ADD    experimental portable mode
