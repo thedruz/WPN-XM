@@ -144,6 +144,17 @@
         </exec>
     </target>
 
+     <target name="compile-wpnxm-allinone-installer-no-download" description="Builds the WPN-XM setup executable.">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm-allinone-installer.iss"/>
+        </exec>
+    </target>
+
     <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
