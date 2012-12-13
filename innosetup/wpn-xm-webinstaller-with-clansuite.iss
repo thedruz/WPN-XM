@@ -18,7 +18,6 @@
 // |   - Xdebug, Xhprof, webgrind for php debugging purposes,             |
 // |   - phpMyAdmin and Adminer for MySQL database administration,        |
 // |   - memcached and APC for caching purposes,                          |
-// |   - ZeroMQ for socket magic,                                         |
 // |   - PEAR and Composer for PHP package management,                    |
 // |   - junctions for creating symlinks.                                 |
 // |                                                                      |
@@ -112,8 +111,6 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 // memcached install means the daemon and the php extension
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
-// disabled zeromq, as there is currently no version of libzmq.dll for win32 and php5.4
-//Name: zeromq; Description: ZeroMQ - PHP Extension for concurrent socket magic; ExtraDiskSpaceRequired: 300000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
@@ -242,6 +239,7 @@ const
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
+  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
 
   // Define file names for the downloads
   Filename_adminer          = 'adminer.php';
@@ -252,17 +250,19 @@ const
   Filename_memadmin         = 'memadmin.zip';
   Filename_memcached        = 'memcached.zip';
   Filename_nginx            = 'nginx.zip';
+  Filename_openssl          = 'openssl.exe';
   Filename_pear             = 'go-pear.phar';
   Filename_php              = 'php.zip';
-  Filename_phpext_apc       = 'phpext-apc.zip';
-  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
-  Filename_phpext_xdebug    = 'xdebug.dll';
-  Filename_phpext_xhprof    = 'phpext-xhprof.zip';
+  Filename_phpext_apc       = 'phpext_apc.zip';
+  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_xdebug    = 'phpext_xdebug.dll';
+  Filename_phpext_xhprof    = 'phpext_xhprof.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_sendmail         = 'sendmail.zip';
   Filename_webgrind         = 'webgrind.zip';
   Filename_wpnxmscp         = 'wpnxmscp.zip';
   Filename_xhprof           = 'xhprof.zip';
+  Filename_vcredist         = 'vcredist_x86.exe';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec

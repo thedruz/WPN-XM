@@ -247,12 +247,13 @@ const
   Filename_memadmin         = 'memadmin.zip';
   Filename_memcached        = 'memcached.zip';
   Filename_nginx            = 'nginx.zip';
+  Filename_openssl          = 'openssl.exe';
   Filename_pear             = 'go-pear.phar';
   Filename_php              = 'php.zip';
-  Filename_phpext_apc       = 'phpext-apc.zip';
-  Filename_phpext_memcache  = 'phpext-memcache.zip'; // memcache without D
-  Filename_phpext_xdebug    = 'xdebug.dll';
-  Filename_phpext_xhprof    = 'phpext-xhprof.zip';
+  Filename_phpext_apc       = 'phpext_apc.zip';
+  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_xdebug    = 'phpext_xdebug.dll';
+  Filename_phpext_xhprof    = 'phpext_xhprof.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
   Filename_sendmail         = 'sendmail.zip';
   Filename_webgrind         = 'webgrind.zip';
