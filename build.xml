@@ -133,18 +133,7 @@
         </exec>
     </target>
 
-    <target name="compile-wpnxm-webinstaller-with-opencandy-setup" description="Builds the WPN-XM setup executable.">
-        <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-with-OpenCandy-Setup"/>
-            <!-- use our build dir as output dir -->
-            <arg value="-o${dir.Build}"/>
-            <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm-webinstaller-with-opencandy.iss"/>
-        </exec>
-    </target>
-
-        <target name="compile-wpnxm-allinone-installer" description="Builds the WPN-XM setup executable." depends="download-components">
+    <target name="compile-wpnxm-allinone-installer" description="Builds the WPN-XM setup executable." depends="download-components">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
@@ -186,7 +175,6 @@
                  compile-wpnxm-webinstaller-debug-setup,
                  compile-wpnxm-webinstaller-with-clansuite-setup,
                  compile-wpnxm-allinone-installer">
-                 <!--compile-wpnxm-webinstaller-with-opencandy-setup-->
     </target>
 
 </project>
