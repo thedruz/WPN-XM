@@ -753,13 +753,8 @@ begin
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
-    // deactivated, because we are fetching from preinheimer's fork, see below
-    // xhprof - rename "facebook-xhprof-gitref" directory
-    //Exec('cmd.exe', '/c "move ' + appPath + '\www\facebook-xhprof* ' + appPath + '\www\xhprof"',
-    //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-    // xhprof - rename "preinheimer-xhprof-gitref" directory
-    Exec('cmd.exe', '/c "move ' + appPath + '\www\preinheimer-xhprof* ' + appPath + '\www\xhprof"',
+    // xhprof - rename "xhprof-master" directory
+    Exec('cmd.exe', '/c "move ' + appPath + '\www\xhprof-* ' + appPath + '\www\xhprof"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     // rename "xhprof_0.10.3_php54_vc9_nts.dll" to "xhprof.dll"

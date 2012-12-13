@@ -648,6 +648,15 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('openssl', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('OpenSSL');
+      ExtractTemporaryFile(Filename_openssl);
+        Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
+        '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+        UpdateTotalProgressBar();
+  end;
+
   // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then
   begin
@@ -730,7 +739,7 @@ begin
         UpdateTotalProgressBar();
   end;
 
- if Pos('webgrind', selectedComponents) > 0 then
+  if Pos('webgrind', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Webgrind');
       DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
@@ -769,13 +778,8 @@ begin
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
-    // deactivated, because we are fetching from preinheimer's fork, see below
-    // xhprof - rename "facebook-xhprof-gitref" directory
-    //Exec('cmd.exe', '/c "move ' + appPath + '\www\facebook-xhprof* ' + appPath + '\www\xhprof"',
-    //'', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-    // xhprof - rename "preinheimer-xhprof-gitref" directory
-    Exec('cmd.exe', '/c "move ' + appPath + '\www\preinheimer-xhprof* ' + appPath + '\www\xhprof"',
+    // xhprof - rename "xhprof-master" directory
+    Exec('cmd.exe', '/c "move ' + appPath + '\www\xhprof-* ' + appPath + '\www\xhprof"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     // rename "xhprof_0.10.3_php54_vc9_nts.dll" to "xhprof.dll"
