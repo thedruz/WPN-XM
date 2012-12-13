@@ -619,13 +619,6 @@ begin
         UpdateTotalProgressBar();
   end;
 
-  if Pos('webgrind', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Webgrind');
-      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
-  end;
-
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('XHProf');
@@ -699,6 +692,13 @@ begin
       ExtractTemporaryFile(Filename_sendmail);
       CreateDir(ExpandConstant('{app}\bin\sendmail\'));
       DoUnzip(targetPath + Filename_sendmail, ExpandConstant('{app}\bin\sendmail'));
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('webgrind', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Webgrind');
+      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
   end;
 
