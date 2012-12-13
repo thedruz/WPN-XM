@@ -687,6 +687,15 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('openssl', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('OpenSSL');
+      ExtractTemporaryFile(Filename_openssl);
+        Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
+        '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+        UpdateTotalProgressBar();
+  end;
+
   // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then
   begin
@@ -701,13 +710,6 @@ begin
       // archive contains ts/nts folders, unzip to temp dir, copy file from there
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
-        UpdateTotalProgressBar();
-  end;
-
-  if Pos('webgrind', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Webgrind');
-      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
   end;
 
@@ -776,6 +778,13 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('webgrind', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Webgrind');
+      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
+
 end;
 
 procedure MoveFiles();
@@ -825,8 +834,8 @@ begin
       // rename the existing directory
       Exec('cmd.exe', '/c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-      // memadmin - rename folder name "junstor-memadmin-v1.0.11-0-g7587722" to "memadmin"
-      Exec('cmd.exe', '/c "move ' + appPath + '\www\junstor-memadmin* ' + appPath + '\www\memadmin"',
+      // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
+      Exec('cmd.exe', '/c "move ' + appPath + '\www\memadmin-* ' + appPath + '\www\memadmin"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 

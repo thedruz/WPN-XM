@@ -175,10 +175,7 @@ Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
 //Filename: {app}\SETUP.EXE; Description: Configure Server Stack; Flags: postinstall nowait skipifsilent unchecked
 
-[INI]
-;Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
-
-[Registry]
+[INI];Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;[Registry]
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype
@@ -659,13 +656,6 @@ begin
         UpdateTotalProgressBar();
   end;
 
-  if Pos('webgrind', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Webgrind');
-      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
-  end;
-
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('XHProf');
@@ -731,6 +721,13 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('webgrind', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Webgrind');
+      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
+
 end;
 
 procedure MoveFiles();
@@ -775,8 +772,8 @@ begin
       // rename the existing directory
       Exec('cmd.exe', '/c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-      // memadmin - rename folder name "junstor-memadmin-v1.0.11-0-g7587722" to "memadmin"
-      Exec('cmd.exe', '/c "move ' + appPath + '\www\junstor-memadmin* ' + appPath + '\www\memadmin"',
+      // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
+      Exec('cmd.exe', '/c "move ' + appPath + '\www\memadmin-* ' + appPath + '\www\memadmin"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 

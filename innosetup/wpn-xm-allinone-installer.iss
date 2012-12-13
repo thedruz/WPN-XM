@@ -751,8 +751,8 @@ begin
       // rename the existing directory
       Exec('cmd.exe', '/c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-      // memadmin - rename folder name "junstor-memadmin-v1.0.11-0-g7587722" to "memadmin"
-      Exec('cmd.exe', '/c "move ' + appPath + '\www\junstor-memadmin* ' + appPath + '\www\memadmin"',
+      // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
+      Exec('cmd.exe', '/c "move ' + appPath + '\www\memadmin-* ' + appPath + '\www\memadmin"',
       '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
