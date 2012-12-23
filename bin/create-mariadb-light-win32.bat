@@ -84,7 +84,6 @@ del /q /f "%MYSQL_DIR%\bin\mysqlbinlog.exe"
 :: keep mysqld.exe
 del /q /f "%MYSQL_DIR%\bin\mysqlimport.exe"
 del /q /f "%MYSQL_DIR%\bin\mysqlshow.exe"
-del /q /f "%MYSQL_DIR%\bin\mysqld-debug.exe"
 del /q /f "%MYSQL_DIR%\bin\mysqltest.exe"
 del /q /f "%MYSQL_DIR%\bin\mysqltest_embedded.exe"
 del /q /f "%MYSQL_DIR%\bin\mysql_client_test.exe"
@@ -113,12 +112,6 @@ rd /s /q "%MYSQL_DIR%\data\test"
 
 del /s /q "%MYSQL_DIR%\lib\*.pdb"
 del /s /q "%MYSQL_DIR%\lib\*.lib"
-
-del /s /q "%MYSQL_DIR%\lib\debug\*.*"
-rd /s /q "%MYSQL_DIR%\lib\debug"
-
-del /s /q "%MYSQL_DIR%\lib\plugin\debug\*.*"
-rd /s /q "%MYSQL_DIR%\lib\plugin\debug"
 
 :: ############# process the /share folder
 
