@@ -223,7 +223,7 @@ const
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
-  URL_phpext_memcached  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
+  URL_phpext_memcache   = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
@@ -502,7 +502,7 @@ begin
     if IsComponentSelected('memcached') then
     begin
         ITD_AddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
-        ITD_AddFile(URL_phpext_memcached, ExpandConstant(targetPath + Filename_phpext_memcache));
+        ITD_AddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
         ITD_AddFile(URL_memadmin,         ExpandConstant(targetPath + Filename_memadmin));
     end;
 
