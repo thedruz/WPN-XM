@@ -698,6 +698,7 @@ begin
   if Pos('webgrind', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Webgrind');
+      ExtractTemporaryFile(Filename_webgrind);
       DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
   end;
