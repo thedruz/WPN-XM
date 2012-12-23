@@ -175,7 +175,10 @@ Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
 //Filename: {app}\SETUP.EXE; Description: Configure Server Stack; Flags: postinstall nowait skipifsilent unchecked
 
-[INI];Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;[Registry]
+[INI]
+; Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
+
+[Registry]
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype
