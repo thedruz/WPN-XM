@@ -133,7 +133,8 @@
         </exec>
     </target>
 
-    <target name="compile-wpnxm-allinone-installer" description="Builds the WPN-XM setup executable." depends="download-components">
+    <target name="compile-wpnxm-allinone-installer"
+            description="Downloads all components and builds the WPN-XM setup executable." depends="download-components">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
@@ -144,7 +145,8 @@
         </exec>
     </target>
 
-     <target name="compile-wpnxm-allinone-installer-no-download" description="Builds the WPN-XM setup executable.">
+     <target name="compile-wpnxm-allinone-installer-no-download"
+             description="Builds the WPN-XM setup executable using already downloaded components.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
