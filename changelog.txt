@@ -25,10 +25,21 @@ VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-tba           REL       tba   Version 0.4.1
+tba           REL    Version 0.6.0
 ------------  ----------------------------------------------------------------
 
  next  -->>
+
+------------  ----------------------------------------------------------------
+[19.01.2012]  REL    Version 0.5.0
+------------  ----------------------------------------------------------------
+
+              ADD    All-In-One Installer
+                     PHP 5.4.11, Nginx 1.3.9, XDebug 2.2.1, MariaDB 5.5.28
+                     Adminer 3.6.2, phpMyAdmin 3.5.5, Composer, PEAR,
+                     APC 3.1.14, Junction, Memadmin 1.0.12, Memcached 1.4.5,
+                     MongoDB 2.2.1, OpenSSL 1.0.1c, XHProf 0.10.3,
+                     Fake Sendmail, Webgrind, WPN-XM SCP 0.4.0
 [12.12.2012]  UPD    InnoSetup v5.5.2
               ...
 [22.09.2012]  ADD    wpn-xm logo SVG :)
