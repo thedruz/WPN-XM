@@ -180,8 +180,19 @@
          <mkdir dir="${dir.Downloads}"/>
     </target>
 
+    <!-- The "git" command must be on your env path, check that with "env|grep PATH". -->
+    <target name="update-git-submodules"
+            description="Updating git submodules. Fetching latest version of server-control-panel and webinterface.">
+        <exec program="git">
+            <arg value="submodule" />
+            <arg value="foreach"/>
+            <arg value="git pull origin master" />
+        </exec>
+    </target>
+
     <target name="all"
         depends="clean-build-dir,
+                 update-git-submodules,
                  bump-version-number,
                  print-version-number,
                  compile-wpnxm-webinstaller-setup,
