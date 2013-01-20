@@ -9,9 +9,13 @@
 
 :: ############# Accept "path to mysql" as first parameter
 
+:: Because of possible spaces in the folder name,
+:: one must use quotes on the argument, like so
+:: create-maridb-light-win32.bat "c:\program files\somewhere"
+
 :: Check - Parameter is not empty
 
-IF "%1" == "" (
+IF "%~1" == "" (
     ECHO Parameter missing.
     ECHO Please add the path to mysql.
     GOTO EOF;
@@ -19,28 +23,28 @@ IF "%1" == "" (
 
 :: Check - Parameter is folder
 
-IF NOT EXIST "%1" (
-    ECHO Folder "%1" not found.
+IF NOT EXIST "%~1" (
+    ECHO Folder "%~1" not found.
     ECHO Provide a valid path to the mysql folder.
     GOTO EOF;
 )
 
 :: Check - Parameter is the mysql folder
 
-IF NOT EXIST "%1\bin\mysqld.exe" (
-    ECHO Folder "%1" exists, but is not the mysql folder.
+IF NOT EXIST "%~1\bin\mysqld.exe" (
+    ECHO Folder "%~1" exists, but is not the mysql folder.
     GOTO EOF;
 )
 
 :: Ok, now we know where mysql resides...
 
-SET MYSQL_DIR=%1
+SET MYSQL_DIR=%~1
 
 echo %MYSQL_DIR%
 
 :: ############# Toplevel remove *.ini - replaced by our own
 
-:del /s /q "%MYSQL_DIR%\*.ini"
+del /s /q "%MYSQL_DIR%\*.ini"
 
 :: ############# remove these folders completely
 

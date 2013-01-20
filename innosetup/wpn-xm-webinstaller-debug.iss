@@ -169,7 +169,7 @@ Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for 
 
 [Run]
 // Automatically started...
-Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: {app}\bin\mariadb
+Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: "{app}\bin\mariadb";
 //Filename: {app}\SETUP.EXE; Parameters: /x
 // User selected... these files are shown for launch after everything is done
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
