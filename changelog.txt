@@ -32,6 +32,7 @@ tba           REL    Version 0.5.1
 
 [20.01.2012]  FIX    missing semicolon in nginx.conf
                      missing slash in webinterface/helper/phpini.php
+              UPD    updated NANT to v0.92 (2012-06-09)
 
 ------------  ----------------------------------------------------------------
 [19.01.2012]  REL    Version 0.5.0
