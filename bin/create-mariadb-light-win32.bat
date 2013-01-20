@@ -2,7 +2,7 @@
 :: Change this to ON when debugging this batch file.
 
 :: +-------------------------------------------------------------------------
-:: | MySQL 5.5.15 win32 - Stripdown Script for WPN-XM Server Stack
+:: | MySQL 5.5.15 win32 - Stripdown Script for WPN-XM Server Stack.
 :: | http://wpn-xm.org/
 :: | Author: Jens-André Koch
 :: +-----------------------------------------------------------------------<3
@@ -25,7 +25,7 @@ IF NOT EXIST "%1" (
     GOTO EOF;
 )
 
-:. Check - Parameter is the mysql folder
+:: Check - Parameter is the mysql folder
 
 IF NOT EXIST "%1\bin\mysqld.exe" (
     ECHO Folder "%1" exists, but is not the mysql folder.
@@ -93,7 +93,7 @@ del /q /f "%MYSQL_DIR%\bin\mysqlslap.exe"
 del /q /f "%MYSQL_DIR%\bin\replace.exe"
 ::keep perror.exe
 
-:: # 3) delte certain perl files
+:: # 3) delete certain perl files
 del /q /f "%MYSQL_DIR%\bin\mysql_convert_table_format.pl"
 del /q /f "%MYSQL_DIR%\bin\mysql_secure_installation.pl"
 del /q /f "%MYSQL_DIR%\bin\mysqld_multi.pl"
@@ -115,7 +115,7 @@ del /s /q "%MYSQL_DIR%\lib\*.lib"
 
 :: ############# process the /share folder
 
-:: whats left in this folder? english, german...
+:: whats left in this folder? english & german
 
 rd /s /q "%MYSQL_DIR%\share\czech"
 rd /s /q "%MYSQL_DIR%\share\danish"
@@ -152,5 +152,5 @@ echo.
 echo [-] MySQL stripdown failed.
 pause
 
-:: ############# Have a nice day. jak, august 2011.
+:: ############# Have a nice day.
 :END
