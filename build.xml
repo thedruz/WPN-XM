@@ -42,13 +42,14 @@
         <mkdir dir="${dir.Build}"/>
     </target>
 
-    <target name="bump-version-number">
+    <target name="bump-version-number"
+            description="Inserts the current version number into the InnoScripts, Webinterface and Server-Control-Panel.">
         <!--
              Insert the version number into the innosetup script files.
              This is done via a copy operation with an applied filterchain, see below.
-             The preprocessed iss files are moved from the /innosetup folder to the build directory.
+             The then preprocessed iss files are moved from the /innosetup folder to the /build directory.
              Then they are used for the actual build.
-             Therefore this step must run before the "compile-wpnxm-setup" step.
+             Therefore this step must run before any "compile-wpnxm-*" step.
          -->
         <copy todir="${dir.Build}" overwrite="true">
             <fileset basedir="${dir.Base}/innosetup/">
@@ -92,7 +93,6 @@
 
         <!--
              Insert the version number into webinterface bootstrap php file.
-             This is done via a copy operation with an applied filterchain, see below.
              The file is overwritten.
          -->
         <loadfile file="${dir.Base}/www/webinterface/bootstrap.php" property="filecontent.php.bootstrap" encoding="UTF-8">
@@ -134,7 +134,8 @@
     </target>
 
     <target name="compile-wpnxm-allinone-installer"
-            description="Downloads all components and builds the WPN-XM setup executable." depends="download-components">
+            description="Downloads all components and builds the WPN-XM setup executable."
+            depends="download-components, stripdown-mariadb">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
@@ -174,6 +175,28 @@
             <echo message="&#xa; Downloading ${component} &#xa;" />
             <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" />
         </foreach>
+    </target>
+
+    <target name="stripdown-mariadb" description="Unzip MariaDB. Delete unnecessary files. Zip MariaDB. (136MB to 16MB on v5.5.28!)">
+        <!-- target folder for unzipping -->
+        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}" />
+        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}" />
+        <!-- unzip mariadb -->
+        <unzip zipfile="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
+        <!--<echo message="&#xa; Renaming versioned MariaDB folder to just mariadb. &#xa;" /> -->
+        <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb"/>
+        <!-- stripdown -->
+        <exec program="${dir.Base}\bin\create-mariadb-light-win32.bat">
+            <arg value="${dir.Downloads}\stripdown\mariadb"/>
+        </exec>
+        <!-- rename original download file (process in use lock out?) -->
+        <delete file="${dir.Downloads}\mariadb.zip" />
+        <!-- create mariadb.zip, from stripdowned mariadb folder -->
+        <zip zipfile="${dir.Downloads}\mariadb.zip">
+            <fileset basedir="${dir.Downloads}\stripdown">
+                <include name="**/*" />
+            </fileset>
+        </zip>
     </target>
 
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
