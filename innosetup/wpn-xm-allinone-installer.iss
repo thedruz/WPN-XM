@@ -1004,14 +1004,17 @@ procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   if CurUninstallStep = usUninstall then begin
     if MsgBox('***WARNING***'#13#10#13#10 +
-              'The WPN-XM installation folder is [ '+ ExpandConstant('{app}') +' ].'#13#10 +
-              'You are about to delete this folder and all its subfolders,'#13#10 +
-              'including [ '+ ExpandConstant('{app}') +'\www ], which may contain your projects.'#13#10#13#10 +
-              'This is your last chance to do a backup of your files.'#13#10#13#10 +
-              'Do you want to proceed?'#13#10, mbConfirmation,
-        MB_YESNO) = IDYES
+        'The WPN-XM installation folder is [ '+ ExpandConstant('{app}') +' ].'#13#10 +
+        'You are about to delete this folder and all its subfolders,'#13#10 +
+        'including [ '+ ExpandConstant('{app}') +'\www ], which may contain your projects.'#13#10#13#10 +
+        'This is your last chance to do a backup of your files.'#13#10#13#10 +
+        'Do you want to proceed?'#13#10, mbConfirmation, MB_YESNO) = IDYES
     then begin
+      //MsgBox('User clicked YES!', mbInformation, MB_OK);
       DeleteWPNXM(ExpandConstant('{app}'));
+    end else begin
+      //MsgBox('User clicked No!', mbInformation, MB_OK);
+      Abort;
     end;
   end;
 end;
