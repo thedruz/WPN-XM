@@ -197,6 +197,8 @@
                 <include name="**/*" />
             </fileset>
         </zip>
+        <!-- delete the stripdown folder -->
+        <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
