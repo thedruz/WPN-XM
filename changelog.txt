@@ -25,14 +25,29 @@ VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-tba           REL    Version 0.5.1
+tba           REL    Version 0.6.0
+------------  ----------------------------------------------------------------
+
+
+------------  ----------------------------------------------------------------
+tba           REL    Version 0.5.x
 ------------  ----------------------------------------------------------------
 
  next  -->>
 
+------------  ----------------------------------------------------------------
+[21.01.2012]  REL    Version 0.5.1
+------------  ----------------------------------------------------------------
+              https://github.com/WPN-XM/WPN-XM/issues?milestone=5&state=closed
+
 [20.01.2012]  FIX    missing semicolon in nginx.conf
                      missing slash in webinterface/helper/phpini.php
+              FIX    issue #71 - uninstall abort dialog did not abort
+              FIX    issue #70 - stripdown script and foldernames with spaces
               UPD    updated NANT to v0.92 (2012-06-09)
+              ADD    issue #74 - build tasks "stripdown-mariadb"
+                     building of the AllInOne Installer is now only one-click
+              UPD    issue #69 - software registry out-of-sync
 
 ------------  ----------------------------------------------------------------
 [19.01.2012]  REL    Version 0.5.0
