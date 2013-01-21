@@ -48,11 +48,9 @@ del /s /q "%MYSQL_DIR%\*.ini"
 
 :: ############# remove these folders completely
 
-rd /s /q "%MYSQL_DIR%\bin\debug"
 rd /s /q "%MYSQL_DIR%\docs"
 rd /s /q "%MYSQL_DIR%\include"
 rd /s /q "%MYSQL_DIR%\mysql-test"
-rd /s /q "%MYSQL_DIR%\scripts"
 rd /s /q "%MYSQL_DIR%\sql-bench"
 
 :: ############# process the /bin folder
