@@ -35,6 +35,9 @@ tba           REL    Version 0.5.x
 
  next  -->>
 
+[01.02.2012]  FIX    /logs directory does not exist on startup
+                     https://github.com/WPN-XM/WPN-XM/issues/75
+
 ------------  ----------------------------------------------------------------
 [21.01.2012]  REL    Version 0.5.1
 ------------  ----------------------------------------------------------------
