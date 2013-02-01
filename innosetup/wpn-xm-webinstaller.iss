@@ -204,6 +204,8 @@ en.RemoveApp=Uninstall WPN-XM Server Stack
 Name: {app}\www
 Name: {app}\www\webinterface; Components: webinterface;
 Name: {app}\bin\nginx\conf\vhosts
+Name: {app}\logs
+Name: {app}\temp
 
 [Code]
 // Constants and global variables
