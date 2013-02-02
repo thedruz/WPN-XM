@@ -7,7 +7,7 @@
 :: | Author: Jens-André Koch
 :: +-----------------------------------------------------------------------<3
 
-:: ############# Accept "path to mongodb" as first parameter
+:: ############# Accept "path to MongoDB" as first parameter
 
 :: Because of possible spaces in the folder name,
 :: one must use quotes on the argument, like so
@@ -17,7 +17,7 @@
 
 IF "%~1" == "" (
     ECHO Parameter missing.
-    ECHO Please add the path to mysql.
+    ECHO Please add the path to MongoDB.
     GOTO EOF;
 )
 
@@ -25,18 +25,18 @@ IF "%~1" == "" (
 
 IF NOT EXIST "%~1" (
     ECHO Folder "%~1" not found.
-    ECHO Provide a valid path to the mysql folder.
+    ECHO Provide a valid path to the MongoDB folder.
     GOTO EOF;
 )
 
-:: Check - Parameter is the mysql folder
+:: Check - Parameter is the MongoDB folder
 
 IF NOT EXIST "%~1\bin\mongo.exe" (
-    ECHO Folder "%~1" exists, but is not the mysql folder.
+    ECHO Folder "%~1" exists, but is not the MongoDB folder.
     GOTO EOF;
 )
 
-:: Ok, now we know where mysql resides...
+:: Ok, now we know where MongoDB resides...
 
 SET MONGO_DIR=%~1
 
@@ -50,4 +50,20 @@ del /s /q "%MONGDO_DIR%\bin\*.pdb"
 
 :: ############# compress executables with UPX
 
-:: @todo
+upx/upx.exe -9 %MONGO_DIR%\bin\*.exe
+
+:: ############# DONE
+
+echo.
+echo [+] MongoDB stripdown done.
+GOTO END;
+
+:: ############# EOF GOTO TARGET
+
+:EOF
+echo.
+echo [-] MongoDB stripdown failed.
+pause
+
+:: ############# Have a nice day.
+:END
