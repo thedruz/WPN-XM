@@ -143,12 +143,17 @@ rd /s /q "%MARIADB_DIR%\share\ukrainian"
 
 :: ############# compress executables with UPX
 
+echo.
+echo [x] Compressing MariaDB executables.
+echo.
+
 %~dp0/upx/upx.exe -9 %MARIADB_DIR%\bin\*.exe
 
 :: ############# DONE
 
 echo.
 echo [+] MariaDB stripdown done.
+echo.
 GOTO END;
 
 :: ############# EOF GOTO TARGET
@@ -156,6 +161,7 @@ GOTO END;
 :EOF
 echo.
 echo [-] MariaDB stripdown failed.
+echo.
 pause
 
 :: ############# Have a nice day.

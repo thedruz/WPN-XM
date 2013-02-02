@@ -50,12 +50,17 @@ del /s /q "%MONGDO_DIR%\bin\*.pdb"
 
 :: ############# compress executables with UPX
 
+echo.
+echo [x] Compressing MongoDB executables.
+echo.
+
 %~dp0/upx/upx.exe -9 %MONGO_DIR%\bin\*.exe
 
 :: ############# DONE
 
 echo.
 echo [+] MongoDB stripdown done.
+echo.
 GOTO END;
 
 :: ############# EOF GOTO TARGET
@@ -63,6 +68,7 @@ GOTO END;
 :EOF
 echo.
 echo [-] MongoDB stripdown failed.
+echo.
 pause
 
 :: ############# Have a nice day.
