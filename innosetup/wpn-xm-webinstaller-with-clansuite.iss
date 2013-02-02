@@ -813,6 +813,14 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('mongodb', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('MongoDB');
+      ExtractTemporaryFile(Filename_mongodb);
+      DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
+
   if Pos('rockmongo', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('RockMongo');
