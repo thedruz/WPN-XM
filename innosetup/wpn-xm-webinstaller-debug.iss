@@ -131,7 +131,7 @@ Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
-Source: ..\bin\create-mariadb-light-win32.bat; DestDir: {tmp}
+Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
 // webinterface folder is only copied, if component is selected
@@ -177,7 +177,7 @@ Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for 
 
 [Run]
 // Automatically started...
-Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: "{app}\bin\mariadb";
+Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb";
 //Filename: {app}\SETUP.EXE; Parameters: /x
 // User selected... these files are shown for launch after everything is done
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent

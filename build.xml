@@ -186,7 +186,7 @@
         <!--<echo message="&#xa; Renaming versioned MariaDB folder to just mariadb. &#xa;" /> -->
         <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb"/>
         <!-- stripdown -->
-        <exec program="${dir.Base}\bin\create-mariadb-light-win32.bat">
+        <exec program="${dir.Base}\bin\stripdown-mariadb.bat">
             <arg value="${dir.Downloads}\stripdown\mariadb"/>
         </exec>
         <!-- rename original download file (process in use lock out?) -->
@@ -210,7 +210,7 @@
         <!--<echo message="&#xa; Renaming versioned MongoDB folder to just mongodb. &#xa;" /> -->
         <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mongodb* ${dir.Downloads}\stripdown\mongodb"/>
         <!-- stripdown -->
-        <exec program="${dir.Base}\bin\create-mongodb-light-win32.bat">
+        <exec program="${dir.Base}\bin\stripdown-mongodb.bat">
             <arg value="${dir.Downloads}\stripdown\mongodb"/>
         </exec>
         <!-- rename original download file (process in use lock out?) -->
