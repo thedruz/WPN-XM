@@ -141,6 +141,10 @@ rd /s /q "%MYSQL_DIR%\share\slovak"
 rd /s /q "%MYSQL_DIR%\share\swedish"
 rd /s /q "%MYSQL_DIR%\share\ukrainian"
 
+:: ############# compress executables with UPX
+
+%~dp0/upx/upx.exe -9 %MYSQL_DIR%\bin\*.exe
+
 :: ############# DONE
 
 echo.
