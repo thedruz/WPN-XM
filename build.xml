@@ -122,6 +122,17 @@
         </exec>
     </target>
 
+    <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-Debug-Setup"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm-webinstaller-debug.iss"/>
+        </exec>
+    </target>
+
     <target name="compile-wpnxm-webinstaller-with-clansuite-setup" description="Builds the WPN-XM setup executable.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
@@ -155,17 +166,6 @@
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
             <arg value="${dir.Build}\wpn-xm-allinone-installer.iss"/>
-        </exec>
-    </target>
-
-    <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
-        <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Debug-Setup"/>
-            <!-- use our build dir as output dir -->
-            <arg value="-o${dir.Build}"/>
-            <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm-webinstaller-debug.iss"/>
         </exec>
     </target>
 
