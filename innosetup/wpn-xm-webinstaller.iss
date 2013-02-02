@@ -119,6 +119,9 @@ Name: junction; Description: junction - Mircosoft tool for creating junctions (s
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full debug
+Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
 // tools:
@@ -227,19 +230,21 @@ const
   URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
   URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
   URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
+  URL_mongodb           = 'http://wpn-xm.org/get.php?s=mongodb';
   URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
-  URL_phpext_memcache  = 'http://wpn-xm.org/get.php?s=phpext_memcache';
+  URL_phpext_memcache   = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
+  URL_rockmongo         = 'http://wpn-xm.org/get.php?s=rockmongo';
   URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
+  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
-  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
 
   // Define file names for the downloads
   Filename_adminer          = 'adminer.php';
@@ -248,6 +253,7 @@ const
   Filename_mariadb          = 'mariadb.zip';
   Filename_memadmin         = 'memadmin.zip';
   Filename_memcached        = 'memcached.zip';
+  Filename_mongodb          = 'mongodb.zip';
   Filename_nginx            = 'nginx.zip';
   Filename_openssl          = 'openssl.exe';
   Filename_pear             = 'go-pear.phar';
@@ -257,11 +263,12 @@ const
   Filename_phpext_xdebug    = 'phpext_xdebug.dll';
   Filename_phpext_xhprof    = 'phpext_xhprof.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_rockmongo        = 'rockmongo.zip';
   Filename_sendmail         = 'sendmail.zip';
+  Filename_vcredist         = 'vcredist_x86.exe';
   Filename_webgrind         = 'webgrind.zip';
   Filename_wpnxmscp         = 'wpnxmscp.zip';
   Filename_xhprof           = 'xhprof.zip';
-  Filename_vcredist         = 'vcredist_x86.exe';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -562,6 +569,9 @@ begin
     if IsComponentSelected('pear')       then ITD_AddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
     if IsComponentSelected('composer')   then ITD_AddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('sendmail')   then ITD_AddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
+    if IsComponentSelected('openssl')    then ITD_AddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
+    if IsComponentSelected('mongodb')    then ITD_AddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
+    if IsComponentSelected('rockmongo')  then ITD_AddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
@@ -787,6 +797,12 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('rockmongo', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RockMongo');
+      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
 end;
 
 procedure MoveFiles();

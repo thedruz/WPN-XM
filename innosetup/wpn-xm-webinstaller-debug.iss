@@ -86,6 +86,11 @@ WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-1
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
 ; Tell Windows Explorer to reload the environment (because we are adding the PHP path to env var PATH)
 ChangesEnvironment=yes
+; Portable Mode
+; a) do no create registry keys for uninstallation
+CreateUninstallRegKey=not IsTaskSelected('portablemode')
+; b) do not include uninstaller
+Uninstallable=not IsTaskSelected('portablemode')
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
@@ -114,6 +119,9 @@ Name: junction; Description: junction - Mircosoft tool for creating junctions (s
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full debug
+Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
 // tools:
@@ -181,6 +189,7 @@ Filename: {tmp}\create-mariadb-light-win32.bat; Parameters: "{app}\bin\mariadb";
 [Registry]
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
+; @todo the registry change is not performed, when we are in portable mode
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype
 
 [Messages]
@@ -224,6 +233,7 @@ const
   URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
   URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
   URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
+  URL_mongodb           = 'http://wpn-xm.org/get.php?s=mongodb';
   URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
@@ -232,11 +242,12 @@ const
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
+  URL_rockmongo         = 'http://wpn-xm.org/get.php?s=rockmongo';
   URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
+  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
-  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
 
   // Define file names for the downloads
   Filename_adminer          = 'adminer.php';
@@ -245,6 +256,7 @@ const
   Filename_mariadb          = 'mariadb.zip';
   Filename_memadmin         = 'memadmin.zip';
   Filename_memcached        = 'memcached.zip';
+  Filename_mongodb          = 'mongodb.zip';
   Filename_nginx            = 'nginx.zip';
   Filename_openssl          = 'openssl.exe';
   Filename_pear             = 'go-pear.phar';
@@ -254,11 +266,12 @@ const
   Filename_phpext_xdebug    = 'phpext_xdebug.dll';
   Filename_phpext_xhprof    = 'phpext_xhprof.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_rockmongo        = 'rockmongo.zip';
   Filename_sendmail         = 'sendmail.zip';
+  Filename_vcredist         = 'vcredist_x86.exe';
   Filename_webgrind         = 'webgrind.zip';
   Filename_wpnxmscp         = 'wpnxmscp.zip';
   Filename_xhprof           = 'xhprof.zip';
-  Filename_vcredist         = 'vcredist_x86.exe';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -267,6 +280,42 @@ var
   appPath     : String;   // application path (= the installaton folder)
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
+
+// Make vcredist x86 install if needed
+// http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
+#IFDEF UNICODE
+  #DEFINE AW "W"
+#ELSE
+  #DEFINE AW "A"
+#ENDIF
+type
+  INSTALLSTATE = Longint;
+const
+  INSTALLSTATE_INVALIDARG = -2;  // An invalid parameter was passed to the function.
+  INSTALLSTATE_UNKNOWN = -1;     // The product is neither advertised or installed.
+  INSTALLSTATE_ADVERTISED = 1;   // The product is advertised but not installed.
+  INSTALLSTATE_ABSENT = 2;       // The product is installed for a different user.
+  INSTALLSTATE_DEFAULT = 5;      // The product is installed for the current user.
+
+  // software package = registry key to look for
+  VC_2008_REDIST_X86 = '{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}';
+
+function MsiQueryProductState(szProduct: string): INSTALLSTATE;
+  external 'MsiQueryProductState{#AW}@msi.dll stdcall';
+
+function VCVersionInstalled(const ProductID: string): Boolean;
+begin
+  Result := MsiQueryProductState(ProductID) = INSTALLSTATE_DEFAULT;
+end;
+
+{
+  // The Result must be "True" when you need to install your VCRedist
+  // or "False" when you don't need to.
+}
+function VCRedistributableNeedsInstall: Boolean;
+begin
+  Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
+end;
 
 procedure UrlLabelClick(Sender: TObject);
 var
@@ -280,10 +329,10 @@ end;
 
   The first progress bar shows the total progress.
     (1 of 10 zips to unzip = 10 %)
-  The second progress bar shows the current operation progress
+  The second progress bar shows the current operation progress.
     (unzipping component 2: 25% of 100%)
 
-  Page is put into the install page loop via
+  The Page is put into the install page loop via
   CurPageChanged(CurPageID) -> CurPageID=wpInstalling then CustomWpInstallingPage;
 }
 procedure CustomWpInstallingPage;
@@ -489,6 +538,12 @@ begin
       ITD_AddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
     end;
 
+    if IsComponentSelected('webinterface') and VCRedistributableNeedsInstall then
+    begin
+      // the webinterface depends on vc2008-redistributable .dll stuff
+      ITD_AddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
+    end;
+
     if IsComponentSelected('servercontrolpanel') then
     begin
       ITD_AddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
@@ -517,6 +572,9 @@ begin
     if IsComponentSelected('pear')       then ITD_AddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
     if IsComponentSelected('composer')   then ITD_AddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('sendmail')   then ITD_AddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
+    if IsComponentSelected('openssl')    then ITD_AddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
+    if IsComponentSelected('mongodb')    then ITD_AddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
+    if IsComponentSelected('rockmongo')  then ITD_AddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
@@ -644,6 +702,15 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('openssl', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('OpenSSL');
+      ExtractTemporaryFile(Filename_openssl);
+        Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
+        '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+        UpdateTotalProgressBar();
+  end;
+
   // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then
   begin
@@ -733,6 +800,12 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('rockmongo', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RockMongo');
+      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
 end;
 
 procedure MoveFiles();
@@ -756,6 +829,10 @@ begin
   Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\mysql_install_db.exe --default-user=root --password=toop --datadir="' + appPath + '\bin\mariadb\data"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
+  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
+  begin
+    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing CRT...
+  end;
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     // xhprof - rename "xhprof-master" directory
@@ -1004,6 +1081,7 @@ procedure DeleteWPNXM(ADirName: string);
 var
   FindRec: TFindRec;
 begin
+  // leave uncommented, we are in DEBUG and want to see the paths being deleted
   MsgBox('Deleting WPNXM (' + ADirName + '\*.*)', mbError, MB_OK);
 
   if FindFirst( ADirName + '\*.*', FindRec) then begin
