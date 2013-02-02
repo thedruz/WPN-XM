@@ -17,3 +17,5 @@ webgrind,http://wpn-xm.org/get.php?s=webgrind,webgrind.zip
 wpnxmscp,http://wpn-xm.org/get.php?s=wpnxmscp,wpnxmscp.zip
 xhprof,http://wpn-xm.org/get.php?s=xhprof,xhprof.zip
 openssl,http://wpn-xm.org/get.php?s=openssl,openssl.exe
+mongodb,http://wpn-xm.org/get.php?s=mongodb,mongodb.zip
+rockmongo,http://wpn-xm.org/get.php?s=rockmongo,rockmongo.zip
