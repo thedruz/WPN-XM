@@ -50,7 +50,7 @@ del /s /q "%MONGDO_DIR%\bin\*.pdb"
 
 :: ############# compress executables with UPX
 
-upx/upx.exe -9 %MONGO_DIR%\bin\*.exe
+%~dp0/upx/upx.exe -9 %MONGO_DIR%\bin\*.exe
 
 :: ############# DONE
 
