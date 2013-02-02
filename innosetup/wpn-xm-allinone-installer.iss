@@ -220,6 +220,7 @@ const
   Filename_mariadb          = 'mariadb.zip';
   Filename_memadmin         = 'memadmin.zip';
   Filename_memcached        = 'memcached.zip';
+  Filename_mongodb          = 'mongodb.zip';
   Filename_nginx            = 'nginx.zip';
   Filename_openssl          = 'openssl.exe';
   Filename_pear             = 'go-pear.phar';
@@ -229,12 +230,13 @@ const
   Filename_phpext_xdebug    = 'phpext_xdebug.dll';
   Filename_phpext_xhprof    = 'phpext_xhprof.zip';
   Filename_phpmyadmin       = 'phpmyadmin.zip';
+  Filename_rockmongo        = 'rockmongo.zip';
   Filename_sendmail         = 'sendmail.zip';
+  Filename_vcredist         = 'vcredist_x86.exe';
   Filename_webgrind         = 'webgrind.zip';
   Filename_wpnxmscp         = 'wpnxmscp.zip';
   Filename_xhprof           = 'xhprof.zip';
-  // URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
-  //Filename_vcredist         = 'vcredist_x86.exe';
+
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -702,6 +704,22 @@ begin
     UpdateCurrentComponentName('Webgrind');
       ExtractTemporaryFile(Filename_webgrind);
       DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('rockmongo', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RockMongo');
+      ExtractTemporaryFile(Filename_rockmongo);
+      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('mongodb', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('MongoDB');
+      ExtractTemporaryFile(Filename_mongodb);
+      DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
   end;
 
