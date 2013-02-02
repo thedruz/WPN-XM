@@ -35,56 +35,62 @@ tba           REL    Version 0.5.x
 
  next  -->>
 
-[01.02.2012]  FIX    /logs directory does not exist on startup
+[02.02.2013]  NEW    added RockMongo 1.1.5
+                     added version crawler for RockMongo
+                     added RockMongo to status, download list and registry
+                     added RockMongo to installation wizard
+              NEW    registry-update add() handles now also single arrays
+              NEW    MongoDB stripdown script and stripdown build task
+[01.02.2013]  FIX    /logs directory does not exist on startup
                      https://github.com/WPN-XM/WPN-XM/issues/75
 
 ------------  ----------------------------------------------------------------
-[21.01.2012]  REL    Version 0.5.1
+[21.01.2013]  REL    Version 0.5.1
 ------------  ----------------------------------------------------------------
               https://github.com/WPN-XM/WPN-XM/issues?milestone=5&state=closed
 
-[20.01.2012]  FIX    missing semicolon in nginx.conf
+[20.01.2013]  FIX    missing semicolon in nginx.conf
                      missing slash in webinterface/helper/phpini.php
               FIX    issue #71 - uninstall abort dialog did not abort
               FIX    issue #70 - stripdown script and foldernames with spaces
               UPD    updated NANT to v0.92 (2012-06-09)
-              ADD    issue #74 - build tasks "stripdown-mariadb"
+              NEW    issue #74 - build tasks "stripdown-mariadb"
                      building of the AllInOne Installer is now only one-click
               UPD    issue #69 - software registry out-of-sync
 
 ------------  ----------------------------------------------------------------
-[19.01.2012]  REL    Version 0.5.0
+[19.01.2013]  REL    Version 0.5.0
 ------------  ----------------------------------------------------------------
 
-              ADD    All-In-One Installer
+              NEW    All-In-One Installer
                      PHP 5.4.11, Nginx 1.3.9, XDebug 2.2.1, MariaDB 5.5.28
                      Adminer 3.6.2, phpMyAdmin 3.5.5, Composer, PEAR,
                      APC 3.1.14, Junction, Memadmin 1.0.12, Memcached 1.4.5,
                      MongoDB 2.2.1, OpenSSL 1.0.1c, XHProf 0.10.3,
                      Fake Sendmail, Webgrind, WPN-XM SCP 0.4.0
-[13.12.2012]  ADD    build tasks for the All-In-One Installation Wizard
+[13.12.2012]  NEW    build tasks for the All-In-One Installation Wizard
               FIX    fixed start and stop icon names
 [12.12.2012]  UPD    InnoSetup v5.5.2
               REM    removed OpenCandy from Installation Wizard builds
               ...
-[22.09.2012]  ADD    wpn-xm logo SVG :)
-              ADD    experimental vcredistributable2008 check
-[20.09.2012]  ADD    experimental portable mode
+[22.09.2012]  NEW    wpn-xm logo SVG :)
+              NEW    experimental vcredistributable2008 check
+[20.09.2012]  NEW    experimental portable mode
                      (create no registry key and drop uninstallation)
-              ADD    added additional task to innoscript for
+              NEW    added additional task to innoscript for
                      creation of start stop desktop icons,
                      scp desktop and quick launch icon
-[02.09.2012]  ADD    enabled php_com_dotnet extensions by default
+[02.09.2012]  NEW    enabled php_com_dotnet extensions by default
 
 ------------  ----------------------------------------------------------------
 [01.09.2012]  REL    Version 0.4
 ------------  ----------------------------------------------------------------
 
 [31.08.2012]  CHG    sorted all URLS and FILES in the innoscript
-[31.08.2012]  ADD    handling of phpext_xhprof
-              ADD    added FAKE-SENDMAIL
+[31.08.2012]  NEW    handling of phpext_xhprof
+              NEW    added FAKE-SENDMAIL
 [31.08.2012]  CHG    disabled extensions zeromq (not compat version atm)
-[30.08.2012]  ADD    server-control-panel shutdown already running processes
+[30.08.2012]  NEW    server-control-panel shutdown already running processes
 [23.08.2012]  CHG    webinterface: fixed repository links
               UPD    twitter bootstrap v2.1.0
 [13.08.2012]  MOD    website-wpn-xm.org is own git repository now
@@ -92,25 +98,25 @@ tba           REL    Version 0.5.x
                      updater is an own git repository now
 [07.08.2012]  CHG    copy the installation wizard log into the logs folder
 [05.08.2012]  FIX    fastcgi_read_timeout increased for xdebug step debugging
-[03.08.2012]  ADD    added MEMADMIN v1.0.12 - Webinterface for Memcached
+[03.08.2012]  NEW    added MEMADMIN v1.0.12 - Webinterface for Memcached
 [23.07.2012]  MOD    webinterface is an git submodule now
-[16.07.2012]  ADD    wpnxm-software-registry + get & checkversion script
+[16.07.2012]  NEW    wpnxm-software-registry + get & checkversion script
                      get.php is a redirection script pointing to download urls
                      checkversion uses software registry for version compares
                      wpnxm-software-registry is an auto-updated array of
                      the software components of the stack and their urls
-              ADD    added twitters bootstrap css framework to enhance css
+              NEW    added twitters bootstrap css framework to enhance css
                      of the webinterface; adjusted some styles
 [05.07.2012]  UPD    Rewrite of Webinterface - using frontcontroller pattern
 [03.07.2012]  UPD    Webinterface Updates - Modal Window for Reset Database PW
 [02.07.2012]  UPD    UPD ADMINER 3.4.0
               FIX    CSS, font-sizes, shadows
               UPD    innosetup wizard image
-              ADD    Webinterface > Configuration > Tab (PHP)
+              NEW    Webinterface > Configuration > Tab (PHP)
                      AJAX PHP.INI Editor
 [26.06.2012]  FIX    PHPMYADMIN default config added
-[25.06.2012]  ADD    Website - added screenshot carousel for feature screens
-[24.06.2012]  ADD    added HOSTS tool and nginx vhost creation script
+[25.06.2012]  NEW    Website - added screenshot carousel for feature screens
+[24.06.2012]  NEW    added HOSTS tool and nginx vhost creation script
                      https://github.com/WPN-XM/WPN-XM/pull/31
 [20.06.2012]  NEW    added COMPOSER 1.0 - http://getcomposer.org/
 [19.06.2012]  UPD    PHPMYADMIN 3.5.1
