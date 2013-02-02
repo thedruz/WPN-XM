@@ -235,6 +235,7 @@ const
   URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
   URL_mongodb           = 'http://wpn-xm.org/get.php?s=mongodb';
   URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
+  URL_openssl           = 'http://wpn-xm.org/get.php?s=openssl';
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
