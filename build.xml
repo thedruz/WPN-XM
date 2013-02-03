@@ -248,9 +248,11 @@
             <arg value="-v" />
         </exec>
         <echo message="&#xa;" />
-        <exec program="qmake">
+        <!-- http://doc-snapshot.qt-project.org/4.8/qmake-variable-reference.html -->
+        <exec program="qmake" workingdir="${dir.Base}/server-control-panel/">
             <arg value="${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro" />
             <arg value="-Wall" /> <!-- Turn on all warnings -->
+            <arg value=" &quot;CONFIG+=release&quot; " />
         </exec>
 
         <echo message="&#xa;" />
@@ -258,13 +260,20 @@
             <arg value="-v" />
         </exec>
         <echo message="&#xa;" />
-        <exec program="mingw32-make">
+        <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/">
             <arg value="-j4" /> <!-- use 4 build jobs -->
         </exec>
 
-        <echo message="&#xa;" />
-        <exec program="mingw32-make">
-            <arg value="clean" />
+    <!--
+        <echo message="&#xa;Removing all unneeded debugging symbols and sections from executable...&#xa;" />
+        <exec program="strip" verbose="true">
+            <arg line="-s ${dir.Base}/server-control-panel/build/release/*.exe" />
+        </exec>
+    -->
+
+        <echo message="&#xa;Compressing executable...&#xa;" />
+        <exec program="${dir.Base}/bin/upx/upx" verbose="true">
+            <arg line="-9 ${dir.Base}/server-control-panel/build/release/*.exe" />
         </exec>
     </target>
 
@@ -278,6 +287,11 @@
             <!-- copy dlls -->
             <!-- zip files content of the temp folder -->
             <!-- copy zip to the "_build" folder and to the downloads folder -->
+
+            <echo message="&#xa;" />
+            <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/">>
+                <arg value="clean" />
+            </exec>
     </target>
 
     <target name="all"
