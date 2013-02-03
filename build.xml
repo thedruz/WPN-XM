@@ -253,7 +253,7 @@
             <arg value="-Wall" /> <!-- Turn on all warnings -->
         </exec>
 
-
+        <echo message="&#xa;" />
         <exec program="mingw32-make">
             <arg value="-v" />
         </exec>
@@ -262,6 +262,7 @@
             <arg value="-j4" /> <!-- use 4 build jobs -->
         </exec>
 
+        <echo message="&#xa;" />
         <exec program="mingw32-make">
             <arg value="clean" />
         </exec>
