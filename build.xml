@@ -294,6 +294,17 @@
             </exec>
     </target>
 
+    <target name="reset-git-submodules"
+            description="Reset the git submodules to their original state. This reverts all changes made by bump-version-number during the replace operation.">
+        <exec program="git">
+            <arg value="submodule" />
+            <arg value="foreach"/>
+            <!-- <arg value="git checkout ." /> -->
+            <arg value="git reset --hard HEAD;" /> <!-- hard reset to latest commit -->
+            <arg value="git clean -f" /> <!-- drop all untracked files, e.g. /build crap -->
+        </exec>
+    </target>
+
     <target name="all"
         depends="clean-build-dir,
                  update-git-submodules,
@@ -302,7 +313,8 @@
                  compile-wpnxm-webinstaller-setup,
                  compile-wpnxm-webinstaller-debug-setup,
                  compile-wpnxm-webinstaller-with-clansuite-setup,
-                 compile-wpnxm-allinone-installer">
+                 compile-wpnxm-allinone-installer,
+                 reset-git-submodules">
     </target>
 
 </project>
