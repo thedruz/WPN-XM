@@ -243,12 +243,27 @@
             description="Compiles the Server Control Panel Tray Application via Qt Framework and it's build tools.">
             <!-- This tasks requires that you have installed Qt and setup all environment path vars correctly.
                  The build tools will not be found otherwise. -->
+
+        <exec program="qmake">
+            <arg value="-v" />
+        </exec>
+        <echo message="&#xa;" />
         <exec program="qmake">
             <arg value="${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro" />
             <arg value="-Wall" /> <!-- Turn on all warnings -->
         </exec>
+
+
+        <exec program="mingw32-make">
+            <arg value="-v" />
+        </exec>
+        <echo message="&#xa;" />
         <exec program="mingw32-make">
             <arg value="-j4" /> <!-- use 4 build jobs -->
+        </exec>
+
+        <exec program="mingw32-make">
+            <arg value="clean" />
         </exec>
     </target>
 
