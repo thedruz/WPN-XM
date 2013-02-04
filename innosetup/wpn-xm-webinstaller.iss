@@ -35,7 +35,7 @@
 //
 
 // toggle for enabling/disabling the debug mode
-# define DEBUG "@DEBUG@"
+# define DEBUG "false"
 
 // defines the root folder
 #define SOURCE_ROOT AddBackslash(SourcePath);
