@@ -91,15 +91,11 @@
         <delete file="${dir.Base}/server-control-panel/src/version.h" />
         <echo file="${dir.Base}/server-control-panel/src/version.h">${filecontent.wpnxm.version}</echo>
 
-        <!--
-             Insert the version number into webinterface bootstrap php file.
-             The file is overwritten.
-         -->
+        <!-- Insert the version number into webinterface's "bootstrap.php" file. (file is overwritten) -->
         <loadfile file="${dir.Base}/www/webinterface/bootstrap.php" property="filecontent.php.bootstrap" encoding="UTF-8">
             <filterchain>
                 <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
-                    <token key="DEBUG" value="${wpnxm.Debug}"/>
                 </replacetokens>
             </filterchain>
         </loadfile>
