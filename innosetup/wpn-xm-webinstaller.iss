@@ -103,35 +103,39 @@ Name: debug; Description: Server Stack with Debugtools
 Name: custom; Description: Custom installation; Flags: iscustom
 
 [Components]
-// Base Package Size is: PHP 15MB + MariaDB 180MB + Nginx 2 MB = 197 MB
+// Base Package "serverstack" consists of PHP + MariaDB + Nginx
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
-Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
+Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full debug
-Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
-Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
+Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
 // memcached install means the daemon and the php extension
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
-Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
-Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
-Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
-Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
-Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
-Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000;
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full debug
+Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
+Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
+Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
+Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
+Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
+Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
 // webinterface folder is only copied, if component is selected
@@ -178,6 +182,7 @@ Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for 
 [Run]
 // Automatically started...
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb";
+Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb;
 //Filename: {app}\SETUP.EXE; Parameters: /x
 // User selected... these files are shown for launch after everything is done
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
@@ -246,30 +251,32 @@ const
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
+  URL_phpmemcachedadmin = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
 
   // Define file names for the downloads
-  Filename_adminer          = 'adminer.php';
-  Filename_composer         = 'composer.phar';
-  Filename_junction         = 'junction.zip';
-  Filename_mariadb          = 'mariadb.zip';
-  Filename_memadmin         = 'memadmin.zip';
-  Filename_memcached        = 'memcached.zip';
-  Filename_mongodb          = 'mongodb.zip';
-  Filename_nginx            = 'nginx.zip';
-  Filename_openssl          = 'openssl.exe';
-  Filename_pear             = 'go-pear.phar';
-  Filename_php              = 'php.zip';
-  Filename_phpext_apc       = 'phpext_apc.zip';
-  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_xdebug    = 'phpext_xdebug.dll';
-  Filename_phpext_xhprof    = 'phpext_xhprof.zip';
-  Filename_phpmyadmin       = 'phpmyadmin.zip';
-  Filename_rockmongo        = 'rockmongo.zip';
-  Filename_sendmail         = 'sendmail.zip';
-  Filename_vcredist         = 'vcredist_x86.exe';
-  Filename_webgrind         = 'webgrind.zip';
-  Filename_wpnxmscp         = 'wpnxmscp.zip';
-  Filename_xhprof           = 'xhprof.zip';
+  Filename_adminer           = 'adminer.php';
+  Filename_composer          = 'composer.phar';
+  Filename_junction          = 'junction.zip';
+  Filename_mariadb           = 'mariadb.zip';
+  Filename_memadmin          = 'memadmin.zip';
+  Filename_memcached         = 'memcached.zip';
+  Filename_mongodb           = 'mongodb.zip';
+  Filename_nginx             = 'nginx.zip';
+  Filename_openssl           = 'openssl.exe';
+  Filename_pear              = 'go-pear.phar';
+  Filename_php               = 'php.zip';
+  Filename_phpext_apc        = 'phpext_apc.zip';
+  Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_xdebug     = 'phpext_xdebug.dll';
+  Filename_phpext_xhprof     = 'phpext_xhprof.zip';
+  Filename_phpmyadmin        = 'phpmyadmin.zip';
+  Filename_rockmongo         = 'rockmongo.zip';
+  Filename_sendmail          = 'sendmail.zip';
+  Filename_vcredist          = 'vcredist_x86.exe';
+  Filename_webgrind          = 'webgrind.zip';
+  Filename_wpnxmscp          = 'wpnxmscp.zip';
+  Filename_xhprof            = 'xhprof.zip';
+  Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -561,9 +568,11 @@ begin
     begin
         ITD_AddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
         ITD_AddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
-        ITD_AddFile(URL_memadmin,         ExpandConstant(targetPath + Filename_memadmin));
     end;
 
+    if IsComponentSelected('phpmemcachedadmin') then ITD_AddFile(URL_phpmemcachedadmin,      ExpandConstant(targetPath + Filename_phpmemcachedadmin));
+
+    if IsComponentSelected('memadmin')   then ITD_AddFile(URL_memadmin,      ExpandConstant(targetPath + Filename_memadmin));
     if IsComponentSelected('phpmyadmin') then ITD_AddFile(URL_phpmyadmin,    ExpandConstant(targetPath + Filename_phpmyadmin));
     if IsComponentSelected('adminer')    then ITD_AddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
     if IsComponentSelected('junction')   then ITD_AddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
@@ -739,7 +748,20 @@ begin
     UpdateCurrentComponentName('Memcached');
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('memadmin', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Memadmin');
       DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('phpmemcachedadmin', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('phpMemcachedAdmin');
+      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\memcachedadmin'));
         UpdateTotalProgressBar();
   end;
 
