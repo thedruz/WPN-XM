@@ -32,7 +32,7 @@ https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 
 5+^s|Base Components
 
-| MariaDB  | 5.5.25 | GNU GPL v2      | © 2010-2012 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
+| MariaDB  | 5.5.26 | GNU GPL v2      | © 2010-2012 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
 | NGINX    | 1.3.5  | New BSD License | © 2002-2012 Igor Sysoev.      | http://nginx.org/
 | PHP      | 5.4.6  | PHP License     | © 1999-2012 The PHP Group.    | http://www.php.net/
 
