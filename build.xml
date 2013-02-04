@@ -10,9 +10,6 @@
          http://nant.sourceforge.net/release/latest/help/tasks/index.html
     -->
 
-    <!-- Debug Toggle -->
-    <property name="wpnxm.Debug"            value="false"/>
-
     <!-- Version -->
     <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
     <property name="version.Major"          value="0"/>
@@ -55,27 +52,12 @@
             <fileset basedir="${dir.Base}/innosetup/">
                 <include name="wpn-xm-webinstaller.iss"/>
                 <include name="wpn-xm-webinstaller-with-clansuite.iss"/>
-                <include name="wpn-xm-webinstaller-with-opencandy.iss"/>
+                <include name="wpn-xm-webinstaller-debug.iss"/>
                 <include name="wpn-xm-allinone-installer.iss"/>
             </fileset>
             <filterchain>
                 <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
-                    <token key="DEBUG" value="${wpnxm.Debug}"/>
-                </replacetokens>
-            </filterchain>
-        </copy>
-
-        <!-- DEBUG executable -->
-        <copy todir="${dir.Build}" overwrite="true">
-            <fileset basedir="${dir.Base}/innosetup/">
-                <include name="wpn-xm-webinstaller-debug.iss"/>
-            </fileset>
-            <filterchain>
-                <replacetokens>
-                    <token key="APPVERSION" value="${wpnxm.Version}"/>
-                    <!-- Debug on -->
-                    <token key="DEBUG" value="true"/>
                 </replacetokens>
             </filterchain>
         </copy>
