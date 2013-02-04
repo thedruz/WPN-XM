@@ -100,25 +100,27 @@ Name: debug; Description: Server Stack with Debugtools
 Name: custom; Description: Custom installation; Flags: iscustom
 
 [Components]
-// Base Package Size is: PHP 15MB + MariaDB 180MB + Nginx 2 MB = 197 MB
+// Base Package "serverstack" consists of PHP + MariaDB + Nginx
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
-Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
+Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full debug
-Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
-Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
+Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
 // memcached install means the daemon and the php extension
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
-Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
-Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
-Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
-Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
-Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
-Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000;
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full debug
+Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
+Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
+Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
+Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
+Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -214,29 +216,29 @@ const
   DEBUG = {#DEBUG};
 
   // Define file names for the downloads
-  Filename_adminer          = 'adminer.php';
-  Filename_composer         = 'composer.phar';
-  Filename_junction         = 'junction.zip';
-  Filename_mariadb          = 'mariadb.zip';
-  Filename_memadmin         = 'memadmin.zip';
-  Filename_memcached        = 'memcached.zip';
-  Filename_mongodb          = 'mongodb.zip';
-  Filename_nginx            = 'nginx.zip';
-  Filename_openssl          = 'openssl.exe';
-  Filename_pear             = 'go-pear.phar';
-  Filename_php              = 'php.zip';
-  Filename_phpext_apc       = 'phpext_apc.zip';
-  Filename_phpext_memcache  = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_xdebug    = 'phpext_xdebug.dll';
-  Filename_phpext_xhprof    = 'phpext_xhprof.zip';
-  Filename_phpmyadmin       = 'phpmyadmin.zip';
-  Filename_rockmongo        = 'rockmongo.zip';
-  Filename_sendmail         = 'sendmail.zip';
-  Filename_vcredist         = 'vcredist_x86.exe';
-  Filename_webgrind         = 'webgrind.zip';
-  Filename_wpnxmscp         = 'wpnxmscp.zip';
-  Filename_xhprof           = 'xhprof.zip';
-
+  Filename_adminer           = 'adminer.php';
+  Filename_composer          = 'composer.phar';
+  Filename_junction          = 'junction.zip';
+  Filename_mariadb           = 'mariadb.zip';
+  Filename_memadmin          = 'memadmin.zip';
+  Filename_memcached         = 'memcached.zip';
+  Filename_mongodb           = 'mongodb.zip';
+  Filename_nginx             = 'nginx.zip';
+  Filename_openssl           = 'openssl.exe';
+  Filename_pear              = 'go-pear.phar';
+  Filename_php               = 'php.zip';
+  Filename_phpext_apc        = 'phpext_apc.zip';
+  Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_xdebug     = 'phpext_xdebug.dll';
+  Filename_phpext_xhprof     = 'phpext_xhprof.zip';
+  Filename_phpmyadmin        = 'phpmyadmin.zip';
+  Filename_rockmongo         = 'rockmongo.zip';
+  Filename_sendmail          = 'sendmail.zip';
+  Filename_vcredist          = 'vcredist_x86.exe';
+  Filename_webgrind          = 'webgrind.zip';
+  Filename_wpnxmscp          = 'wpnxmscp.zip';
+  Filename_xhprof            = 'xhprof.zip';
+  Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -638,10 +640,24 @@ begin
     UpdateCurrentComponentName('Memcached');
       ExtractTemporaryFile(Filename_memcached);
       ExtractTemporaryFile(Filename_phpext_memcache);
-      ExtractTemporaryFile(Filename_memadmin);
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('memadmin', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Memadmin');
+      ExtractTemporaryFile(Filename_memadmin);
       DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+  end;
+
+  if Pos('phpmemcachedadmin', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('phpMemcachedAdmin');
+      ExtractTemporaryFile(Filename_memadmin);
+      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\memcachedadmin'));
         UpdateTotalProgressBar();
   end;
 
