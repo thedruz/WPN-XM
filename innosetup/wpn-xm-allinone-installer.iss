@@ -110,7 +110,7 @@ Name: junction; Description: junction - Mircosoft tool for creating junctions (s
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000;
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full debug
-Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
@@ -601,6 +601,7 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
+        // this installs OpenSSL to its default location: "C:\OpenSSL-Win32"
         Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
         UpdateTotalProgressBar();

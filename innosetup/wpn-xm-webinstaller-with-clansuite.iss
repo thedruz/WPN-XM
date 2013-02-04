@@ -117,7 +117,7 @@ Name: junction; Description: junction - Mircosoft tool for creating junctions (s
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000;
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full debug
-Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
@@ -132,12 +132,14 @@ Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDisk
 [Files]
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
+Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
 // webinterface folder is only copied, if component is selected
@@ -720,6 +722,7 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
+        // this installs OpenSSL to its default location: "C:\OpenSSL-Win32"
         Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
         UpdateTotalProgressBar();
@@ -1107,7 +1110,6 @@ begin
       Result := false;
       Exit;
     end;
-
   end;
 
   // unload the dll, otherwise the psvince.dll is not deleted, because in use
