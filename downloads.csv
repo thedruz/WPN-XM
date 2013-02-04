@@ -13,6 +13,7 @@ phpext_apc,http://wpn-xm.org/get.php?s=phpext_apc,phpext_apc.zip
 phpext_memcache,http://wpn-xm.org/get.php?s=phpext_memcache,phpext_memcache.zip
 phpext_xdebug,http://wpn-xm.org/get.php?s=phpext_xdebug,phpext_xdebug.dll
 phpext_xhprof,http://wpn-xm.org/get.php?s=phpext_xhprof,phpext_xhprof.zip
+phpmemcachedadmin,http://wpn-xm.org/get.php?s=phpmemcachedadmin,phpmemcachedadmin.zip
 phpmyadmin,http://wpn-xm.org/get.php?s=phpmyadmin,phpmyadmin.zip
 rockmongo,http://wpn-xm.org/get.php?s=rockmongo,rockmongo.zip
 sendmail,http://wpn-xm.org/get.php?s=sendmail,sendmail.zip
