@@ -40,7 +40,11 @@ IF NOT EXIST "%~1\bin\mysqld.exe" (
 
 SET MARIADB_DIR=%~1
 
-echo %MARIADB_DIR%
+echo Found MariaDB in %MARIADB_DIR%
+
+echo.
+echo [x] Stripdown MariaDB
+echo.
 
 :: ############# Toplevel remove *.ini - replaced by our own
 

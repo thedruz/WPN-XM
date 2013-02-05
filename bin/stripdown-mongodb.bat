@@ -40,13 +40,17 @@ IF NOT EXIST "%~1\bin\mongo.exe" (
 
 SET MONGO_DIR=%~1
 
-echo %MONGO_DIR%
+echo Found MongoDB in %MONGO_DIR%
+
+echo.
+echo [x] Stripdown MongoDB
+echo.
 
 :: ############# process the /bin folder
 
 :: # 1) delete pdb files (windows crashdumps debug files)
 
-del /s /q "%MONGDO_DIR%\bin\*.pdb"
+del /s /q "%MONGO_DIR%\bin\*.pdb"
 
 :: ############# compress executables with UPX
 
