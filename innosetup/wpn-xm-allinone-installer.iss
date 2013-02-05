@@ -657,8 +657,8 @@ begin
   if Pos('phpmemcachedadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpMemcachedAdmin');
-      ExtractTemporaryFile(Filename_memadmin);
-      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\memcachedadmin'));
+      ExtractTemporaryFile(Filename_phpmemcachedadmin);
+      DoUnzip(targetPath + Filename_phpmemcachedadmin, ExpandConstant('{app}\www\memcachedadmin'));
         UpdateTotalProgressBar();
   end;
 
