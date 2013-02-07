@@ -34,7 +34,14 @@ tba           REL    Version 0.5.x
 ------------  ----------------------------------------------------------------
 
  next  -->>
-
+              CHG    removed debug token completely
+              NEW    added phpmemcachedadmin
+              FIX    removed DEBUG token on bootstrap.php
+              NEW    added build tasks "reset-git-submodules",
+                     to reset all APPVERSION token changes in git submodules
+              NEW    added build tasks "compile-server-control-panel"
+                     and "build-server-control-panel"
+              NEW    added PHP Extension Mongo 1.3.4
 [02.02.2013]  NEW    added RockMongo 1.1.5
                      added version crawler for RockMongo
                      added RockMongo to status, download list and registry
@@ -51,8 +58,10 @@ tba           REL    Version 0.5.x
 
 [20.01.2013]  FIX    missing semicolon in nginx.conf
                      missing slash in webinterface/helper/phpini.php
-              FIX    issue #71 - uninstall abort dialog did not abort
-              FIX    issue #70 - stripdown script and foldernames with spaces
+              FIX    uninstall abort dialog did not abort
+                     https://github.com/WPN-XM/WPN-XM/issues/71
+              FIX    stripdown script and foldernames with spaces
+                     https://github.com/WPN-XM/WPN-XM/issues/70
               UPD    updated NANT to v0.92 (2012-06-09)
               NEW    issue #74 - build tasks "stripdown-mariadb"
                      building of the AllInOne Installer is now only one-click
