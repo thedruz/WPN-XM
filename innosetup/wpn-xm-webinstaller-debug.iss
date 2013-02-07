@@ -721,8 +721,7 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
-        // this installs OpenSSL to its default location: "C:\OpenSSL-Win32"
-        Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
+        Exec('cmd.exe', '/c ' + targetPath + Filename_openssl + ' /DIR="' + ExpandConstant('{app}\bin\openssl') +'" /silent /verysilent /sp- /suppressmsgboxes',
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
@@ -845,8 +844,6 @@ begin
   begin
     UpdateCurrentComponentName('MongoDB');
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
-
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
