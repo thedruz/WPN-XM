@@ -223,7 +223,7 @@ const
 
   // Define download URLs for the software packages
   // ----------------------------------------------
-  // The majority of download urls point to our redirection script.
+  // The majority of download URLs point to our redirection script.
   // The WPN-XM redirection script uses an internal software registry for looking
   // up the latest version and redirecting the installer to the download url.
   //
@@ -242,6 +242,7 @@ const
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
   URL_phpext_memcache   = 'http://wpn-xm.org/get.php?s=phpext_memcache';
+  URL_phpext_mongo      = 'http://wpn-xm.org/get.php?s=phpext_mongo';
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
@@ -277,6 +278,7 @@ const
   Filename_wpnxmscp          = 'wpnxmscp.zip';
   Filename_xhprof            = 'xhprof.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
+  Filename_phpext_mongo      = 'phpext_mongo.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -528,7 +530,7 @@ begin
     {
       Leave this!   - It's for determining the download file sizes manually
       There is a strange bug, when trying to get the filesize from googlecode.
-      So webgrind has a size of 0. Thats way "unknown" is shown as total progress.
+      So webgrind has a size of 0. Thats why "unknown" is shown as total progress.
 
       ITD_GetFileSize(URL_xhprof, size);
       MsgBox(intToStr(size), mbError, MB_OK);
@@ -580,7 +582,13 @@ begin
     if IsComponentSelected('composer')   then ITD_AddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('sendmail')   then ITD_AddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
     if IsComponentSelected('openssl')    then ITD_AddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
-    if IsComponentSelected('mongodb')    then ITD_AddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
+
+    if IsComponentSelected('mongodb')    then 
+    begin 
+        ITD_AddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
+        ITD_AddFile(URL_phpext_mongo,  ExpandConstant(targetPath + Filename_phpext_mongo));
+    end;
+
     if IsComponentSelected('rockmongo')  then ITD_AddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
@@ -821,19 +829,25 @@ begin
         UpdateTotalProgressBar();
   end;
 
-  if Pos('mongodb', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('MongoDB');
-      DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
-  end;
-
   if Pos('rockmongo', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('RockMongo');
       DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
   end;
+
+  if Pos('mongodb', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('MongoDB');
+      DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+        UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('phpext_mongo');
+      DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
+      Exec('cmd.exe', '/c "copy php_mongo-*-5.4-vc9-nts.dll ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+        UpdateTotalProgressBar();
+  end;
+
 end;
 
 procedure MoveFiles();
@@ -970,6 +984,12 @@ begin
   begin
       // php.ini entry for loading the the extension
       //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
+  end;
+
+  if Pos('mongodb', selectedComponents) > 0 then
+  begin
+      // php.ini entry for loading the the extension
+      SetIniString('PHP', 'extension', 'php_mongo.dll', php_ini_file );
   end;
 end;
 

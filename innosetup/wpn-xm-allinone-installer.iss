@@ -239,6 +239,7 @@ const
   Filename_wpnxmscp          = 'wpnxmscp.zip';
   Filename_xhprof            = 'xhprof.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
+  Filename_phpext_mongo      = 'phpext_mongo.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -738,6 +739,20 @@ begin
       ExtractTemporaryFile(Filename_mongodb);
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
+
+    //
+    // Notes on phpext_mongo
+    // 1. the archive contains lots of files (ts/nts, 32/x86-64), we unzip to temp dir
+    // 2. we use "php-X.Y.Z-nts-Win32-VC9-x86", so we need "php_mongo-X.Y.Z-5.4-vc9-nts.dll"
+    // 3. FileCopy() does not handle wildcards? wtf? seems these folks like recursive procedures for file walking...
+    //    FileCopy(ExpandConstant(targetPath + '\phpext_mongo\php_mongo-*-5.4-vc9-nts.dll'), ExpandConstant('{app}\bin\php\ext\php_mongo.dll'), false);
+    //
+
+    UpdateCurrentComponentName('phpext_mongo');
+      ExtractTemporaryFile(Filename_phpext_mongo);
+      DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
+      Exec('cmd.exe', '/c "copy php_mongo-*-5.4-vc9-nts.dll ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+        UpdateTotalProgressBar();
   end;
 
 end;
@@ -876,6 +891,12 @@ begin
   begin
       // php.ini entry for loading the the extension
       //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
+  end;
+
+  if Pos('mongodb', selectedComponents) > 0 then
+  begin
+      // php.ini entry for loading the the extension
+      SetIniString('PHP', 'extension', 'php_mongo.dll', php_ini_file );
   end;
 end;
 
