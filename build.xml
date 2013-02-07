@@ -149,7 +149,7 @@
 
     <target name="download-components" description="Downloads all components for building the AllInOne Installer."
             depends="make-downloads-dir">
-        <foreach item="Line" in="downloads.csv" delim="," property="component,source,destination">
+        <foreach item="Line" in="${dir.Base}/updater/downloads.csv" delim="," property="component,source,destination">
             <echo message="&#xa; Downloading ${component} &#xa;" />
             <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" />
         </foreach>
@@ -210,6 +210,10 @@
     <!-- The "git" command must be on your env path, check that with "env|grep PATH". -->
     <target name="update-git-submodules"
             description="Updating git submodules. Fetching latest version of server-control-panel and webinterface.">
+        <exec program="git">
+             <arg value="submodule" />
+             <arg value="init" />
+        </exec>
         <exec program="git">
             <arg value="submodule" />
             <arg value="foreach"/>
