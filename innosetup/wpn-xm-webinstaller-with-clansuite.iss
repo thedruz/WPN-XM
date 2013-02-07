@@ -192,9 +192,6 @@ Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Componen
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
 //Filename: {app}\SETUP.EXE; Description: Configure Server Stack; Flags: postinstall nowait skipifsilent unchecked
 
-[INI]
-;Filename: {app}\bin\php\php.ini, Section: PHP; Key: extenson; String: php_pdo_mysql.dll; Components: ;
-
 [Registry]
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
@@ -230,7 +227,7 @@ const
 
   // Define download URLs for the software packages
   // ----------------------------------------------
-  // The majority of download urls point to our redirection script.
+  // The majority of download URLs point to our redirection script.
   // The WPN-XM redirection script uses an internal software registry for looking
   // up the latest version and redirecting the installer to the download url.
   //
@@ -539,7 +536,7 @@ begin
     {
       Leave this!   - It's for determining the download file sizes manually
       There is a strange bug, when trying to get the filesize from googlecode.
-      So webgrind has a size of 0. Thats way "unknown" is shown as total progress.
+      So webgrind has a size of 0. Thats why "unknown" is shown as total progress.
 
       ITD_GetFileSize(URL_xhprof, size);
       MsgBox(intToStr(size), mbError, MB_OK);
@@ -592,11 +589,12 @@ begin
     if IsComponentSelected('sendmail')   then ITD_AddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
     if IsComponentSelected('openssl')    then ITD_AddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
 
-    if IsComponentSelected('mongodb')    then 
-    begin 
+    if IsComponentSelected('mongodb')    then
+    begin
         ITD_AddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
         ITD_AddFile(URL_phpext_mongo,  ExpandConstant(targetPath + Filename_phpext_mongo));
     end;
+
     if IsComponentSelected('rockmongo')  then ITD_AddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
@@ -706,15 +704,15 @@ begin
 
   UpdateCurrentComponentName('Nginx');
     DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
-      UpdateTotalProgressBar();
+  UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
     DoUnzip(targetPath + Filename_php, ExpandConstant('{app}\bin\php'));
-      UpdateTotalProgressBar();
+  UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('MariaDB');
     DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-      UpdateTotalProgressBar();
+  UpdateTotalProgressBar();
 
   // unzip selected components
 
@@ -722,7 +720,7 @@ begin
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
       DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('openssl', selectedComponents) > 0 then
@@ -732,61 +730,66 @@ begin
         // this installs OpenSSL to its default location: "C:\OpenSSL-Win32"
         Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
-  // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Xdebug');
+      // xdebug is not a zipped, its just a dll file, so copy it to the target path
       FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('apc', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('APC');
+    UpdateCurrentComponentName('PHP Extension - APC');
       // archive contains ts/nts folders, unzip to temp dir, copy file from there
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('XHProf');
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+
+    UpdateCurrentComponentName('PHP Extension - XHProf');
       DoUnzip(targetPath + Filename_phpext_xhprof, ExpandConstant('{app}\bin\php\ext'));
-        UpdateTotalProgressBar;
+
+    UpdateTotalProgressBar;
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Memcached');
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+
+    UpdateCurrentComponentName('PHP Extension - Memcached');
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('memadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Memadmin');
       DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('phpmemcachedadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpMemcachedAdmin');
       DoUnzip(targetPath + Filename_phpmemcachedadmin, ExpandConstant('{app}\www\memcachedadmin'));
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpMyAdmin');
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar;
+    UpdateTotalProgressBar;
   end;
 
   // adminer is not a zipped, its just a php file, so copy it to the target path
@@ -795,14 +798,14 @@ begin
     UpdateCurrentComponentName('Adminer');
       CreateDir(ExpandConstant('{app}\www\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('junction', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Junction');
       DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   // pear is not a zipped, its just a php phar package, so copy it to php\pear subfolder
@@ -811,7 +814,7 @@ begin
     UpdateCurrentComponentName('PEAR');
       CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
       FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   // composer is not a zipped, its just a php phar package, so copy it to the php path
@@ -819,7 +822,7 @@ begin
   begin
     UpdateCurrentComponentName('composer');
       FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('sendmail', selectedComponents) > 0 then
@@ -827,14 +830,14 @@ begin
     UpdateCurrentComponentName('Sendmail');
       CreateDir(ExpandConstant('{app}\bin\sendmail\'));
       DoUnzip(targetPath + Filename_sendmail, ExpandConstant('{app}\bin\sendmail'));
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('webgrind', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Webgrind');
       DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('clansuite', selectedComponents) > 0 then
@@ -844,24 +847,26 @@ begin
         UpdateTotalProgressBar();
   end;
 
+  if Pos('rockmongo', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RockMongo');
+      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('mongodb', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('MongoDB');
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
         UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('phpext_mongo');
+
+    UpdateCurrentComponentName('PHP Extension - Mongo');
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
       Exec('cmd.exe', '/c "copy php_mongo-*-5.4-vc9-nts.dll ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
-  if Pos('rockmongo', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('RockMongo');
-      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
-  end;
 end;
 
 procedure MoveFiles();
@@ -998,6 +1003,12 @@ begin
   begin
       // php.ini entry for loading the the extension
       //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
+  end;
+
+  if Pos('mongodb', selectedComponents) > 0 then
+  begin
+      // php.ini entry for loading the the extension
+      SetIniString('PHP', 'extension', 'php_mongo.dll', php_ini_file );
   end;
 end;
 
@@ -1137,8 +1148,6 @@ procedure DeleteWPNXM(ADirName: string);
 var
   FindRec: TFindRec;
 begin
-  //MsgBox('Deleting WPNXM (' + ADirName + '\*.*)', mbError, MB_OK);
-
   if FindFirst( ADirName + '\*.*', FindRec) then begin
     try
       repeat

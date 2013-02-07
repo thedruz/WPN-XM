@@ -576,17 +576,17 @@ begin
   UpdateCurrentComponentName('Nginx');
     ExtractTemporaryFile(Filename_nginx);
     DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
-      UpdateTotalProgressBar();
+  UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
     ExtractTemporaryFile(Filename_php);
     DoUnzip(targetPath + Filename_php, ExpandConstant('{app}\bin\php'));
-      UpdateTotalProgressBar();
+  UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('MariaDB');
     ExtractTemporaryFile(Filename_mariadb);
     DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-      UpdateTotalProgressBar();
+  UpdateTotalProgressBar();
 
   // unzip selected components
 
@@ -595,7 +595,7 @@ begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
       ExtractTemporaryFile(Filename_wpnxmscp);
       DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('openssl', selectedComponents) > 0 then
@@ -605,46 +605,52 @@ begin
         // this installs OpenSSL to its default location: "C:\OpenSSL-Win32"
         Exec('cmd.exe', '/c "' + targetPath + Filename_openssl + ' /silent /verysilent /sp- /suppressmsgboxes"',
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
-  // xdebug is not a zipped, its just a dll file, so copy it to the target path
   if Pos('xdebug', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
+      // xdebug is not a zipped, its just a dll file, so copy it to the target path
       FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('apc', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('APC');
+    UpdateCurrentComponentName('PHP Extension - APC');
       ExtractTemporaryFile(Filename_phpext_apc);
       // archive contains ts/nts folders, unzip to temp dir, copy file from there
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('XHProf');
       ExtractTemporaryFile(Filename_xhprof);
-      ExtractTemporaryFile(Filename_phpext_xhprof);
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+
+    UpdateCurrentComponentName('PHP Extension - XHProf');
+      ExtractTemporaryFile(Filename_phpext_xhprof);
       DoUnzip(targetPath + Filename_phpext_xhprof, ExpandConstant('{app}\bin\php\ext'));
-        UpdateTotalProgressBar;
+
+    UpdateTotalProgressBar;
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Memcached');
       ExtractTemporaryFile(Filename_memcached);
-      ExtractTemporaryFile(Filename_phpext_memcache);
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+
+    UpdateCurrentComponentName('PHP Extension - Memcached');
+      ExtractTemporaryFile(Filename_phpext_memcache);
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
-        UpdateTotalProgressBar();
+
+    UpdateTotalProgressBar();
   end;
 
   if Pos('memadmin', selectedComponents) > 0 then
@@ -652,7 +658,7 @@ begin
     UpdateCurrentComponentName('Memadmin');
       ExtractTemporaryFile(Filename_memadmin);
       DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('phpmemcachedadmin', selectedComponents) > 0 then
@@ -660,7 +666,7 @@ begin
     UpdateCurrentComponentName('phpMemcachedAdmin');
       ExtractTemporaryFile(Filename_phpmemcachedadmin);
       DoUnzip(targetPath + Filename_phpmemcachedadmin, ExpandConstant('{app}\www\memcachedadmin'));
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
@@ -668,7 +674,7 @@ begin
     UpdateCurrentComponentName('phpMyAdmin');
       ExtractTemporaryFile(Filename_phpmyadmin);
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar;
+    UpdateTotalProgressBar;
   end;
 
   // adminer is not a zipped, its just a php file, so copy it to the target path
@@ -678,7 +684,7 @@ begin
       ExtractTemporaryFile(Filename_adminer);
       CreateDir(ExpandConstant('{app}\www\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('junction', selectedComponents) > 0 then
@@ -686,7 +692,7 @@ begin
     UpdateCurrentComponentName('Junction');
       ExtractTemporaryFile(Filename_junction);
       DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   // pear is not a zipped, its just a php phar package, so copy it to php\pear subfolder
@@ -696,16 +702,16 @@ begin
       ExtractTemporaryFile(Filename_pear);
       CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
       FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   // composer is not a zipped, its just a php phar package, so copy it to the php path
   if Pos('composer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('composer');
-    ExtractTemporaryFile(Filename_composer);
+      ExtractTemporaryFile(Filename_composer);
       FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('sendmail', selectedComponents) > 0 then
@@ -714,7 +720,7 @@ begin
       ExtractTemporaryFile(Filename_sendmail);
       CreateDir(ExpandConstant('{app}\bin\sendmail\'));
       DoUnzip(targetPath + Filename_sendmail, ExpandConstant('{app}\bin\sendmail'));
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('webgrind', selectedComponents) > 0 then
@@ -722,7 +728,7 @@ begin
     UpdateCurrentComponentName('Webgrind');
       ExtractTemporaryFile(Filename_webgrind);
       DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('rockmongo', selectedComponents) > 0 then
@@ -730,7 +736,7 @@ begin
     UpdateCurrentComponentName('RockMongo');
       ExtractTemporaryFile(Filename_rockmongo);
       DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
+    UpdateTotalProgressBar();
   end;
 
   if Pos('mongodb', selectedComponents) > 0 then
@@ -738,7 +744,6 @@ begin
     UpdateCurrentComponentName('MongoDB');
       ExtractTemporaryFile(Filename_mongodb);
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-        UpdateTotalProgressBar();
 
     //
     // Notes on phpext_mongo
@@ -748,11 +753,12 @@ begin
     //    FileCopy(ExpandConstant(targetPath + '\phpext_mongo\php_mongo-*-5.4-vc9-nts.dll'), ExpandConstant('{app}\bin\php\ext\php_mongo.dll'), false);
     //
 
-    UpdateCurrentComponentName('phpext_mongo');
+    UpdateCurrentComponentName('PHP Extension - Mongo');
       ExtractTemporaryFile(Filename_phpext_mongo);
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
       Exec('cmd.exe', '/c "copy php_mongo-*-5.4-vc9-nts.dll ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-        UpdateTotalProgressBar();
+
+    UpdateTotalProgressBar();
   end;
 
 end;
@@ -1021,7 +1027,6 @@ begin
       Result := false;
       Exit;
     end;
-
   end;
 
   // unload the dll, otherwise the psvince.dll is not deleted, because in use
@@ -1037,8 +1042,6 @@ procedure DeleteWPNXM(ADirName: string);
 var
   FindRec: TFindRec;
 begin
-  MsgBox('Deleting WPNXM (' + ADirName + '\*.*)', mbError, MB_OK);
-
   if FindFirst( ADirName + '\*.*', FindRec) then begin
     try
       repeat
