@@ -2,5 +2,8 @@
 	path = www/webinterface
 	url = git://github.com/WPN-XM/webinterface.git
 [submodule "server-control-panel"]
-	path = server-control-panel
-	url = git://github.com/WPN-XM/server-control-panel.git
+    path = server-control-panel
+    url = git://github.com/WPN-XM/server-control-panel.git
+[submodule "updater"]
+    path = updater
+    url = git://github.com/WPN-XM/updater.git
