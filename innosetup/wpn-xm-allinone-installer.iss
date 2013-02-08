@@ -130,7 +130,7 @@ Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
-Source: ..\bin\generate-certificate.bat; DestDir: {app}\bin\openssl
+Source: ..\bin\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
