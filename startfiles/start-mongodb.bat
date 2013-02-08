@@ -25,6 +25,6 @@ SET HIDECONSOLE=%cd%\bin\tools\RunHiddenConsole.exe
 
 echo.
 echo Starting MongoDB
-     %cd%\bin\mongodb\bin\mongod.exe --config %cd%\bin\mongodb\mongodb.conf --logpath %cd%\logs\mongodb.log
+     %cd%\bin\mongodb\bin\mongod.exe --config "%cd%\bin\mongodb\mongodb.conf" --logpath "%cd%\logs\mongodb.log" --dbpath: "%cd%\bin\mongodb\data\db"
 echo.
 pause
