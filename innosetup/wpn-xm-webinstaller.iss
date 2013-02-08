@@ -136,7 +136,7 @@ Source: ..\bin\generate-certificate.bat; DestDir: {app}\bin\openssl; Components:
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
-Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}
+Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}; Components: mongodb
 Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
