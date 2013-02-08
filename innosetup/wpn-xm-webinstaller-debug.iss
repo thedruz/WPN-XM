@@ -237,7 +237,7 @@ const
   URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
   URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
   URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
-  URL_mongodb           = 'http://wpn-xm.org/get.php?s=mongodb';
+  URL_mongodb           = 'http://wpn-xm.org/get.php?s=mongodb&v=2.0.8';
   URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
   URL_openssl           = 'http://wpn-xm.org/get.php?s=openssl';
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
