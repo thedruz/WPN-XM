@@ -141,6 +141,7 @@ Source: ..\bin\generate-certificate.bat; DestDir: {app}\bin\openssl
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
 Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}
+Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
 // webinterface folder is only copied, if component is selected
@@ -744,9 +745,8 @@ begin
   if Pos('apc', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PHP Extension - APC');
-      // archive contains ts/nts folders, unzip to temp dir, copy file from there
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
-      FileCopy(ExpandConstant(targetPath + '\apc\nts\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -861,7 +861,7 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
-      Exec('cmd.exe', '/c "copy php_mongo-*-5.4-vc9-nts.dll ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec('cmd.exe', '/c "copy ' + targetPath + 'phpext_mongo\php_mongo-*-5.4-vc9-nts.dll ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
 
