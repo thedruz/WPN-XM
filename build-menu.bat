@@ -10,12 +10,15 @@ TITLE WPN-XM Server Stack for Windows - Build Script!
 
 :: display a Menu
 
+:SHOWMENU
+cls
 echo             WPN-XM Build Menu
 echo             =================
 echo.
-echo   [1] One-Click Build
-echo   [2] Download Components
-echo   [3] Rebuild AllInOne Installation Wizard
+echo   [1] Start "One-Click Build"
+echo   [2] Download Components for "All-In-One" Installation Wizard
+echo   [3] Build the "All-In-One" Installation Wizard
+echo   [x] Quit
 echo.
 
 :: ask for input
@@ -28,7 +31,8 @@ set /p input="Your selection: "
 if %input%==1 goto OPTION1
 if %input%==2 goto OPTION2
 if %input%==3 goto OPTION3
-goto END
+IF %input%==x goto QUIT
+goto SHOWMENU
 
 :: handlers
 
@@ -49,3 +53,5 @@ goto END
 
 :END
 pause
+
+:QUIT
