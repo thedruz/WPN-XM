@@ -893,6 +893,16 @@ begin
     //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing CRT...
   end;
 
+  if Pos('rockmongo', selectedComponents) > 0 then
+  begin
+      // rockmongo.zip brings also a "__MACOSX" folder with ".DS_Store" file. let's get rid of that crap
+      RockmongoCrapDir := AddBackslash(ExpandConstant('{app}\www\__MACOSX'));
+      if DirExists(RockmongoCrapDir) then
+      begin
+        DelTree(RockmongoCrapDir, True, True, True);
+      end;
+  end;
+
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     // xhprof - rename "xhprof-master" directory
