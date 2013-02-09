@@ -154,6 +154,7 @@ Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\vhosts.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\config.inc.php; DestDir: {app}\www\phpmyadmin; Components: phpmyadmin
+Source: ..\configs\xhprof.php; DestDir: {app}\www\xhprof\xhprof_lib; DestName: "config.php"; Components: xhprof
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\wpnxm-scp.exe; Tasks: add_startmenu_entries
