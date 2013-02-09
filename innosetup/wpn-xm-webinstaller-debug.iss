@@ -143,8 +143,7 @@ Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproje
 // webinterface folder is only copied, if component is selected
 Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // incorporate several startfiles
-Source: ..\startfiles\administration.url; DestDir: {app}
-Source: ..\startfiles\localhost.url; DestDir: {app}
+Source: ..\startfiles\webinterface.url; DestDir: {app}
 Source: ..\startfiles\start-wpnxm.exe; DestDir: {app}
 Source: ..\startfiles\stop-wpnxm.exe; DestDir: {app}
 Source: ..\startfiles\restart-wpnxm.exe; DestDir: {app}
