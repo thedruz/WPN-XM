@@ -871,8 +871,8 @@ begin
   Exec('cmd.exe', '/c "move ' + appPath + '\bin\mariadb-*  ' + appPath + '\bin\mariadb"',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // MariaDB - install with user ROOT and password TOOP
-  Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\mysql_install_db.exe --default-user=root --password=toop --datadir="' + appPath + '\bin\mariadb\data"',
+  // MariaDB - install with user ROOT and without password (this is the position to add a default password)
+  Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
