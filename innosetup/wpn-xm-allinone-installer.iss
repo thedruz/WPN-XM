@@ -146,6 +146,8 @@ Source: ..\startfiles\restart-wpnxm.exe; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
+Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
 // config files
 Source: ..\configs\wpnxm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
@@ -248,6 +250,7 @@ var
   returnCode  : Integer;  // errorcode
   targetPath  : String;   // if debug true will download to app/downloads, else temp dir
   appPath     : String;   // application path (= the installaton folder)
+  hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
 
@@ -567,6 +570,10 @@ begin
 
   // fetch the unzip command from the compressed setup
   ExtractTemporaryFile('unzip.exe');
+  ExtractTemporaryFile('RunHiddenConsole.exe');
+
+  // define hideConsole shortcut
+  hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
 
   if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
   if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
@@ -604,7 +611,7 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
-        Exec('cmd.exe', '/c ' + targetPath + Filename_openssl + ' /DIR="' + ExpandConstant('{app}\bin\openssl') +'" /silent /verysilent /sp- /suppressmsgboxes',
+        Exec(hideConsole, ExpandConstant(targetPath + Filename_openssl) + ' /DIR="' + ExpandConstant('{app}\bin\openssl') +'" /silent /verysilent /sp- /suppressmsgboxes',
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
@@ -665,7 +672,7 @@ begin
   begin
     UpdateCurrentComponentName('phpMemcachedAdmin');
       ExtractTemporaryFile(Filename_phpmemcachedadmin);
-      DoUnzip(targetPath + Filename_phpmemcachedadmin, ExpandConstant('{app}\www\memcachedadmin'));
+      DoUnzip(targetPath + Filename_phpmemcachedadmin, ExpandConstant('{app}\www\phpmemcachedadmin'));
     UpdateTotalProgressBar();
   end;
 
@@ -745,18 +752,16 @@ begin
       ExtractTemporaryFile(Filename_mongodb);
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
 
-    //
-    // Notes on phpext_mongo
+    // Notes - phpext_mongo
     // 1. the archive contains lots of files (ts/nts, 32/x86-64), we unzip to temp dir
     // 2. we use "php-X.Y.Z-nts-Win32-VC9-x86", so we need "php_mongo-X.Y.Z-5.4-vc9-nts.dll"
-    // 3. FileCopy() does not handle wildcards? wtf? seems these folks like recursive procedures for file walking...
-    //    FileCopy(ExpandConstant(targetPath + '\phpext_mongo\php_mongo-*-5.4-vc9-nts.dll'), ExpandConstant('{app}\bin\php\ext\php_mongo.dll'), false);
-    //
+    // 3. FileCopy() does not handle wildcards? wtf?
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       ExtractTemporaryFile(Filename_phpext_mongo);
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
-      Exec('cmd.exe', '/c "copy ' + targetPath + 'phpext_mongo\php_mongo-*-5.4-vc9-nts.dll ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move ' + targetPath + 'phpext_mongo\php_mongo-*-5.4-vc9-nts.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"',
+            '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     UpdateTotalProgressBar();
   end;
@@ -774,15 +779,13 @@ begin
   appPath := ExpandConstant('{app}');
 
   // nginx - rename directory
-  Exec('cmd.exe', '/c "move ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"',
-  '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - rename directory
-  Exec('cmd.exe', '/c "move ' + appPath + '\bin\mariadb-*  ' + appPath + '\bin\mariadb"',
-   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - install with user ROOT and without password (this is the position to add a default password)
-  Exec('cmd.exe', '/c ' + appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
+  Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
@@ -803,29 +806,25 @@ begin
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     // xhprof - rename "xhprof-master" directory
-    Exec('cmd.exe', '/c "move ' + appPath + '\www\xhprof-* ' + appPath + '\www\xhprof"',
+    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\xhprof-* ' + appPath + '\www\xhprof"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     // rename "xhprof_0.10.3_php54_vc9_nts.dll" to "xhprof.dll"
-        Exec('cmd.exe', '/c "move ' + appPath + '\bin\php\ext\xhprof_* ' + appPath + '\bin\php\ext\xhprof.dll"',
-    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\php\ext\xhprof_* ' + appPath + '\bin\php\ext\xhprof.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
       // rename the existing directory
-      Exec('cmd.exe', '/c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"',
-      '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
       // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
-      Exec('cmd.exe', '/c "move ' + appPath + '\www\memadmin-* ' + appPath + '\www\memadmin"',
-      '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\memadmin-* ' + appPath + '\www\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
      // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
-    Exec('cmd.exe', '/c "move ' + appPath + '\www\phpMyAdmin-*  ' + appPath + '\www\phpmyadmin"',
-    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\phpMyAdmin-*  ' + appPath + '\www\phpmyadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
 end;
