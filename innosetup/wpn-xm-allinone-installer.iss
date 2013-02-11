@@ -766,6 +766,7 @@ end;
 procedure MoveFiles();
 var
   selectedComponents: String;
+  RockmongoCrapDir: String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
