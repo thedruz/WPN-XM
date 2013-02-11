@@ -160,7 +160,7 @@ Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
 Source: ..\configs\wpnxm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
-Source: ..\configs\vhosts.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\configs\domains.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\config.inc.php; DestDir: {app}\www\phpmyadmin; Components: phpmyadmin
 Source: ..\configs\xhprof.php; DestDir: {app}\www\xhprof\xhprof_lib; DestName: "config.php"; Components: xhprof
@@ -219,7 +219,7 @@ en.RemoveApp=Uninstall WPN-XM Server Stack
 [Dirs]
 Name: {app}\www
 Name: {app}\www\webinterface; Components: webinterface;
-Name: {app}\bin\nginx\conf\vhosts
+Name: {app}\bin\nginx\conf\domains
 Name: {app}\logs
 Name: {app}\temp
 
