@@ -15,7 +15,7 @@ echo Press any key to reset the password for the user "root" to "%password%" (wi
 pause>nul
 
 echo.
-echo UPDATE mysql.user SET Password=PASSWORD('%password%') WHERE User='root'; | bin\mysqld.exe --bootstrap --console
+echo UPDATE mysql.user SET Password=PASSWORD('%password%') WHERE User='root'; | bin\mariadb\bin\mysqld.exe --bootstrap --console
 
 echo.
 echo DONE !
