@@ -35,10 +35,10 @@ IF "%1"=="" (
     call:stop-memcached
     call:stop-nginx
     call:stop-browser
-) ELSE ( 
+) ELSE (
     :: stop specific daemon
     :: where $1 is the first cli argument, e.g. "stop-wpnxm.bat php"
-    call:stop-%1 
+    call:stop-%1
 )
 GOTO END
 

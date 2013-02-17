@@ -1,12 +1,12 @@
-@echo off
+@echo on
 
-if not exist "start-wpnxm.exe" (
-    echo "ERROR: start-wpnxm.exe is missing."
+if not exist "start-wpnxm.bat" (
+    echo "ERROR: start-wpnxm.bat is missing."
     goto END
 )
 
-if not exist "stop-wpnxm.exe" (
-    echo "ERROR: stop-wpnxm.exe is missing."
+if not exist "stop-wpnxm.bat" (
+    echo "ERROR: stop-wpnxm.bat is missing."
     goto END
 )
 
@@ -16,8 +16,8 @@ if "%1"=="" (
     goto restart-all
 ) else (
     :: restart specific daemon
-    :: where $1 is the first cli argument, e.g. "restart-wpnxm.exe php"
-    call:restart-%1 
+    :: where $1 is the first cli argument, e.g. "restart-wpnxm.bat php"
+    goto restart-%1
 )
 goto END
 
@@ -32,29 +32,29 @@ goto END
 
 :restart-php
     echo Restarting PHP FastCGI...
-    call stop-wpnxm.exe php
-    call start-wpnxm.exe php
+    call stop-wpnxm.bat php
+    call start-wpnxm.bat php
     echo.
 goto END
 
 :restart-mariadb
     echo Restarting MariaDb...
-    call stop-wpnxm.exe mariadb
-    call start-wpnxm.exe mariadb
+    call stop-wpnxm.bat mariadb
+    call start-wpnxm.bat mariadb
     echo.
 goto END
 
 :restart-memcached
     echo Restarting Memcached...
-    call stop-wpnxm.exe memcached
-    call start-wpnxm.exe memcached
+    call stop-wpnxm.bat memcached
+    call start-wpnxm.bat memcached
     echo.
 goto END
 
 :restart-nginx
     echo Restarting nginx...
-    call stop-wpnxm.exe nginx
-    call start-wpnxm.exe nginx
+    call stop-wpnxm.bat nginx
+    call start-wpnxm.bat nginx
     echo.
 goto END
 
