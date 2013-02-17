@@ -144,9 +144,9 @@ Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproje
 Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // incorporate several startfiles
 Source: ..\startfiles\webinterface.url; DestDir: {app}
-Source: ..\startfiles\start-wpnxm.exe; DestDir: {app}
-Source: ..\startfiles\stop-wpnxm.exe; DestDir: {app}
-Source: ..\startfiles\restart-wpnxm.exe; DestDir: {app}
+Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
