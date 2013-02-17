@@ -29,7 +29,7 @@ GOTO :EOF
 :kill-processes
 
 :: kill all daemons, if no argument given (default)
-IF "%~1"=="" (
+IF "%1"=="" (
     call:stop-php
     call:stop-mariadb
     call:stop-memcached
