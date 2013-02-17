@@ -1,4 +1,4 @@
-@echo off
+@echo on
 :: Change this to ON when debugging this batch file.
 
 SET PATH-OF-WIN-CMDS=%SystemRoot%\System32
@@ -34,7 +34,6 @@ IF "%1"=="" (
     call:stop-mariadb
     call:stop-memcached
     call:stop-nginx
-    call:stop-browser
 ) ELSE (
     :: stop specific daemon
     :: where $1 is the first cli argument, e.g. "stop-wpnxm.bat php"
