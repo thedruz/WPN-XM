@@ -882,6 +882,12 @@ begin
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
+  // MongoDB - rename directory
+  if Pos('mongodb', selectedComponents) > 0 then
+  begin
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
   begin
     //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing CRT...
