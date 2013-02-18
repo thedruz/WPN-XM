@@ -14,7 +14,7 @@
     <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
     <property name="version.Major"          value="0"/>
     <property name="version.Minor"          value="5"/>
-    <property name="version.BuildNumber"    value="1"/>
+    <property name="version.BuildNumber"    value="2"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
 
     <!-- Paths -->
@@ -136,7 +136,8 @@
     </target>
 
      <target name="compile-wpnxm-allinone-installer-no-download"
-             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done.">
+             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+             depends="bump-version-number">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
