@@ -1,5 +1,4 @@
-@echo on
-:: Change this to ON when debugging this batch file.
+@echo off
 
 SET PATH-OF-WIN-CMDS=%SystemRoot%\System32
 

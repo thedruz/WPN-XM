@@ -1,5 +1,4 @@
 @echo off
-:: Change this to ON when debugging this batch file.
 
 :: set window title
 TITLE WPN-XM Serverpack - Daemon Status Monitor

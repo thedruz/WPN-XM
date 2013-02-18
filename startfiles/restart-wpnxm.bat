@@ -1,4 +1,4 @@
-@echo on
+@echo off
 
 if not exist "start-wpnxm.bat" (
     echo "ERROR: start-wpnxm.bat is missing."
