@@ -736,7 +736,6 @@ begin
   if Pos('openssl', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('OpenSSL');
-      ExtractTemporaryFile(Filename_openssl);
         Exec(hideConsole, ExpandConstant(targetPath + Filename_openssl) + ' /DIR="' + ExpandConstant('{app}\bin\openssl') +'" /silent /verysilent /sp- /suppressmsgboxes',
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
