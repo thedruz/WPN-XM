@@ -55,6 +55,10 @@ $sql = "CREATE TABLE `details` (
  KEY `timestamp` (`timestamp`)
  ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
+if (!extension_loaded('pdo')) {
+    throw new \Exception('XHProf requires the PHP extension PDO.');
+}
+
 // connect to DB
 $pdo = new PDO(
     'mysql:host=localhost',
