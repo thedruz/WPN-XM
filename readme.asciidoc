@@ -1,5 +1,5 @@
 WPИ-XM
------- 
+------
 
 *WPИ-XM is a free and open-source web server solution stack for professional PHP development on the Windows platform.*
 
@@ -32,14 +32,14 @@ https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 
 5+^s|Base Components 
 
-| MariaDB  | 5.5.26 | GNU GPL v2      | © 2010-2012 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
-| NGINX    | 1.3.5  | New BSD License | © 2002-2012 Igor Sysoev.      | http://nginx.org/
-| PHP      | 5.4.6  | PHP License     | © 1999-2012 The PHP Group.    | http://www.php.net/
+| MariaDB  | 5.5.28 | GNU GPL v2      | © 2010-2012 Monty Program Ab. | http://mariadb.org/ + http://askmonty.org/
+| NGINX    | 1.3.9  | New BSD License | © 2002-2012 Igor Sysoev.      | http://nginx.org/
+| PHP      | 5.4.11  | PHP License     | © 1999-2012 The PHP Group.    | http://www.php.net/
 
 5+^s|PHP Extensions
 
 | XDebug    | 2.2.1 | Xdebug License | © 2002 - 2007 Derick Rethans. | http://xdebug.org/
-| APC       | 3.1.12   | PHP License    |                               | http://pecl.php.net/package/APC
+| APC       | 3.1.14   | PHP License    |                               | http://pecl.php.net/package/APC
 | Memcached | 3.0.6    |                |                               |
 | ZeroMQ    | 2.1      | GNU LGPL       | © iMatix Corporation          | http://zeromq.org
 
@@ -47,8 +47,8 @@ https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 
 | xhProf     | 0.10.3 | Apache License v2 | © 2010 - 2012 Facebook. | http://pecl.php.net/package/xhprof/ +  https://github.com/facebook/xhprof/
 | Webgrind   | 1.0    | New BSD License   | © 2010 J. Nygård, J. Oettinger.   | https://github.com/jokkedk/webgrind/
-| phpMyAdmin | 3.5.2.2| GNU GPL v2        | © 2003 - 2012 phpMyAdmin DevTeam. | http://phpmyadmin.net/
-| Adminer    | 3.5.1  | Apache License v2 GNU GPL v2  | © 2003 - 2012 Jakub Vrána. | http://adminer.org/
+| phpMyAdmin | 4.0.0  | GNU GPL v2        | © 2003 - 2012 phpMyAdmin DevTeam. | http://phpmyadmin.net/
+| Adminer    | 3.6.3  | Apache License v2 GNU GPL v2  | © 2003 - 2012 Jakub Vrána. | http://adminer.org/
 | Memcached  | 1.4.5  | . | . | .
 | Memadmin   | 1.0.12 | . | . | .
 | XCache     | 2.0.1  | . | . | .
