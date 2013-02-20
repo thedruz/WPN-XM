@@ -982,19 +982,20 @@ external 'IsModuleLoaded@{app}\bin\tools\psvince.dll stdcall uninstallonly';
 function ProcessesRunningWhenUninstall(): Boolean;
 var
   index : Integer;
-  processes: Array [1..4] of String;
+  processes: Array [1..5] of String;
 begin
   // fill processes array with process executables to look for
   processes[1] := 'nginx.exe';
   processes[2] := 'memcached.exe';
   processes[3] := 'php-cgi.exe';
   processes[4] := 'mysqld.exe';
+  processes[5] := 'mongod.exe';
 
   // method return value defaults to false, meaning that no processes is running
   Result := false;
 
   // iterate processes
-  for index := 1 to 4 do
+  for index := 1 to 5 do
   begin
     // and check if process is running (using external call to psvince.dll)
     if ( IsModuleLoaded( processes[index] ) = true ) then
@@ -1025,7 +1026,7 @@ begin
     if( ButtonPressed = IDRETRY ) then
     begin
       // "Yes/Retry" clicked, now shutdown the processes
-      if Exec('cmd.exe', '/c ' + ExpandConstant('{app}\stop-wpnxm.exe'), '', SW_HIDE,
+      if Exec('cmd.exe', '/c ' + ExpandConstant('{app}\stop-wpnxm.bat'), '', SW_HIDE,
          ewWaitUntilTerminated, ResultCode) then
       begin
         Result := ResultCode > 0;
