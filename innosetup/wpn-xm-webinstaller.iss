@@ -917,6 +917,10 @@ begin
   begin
       // rename the existing directory
       Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+      // fix "read-only" status of "pthreadGC2.dll", else this file will remain after uninstallation
+      Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\bin\memcached\pthreadGC2.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
       // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
       Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\memadmin-* ' + appPath + '\www\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
