@@ -167,8 +167,8 @@ Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\wpnxm-scp.exe; Tasks: add_startmenu_entries
-Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.exe; Tasks: add_startmenu_entries
-Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.exe; Tasks: add_startmenu_entries
+Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.bat; Tasks: add_startmenu_entries
+Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.bat; Tasks: add_startmenu_entries
 Name: {group}\Status of WPN-XM; Filename: {app}\status-wpnxm.bat; Tasks: add_startmenu_entries
 Name: {group}\Localhost; Filename: {app}\localhost.url; Tasks: add_startmenu_entries
 Name: {group}\Administration; Filename: {app}\administration.url; Tasks: add_startmenu_entries
@@ -177,8 +177,8 @@ Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}; Tasks: add_startmenu_e
 Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Tasks: add_startmenu_entries
 Name: {userdesktop}\WPN-XM Server-Control-Panel; Filename: {app}\wpnxm-scp.exe; Tasks: add_scp_desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpnxm-scp.exe; Tasks: add_scp_quicklaunchicon
-Name: {userdesktop}\WPN-XM Start; Filename: {app}\start-wpnxm.exe; Tasks: add_basic_start_stop_desktopicons
-Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop-wpnxm.exe; Tasks: add_basic_start_stop_desktopicons
+Name: {userdesktop}\WPN-XM Start; Filename: {app}\start-wpnxm.bat; Tasks: add_basic_start_stop_desktopicons
+Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop-wpnxm.bat; Tasks: add_basic_start_stop_desktopicons
 
 [Tasks]
 Name: portablemode; Description: "Portable Mode"; Flags: unchecked
