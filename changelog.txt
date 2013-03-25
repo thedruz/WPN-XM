@@ -7,10 +7,10 @@
 Legende:      NEW    Neues Feature            |    New Feature
               CHG    Änderung                 |    Change
               FIX    Fehler behoben           |    Bugfix
-              LNG    Sprachdatei aktualisiert |    Languagefile updated
-              RQM    Neue Systemanforderung   |    New Requirement
-              MOD    Neues Module             |    New Modul
-              REL    Neues Release            |    New Release
+              LNG    Sprachdatei aktualisiert |    Updated language file
+              RQM    Neue Systemanforderung   |    New requirement
+              MOD    Neues Module             |    New module
+              REL    Neues Release            |    New release
               UPD    Aktualisierung           |    Update
 ------------  ----------------------------------------------------------------
 
@@ -31,6 +31,12 @@ tba           REL    Version 0.6.0
  next  -->>
 
 ------------  ----------------------------------------------------------------
+tba           REL    Version 0.5.4
+------------  ----------------------------------------------------------------
+
+ next  -->>   FIX    fixed start-menu shortcuts
+
+------------  ----------------------------------------------------------------
 tba           REL    Version 0.5.3
 ------------  ----------------------------------------------------------------
 
@@ -40,7 +46,6 @@ tba           REL    Version 0.5.3
                      shutdown call was invalid
               FIX    removed read-only file permissions from  pthreadGC2.ddl
                      (from /bin/memcached). it was not deleted by uninstall.
-                    
 
 ------------  ----------------------------------------------------------------
 18.02.2013    REL    Version 0.5.2
