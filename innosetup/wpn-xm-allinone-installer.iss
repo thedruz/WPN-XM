@@ -1004,7 +1004,7 @@ begin
     // and check if process is running (using external call to psvince.dll)
     if ( IsModuleLoaded( processes[index] ) = true ) then
     begin
-     // MsgBox( processes[index] + ' is running, please close it and run again uninstall.', mbError, MB_OK );
+     MsgBox( processes[index] + ' is running, please close it and run again uninstall.', mbError, MB_OK );
      Result := true;
     end;
 
