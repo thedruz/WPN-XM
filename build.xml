@@ -149,7 +149,7 @@
     </target>
 
     <target name="download-components" description="Downloads all components for building the AllInOne Installer."
-            depends="make-downloads-dir">
+            depends="make-downloads-dir, update-git-submodules">
         <foreach item="Line" in="${dir.Base}/updater/downloads.csv" delim="," property="component,source,destination">
             <echo message="&#xa; Downloading ${component} &#xa;" />
             <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" />
