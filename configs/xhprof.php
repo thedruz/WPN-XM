@@ -1,5 +1,12 @@
-
 <?php
+
+/**
+ * WPN-XM Server Stack - XHProf Database Setup Script.
+ *
+ * This script pre-configures xhProf for running out of the box.
+ * It takes aways the hassle of configuring the database connection
+ * and creating the correct table structure.
+ */
 
 /**
  * This file must be copied to /xhprof/xhprof_lib/config.php
@@ -17,11 +24,6 @@ $_xhprof['dbadapter'] = 'Pdo';
 $_xhprof['servername'] = 'myserver';
 $_xhprof['namespace'] = 'myapp';
 $_xhprof['url'] = 'http://url/to/xhprof/xhprof_html';
-
-
-/**
- * WPN-XM Server Stack - XHProf Database Setup Script.
- */
 
 /**
  * When setting the `id` column, consider the length of the prefix you're specifying in $this->prefix
