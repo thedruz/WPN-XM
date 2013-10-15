@@ -1,0 +1,20 @@
+LIBRARY	"idp"
+EXPORTS
+idpAddFile
+idpAddFileSize
+idpClearFiles
+idpFilesCount
+idpFilesDownloaded
+idpGetFileSize
+idpGetFilesSize
+idpDownloadFile
+idpDownloadFiles
+idpStartDownload
+idpStopDownload
+idpConnectControl
+idpAddMessage
+idpAddFileSize32
+idpGetFileSize32
+idpGetFilesSize32
+idpSetInternalOption
+idpSetDetailedMode
