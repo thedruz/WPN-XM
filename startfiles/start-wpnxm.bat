@@ -1,7 +1,8 @@
 @echo off
 
 if exist "%cd%\temp" (
-	RD "%cd%\temp\" /S /Q
+    echo Removing Temporary Files...
+    rd "%cd%\temp\" /S /Q
 )
 
 if not exist "%cd%\temp" (
