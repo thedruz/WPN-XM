@@ -14,7 +14,7 @@
     <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
     <property name="version.Major"          value="0"/>
     <property name="version.Minor"          value="5"/>
-    <property name="version.BuildNumber"    value="3"/>
+    <property name="version.BuildNumber"    value="4"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
 
     <!-- Paths -->
