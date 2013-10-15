@@ -48,8 +48,8 @@
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
-// we need to include the Sherlock Software\InnoTools\Downloader
-# include SOURCE_ROOT + "..\bin\InnoToolsDownloader\it_download.iss"
+// for download functionality, we need to include the Inno Download Plugin 
+# include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
 
 [Setup]
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
@@ -443,20 +443,25 @@ begin
   WizardForm.FinishedPage.Color:=$ECECEC;
   WizardForm.WizardSmallBitmapImage.BackColor:=$ECECEC;
 
-  //  Setup InnoTools Download Helper
+  // Setup Inno Download Plugin
 
-  // Initialize InnoTools Download Helper
-  ITD_Init;
   // Turns on detailed error message popups for debugging the download process
-  if (DEBUG = true) then ITD_SetOption('Debug_Messages', '1');
-  // Change from a simple overall progress bar to the detailed download view
-  ITD_SetOption('UI_DetailedMode', '1');
+  // if (DEBUG = true) then itdSetOption('Debug_Messages', '1');
+  
   // when download fails, do not allow continuing with the installation
-  ITD_SetOption('UI_AllowContinue', '0');
+  idpSetOption('AllowContinue',  '0');
+  // Change from a simple overall progress bar to the detailed download view
+  idpSetOption('DetailsVisible', '1');
+  idpSetOption('DetailsButton',  '0');
+  idpSetOption('RetryButton',    '1');
+  idpSetOption('UserAgent',      'WPN-XM Server Stack - Webinstaller - ' + ExpandConstant('{#AppVersion}'));
+  idpSetOption('InvalidCert',    'ignore');
+
   // Start the download after the "Ready to install" screen is shown
-  ITD_DownloadAfter(wpReady);
-  // reset files to download
-  ITD_ClearFiles();
+  idpDownloadAfter(wpReady);
+  
+  // reset files, previously added with idpAddFile() procedure
+  idpClearFiles();
 
   // Display the Version Number as overlay on the WizardImageFile (banner-left)
   // Label for the WelcomePage
@@ -538,7 +543,7 @@ begin
       There is a strange bug, when trying to get the filesize from googlecode.
       So webgrind has a size of 0. Thats why "unknown" is shown as total progress.
 
-      ITD_GetFileSize(URL_xhprof, size);
+      idpGetFileSize(URL_xhprof, size);
       MsgBox(intToStr(size), mbError, MB_OK);
     }
 
@@ -546,61 +551,61 @@ begin
 
     if IsComponentSelected('serverstack') then
     begin
-      ITD_AddFile(URL_nginx,   ExpandConstant(targetPath + Filename_nginx));
-      ITD_AddFile(URL_php,     ExpandConstant(targetPath + Filename_php));
-      ITD_AddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
+      idpAddFile(URL_nginx,   ExpandConstant(targetPath + Filename_nginx));
+      idpAddFile(URL_php,     ExpandConstant(targetPath + Filename_php));
+      idpAddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
     end;
 
     if IsComponentSelected('webinterface') and VCRedistributableNeedsInstall then
     begin
       // the webinterface depends on vc2008-redistributable .dll stuff
-      ITD_AddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
+      idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
     end;
 
     if IsComponentSelected('servercontrolpanel') then
     begin
-      ITD_AddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
+      idpAddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
     end;
 
-    if IsComponentSelected('xdebug')    then ITD_AddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
-    if IsComponentSelected('apc')       then ITD_AddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
-    if IsComponentSelected('webgrind')  then ITD_AddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
+    if IsComponentSelected('xdebug')    then idpAddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
+    if IsComponentSelected('apc')       then idpAddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
+    if IsComponentSelected('webgrind')  then idpAddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
 
     if IsComponentSelected('xhprof') then
     begin
-        ITD_AddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
-        ITD_AddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
+        idpAddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
+        idpAddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
     end;
 
     if IsComponentSelected('memcached') then
     begin
-        ITD_AddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
-        ITD_AddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
+        idpAddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
+        idpAddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
     end;
 
-    if IsComponentSelected('phpmemcachedadmin') then ITD_AddFile(URL_phpmemcachedadmin,      ExpandConstant(targetPath + Filename_phpmemcachedadmin));
+    if IsComponentSelected('phpmemcachedadmin') then idpAddFile(URL_phpmemcachedadmin,      ExpandConstant(targetPath + Filename_phpmemcachedadmin));
 
-    if IsComponentSelected('memadmin')   then ITD_AddFile(URL_memadmin,      ExpandConstant(targetPath + Filename_memadmin));
-    if IsComponentSelected('phpmyadmin') then ITD_AddFile(URL_phpmyadmin,    ExpandConstant(targetPath + Filename_phpmyadmin));
-    if IsComponentSelected('adminer')    then ITD_AddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
-    if IsComponentSelected('junction')   then ITD_AddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
-    if IsComponentSelected('pear')       then ITD_AddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
-    if IsComponentSelected('composer')   then ITD_AddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
-    if IsComponentSelected('sendmail')   then ITD_AddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
-    if IsComponentSelected('openssl')    then ITD_AddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
+    if IsComponentSelected('memadmin')   then idpAddFile(URL_memadmin,      ExpandConstant(targetPath + Filename_memadmin));
+    if IsComponentSelected('phpmyadmin') then idpAddFile(URL_phpmyadmin,    ExpandConstant(targetPath + Filename_phpmyadmin));
+    if IsComponentSelected('adminer')    then idpAddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
+    if IsComponentSelected('junction')   then idpAddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
+    if IsComponentSelected('pear')       then idpAddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
+    if IsComponentSelected('composer')   then idpAddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
+    if IsComponentSelected('sendmail')   then idpAddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
+    if IsComponentSelected('openssl')    then idpAddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
 
     if IsComponentSelected('mongodb')    then
     begin
-        ITD_AddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
-        ITD_AddFile(URL_phpext_mongo,  ExpandConstant(targetPath + Filename_phpext_mongo));
+        idpAddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
+        idpAddFile(URL_phpext_mongo,  ExpandConstant(targetPath + Filename_phpext_mongo));
     end;
 
-    if IsComponentSelected('rockmongo')  then ITD_AddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
+    if IsComponentSelected('rockmongo')  then idpAddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
 
-    if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then ITD_ClearFiles();
+    if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then idpClearFiles();
 
   end; // of wpSelectComponents
 
