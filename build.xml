@@ -103,7 +103,7 @@
     <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Debug-Setup"/>
+            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Debug-Setup"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
