@@ -35,7 +35,7 @@
 //
 
 // toggle for enabling/disabling the debug mode
-# define DEBUG "true"
+#define DEBUG "true"
 
 // defines the root folder
 #define SOURCE_ROOT AddBackslash(SourcePath);
@@ -49,7 +49,7 @@
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
 // for download functionality, we need to include the Inno Download Plugin 
-# include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
+#include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
 
 [Setup]
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
@@ -452,7 +452,7 @@ begin
   idpSetOption('AllowContinue',  '0');
   // Change from a simple overall progress bar to the detailed download view
   idpSetOption('DetailsVisible', '1');
-  idpSetOption('DetailsButton',  '0');
+  idpSetOption('DetailsButton',  '1');
   idpSetOption('RetryButton',    '1');
   idpSetOption('UserAgent',      'WPN-XM Server Stack - Webinstaller - ' + ExpandConstant('{#AppVersion}'));
   idpSetOption('InvalidCert',    'ignore');
