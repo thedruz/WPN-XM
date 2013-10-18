@@ -44,7 +44,7 @@
 #define AppName "WPN-XM Server Stack"
 // the -APPVERSION- token is replaced during the nant build process
 #define AppVersion "@APPVERSION@"
-#define AppPublisher "Jens-André Koch"
+#define AppPublisher "Jens-Andrï¿½ Koch"
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
@@ -57,7 +57,7 @@ AppName={#AppName}
 AppVerName={#AppName} {#AppVersion}
 AppVersion={#AppVersion}
 AppPublisher={#AppPublisher}
-AppCopyright=© {#AppPublisher}
+AppCopyright=ï¿½ {#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppSupportURL}
 AppUpdatesURL={#AppURL}
@@ -179,8 +179,8 @@ Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop-wpnxm.bat; Tasks: add_basi
 [Tasks]
 Name: portablemode; Description: "Portable Mode"; Flags: unchecked
 Name: add_startmenu_entries; Description: Create Startmenu entries
-Name: add_scp_quicklaunchicon; Description: Create a &Quick Launch icon for the Server Control Panel; GroupDescription: Additional Icons:;
-Name: add_scp_desktopicon; Description: Create a &Desktop icon for the Server Control Panel; GroupDescription: Additional Icons:;
+Name: add_scp_quicklaunchicon; Description: Create a &Quick Launch icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel;
+Name: add_scp_desktopicon; Description: Create a &Desktop icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel;
 Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for starting and stopping; GroupDescription: Additional Icons:; Flags: unchecked
 
 [Run]
