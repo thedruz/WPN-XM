@@ -44,7 +44,7 @@
 #define AppName "WPN-XM Server Stack"
 // the -APPVERSION- token is replaced during the nant build process
 #define AppVersion "@APPVERSION@"
-#define AppPublisher "Jens-Andr� Koch"
+#define AppPublisher "Jens-André Koch"
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
@@ -57,7 +57,7 @@ AppName={#AppName}
 AppVerName={#AppName} {#AppVersion}
 AppVersion={#AppVersion}
 AppPublisher={#AppPublisher}
-AppCopyright=� {#AppPublisher}
+AppCopyright=© {#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppSupportURL}
 AppUpdatesURL={#AppURL}
