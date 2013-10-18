@@ -51,7 +51,6 @@
         <copy todir="${dir.Build}" overwrite="true">
             <fileset basedir="${dir.Base}/innosetup/">
                 <include name="wpn-xm-webinstaller.iss"/>
-                <include name="wpn-xm-webinstaller-with-clansuite.iss"/>
                 <include name="wpn-xm-webinstaller-debug.iss"/>
                 <include name="wpn-xm-allinone-installer.iss"/>
             </fileset>
@@ -108,17 +107,6 @@
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
             <arg value="${dir.Build}\wpn-xm-webinstaller-debug.iss"/>
-        </exec>
-    </target>
-
-    <target name="compile-wpnxm-webinstaller-with-clansuite-setup" description="Builds the WPN-XM setup executable.">
-        <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-with-Clansuite-Setup"/>
-            <!-- use our build dir as output dir -->
-            <arg value="-o${dir.Build}"/>
-            <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm-webinstaller-with-clansuite.iss"/>
         </exec>
     </target>
 
@@ -295,7 +283,6 @@
                  print-version-number,
                  compile-wpnxm-webinstaller-setup,
                  compile-wpnxm-webinstaller-debug-setup,
-                 compile-wpnxm-webinstaller-with-clansuite-setup,
                  compile-wpnxm-allinone-installer,
                  reset-git-submodules">
     </target>
