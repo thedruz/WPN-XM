@@ -112,6 +112,7 @@ Name: memadmin; Description: memadmin - memcached administration tool; ExtraDisk
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full debug
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
+Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
@@ -181,6 +182,8 @@ Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for 
 
 [Run]
 // Automatically started...
+Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
+Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
 //Filename: {app}\SETUP.EXE; Parameters: /x
 // User selected... these files are shown for launch after everything is done
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
@@ -232,6 +235,7 @@ const
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
+  Filename_php               = 'perl.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
@@ -744,6 +748,14 @@ begin
     UpdateCurrentComponentName('RockMongo');
       ExtractTemporaryFile(Filename_rockmongo);
       DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('perl', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Strawberry Perl');
+      ExtractTemporaryFile(Filename_perl);
+      DoUnzip(targetPath + Filename_perl, , ExpandConstant('{app}\bin\perl'));
     UpdateTotalProgressBar();
   end;
 

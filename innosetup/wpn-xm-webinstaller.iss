@@ -115,6 +115,7 @@ Name: memadmin; Description: memadmin - memcached administration tool; ExtraDisk
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full debug
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
+Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
@@ -187,6 +188,8 @@ Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for 
 // Automatically started...
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb";
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb;
+Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
+Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
 //Filename: {app}\SETUP.EXE; Parameters: /x
 // User selected... these files are shown for launch after everything is done
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
@@ -245,6 +248,7 @@ const
   URL_openssl           = 'http://wpn-xm.org/get.php?s=openssl';
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
+  URL_perl              = 'http://wpn-xm.org/get.php?s=perl';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
   URL_phpext_memcache   = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_mongo      = 'http://wpn-xm.org/get.php?s=phpext_mongo';
@@ -271,6 +275,7 @@ const
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
+  Filename_perl              = 'perl.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
@@ -593,6 +598,7 @@ begin
     if IsComponentSelected('composer')   then idpAddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('sendmail')   then idpAddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
     if IsComponentSelected('openssl')    then idpAddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
+    if IsComponentSelected('perl')       then idpAddFile(URL_perl,          ExpandConstant(targetPath + Filename_perl));
 
     if IsComponentSelected('mongodb')    then
     begin
@@ -850,6 +856,13 @@ begin
   begin
     UpdateCurrentComponentName('RockMongo');
       DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+    UpdateTotalProgressBar();
+  end;
+  
+  if Pos('perl', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Strawberry Perl');
+      DoUnzip(targetPath + Filename_perl, ExpandConstant('{app}\bin\perl'));
     UpdateTotalProgressBar();
   end;
 
