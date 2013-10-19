@@ -1,4 +1,4 @@
-//
+﻿//
 //          _\|/_
 //          (o o)
 // +-----oOO-{_}-OOo------------------------------------------------------+
@@ -80,7 +80,7 @@ VersionInfoVersion={#AppVersion}
 VersionInfoCompany={#AppPublisher}
 VersionInfoDescription={#AppName} {#AppVersion}
 VersionInfoTextVersion={#AppVersion}
-VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reserved.
+VersionInfoCopyright=Copyright (C) 2011 - 2013 {#AppPublisher}, All Rights Reserved.
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
@@ -106,7 +106,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 // Base Package "serverstack" consists of PHP + MariaDB + Nginx
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full
+Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full debug
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
 // memcached install means the daemon and the php extension
@@ -118,8 +118,8 @@ Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraD
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
-Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
-Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
+Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
@@ -609,9 +609,11 @@ begin
     if IsComponentSelected('rockmongo')  then idpAddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
-    if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
-
-    if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then idpClearFiles();
+    if (DEBUG = true) then
+    begin 
+       MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
+       if(FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then idpClearFiles();
+    end;
 
   end; // of wpSelectComponents
 

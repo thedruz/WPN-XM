@@ -1,4 +1,4 @@
-//
+﻿//
 //          _\|/_
 //          (o o)
 // +-----oOO-{_}-OOo------------------------------------------------------+
@@ -80,7 +80,7 @@ VersionInfoVersion={#AppVersion}
 VersionInfoCompany={#AppPublisher}
 VersionInfoDescription={#AppName} {#AppVersion}
 VersionInfoTextVersion={#AppVersion}
-VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reserved.
+VersionInfoCopyright=Copyright (C) 2011 - 2013 {#AppPublisher}, All Rights Reserved.
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp

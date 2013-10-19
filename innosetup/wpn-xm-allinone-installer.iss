@@ -1,4 +1,4 @@
-//
+﻿//
 //          _\|/_
 //          (o o)
 // +-----oOO-{_}-OOo------------------------------------------------------+
@@ -77,7 +77,7 @@ VersionInfoVersion={#AppVersion}
 VersionInfoCompany={#AppPublisher}
 VersionInfoDescription={#AppName} {#AppVersion}
 VersionInfoTextVersion={#AppVersion}
-VersionInfoCopyright=Copyright (C) 2011 - 2012 {#AppPublisher}, All Rights Reserved.
+VersionInfoCopyright=Copyright (C) 2011 - 2013 {#AppPublisher}, All Rights Reserved.
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
@@ -235,7 +235,7 @@ const
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
-  Filename_php               = 'perl.zip';
+  Filename_perl              = 'perl.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
@@ -755,7 +755,7 @@ begin
   begin
     UpdateCurrentComponentName('Strawberry Perl');
       ExtractTemporaryFile(Filename_perl);
-      DoUnzip(targetPath + Filename_perl, , ExpandConstant('{app}\bin\perl'));
+      DoUnzip(targetPath + Filename_perl, ExpandConstant('{app}\bin\perl'));
     UpdateTotalProgressBar();
   end;
 
