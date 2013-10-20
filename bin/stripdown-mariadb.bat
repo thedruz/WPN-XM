@@ -145,6 +145,12 @@ rd /s /q "%MARIADB_DIR%\share\slovak"
 rd /s /q "%MARIADB_DIR%\share\swedish"
 rd /s /q "%MARIADB_DIR%\share\ukrainian"
 
+:: ############# process the /support-files folder
+
+:: wtf? a solaris script in a windows distribution?
+
+rd /s /q "%MARIADB_DIR%\support-files"
+
 :: ############# compress executables with UPX
 
 ::IF EXIST "%~dp0/upx/upx.exe" (
