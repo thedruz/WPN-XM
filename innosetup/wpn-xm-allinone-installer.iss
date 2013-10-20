@@ -641,7 +641,7 @@ begin
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('XHProf');
+    UpdateCurrentComponentName('XHProf GUI');
       ExtractTemporaryFile(Filename_xhprof);
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
@@ -800,6 +800,8 @@ begin
   // MariaDB - install with user ROOT and without password (this is the position to add a default password)
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+  // MongoDB folder correctly renamed during All-In-One Building
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
   begin

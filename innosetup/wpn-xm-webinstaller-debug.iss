@@ -609,9 +609,11 @@ begin
     if IsComponentSelected('rockmongo')  then idpAddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
-    if (DEBUG = true) then MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
-
-    if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then idpClearFiles();
+    if (DEBUG = true) then
+    begin 
+       MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
+       if(FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then idpClearFiles();
+    end;
 
   end; // of wpSelectComponents
 
@@ -764,7 +766,7 @@ begin
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('XHProf');
+    UpdateCurrentComponentName('XHProf GUI');
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
     UpdateCurrentComponentName('PHP Extension - XHProf');

@@ -766,7 +766,7 @@ begin
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('XHProf');
+    UpdateCurrentComponentName('XHProf GUI');
       DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
 
     UpdateCurrentComponentName('PHP Extension - XHProf');
