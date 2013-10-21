@@ -118,6 +118,7 @@ Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraD
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: postgresql; Description: PostgreSQL - object-relational database management system (ORDBMS); ExtraDiskSpaceRequired: 44000000; Types: full
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
@@ -255,6 +256,7 @@ const
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
+  URL_postgresql        = 'http://wpn-xm.org/get.php?s=postgresql';
   URL_rockmongo         = 'http://wpn-xm.org/get.php?s=rockmongo';
   URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
   URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
@@ -281,6 +283,7 @@ const
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
   Filename_phpext_xhprof     = 'phpext_xhprof.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
+  Filename_postgresql        = 'postgresql.zip';
   Filename_rockmongo         = 'rockmongo.zip';
   Filename_sendmail          = 'sendmail.zip';
   Filename_vcredist          = 'vcredist_x86.exe';
@@ -606,6 +609,11 @@ begin
         idpAddFile(URL_phpext_mongo,  ExpandConstant(targetPath + Filename_phpext_mongo));
     end;
 
+    if IsComponentSelected('postgresql') then
+    begin
+        idpAddFile(URL_postgresql,    ExpandConstant(targetPath + Filename_postgresql));
+    end;
+
     if IsComponentSelected('rockmongo')  then idpAddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
@@ -803,6 +811,13 @@ begin
   begin
     UpdateCurrentComponentName('phpMyAdmin');
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+    UpdateTotalProgressBar;
+  end;
+
+  if Pos('postgresql', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('postgresql');
+      DoUnzip(targetPath + Filename_postgresql, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
     UpdateTotalProgressBar;
   end;
 
