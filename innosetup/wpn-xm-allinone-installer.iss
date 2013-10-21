@@ -115,7 +115,7 @@ Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraD
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
-Name: postgresql; Description: PostgreSQL - object-relational database management system (ORDBMS); ExtraDiskSpaceRequired: 44000000; Types: full
+Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
