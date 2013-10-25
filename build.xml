@@ -50,9 +50,10 @@
          -->
         <copy todir="${dir.Build}" overwrite="true">
             <fileset basedir="${dir.Base}/innosetup/">
-                <include name="wpn-xm-webinstaller.iss"/>
-                <include name="wpn-xm-webinstaller-debug.iss"/>
-                <include name="wpn-xm-allinone-installer.iss"/>
+                <include name="wpn-xm-webinstaller-w32.iss"/>
+                <include name="wpn-xm-webinstaller-debug-w32.iss"/>
+                <include name="wpn-xm-allinone-installer-w32.iss"/>
+                <include name="wpn-xm-bigpack-installer-w32.iss"/>
             </fileset>
             <filterchain>
                 <replacetokens>
@@ -91,22 +92,22 @@
     <target name="compile-wpnxm-webinstaller-setup" description="Builds the WPN-XM setup executable.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Setup"/>
+            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm-webinstaller.iss"/>
+            <arg value="${dir.Build}\wpn-xm-webinstaller-w32.iss"/>
         </exec>
     </target>
 
     <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Debug-Setup"/>
+            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Debug-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm-webinstaller-debug.iss"/>
+            <arg value="${dir.Build}\wpn-xm-webinstaller-debug-w32.iss"/>
         </exec>
     </target>
 
@@ -115,11 +116,11 @@
             depends="download-components, stripdown-mariadb, stripdown-mongodb">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
+            <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm-allinone-installer.iss"/>
+            <arg value="${dir.Build}\wpn-xm-allinone-installer-w32.iss"/>
         </exec>
     </target>
 
@@ -128,11 +129,37 @@
              depends="bump-version-number">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup"/>
+            <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm-allinone-installer.iss"/>
+            <arg value="${dir.Build}\wpn-xm-allinone-installer-w32.iss"/>
+        </exec>
+    </target>
+
+    <target name="compile-wpnxm-bigpack-installer"
+            description="Downloads all components and builds the WPN-XM setup executable."
+            depends="download-components, stripdown-mariadb, stripdown-mongodb">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-BigPack-Setup-w32"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm-BigPack-installer-w32.iss"/>
+        </exec>
+    </target>
+
+     <target name="compile-wpnxm-bigpack-installer-no-download"
+             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+             depends="bump-version-number">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-BigPack-Setup-w32"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm-bigpack-installer-w32.iss"/>
         </exec>
     </target>
 
@@ -284,6 +311,7 @@
                  compile-wpnxm-webinstaller-setup,
                  compile-wpnxm-webinstaller-debug-setup,
                  compile-wpnxm-allinone-installer,
+                 compile-wpnxm-bigpack-installer,
                  reset-git-submodules">
     </target>
 
