@@ -54,6 +54,7 @@
                 <include name="wpn-xm-webinstaller-debug-w32.iss"/>
                 <include name="wpn-xm-allinone-installer-w32.iss"/>
                 <include name="wpn-xm-bigpack-installer-w32.iss"/>
+                <include name="wpn-xm-lite-installer-w32.iss"/>
             </fileset>
             <filterchain>
                 <replacetokens>
@@ -108,6 +109,32 @@
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
             <arg value="${dir.Build}\wpn-xm-webinstaller-debug-w32.iss"/>
+        </exec>
+    </target>
+
+    <target name="compile-wpnxm-lite-installer"
+            description="Downloads all components and builds the WPN-XM setup executable."
+            depends="download-components, stripdown-mariadb, stripdown-mongodb">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-Lite-Setup-w32"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm-lite-installer-w32.iss"/>
+        </exec>
+    </target>
+
+     <target name="compile-wpnxm-lite-installer-no-download"
+             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+             depends="bump-version-number">
+        <exec program="${innosetupcompiler}">
+            <!-- use our alternate file name -->
+            <arg value="-f${wpnxm.ExeFileName}-Lite-Setup-w32"/>
+            <!-- use our build dir as output dir -->
+            <arg value="-o${dir.Build}"/>
+            <!-- use files from build folder (tokens replaced) -->
+            <arg value="${dir.Build}\wpn-xm-lite-installer-w32.iss"/>
         </exec>
     </target>
 
@@ -312,6 +339,7 @@
                  compile-wpnxm-webinstaller-debug-setup,
                  compile-wpnxm-allinone-installer,
                  compile-wpnxm-bigpack-installer,
+                 compile-wpnxm-lite-installer,
                  reset-git-submodules">
     </target>
 
