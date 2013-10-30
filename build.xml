@@ -22,7 +22,6 @@
     <property name="dir.Build"              value="${dir.Base}\_build"/>
     <property name="dir.Downloads"          value="${dir.Base}\downloads"/>
 
-    <property name="wpnxm.DownloadFileList" value="${dir.Base}\download_filelist.csv"/>
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
 
     <!-- File Names -->
@@ -192,7 +191,8 @@
 
     <target name="download-components" description="Downloads all components for building the AllInOne Installer."
             depends="make-downloads-dir, update-git-submodules">
-        <foreach item="Line" in="${dir.Base}/updater/wpnxm-software-registry.csv" delim="," property="component,source,destination,version">
+        <copy file="${dir.Base}/updater/wpnxm-software-registry.csv" tofile="${dir.Base}/updater/wpnxm-software-registry-${wpnxm.Version}.csv" />
+        <foreach item="Line" in="${dir.Base}/updater/wpnxm-software-registry-${wpnxm.Version}.csv" delim="," property="component,source,destination,version">
             <echo message="&#xa; Downloading ${component} &#xa;" />
             <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" />
         </foreach>
