@@ -1,6 +1,7 @@
 #include "nssm.h"
 
 extern unsigned long tls_index;
+extern bool is_admin;
 
 /* String function */
 int str_equiv(const char *a, const char *b) {
@@ -13,71 +14,73 @@ int str_equiv(const char *a, const char *b) {
 
 /* How to use me correctly */
 int usage(int ret) {
-  fprintf(stderr, "NSSM: The non-sucking service manager\n");
-  fprintf(stderr, "Version %s, %s\n", NSSM_VERSION, NSSM_DATE);
-  fprintf(stderr, "Usage: nssm <option> [args]\n\n");
-  fprintf(stderr, "To show service installation GUI:\n\n");
-  fprintf(stderr, "        nssm install [<servicename>]\n\n");
-  fprintf(stderr, "To install a service without confirmation:\n\n");
-  fprintf(stderr, "        nssm install <servicename> <app> [<args>]\n\n");
-  fprintf(stderr, "To show service removal GUI:\n\n");
-  fprintf(stderr, "        nssm remove [<servicename>]\n\n");
-  fprintf(stderr, "To remove a service without confirmation:\n\n");
-  fprintf(stderr, "        nssm remove <servicename> confirm\n");
+  print_message(stderr, NSSM_MESSAGE_USAGE, NSSM_VERSION, NSSM_DATE);
   return(ret);
 }
 
-int check_admin(char *action) {
+void check_admin() {
+  is_admin = false;
+
   /* Lifted from MSDN examples */
   PSID AdministratorsGroup;
   SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
-  BOOL ok = AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &AdministratorsGroup);
-  if (ok) {
-    if (! CheckTokenMembership(0, AdministratorsGroup, &ok)) ok = 0;
-    FreeSid(AdministratorsGroup);
-
-    if (ok) return 0;
-
-    fprintf(stderr, "Administator access is needed to %s a service.\n", action);
-    return 1;
-  }
-
-  /* Can't tell if we are admin or not; later operations may fail */
-  return 0;
+  if (! AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &AdministratorsGroup)) return;
+  CheckTokenMembership(0, AdministratorsGroup, /*XXX*/(PBOOL) &is_admin);
+  FreeSid(AdministratorsGroup);
 }
 
 int main(int argc, char **argv) {
-  /* Require an argument since users may try to run nssm directly */
-  if (argc == 1) exit(usage(1));
+  /* Remember if we are admin */
+  check_admin();
 
   /* Elevate */
-  if (str_equiv(argv[1], "install") || str_equiv(argv[1], "remove")) {
-    if (check_admin(argv[1])) exit(100);
+  if (argc > 1) {
+    /* Valid commands are install or remove */
+    if (str_equiv(argv[1], "install")) {
+      if (! is_admin) {
+        print_message(stderr, NSSM_MESSAGE_NOT_ADMINISTRATOR_CANNOT_INSTALL);
+        exit(100);
+      }
+      exit(pre_install_service(argc - 2, argv + 2));
+    }
+    if (str_equiv(argv[1], "remove")) {
+      if (! is_admin) {
+        print_message(stderr, NSSM_MESSAGE_NOT_ADMINISTRATOR_CANNOT_REMOVE);
+        exit(100);
+      }
+      exit(pre_remove_service(argc - 2, argv + 2));
+    }
   }
-
-  /* Valid commands are install or remove */
-  if (str_equiv(argv[1], "install")) {
-    exit(pre_install_service(argc - 2, argv + 2));
-  }
-  if (str_equiv(argv[1], "remove")) {
-    exit(pre_remove_service(argc - 2, argv + 2));
-  }
-  /* Undocumented: "run" is used to actually do service stuff */
-  if (! str_equiv(argv[1], NSSM_RUN)) exit(usage(2));
 
   /* Thread local storage for error message buffer */
   tls_index = TlsAlloc();
 
   /* Register messages */
-  create_messages();
+  if (is_admin) create_messages();
 
-  /* Start service magic */
-  SERVICE_TABLE_ENTRY table[] = { { NSSM, service_main }, { 0, 0 } };
-  if (! StartServiceCtrlDispatcher(table)) {
-    log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_DISPATCHER_FAILED, error_string(GetLastError()), 0);
-    return 100;
+  /*
+    Optimisation for Windows 2000:
+    When we're run from the command line the StartServiceCtrlDispatcher() call
+    will time out after a few seconds on Windows 2000.  On newer versions the
+    call returns instantly.  Check for stdin first and only try to call the
+    function if there's no input stream found.  Although it's possible that
+    we're running with input redirected it's much more likely that we're
+    actually running as a service.
+    This will save time when running with no arguments from a command prompt.
+  */
+  if (_fileno(stdin) < 0) {
+    /* Start service magic */
+    SERVICE_TABLE_ENTRY table[] = { { NSSM, service_main }, { 0, 0 } };
+    if (! StartServiceCtrlDispatcher(table)) {
+      unsigned long error = GetLastError();
+      /* User probably ran nssm with no argument */
+      if (error == ERROR_FAILED_SERVICE_CONTROLLER_CONNECT) exit(usage(1));
+      log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_DISPATCHER_FAILED, error_string(error), 0);
+      exit(100);
+    }
   }
+  else exit(usage(1));
 
   /* And nothing more to do */
-  return 0;
+  exit(0);
 }

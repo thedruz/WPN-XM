@@ -1,5 +1,6 @@
 #include "nssm.h"
 
+bool is_admin;
 SERVICE_STATUS service_status;
 SERVICE_STATUS_HANDLE service_handle;
 HANDLE process_handle;
@@ -13,6 +14,7 @@ bool stopping;
 unsigned long throttle_delay;
 HANDLE throttle_timer;
 LARGE_INTEGER throttle_duetime;
+FILETIME creation_time;
 
 static enum { NSSM_EXIT_RESTART, NSSM_EXIT_IGNORE, NSSM_EXIT_REALLY, NSSM_EXIT_UNCLEAN } exit_actions;
 static const char *exit_action_strings[] = { "Restart", "Ignore", "Exit", "Suicide", 0 };
@@ -29,7 +31,7 @@ static inline int throttle_milliseconds() {
 SC_HANDLE open_service_manager() {
   SC_HANDLE ret = OpenSCManager(0, SERVICES_ACTIVE_DATABASE, SC_MANAGER_ALL_ACCESS);
   if (! ret) {
-    log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_OPENSCMANAGER_FAILED, 0);
+    if (is_admin) log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_OPENSCMANAGER_FAILED, 0);
     return 0;
   }
 
@@ -38,7 +40,7 @@ SC_HANDLE open_service_manager() {
 
 /* About to install the service */
 int pre_install_service(int argc, char **argv) {
-  /* Show the dialogue box if we didn't give the */
+  /* Show the dialogue box if we didn't give the service name and path */
   if (argc < 2) return nssm_gui(IDD_INSTALL, argv[0]);
 
   /* Arguments are optional */
@@ -77,7 +79,7 @@ int pre_remove_service(int argc, char **argv) {
   /* Show dialogue box if we didn't pass service name and "confirm" */
   if (argc < 2) return nssm_gui(IDD_REMOVE, argv[0]);
   if (str_equiv(argv[1], "confirm")) return remove_service(argv[0]);
-  fprintf(stderr, "To remove a service without confirmation: nssm remove <servicename> confirm\n");
+  print_message(stderr, NSSM_MESSAGE_PRE_REMOVE_SERVICE);
   return 100;
 }
 
@@ -86,24 +88,23 @@ int install_service(char *name, char *exe, char *flags) {
   /* Open service manager */
   SC_HANDLE services = open_service_manager();
   if (! services) {
-    fprintf(stderr, "Error opening service manager!\n");
+    print_message(stderr, NSSM_MESSAGE_OPEN_SERVICE_MANAGER_FAILED);
     return 2;
   }
-  
+
   /* Get path of this program */
   char path[MAX_PATH];
   GetModuleFileName(0, path, MAX_PATH);
 
   /* Construct command */
   char command[CMD_LENGTH];
-  size_t runlen = strlen(NSSM_RUN);
   size_t pathlen = strlen(path);
-  if (pathlen + runlen + 2 >= VALUE_LENGTH) {
-    fprintf(stderr, "The full path to " NSSM " is too long!\n");
+  if (pathlen + 1 >= VALUE_LENGTH) {
+    print_message(stderr, NSSM_MESSAGE_PATH_TOO_LONG, NSSM);
     return 3;
   }
-  if (_snprintf(command, sizeof(command), "\"%s\" %s", path, NSSM_RUN) < 0) {
-    fprintf(stderr, "Out of memory for ImagePath!\n");
+  if (_snprintf(command, sizeof(command), "\"%s\"", path) < 0) {
+    print_message(stderr, NSSM_MESSAGE_OUT_OF_MEMORY_FOR_IMAGEPATH);
     return 4;
   }
 
@@ -118,24 +119,26 @@ int install_service(char *name, char *exe, char *flags) {
   /* Create the service */
   SC_HANDLE service = CreateService(services, name, name, SC_MANAGER_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, command, 0, 0, 0, 0, 0);
   if (! service) {
-    fprintf(stderr, "Error creating service!\n");
+    print_message(stderr, NSSM_MESSAGE_CREATESERVICE_FAILED);
     CloseServiceHandle(services);
     return 5;
   }
 
   /* Now we need to put the parameters into the registry */
   if (create_parameters(name, exe, flags, dir)) {
-    fprintf(stderr, "Error setting startup parameters for the service!\n");
+    print_message(stderr, NSSM_MESSAGE_CREATE_PARAMETERS_FAILED);
     DeleteService(service);
     CloseServiceHandle(services);
     return 6;
   }
 
+  set_service_recovery(service, name);
+
   /* Cleanup */
   CloseServiceHandle(service);
   CloseServiceHandle(services);
 
-  printf("Service \"%s\" installed successfully!\n", name);
+  print_message(stdout, NSSM_MESSAGE_SERVICE_INSTALLED, name);
   return 0;
 }
 
@@ -144,21 +147,21 @@ int remove_service(char *name) {
   /* Open service manager */
   SC_HANDLE services = open_service_manager();
   if (! services) {
-    fprintf(stderr, "Error opening service manager!\n");
+    print_message(stderr, NSSM_MESSAGE_OPEN_SERVICE_MANAGER_FAILED);
     return 2;
   }
-  
+
   /* Try to open the service */
   SC_HANDLE service = OpenService(services, name, SC_MANAGER_ALL_ACCESS);
   if (! service) {
-    fprintf(stderr, "Can't open service!");
+    print_message(stderr, NSSM_MESSAGE_OPENSERVICE_FAILED);
     CloseServiceHandle(services);
     return 3;
   }
 
   /* Try to delete the service */
   if (! DeleteService(service)) {
-    fprintf(stderr, "Error deleting service!\n");
+    print_message(stderr, NSSM_MESSAGE_DELETESERVICE_FAILED);
     CloseServiceHandle(service);
     CloseServiceHandle(services);
     return 4;
@@ -168,7 +171,7 @@ int remove_service(char *name) {
   CloseServiceHandle(service);
   CloseServiceHandle(services);
 
-  printf("Service \"%s\" removed successfully!\n", name);
+  print_message(stdout, NSSM_MESSAGE_SERVICE_REMOVED, name);
   return 0;
 }
 
@@ -199,14 +202,18 @@ void WINAPI service_main(unsigned long argc, char **argv) {
     return;
   }
 
+  log_service_control(service_name, 0, true);
+
   service_status.dwCurrentState = SERVICE_START_PENDING;
   service_status.dwWaitHint = throttle_delay + NSSM_WAITHINT_MARGIN;
   SetServiceStatus(service_handle, &service_status);
 
-  /* Try to create the exit action parameters; we don't care if it fails */
-  create_exit_action(argv[0], exit_action_strings[0]);
+  if (is_admin) {
+    /* Try to create the exit action parameters; we don't care if it fails */
+    create_exit_action(argv[0], exit_action_strings[0]);
 
-  set_service_recovery(service_name);
+    set_service_recovery(0, service_name);
+  }
 
   /* Used for signalling a resume if the service pauses when throttled. */
   throttle_timer = CreateWaitableTimer(0, 1, 0);
@@ -218,20 +225,34 @@ void WINAPI service_main(unsigned long argc, char **argv) {
 }
 
 /* Make sure service recovery actions are taken where necessary */
-void set_service_recovery(char *service_name) {
-  SC_HANDLE services = open_service_manager();
-  if (! services) return;
+void set_service_recovery(SC_HANDLE service, char *service_name) {
+  SC_HANDLE services = 0;
 
-  SC_HANDLE service = OpenService(services, service_name, SC_MANAGER_ALL_ACCESS);
-  if (! service) return;
-  return;
+  if (! service) {
+    services = open_service_manager();
+    if (! services) return;
+
+    service = OpenService(services, service_name, SC_MANAGER_ALL_ACCESS);
+    if (! service) return;
+  }
 
   SERVICE_FAILURE_ACTIONS_FLAG flag;
   ZeroMemory(&flag, sizeof(flag));
   flag.fFailureActionsOnNonCrashFailures = true;
 
   /* This functionality was added in Vista so the call may fail */
-  ChangeServiceConfig2(service, SERVICE_CONFIG_FAILURE_ACTIONS_FLAG, &flag);
+  if (! ChangeServiceConfig2(service, SERVICE_CONFIG_FAILURE_ACTIONS_FLAG, &flag)) {
+    unsigned long error = GetLastError();
+    /* Pre-Vista we expect to fail with ERROR_INVALID_LEVEL */
+    if (error != ERROR_INVALID_LEVEL) {
+      log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_CHANGESERVICECONFIG2_FAILED, service_name, error_string(error), 0);
+    }
+  }
+
+  if (services) {
+    CloseServiceHandle(service);
+    CloseServiceHandle(services);
+  }
 }
 
 int monitor_service() {
@@ -253,15 +274,59 @@ int monitor_service() {
   return 0;
 }
 
+char *service_control_text(unsigned long control) {
+  switch (control) {
+    /* HACK: there is no SERVICE_CONTROL_START constant */
+    case 0: return "START";
+    case SERVICE_CONTROL_STOP: return "STOP";
+    case SERVICE_CONTROL_SHUTDOWN: return "SHUTDOWN";
+    case SERVICE_CONTROL_PAUSE: return "PAUSE";
+    case SERVICE_CONTROL_CONTINUE: return "CONTINUE";
+    case SERVICE_CONTROL_INTERROGATE: return "INTERROGATE";
+    default: return 0;
+  }
+}
+
+void log_service_control(char *service_name, unsigned long control, bool handled) {
+  char *text = service_control_text(control);
+  unsigned long event;
+
+  if (! text) {
+    /* "0x" + 8 x hex + NULL */
+    text = (char *) HeapAlloc(GetProcessHeap(), 0, 11);
+    if (! text) {
+      log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_OUT_OF_MEMORY, "control code", "log_service_control", 0);
+      return;
+    }
+    if (_snprintf(text, 11, "0x%08x", control) < 0) {
+      log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_OUT_OF_MEMORY, "control code", "log_service_control", 0);
+      HeapFree(GetProcessHeap(), 0, text);
+      return;
+    }
+
+    event = NSSM_EVENT_SERVICE_CONTROL_UNKNOWN;
+  }
+  else if (handled) event = NSSM_EVENT_SERVICE_CONTROL_HANDLED;
+  else event = NSSM_EVENT_SERVICE_CONTROL_NOT_HANDLED;
+
+  log_event(EVENTLOG_INFORMATION_TYPE, event, service_name, text, 0);
+
+  if (event == NSSM_EVENT_SERVICE_CONTROL_UNKNOWN) {
+    HeapFree(GetProcessHeap(), 0, text);
+  }
+}
+
 /* Service control handler */
 unsigned long WINAPI service_control_handler(unsigned long control, unsigned long event, void *data, void *context) {
   switch (control) {
     case SERVICE_CONTROL_SHUTDOWN:
     case SERVICE_CONTROL_STOP:
+      log_service_control(service_name, control, true);
       stop_service(0, true, true);
       return NO_ERROR;
 
     case SERVICE_CONTROL_CONTINUE:
+      log_service_control(service_name, control, true);
       if (! throttle_timer) return ERROR_CALL_NOT_IMPLEMENTED;
       throttle = 0;
       ZeroMemory(&throttle_duetime, sizeof(throttle_duetime));
@@ -277,10 +342,12 @@ unsigned long WINAPI service_control_handler(unsigned long control, unsigned lon
         We don't accept pause messages but it isn't possible to register
         only for continue messages so we have to handle this case.
       */
+      log_service_control(service_name, control, false);
       return ERROR_CALL_NOT_IMPLEMENTED;
   }
 
   /* Unknown control */
+  log_service_control(service_name, control, false);
   return ERROR_CALL_NOT_IMPLEMENTED;
 }
 
@@ -300,7 +367,8 @@ int start_service() {
   ZeroMemory(&pi, sizeof(pi));
 
   /* Get startup parameters */
-  int ret = get_parameters(service_name, exe, sizeof(exe), flags, sizeof(flags), dir, sizeof(dir), &throttle_delay);
+  char *env = 0;
+  int ret = get_parameters(service_name, exe, sizeof(exe), flags, sizeof(flags), dir, sizeof(dir), &env, &throttle_delay);
   if (ret) {
     log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_GET_PARAMETERS_FAILED, service_name, 0);
     return stop_service(2, true, true);
@@ -315,12 +383,16 @@ int start_service() {
 
   throttle_restart();
 
-  if (! CreateProcess(0, cmd, 0, 0, false, 0, 0, dir, &si, &pi)) {
-    log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_CREATEPROCESS_FAILED, service_name, exe, error_string(GetLastError()), 0);
+  if (! CreateProcess(0, cmd, 0, 0, false, 0, env, dir, &si, &pi)) {
+    unsigned long error = GetLastError();
+    if (error == ERROR_INVALID_PARAMETER && env) log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_CREATEPROCESS_FAILED_INVALID_ENVIRONMENT, service_name, exe, NSSM_REG_ENV, 0);
+    else log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_CREATEPROCESS_FAILED, service_name, exe, error_string(error), 0);
     return stop_service(3, true, true);
   }
   process_handle = pi.hProcess;
   pid = pi.dwProcessId;
+
+  if (get_process_creation_time(process_handle, &creation_time)) ZeroMemory(&creation_time, sizeof(creation_time));
 
   /* Signal successful start */
   service_status.dwCurrentState = SERVICE_RUNNING;
@@ -346,12 +418,11 @@ int stop_service(unsigned long exitcode, bool graceful, bool default_action) {
     SetServiceStatus(service_handle, &service_status);
   }
 
-  /* Nothing to do if server isn't running */
+  /* Nothing to do if service isn't running */
   if (pid) {
-    /* Shut down server */
+    /* Shut down service */
     log_event(EVENTLOG_INFORMATION_TYPE, NSSM_EVENT_TERMINATEPROCESS, service_name, exe, 0);
     kill_process(service_name, process_handle, pid, 0);
-    process_handle = 0;
   }
   else log_event(EVENTLOG_INFORMATION_TYPE, NSSM_EVENT_PROCESS_ALREADY_STOPPED, service_name, exe, 0);
 
@@ -384,10 +455,23 @@ void CALLBACK end_service(void *arg, unsigned char why) {
 
   /* Check exit code */
   unsigned long exitcode = 0;
+  char code[16];
+  FILETIME exit_time;
   GetExitCodeProcess(process_handle, &exitcode);
+  if (exitcode == STILL_ACTIVE || get_process_exit_time(process_handle, &exit_time)) GetSystemTimeAsFileTime(&exit_time);
+  CloseHandle(process_handle);
+
+  /*
+    Log that the service ended BEFORE logging about killing the process
+    tree.  See below for the possible values of the why argument.
+  */
+  if (! why) {
+    _snprintf(code, sizeof(code), "%d", exitcode);
+    log_event(EVENTLOG_INFORMATION_TYPE, NSSM_EVENT_ENDED_SERVICE, exe, service_name, code, 0);
+  }
 
   /* Clean up. */
-  kill_process_tree(service_name, pid, exitcode, pid);
+  kill_process_tree(service_name, pid, exitcode, pid, &creation_time, &exit_time);
 
   /*
     The why argument is true if our wait timed out or false otherwise.
@@ -396,10 +480,6 @@ void CALLBACK end_service(void *arg, unsigned char why) {
     this is a controlled shutdown, and don't take any restart action.
   */
   if (why) return;
-
-  char code[16];
-  _snprintf(code, sizeof(code), "%d", exitcode);
-  log_event(EVENTLOG_INFORMATION_TYPE, NSSM_EVENT_ENDED_SERVICE, exe, service_name, code, 0);
 
   /* What action should we take? */
   int action = NSSM_EXIT_RESTART;
