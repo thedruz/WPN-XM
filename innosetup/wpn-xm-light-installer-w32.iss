@@ -210,7 +210,7 @@ const
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
   Filename_composer          = 'composer.phar';
-  Filename_mariadb           = 'mariadb.zip'; 
+  Filename_mariadb           = 'mariadb.zip';
   Filename_nginx             = 'nginx.zip';
   Filename_php               = 'php.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
@@ -638,6 +638,9 @@ begin
   // MariaDB - install with user ROOT and without password (this is the position to add a default password)
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+  // MariaDB - initialize mysql tables, e.g. performance_tables
+  Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
   begin

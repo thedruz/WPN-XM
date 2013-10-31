@@ -811,7 +811,7 @@ begin
   begin
     UpdateCurrentComponentName('phpMyAdmin');
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-    UpdateTotalProgressBar;
+    UpdateTotalProgressBar();
   end;
 
   if Pos('postgresql', selectedComponents) > 0 then
@@ -916,6 +916,9 @@ begin
   // MariaDB - install with user ROOT and without password (this is the position to add a default password)
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+  // MariaDB - initialize mysql tables, e.g. performance_tables
+  Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MongoDB - rename directory
   if Pos('mongodb', selectedComponents) > 0 then
