@@ -49,7 +49,7 @@ goto END
 
 :OPTION3
     echo Building "not-web" Installation Wizards (use existing Downloads)
-    call bin\nant\bin\nant.exe -buildfile:build.xml compile-wpnxm-allinone-installer-no-download compile-wpnxm-bigpack-installer-no-download
+    call bin\nant\bin\nant.exe -buildfile:build.xml compile-wpnxm-allinone-installer-no-download compile-wpnxm-bigpack-installer-no-download compile-wpnxm-lite-installer-no-download
 goto END
 
 :END
