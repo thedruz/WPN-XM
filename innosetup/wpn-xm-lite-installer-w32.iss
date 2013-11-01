@@ -117,7 +117,6 @@ Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
-Source: ..\bin\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
@@ -140,9 +139,6 @@ Source: ..\configs\wpnxm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
-Source: ..\configs\config.inc.php; DestDir: {app}\www\phpmyadmin; Components: phpmyadmin
-Source: ..\configs\xhprof.php; DestDir: {app}\www\xhprof\xhprof_lib; DestName: "config.php"; Components: xhprof
-Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\server-control-panel.exe; Tasks: add_startmenu_entries
@@ -622,7 +618,6 @@ end;
 procedure MoveFiles();
 var
   selectedComponents: String;
-  RockmongoCrapDir: String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
