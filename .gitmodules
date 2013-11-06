@@ -4,6 +4,6 @@
 [submodule "server-control-panel"]
     path = server-control-panel
     url = git://github.com/WPN-XM/server-control-panel.git
-[submodule "updater"]
-    path = updater
-    url = git://github.com/WPN-XM/updater.git
+[submodule "registry"]
+    path = registry
+    url = git://github.com/WPN-XM/registry.git
