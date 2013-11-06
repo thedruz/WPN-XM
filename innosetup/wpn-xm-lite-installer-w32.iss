@@ -103,7 +103,6 @@ Name: custom; Description: Custom installation; Flags: iscustom
 // Base Package "serverstack" consists of PHP + MariaDB + Nginx
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
@@ -209,7 +208,6 @@ const
   Filename_mariadb           = 'mariadb.zip';
   Filename_nginx             = 'nginx.zip';
   Filename_php               = 'php.zip';
-  Filename_phpext_apc        = 'phpext_apc.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
   Filename_vcredist          = 'vcredist_x86.exe';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
@@ -585,15 +583,6 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('apc', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('PHP Extension - APC');
-      ExtractTemporaryFile(Filename_phpext_apc);
-      DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
-      FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
-    UpdateTotalProgressBar();
-  end;
-
   // adminer is not a zipped, its just a php file, so copy it to the target path
   if Pos('adminer', selectedComponents) > 0 then
   begin
@@ -710,12 +699,6 @@ begin
       SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file );
       SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file );
       SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file );
-  end;
-
-  if Pos('apc', selectedComponents) > 0 then
-  begin
-      // php.ini entry for loading the the extension
-      //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
   end;
 
 end;
