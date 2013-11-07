@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project xmlns="http://nant.sf.net/release/0.91/nant.xsd"
-         name="WPN-XM"
-         default="all">
+<project xmlns="http://nant.sf.net/release/0.91/nant.xsd" name="WPN-XM" default="all">
 
     <!--
-         WPN-XM - NANT build file.
+         WPN-XM - NAnt build file.
 
          You might find the comprehensive Nant Task Reference under:
          http://nant.sourceforge.net/release/latest/help/tasks/index.html
@@ -41,12 +39,11 @@
     <target name="bump-version-number"
             description="Inserts the current version number into the InnoScripts, Webinterface and Server-Control-Panel.">
         <!--
-             Insert the version number into the innosetup script files.
-             This is done via a copy operation with an applied filterchain, see below.
-             The then preprocessed iss files are moved from the /innosetup folder to the /build directory.
-             Then they are used for the actual build.
-             Therefore this step must run before any "compile-wpnxm-*" step.
-         -->
+            Insert the version number into the innosetup script files.
+            This is done via a copy operation with an applied filterchain, see below.
+            The then preprocessed *.iss files are moved from the /innosetup folder to the /build directory.
+            Because they are used for the actual build, this step must run before any "compile-wpnxm-*" step.
+        -->
         <copy todir="${dir.Build}" overwrite="true">
             <fileset basedir="${dir.Base}/innosetup/">
                 <include name="wpn-xm-webinstaller-w32.iss"/>
@@ -189,12 +186,23 @@
         </exec>
     </target>
 
-    <target name="download-components" description="Downloads all components for building the AllInOne Installer."
+    <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
             depends="make-downloads-dir, update-git-submodules">
-        <copy file="${dir.Base}/updater/wpnxm-software-registry.csv" tofile="${dir.Base}/registry/wpnxm-software-registry-${wpnxm.Version}.csv" />
-        <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-${wpnxm.Version}.csv" delim="," property="component,source,destination,version">
+        <copy file="${dir.Base}/registry/wpnxm-software-registry-bigpack-w32.csv"
+            tofile="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" />
+
+        <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" delim=","
+                 property="component,source,destination,version">
+
             <echo message="&#xa; Downloading ${component} &#xa;" />
-            <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" />
+            <!-- <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" /> -->
+            <exec program="${dir.Base}\bin\axel\axel.exe">
+                <arg value="-q"/><!-- -a -->
+                <arg value="-n 4"/>
+                <arg value="-U WPN-XM Server Stack Downloader"/>
+                <arg value="-o ../../downloads/${destination}"/>
+                <arg value="${source}"/>
+            </exec>
         </foreach>
     </target>
 
@@ -204,7 +212,6 @@
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}" />
         <!-- unzip mariadb -->
         <unzip zipfile="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
-        <!--<echo message="&#xa; Renaming versioned MariaDB folder to just mariadb. &#xa;" /> -->
         <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb"/>
         <!-- stripdown -->
         <exec program="${dir.Base}\bin\stripdown-mariadb.bat">
@@ -228,7 +235,6 @@
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}" />
         <!-- unzip -->
         <unzip zipfile="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
-        <!--<echo message="&#xa; Renaming versioned MongoDB folder to just mongodb. &#xa;" /> -->
         <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mongodb* ${dir.Downloads}\stripdown\mongodb"/>
         <!-- stripdown -->
         <exec program="${dir.Base}\bin\stripdown-mongodb.bat">
