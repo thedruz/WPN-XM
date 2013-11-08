@@ -195,25 +195,30 @@
                  property="component,source,destination,version">
 
             <echo message="&#xa; Downloading ${component} &#xa;" />
+
+            <!-- NAnt - Native Get Command
             <!-- <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" /> -->
-            <!-- WGET
-            <exec program="${dir.Base}\bin\UnxUtils\wget.exe">
+
+            <!-- WGET -->
+            <exec program="${dir.Base}\bin\UnxUtils\wget.exe" if="${not file::exists(dir.Downloads + destination)}">
                 <arg value="-O ../../downloads/${destination}"/>
-                <arg value="${source}"/>
-            </exec> -->
-            <!-- Aria2C Help: http://sourceforge.net/apps/trac/aria2/wiki/UsageExample -->
-            <exec program="${dir.Base}\bin\aria\aria2c.exe">
-                <arg value="--max-connection-per-server=4"/>
-                <arg value="--min-split-size=1M"/>
-                <arg value="--file-allocation=falloc"/>
-                <arg value="--check-certificate=false"/>
-                <arg value="--conditional-get=true"/>
-                <arg value="--auto-file-renaming=false"/>
-                <arg value="--allow-overwrite=true"/>
-                <arg value="-o downloads\${destination}"/>
                 <arg value="${source}"/>
             </exec>
 
+            <!-- Aria2C - http://sourceforge.net/apps/trac/aria2/wiki/UsageExample -->
+            <!-- Remeber to add an additional minus to all arguments (--), except "-o".
+            <exec program="${dir.Base}\bin\aria\aria2c.exe">
+                <arg value="-max-connection-per-server=4"/>
+                <arg value="-min-split-size=1M"/>
+                <arg value="-file-allocation=falloc"/>
+                <arg value="-check-certificate=false"/>
+                <arg value="-conditional-get=true"/>
+                <arg value="-auto-file-renaming=false"/>
+                <arg value="-allow-overwrite=true"/>
+                <arg value="-o downloads\${destination}"/>
+                <arg value="${source}"/>
+            </exec>
+            -->
         </foreach>
     </target>
 
