@@ -210,7 +210,7 @@
                 <arg value="--conditional-get=true"/>
                 <arg value="--auto-file-renaming=false"/>
                 <arg value="--allow-overwrite=true"/>
-                <arg value="-o ${dir.Downloads}\${destination}"/>
+                <arg value="-o downloads\${destination}"/>
                 <arg value="${source}"/>
             </exec>
 
