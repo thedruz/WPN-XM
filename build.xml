@@ -271,13 +271,16 @@
     <target name="update-git-submodules"
             description="Updating git submodules. Fetching latest version of server-control-panel and webinterface.">
         <exec program="git">
-             <arg value="submodule" />
-             <arg value="init" />
+             <arg value="submodule"/>
+             <arg value="update"/>
+             <arg value="--init"/>
+             <arg value="--recursive"/>
+             <arg value="--force"/>
         </exec>
         <exec program="git">
-            <arg value="submodule" />
+            <arg value="submodule"/>
             <arg value="foreach"/>
-            <arg value="git pull origin master" />
+            <arg value="git pull origin master"/>
         </exec>
     </target>
 
