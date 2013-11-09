@@ -126,7 +126,7 @@ Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDisk
 
 [Files]
 // incorporate the whole downloads folder (all in one)
-Source: ..\downloads\*; DestDir: {tmp}; Flags: deleteafterinstall;
+Source: ..\downloads\*; DestDir: {tmp}; Flags: deleteafterinstall; Excludes: ..\downloads\allinone, ..\downloads\lite;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
@@ -691,7 +691,7 @@ begin
     UpdateTotalProgressBar;
   end;
 
-  
+
   if Pos('postgresql', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PostgreSQL');

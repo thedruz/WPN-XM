@@ -124,7 +124,7 @@ Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDisk
 
 [Files]
 // incorporate the whole downloads folder (all in one)
-Source: ..\downloads\*; DestDir: {tmp}; Flags: deleteafterinstall;
+Source: ..\downloads\allinone\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
