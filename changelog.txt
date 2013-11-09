@@ -34,7 +34,36 @@ tba           REL    Version 0.6.0
 tba           REL    Version 0.5.4
 ------------  ----------------------------------------------------------------
 
- next  -->>   FIX    fixed start-menu shortcuts
+ next  -->>
+
+ 09.11.2013   NEW    added build tasks
+                     prepare-downloads-lite & prepare-downloads-allinone
+                     Both move downloads to a specific subfolder.
+                     auto-commit-versionized-registries
+ 07.11.2013   CHG    created registry repository
+                     switched from updater to registry submodule
+ 31.10.2013   FIX    fixing mariadb issue with missing performance_tables
+              UPD    NSSM v2.16
+ 30.10.2013   CHG    software registry files are now versionized
+ 28.10.2013   NEW    added "wpn-xm-lite-installer-w32"
+ 25.10.2013   CHG    renamed innosetup script files
+                     each postfixed with "-w32"
+                     new installer "bigpack" which ships everything (perl).
+                     removed perl from "allinone"
+ 21.10.2013   NEW    added PostgreSQL
+ 18.10.2013   NEW    added Strawberry Perl, feature request/issue #125
+              UPD    Inno Download Plugin v1.0.1 - due to my bugreport :)
+ 15.10.2013   CHG    switched from InnoTools Downloader to Inno Download Plugin
+                     this fixes the https download problems
+                     https://github.com/WPN-XM/WPN-XM/issues/114
+ 26.08.2013   FIX    SSL Certificate Paths in Nginx Config
+ 06.07.2013   UPD    InnoSetup v5.5.3
+ 08.04.2013   CHG    renamed wpnxm-scp.exe to server-control-panel.exe
+ 05.04.2013   NEW    "shutdown blocking" process scan during deinstallation
+ 01.03.2013   NEW    Nginx loads Domain Configs from /domains-enabled folder
+                     Tweaks to MariaDB settings
+              FIX    fixed start-menu shortcuts
+                     https://github.com/WPN-XM/WPN-XM/issues/89
 
 ------------  ----------------------------------------------------------------
 tba           REL    Version 0.5.3
