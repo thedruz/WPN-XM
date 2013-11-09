@@ -34,6 +34,7 @@
     <target name="clean-build-dir" description="Mr. Proper cleans the build environment and recreates it.">
         <delete dir="${dir.Build}"/>
         <mkdir dir="${dir.Build}"/>
+        <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
     <target name="bump-version-number"
@@ -110,7 +111,7 @@
 
     <target name="compile-wpnxm-lite-installer"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="download-components, stripdown-mariadb, stripdown-mongodb">
+            depends="download-components, stripdown-mariadb, stripdown-mongodb, prepare-downloads-lite">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-Lite-Setup-w32"/>
@@ -121,9 +122,31 @@
         </exec>
     </target>
 
-     <target name="compile-wpnxm-lite-installer-no-download"
-             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
-             depends="bump-version-number">
+    <target name="prepare-downloads-lite" description="Moves all components for the Lite installer from the downloads folder to downloads/lite.">
+        <echo message="&#xa; Versionizing Lite Registry &#xa;" />
+        <copy file="${dir.Base}/registry/wpnxm-software-registry-lite-w32.csv"
+            tofile="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv" />
+        <echo message="&#xa; Moving All-In-One Components &#xa;" />
+        <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv" delim=","
+                 property="component,source,destination,version">
+            <copy file="${dir.Downloads}\${destination}" tofile="${dir.Downloads}\lite\${destination}"/>
+        </foreach>
+    </target>
+
+    <target name="prepare-downloads-allinone" description="Moves all components for the All-In-One installer from the downloads folder to downloads/allinone.">
+        <echo message="&#xa; Versionizing All-In-One Registry &#xa;" />
+        <copy file="${dir.Base}/registry/wpnxm-software-registry-allinone-w32.csv"
+            tofile="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv" />
+        <echo message="&#xa; Moving All-In-One Components &#xa;" />
+        <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv" delim=","
+                 property="component,source,destination,version">
+            <copy file="${dir.Downloads}\${destination}" tofile="${dir.Downloads}\allinone\${destination}"/>
+        </foreach>
+    </target>
+
+    <target name="compile-wpnxm-lite-installer-no-download"
+            description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+            depends="bump-version-number">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-Lite-Setup-w32"/>
@@ -136,7 +159,7 @@
 
     <target name="compile-wpnxm-allinone-installer"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="download-components, stripdown-mariadb, stripdown-mongodb">
+            depends="download-components, stripdown-mariadb, stripdown-mongodb, prepare-downloads-allinone">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup-w32"/>
@@ -147,9 +170,9 @@
         </exec>
     </target>
 
-     <target name="compile-wpnxm-allinone-installer-no-download"
-             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
-             depends="bump-version-number">
+    <target name="compile-wpnxm-allinone-installer-no-download"
+            description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+            depends="bump-version-number">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup-w32"/>
@@ -173,9 +196,9 @@
         </exec>
     </target>
 
-     <target name="compile-wpnxm-bigpack-installer-no-download"
-             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
-             depends="bump-version-number">
+    <target name="compile-wpnxm-bigpack-installer-no-download"
+            description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+            depends="bump-version-number">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-BigPack-Setup-w32"/>
@@ -196,25 +219,32 @@
 
             <echo message="&#xa; Downloading ${component} &#xa;" />
 
-            <!-- NAnt - Native Get Command
+            <!-- NAnt - Native Get Command -->
             <!-- <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" /> -->
 
             <!-- WGET -->
-            <exec program="${dir.Base}\bin\UnxUtils\wget.exe" if="${not file::exists(dir.Downloads + destination)}">
+            <!-- <exec program="${dir.Base}\bin\UnxUtils\wget.exe">
+                <arg value="-N"/>
                 <arg value="-O ../../downloads/${destination}"/>
                 <arg value="${source}"/>
-            </exec>
+            </exec> -->
 
-            <!-- Aria2C - http://sourceforge.net/apps/trac/aria2/wiki/UsageExample -->
-            <!-- Remeber to add an additional minus to all arguments (--), except "-o".
+            <!-- Aria2C - http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
+                          http://aria2.sourceforge.net/manual/en/html/aria2c.html
+            -->
             <exec program="${dir.Base}\bin\aria\aria2c.exe">
-                <arg value="-max-connection-per-server=4"/>
-                <arg value="-min-split-size=1M"/>
-                <arg value="-file-allocation=falloc"/>
-                <arg value="-check-certificate=false"/>
-                <arg value="-conditional-get=true"/>
-                <arg value="-auto-file-renaming=false"/>
-                <arg value="-allow-overwrite=true"/>
+                <arg value="--max-connection-per-server=4"/>
+                <arg value="--min-split-size=1M"/>
+                <arg value="--max-tries=0"/> <!-- unlimited -->
+                <arg value="--file-allocation=falloc"/>
+                <arg value="--check-certificate=false"/>
+                <arg value="--conditional-get=true"/>
+                <arg value="--auto-file-renaming=false"/>
+                <arg value="--allow-overwrite=true"/>
+                <arg value="--http-accept-gzip=true"/>
+                <arg value="--http-no-cache=true"/>
+                <arg value="--user-agent=WPN-XM Server Stack Downloader"/>
+                <arg value="-R"/>
                 <arg value="-o downloads\${destination}"/>
                 <arg value="${source}"/>
             </exec>
@@ -223,6 +253,7 @@
     </target>
 
     <target name="stripdown-mariadb" description="Unzip MariaDB. Delete unnecessary files. Zip MariaDB. (136MB to 16MB on v5.5.28!)">
+        <!-- 135 to 17.575MB -->
         <!-- target folder for unzipping -->
         <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}" />
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}" />
@@ -251,7 +282,7 @@
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}" />
         <!-- unzip -->
         <unzip zipfile="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
-        <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mongodb* ${dir.Downloads}\stripdown\mongodb"/>
+        <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb"/>
         <!-- stripdown -->
         <exec program="${dir.Base}\bin\stripdown-mongodb.bat">
             <arg value="${dir.Downloads}\stripdown\mongodb"/>
@@ -344,6 +375,16 @@
             </exec>
     </target>
 
+    <target name="auto-commit-versionized-registries"
+            description="Commits the versionized WPN-XM Software Component Registries (all untracked files in /registry folder).">
+         <exec programm="git" workingdir="${dir.Base}/registry" basedir="${dir.Base}/registry">
+            <arg value="-A">
+        </exec>
+        <exec programm="git"  workingdir="${dir.Base}/registry" basedir="${dir.Base}/registry">
+            <arg value="-am Added WPN-XM Software Components Registry for Version ${wpnxm.Version}">
+        </exec>
+    </target>
+
     <target name="reset-git-submodules"
             description="Reset the git submodules to their original state. This reverts all changes made by bump-version-number during the replace operation.">
         <exec program="git">
@@ -365,6 +406,7 @@
                  compile-wpnxm-allinone-installer,
                  compile-wpnxm-bigpack-installer,
                  compile-wpnxm-lite-installer,
+                 auto-commit-versionized-registries,
                  reset-git-submodules">
     </target>
 
