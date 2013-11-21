@@ -378,10 +378,10 @@
     <target name="auto-commit-versionized-registries"
             description="Commits the versionized WPN-XM Software Component Registries (all untracked files in /registry folder).">
          <exec programm="git" workingdir="${dir.Base}/registry" basedir="${dir.Base}/registry">
-            <arg value="-A">
+            <arg value="-A"/>
         </exec>
         <exec programm="git"  workingdir="${dir.Base}/registry" basedir="${dir.Base}/registry">
-            <arg value="-am Added WPN-XM Software Components Registry for Version ${wpnxm.Version}">
+            <arg value="-am Added WPN-XM Software Components Registry for Version ${wpnxm.Version}"/>
         </exec>
     </target>
 
