@@ -21,6 +21,8 @@
     <property name="dir.Downloads"          value="${dir.Base}\downloads"/>
 
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
+    <property name="dir.qmake"              value="D:\Qt\5.1.1\mingw48_32\bin\"/>
+    <property name="dir.mingw32"            value="D:\Qt\Tools\mingw48_32\bin\"/>
 
     <!-- File Names -->
     <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}"/>
@@ -68,7 +70,7 @@
                 </replacetokens>
             </filterchain>
         </loadfile>
-        <delete file="${dir.Base}/server-control-panel/src/version.h" />
+        <delete file="${dir.Base}/server-control-panel/src/version.h"/>
         <echo file="${dir.Base}/server-control-panel/src/version.h">${filecontent.wpnxm.version}</echo>
 
         <!-- Insert the version number into webinterface's "bootstrap.php" file. (file is overwritten) -->
@@ -79,7 +81,7 @@
                 </replacetokens>
             </filterchain>
         </loadfile>
-        <delete file="${dir.Base}/www/webinterface/bootstrap.php" />
+        <delete file="${dir.Base}/www/webinterface/bootstrap.php"/>
         <echo file="${dir.Base}/www/webinterface/bootstrap.php" encoding="UTF-8">${filecontent.php.bootstrap}</echo>
     </target>
 
@@ -123,10 +125,10 @@
     </target>
 
     <target name="prepare-downloads-lite" description="Moves all components for the Lite installer from the downloads folder to downloads/lite.">
-        <echo message="&#xa; Versionizing Lite Registry &#xa;" />
+        <echo message="&#xa; Versionizing Lite Registry &#xa;"/>
         <copy file="${dir.Base}/registry/wpnxm-software-registry-lite-w32.csv"
-            tofile="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv" />
-        <echo message="&#xa; Moving All-In-One Components &#xa;" />
+            tofile="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv"/>
+        <echo message="&#xa; Moving All-In-One Components &#xa;"/>
         <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv" delim=","
                  property="component,source,destination,version">
             <copy file="${dir.Downloads}\${destination}" tofile="${dir.Downloads}\lite\${destination}"/>
@@ -134,10 +136,10 @@
     </target>
 
     <target name="prepare-downloads-allinone" description="Moves all components for the All-In-One installer from the downloads folder to downloads/allinone.">
-        <echo message="&#xa; Versionizing All-In-One Registry &#xa;" />
+        <echo message="&#xa; Versionizing All-In-One Registry &#xa;"/>
         <copy file="${dir.Base}/registry/wpnxm-software-registry-allinone-w32.csv"
-            tofile="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv" />
-        <echo message="&#xa; Moving All-In-One Components &#xa;" />
+            tofile="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv"/>
+        <echo message="&#xa; Moving All-In-One Components &#xa;"/>
         <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv" delim=","
                  property="component,source,destination,version">
             <copy file="${dir.Downloads}\${destination}" tofile="${dir.Downloads}\allinone\${destination}"/>
@@ -212,15 +214,15 @@
     <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
             depends="make-downloads-dir, update-git-submodules">
         <copy file="${dir.Base}/registry/wpnxm-software-registry-bigpack-w32.csv"
-            tofile="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" />
+            tofile="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv"/>
 
         <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" delim=","
                  property="component,source,destination,version">
 
-            <echo message="&#xa; Downloading ${component} &#xa;" />
+            <echo message="&#xa; Downloading ${component} &#xa;"/>
 
             <!-- NAnt - Native Get Command -->
-            <!-- <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true" /> -->
+            <!-- <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true"/> -->
 
             <!-- WGET -->
             <!-- <exec program="${dir.Base}\bin\UnxUtils\wget.exe">
@@ -255,8 +257,8 @@
     <target name="stripdown-mariadb" description="Unzip MariaDB. Delete unnecessary files. Zip MariaDB. (136MB to 16MB on v5.5.28!)">
         <!-- 135 to 17.575MB -->
         <!-- target folder for unzipping -->
-        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}" />
-        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}" />
+        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
+        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
         <!-- unzip mariadb -->
         <unzip zipfile="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
         <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb"/>
@@ -265,11 +267,11 @@
             <arg value="${dir.Downloads}\stripdown\mariadb"/>
         </exec>
         <!-- rename original download file (process in use lock out?) -->
-        <delete file="${dir.Downloads}\mariadb.zip" />
+        <delete file="${dir.Downloads}\mariadb.zip"/>
         <!-- create mariadb.zip, from stripdowned mariadb folder -->
         <zip zipfile="${dir.Downloads}\mariadb.zip">
             <fileset basedir="${dir.Downloads}\stripdown">
-                <include name="**/*" />
+                <include name="**/*"/>
             </fileset>
         </zip>
         <!-- delete the stripdown folder -->
@@ -278,8 +280,8 @@
 
     <target name="stripdown-mongodb" description="Unzip MongoDB. Delete unnecessary files. Zip MongoDb. (55MB to 16MB on v2.2.1!)">
         <!-- target folder for unzipping -->
-        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}" />
-        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}" />
+        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
+        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
         <!-- unzip -->
         <unzip zipfile="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
         <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb"/>
@@ -288,11 +290,11 @@
             <arg value="${dir.Downloads}\stripdown\mongodb"/>
         </exec>
         <!-- rename original download file (process in use lock out?) -->
-        <delete file="${dir.Downloads}\mongodb.zip" />
+        <delete file="${dir.Downloads}\mongodb.zip"/>
         <!-- create mongodb.zip, from stripdowned mongodb folder -->
         <zip zipfile="${dir.Downloads}\mongodb.zip">
             <fileset basedir="${dir.Downloads}\stripdown">
-                <include name="**/*" />
+                <include name="**/*"/>
             </fileset>
         </zip>
         <!-- delete the stripdown folder -->
@@ -325,36 +327,41 @@
             <!-- This tasks requires that you have installed Qt and setup all environment path vars correctly.
                  The build tools will not be found otherwise. -->
 
-        <exec program="qmake">
-            <arg value="-v" />
-        </exec>
-        <echo message="&#xa;" />
-        <!-- http://doc-snapshot.qt-project.org/4.8/qmake-variable-reference.html -->
-        <exec program="qmake" workingdir="${dir.Base}/server-control-panel/">
-            <arg value="${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro" />
-            <arg value="-Wall" /> <!-- Turn on all warnings -->
-            <arg value=" &quot;CONFIG+=release&quot; " />
+        <exec program="qmake" basedir="${dir.qmake}">
+            <arg value="-v"/>
         </exec>
 
-        <echo message="&#xa;" />
-        <exec program="mingw32-make">
-            <arg value="-v" />
+        <echo message="&#xa;"/>
+        <!-- http://doc-snapshot.qt-project.org/4.8/qmake-variable-reference.html -->
+        <exec program="qmake" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.qmake}">
+            <arg value="${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro"/>
+            <arg value="-Wall"/> <!-- Turn on all warnings -->
+            <arg value="-r"/>
+            <arg value="-spec"/>
+            <arg value="win32-g++"/>
+            <arg value=" &quot;CONFIG+=release&quot; "/>
         </exec>
-        <echo message="&#xa;" />
-        <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/">
-            <arg value="-j4" /> <!-- use 4 build jobs -->
+
+        <echo message="&#xa;"/>
+        <exec program="mingw32-make" basedir="${dir.mingw32}">
+            <arg value="-v"/>
+        </exec>
+
+        <echo message="&#xa;"/>
+        <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.mingw32}">
+            <arg value="-j4"/> <!-- use 4 build jobs -->
         </exec>
 
     <!--
-        <echo message="&#xa;Removing all unneeded debugging symbols and sections from executable...&#xa;" />
+        <echo message="&#xa;Removing all unneeded debugging symbols and sections from executable...&#xa;"/>
         <exec program="strip" verbose="true">
-            <arg line="-s ${dir.Base}/server-control-panel/build/release/*.exe" />
+            <arg line="-s ${dir.Base}/server-control-panel/build/release/*.exe"/>
         </exec>
     -->
 
-        <echo message="&#xa;Compressing executable...&#xa;" />
+        <echo message="&#xa;Compressing executable...&#xa;"/>
         <exec program="${dir.Base}/bin/upx/upx" verbose="true">
-            <arg line="-9 ${dir.Base}/server-control-panel/build/release/*.exe" />
+            <arg line="-9 ${dir.Base}/server-control-panel/build/release/*.exe"/>
         </exec>
     </target>
 
@@ -369,9 +376,9 @@
             <!-- zip files content of the temp folder -->
             <!-- copy zip to the "_build" folder and to the downloads folder -->
 
-            <echo message="&#xa;" />
+            <echo message="&#xa;"/>
             <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/">>
-                <arg value="clean" />
+                <arg value="clean"/>
             </exec>
     </target>
 
@@ -390,11 +397,11 @@
     <target name="reset-git-submodules"
             description="Reset the git submodules to their original state. This reverts all changes made by bump-version-number during the replace operation.">
         <exec program="git">
-            <arg value="submodule" />
+            <arg value="submodule"/>
             <arg value="foreach"/>
-            <!-- <arg value="git checkout ." /> -->
-            <arg value="git reset --hard HEAD;" /> <!-- hard reset to latest commit -->
-            <arg value="git clean -f" /> <!-- drop all untracked files, e.g. /build crap -->
+            <!-- <arg value="git checkout ."/> -->
+            <arg value="git reset --hard HEAD;"/> <!-- hard reset to latest commit -->
+            <arg value="git clean -f"/> <!-- drop all untracked files, e.g. /build crap -->
         </exec>
     </target>
 
