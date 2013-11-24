@@ -332,6 +332,11 @@
             <arg value="-v"/>
         </exec>
 
+        <echo message="&#xa;QMAKE Query"/>
+        <exec program="qmake" basedir="${dir.qmake}">
+            <arg value="-query"/>
+        </exec>
+
         <echo message="&#xa;"/>
         <!-- http://doc-snapshot.qt-project.org/4.8/qmake-variable-reference.html -->
         <exec program="qmake" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.qmake}"
@@ -349,6 +354,11 @@
               <environment>
                 <variable name="PATH" value="${dir.mingw32}" />
               </environment>
+        </exec>
+
+        <echo message="&#xa;Copy Dependencies"/>
+        <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.mingw32}">
+            <arg value="install"/>
         </exec>
 
         <echo message="&#xa;Clean"/>
