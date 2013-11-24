@@ -357,16 +357,17 @@
               </environment>
         </exec>
 
-        <echo message="&#xa;Copy Dependencies"/>
+        <echo message="&#xa;Copy runtime deependencies of Qt&#xa;"/>
         <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.mingw32}">
             <arg value="install"/>
         </exec>
 
-        <echo message="&#xa;Clean"/>
+        <echo message="&#xa;Cleaning build directory&#xa;"/>
         <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.mingw32}">
             <arg value="clean"/>
         </exec>
 
+        <sleep seconds="2"/>
         <echo message="&#xa;Removing all unneeded debugging symbols and sections from executable...&#xa;"/>
         <exec program="strip" verbose="true" basedir="${dir.mingw32}">
             <arg line="-s ${dir.Base}/server-control-panel/build/release/*.exe"/>
@@ -379,15 +380,23 @@
     </target>
 
     <target name="build-server-control-panel-zip"
-            description="Takes the freshly build SCP executable, adds all needed runtime DLL's of Qt and MinGW and build a zip archive for distribution."
+            description="Prepares the freshly build SCP zip archive for distribution."
             depends="compile-server-control-panel">
-            <!-- "WPN-XM-SCP-v1.2.3" -->
-            <!-- zip files content of the build/release folder -->
-            <!-- copy zip to the "_build" folder and to the downloads folder -->
+            <!-- zip the build/release folder to "_build/wpnxm-scp-v1.2.3"-->
+            <echo message="&#xa;Building zip archive of Server-Control-Panel for distribution&#xa;"/>
+            <zip zipfile="${dir.Base}/_build/wpnxm-scp-v${wpnxm.Version}.zip" ziplevel="9" verbose="true">
+                <fileset basedir="${dir.Base}/server-control-panel/build/release/">
+                    <include name="**/*" />
+                </fileset>
+            </zip>
+            <!-- copy zip to the downloads folder -->
+            <copy file="${dir.Base}/_build/wpnxm-scp-v${wpnxm.Version}.zip"
+                tofile="${dir.Base}/downloads/wpnxm-scp-v${wpnxm.Version}.zip" />
 
-            <echo message="&#xa;"/>
-            <exec program="mingw32-make" workingdir="${dir.Base}/server-control-panel/">>
+            <echo message="&#xa;Clean Server-Control-Panel folder&#xa;"/>
+            <exec program="git" workingdir="${dir.Base}/server-control-panel/">
                 <arg value="clean"/>
+                <arg value="-fxd"/><!-- remove files, ignores and folders. you might add "n" for dry-run -->
             </exec>
     </target>
 
