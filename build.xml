@@ -382,16 +382,16 @@
     <target name="build-server-control-panel-zip"
             description="Prepares the freshly build SCP zip archive for distribution."
             depends="compile-server-control-panel">
-            <!-- zip the build/release folder to "_build/wpnxm-scp-v1.2.3"-->
+            <!-- zip the build/release folder to "_build/wpnxm-scp-1.2.3"-->
             <echo message="&#xa;Building zip archive of Server-Control-Panel for distribution&#xa;"/>
-            <zip zipfile="${dir.Base}/_build/wpnxm-scp-v${wpnxm.Version}.zip" ziplevel="9" verbose="true">
+            <zip zipfile="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip" ziplevel="9" verbose="true">
                 <fileset basedir="${dir.Base}/server-control-panel/build/release/">
                     <include name="**/*" />
                 </fileset>
             </zip>
             <!-- copy zip to the downloads folder -->
-            <copy file="${dir.Base}/_build/wpnxm-scp-v${wpnxm.Version}.zip"
-                tofile="${dir.Base}/downloads/wpnxm-scp-v${wpnxm.Version}.zip" />
+            <copy file="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip"
+                tofile="${dir.Base}/downloads/wpnxm-scp-${wpnxm.Version}.zip" />
 
             <echo message="&#xa;Clean Server-Control-Panel folder&#xa;"/>
             <exec program="git" workingdir="${dir.Base}/server-control-panel/">
