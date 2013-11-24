@@ -323,7 +323,8 @@
     </target>
 
     <target name="compile-server-control-panel"
-            description="Compiles the Server Control Panel Tray Application via Qt Framework and it's build tools.">
+            description="Compiles the Server Control Panel Tray Application via Qt Framework and it's build tools."
+            depends="bump-version-number">
             <!-- This tasks requires that you have installed Qt and setup all environment path vars correctly.
                  The build tools will not be found otherwise. -->
 
@@ -380,12 +381,8 @@
     <target name="build-server-control-panel-zip"
             description="Takes the freshly build SCP executable, adds all needed runtime DLL's of Qt and MinGW and build a zip archive for distribution."
             depends="compile-server-control-panel">
-            <!-- create folders: -->
-            <!-- "temp"
-                 "WPN-XM-SCP-v1.2.3" -->
-            <!-- copy exe -->
-            <!-- copy dlls -->
-            <!-- zip files content of the temp folder -->
+            <!-- "WPN-XM-SCP-v1.2.3" -->
+            <!-- zip files content of the build/release folder -->
             <!-- copy zip to the "_build" folder and to the downloads folder -->
 
             <echo message="&#xa;"/>
