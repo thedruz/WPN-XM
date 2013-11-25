@@ -379,7 +379,7 @@
         </exec>
     </target>
 
-    <target name="build-server-control-panel-zip"
+    <target name="build-server-control-panel"
             description="Prepares the freshly build SCP zip archive for distribution."
             depends="compile-server-control-panel">
             <!-- zip the build/release folder to "_build/wpnxm-scp-1.2.3"-->
@@ -418,7 +418,7 @@
             <arg value="foreach"/>
             <!-- <arg value="git checkout ."/> -->
             <arg value="git reset --hard HEAD;"/> <!-- hard reset to latest commit -->
-            <arg value="git clean -f"/> <!-- drop all untracked files, e.g. /build crap -->
+            <arg value="git clean -fxd"/> <!-- drop all untracked files, folders, e.g. /build crap. -->
         </exec>
     </target>
 
