@@ -390,8 +390,7 @@
                 </fileset>
             </zip>
             <!-- copy zip to the downloads folder -->
-            <copy file="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip"
-                tofile="${dir.Base}/downloads/wpnxm-scp-${wpnxm.Version}.zip" />
+            <copy file="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip" tofile="${dir.Base}/downloads/wpnxmscp.zip" />
 
             <echo message="&#xa;Clean Server-Control-Panel folder&#xa;"/>
             <exec program="git" workingdir="${dir.Base}/server-control-panel/">
