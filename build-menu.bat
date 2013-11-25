@@ -64,7 +64,7 @@ goto END
     echo.
     echo Building the "Server-Control-Panel" (Tray Application)
     echo.
-    call bin\nant\bin\nant.exe -buildfile:build.xml compile-server-control-panel
+    call bin\nant\bin\nant.exe -buildfile:build.xml build-server-control-panel
 goto END
 
 :END
