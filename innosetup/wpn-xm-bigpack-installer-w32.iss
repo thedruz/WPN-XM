@@ -150,6 +150,7 @@ Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
+Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
 // config files
 Source: ..\configs\wpnxm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
