@@ -188,13 +188,14 @@
     <target name="compile-wpnxm-bigpack-installer"
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb">
+
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-BigPack-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
-            <arg value="${dir.Build}\wpn-xm-BigPack-installer-w32.iss"/>
+            <arg value="${dir.Build}\wpn-xm-bigpack-installer-w32.iss"/>
         </exec>
     </target>
 
