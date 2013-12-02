@@ -31,11 +31,10 @@ tba           REL    Version 0.6.0
  next  -->>
 
 ------------  ----------------------------------------------------------------
-tba           REL    Version 0.5.4
+02.12.2013    REL    Version 0.5.4
 ------------  ----------------------------------------------------------------
 
- next  -->>
-
+ 30.11.2013   NEW    webinterface update to work with embedded PHP server
  09.11.2013   NEW    added build tasks
                      prepare-downloads-lite & prepare-downloads-allinone
                      Both move downloads to a specific subfolder.
