@@ -48,7 +48,7 @@
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
-// for download functionality, we need to include the Inno Download Plugin 
+// for download functionality, we need to include the Inno Download Plugin
 #include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
 
 [Setup]
@@ -165,7 +165,7 @@ Source: ..\configs\xhprof.php; DestDir: {app}\www\xhprof\xhprof_lib; DestName: "
 Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 
 [Icons]
-Name: {group}\Server Control Panel; Filename: {app}\server-control-panel.exe; Tasks: add_startmenu_entries
+Name: {group}\Server Control Panel; Filename: {app}\wpnxm-scp.exe; Tasks: add_startmenu_entries
 Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.bat; Tasks: add_startmenu_entries
 Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.bat; Tasks: add_startmenu_entries
 Name: {group}\Status of WPN-XM; Filename: {app}\status-wpnxm.bat; Tasks: add_startmenu_entries
@@ -174,8 +174,8 @@ Name: {group}\Administration; Filename: {app}\administration.url; Tasks: add_sta
 Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}; Tasks: add_startmenu_entries
 Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}; Tasks: add_startmenu_entries
 Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Tasks: add_startmenu_entries
-Name: {userdesktop}\WPN-XM Server-Control-Panel; Filename: {app}\server-control-panel.exe; Tasks: add_scp_desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\server-control-panel.exe; Tasks: add_scp_quicklaunchicon
+Name: {userdesktop}\WPN-XM Server-Control-Panel; Filename: {app}\wpnxm-scp.exe; Tasks: add_scp_desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpnxm-scp.exe; Tasks: add_scp_quicklaunchicon
 Name: {userdesktop}\WPN-XM Start; Filename: {app}\start-wpnxm.bat; Tasks: add_basic_start_stop_desktopicons
 Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop-wpnxm.bat; Tasks: add_basic_start_stop_desktopicons
 
@@ -456,7 +456,7 @@ begin
 
   // Turns on detailed error message popups for debugging the download process
   // if (DEBUG = true) then itdSetOption('Debug_Messages', '1');
-  
+
   // when download fails, do not allow continuing with the installation
   idpSetOption('AllowContinue',  '0');
   // Change from a simple overall progress bar to the detailed download view
@@ -468,7 +468,7 @@ begin
 
   // Start the download after the "Ready to install" screen is shown
   idpDownloadAfter(wpReady);
-  
+
   // reset files, previously added with idpAddFile() procedure
   idpClearFiles();
 
@@ -619,7 +619,7 @@ begin
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) then
-    begin 
+    begin
        MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
        if(FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then idpClearFiles();
     end;
