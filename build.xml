@@ -63,7 +63,7 @@
         </copy>
 
         <!-- WPN-XM Server Control Panel -->
-        <loadfile file="${dir.Base}/server-control-panel/src/version.h" property="filecontent.wpnxm.version">
+        <loadfile file="${dir.Base}/server-control-panel/src/version.h" property="filecontent.wpnxm.version" encoding="UTF-8">
             <filterchain>
                 <replacetokens>
                      <token key="APPVERSION" value="${wpnxm.Version}"/>
