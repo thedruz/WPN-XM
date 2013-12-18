@@ -152,7 +152,7 @@ Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
 Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
 // config files
-Source: ..\configs\wpnxm.ini; DestDir: {app}
+Source: ..\configs\wpn-xm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
