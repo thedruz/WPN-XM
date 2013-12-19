@@ -21,8 +21,8 @@
     <property name="dir.Downloads"          value="${dir.Base}\downloads"/>
 
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
-    <property name="dir.qmake"              value="D:\Qt\5.1.1\mingw48_32\bin\"/>
-    <property name="dir.mingw32"            value="D:\Qt\Tools\mingw48_32\bin\"/>
+    <property name="dir.qmake"              value="D:\Qt\Qt5.2.0\5.2.0-rc1\mingw48_32\bin"/>
+    <property name="dir.mingw32"            value="D:\Qt\Qt5.2.0\Tools\mingw48_32\bin\"/>
 
     <!-- File Names -->
     <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}"/>
@@ -339,6 +339,12 @@
             <arg value="-query"/>
         </exec>
 
+        <echo message="&#xa;Clean Server-Control-Panel folder&#xa;"/>
+        <exec program="git" workingdir="${dir.Base}/server-control-panel/">
+            <arg value="clean"/>
+            <arg value="-fxd"/><!-- remove files, ignores and folders. you might add "n" for dry-run -->
+        </exec>
+
         <echo message="&#xa;"/>
         <!-- http://doc-snapshot.qt-project.org/4.8/qmake-variable-reference.html -->
         <exec program="qmake" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.qmake}"
@@ -368,11 +374,12 @@
             <arg value="clean"/>
         </exec>
 
-        <sleep seconds="2"/>
         <echo message="&#xa;Removing all unneeded debugging symbols and sections from executable...&#xa;"/>
-        <exec program="strip" verbose="true" basedir="${dir.mingw32}">
-            <arg line="-s ${dir.Base}/server-control-panel/build/release/*.exe"/>
-        </exec>
+        <exec program="strip.exe" verbose="true" basedir="${dir.mingw32}" workingdir="${dir.Base}/server-control-panel/build/release/"
+              commandline="-s wpn-xm.exe -o wpn-xm.exe.stripped"/>
+        <sleep seconds="3"/>
+        <exec program="cmd.exe" workingdir="${dir.Base}/server-control-panel/build/release/"
+            commandline="/c move wpn-xm.exe.stripped wpn-xm.exe"/>
 
         <echo message="&#xa;Compressing executable...&#xa;"/>
         <exec program="${dir.Base}/bin/upx/upx" verbose="true">
