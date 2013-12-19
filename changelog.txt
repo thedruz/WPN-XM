@@ -25,10 +25,43 @@ VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-tba           REL    Version 0.6.0
+tba           REL    Version 0.6.z
 ------------  ----------------------------------------------------------------
 
- next  -->>
+ next  -->>   Bugfixes
+
+------------  ----------------------------------------------------------------
+19.12.2013    REL    Version 0.6.0
+------------  ----------------------------------------------------------------
+
+ 18.12.2013   This release adresses several bugs in the Server Control Panel:
+                   console/debugging popup screen removed
+                   daemons not found
+                   daemons not started
+                   logfile not opened, because wrong path
+                   webinterface button not working
+
+              Features
+
+             [server control panel]
+              - executable has been renamed from "wpnxm-scp.exe" to "wpn-xm.exe"
+              - reworked settings classes
+              - enabled configuration dialog
+              - added RunOnStartup: places SCP in Windows Autostart)
+              - added StopDaemonsOnQuit:
+                stops all running daemons, when user Quits the SCP in the Tray
+              - added RunDaemonsOnStartup with daemon selection:
+                starts daemons, when SCP starts
+              - enabled all configuration buttons
+                they resolve to the webinterface config section
+              - splashscreen added
+             [wpn-xm.ini]
+              - is the global configuration file used by SCP and Webinterface
+              - is auto-generated with default settings by the server control panel
+              - with defaults settings is also installed with the stack
+             [webinterface]
+              - runs with embedded PHP server and also with Nginx (default)
+              - has start & stop buttons for daemons
 
 ------------  ----------------------------------------------------------------
 02.12.2013    REL    Version 0.5.4
