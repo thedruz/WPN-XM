@@ -2,7 +2,7 @@
 
 Downloader      downloader;
 UI		        ui;
-SecurityOptions securityOptions;
+InternetOptions internetOptions;
 tstring         userAgent = IDP_USER_AGENT;
 
 void idpAddFile(_TCHAR *url, _TCHAR *filename)
@@ -13,6 +13,11 @@ void idpAddFile(_TCHAR *url, _TCHAR *filename)
 void idpAddFileSize(_TCHAR *url, _TCHAR *filename, DWORDLONG filesize)
 {
 	downloader.addFile(url, filename, filesize);
+}
+
+void idpAddMirror(_TCHAR *url, _TCHAR *mirror)
+{
+	downloader.addMirror(url, mirror);
 }
 
 void idpClearFiles()
@@ -34,7 +39,8 @@ bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)
 {
 	Downloader d;
 	d.setUserAgent(userAgent);
-	d.setSecurityOptions(securityOptions);
+	d.setInternetOptions(internetOptions);
+	d.setMirrorList(&downloader);
 	d.addFile(url, _T(""));
 	*size = d.getFileSizes();
 
@@ -51,7 +57,8 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 {
 	Downloader d;
 	d.setUserAgent(userAgent);
-	d.setSecurityOptions(securityOptions);
+	d.setInternetOptions(internetOptions);
+	d.setMirrorList(&downloader);
 	d.addFile(url, filename);
 	return d.downloadFiles();
 }
@@ -60,7 +67,7 @@ bool idpDownloadFiles()
 {
 	downloader.setUI(NULL);
 	downloader.setUserAgent(userAgent);
-	downloader.setSecurityOptions(securityOptions);
+	downloader.setInternetOptions(internetOptions);
 	return downloader.downloadFiles();
 }
 
@@ -81,7 +88,7 @@ void idpStartDownload()
 	ui.lockButtons();
 	downloader.setUI(&ui);
 	downloader.setUserAgent(userAgent);
-	downloader.setSecurityOptions(securityOptions);
+	downloader.setInternetOptions(internetOptions);
 	downloader.setFinishedCallback(&downloadFinished);
 	downloader.startDownload();
 }
@@ -138,21 +145,49 @@ bool idpGetFilesSize32(DWORD *size)
 	return r;
 }
 
+DWORD timeoutVal(_TCHAR *value)
+{
+	string val = toansi(_tcslwr(value));
+
+	if(val.compare("infinite") == 0) return TIMEOUT_INFINITE;
+	if(val.compare("infinity") == 0) return TIMEOUT_INFINITE;
+	if(val.compare("inf")      == 0) return TIMEOUT_INFINITE;
+
+	return _ttoi(value);
+}
+
+bool boolVal(_TCHAR *value)
+{
+	string val = toansi(_tcslwr(value));
+
+	if(val.compare("true")  == 0) return true;
+	if(val.compare("yes")   == 0) return true;
+	if(val.compare("y")     == 0) return true;
+	if(val.compare("false") == 0) return false;
+	if(val.compare("no")    == 0) return false;
+	if(val.compare("n")     == 0) return false;
+	
+	return _ttoi(value) > 0;
+}
+
 void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	string key = toansi(_tcslwr(name));
 
-	if     (key.compare("allowcontinue") == 0) ui.allowContinue  = (_ttoi(value) > 0);
-	else if(key.compare("retrybutton")   == 0) ui.hasRetryButton = (_ttoi(value) > 0);
+	if     (key.compare("allowcontinue") == 0) ui.allowContinue  = boolVal(value);
+	else if(key.compare("retrybutton")   == 0) ui.hasRetryButton = boolVal(value);
 	else if(key.compare("useragent")     == 0) userAgent = value;
 	else if(key.compare("invalidcert")   == 0)
 	{
 		string val = toansi(_tcslwr(value));
 
-		if     (val.compare("showdlg") == 0) securityOptions.invalidCert = INVC_SHOWDLG;
-		else if(val.compare("stop")    == 0) securityOptions.invalidCert = INVC_STOP;
-		else if(val.compare("ignore")  == 0) securityOptions.invalidCert = INVC_IGNORE;
+		if     (val.compare("showdlg") == 0) internetOptions.invalidCert = INVC_SHOWDLG;
+		else if(val.compare("stop")    == 0) internetOptions.invalidCert = INVC_STOP;
+		else if(val.compare("ignore")  == 0) internetOptions.invalidCert = INVC_IGNORE;
 	}
+	else if(key.compare("connecttimeout") == 0) internetOptions.connectTimeout = timeoutVal(value);
+	else if(key.compare("sendtimeout")    == 0) internetOptions.sendTimeout    = timeoutVal(value);
+	else if(key.compare("receivetimeout") == 0) internetOptions.receiveTimeout = timeoutVal(value);
 }
 
 void idpSetDetailedMode(bool mode)

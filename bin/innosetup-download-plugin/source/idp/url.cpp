@@ -61,7 +61,7 @@ HINTERNET Url::connect(HINTERNET internet)
 
 	TRACE(_T("Connecting to %s://%s:%d..."), urlComponents.lpszScheme, hostName, urlComponents.nPort);
 	connection = InternetConnect(internet, hostName, urlComponents.nPort, userName, password, service, flags, NULL);
-	TRACE(_T("%s\n"), connection ? _T("OK") : _T("FAILED"));
+	TRACE(_T("%s\n"), connection ? _T("Connected OK") : _T("Connection FAILED"));
 
 	return connection;
 }
@@ -83,16 +83,17 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 		{
 			flags |= INTERNET_FLAG_SECURE;
 
-			if(securityOptions.invalidCert == INVC_IGNORE)
+			if(internetOptions.invalidCert == INVC_IGNORE)
 				flags |= INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID;
 		}
 
 		tstring fullUrl = urlPath;
 		fullUrl += extraInfo;
-		TRACE(_T("Opening %s..."), fullUrl);
+		TRACE(_T("Opening %s..."), fullUrl.c_str());
 		filehandle = HttpOpenRequest(connection, httpVerb, fullUrl.c_str(), NULL, NULL, acceptTypes, flags, NULL);
 
 retry:
+		TRACE(_T("Sending request..."));
 		if(!HttpSendRequest(filehandle, NULL, 0, NULL, 0))
 		{
 			DWORD error = GetLastError();
@@ -103,7 +104,7 @@ retry:
 			{
 				TRACE(_T("Invalid certificate (0x%08x: %s)"), error, formatwinerror(error).c_str());
 
-				if(securityOptions.invalidCert == INVC_SHOWDLG)
+				if(internetOptions.invalidCert == INVC_SHOWDLG)
 				{
 					DWORD r = InternetErrorDlg(uiMainWindow(), filehandle, error,
 						                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS,
@@ -117,7 +118,7 @@ retry:
 						throw InvalidCertError("Download cancelled");
 					}
 				}
-				else if(securityOptions.invalidCert == INVC_IGNORE)
+				else if(internetOptions.invalidCert == INVC_IGNORE)
 				{
 					DWORD flags;
 					DWORD flagsSize = sizeof(flags);
@@ -130,7 +131,7 @@ retry:
 				}
 			}
 
-			TRACE(_T("HttpSendRequest FAILED (0x%08x: %s)\n"), error, formatwinerror(error).c_str());
+			TRACE(_T("HttpSendRequest FAILED: 0x%08x - %s"), error, formatwinerror(error).c_str());
 			return NULL;
 		}
 
@@ -148,11 +149,10 @@ retry:
 		if((dwStatusCode != HTTP_STATUS_OK) && (dwStatusCode != HTTP_STATUS_CREATED/*Not sure, if this code can be returned*/))
 		{
 			close();
-			TRACE(_T("HTTP Status code: %d\n"), dwStatusCode);
 			throw HTTPError(dwtostr(dwStatusCode));
 		}
 
-		TRACE(_T("OK\n"));
+		TRACE(_T("Request opened OK\n"));
 	}
 
 	return filehandle;

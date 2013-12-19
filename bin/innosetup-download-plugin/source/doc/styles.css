@@ -7,6 +7,7 @@ body
 h2, h3
 {
 	text-align: center;
+	border-bottom: 1px solid #c0c0c0;
 }
 
 pre
@@ -73,13 +74,27 @@ div.tooltip
 {
 	display : none;
 	position: absolute;
-	width   : 250;
+	width   : 250px;
 	border  : 1px solid #ffcc00;
 	padding : 5px;
 	border-radius: 5px;
 	background-color: #ffffcc;
 }
 
+li.book
+{
+	list-style-image: url('book.png');
+}
+
+li.page
+{
+	list-style-image: url('page.png');
+}
+
+a
+{
+	text-decoration:none;
+}
 /*
 a
 {

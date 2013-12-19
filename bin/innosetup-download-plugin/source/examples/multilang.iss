@@ -12,10 +12,12 @@ OutputDir        = userdocs:Inno Setup Examples Output
 [Languages]
 Name: en; MessagesFile: "compiler:Default.isl"
 Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
+Name: de; MessagesFile: "compiler:Languages\German.isl"
 
 #include <idp.iss>
 ; Language file must be included AFTER idp.iss
 #include <idplang\russian.iss>
+#include <idplang\german.iss>
 
 ; Let's change some of standard strings:
 [CustomMessages]

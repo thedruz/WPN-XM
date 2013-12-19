@@ -9,37 +9,46 @@
     #pragma include __INCLUDE__ + ";" + IDPROOT + "\unicode"
 #else
     #pragma include __INCLUDE__ + ";" + IDPROOT + "\ansi"
+#endif
+
+; If IDPDEBUG is defined before including idp.iss, script will use debug version of idp.dll.
+; Debug dll messages can be viewed with SysInternals DebugView (http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx)
+#ifdef IDPDEBUG
+    #define DBGSUFFIX " debug"
+#else
+    #define DBGSUFFIX
 #endif         
 
 [Files]
 #ifdef UNICODE
-Source: "{#IDPROOT}\unicode\idp.dll"; Flags: dontcopy;
+Source: "{#IDPROOT}\unicode{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
 #else
-Source: "{#IDPROOT}\ansi\idp.dll"; Flags: dontcopy;
+Source: "{#IDPROOT}\ansi{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
 #endif
 
 [Code]
-procedure idpAddFile(url: String; filename: String);                  external 'idpAddFile@files:idp.dll cdecl';
-procedure idpClearFiles;                                              external 'idpClearFiles@files:idp.dll cdecl';
-function  idpFilesCount: Integer;                                     external 'idpFilesCount@files:idp.dll cdecl';
-function  idpFilesDownloaded: Boolean;                                external 'idpFilesDownloaded@files:idp.dll cdecl';
-function  idpDownloadFile(url, filename: String): Boolean;            external 'idpDownloadFile@files:idp.dll cdecl';
-function  idpDownloadFiles: Boolean;                                  external 'idpDownloadFiles@files:idp.dll cdecl';
-procedure idpStartDownload;                                           external 'idpStartDownload@files:idp.dll cdecl';
-procedure idpStopDownload;                                            external 'idpStopDownload@files:idp.dll cdecl';
-procedure idpConnectControl(name: String; Handle: HWND);              external 'idpConnectControl@files:idp.dll cdecl';
-procedure idpAddMessage(name, message: String);                       external 'idpAddMessage@files:idp.dll cdecl';
-procedure idpSetInternalOption(name, value: String);                  external 'idpSetInternalOption@files:idp.dll cdecl';
-procedure idpSetDetailedMode(mode: Boolean);                          external 'idpSetDetailedMode@files:idp.dll cdecl';
+procedure idpAddFile(url, filename: String);                     external 'idpAddFile@files:idp.dll cdecl';
+procedure idpAddMirror(url, mirror: String);                     external 'idpAddMirror@files:idp.dll cdecl';
+procedure idpClearFiles;                                         external 'idpClearFiles@files:idp.dll cdecl';
+function  idpFilesCount: Integer;                                external 'idpFilesCount@files:idp.dll cdecl';
+function  idpFilesDownloaded: Boolean;                           external 'idpFilesDownloaded@files:idp.dll cdecl';
+function  idpDownloadFile(url, filename: String): Boolean;       external 'idpDownloadFile@files:idp.dll cdecl';
+function  idpDownloadFiles: Boolean;                             external 'idpDownloadFiles@files:idp.dll cdecl';
+procedure idpStartDownload;                                      external 'idpStartDownload@files:idp.dll cdecl';
+procedure idpStopDownload;                                       external 'idpStopDownload@files:idp.dll cdecl';
+procedure idpConnectControl(name: String; Handle: HWND);         external 'idpConnectControl@files:idp.dll cdecl';
+procedure idpAddMessage(name, message: String);                  external 'idpAddMessage@files:idp.dll cdecl';
+procedure idpSetInternalOption(name, value: String);             external 'idpSetInternalOption@files:idp.dll cdecl';
+procedure idpSetDetailedMode(mode: Boolean);                     external 'idpSetDetailedMode@files:idp.dll cdecl';
 
 #ifdef UNICODE
-procedure idpAddFileSize(url: String; filename: String; size: Int64); external 'idpAddFileSize@files:idp.dll cdecl';
-function  idpGetFileSize(url: String; var size: Int64): Boolean;      external 'idpGetFileSize@files:idp.dll cdecl';
-function  idpGetFilesSize(var size: Int64): Boolean;                  external 'idpGetFilesSize@files:idp.dll cdecl';
+procedure idpAddFileSize(url, filename: String; size: Int64);    external 'idpAddFileSize@files:idp.dll cdecl';
+function  idpGetFileSize(url: String; var size: Int64): Boolean; external 'idpGetFileSize@files:idp.dll cdecl';
+function  idpGetFilesSize(var size: Int64): Boolean;             external 'idpGetFilesSize@files:idp.dll cdecl';
 #else
-procedure idpAddFileSize(url: String; filename: String; size: Dword); external 'idpAddFileSize32@files:idp.dll cdecl';
-function  idpGetFileSize(url: String; var size: Dword): Boolean;      external 'idpGetFileSize32@files:idp.dll cdecl';
-function  idpGetFilesSize(var size: Dword): Boolean;                  external 'idpGetFilesSize32@files:idp.dll cdecl';
+procedure idpAddFileSize(url, filename: String; size: Dword);    external 'idpAddFileSize32@files:idp.dll cdecl';
+function  idpGetFileSize(url: String; var size: Dword): Boolean; external 'idpGetFileSize32@files:idp.dll cdecl';
+function  idpGetFilesSize(var size: Dword): Boolean;             external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
 
 type IDPFormRec = record
@@ -73,13 +82,27 @@ type IDPFormRec = record
 var IDPForm   : IDPFormRec;
     IDPOptions: IDPOptionsRec;
 
+function StrToBool(value: String): Boolean;
+var s: String;
+begin
+    s := LowerCase(value);
+
+    if      s = 'true'  then result := true
+    else if s = 'yes'   then result := true
+    else if s = 'y'     then result := true
+    else if s = 'false' then result := false
+    else if s = 'no'    then result := false
+    else if s = 'n'     then result := false
+    else                     result := StrToInt(value) > 0;
+end;
+
 procedure idpSetOption(name, value: String);
 var key: String;
 begin
     key := LowerCase(name);
 
-    if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToInt(value) > 0
-    else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := StrToInt(value) = 0
+    if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToBool(value)
+    else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := not StrToBool(value)
     else if key = 'retrybutton'   then 
     begin
         IDPOptions.NoRetryButton := StrToInt(value) = 0;

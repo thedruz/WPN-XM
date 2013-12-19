@@ -19,6 +19,7 @@ Downloader::Downloader()
 Downloader::~Downloader()
 {
 	clearFiles();
+	clearMirrors();
 }
 
 void Downloader::setUI(UI *newUI)
@@ -31,14 +32,14 @@ void Downloader::setUserAgent(tstring agent)
 	userAgent = agent;
 }
 
-void Downloader::setSecurityOptions(SecurityOptions opt)
+void Downloader::setInternetOptions(InternetOptions opt)
 {
-	securityOptions = opt;
+	internetOptions = opt;
 
 	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
 		NetFile *file = i->second;
-		file->url.securityOptions = opt;
+		file->url.internetOptions = opt;
 	}
 }
 
@@ -52,8 +53,18 @@ void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
 	if(!files.count(url))
 	{
 		files[url] = new NetFile(url, filename, size);
-		files[url]->url.securityOptions = securityOptions;
+		files[url]->url.internetOptions = internetOptions;
 	}
+}
+
+void Downloader::addMirror(tstring url, tstring mirror)
+{
+	mirrors.insert(pair<tstring, tstring>(url, mirror));
+}
+
+void Downloader::setMirrorList(Downloader *d)
+{
+	mirrors = d->mirrors;
 }
 
 void Downloader::clearFiles()
@@ -70,6 +81,12 @@ void Downloader::clearFiles()
 	files.clear();
 	filesSize			= 0;
 	downloadedFilesSize = 0;
+}
+
+void Downloader::clearMirrors()
+{
+	if(!mirrors.empty())
+		mirrors.clear();
 }
 
 int Downloader::filesCount()
@@ -94,6 +111,28 @@ bool Downloader::openInternet()
 	if(!internet)
 		if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 			return false;
+
+	if(internetOptions.connectTimeout != TIMEOUT_DEFAULT)
+		InternetSetOption(internet, INTERNET_OPTION_CONNECT_TIMEOUT, &internetOptions.connectTimeout, sizeof(DWORD));
+
+	if(internetOptions.sendTimeout    != TIMEOUT_DEFAULT)
+		InternetSetOption(internet, INTERNET_OPTION_SEND_TIMEOUT,    &internetOptions.sendTimeout,    sizeof(DWORD));
+
+	if(internetOptions.receiveTimeout != TIMEOUT_DEFAULT)
+		InternetSetOption(internet, INTERNET_OPTION_RECEIVE_TIMEOUT, &internetOptions.receiveTimeout, sizeof(DWORD));
+
+#ifdef _DEBUG
+	DWORD connectTimeout, sendTimeout, receiveTimeout, bufSize = sizeof(DWORD);
+
+	InternetQueryOption(internet, INTERNET_OPTION_CONNECT_TIMEOUT, &connectTimeout, &bufSize);
+	InternetQueryOption(internet, INTERNET_OPTION_SEND_TIMEOUT,    &sendTimeout,    &bufSize);
+	InternetQueryOption(internet, INTERNET_OPTION_RECEIVE_TIMEOUT, &receiveTimeout, &bufSize);
+
+	TRACE(_T("Internet options:"));
+	TRACE(_T("    Connect timeout: %d"), connectTimeout);
+	TRACE(_T("    Send timeout   : %d"), sendTimeout);
+	TRACE(_T("    Receive timeout: %d"), receiveTimeout);
+#endif
 
 	return true;
 }
@@ -163,9 +202,20 @@ DWORDLONG Downloader::getFileSizes()
 		{
 			try
 			{
-				file->size = file->url.getSize(internet);
+				try
+				{
+					updateFileName(file);
+					file->size = file->url.getSize(internet);
+				}
+				catch(HTTPError &e)
+				{
+					updateStatus(msg(e.what()));
+				}
+				
+				if(file->size == FILE_SIZE_UNKNOWN)
+					checkMirrors(i->first, false);
 			}
-			catch(exception &e)
+			catch(InvalidCertError &e)
 			{
 				updateStatus(msg(e.what()));
 				storeError(msg(e.what()));
@@ -197,6 +247,7 @@ bool Downloader::downloadFiles()
 
 	if(getFileSizes() == OPERATION_STOPPED)
 	{
+		TRACE(_T("OPERATION_STOPPED\n"));
 		setMarquee(false);
 		return false;
 	}
@@ -210,6 +261,7 @@ bool Downloader::downloadFiles()
 
 	sizeTimeTimer.start(500);
 	updateStatus(msg("Starting download..."));
+	TRACE(_T("Starting file download cycle...\n"));
 
 	if(!(filesSize == FILE_SIZE_UNKNOWN))
 		setMarquee(false);
@@ -222,17 +274,80 @@ bool Downloader::downloadFiles()
 			break;
 
 		if(!file->downloaded)
+		{
+			// If mirror was used in getFileSizes() function, check mirror first:
+			if(file->mirrorUsed.length())
+			{
+				NetFile newFile(file->mirrorUsed, file->name, file->size);
+
+				if(downloadFile(&newFile))
+				{
+					downloadedFilesSize += file->bytesDownloaded;
+					continue;
+				}
+			}
+
 			if(!downloadFile(file))
 			{
-				closeInternet();
-				return false;
+				TRACE(_T("File was not downloaded.\n"));
+
+				if(checkMirrors(i->first, true))
+					downloadedFilesSize += file->bytesDownloaded;
+				else
+				{
+					closeInternet();
+					return false;
+				}
 			}
 			else
 				downloadedFilesSize += file->bytesDownloaded;
+		}
     }
 
 	closeInternet();
 	return true;
+}
+
+bool Downloader::checkMirrors(tstring url, bool download/* or get size */)
+{
+	TRACE(_T("Checking mirrors for %s (%s)...\n"), url.c_str(), download ? _T("download") : _T("get size"));
+	pair<multimap<tstring, tstring>::iterator, multimap<tstring, tstring>::iterator> fileMirrors = mirrors.equal_range(url);
+	
+	for(multimap<tstring, tstring>::iterator i = fileMirrors.first; i != fileMirrors.second; ++i)
+	{
+		tstring mirror = i->second;
+		TRACE(_T("Checking mirror %s:\n"), mirror.c_str());
+		NetFile f(mirror, files[url]->name, files[url]->size);
+
+		if(download)
+		{
+			if(downloadFile(&f))
+			{
+				files[url]->downloaded = true;
+				return true;
+			}
+		}
+		else // get size
+		{
+			try
+			{
+				DWORDLONG size = f.url.getSize(internet);
+
+				if(size != FILE_SIZE_UNKNOWN)
+				{
+					files[url]->size = size;
+					files[url]->mirrorUsed = mirror;
+					return true;
+				}
+			}
+			catch(HTTPError &e)
+			{
+				updateStatus(msg(e.what()));
+			}
+		}
+	}
+
+	return false;
 }
 
 bool Downloader::downloadFile(NetFile *netFile)

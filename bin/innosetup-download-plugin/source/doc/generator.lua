@@ -84,7 +84,7 @@ function writePage(page, title)
 	
 	if page.options ~= nil then
 		prn("<dt>Options:</dt><dd><p><table>\n");
-		prn("  <tr><th>Name</th><th class=\"wide\">Description</th><th>Default</th></tr>\n")
+		prn("  <tr><th>Name</th><th class=\"wide\">Overview</th><th>Default</th></tr>\n")
 		for i, option in ipairs(page.options) do
 			prn("  <tr><td><tt>", option[1], "</tt></td><td>", option[2], "</td><td><tt>", option[3],"</tt></td></tr>\n")
 		end
@@ -172,6 +172,51 @@ Function list:
 	closeout()
 end
 
+function writeHtmlTOC(ref)
+	io.write "Generating HTML contents...\n"
+	setout "Contents.htm"
+	htmlheader "Contents"
+	
+	prn[[	
+<ul>
+  <li class="book"><a href="Overview.htm" target="doc">Overview</li>
+  <ul>
+    <li class="page"><a href="Overview.htm#installation" target="doc">Installation</a></li>
+    <li class="page"><a href="Overview.htm#usage" target="doc">Usage</a></li>
+    <li class="page"><a href="Overview.htm#links" target="doc">Links</a></li>
+  </ul>
+  <li class="book"><a href="Reference.htm" target="doc">Reference</li>
+  <ul>
+]]
+	
+	for title, page in sortedpairs(ref) do
+		prn('    <li class="page"><a href="', (page.title or title), '.htm" target="doc">', title, '</a></li>\n')
+	end
+	
+prn[[
+  </ul>
+  <li class="page"><a href="History.htm" target="doc">Version history</a></li>
+  <li class="page"><a href="License.htm" target="doc">License</a></li>
+</ul>
+</body>
+</html>
+]]
+	closeout()
+	
+	setout "Index.htm"
+	prn[[
+<html>
+<head><title>Inno Download Plugin</title></head>
+<frameset cols="20%, 80%">
+  <frame name="toc" src="Contents.htm"/>
+  <frame name="doc" src="Overview.htm"/>
+</frameset>
+</html>
+]]
+	
+	closeout()
+end
+
 function writeTOC(ref)
 	io.write "Generating HTMLHelp contents...\n"
 	setout "Contents.hhc"
@@ -183,9 +228,23 @@ function writeTOC(ref)
 </HEAD><BODY>
 <UL>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Description">
-		<param name="Local" value="Description.htm">
+		<param name="Name" value="Overview">
+		<param name="Local" value="Overview.htm">
 		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Installation">
+			<param name="Local" value="Overview.htm#installation">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Usage">
+			<param name="Local" value="Overview.htm#usage">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Links">
+			<param name="Local" value="Overview.htm#links">
+			</OBJECT>
+	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Reference">
 		<param name="Local" value="Reference.htm">
@@ -283,7 +342,7 @@ Compatibility=1.1 or later
 Compiled file=idp.chm
 Contents file=Contents.hhc
 Default Window=main
-Default topic=Description.htm
+Default topic=Overview.htm
 Display compile progress=Yes
 Full-text search=Yes
 Index file=Index.hhk
@@ -291,10 +350,10 @@ Language=0x409 Английский (США)
 Title=Inno Download Plugin
 
 [WINDOWS]
-main=,"Contents.hhc","Index.hhk","Description.htm","Description.htm",,,,,0x42520,,0x10304e,[88,80,869,673],,,,,,,0
+main=,"Contents.hhc","Index.hhk","Overview.htm","Overview.htm",,,,,0x42520,,0x10304e,[88,80,869,673],,,,,,,0
 
 [FILES]
-Description.htm
+Overview.htm
 Reference.htm
 License.htm
 History.htm
@@ -345,7 +404,7 @@ function writeHistory(hist)
 end
 
 function writeMainPage(page)
-	setout "Description.htm"
+	setout "Overview.htm"
 	htmlheader "Inno Download Plugin"
 	prn(page)
 	prn[[
