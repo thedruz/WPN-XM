@@ -19,7 +19,8 @@ echo.
 echo   [1] Start "One-Click Build"
 echo   [2] Download Components for the "not-web" Installation Wizards
 echo   [3] Build the "not-web" Installation Wizards
-echo   [4] Build the "Server-Control-Panel" (Tray Application)
+echo   [4] Build the   "web"   Installation Wizard
+echo   [5] Build the "Server-Control-Panel" (Tray Application)
 echo   [x] Quit
 echo.
 
@@ -34,6 +35,7 @@ if %input%==1 goto OPTION1
 if %input%==2 goto OPTION2
 if %input%==3 goto OPTION3
 if %input%==4 goto OPTION4
+if %input%==5 goto OPTION5
 IF %input%==x goto QUIT
 goto SHOWMENU
 
@@ -61,6 +63,13 @@ goto END
 goto END
 
 :OPTION4
+    echo.
+    echo Building "web" Installation Wizard
+    echo.
+    call bin\nant\bin\nant.exe -buildfile:build.xml compile-wpnxm-webinstaller-setup
+goto END
+
+:OPTION5
     echo.
     echo Building the "Server-Control-Panel" (Tray Application)
     echo.
