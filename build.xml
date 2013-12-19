@@ -89,7 +89,8 @@
         <echo message="Building ${wpnxm.Name}-${wpnxm.Version} Setup Executable"/>
     </target>
 
-    <target name="compile-wpnxm-webinstaller-setup" description="Builds the WPN-XM setup executable.">
+    <target name="compile-wpnxm-webinstaller-setup" description="Builds the WPN-XM setup executable."
+            depends="bump-version-number">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Setup-w32"/>
@@ -100,7 +101,8 @@
         </exec>
     </target>
 
-    <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging.">
+    <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging."
+            depends="bump-version-number">
         <exec program="${innosetupcompiler}">
             <!-- use our alternate file name -->
             <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Debug-Setup-w32"/>
@@ -211,6 +213,8 @@
             <arg value="${dir.Build}\wpn-xm-bigpack-installer-w32.iss"/>
         </exec>
     </target>
+
+     <!-- @todo move registry copying into own target/task -->
 
     <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
             depends="make-downloads-dir, update-git-submodules">
