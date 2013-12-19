@@ -20,6 +20,11 @@ The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX,
 
 **Ask a question:**     http://stackoverflow.com/questions/tagged/wpn-xm
 
+=== Screenshot
+
+.WPN-XM Server Control Panel v0.6.0
+image::https://pbs.twimg.com/media/Bb2YwQNCYAEtKM1.jpg:large[WPN-XM Server Control Panel v0.6.0]
+
 === Installing WPN-XM on Windows
 
 https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation Guide]
