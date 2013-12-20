@@ -25,9 +25,6 @@
     <property name="dir.mingw32"            value="D:\Qt\Qt5.2.0\Tools\mingw48_32\bin\"/>
 
     <!-- File Names -->
-    <property name="wpnxm.ExeFileName"      value="WPNXM-${wpnxm.Version}"/>
-    <property name="wpnxm.ExeFile"          value="${dir.Build}\${wpnxm.ExeFileName}"/>
-
     <property name="wpnxm.ZipFileName"      value="WPNXM-${wpnxm.Version}.zip"/>
     <property name="wpnxm.ZipFile"          value="${dir.Build}\${wpnxm.ZipFileName}"/>
 
@@ -92,8 +89,6 @@
     <target name="compile-wpnxm-webinstaller-setup" description="Builds the WPN-XM setup executable."
             depends="bump-version-number">
         <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
@@ -104,8 +99,6 @@
     <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging."
             depends="bump-version-number">
         <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Webinstaller-Debug-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
@@ -117,8 +110,6 @@
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb, prepare-downloads-lite">
         <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Lite-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
@@ -152,8 +143,6 @@
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number">
         <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-Lite-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
@@ -165,8 +154,6 @@
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb, prepare-downloads-allinone">
         <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
@@ -178,8 +165,6 @@
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number">
         <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-AllInOne-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
@@ -190,10 +175,7 @@
     <target name="compile-wpnxm-bigpack-installer"
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb">
-
         <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-BigPack-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->
@@ -205,8 +187,6 @@
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number">
         <exec program="${innosetupcompiler}">
-            <!-- use our alternate file name -->
-            <arg value="-f${wpnxm.ExeFileName}-BigPack-Setup-w32"/>
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
             <!-- use files from build folder (tokens replaced) -->

@@ -1,4 +1,4 @@
-﻿//
+//
 //          _\|/_
 //          (o o)
 // +-----oOO-{_}-OOo------------------------------------------------------+
@@ -64,7 +64,7 @@ AppUpdatesURL={#AppURL}
 // default installation folder is "c:\server". but user might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#AppName}
-OutputBaseFilename=WPNXM-{#AppVersion}-Setup
+OutputBaseFilename=WPNXM-{#AppVersion}-Webinstaller-Setup-w32
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
