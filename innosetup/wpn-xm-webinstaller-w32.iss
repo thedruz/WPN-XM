@@ -141,7 +141,7 @@ Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
 Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}; Components: mongodb
 Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 // incorporate the whole "www" folder into the setup, except webinterface folder
-Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface,.git*;
 // webinterface folder is only copied, if component is selected
 Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // if webinterface is not installed by user, then delete the redirecting index.html file (activates simple dir listing)
@@ -202,7 +202,7 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
 ; @todo the registry change is not performed, when we are in portable mode
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant({app}\php\bin'));
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\php\bin'));
 
 [Messages]
 // define wizard title and tray status msg
