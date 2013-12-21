@@ -194,10 +194,9 @@ Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb";
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb;
 Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
 Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
-//Filename: {app}\SETUP.EXE; Parameters: /x
 // User selected... these files are shown for launch after everything is done
 //Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
-//Filename: {app}\SETUP.EXE; Description: Configure Server Stack; Flags: postinstall nowait skipifsilent unchecked
+Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
