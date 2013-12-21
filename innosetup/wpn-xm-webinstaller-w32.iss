@@ -202,7 +202,7 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
 ; @todo the registry change is not performed, when we are in portable mode
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant({app}\php\bin'));
 
 [Messages]
 // define wizard title and tray status msg
@@ -1216,8 +1216,32 @@ begin
   end;
 end;
 
+{
+  removePath
+  fetch env var PATH
+  check if PathToRemove is inside PATH
+  replace the PathToRemove segment with empty and write the new path
+}
+function removePath(PathToRemove: string): boolean;
+var
+  Path: String;
+begin
+  RegQueryStringValue(HKCU, 'Environment\', 'PATH', Path);
+  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then
+  begin
+     // leave uncommented, we are in DEBUG and want to see the paths being deleted
+     MsgBox('Deleting Path Segment (' + PathToRemove + ';) from (' + Path + ')', mbError, MB_OK);
+     StringChange(Path, PathToRemove + ';', '');
+     RegWriteStringValue(HKCU, 'Environment\', 'PATH', Path);
+  end;
+end;
+
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
+  if (CurUninstallStep = usPostUninstall) then begin
+     removePath(ExpandConstant('{app}\php\bin'));
+  end;
+
   if CurUninstallStep = usUninstall then begin
     if MsgBox('***WARNING***'#13#10#13#10 +
         'The WPN-XM installation folder is [ '+ ExpandConstant('{app}') +' ].'#13#10 +

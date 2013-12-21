@@ -193,7 +193,7 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
 ; @todo the registry change is not performed, when we are in portable mode
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant({app}\php\bin'));
 
 [Messages]
 // define wizard title and tray status msg
@@ -292,6 +292,26 @@ end;
 function VCRedistributableNeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
+end;
+
+{
+  This check avoids duplicate paths on env var path.
+  Used in the Registry Section for testing, if path was already set.
+}
+function NeedsAddPath(PathToAdd: string): boolean;
+var
+  OrigPath: string;
+begin
+  if not RegQueryStringValue(HKCU, 'Environment\', 'Path', OrigPath)
+  then begin
+    Result := True;
+    exit;
+  end;
+  // look for the path with leading and trailing semicolon
+  // Pos() returns 0 if not found
+  Result := Pos(';' + UpperCase(PathToAdd) + ';', ';' + UpperCase(OrigPath) + ';') = 0;
+  if Result = True then
+     Result := Pos(';' + UpperCase(PathToAdd) + '\;', ';' + UpperCase(OrigPath) + ';') = 0;
 end;
 
 procedure UrlLabelClick(Sender: TObject);
@@ -1085,8 +1105,30 @@ begin
   end;
 end;
 
+{
+  removePath
+  fetch env var PATH
+  check if PathToRemove is inside PATH
+  replace the PathToRemove segment with empty and write the new path
+}
+function removePath(PathToRemove: string): boolean;
+var
+  Path: String;
+begin
+  RegQueryStringValue(HKCU, 'Environment\', 'PATH', Path);
+  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then
+  begin
+     StringChange(Path, PathToRemove + ';', '');
+     RegWriteStringValue(HKCU, 'Environment\', 'PATH', Path);
+  end;
+end;
+
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
+  if (CurUninstallStep = usPostUninstall) then begin
+     removePath(ExpandConstant('{app}\php\bin'));
+  end;
+
   if CurUninstallStep = usUninstall then begin
     if MsgBox('***WARNING***'#13#10#13#10 +
         'The WPN-XM installation folder is [ '+ ExpandConstant('{app}') +' ].'#13#10 +
