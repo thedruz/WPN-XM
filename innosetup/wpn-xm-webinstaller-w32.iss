@@ -190,8 +190,8 @@ Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for 
 
 [Run]
 // Automatically started...
-Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb";
-Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb;
+Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb"; Flags: runhidden;
+Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb; Flags: runhidden;
 Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
 Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
 // User selected... these files are shown for launch after everything is done
