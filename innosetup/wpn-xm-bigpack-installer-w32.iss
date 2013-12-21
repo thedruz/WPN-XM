@@ -140,6 +140,8 @@ Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface;
 // webinterface folder is only copied, if component is selected
 Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
+// if webinterface is not installed by user, then delete the redirecting index.html file (activates simple dir listing)
+Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 // incorporate several startfiles
 Source: ..\startfiles\webinterface.url; DestDir: {app}
 Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
