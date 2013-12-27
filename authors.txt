@@ -4,8 +4,9 @@ WPN-XM is primarily authored by:
 
 Contributors include:
 
-* Tobias Fichtner
-* Daniel Winterfeldt (beta testing)
+* Tobias Fichtner       - https://github.com/tobiasfichtner
+* Daniel Winterfeldt    - https://github.com/dawinterfeldt
+* Lucio M. Tato         - https://github.com/luciotato
 
 The WPN-XM Server Control Panel is a fork of Easy WEMP
 originally written by
