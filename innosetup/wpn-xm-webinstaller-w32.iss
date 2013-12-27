@@ -211,8 +211,10 @@ SetupAppTitle =Setup WPN-XM {#AppVersion}
 SetupWindowTitle =Setup - {#AppName} {#AppVersion}
 
 [CustomMessages]
-de.WebsiteLink={#AppURL}
-en.WebsiteLink={#AppURL}
+de.WebsiteButton=wpn-xm.org
+en.WebsiteButton=wpn-xm.org
+de.HelpButton=Hilfe
+en.HelpButton=Help
 de.ReportBug=Fehler melden
 en.ReportBug=Report Bug
 de.RemoveApp=WPN-XM Server Stack deinstallieren
@@ -360,11 +362,23 @@ begin
      Result := Pos(';' + UpperCase(PathToAdd) + '\;', ';' + UpperCase(OrigPath) + ';') = 0;
 end;
 
-procedure UrlLabelClick(Sender: TObject);
+procedure OpenBrowser(Url: string);
 var
-  errorCode : integer;
+  ErrorCode: Integer;
 begin
-  ShellExec('','http://wpn-xm.org/','','', SW_SHOWNORMAL, ewNoWait, errorCode);
+  ShellExec('open', Url, '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+end;
+
+procedure HelpButtonClick(Sender: TObject);
+begin
+  // example URL: http://wpn-xm.org/install-wizard-help.php?page=1&version=0.6.0&language=de
+  OpenBrowser('{#AppURL}install-wizard-help.php?page=' + IntToStr(WizardForm.CurPageID)
+    + '&version=' + ExpandConstant('{#AppVersion}') + '&language=' + ExpandConstant('{language}'));
+end;
+
+procedure WebsiteButtonClick(Sender: TObject);
+begin
+  OpenBrowser('{#AppURL}');
 end;
 
 {
@@ -459,11 +473,12 @@ end;
 
 procedure InitializeWizard();
 var
-  UrlLabel      : TNewStaticText;
   DebugLabel    : TNewStaticText;
   VersionLabel  : TLabel;
   VersionLabel2 : TLabel;
   CancelBtn     : TButton;
+  WebsiteButton : TButton;
+  HelpButton    : TButton;
 begin
   //change background colors of wizard pages and panels
   WizardForm.Mainpanel.Color:=$ECECEC;
@@ -517,23 +532,33 @@ begin
   VersionLabel2.Parent     := WizardForm.FinishedPage;
 
   // Display website link in the bottom left corner of the install wizard
-  CancelBtn           := WizardForm.CancelButton;
-  UrlLabel            := TNewStaticText.Create(WizardForm);
-  UrlLabel.Top        := CancelBtn.Top + (CancelBtn.Height div 2) - (UrlLabel.Height div 2);
-  UrlLabel.Left       := WizardForm.ClientWidth - CancelBtn.Left - CancelBtn.Width;
-  UrlLabel.Caption    := ExpandConstant('{cm:WebsiteLink}');
-  UrlLabel.Font.Style := UrlLabel.Font.Style + [fsUnderline];
-  UrlLabel.Cursor     := crHand;
-  UrlLabel.Font.Color := clHighlight;
-  UrlLabel.OnClick    := @UrlLabelClick;
-  UrlLabel.Parent     := WizardForm;
+  CancelBtn                := WizardForm.CancelButton;
+  WebsiteButton            := TButton.Create(WizardForm);
+  WebsiteButton.Top        := CancelBtn.Top;
+  WebsiteButton.Left       := WizardForm.ClientWidth - CancelBtn.Left - CancelBtn.Width;
+  WebsiteButton.Height     := CancelBtn.Height;
+  WebsiteButton.Caption    := ExpandConstant('{cm:WebsiteButton}');
+  WebsiteButton.Cursor     := crHand;
+  WebsiteButton.Font.Color := clHighlight;
+  WebsiteButton.OnClick    := @WebsiteButtonClick;
+  WebsiteButton.Parent     := WizardForm;
+
+  HelpButton               := TButton.Create(WizardForm);
+  HelpButton.Top           := CancelBtn.Top;
+  HelpButton.Left          := WebsiteButton.Left + WebsiteButton.Width;
+  HelpButton.Height        := CancelBtn.Height;
+  HelpButton.Caption       := ExpandConstant('{cm:HelpButton}');
+  HelpButton.Cursor        := crHelp;
+  HelpButton.Font.Color    := clHighlight;
+  HelpButton.OnClick       := @HelpButtonClick;
+  HelpButton.Parent        := WizardForm;
 
   // Show that Debug Mode is active
   if DEBUG = true then
   begin
     DebugLabel            := TNewStaticText.Create(WizardForm);
-    DebugLabel.Top        := UrlLabel.Top;
-    DebugLabel.Left       := UrlLabel.Left + UrlLabel.Width + 12;
+    DebugLabel.Top        := WebsiteButton.Top;
+    DebugLabel.Left       := WebsiteButton.Left + WebsiteButton.Width + 12;
     DebugLabel.Caption    := ExpandConstant('DEBUG ON');
     DebugLabel.Font.Style := [fsBold];
     DebugLabel.Parent     := WizardForm;
@@ -542,9 +567,9 @@ end;
 
 function NextButtonClick(CurPage: Integer): Boolean;
 (*
-	Called when the user clicks the Next button.
+  Called when the user clicks the Next button.
     If you return True, the wizard will move to the next page.
-	If you return False, it will remain on the current page (specified by CurPageID).
+  If you return False, it will remain on the current page (specified by CurPageID).
 *)
 begin
   if CurPage = wpSelectComponents then
@@ -1249,8 +1274,6 @@ begin
   RegQueryStringValue(HKCU, 'Environment\', 'PATH', Path);
   if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then
   begin
-     // leave uncommented, we are in DEBUG and want to see the paths being deleted
-     MsgBox('Deleting Path Segment (' + PathToRemove + ';) from (' + Path + ')', mbError, MB_OK);
      StringChange(Path, PathToRemove + ';', '');
      RegWriteStringValue(HKCU, 'Environment\', 'PATH', Path);
   end;
