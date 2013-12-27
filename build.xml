@@ -106,8 +106,7 @@
         </exec>
     </target>
 
-    <target name="compile-wpnxm-lite-installer"
-            description="Downloads all components and builds the WPN-XM setup executable."
+    <target name="compile-wpnxm-lite-installer" description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb, prepare-downloads-lite">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
@@ -117,10 +116,8 @@
         </exec>
     </target>
 
-    <target name="prepare-downloads-lite" description="Moves all components for the Lite installer from the downloads folder to downloads/lite.">
-        <echo message="&#xa; Versionizing Lite Registry &#xa;"/>
-        <copy file="${dir.Base}/registry/wpnxm-software-registry-lite-w32.csv"
-            tofile="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv"/>
+    <target name="prepare-downloads-lite" description="Moves all components for the Lite installer from the downloads folder to downloads/lite."
+            depends="versionize-registries">
         <echo message="&#xa; Moving All-In-One Components &#xa;"/>
         <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv" delim=","
                  property="component,source,destination,version">
@@ -128,10 +125,9 @@
         </foreach>
     </target>
 
-    <target name="prepare-downloads-allinone" description="Moves all components for the All-In-One installer from the downloads folder to downloads/allinone.">
-        <echo message="&#xa; Versionizing All-In-One Registry &#xa;"/>
-        <copy file="${dir.Base}/registry/wpnxm-software-registry-allinone-w32.csv"
-            tofile="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv"/>
+    <target name="prepare-downloads-allinone"
+            description="Moves all components for the All-In-One installer from the downloads folder to downloads/allinone."
+            depends="versionize-registries">
         <echo message="&#xa; Moving All-In-One Components &#xa;"/>
         <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv" delim=","
                  property="component,source,destination,version">
@@ -194,12 +190,22 @@
         </exec>
     </target>
 
-     <!-- @todo move registry copying into own target/task -->
-
-    <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
-            depends="make-downloads-dir, update-git-submodules">
+    <target name="versionize-registries"
+            description="Adds the current version number to the registry .csv files.">
+        <echo message="&#xa; Versionizing Registries &#xa;"/>
+        <echo message="&#xa;  | Big-Pack &#xa;"/>
         <copy file="${dir.Base}/registry/wpnxm-software-registry-bigpack-w32.csv"
             tofile="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv"/>
+        <echo message="&#xa;  | All-In-One &#xa;"/>
+        <copy file="${dir.Base}/registry/wpnxm-software-registry-allinone-w32.csv"
+            tofile="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv"/>
+        <echo message="&#xa;  | Lite &#xa;"/>
+        <copy file="${dir.Base}/registry/wpnxm-software-registry-lite-w32.csv"
+            tofile="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv"/>
+    </target>
+
+    <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
+            depends="make-downloads-dir, update-git-submodules, versionize-registries">
 
         <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" delim=","
                  property="component,source,destination,version">
