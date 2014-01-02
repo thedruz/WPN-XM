@@ -330,7 +330,7 @@ begin
   // example URL: http://wpn-xm.org/help.php?section=installation-wizard&type=webinstaller&page=1&version=0.6.0&language=de
   OpenBrowser('{#AppURL}help.php'
     + '?section=installation-wizard'
-    + '&type=' + ExpandConstant('{#InstallerType}')
+    + '&type=' + Lowercase(ExpandConstant('{#InstallerType}'))
     + '&page=' + IntToStr(WizardForm.CurPageID)
     + '&version=' + ExpandConstant('{#AppVersion}')
     + '&language=' + ExpandConstant('{language}'));
