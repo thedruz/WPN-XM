@@ -331,8 +331,8 @@ end;
 
 procedure HelpButtonClick(Sender: TObject);
 begin
-  // example URL: http://wpn-xm.org/install-wizard-help.php?page=1&version=0.6.0&language=de
-  OpenBrowser('{#AppURL}install-wizard-help.php?page=' + IntToStr(WizardForm.CurPageID)
+  // example URL: http://wpn-xm.org/help.php?install-wizard-page=1&version=0.6.0&language=de
+  OpenBrowser('{#AppURL}help.php?install-wizard-page=' + IntToStr(WizardForm.CurPageID)
     + '&version=' + ExpandConstant('{#AppVersion}') + '&language=' + ExpandConstant('{language}'));
 end;
 
