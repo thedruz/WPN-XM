@@ -197,7 +197,7 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; add PHP path to environment variable PATH
 ; @todo the registry change is not performed, when we are in portable mode
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\php\bin'));
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\php\bin')); Tasks: not portablemode;
 
 [Messages]
 // define wizard title and tray status msg
