@@ -48,6 +48,8 @@
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
+#define InstallerType "Lite"
+
 [Setup]
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
 AppName={#AppName}
@@ -61,7 +63,7 @@ AppUpdatesURL={#AppURL}
 // default installation folder is "c:\server". but user might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#AppName}
-OutputBaseFilename=WPNXM-{#AppVersion}-Lite-Setup-w32
+OutputBaseFilename=WPNXM-{#AppVersion}-{#InstallerType}-Setup-w32
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
@@ -174,6 +176,7 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; add PHP path to environment variable PATH
 ; @todo the registry change is not performed, when we are in portable mode
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\php\bin')); Tasks: not portablemode;
+
 [Messages]
 // define wizard title and tray status msg
 // both are normally defined in /bin/innosetup/default.isl
@@ -288,9 +291,13 @@ end;
 
 procedure HelpButtonClick(Sender: TObject);
 begin
-  // example URL: http://wpn-xm.org/help.php?install-wizard-page=1&version=0.6.0&language=de
-  OpenBrowser('{#AppURL}help.php?install-wizard-page=' + IntToStr(WizardForm.CurPageID)
-    + '&version=' + ExpandConstant('{#AppVersion}') + '&language=' + ExpandConstant('{language}'));
+  // example URL: http://wpn-xm.org/help.php?section=installation-wizard&type=webinstaller&page=1&version=0.6.0&language=de
+  OpenBrowser('{#AppURL}help.php'
+    + '?section=installation-wizard'
+    + '&type=' + ExpandConstant('{#InstallerType}')
+    + '&page=' + IntToStr(WizardForm.CurPageID)
+    + '&version=' + ExpandConstant('{#AppVersion}')
+    + '&language=' + ExpandConstant('{language}'));
 end;
 
 procedure WebsiteButtonClick(Sender: TObject);
