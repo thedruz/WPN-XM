@@ -128,6 +128,7 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: "PHP Extension\RAR"; Description: PHP extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // tools:
@@ -269,6 +270,7 @@ const
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
   URL_phpmemcachedadmin = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
+  URL_phpext_rar        = 'http://wpn-xm.org/get.php?s=phpext_rar';
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
@@ -297,6 +299,7 @@ const
   Filename_xhprof            = 'xhprof.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_rar        = 'phpext_rar.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -631,6 +634,8 @@ begin
     if IsComponentSelected('apc')       then idpAddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('webgrind')  then idpAddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
 
+    if IsComponentSelected('PHP Extension\RAR') then idpAddFile(URL_phpext_rar,    ExpandConstant(targetPath + Filename_phpext_rar));
+
     if IsComponentSelected('xhprof') then
     begin
         idpAddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
@@ -821,6 +826,14 @@ begin
     UpdateCurrentComponentName('PHP Extension - APC');
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('PHP Extension\RAR', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - RAR');
+      DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
+      FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
     UpdateTotalProgressBar();
   end;
 
