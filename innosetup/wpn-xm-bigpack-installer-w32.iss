@@ -125,6 +125,7 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: "PHP Extension\RAR"; Description: PHP extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -258,6 +259,7 @@ const
   Filename_xhprof            = 'xhprof.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_rar        = 'phpext_rar.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -692,6 +694,15 @@ begin
       ExtractTemporaryFile(Filename_phpext_apc);
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('PHP Extension\RAR', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - RAR');
+      ExtractTemporaryFile(Filename_phpext_rar);
+      DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
+      FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
     UpdateTotalProgressBar();
   end;
 

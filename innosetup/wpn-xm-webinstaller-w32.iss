@@ -206,6 +206,7 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; add PHP path to environment variable PATH
 ; @todo the registry change is not performed, when we are in portable mode
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\php\bin')); Tasks: not portablemode;
+
 [Messages]
 // define wizard title and tray status msg
 // both are normally defined in /bin/innosetup/default.isl
