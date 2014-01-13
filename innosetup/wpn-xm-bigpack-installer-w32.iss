@@ -129,6 +129,7 @@ Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; 
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: "PHP Extension\Trader"; Description: PHP Extension for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
 Name: "PHP Extension\ZMQ"; Description: PHP Extension for fast message-based applications; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "PHP Extension\Mailparse"; Description: PHP Extension for parsing email messages; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -267,6 +268,7 @@ const
   Filename_imagick           = 'imagick.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
   Filename_phpext_zmq        = 'phpext_zmq.zip';
+  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -728,6 +730,15 @@ begin
       ExtractTemporaryFile(Filename_phpext_zmq);
       DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
       FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('PHP Extension\Mailparse', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      ExtractTemporaryFile(Filename_phpext_mailparse);
+      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\mailparse');
+      FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
     UpdateTotalProgressBar();
   end;
 

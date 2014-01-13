@@ -132,6 +132,7 @@ Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; 
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: "PHP Extension\Trader"; Description: PHP Extension for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
 Name: "PHP Extension\ZMQ"; Description: PHP Extension for fast message-based applications; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "PHP Extension\Mailparse"; Description: PHP Extension for parsing email messages; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // tools:
@@ -279,6 +280,7 @@ const
   URL_imagick           = 'http://wpn-xm.org/get.php?s=imagick';
   URL_phpext_trader     = 'http://wpn-xm.org/get.php?s=phpext_trader';
   URL_phpext_zmq        = 'http://wpn-xm.org/get.php?s=phpext_zmq';
+  URL_phpext_mailparse  = 'http://wpn-xm.org/get.php?s=phpext_mailparse';
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
@@ -312,6 +314,7 @@ const
   Filename_imagick           = 'imagick.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
   Filename_phpext_zmq        = 'phpext_zmq.zip';
+  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -646,9 +649,10 @@ begin
     if IsComponentSelected('apc')       then idpAddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('webgrind')  then idpAddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
 
-    if IsComponentSelected('PHP Extension\RAR')     then idpAddFile(URL_phpext_rar,     ExpandConstant(targetPath + Filename_phpext_rar));
-    if IsComponentSelected('PHP Extension\Trader')  then idpAddFile(URL_phpext_trader,  ExpandConstant(targetPath + Filename_phpext_trader));
-    if IsComponentSelected('PHP Extension\ZMQ')     then idpAddFile(URL_phpext_zmq,     ExpandConstant(targetPath + Filename_phpext_zmq));
+    if IsComponentSelected('PHP Extension\RAR')       then idpAddFile(URL_phpext_rar,       ExpandConstant(targetPath + Filename_phpext_rar));
+    if IsComponentSelected('PHP Extension\Trader')    then idpAddFile(URL_phpext_trader,    ExpandConstant(targetPath + Filename_phpext_trader));
+    if IsComponentSelected('PHP Extension\ZMQ')       then idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
+    if IsComponentSelected('PHP Extension\Mailparse') then idpAddFile(URL_phpext_mailparse, ExpandConstant(targetPath + Filename_phpext_mailparse));
 
     if IsComponentSelected('imagick') then
     begin
@@ -870,6 +874,14 @@ begin
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
       FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('PHP Extension\Mailparse', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\mailparse');
+      FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
     UpdateTotalProgressBar();
   end;
 
