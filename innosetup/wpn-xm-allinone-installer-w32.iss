@@ -125,6 +125,7 @@ Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceR
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
 Name: "PHP Extension\Trader"; Description: PHP Extension for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "PHP Extension\ZMQ"; Description: PHP Extension for fast message-based applications; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -256,6 +257,7 @@ const
   Filename_phpext_mongo      = 'phpext_mongo.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
+  Filename_phpext_zmq        = 'phpext_zmq.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -708,6 +710,15 @@ begin
       ExtractTemporaryFile(Filename_phpext_trader);
       DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
       FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('PHP Extension\ZMQ', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - ZMQ');
+      ExtractTemporaryFile(Filename_phpext_zmq);
+      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
+      FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
     UpdateTotalProgressBar();
   end;
 

@@ -131,6 +131,7 @@ Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDisk
 Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: "PHP Extension\Trader"; Description: PHP Extension for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "PHP Extension\ZMQ"; Description: PHP Extension for fast message-based applications; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // tools:
@@ -277,6 +278,7 @@ const
   URL_phpext_imagick    = 'http://wpn-xm.org/get.php?s=phpext_imagick';
   URL_imagick           = 'http://wpn-xm.org/get.php?s=imagick';
   URL_phpext_trader     = 'http://wpn-xm.org/get.php?s=phpext_trader';
+  URL_phpext_zmq        = 'http://wpn-xm.org/get.php?s=phpext_zmq';
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
@@ -309,6 +311,7 @@ const
   Filename_phpext_imagick    = 'phpext_imagick.zip';
   Filename_imagick           = 'imagick.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
+  Filename_phpext_zmq        = 'phpext_zmq.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -645,6 +648,7 @@ begin
 
     if IsComponentSelected('PHP Extension\RAR')     then idpAddFile(URL_phpext_rar,     ExpandConstant(targetPath + Filename_phpext_rar));
     if IsComponentSelected('PHP Extension\Trader')  then idpAddFile(URL_phpext_trader,  ExpandConstant(targetPath + Filename_phpext_trader));
+    if IsComponentSelected('PHP Extension\ZMQ')     then idpAddFile(URL_phpext_zmq,     ExpandConstant(targetPath + Filename_phpext_zmq));
 
     if IsComponentSelected('imagick') then
     begin
@@ -858,6 +862,14 @@ begin
     UpdateCurrentComponentName('PHP Extension - Trader');
       DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
       FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('PHP Extension\ZMQ', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - ZMQ');
+      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
+      FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
     UpdateTotalProgressBar();
   end;
 
