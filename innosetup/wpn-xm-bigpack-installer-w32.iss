@@ -127,6 +127,7 @@ Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceR
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
+Name: "PHP Extension\Trader"; Description: PHP Extension for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -263,6 +264,7 @@ const
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_imagick    = 'phpext_imagick.zip';
   Filename_imagick           = 'imagick.zip';
+  Filename_phpext_trader     = 'phpext_trader.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -709,6 +711,15 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('PHP Extension\Trader', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - Trader');
+      ExtractTemporaryFile(Filename_phpext_trader);
+      DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
+      FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('imagick', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Imagick');
@@ -774,7 +785,6 @@ begin
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
     UpdateTotalProgressBar();
   end;
-
 
   if Pos('postgresql', selectedComponents) > 0 then
   begin

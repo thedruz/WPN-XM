@@ -130,6 +130,7 @@ Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceR
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
+Name: "PHP Extension\Trader"; Description: PHP Extension for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // tools:
@@ -272,6 +273,10 @@ const
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
   URL_phpmemcachedadmin = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
+  URL_phpext_rar        = 'http://wpn-xm.org/get.php?s=phpext_rar';
+  URL_phpext_imagick    = 'http://wpn-xm.org/get.php?s=phpext_imagick';
+  URL_imagick           = 'http://wpn-xm.org/get.php?s=imagick';
+  URL_phpext_trader     = 'http://wpn-xm.org/get.php?s=phpext_trader';
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
@@ -300,6 +305,10 @@ const
   Filename_xhprof            = 'xhprof.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_rar        = 'phpext_rar.zip';
+  Filename_phpext_imagick    = 'phpext_imagick.zip';
+  Filename_imagick           = 'imagick.zip';
+  Filename_phpext_trader     = 'phpext_trader.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -635,6 +644,7 @@ begin
     if IsComponentSelected('webgrind')  then idpAddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
 
     if IsComponentSelected('PHP Extension\RAR')     then idpAddFile(URL_phpext_rar,     ExpandConstant(targetPath + Filename_phpext_rar));
+    if IsComponentSelected('PHP Extension\Trader')  then idpAddFile(URL_phpext_trader,  ExpandConstant(targetPath + Filename_phpext_trader));
 
     if IsComponentSelected('imagick') then
     begin
@@ -840,6 +850,14 @@ begin
     UpdateCurrentComponentName('PHP Extension - RAR');
       DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
       FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('PHP Extension\Trader', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - Trader');
+      DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
+      FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
     UpdateTotalProgressBar();
   end;
 
