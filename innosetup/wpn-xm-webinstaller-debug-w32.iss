@@ -128,7 +128,8 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
-Name: "PHP Extension\RAR"; Description: PHP extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
+Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 
 [Files]
 // tools:
@@ -206,6 +207,7 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; add PHP path to environment variable PATH
 ; @todo the registry change is not performed, when we are in portable mode
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\php\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\php\bin')); Tasks: not portablemode;
+
 [Messages]
 // define wizard title and tray status msg
 // both are normally defined in /bin/innosetup/default.isl
@@ -632,7 +634,13 @@ begin
     if IsComponentSelected('apc')       then idpAddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('webgrind')  then idpAddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
 
-    if IsComponentSelected('PHP Extension\RAR') then idpAddFile(URL_phpext_rar,    ExpandConstant(targetPath + Filename_phpext_rar));
+    if IsComponentSelected('PHP Extension\RAR')     then idpAddFile(URL_phpext_rar,     ExpandConstant(targetPath + Filename_phpext_rar));
+
+    if IsComponentSelected('imagick') then
+    begin
+       idpAddFile(URL_imagick,           ExpandConstant(targetPath + Filename_imagick));
+       idpAddFile(URL_phpext_imagick,    ExpandConstant(targetPath + Filename_phpext_imagick));
+    end;
 
     if IsComponentSelected('xhprof') then
     begin
@@ -835,6 +843,20 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('imagick', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Imagick');
+      DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin')): // no subfolder, brings own dir
+
+    UpdateCurrentComponentName('PHP Extension - Imagick');
+      DoUnzip(targetPath + Filename_phpext_imagick, targetPath + '\phpext_imagick');
+      // copy php_imagick.dll and CORE_RL_*.dll
+      Exec(hideConsole, 'cmd.exe /c "copy ' + targetPath + 'phpext_imagick\*.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\*.dll') + '"',
+            '', SW_SHOW, ewWaitUntilTerminated, ErrorCode);
+
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('XHProf GUI');
@@ -987,6 +1009,12 @@ begin
   if Pos('mongodb', selectedComponents) > 0 then
   begin
       Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
+  // ImageMagick - rename directory
+  if Pos('imagick', selectedComponents) > 0 then
+  begin
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then

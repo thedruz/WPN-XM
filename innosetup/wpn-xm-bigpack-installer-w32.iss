@@ -125,7 +125,8 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
-Name: "PHP Extension\RAR"; Description: PHP extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
+Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -260,6 +261,8 @@ const
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpext_mongo      = 'phpext_mongo.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
+  Filename_phpext_imagick    = 'phpext_imagick.zip';
+  Filename_imagick           = 'imagick.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -706,6 +709,22 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('imagick', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Imagick');
+      ExtractTemporaryFile(Filename_imagick);
+      DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin')): // no subfolder, brings own dir
+
+    UpdateCurrentComponentName('PHP Extension - Imagick');
+      ExtractTemporaryFile(Filename_phpext_imagick);
+      DoUnzip(targetPath + Filename_phpext_imagick, targetPath + '\phpext_imagick');
+      // copy php_imagick.dll and CORE_RL_*.dll
+      Exec(hideConsole, 'cmd.exe /c "copy ' + targetPath + 'phpext_imagick\*.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\*.dll') + '"',
+            '', SW_SHOW, ewWaitUntilTerminated, ErrorCode);
+
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('XHProf GUI');
@@ -753,7 +772,7 @@ begin
     UpdateCurrentComponentName('phpMyAdmin');
       ExtractTemporaryFile(Filename_phpmyadmin);
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
-    UpdateTotalProgressBar;
+    UpdateTotalProgressBar();
   end;
 
 
@@ -877,10 +896,16 @@ begin
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // MongoDB folder correctly renamed during All-In-One Building
-
   // MariaDB - initialize mysql tables, e.g. performance_tables
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+  // MongoDB folder correctly renamed during All-In-One Building
+
+  // ImageMagick - rename directory
+  if Pos('imagick', selectedComponents) > 0 then
+  begin
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
   begin

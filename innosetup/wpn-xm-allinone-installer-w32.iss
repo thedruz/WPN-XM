@@ -123,7 +123,7 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
-Name: "PHP Extension\RAR"; Description: PHP extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -854,10 +854,11 @@ begin
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // MongoDB folder correctly renamed during All-In-One Building
-
   // MariaDB - initialize mysql tables, e.g. performance_tables
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+  // MongoDB folder correctly renamed during All-In-One Building
+
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
   begin
