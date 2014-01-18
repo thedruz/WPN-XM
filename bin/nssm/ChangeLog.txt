@@ -1,7 +1,44 @@
+Changes since 2.20
+-----------------
+  * Services installed from the GUI no longer have incorrect
+    AppParameters set in the registry.
+
+Changes since 2.19
+-----------------
+  * Services installed from the commandline without using the
+    GUI no longer have incorrect AppStopMethod* registry
+    entries set.
+
+Changes since 2.18
+-----------------
+  * Support AppEnvironmentExtra to append to the environment
+    instead of replacing it.
+
+  * The GUI is significantly less sucky.
+
+Changes since 2.17
+-----------------
+  * Timeouts for each shutdown method can be configured in
+    the registry.
+
+  * The GUI is slightly less sucky.
+
+Changes since 2.16
+-----------------
+  * NSSM can now redirect the service's I/O streams to any path
+    capable of being opened by CreateFile().
+
+  * Allow building on Visual Studio Express.
+
+  * Silently ignore INTERROGATE control.
+
+  * Try to send Control-C events to console applications when
+    shutting them down.
+
 Changes since 2.15
 -----------------
   * Fixed case where NSSM could kill unrelated processes when
-	  shutting down.
+    shutting down.
 
 Changes since 2.14
 -----------------

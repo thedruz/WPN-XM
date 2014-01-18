@@ -302,6 +302,19 @@ oppure il mondo sta per finire oppure è accaduto qualcosa di ugualmente grave!
 .
 
 MessageId = +1
+SymbolicName = NSSM_GUI_INVALID_ENVIRONMENT
+Severity = Informational
+Language = English
+Environment should comprise strings of the form KEY=VALUE.
+.
+Language = French
+L'environnement devrait comprendre des chaînes sous la forme KEY=VALUE.
+.
+Language = Italian
+L'ambiente dovrebbe comprendere stringhe nella forma CHIAVE=VALORE.
+.
+
+MessageId = +1
 SymbolicName = NSSM_GUI_INSTALL_SERVICE_FAILED
 Severity = Informational
 Language = English
@@ -382,19 +395,6 @@ automatico, riavviare il computer e tentare di nuovo la rimozione.
 .
 
 MessageId = +1
-SymbolicName = NSSM_GUI_BROWSE_FILTER
-Severity = Informational
-Language = English
-Applications%sAll files%s%0
-.
-Language = French
-Applications%sTous les fichiers%s%0
-.
-Language = Italian
-Applicazioni%sTutti i files%s%0
-.
-
-MessageId = +1
 SymbolicName = NSSM_GUI_BROWSE_FILTER_APPLICATIONS
 Severity = Informational
 Language = English
@@ -405,6 +405,19 @@ Applications%0
 .
 Language = Italian
 Applicazioni%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_BROWSE_FILTER_DIRECTORIES
+Severity = Informational
+Language = English
+Directories%0
+.
+Language = French
+Répertoires%0
+.
+Language = Italian
+Cartelle%0
 .
 
 MessageId = +1
@@ -431,6 +444,123 @@ Indiquez le fichier exécutable
 .
 Language = Italian
 Ricerca file applicazione
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_TAB_APPLICATION
+Severity = Informational
+Language = English
+Application%0
+.
+Language = French
+Application%0
+.
+Language = Italian
+Applicazione%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_TAB_SHUTDOWN
+Severity = Informational
+Language = English
+Shutdown%0
+.
+Language = French
+Shutdown%0
+.
+Language = Italian
+Shutdown%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_TAB_EXIT
+Severity = Informational
+Language = English
+Exit actions%0
+.
+Language = French
+Exit actions%0
+.
+Language = Italian
+Exit actions%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_TAB_IO
+Severity = Informational
+Language = English
+I/O%0
+.
+Language = French
+I/O%0
+.
+Language = Italian
+I/O%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_TAB_ENVIRONMENT
+Severity = Informational
+Language = English
+Environment%0
+.
+Language = French
+Environnement%0
+.
+Language = Italian
+Ambiente%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_EXIT_RESTART
+Severity = Informational
+Language = English
+Restart application%0
+.
+Language = French
+Redémarrer l'application%0
+.
+Language = Italian
+Riavvare l'applicazione%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_EXIT_IGNORE
+Severity = Informational
+Language = English
+No action (srvany compatible)%0
+.
+Language = French
+No action (srvany compatible)%0
+.
+Language = Italian
+No action (srvany compatible)%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_EXIT_REALLY
+Severity = Informational
+Language = English
+Stop service (oneshot mode)%0
+.
+Language = French
+Stop service (oneshot mode)%0
+.
+Language = Italian
+Stop service (oneshot mode)%0
+.
+
+MessageId = +1
+SymbolicName = NSSM_GUI_EXIT_UNCLEAN
+Severity = Informational
+Language = English
+Fake crash (pre-Vista)%0
+.
+Language = French
+Fake crash (pre-Vista)%0
+.
+Language = Italian
+Fake crash (pre-Vista)%0
 .
 
 MessageId = 1001
@@ -990,7 +1120,7 @@ n'était pas du type REG_DWORD.  Une durée de %3 millisecondes sera utilisée par 
 .
 Language = Italian
 La chiave di registro %2, utilizzata per specificare il minimo numero di millisecondi che devono intercorrere prima che il servizio %1 sia considerato avviato correttamente, non è di tipo REG_DWORD.
-Verrà usato il tempo di default pari a 3 ms.
+Verrà usato il tempo di default pari a %3 ms.
 .
 
 MessageId = +1
@@ -1041,7 +1171,7 @@ Language = French
 La déclaration de l'environnement %1 pour le service %2 n'est pas du type REG_MULTI_SZ.  Cette déclaration sera ignorée.
 .
 Language = Italian
-Dichiarazione di ambiente %1 per il servizio %2 non è di tipo REG_MULTI_SZ e verrà quindi ingnorata.
+Dichiarazione di ambiente %1 per il servizio %2 non è di tipo REG_MULTI_SZ e verrà quindi ignorata.
 .
 
 MessageId = +1
@@ -1115,4 +1245,292 @@ Language = French
 Language = Italian
 Chiamata a GetProcessTimes():
 %1
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_ATTACHCONSOLE_FAILED
+Severity = Error
+Language = English
+Error attaching to console for service %1.
+AttachConsole() failed:
+%2
+.
+Language = French
+Error attaching to console for service %1.
+AttachConsole() a échoué:
+%2
+.
+Language = Italian
+Error attaching to console for service %1.
+AttachConsole() fallita:
+%2
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_SETCONSOLECTRLHANDLER_FAILED
+Severity = Error
+Language = English
+Error setting null handler for Control-C events sent to service %1.
+SetConsoleCtrlHandler() failed:
+%2
+.
+Language = French
+Error setting null handler for Control-C events sent to service %1.
+SetConsoleCtrlHandler() a échoué:
+%2
+.
+Language = Italian
+Error setting null handler for Control-C events sent to service %1.
+SetConsoleCtrlHandler() fallita:
+%2
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_GENERATECONSOLECTRLEVENT_FAILED
+Severity = Error
+Language = English
+Error generating Control-C event for service %1.
+GenerateConsoleCtrlEvent() failed:
+%2
+.
+Language = French
+Error generating Control-C event for service %1.
+GenerateConsoleCtrlEvent() a échoué:
+%2
+.
+Language = Italian
+Error generating Control-C event for service %1.
+GenerateConsoleCtrlEvent() fallita:
+%2
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_FREECONSOLE_FAILED
+Severity = Warning
+Language = English
+Error detaching from console for service %1.
+FreeConsole() failed:
+%2
+.
+Language = French
+Error detaching from console for service %1.
+FreeConsole() a échoué:
+%2
+.
+Language = Italian
+Error detaching from console for service %1.
+FreeConsole() fallita:
+%2
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_CREATEFILE_FAILED
+Severity = Error
+Language = English
+CreateFile() failed to open %1:
+%2
+.
+Language = French
+CreateFile() a échoué %1:
+%2
+.
+Language = Italian
+Chiamata a CreateFile() fallita %1:
+%2
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_DUPLICATEHANDLE_FAILED
+Severity = Error
+Language = English
+Error duplicating the filehandle previously opened for %1 as %2.
+DuplicateHandle() failed:
+%3
+.
+Language = French
+DuplicateHandle() a échoué (%1 -> %2):
+%3
+.
+Language = Italian
+Chiamata a DuplicateHandle() fallita (%1 -> %2):
+%3
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_GET_OUTPUT_HANDLES_FAILED
+Severity = Error
+Language = English
+Error setting up one or more I/O filehandles.  Service %1 will not be started.
+.
+Language = French
+Error setting up one or more I/O filehandles.  Service %1 will not be started.
+.
+Language = Italian
+Error setting up one or more I/O filehandles.  Service %1 will not be started.
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_BOGUS_STOP_METHOD_SKIP
+Severity = Warning
+Language = English
+The registry value %2, used to specify the method(s) by which %3 will skip when attempting to stop service %1, was not of type REG_DWORD.  All available methods will be used.
+.
+Language = French
+The registry value %2, used to specify the method(s) by which %3 will skip when attempting to stop service %1, was not of type REG_DWORD.  All available methods will be used.
+.
+Language = Italian
+The registry value %2, used to specify the method(s) by which %3 will skip when attempting to stop service %1, was not of type REG_DWORD.  All available methods will be used.
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_PROCESS_STILL_ACTIVE
+Severity = Warning
+Language = English
+The service %1 is stopping but PID %2 is still running.
+Usually %3 will call TerminateProcess() as a last resort to ensure that the process is stopped but the registry value %4 has been set and not all process termination methods have been attempted.
+It will no longer be possible to attempt to control the application and the service will report a stopped status.
+.
+Language = French
+The service %1 is stopping but PID %2 is still running.
+Usually %3 will call TerminateProcess() as a last resort to ensure that the process is stopped but the registry value %4 has been set and not all process termination methods have been attempted.
+It will no longer be possible to attempt to control the application and the service will report a stopped status.
+.
+Language = Italian
+The service %1 is stopping but PID %2 is still running.
+Usually %3 will call TerminateProcess() as a last resort to ensure that the process is stopped but the registry value %4 has been set and not all process termination methods have been attempted.
+It will no longer be possible to attempt to control the application and the service will report a stopped status.
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_LOADLIBRARY_FAILED
+Severity = Warning
+Language = English
+Error loading the %1 DLL!
+LoadLibrary() failed:
+%2
+.
+Language = French
+Erreur à l'ouverture de la DLL %1!
+LoadLibrary() a échoué:
+%2
+.
+Language = Italian
+Errore apertura DLL %1!
+Chiamata a LoadLibrary() fallita:
+%2
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_GETPROCADDRESS_FAILED
+Severity = Warning
+Language = English
+GetProcAddress(%1) failed:
+%2
+.
+Language = French
+GetProcAddress(%1) a échoué:
+%2
+.
+Language = Italian
+Chiamata a GetProcAddress(%1) fallita:
+%2
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_BOGUS_KILL_CONSOLE_GRACE_PERIOD
+Severity = Warning
+Language = English
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after sending a Control-C event, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+Language = French
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after sending a Control-C event, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+Language = Italian
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after sending a Control-C event, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_BOGUS_KILL_WINDOW_GRACE_PERIOD
+Severity = Warning
+Language = English
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after posting a WM_CLOSE message to windows managed by the application, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+Language = French
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after posting a WM_CLOSE message to windows managed by the application, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+Language = Italian
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after posting a WM_CLOSE message to windows managed by the application, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_BOGUS_KILL_THREADS_GRACE_PERIOD
+Severity = Warning
+Language = English
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after posting a WM_QUIT message to the message queues of threads managed by the application, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+Language = French
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after posting a WM_QUIT message to the message queues of threads managed by the application, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+Language = Italian
+The registry value %2, used to specify the maximum number of milliseconds to wait for service %1 to stop after posting a WM_QUIT message to the message queues of threads managed by the application, was not of type REG_DWORD.  The default time of %3 milliseconds will be used.
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_AWAITING_SHUTDOWN
+Severity = Informational
+Language = English
+%1 has waited %3 of %5 milliseconds for the %2 service to exit.
+Next update in %4 milliseconds.
+.
+Language = French
+%1 has waited %3 of %5 milliseconds for the %2 service to exit.
+Next update in %4 milliseconds.
+.
+Language = Italian
+%1 has waited %3 of %5 milliseconds for the %2 service to exit.
+Next update in %4 milliseconds.
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_CREATETHREAD_FAILED
+Severity = Error
+Language = English
+CreateThread() failed:
+%1
+.
+Language = French
+CreateThread() a échoué:
+%1
+.
+Language = Italian
+Chiamata a CreateThread() fallita:
+%1
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_STARTUP_DELAY_TOO_LONG
+Severity = Informational
+Language = English
+The minimum number of milliseconds which must pass before service %1 is considered to have been started successfully is set to %2.  Access to the Windows service control manager is blocked until the service updates its status, therefore %3 will wait a maximum of %4 milliseconds before reporting the service's state as running.  Service restart throttling will be enforced if the service runs for less than the full %2 milliseconds.
+.
+Language = French
+The minimum number of milliseconds which must pass before service %1 is considered to have been started successfully is set to %2.  Access to the Windows service control manager is blocked until the service updates its status, therefore %3 will wait a maximum of %4 milliseconds before reporting the service's state as running.  Service restart throttling will be enforced if the service runs for less than the full %2 milliseconds.
+.
+Language = Italian
+The minimum number of milliseconds which must pass before service %1 is considered to have been started successfully is set to %2.  Access to the Windows service control manager is blocked until the service updates its status, therefore %3 will wait a maximum of %4 milliseconds before reporting the service's state as running.  Service restart throttling will be enforced if the service runs for less than the full %2 milliseconds.
+.
+
+MessageId = +1
+SymbolicName = NSSM_EVENT_SETENVIRONMENTVARIABLE_FAILED
+Severity = Warning
+Language = English
+SetEnvironmentVariable(%1=%2) failed:
+%3
+.
+Language = French
+SetEnvironmentVariable(%1=%2) a échoué:
+%3
+.
+Language = Italian
+Chiamata a SetEnvironmentVariable(%1=%2) fallita:
 .

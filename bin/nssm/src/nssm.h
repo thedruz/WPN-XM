@@ -6,31 +6,22 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <windows.h>
+#include "service.h"
 #include "event.h"
+#include "imports.h"
 #include "messages.h"
 #include "process.h"
 #include "registry.h"
-#include "service.h"
+#include "io.h"
 #include "gui.h"
 
 int str_equiv(const char *, const char *);
+void strip_basename(char *);
 
 #define NSSM "nssm"
-#define NSSM_VERSION "2.16"
-#define NSSM_DATE "2012-12-01"
-
-/*
-  MSDN says the commandline in CreateProcess() is limited to 32768 characters
-  and the application name to MAX_PATH.
-  A registry key is limited to 255 characters.
-  A registry value is limited to 16383 characters.
-  Therefore we limit the service name to accommodate the path under HKLM.
-*/
-#define EXE_LENGTH MAX_PATH
-#define CMD_LENGTH 32768
-#define KEY_LENGTH 255
-#define VALUE_LENGTH 16383
-#define SERVICE_NAME_LENGTH KEY_LENGTH - 55
+#define NSSM_VERSION "2.21.1"
+#define NSSM_VERSIONINFO 2,21,1,0
+#define NSSM_DATE "2013-12-03"
 
 /*
   Throttle the restart of the service if it stops before this many
@@ -39,17 +30,38 @@ int str_equiv(const char *, const char *);
 #define NSSM_RESET_THROTTLE_RESTART 1500
 
 /*
+  How many milliseconds to wait for the application to die after sending
+  a Control-C event to its console.  Override in registry.
+*/
+#define NSSM_KILL_CONSOLE_GRACE_PERIOD 1500
+/*
   How many milliseconds to wait for the application to die after posting to
-  its windows' message queues.
+  its windows' message queues.  Override in registry.
 */
 #define NSSM_KILL_WINDOW_GRACE_PERIOD 1500
 /*
   How many milliseconds to wait for the application to die after posting to
-  its threads' message queues.
+  its threads' message queues.  Override in registry.
 */
 #define NSSM_KILL_THREADS_GRACE_PERIOD 1500
 
 /* Margin of error for service status wait hints in milliseconds. */
 #define NSSM_WAITHINT_MARGIN 2000
+
+/* Methods used to try to stop the application. */
+#define NSSM_STOP_METHOD_CONSOLE (1 << 0)
+#define NSSM_STOP_METHOD_WINDOW (1 << 1)
+#define NSSM_STOP_METHOD_THREADS (1 << 2)
+#define NSSM_STOP_METHOD_TERMINATE (1 << 3)
+
+/* Exit actions. */
+#define NSSM_EXIT_RESTART 0
+#define NSSM_EXIT_IGNORE 1
+#define NSSM_EXIT_REALLY 2
+#define NSSM_EXIT_UNCLEAN 3
+#define NSSM_NUM_EXIT_ACTIONS 4
+
+/* How many milliseconds to wait before updating service status. */
+#define NSSM_SERVICE_STATUS_DEADLINE 20000
 
 #endif
