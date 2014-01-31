@@ -136,6 +136,7 @@ Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
 Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
+Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php
 // config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
