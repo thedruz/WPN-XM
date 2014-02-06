@@ -315,7 +315,7 @@
 
     <target name="compile-server-control-panel"
             description="Compiles the Server Control Panel Tray Application via Qt Framework and it's build tools."
-            depends="bump-version-number">
+            depends="update-git-submodules, bump-version-number">
             <!-- This tasks requires that you have installed Qt and setup all environment path vars correctly.
                  The build tools will not be found otherwise. -->
 
