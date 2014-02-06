@@ -120,16 +120,17 @@ Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webint
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
-Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
-Name: "PHP Extension\RAR"; Description: PHP Extension for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
-Name: "PHP Extension\Trader"; Description: PHP Extension for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
-Name: "PHP Extension\ZMQ"; Description: PHP Extension for fast message-based applications; ExtraDiskSpaceRequired: 100000; Types: full
-Name: "PHP Extension\Mailparse"; Description: PHP Extension for parsing email messages; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "phpextension"; Description: PHP Extensions; Types: full
+Name: "phpextension\rar"; Description: PHP Extension RAR - for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "phpextension\trader"; Description: PHP Extension Trader - for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "phpextension\zmq"; Description: PHP Extension ZMQ - for fast message-based applications; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "phpextension\mailparse"; Description: PHP Extension Mailparse - for parsing email messages; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
