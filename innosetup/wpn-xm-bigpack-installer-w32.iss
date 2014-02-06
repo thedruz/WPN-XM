@@ -69,7 +69,10 @@ LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
+// disbale wizard page: Select Language
 ShowLanguageDialog=no
+// disable wizard page: Select Start Menu Folder
+DisableProgramGroupPage=yes
 BackColor=clBlack
 // formerly admin
 PrivilegesRequired=none
