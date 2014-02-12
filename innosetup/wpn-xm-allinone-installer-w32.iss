@@ -131,6 +131,8 @@ Name: "phpextension\rar"; Description: PHP Extension RAR - for reading RAR archi
 Name: "phpextension\trader"; Description: PHP Extension Trader - for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
 Name: "phpextension\zmq"; Description: PHP Extension ZMQ - for fast message-based applications; ExtraDiskSpaceRequired: 100000; Types: full
 Name: "phpextension\mailparse"; Description: PHP Extension Mailparse - for parsing email messages; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "phpextension\wincache"; Description: PHP Extension WinCache; ExtraDiskSpaceRequired: 100000; Types: full
+Name: "phpextension\xcache"; Description: PHP Extension XCache; ExtraDiskSpaceRequired: 100000; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -265,6 +267,8 @@ const
   Filename_phpext_trader     = 'phpext_trader.zip';
   Filename_phpext_zmq        = 'phpext_zmq.zip';
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
+  Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
+  Filename_phpext_xcache     = 'phpext_xcache.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -528,20 +532,22 @@ begin
   if CurPage = wpSelectComponents then
   begin
 
-    // Define "targetPath" for the downloads. It depends on the debug mode.
+    {
+      Define "targetPath" for the downloads. It depends on the debug mode.
 
+      Normally the temporary path is used for downloading.
+      This means that downloaded components are deleted after installation or at least when the temp folder is cleaned.
+
+      In Debug mode the "c:\wpnxm-downloads" path is used.
+      The downloaded components are not deleted after installation.
+      If you reinstall, the components are taken from there. They are not downloaded again.
+    }
     if DEBUG = false then
     begin
-      // In non debug mode the temp path is used for downloading.
-      // The downloaded components are deleted after installation.
       targetPath := ExpandConstant('{tmp}\');
     end else
     begin
-      // In debug mode the "c:\wpnxm-downloads" path is used.
-      // The downloaded components are not deleted after installation.
-      // If you reinstall, the components are taken from there (no download).
       targetPath := ExpandConstant('c:\wpnxm-downloads\');
-
       // create folder, if it doesn't exist
       if not DirExists(ExpandConstant(targetPath)) then ForceDirectories(ExpandConstant(targetPath));
     end;
@@ -702,7 +708,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('PHP Extension\RAR', selectedComponents) > 0 then
+  if Pos('phpextension\rar', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PHP Extension - RAR');
       ExtractTemporaryFile(Filename_phpext_rar);
@@ -711,7 +717,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('PHP Extension\Trader', selectedComponents) > 0 then
+  if Pos('phpextension\trader', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PHP Extension - Trader');
       ExtractTemporaryFile(Filename_phpext_trader);
@@ -720,7 +726,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('PHP Extension\ZMQ', selectedComponents) > 0 then
+  if Pos('phpextension\zmq', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       ExtractTemporaryFile(Filename_phpext_zmq);
@@ -729,12 +735,38 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('PHP Extension\Mailparse', selectedComponents) > 0 then
+  if Pos('phpextension\mailparse', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PHP Extension - Mailparse');
       ExtractTemporaryFile(Filename_phpext_mailparse);
       DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\mailparse');
       FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('phpextension\wincache', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - Wincache');
+      ExtractTemporaryFile(Filename_phpext_wincache);
+      // install exe in silent mode
+      Exec(hideConsole, ExpandConstant(targetPath + Filename_phpext_wincache) + ' /T:"' + targetPath + '\wincache' +'" /C /Q',
+        '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+      FileCopy(ExpandConstant(targetPath + 'wincache\php_wincache.dll'), ExpandConstant('{app}\bin\php\ext\php_wincache.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'wincache\wincache.php'), ExpandConstant('{app}\www\wincache\index.php'), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('phpextension\xcache', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PHP Extension - Xcache');
+      ExtractTemporaryFile(Filename_phpext_xcache);
+      DoUnzip(targetPath + Filename_phpext_xcache, targetPath + '\xcache');
+      // WATCH OUT: "Release_TS" subfolder !
+      FileCopy(ExpandConstant(targetPath + 'xcache\Release_TS\php_xcache.dll'), ExpandConstant('{app}\bin\php\ext\php_xcache.dll'), false);
+      // copy xcache htdoc to webinterface
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\xcache') + '"',
+          '', SW_SHOW, ewWaitUntilTerminated, ErrorCode);
     UpdateTotalProgressBar();
   end;
 
@@ -760,7 +792,6 @@ begin
     UpdateCurrentComponentName('PHP Extension - Memcached');
       ExtractTemporaryFile(Filename_phpext_memcache);
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
-
     UpdateTotalProgressBar();
   end;
 
@@ -866,7 +897,6 @@ begin
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
       Exec(hideConsole, 'cmd.exe /c "move ' + targetPath + 'phpext_mongo\php_mongo-*-5.4-vc9-nts.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"',
             '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
     UpdateTotalProgressBar();
   end;
 
