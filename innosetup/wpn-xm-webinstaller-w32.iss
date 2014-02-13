@@ -912,7 +912,7 @@ begin
       FileCopy(ExpandConstant(targetPath + 'xcache\Release_TS\php_xcache.dll'), ExpandConstant('{app}\bin\php\ext\php_xcache.dll'), false);
       // copy xcache htdoc to webinterface
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\xcache') + '"',
-          '', SW_SHOW, ewWaitUntilTerminated, ErrorCode);
+          '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
 
