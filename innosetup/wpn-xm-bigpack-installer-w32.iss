@@ -770,14 +770,14 @@ begin
   begin
     UpdateCurrentComponentName('Imagick');
       ExtractTemporaryFile(Filename_imagick);
-      DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin')): // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
 
     UpdateCurrentComponentName('PHP Extension - Imagick');
       ExtractTemporaryFile(Filename_phpext_imagick);
       DoUnzip(targetPath + Filename_phpext_imagick, targetPath + '\phpext_imagick');
       // copy php_imagick.dll and CORE_RL_*.dll
       Exec(hideConsole, 'cmd.exe /c "copy ' + targetPath + 'phpext_imagick\*.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\*.dll') + '"',
-            '', SW_SHOW, ewWaitUntilTerminated, ErrorCode);
+            '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
 
