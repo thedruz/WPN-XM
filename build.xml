@@ -86,8 +86,20 @@
         <echo message="Building ${wpnxm.Name}-${wpnxm.Version} Setup Executable"/>
     </target>
 
+    <target name="clean-webinterface-folder">
+        <echo message="Cleans the webinterface folder for production, by removing .git and dev files."/>
+        <!-- git -->
+        <delete file="${dir.Base}/www/webinterface/.git"/>
+        <delete file="${dir.Base}/www/webinterface/.gitignore"/>
+        <delete file="${dir.Base}/www/webinterface/.gitattributes"/>
+        <!-- dev -->
+        <delete file="${dir.Base}/www/webinterface/.travis.yml"/>
+        <delete file="${dir.Base}/www/webinterface/composer.json"/>
+        <delete dir="${dir.Base}/www/webinterface/tests"/>
+    </target>
+
     <target name="compile-wpnxm-webinstaller-setup" description="Builds the WPN-XM setup executable."
-            depends="bump-version-number">
+            depends="bump-version-number, clean-webinterface-folder">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
@@ -97,7 +109,7 @@
     </target>
 
     <target name="compile-wpnxm-webinstaller-debug-setup" description="Builds the WPN-XM setup executable for debugging."
-            depends="bump-version-number">
+            depends="bump-version-number, clean-webinterface-folder">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
@@ -137,7 +149,7 @@
 
     <target name="compile-wpnxm-lite-installer-no-download"
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
-            depends="bump-version-number">
+            depends="bump-version-number, clean-webinterface-folder">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
@@ -159,7 +171,7 @@
 
     <target name="compile-wpnxm-allinone-installer-no-download"
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
-            depends="bump-version-number">
+            depends="bump-version-number, clean-webinterface-folder,">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
@@ -181,7 +193,7 @@
 
     <target name="compile-wpnxm-bigpack-installer-no-download"
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
-            depends="bump-version-number">
+            depends="bump-version-number, clean-webinterface-folder">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
@@ -425,6 +437,7 @@
                  update-git-submodules,
                  bump-version-number,
                  print-version-number,
+                 clean-webinterface-folder,
                  compile-wpnxm-webinstaller-setup,
                  compile-wpnxm-webinstaller-debug-setup,
                  compile-wpnxm-allinone-installer,
