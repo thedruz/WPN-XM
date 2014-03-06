@@ -171,7 +171,7 @@
 
     <target name="compile-wpnxm-allinone-installer-no-download"
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
-            depends="bump-version-number, clean-webinterface-folder,">
+            depends="bump-version-number, clean-webinterface-folder">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
