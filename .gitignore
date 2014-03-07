@@ -48,3 +48,5 @@ phpunit.xml
 /server-control-panel/*debug*
 /server-control-panel/*release*
 /server-control-panel/*.pro.user
+
+/downloads
