@@ -1,5 +1,6 @@
 #define ProgName "Inno Download Plugin"
 #define ProgVer  Copy(GetFileVersion("unicode\idp.dll"), 1, 5)
+#define ProgYear GetDateTimeString("yyyy", "", "")
 #define WebSite  "http://mitrich.net23.net"
 #define Forum    "https://groups.google.com/forum/#!forum/inno-download-plugin"
 
@@ -7,7 +8,7 @@
 AppName              = {#ProgName}
 AppVersion           = {#ProgVer}
 AppId                = MitrichSoftware.InnoDownloadPlugin
-AppCopyright         = (C)2013 Mitrich Software
+AppCopyright         = (C)2013-{#ProgYear} Mitrich Software
 AppPublisher         = Mitrich Software
 AppPublisherURL      = {#WebSite}
 AppSupportURL        = {#Forum}
@@ -59,11 +60,11 @@ Source: "doc\*.lua";                    DestDir: "{app}\source\doc";            
 Source: "doc\build.bat";                DestDir: "{app}\source\doc";             Components: src
 Source: "doc\styles.css";               DestDir: "{app}\source\doc";             Components: src
 Source: "doc\tooltip.js";               DestDir: "{app}\source\doc";             Components: src
-Source: "doc\screenshot.png";           DestDir: "{app}\source\doc";             Components: src
+Source: "doc\*.png";                    DestDir: "{app}\source\doc";             Components: src
 Source: "examples\*.iss";               DestDir: "{app}\source\examples";        Components: src
 Source: "misc\DownloadForm.isf";        DestDir: "{app}\source\misc";            Components: src
-Source: "misc\utf8toansi.lua";          DestDir: "{app}\source\misc";            Components: src
-Source: "misc\utf8toansi.bat";          DestDir: "{app}\source\misc";            Components: src
+Source: "misc\*.lua";                   DestDir: "{app}\source\misc";            Components: src
+Source: "misc\*.bat";                   DestDir: "{app}\source\misc";            Components: src
 Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src
 
 Source: "tests\idptest.iss";                  DestDir: "{app}\source\tests";            Components: src
