@@ -181,7 +181,7 @@
     </target>
 
     <target name="compile-wpnxm-bigpack-installer"
-            description="Downloads all components and builds the WPN-XM setup executable.">
+            description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
