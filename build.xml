@@ -258,7 +258,7 @@
     </target>
 
     <target name="stripdown-mariadb" description="Unzip MariaDB. Delete unnecessary files. Zip MariaDB. (136MB to 16MB on v5.5.28!)"
-            if="${file::exists('dir.Downloads/mariadb.zip') and file::get-length('dir.Downloads/mariadb.zip') < 20971520}">
+            if="${file::get-length(dir.Downloads + '\mariadb.zip') &gt; 20971520}">
         <!-- target folder for unzipping -->
         <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
@@ -282,7 +282,7 @@
     </target>
 
     <target name="stripdown-mongodb" description="Unzip MongoDB. Delete unnecessary files. Zip MongoDb. (55MB to 16MB on v2.2.1!)"
-            if="${file::exists('dir.Downloads/mongodb.zip') and file::get-length('dir.Downloads/mongodb.zip') < 20971520}">
+            if="${file::get-length('dir.Downloads + '\mongodb.zip') &gt; 20971520}}">
         <!-- target folder for unzipping -->
         <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
