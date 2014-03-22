@@ -425,7 +425,7 @@
     <target name="reset-git-submodules"
             description="Reset the git submodules to their original state. This reverts all changes made by bump-version-number during the replace operation.">
         <!-- we need to refetch the webinterface folder from git, in case we already removed .git artefacts for production (clean-webinterface-folder) -->
-        <delete if="${not file::exists('dir.Base/www/webinterface/.git')" dir="${dir.Base}/www/webinterface"/>
+        <delete if="${not file::exists(dir.Base+'/www/webinterface/.git')}" dir="${dir.Base}/www/webinterface"/>
         <exec program="git">
             <arg value="submodule"/>
             <arg value="foreach"/>
