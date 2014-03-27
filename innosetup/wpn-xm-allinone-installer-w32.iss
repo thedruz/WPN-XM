@@ -515,8 +515,8 @@ begin
   if DEBUG = true then
   begin
     DebugLabel            := TNewStaticText.Create(WizardForm);
-    DebugLabel.Top        := WebsiteButton.Top;
-    DebugLabel.Left       := WebsiteButton.Left + WebsiteButton.Width + 12;
+    DebugLabel.Top        := WebsiteButton.Top + 4;
+    DebugLabel.Left       := WebsiteButton.Left + WebsiteButton.Width + 85;
     DebugLabel.Caption    := ExpandConstant('DEBUG ON');
     DebugLabel.Font.Style := [fsBold];
     DebugLabel.Parent     := WizardForm;
