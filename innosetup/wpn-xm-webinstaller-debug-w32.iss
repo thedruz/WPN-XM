@@ -379,8 +379,6 @@ var
   appPath     : String;   // application path (= the installaton folder)
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
   InstallPage               : TWizardPage;
-  ComponentsPage            : TWizardPage;
-  ComponentsPageID          : Integer;
   percentagePerComponent    : Integer;
 
 // Make vcredist x86 install if needed
