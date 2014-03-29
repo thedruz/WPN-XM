@@ -9,18 +9,6 @@
 // |  WPN-XM is a free and open-source web server solution stack for      |
 // |  professional PHP development on the Windows platform.               |
 // |                                                                      |
-// |  The groundation of this stack consists of NGINX, MariaDb and PHP.   |
-// |                                                                      |
-// |  The stack contains several additional tools you might install:      |
-// |                                                                      |
-// |   - WPN-XM Server Control Panel and WPN-XM Webinterface              |
-// |     for controlling server daemons and administration of the stack,  |
-// |   - Xdebug, Xhprof, webgrind for php debugging purposes,             |
-// |   - phpMyAdmin and Adminer for MySQL database administration,        |
-// |   - memcached and APC for caching purposes,                          |
-// |   - PEAR and Composer for PHP package management,                    |
-// |   - junctions for creating symlinks.                                 |
-// |                                                                      |
 // |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
 // |  Website:  http://wpn-xm.org/                                        |
 // |  License:  GNU/GPLv2+                                                |
@@ -50,7 +38,7 @@
 
 #define InstallerType "Webinstaller"
 
-// for download functionality, we need to include the Inno Download Plugin
+// for download functionality, we include Inno Download Plugin
 #include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
 
 [Setup]
@@ -63,7 +51,7 @@ AppCopyright=© {#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppSupportURL}
 AppUpdatesURL={#AppURL}
-// default installation folder is "c:\server". but user might change this via dialog.
+// default installation folder is "c:\server". users might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#AppName}
 OutputBaseFilename=WPNXM-{#AppVersion}-{#InstallerType}-Debug-Setup-w32
@@ -72,10 +60,11 @@ LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
-// disbale wizard page: Select Language
+// disable wizard pages: Welcome, Languages,Select Start Menu Folder
 ShowLanguageDialog=no
-// disable wizard page: Select Start Menu Folder
+DisableWelcomePage=no
 DisableProgramGroupPage=yes
+ShowComponentSizes=no
 BackColor=clBlack
 // formerly admin
 PrivilegesRequired=none
@@ -89,7 +78,7 @@ VersionInfoCopyright=Copyright (C) 2011 - 2013 {#AppPublisher}, All Rights Reser
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
-; Tell Windows Explorer to reload the environment (because we are adding the PHP path to env var PATH)
+; Tell Windows Explorer to reload the environment (because modify environment variable PATH)
 ChangesEnvironment=yes
 ; Portable Mode
 ; a) do no create registry keys for uninstallation
@@ -128,17 +117,11 @@ Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDisk
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
-Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
-Name: "phpextension"; Description: PHP Extensions; Types: full
-Name: "phpextension\rar"; Description: PHP Extension RAR - for reading RAR archives; ExtraDiskSpaceRequired: 100000; Types: full
-Name: "phpextension\trader"; Description: PHP Extension Trader - for technical analysis of financial market data; ExtraDiskSpaceRequired: 100000; Types: full
-Name: "phpextension\zmq"; Description: PHP Extension ZMQ - for fast message-based applications; ExtraDiskSpaceRequired: 100000; Types: full
-Name: "phpextension\mailparse"; Description: PHP Extension Mailparse - for parsing email messages; ExtraDiskSpaceRequired: 100000; Types: full
-Name: "phpextension\wincache"; Description: PHP Extension WinCache; ExtraDiskSpaceRequired: 100000; Types: full
-Name: "phpextension\xcache"; Description: PHP Extension XCache; ExtraDiskSpaceRequired: 100000; Types: full
+Name: phpextensions; Description: PHP Extensions; Types: full
 
 [Files]
 // tools:
@@ -157,7 +140,7 @@ Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface,.git*;
 // webinterface folder is only copied, if component is selected
 Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
-// if webinterface is not installed by user, then delete the redirecting index.html file (activates simple dir listing)
+// if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 // incorporate several startfiles
 Source: ..\startfiles\webinterface.url; DestDir: {app}
@@ -181,26 +164,26 @@ Source: ..\configs\xhprof.php; DestDir: {app}\www\xhprof\xhprof_lib; DestName: "
 Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 
 [Icons]
-Name: {group}\Server Control Panel; Filename: {app}\wpn-xm.exe; Tasks: add_startmenu_entries
-Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.bat; Tasks: add_startmenu_entries
-Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.bat; Tasks: add_startmenu_entries
-Name: {group}\Status of WPN-XM; Filename: {app}\status-wpnxm.bat; Tasks: add_startmenu_entries
-Name: {group}\Localhost; Filename: {app}\localhost.url; Tasks: add_startmenu_entries
-Name: {group}\Administration; Filename: {app}\administration.url; Tasks: add_startmenu_entries
-Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}; Tasks: add_startmenu_entries
-Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}; Tasks: add_startmenu_entries
-Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Tasks: add_startmenu_entries
-Name: {userdesktop}\WPN-XM ServerControlPanel; Filename: {app}\wpn-xm.exe; Tasks: add_scp_desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpn-xm.exe; Tasks: add_scp_quicklaunchicon
-Name: {userdesktop}\WPN-XM Start; Filename: {app}\start-wpnxm.bat; Tasks: add_basic_start_stop_desktopicons
-Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop-wpnxm.bat; Tasks: add_basic_start_stop_desktopicons
+Name: {group}\Server Control Panel; Filename: {app}\wpn-xm.exe; Tasks: add_startmenu
+Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.bat; Tasks: add_startmenu
+Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.bat; Tasks: add_startmenu
+Name: {group}\Status of WPN-XM; Filename: {app}\status-wpnxm.bat; Tasks: add_startmenu
+Name: {group}\Localhost; Filename: {app}\localhost.url; Tasks: add_startmenu
+Name: {group}\Administration; Filename: {app}\administration.url; Tasks: add_startmenu
+Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}; Tasks: add_startmenu
+Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}; Tasks: add_startmenu
+Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Tasks: add_startmenu
+Name: {userdesktop}\WPN-XM ServerControlPanel; Filename: {app}\wpn-xm.exe; Tasks: add_desktopicon
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpn-xm.exe; Tasks: add_quicklaunchicon
+Name: {userdesktop}\WPN-XM Start; Filename: {app}\start-wpnxm.bat; Tasks: add_startstop_desktopicons
+Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop-wpnxm.bat; Tasks: add_startstop_desktopicons
 
 [Tasks]
 Name: portablemode; Description: "Portable Mode"; Flags: unchecked
-Name: add_startmenu_entries; Description: Create Startmenu entries
-Name: add_scp_quicklaunchicon; Description: Create a &Quick Launch icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel
-Name: add_scp_desktopicon; Description: Create a &Desktop icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel
-Name: add_basic_start_stop_desktopicons; Description: Create &Desktop icons for starting and stopping; GroupDescription: Additional Icons:; Flags: unchecked
+Name: add_startmenu; Description: Create Startmenu entries
+Name: add_quicklaunchicon; Description: Create a &Quick Launch icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel
+Name: add_desktopicon; Description: Create a &Desktop icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel
+Name: add_startstop_desktopicons; Description: Create &Desktop icons for starting and stopping; GroupDescription: Additional Icons:; Flags: unchecked
 
 [Run]
 // Automatically started...
@@ -208,20 +191,17 @@ Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb";
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb;
 Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
 Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
-// User selected... these files are shown for launch after everything is done
-//Filename: {app}\README.TXT; Description: View the README file; Flags: postinstall shellexec skipifsilent
+// User selected Postinstall runs
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
 ; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
-; add PHP path to environment variable PATH
-; @todo the registry change is not performed, when we are in portable mode
+; no registry change, if in portable mode
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
 
 [Messages]
-// define wizard title and tray status msg
-// both are normally defined in /bin/innosetup/default.isl
+// define wizard title and tray status msg; overwritten, because defined in /bin/innosetup/default.isl
 SetupAppTitle =Setup WPN-XM {#AppVersion}
 SetupWindowTitle =Setup - {#AppName} {#AppVersion}
 
@@ -236,14 +216,78 @@ de.RemoveApp=WPN-XM Server Stack deinstallieren
 en.RemoveApp=Uninstall WPN-XM Server Stack
 
 [Dirs]
-Name: {app}\www
-Name: {app}\www\webinterface; Components: webinterface;
 Name: {app}\bin\nginx\conf\domains-enabled
 Name: {app}\bin\nginx\conf\domains-disabled
 Name: {app}\logs
 Name: {app}\temp
+Name: {app}\www
+Name: {app}\www\webinterface; Components: webinterface;
 
 [Code]
+procedure ResizePage(HeightOffset: Integer);
+begin
+  WizardForm.Height := WizardForm.Height + HeightOffset;
+  WizardForm.NextButton.Top := WizardForm.NextButton.Top + HeightOffset;
+  WizardForm.BackButton.Top :=  WizardForm.BackButton.Top + HeightOffset;
+  WizardForm.CancelButton.Top := WizardForm.CancelButton.Top + HeightOffset;
+  WizardForm.ComponentsList.Height := WizardForm.ComponentsList.Height + HeightOffset;
+  WizardForm.OuterNotebook.Height :=  WizardForm.OuterNotebook.Height + HeightOffset;
+  WizardForm.InnerNotebook.Height := WizardForm.InnerNotebook.Height + HeightOffset;
+  WizardForm.Bevel.Top :=  WizardForm.Bevel.Top + HeightOffset;
+  WizardForm.BeveledLabel.Top :=  WizardForm.BeveledLabel.Top + HeightOffset;
+  WizardForm.ComponentsDiskSpaceLabel.Top := WizardForm.ComponentsDiskSpaceLabel.Top + HeightOffset;
+end;
+
+type
+  TPositionStorage = array of Integer;
+var
+  CompPageModified: Boolean;
+  CompPagePositions: TPositionStorage;
+  // the controls move on resize
+  WebsiteButton : TButton;
+  HelpButton    : TButton;
+  DebugLabel    : TNewStaticText;
+  
+procedure SaveComponentsPage(out Storage: TPositionStorage);
+begin
+  SetArrayLength(Storage, 13);
+
+  Storage[0] := WizardForm.Height;
+  Storage[1] := WizardForm.NextButton.Top;
+  Storage[2] := WizardForm.BackButton.Top;
+  Storage[3] := WizardForm.CancelButton.Top;
+  Storage[4] := WizardForm.ComponentsList.Height;
+  Storage[5] := WizardForm.OuterNotebook.Height;
+  Storage[6] := WizardForm.InnerNotebook.Height;
+  Storage[7] := WizardForm.Bevel.Top;
+  Storage[8] := WizardForm.BeveledLabel.Top;
+  Storage[9] := WizardForm.ComponentsDiskSpaceLabel.Top;
+  Storage[10] := WebsiteButton.Top;
+  Storage[11] := HelpButton.Top;
+  Storage[12] := DebugLabel.Top;
+end;
+
+procedure LoadComponentsPage(const Storage: TPositionStorage;
+  HeightOffset: Integer);
+begin
+  if GetArrayLength(Storage) <> 13 then
+    RaiseException('Invalid storage array length.');
+
+  WizardForm.Height := Storage[0] + HeightOffset;
+  WizardForm.NextButton.Top := Storage[1] + HeightOffset;
+  WizardForm.BackButton.Top := Storage[2] + HeightOffset;
+  WizardForm.CancelButton.Top := Storage[3] + HeightOffset;
+  WizardForm.ComponentsList.Height := Storage[4] + HeightOffset;
+  WizardForm.OuterNotebook.Height := Storage[5] + HeightOffset;
+  WizardForm.InnerNotebook.Height := Storage[6] + HeightOffset;
+  WizardForm.Bevel.Top := Storage[7] + HeightOffset;
+  WizardForm.BeveledLabel.Top := Storage[8] + HeightOffset;
+  WizardForm.ComponentsDiskSpaceLabel.Top := Storage[9] + HeightOffset;
+  WebsiteButton.Top := Storage[10] + HeightOffset;
+  HelpButton.Top := Storage[11] + HeightOffset;
+  DebugLabel.Top := Storage[12] + HeightOffset;
+end;
+
 // Constants and global variables
 const
   // reassigning the preprocessor defined constant debug
@@ -335,6 +379,8 @@ var
   appPath     : String;   // application path (= the installaton folder)
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
   InstallPage               : TWizardPage;
+  ComponentsPage            : TWizardPage;
+  ComponentsPageID          : Integer;
   percentagePerComponent    : Integer;
 
 // Make vcredist x86 install if needed
@@ -440,8 +486,8 @@ var
   CurrentComponentStaticText      : TNewStaticText;
 
 begin
-  // CustomPage is shown after the wpReady page
-  InstallPage := CreateCustomPage(wpReady,'Installation', 'Description');
+  // Custom InstallPage is shown after the wpReady page
+  InstallPage := CreateCustomPage(wpReady, 'Installation', 'Description');
 
   { Total Progress Bar }
 
@@ -508,13 +554,13 @@ end;
 
 procedure InitializeWizard();
 var
-  DebugLabel    : TNewStaticText;
   VersionLabel  : TLabel;
   VersionLabel2 : TLabel;
   CancelBtn     : TButton;
-  WebsiteButton : TButton;
-  HelpButton    : TButton;
 begin
+  // no resize flag
+  CompPageModified := False;
+  
   //change background colors of wizard pages and panels
   WizardForm.Mainpanel.Color:=$ECECEC;
   WizardForm.TasksList.Color:=$ECECEC;
@@ -607,7 +653,7 @@ function NextButtonClick(CurPage: Integer): Boolean;
     If you return False, it will remain on the current page (specified by CurPageID).
 *)
 begin
-  if CurPage = wpSelectComponents then
+  if CurPage = ComponentsPageID then
   begin
 
     {
@@ -672,13 +718,16 @@ begin
     if IsComponentSelected('postgresql') then idpAddFile(URL_postgresql,    ExpandConstant(targetPath + Filename_postgresql));
     if IsComponentSelected('rockmongo')  then idpAddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
 
-    if IsComponentSelected('phpextension\rar')       then idpAddFile(URL_phpext_rar,       ExpandConstant(targetPath + Filename_phpext_rar));
-    if IsComponentSelected('phpextension\trader')    then idpAddFile(URL_phpext_trader,    ExpandConstant(targetPath + Filename_phpext_trader));
-    if IsComponentSelected('phpextension\zmq')       then idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
-    if IsComponentSelected('phpextension\mailparse') then idpAddFile(URL_phpext_mailparse, ExpandConstant(targetPath + Filename_phpext_mailparse));
-    if IsComponentSelected('phpextension\wincache')  then idpAddFile(URL_phpext_wincache,  ExpandConstant(targetPath + Filename_phpext_wincache));
-    if IsComponentSelected('phpextension\xcache')    then idpAddFile(URL_phpext_xcache,    ExpandConstant(targetPath + Filename_phpext_xcache));
-
+    if IsComponentSelected('phpextensions') then
+    begin
+        idpAddFile(URL_phpext_rar,       ExpandConstant(targetPath + Filename_phpext_rar));
+        idpAddFile(URL_phpext_trader,    ExpandConstant(targetPath + Filename_phpext_trader));
+        idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
+        idpAddFile(URL_phpext_mailparse, ExpandConstant(targetPath + Filename_phpext_mailparse));
+        idpAddFile(URL_phpext_wincache,  ExpandConstant(targetPath + Filename_phpext_wincache));
+        idpAddFile(URL_phpext_xcache,    ExpandConstant(targetPath + Filename_phpext_xcache));
+    end;
+    
     if IsComponentSelected('phpmemcachedadmin') then idpAddFile(URL_phpmemcachedadmin,     ExpandConstant(targetPath + Filename_phpmemcachedadmin));
 
     if IsComponentSelected('imagick') then
@@ -861,40 +910,28 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('phpextension\rar', selectedComponents) > 0 then
+  if Pos('phpextensions', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PHP Extension - RAR');
       DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
       FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
     UpdateTotalProgressBar();
-  end;
-
-  if Pos('phpextension\trader', selectedComponents) > 0 then
-  begin
+ 
     UpdateCurrentComponentName('PHP Extension - Trader');
       DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
       FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
     UpdateTotalProgressBar();
-  end;
 
-  if Pos('phpextension\zmq', selectedComponents) > 0 then
-  begin
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
       FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
     UpdateTotalProgressBar();
-  end;
 
-  if Pos('phpextension\mailparse', selectedComponents) > 0 then
-  begin
     UpdateCurrentComponentName('PHP Extension - Mailparse');
       DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\mailparse');
       FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
     UpdateTotalProgressBar();
-  end;
 
-  if Pos('phpextension\wincache', selectedComponents) > 0 then
-  begin
     UpdateCurrentComponentName('PHP Extension - Wincache');
       // install exe in silent mode
       Exec(hideConsole, ExpandConstant(targetPath + Filename_phpext_wincache) + ' /T:"' + targetPath + '\wincache' +'" /C /Q',
@@ -903,10 +940,7 @@ begin
       FileCopy(ExpandConstant(targetPath + 'wincache\php_wincache.dll'), ExpandConstant('{app}\bin\php\ext\php_wincache.dll'), false);
       FileCopy(ExpandConstant(targetPath + 'wincache\wincache.php'), ExpandConstant('{app}\www\wincache\index.php'), false);
     UpdateTotalProgressBar();
-  end;
 
-  if Pos('phpextension\xcache', selectedComponents) > 0 then
-  begin
     UpdateCurrentComponentName('PHP Extension - Xcache');
       DoUnzip(targetPath + Filename_phpext_xcache, targetPath + '\xcache');
       // WATCH OUT: "Release_TS" subfolder !
@@ -1136,15 +1170,13 @@ begin
 
 end;
 
-procedure DoPreInstall();
 {
    DoPreInstall will be called after the user clicks Next on the wpReady page,
    but before Inno installs any of the [Files] and other standard script items.
-
    Its triggered by CurStep == ssInstall in procedure CurStepChanged().
-
    Workflow: wpReady to Install -> Click Next (Triggers ssInstall) -> wpInstalling
 }
+procedure DoPreInstall();
 begin
   UnzipFiles();
   MoveFiles();
@@ -1162,14 +1194,11 @@ begin
   // set application path as global variable
   appPath := ExpandConstant('{app}');
 
-  { Explanation: StringChange(S,FromStr,ToStr): Change all occurances in S of FromStr to ToStr.
-    StringChange works on the string!! StringChange does not return S!
-  }
+  // StringChange(S,FromStr,ToStr) works on the string S, changing all occurances in S of FromStr to ToStr.
   appPathWithSlashes := appPath;
   StringChange (appPathWithSlashes, '\', '/');
 
   // config files
-
   php_ini_file := appPath + '\bin\php\php.ini';
   mariadb_ini_file := appPath + '\bin\mariadb\my.ini';
 
@@ -1179,14 +1208,14 @@ begin
 
   // http://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-error
   // waring: mysqld will not start if backslashes (\) are used. fwd slashes (/) needed!
-  SetIniString('mysqld', 'log-error',        appPathWithSlashes + '/logs/mariadb_error.log',  mariadb_ini_file );
+  SetIniString('mysqld', 'log-error',        appPathWithSlashes + '/logs/mariadb_error.log',  mariadb_ini_file);
 
   // PHP
-  SetIniString('PHP', 'error_log',           appPath + '\logs\php_error.log',       php_ini_file );
-  SetIniString('PHP', 'include_path',        '.;' + appPath + '\bin\php\pear',      php_ini_file );
-  SetIniString('PHP', 'upload_tmp_dir',      appPath + '\temp',                     php_ini_file );
-  SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file );
-  SetIniString('PHP', 'session.save_path',   appPath + '\temp',                     php_ini_file );
+  SetIniString('PHP', 'error_log',           appPath + '\logs\php_error.log',       php_ini_file);
+  SetIniString('PHP', 'include_path',        '.;' + appPath + '\bin\php\pear',      php_ini_file);
+  SetIniString('PHP', 'upload_tmp_dir',      appPath + '\temp',                     php_ini_file);
+  SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file);
+  SetIniString('PHP', 'session.save_path',   appPath + '\temp',                     php_ini_file);
 
   // Xdebug
   if Pos('xdebug', selectedComponents) > 0 then
@@ -1194,14 +1223,14 @@ begin
       // add loading of xdebug.dll to php.ini
       if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
       begin
-          SetIniString('Zend', 'zend_extension', appPath + '\bin\php\ext\php_xdebug.dll', php_ini_file );
+          SetIniString('Zend', 'zend_extension', appPath + '\bin\php\ext\php_xdebug.dll', php_ini_file);
       end;
 
       // activate remote debugging
-      SetIniString('Xdebug', 'xdebug.remote_enable',  'on',        php_ini_file );
-      SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file );
-      SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file );
-      SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file );
+      SetIniString('Xdebug', 'xdebug.remote_enable',  'on',        php_ini_file);
+      SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file);
+      SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file);
+      SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file);
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
@@ -1227,9 +1256,7 @@ end;
   DoPostInstall will be called after Inno has completed installing all of
   the [Files], [Registry] entries, and so forth, and also after all the
   non-postinstall [Run] entries, but before the wpInfoAfter or wpFinished pages.
-
   Its triggerd by CurStep == ssPostInstall. see procedure CurStepChanged().
-
   wpInstalling Install finshed -> ssPostInstall
 }
 procedure DoPostInstall();
@@ -1238,35 +1265,33 @@ begin
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
-var
-  logfilepathname : String;
-  logfilename : String;
-  newfilepathname : String;
 begin
-  if CurStep = ssInstall then
-  begin
-    DoPreInstall();
-  end;
-
-  if CurStep = ssPostInstall then
-  begin
-    DoPostInstall();
-  end;
-
- // when the setup wizward is finished
- if CurStep = ssDone then
-   begin
-     // copy logfile from tmp dir to the application dir
-     logfilepathname := ExpandConstant('{log}');
-     logfilename := ExtractFileName(logfilepathname);
-     newfilepathname := ExpandConstant('{app}\logs\') + logfilename;
-     filecopy(logfilepathname, newfilepathname, false);
-   end;
+  if CurStep = ssInstall then DoPreInstall();
+  if CurStep = ssPostInstall then DoPostInstall();
+  
+  // when wizward finished, copy logfile from tmp dir to the application dir
+  if CurStep = ssDone then
+      filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
 begin
-  if CurPageID=wpInstalling then CustomWpInstallingPage();
+  // resize only the components page and all controls accordingly
+  if CurpageID = wpSelectComponents then
+  begin
+    SaveComponentsPage(CompPagePositions);
+    LoadComponentsPage(CompPagePositions, 250);
+    CompPageModified := True;
+  end
+  else
+  if CompPageModified then
+  begin
+    LoadComponentsPage(CompPagePositions, 0);
+    CompPageModified := False;
+  end;
+
+  // show custom wpInstalling page with two progress bars.
+  if CurPageID=wpInstalling then CustomWpInstallingPage(); 
 end;
 
 {
@@ -1388,7 +1413,7 @@ end;
   check if PathToRemove is inside PATH
   replace the PathToRemove segment with empty and write the new path
 }
-function removePath(PathToRemove: string): boolean;
+function RemovePath(PathToRemove: string): boolean;
 var
   Path: String;
 begin
@@ -1405,7 +1430,7 @@ end;
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   if (CurUninstallStep = usPostUninstall) then begin
-     removePath(ExpandConstant('{app}\php\bin'));
+     RemovePath(ExpandConstant('{app}\php\bin'));
   end;
 
   if CurUninstallStep = usUninstall then begin
