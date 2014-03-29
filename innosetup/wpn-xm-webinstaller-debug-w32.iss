@@ -247,7 +247,7 @@ var
   WebsiteButton : TButton;
   HelpButton    : TButton;
   DebugLabel    : TNewStaticText;
-  
+
 procedure SaveComponentsPage(out Storage: TPositionStorage);
 begin
   SetArrayLength(Storage, 13);
@@ -560,7 +560,7 @@ var
 begin
   // no resize flag
   CompPageModified := False;
-  
+
   //change background colors of wizard pages and panels
   WizardForm.Mainpanel.Color:=$ECECEC;
   WizardForm.TasksList.Color:=$ECECEC;
@@ -653,7 +653,7 @@ function NextButtonClick(CurPage: Integer): Boolean;
     If you return False, it will remain on the current page (specified by CurPageID).
 *)
 begin
-  if CurPage = ComponentsPageID then
+  if CurPage = wpSelectComponents then
   begin
 
     {
@@ -727,7 +727,7 @@ begin
         idpAddFile(URL_phpext_wincache,  ExpandConstant(targetPath + Filename_phpext_wincache));
         idpAddFile(URL_phpext_xcache,    ExpandConstant(targetPath + Filename_phpext_xcache));
     end;
-    
+
     if IsComponentSelected('phpmemcachedadmin') then idpAddFile(URL_phpmemcachedadmin,     ExpandConstant(targetPath + Filename_phpmemcachedadmin));
 
     if IsComponentSelected('imagick') then
@@ -916,7 +916,7 @@ begin
       DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
       FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
     UpdateTotalProgressBar();
- 
+
     UpdateCurrentComponentName('PHP Extension - Trader');
       DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
       FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
@@ -1268,7 +1268,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssInstall then DoPreInstall();
   if CurStep = ssPostInstall then DoPostInstall();
-  
+
   // when wizward finished, copy logfile from tmp dir to the application dir
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
@@ -1291,7 +1291,7 @@ begin
   end;
 
   // show custom wpInstalling page with two progress bars.
-  if CurPageID=wpInstalling then CustomWpInstallingPage(); 
+  if CurPageID=wpInstalling then CustomWpInstallingPage();
 end;
 
 {
