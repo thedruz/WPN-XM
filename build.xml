@@ -238,9 +238,9 @@
                           http://aria2.sourceforge.net/manual/en/html/aria2c.html
             -->
             <exec program="${dir.Base}\bin\aria\aria2c.exe">
-                <arg value="--max-connection-per-server=4"/>
+                <arg value="--max-connection-per-server=8"/>
                 <arg value="--min-split-size=1M"/>
-                <arg value="--max-tries=0"/> <!-- unlimited -->
+                <arg value="--max-tries=10"/>
                 <arg value="--file-allocation=falloc"/>
                 <arg value="--check-certificate=false"/>
                 <arg value="--conditional-get=true"/>
@@ -437,6 +437,7 @@
 
     <target name="all"
         depends="clean-build-dir,
+                 reset-git-submodules,
                  update-git-submodules,
                  bump-version-number,
                  print-version-number,
