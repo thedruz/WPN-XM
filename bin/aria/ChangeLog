@@ -1,79 +1,372 @@
-commit 2571bf4a364834b01fb915d02528c322ff0b2622
+commit 551adc5133a6ca897b0345cfddb726cf92255305
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2014-01-05
+AuthorDate: 2014-03-24
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2014-01-05
+CommitDate: 2014-03-24
 
-    Update copyright year to 2014
+    mingw: Undef localtime_r and asctime_r
 
-commit ab39ea4546d3247b5e02de91868cc3bd99f40d10
+commit dc54b90bcc6dea7c4cd710313f9766d268b74141
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2014-01-05
+AuthorDate: 2014-03-24
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2014-01-05
+CommitDate: 2014-03-24
+
+    Update pre-built README
+
+commit 1188e4f1a2272a86091ea7a45ad4c11aac7c032e
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-03-24
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-03-24
+
+    Fix mingw32 build with gcc 4.8.2
+    
+    Now mingw-w64 C++ compiler defines __USE_MINGW_ANSI_STDIO to 1, we
+    have to follow it as well.  We hope that mingw version of stdio
+    function behaves like Linux ones.  We have not tested them thoroughly
+    yet.  pthread for windows defines its own HAVE_STRUCT_TIMESPEC macro.
+    To avoid warning, we rename our version of it as
+    HAVE_A2_STRUCT_TIMESPEC.
+
+commit 96ffc3dfd4bacf337367072a023d290065ab9c0f
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-03-23
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-03-23
+
+    Bump up version number to 1.18.4
+
+commit 49d4585890479eecc770f8e16444bc965b20c486
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-03-23
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-03-23
+
+    Update bash_completion
+
+commit 2a1181b4a3985bdb721b5fbbdb677c7898a3cd4f
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-03-23
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-03-23
 
     Update NEWS
 
-commit dcf98d519f2a1d4a1ab221e581570ffcb56b16c5
+commit 644a74da012900be6a3c83d0a1eecd62343c9415
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2014-01-05
+AuthorDate: 2014-03-22
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2014-01-05
+CommitDate: 2014-03-22
 
-    Fix crash if unpause failed before assigning BtProgressInfoFile object
+    Update .gitignore
 
-commit b706722c592f9be1e69782a637bce1cd6ca364c3
+commit 31839e4cfccb7b15467fb2a8e6c5db13e17e3c4e
+Merge: 169cd6a e890dac
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2014-01-05
+AuthorDate: 2014-03-15
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2014-01-05
+CommitDate: 2014-03-15
 
-    Fix unitest crash
+    Merge branch 'patch-1' of https://github.com/ITriskTI/aria2 into ITriskTI-patch-1
 
-commit b98a5d62b4ad6a2177db198354489509a235cfc9
+commit 169cd6a309b8b66b590c456f49bc0ffa70e3b207
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2014-01-05
+AuthorDate: 2014-03-15
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2014-01-05
+CommitDate: 2014-03-15
 
-    Bump up version number to 1.18.3
+    aria2rpc: Fix non-TLS connection
 
-commit a052dd9ad08e28122ec881abdd4d8056ddad1175
+commit e890dac87fe64dd88ac73ad2ba9cd5538664d20e
+Author:     ITriskTI <ITriskTI@gmail.com>
+AuthorDate: 2014-03-15
+Commit:     ITriskTI <ITriskTI@gmail.com>
+CommitDate: 2014-03-15
+
+    Update aria2c.rst
+
+commit a67096522d9f7ebf785d2f87cab98f2538a25865
+Merge: 4dea7ae dccd819
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2014-01-05
+AuthorDate: 2014-03-14
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2014-01-05
+CommitDate: 2014-03-14
 
-    Update NEWS
+    Merge branch 'dscp-support' of https://github.com/iavael/aria2 into iavael-dscp-support
 
-commit 35ed2505fad543f253d37f783f01746a7e4fe068
+commit dccd8192a43f4d5928e3ec65ae0c22016452ff06
+Author:     Alexander Amanuel <iavael@yandex-team.ru>
+AuthorDate: 2014-03-11
+Commit:     Alexander Amanuel <iavael@yandex-team.ru>
+CommitDate: 2014-03-12
+
+    Added DSCP support for IPv6 sockets
+
+commit 4dea7ae5cf551a3c029b6094135097bed578a709
+Author:     David Macek <david.macek.0@gmail.com>
+AuthorDate: 2014-03-11
+Commit:     David Macek <david.macek.0@gmail.com>
+CommitDate: 2014-03-11
+
+    ENH: Added support for RPC channel encryption in aria2rpc
+
+commit fd2380de2653610381fc0b6bca2c4e84a902dd45
+Author:     Kcchouette <Kcchouette@users.noreply.github.com>
+AuthorDate: 2014-03-01
+Commit:     Kcchouette <Kcchouette@users.noreply.github.com>
+CommitDate: 2014-03-01
+
+    Correct a variable
+
+commit a8319a8b7893601f88fb03c896ce1163211815e7
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-19
+
+    Add aria2.saveSession RPC method
+    
+    This method saves the current session to a file specified by
+    --save-session option. This method returns "OK" if it succeeds.
+
+commit 1a24020e6371f6ee43b75bfb8372faf57d8487b9
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-19
+
+    Don't allow empty string for --rpc-secret option
+
+commit de4cd8b59b52ba68a00e8d74dfbc1a53db21a3c2
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-19
+
+    Warn if neither --rpc-secret nor a combination of --rpc-user/rpc-passwd is set
+
+commit 00e690a4d1a6cc0326f580d5c53ee757d72a8610
 Author:     Nils Maier <maierman@web.de>
-AuthorDate: 2014-01-02
+AuthorDate: 2014-02-19
 Commit:     Nils Maier <maierman@web.de>
-CommitDate: 2014-01-02
+CommitDate: 2014-02-19
 
-    makerelease-osx: Do not hardcode -Os into CXXFLAGS
+    Add some missing includes to AnnounceList.h
 
-commit 1ca0712455651ff8cb37df735a67e591b7c4546d
-Author:     Nils Maier <maierman@web.de>
-AuthorDate: 2013-12-31
-Commit:     Nils Maier <maierman@web.de>
-CommitDate: 2014-01-02
+commit 8aff857f761cec972b2f79f80b6c9abbe2eeb615
+Author:     ITriskTI <ITriskTI@gmail.com>
+AuthorDate: 2014-02-15
+Commit:     ITriskTI <ITriskTI@gmail.com>
+CommitDate: 2014-02-15
 
-    Enable and check PIE in makerelease-osx
-    
-    Position-independent Executables enable Address Space Layout
-    Randomization (ASLR) style security features, which makes it harder to
-    exploit certain security vulnerablities.
-    
-    Closes GH-174
+    Update aria2c.rst
 
-commit 8216bdba796802aea5c4c18ed1df934892eb1e7d
+commit 1462d6536a52d6faac7637f1fefa47ae5771e711
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2013-12-31
+AuthorDate: 2014-02-15
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2013-12-31
+CommitDate: 2014-02-15
 
-    Fix bug that numOpenFile_ is not reduced when MultiDiskAdaptor is deleted
+    Add numStoppedTotal key to aria2.getGlobalStat() RPC method response
     
-    This bug caused assertion error in RequestGroupMan::ensureMaxOpenFileLimit
+    It shows the number of stopped downloads in the current session and
+    not capped by --max-download-result option. On the other hand, the
+    existing numStopped key also shows the number of stopped downloads,
+    but it is capped by --max-download-result option.
+
+commit 154a3e5ffb6cec4938df3916115d9ab747f6608f
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-12
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-12
+
+    Update doc
+
+commit b18e62dba74f75f89aab830dd961af231da06119
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-05
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-05
+
+    Treat 30X response without Location header field as error
+    
+    This is required to make segmented download work.
+
+commit ec4b7297047ec181860049d66e71c03317f1fdc3
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-05
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-05
+
+    Better handling of 30X HTTP status codes
+    
+    Reference: http://greenbytes.de/tech/tc/httpredirects/
+
+commit bdc9c8a991166f74d152128be347127deabcad92
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-04
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-04
+
+    Document --dscp option in manual page
+
+commit 06bb6d1ac02f875f2e077a3ee78f5dbca95dec92
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-04
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-04
+
+    Fix longer line in --dscp option help
+
+commit 1438933c97726137d4236b4b0a23207bd6782b63
+Merge: 7d1aa88 a7182b9
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-04
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-04
+
+    Merge branch 'dscp-support' of https://github.com/iavael/aria2 into iavael-dscp-support
+    
+    Conflicts:
+    	src/prefs.cc
+    	src/prefs.h
+    	src/usage_text.h
+
+commit a7182b9ee49439362f2ab0697aae5e957d7672f6
+Author:     Alexander Amanuel <iavael@yandex-team.ru>
+AuthorDate: 2014-02-03
+Commit:     Alexander Amanuel <iavael@yandex-team.ru>
+CommitDate: 2014-02-03
+
+    Improved dscp parameter description
+
+commit 7d1aa887ee5f00ecdfe8a7d8f71becf81018e55e
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-02
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-02
+
+    Add future deprecation warning to --rpc-user and --rpc-passwd
+
+commit 7f6987a4b4950e77597fd1a4fd5d8c60e6209f07
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-02-02
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-02-02
+
+    Implement new RPC authorization using --rpc-secret option
+
+commit 96a77e42d1323717c9159261f03736cdb4dd4ee6
+Author:     Alexander Amanuel <iavael@yandex-team.ru>
+AuthorDate: 2014-01-29
+Commit:     Alexander Amanuel <iavael@yandex-team.ru>
+CommitDate: 2014-01-29
+
+    Minor DSCP-related improvements
+    
+    - Improved usage annotation
+    - Shifted DSCP value to set not whole DS field, but only it's DSCP part
+
+commit 30e4077440e93a9e78cf55a3a1a4e295ae5e9a72
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-01-30
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-01-30
+
+    Add --enable-color option to enable/disable terminal color output
+
+commit 46a251e346f085f4a6e022ead94d45391ab53726
+Author:     Alexander Amanuel <iavael@yandex-team.ru>
+AuthorDate: 2014-01-28
+Commit:     Alexander Amanuel <iavael@yandex-team.ru>
+CommitDate: 2014-01-28
+
+    Refactored DSCP-related code a bit
+
+commit 924feb12b055422f632de7e80afc128378ff2999
+Author:     Alexander Amanuel <iavael@yandex-team.ru>
+AuthorDate: 2014-01-24
+Commit:     Alexander Amanuel <iavael@yandex-team.ru>
+CommitDate: 2014-01-28
+
+    Added DSCP support
+
+commit f2fa24b418f407bd94074b0988e3e5307e781bff
+Author:     Ryo ONODERA <ryo_on@yk.rim.or.jp>
+AuthorDate: 2014-01-23
+Commit:     Ryo ONODERA <ryo_on@yk.rim.or.jp>
+CommitDate: 2014-01-23
+
+    Avoid bash way, improve posix shell portability
+
+commit 542064c69b9b6e5c01e0d477f5584efc059d7a76
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-01-08
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-01-13
+
+    gnutls: Use SECURE128 priority keyword
+
+commit c2ab2f2208c9fea1c03e46fa219576ae4760a067
+Author:     Nils Maier <maierman@web.de>
+AuthorDate: 2014-01-07
+Commit:     Nils Maier <maierman@web.de>
+CommitDate: 2014-01-08
+
+    Log an error when session fails to save.
+    
+    Instead of a notice.
+
+commit e81dd846412e2f91cd49392b2e7b5a45baa84b52
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-01-08
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-01-08
+
+    gnutls: Don't fail handshake if returned error is not fatal
+
+commit 3c789294b7e83e50b5eb3d14d8e64df411c4829a
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-01-08
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-01-08
+
+    gnutls: Handle GNUTLS_E_INTERRUPTED as well as GNUTLS_E_AGAIN
+
+commit 2f02946b704fbefaeb91a38162f1ee4845de18f1
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2014-01-08
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2014-01-08
+
+    Add workaround GnuTLS bug with OCSP status extension and non-blocking socket
+    
+    GnuTLS version 3.1.3 - 3.1.18 and 3.2.0 - 3.2.8, inclusive, has this
+    bug. For these versions, we disable OCSP status extension.
+
+commit 4dab854e0867a43b06ee72eefe59553c5ea4653e
+Author:     Nils Maier <maierman@web.de>
+AuthorDate: 2014-01-06
+Commit:     Nils Maier <maierman@web.de>
+CommitDate: 2014-01-06
+
+    GnuTLS: Refine debug logging
+
+commit 3194174d4b7746130582544ebd18f3318d2a9d81
+Author:     Nils Maier <maierman@web.de>
+AuthorDate: 2014-01-06
+Commit:     Nils Maier <maierman@web.de>
+CommitDate: 2014-01-06
+
+    Make GnuTLS log level dependent on the aria2 ones
+    
+    Closes GH-180
+
+commit 7777e1cb37c49bd3263df7c4b837816b4ebba341
+Author:     Nils Maier <maierman@web.de>
+AuthorDate: 2014-01-06
+Commit:     Nils Maier <maierman@web.de>
+CommitDate: 2014-01-06
+
+    GnuTLS: Setup logging
