@@ -410,7 +410,7 @@
             </exec>
     </target>
 
-    <target name="auto-commit-versionized-registries"
+    <target name="commit-versionized-registries"
             description="Commits the versionized WPN-XM Software Component Registries (all untracked files in /registry folder).">
          <exec program="git" workingdir="${dir.Base}/registry">
             <arg value="add"/>
@@ -446,7 +446,7 @@
                  compile-wpnxm-allinone-installer,
                  compile-wpnxm-bigpack-installer,
                  compile-wpnxm-lite-installer,
-                 auto-commit-versionized-registries,
+                 commit-versionized-registries,
                  reset-git-submodules">
     </target>
 
