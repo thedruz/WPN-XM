@@ -12,7 +12,7 @@
     <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
     <property name="version.Major"          value="0"/>
     <property name="version.Minor"          value="6"/>
-    <property name="version.BuildNumber"    value="0"/>
+    <property name="version.BuildNumber"    value="1"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
 
     <!-- Paths -->
@@ -228,27 +228,26 @@
             <!-- <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true"/> -->
 
             <!-- WGET -->
-            <!-- <exec program="${dir.Base}\bin\UnxUtils\wget.exe">
+            <exec program="${dir.Base}\bin\UnxUtils\wget.exe">
                 <arg value="-N"/>
                 <arg value="-O ../../downloads/${destination}"/>
                 <arg value="${source}"/>
-            </exec> -->
+            </exec>
 
             <!-- Aria2C - http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
-                          http://aria2.sourceforge.net/manual/en/html/aria2c.html
-            -->
-            <exec program="${dir.Base}\bin\aria\aria2c.exe">
-                <arg value="--max-connection-per-server=8"/>
-                <arg value="--min-split-size=1M"/>
-                <arg value="--max-tries=10"/>
-                <arg value="--file-allocation=falloc"/>
-                <arg value="--check-certificate=false"/>
-                <arg value="--conditional-get=true"/>
-                <arg value="--auto-file-renaming=false"/>
-                <arg value="--allow-overwrite=true"/>
-                <arg value="--http-accept-gzip=true"/>
-                <arg value="--http-no-cache=true"/>
-                <arg value="--user-agent=WPN-XM Server Stack Downloader"/>
+                          http://aria2.sourceforge.net/manual/en/html/aria2c.html-->
+            <!--<exec program="${dir.Base}\bin\aria\aria2c.exe">
+                <arg value="-max-connection-per-server=8"/>
+                <arg value="-min-split-size=1M"/>
+                <arg value="-max-tries=10"/>
+                <arg value="-file-allocation=falloc"/>
+                <arg value="-check-certificate=false"/>
+                <arg value="-conditional-get=true"/>
+                <arg value="-auto-file-renaming=false"/>
+                <arg value="-allow-overwrite=true"/>
+                <arg value="-http-accept-gzip=true"/>
+                <arg value="-http-no-cache=true"/>
+                <arg value="-user-agent=WPN-XM Server Stack Downloader"/>
                 <arg value="-R"/>
                 <arg value="-o downloads\${destination}"/>
                 <arg value="${source}"/>
