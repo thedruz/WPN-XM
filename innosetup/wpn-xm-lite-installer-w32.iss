@@ -1,4 +1,4 @@
-﻿//
+//
 //          _\|/_
 //          (o o)
 // +-----oOO-{_}-OOo------------------------------------------------------+
@@ -397,9 +397,6 @@ var
   VersionLabel2 : TLabel;
   CancelBtn     : TButton;
 begin
-  // no resize flag
-  CompPageModified := False;
-
   //change background colors of wizard pages and panels
   WizardForm.Mainpanel.Color:=$ECECEC;
   WizardForm.TasksList.Color:=$ECECEC;
