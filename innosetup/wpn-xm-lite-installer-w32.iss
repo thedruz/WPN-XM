@@ -192,69 +192,11 @@ Name: {app}\www
 Name: {app}\www\webinterface; Components: webinterface;
 
 [Code]
-procedure ResizePage(HeightOffset: Integer);
-begin
-  WizardForm.Height := WizardForm.Height + HeightOffset;
-  WizardForm.NextButton.Top := WizardForm.NextButton.Top + HeightOffset;
-  WizardForm.BackButton.Top :=  WizardForm.BackButton.Top + HeightOffset;
-  WizardForm.CancelButton.Top := WizardForm.CancelButton.Top + HeightOffset;
-  WizardForm.ComponentsList.Height := WizardForm.ComponentsList.Height + HeightOffset;
-  WizardForm.OuterNotebook.Height :=  WizardForm.OuterNotebook.Height + HeightOffset;
-  WizardForm.InnerNotebook.Height := WizardForm.InnerNotebook.Height + HeightOffset;
-  WizardForm.Bevel.Top :=  WizardForm.Bevel.Top + HeightOffset;
-  WizardForm.BeveledLabel.Top :=  WizardForm.BeveledLabel.Top + HeightOffset;
-  WizardForm.ComponentsDiskSpaceLabel.Top := WizardForm.ComponentsDiskSpaceLabel.Top + HeightOffset;
-end;
-
-type
-  TPositionStorage = array of Integer;
 var
-  CompPageModified: Boolean;
-  CompPagePositions: TPositionStorage;
   // the controls move on resize
   WebsiteButton : TButton;
   HelpButton    : TButton;
   DebugLabel    : TNewStaticText;
-
-procedure SaveComponentsPage(out Storage: TPositionStorage);
-begin
-  SetArrayLength(Storage, 13);
-
-  Storage[0] := WizardForm.Height;
-  Storage[1] := WizardForm.NextButton.Top;
-  Storage[2] := WizardForm.BackButton.Top;
-  Storage[3] := WizardForm.CancelButton.Top;
-  Storage[4] := WizardForm.ComponentsList.Height;
-  Storage[5] := WizardForm.OuterNotebook.Height;
-  Storage[6] := WizardForm.InnerNotebook.Height;
-  Storage[7] := WizardForm.Bevel.Top;
-  Storage[8] := WizardForm.BeveledLabel.Top;
-  Storage[9] := WizardForm.ComponentsDiskSpaceLabel.Top;
-  Storage[10] := WebsiteButton.Top;
-  Storage[11] := HelpButton.Top;
-  Storage[12] := DebugLabel.Top;
-end;
-
-procedure LoadComponentsPage(const Storage: TPositionStorage;
-  HeightOffset: Integer);
-begin
-  if GetArrayLength(Storage) <> 13 then
-    RaiseException('Invalid storage array length.');
-
-  WizardForm.Height := Storage[0] + HeightOffset;
-  WizardForm.NextButton.Top := Storage[1] + HeightOffset;
-  WizardForm.BackButton.Top := Storage[2] + HeightOffset;
-  WizardForm.CancelButton.Top := Storage[3] + HeightOffset;
-  WizardForm.ComponentsList.Height := Storage[4] + HeightOffset;
-  WizardForm.OuterNotebook.Height := Storage[5] + HeightOffset;
-  WizardForm.InnerNotebook.Height := Storage[6] + HeightOffset;
-  WizardForm.Bevel.Top := Storage[7] + HeightOffset;
-  WizardForm.BeveledLabel.Top := Storage[8] + HeightOffset;
-  WizardForm.ComponentsDiskSpaceLabel.Top := Storage[9] + HeightOffset;
-  WebsiteButton.Top := Storage[10] + HeightOffset;
-  HelpButton.Top := Storage[11] + HeightOffset;
-  DebugLabel.Top := Storage[12] + HeightOffset;
-end;
 
 // Constants and global variables
 const
@@ -830,20 +772,6 @@ end;
 
 procedure CurPageChanged(CurPageID: Integer);
 begin
-  // resize only the components page and all controls accordingly
-  if CurpageID = wpSelectComponents then
-  begin
-    SaveComponentsPage(CompPagePositions);
-    LoadComponentsPage(CompPagePositions, 250);
-    CompPageModified := True;
-  end
-  else
-  if CompPageModified then
-  begin
-    LoadComponentsPage(CompPagePositions, 0);
-    CompPageModified := False;
-  end;
-
   // show custom wpInstalling page with two progress bars.
   if CurPageID=wpInstalling then CustomWpInstallingPage();
 end;
