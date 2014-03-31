@@ -293,6 +293,7 @@ const
   //
   URL_adminer           = 'http://wpn-xm.org/get.php?s=adminer';
   URL_composer          = 'http://wpn-xm.org/get.php?s=composer';
+  URL_imagick           = 'http://wpn-xm.org/get.php?s=imagick';
   URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
   URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
   URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
@@ -301,13 +302,21 @@ const
   URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
   URL_openssl           = 'http://wpn-xm.org/get.php?s=openssl';
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
-  URL_php               = 'http://wpn-xm.org/get.php?s=php';
   URL_perl              = 'http://wpn-xm.org/get.php?s=perl';
+  URL_php               = 'http://wpn-xm.org/get.php?s=php';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
+  URL_phpext_imagick    = 'http://wpn-xm.org/get.php?s=phpext_imagick';
+  URL_phpext_mailparse  = 'http://wpn-xm.org/get.php?s=phpext_mailparse';
   URL_phpext_memcache   = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_mongo      = 'http://wpn-xm.org/get.php?s=phpext_mongo';
+  URL_phpext_rar        = 'http://wpn-xm.org/get.php?s=phpext_rar';
+  URL_phpext_trader     = 'http://wpn-xm.org/get.php?s=phpext_trader';
+  URL_phpext_wincache   = 'http://wpn-xm.org/get.php?s=phpext_wincache';
+  URL_phpext_xcache     = 'http://wpn-xm.org/get.php?s=phpext_xcache';
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
   URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof';
+  URL_phpext_zmq        = 'http://wpn-xm.org/get.php?s=phpext_zmq';
+  URL_phpmemcachedadmin = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_postgresql        = 'http://wpn-xm.org/get.php?s=postgresql';
   URL_rockmongo         = 'http://wpn-xm.org/get.php?s=rockmongo';
@@ -316,19 +325,11 @@ const
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
-  URL_phpmemcachedadmin = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
-  URL_phpext_rar        = 'http://wpn-xm.org/get.php?s=phpext_rar';
-  URL_phpext_imagick    = 'http://wpn-xm.org/get.php?s=phpext_imagick';
-  URL_imagick           = 'http://wpn-xm.org/get.php?s=imagick';
-  URL_phpext_trader     = 'http://wpn-xm.org/get.php?s=phpext_trader';
-  URL_phpext_zmq        = 'http://wpn-xm.org/get.php?s=phpext_zmq';
-  URL_phpext_mailparse  = 'http://wpn-xm.org/get.php?s=phpext_mailparse';
-  URL_phpext_wincache   = 'http://wpn-xm.org/get.php?s=phpext_wincache';
-  URL_phpext_xcache     = 'http://wpn-xm.org/get.php?s=phpext_xcache';
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
   Filename_composer          = 'composer.phar';
+  Filename_imagick           = 'imagick.zip';
   Filename_junction          = 'junction.zip';
   Filename_mariadb           = 'mariadb.zip';
   Filename_memadmin          = 'memadmin.zip';
@@ -337,12 +338,21 @@ const
   Filename_nginx             = 'nginx.zip';
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
-  Filename_php               = 'php.zip';
   Filename_perl              = 'perl.zip';
+  Filename_php               = 'php.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
+  Filename_phpext_imagick    = 'phpext_imagick.zip';
+  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_rar        = 'phpext_rar.zip';
+  Filename_phpext_trader     = 'phpext_trader.zip';
+  Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
+  Filename_phpext_xcache     = 'phpext_xcache.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
   Filename_phpext_xhprof     = 'phpext_xhprof.zip';
+  Filename_phpext_zmq        = 'phpext_zmq.zip';
+  Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_postgresql        = 'postgresql.zip';
   Filename_rockmongo         = 'rockmongo.zip';
@@ -351,16 +361,6 @@ const
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
   Filename_xhprof            = 'xhprof.zip';
-  Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
-  Filename_phpext_mongo      = 'phpext_mongo.zip';
-  Filename_phpext_rar        = 'phpext_rar.zip';
-  Filename_phpext_imagick    = 'phpext_imagick.zip';
-  Filename_imagick           = 'imagick.zip';
-  Filename_phpext_trader     = 'phpext_trader.zip';
-  Filename_phpext_zmq        = 'phpext_zmq.zip';
-  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
-  Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
-  Filename_phpext_xcache     = 'phpext_xcache.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec

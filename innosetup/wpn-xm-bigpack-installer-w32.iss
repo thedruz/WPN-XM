@@ -102,14 +102,15 @@ Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & M
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
-// memcached install means the daemon and the php extension
-Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000; Types: full
+Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
+Name: phpextensions; Description: PHP Extensions; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
@@ -120,8 +121,6 @@ Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDisk
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
-Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
-Name: phpextensions; Description: PHP Extensions; Types: full
 
 [Files]
 // incorporate the whole downloads folder (all in one)
@@ -239,6 +238,7 @@ const
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
   Filename_composer          = 'composer.phar';
+  Filename_imagick           = 'imagick.zip';
   Filename_junction          = 'junction.zip';
   Filename_mariadb           = 'mariadb.zip';
   Filename_memadmin          = 'memadmin.zip';
@@ -247,12 +247,21 @@ const
   Filename_nginx             = 'nginx.zip';
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
-  Filename_php               = 'php.zip';
   Filename_perl              = 'perl.zip';
+  Filename_php               = 'php.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
+  Filename_phpext_imagick    = 'phpext_imagick.zip';
+  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_rar        = 'phpext_rar.zip';
+  Filename_phpext_trader     = 'phpext_trader.zip';
+  Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
+  Filename_phpext_xcache     = 'phpext_xcache.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
   Filename_phpext_xhprof     = 'phpext_xhprof.zip';
+  Filename_phpext_zmq        = 'phpext_zmq.zip';
+  Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_postgresql        = 'postgresql.zip';
   Filename_rockmongo         = 'rockmongo.zip';
@@ -261,16 +270,6 @@ const
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
   Filename_xhprof            = 'xhprof.zip';
-  Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
-  Filename_phpext_mongo      = 'phpext_mongo.zip';
-  Filename_phpext_rar        = 'phpext_rar.zip';
-  Filename_phpext_imagick    = 'phpext_imagick.zip';
-  Filename_imagick           = 'imagick.zip';
-  Filename_phpext_trader     = 'phpext_trader.zip';
-  Filename_phpext_zmq        = 'phpext_zmq.zip';
-  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
-  Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
-  Filename_phpext_xcache     = 'phpext_xcache.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
