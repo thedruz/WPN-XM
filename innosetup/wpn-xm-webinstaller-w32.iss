@@ -42,6 +42,9 @@
 #include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
 
 [Setup]
+; NOTE: The value of AppId uniquely identifies this application.
+; Do not use the same AppId value in installers for other applications.
+; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
 AppName={#AppName}
 AppVerName={#AppName} {#AppVersion}
