@@ -182,7 +182,6 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 
 [Run]
 // Automatically started...
-//Filename: {app}\SETUP.EXE; Parameters: /x
 // User selected... these files are shown for launch after everything is done
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
