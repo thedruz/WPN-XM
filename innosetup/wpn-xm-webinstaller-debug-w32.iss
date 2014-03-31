@@ -224,20 +224,6 @@ Name: {app}\www
 Name: {app}\www\webinterface; Components: webinterface;
 
 [Code]
-procedure ResizePage(HeightOffset: Integer);
-begin
-  WizardForm.Height := WizardForm.Height + HeightOffset;
-  WizardForm.NextButton.Top := WizardForm.NextButton.Top + HeightOffset;
-  WizardForm.BackButton.Top :=  WizardForm.BackButton.Top + HeightOffset;
-  WizardForm.CancelButton.Top := WizardForm.CancelButton.Top + HeightOffset;
-  WizardForm.ComponentsList.Height := WizardForm.ComponentsList.Height + HeightOffset;
-  WizardForm.OuterNotebook.Height :=  WizardForm.OuterNotebook.Height + HeightOffset;
-  WizardForm.InnerNotebook.Height := WizardForm.InnerNotebook.Height + HeightOffset;
-  WizardForm.Bevel.Top :=  WizardForm.Bevel.Top + HeightOffset;
-  WizardForm.BeveledLabel.Top :=  WizardForm.BeveledLabel.Top + HeightOffset;
-  WizardForm.ComponentsDiskSpaceLabel.Top := WizardForm.ComponentsDiskSpaceLabel.Top + HeightOffset;
-end;
-
 type
   TPositionStorage = array of Integer;
 var
