@@ -227,46 +227,6 @@ var
   HelpButton    : TButton;
   DebugLabel    : TNewStaticText;
 
-procedure SaveComponentsPage(out Storage: TPositionStorage);
-begin
-  SetArrayLength(Storage, 13);
-
-  Storage[0] := WizardForm.Height;
-  Storage[1] := WizardForm.NextButton.Top;
-  Storage[2] := WizardForm.BackButton.Top;
-  Storage[3] := WizardForm.CancelButton.Top;
-  Storage[4] := WizardForm.ComponentsList.Height;
-  Storage[5] := WizardForm.OuterNotebook.Height;
-  Storage[6] := WizardForm.InnerNotebook.Height;
-  Storage[7] := WizardForm.Bevel.Top;
-  Storage[8] := WizardForm.BeveledLabel.Top;
-  Storage[9] := WizardForm.ComponentsDiskSpaceLabel.Top;
-  Storage[10] := WebsiteButton.Top;
-  Storage[11] := HelpButton.Top;
-  Storage[12] := DebugLabel.Top;
-end;
-
-procedure LoadComponentsPage(const Storage: TPositionStorage;
-  HeightOffset: Integer);
-begin
-  if GetArrayLength(Storage) <> 13 then
-    RaiseException('Invalid storage array length.');
-
-  WizardForm.Height := Storage[0] + HeightOffset;
-  WizardForm.NextButton.Top := Storage[1] + HeightOffset;
-  WizardForm.BackButton.Top := Storage[2] + HeightOffset;
-  WizardForm.CancelButton.Top := Storage[3] + HeightOffset;
-  WizardForm.ComponentsList.Height := Storage[4] + HeightOffset;
-  WizardForm.OuterNotebook.Height := Storage[5] + HeightOffset;
-  WizardForm.InnerNotebook.Height := Storage[6] + HeightOffset;
-  WizardForm.Bevel.Top := Storage[7] + HeightOffset;
-  WizardForm.BeveledLabel.Top := Storage[8] + HeightOffset;
-  WizardForm.ComponentsDiskSpaceLabel.Top := Storage[9] + HeightOffset;
-  WebsiteButton.Top := Storage[10] + HeightOffset;
-  HelpButton.Top := Storage[11] + HeightOffset;
-  DebugLabel.Top := Storage[12] + HeightOffset;
-end;
-
 // Constants and global variables
 const
   // reassigning the preprocessor defined constant debug
@@ -347,6 +307,46 @@ end;
 function VCRedistributableNeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
+end;
+
+procedure SaveComponentsPage(out Storage: TPositionStorage);
+begin
+  SetArrayLength(Storage, 13);
+
+  Storage[0] := WizardForm.Height;
+  Storage[1] := WizardForm.NextButton.Top;
+  Storage[2] := WizardForm.BackButton.Top;
+  Storage[3] := WizardForm.CancelButton.Top;
+  Storage[4] := WizardForm.ComponentsList.Height;
+  Storage[5] := WizardForm.OuterNotebook.Height;
+  Storage[6] := WizardForm.InnerNotebook.Height;
+  Storage[7] := WizardForm.Bevel.Top;
+  Storage[8] := WizardForm.BeveledLabel.Top;
+  Storage[9] := WizardForm.ComponentsDiskSpaceLabel.Top;
+  Storage[10] := WebsiteButton.Top;
+  Storage[11] := HelpButton.Top;
+  if DEBUG = true then Storage[12] := DebugLabel.Top;
+end;
+
+procedure LoadComponentsPage(const Storage: TPositionStorage;
+  HeightOffset: Integer);
+begin
+  if GetArrayLength(Storage) <> 13 then
+    RaiseException('Invalid storage array length.');
+
+  WizardForm.Height := Storage[0] + HeightOffset;
+  WizardForm.NextButton.Top := Storage[1] + HeightOffset;
+  WizardForm.BackButton.Top := Storage[2] + HeightOffset;
+  WizardForm.CancelButton.Top := Storage[3] + HeightOffset;
+  WizardForm.ComponentsList.Height := Storage[4] + HeightOffset;
+  WizardForm.OuterNotebook.Height := Storage[5] + HeightOffset;
+  WizardForm.InnerNotebook.Height := Storage[6] + HeightOffset;
+  WizardForm.Bevel.Top := Storage[7] + HeightOffset;
+  WizardForm.BeveledLabel.Top := Storage[8] + HeightOffset;
+  WizardForm.ComponentsDiskSpaceLabel.Top := Storage[9] + HeightOffset;
+  WebsiteButton.Top := Storage[10] + HeightOffset;
+  HelpButton.Top := Storage[11] + HeightOffset;
+  if DEBUG = true then DebugLabel.Top := Storage[12] + HeightOffset;
 end;
 
 {
