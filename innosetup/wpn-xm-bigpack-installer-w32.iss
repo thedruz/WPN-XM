@@ -1,4 +1,4 @@
-﻿//
+//
 //          _\|/_
 //          (o o)
 // +-----oOO-{_}-OOo------------------------------------------------------+
@@ -333,7 +333,7 @@ begin
   Storage[9] := WizardForm.ComponentsDiskSpaceLabel.Top;
   Storage[10] := WebsiteButton.Top;
   Storage[11] := HelpButton.Top;
-  if DEBUG = true then Then Storage[12] := DebugLabel.Top;
+  if DEBUG = true then Storage[12] := DebugLabel.Top;
 end;
 
 procedure LoadComponentsPage(const Storage: TPositionStorage;
