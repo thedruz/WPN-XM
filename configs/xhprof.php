@@ -23,7 +23,7 @@ $_xhprof['dbname'] = 'xhprof';
 $_xhprof['dbadapter'] = 'Pdo';
 $_xhprof['servername'] = 'myserver';
 $_xhprof['namespace'] = 'myapp';
-$_xhprof['url'] = 'http://url/to/xhprof/xhprof_html';
+$_xhprof['url'] = 'http://localhost/xhprof/xhprof_html';
 
 /**
  * When setting the `id` column, consider the length of the prefix you're specifying in $this->prefix
@@ -69,7 +69,7 @@ $pdo = new PDO(
     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
 );
 
-if(empty($pdo))
+if(empty($pdo) === true)
 {
     exit('No PDO object. Check DB credentials.');
 }
@@ -123,7 +123,7 @@ unset($pdo);
  * Switch to JSON for better performance and support for larger profiler data sets.
  * WARNING: Will break with existing profile data, you will need to TRUNCATE the profile data table.
  */
-$_xhprof['serializer'] = 'php';
+$_xhprof['serializer'] = 'json';
 
 //Uncomment one of these, platform dependent. You may need to tune for your specific environment, but they're worth a try
 
