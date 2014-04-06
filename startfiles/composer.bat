@@ -5,6 +5,6 @@
 ::
 
 :: call composer
-"php.exe" "composer.phar" %*
+"%~dp0php.exe" "%~dp0composer.phar" %*
 
 pause
