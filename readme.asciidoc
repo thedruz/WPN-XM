@@ -44,4 +44,4 @@ https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation 
 
 *Regards, Jens-André Koch*
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/WPN-XM/wpn-xm/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+image::https://d2weczhvl823v0.cloudfront.net/WPN-XM/wpn-xm/trend.png[Bitdeli Badge]
