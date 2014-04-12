@@ -63,6 +63,7 @@ LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
+CloseApplications=no
 // disable wizard pages: Welcome, Languages, Ready, Select Start Menu Folder
 ShowLanguageDialog=no
 DisableWelcomePage=no
@@ -104,10 +105,11 @@ Name: custom; Description: Custom installation; Flags: iscustom
 // Base Package "serverstack" consists of PHP + MariaDB + Nginx
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full
+Name: closure-compiler; Description: Google Closure Compiler; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
+Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full
@@ -237,46 +239,6 @@ var
   HelpButton    : TButton;
   DebugLabel    : TNewStaticText;
 
-procedure SaveComponentsPage(out Storage: TPositionStorage);
-begin
-  SetArrayLength(Storage, 13);
-
-  Storage[0] := WizardForm.Height;
-  Storage[1] := WizardForm.NextButton.Top;
-  Storage[2] := WizardForm.BackButton.Top;
-  Storage[3] := WizardForm.CancelButton.Top;
-  Storage[4] := WizardForm.ComponentsList.Height;
-  Storage[5] := WizardForm.OuterNotebook.Height;
-  Storage[6] := WizardForm.InnerNotebook.Height;
-  Storage[7] := WizardForm.Bevel.Top;
-  Storage[8] := WizardForm.BeveledLabel.Top;
-  Storage[9] := WizardForm.ComponentsDiskSpaceLabel.Top;
-  Storage[10] := WebsiteButton.Top;
-  Storage[11] := HelpButton.Top;
-  Storage[12] := DebugLabel.Top;
-end;
-
-procedure LoadComponentsPage(const Storage: TPositionStorage;
-  HeightOffset: Integer);
-begin
-  if GetArrayLength(Storage) <> 13 then
-    RaiseException('Invalid storage array length.');
-
-  WizardForm.Height := Storage[0] + HeightOffset;
-  WizardForm.NextButton.Top := Storage[1] + HeightOffset;
-  WizardForm.BackButton.Top := Storage[2] + HeightOffset;
-  WizardForm.CancelButton.Top := Storage[3] + HeightOffset;
-  WizardForm.ComponentsList.Height := Storage[4] + HeightOffset;
-  WizardForm.OuterNotebook.Height := Storage[5] + HeightOffset;
-  WizardForm.InnerNotebook.Height := Storage[6] + HeightOffset;
-  WizardForm.Bevel.Top := Storage[7] + HeightOffset;
-  WizardForm.BeveledLabel.Top := Storage[8] + HeightOffset;
-  WizardForm.ComponentsDiskSpaceLabel.Top := Storage[9] + HeightOffset;
-  WebsiteButton.Top := Storage[10] + HeightOffset;
-  HelpButton.Top := Storage[11] + HeightOffset;
-  DebugLabel.Top := Storage[12] + HeightOffset;
-end;
-
 // Constants and global variables
 const
   // reassigning the preprocessor defined constant debug
@@ -291,6 +253,7 @@ const
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   //
   URL_adminer           = 'http://wpn-xm.org/get.php?s=adminer';
+  URL_closure_compiler  = 'http://wpn-xm.org/get.php?s=closure-compiler';
   URL_composer          = 'http://wpn-xm.org/get.php?s=composer';
   URL_imagick           = 'http://wpn-xm.org/get.php?s=imagick';
   URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
@@ -299,17 +262,22 @@ const
   URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
   URL_mongodb           = 'http://wpn-xm.org/get.php?s=mongodb&v=2.0.8';
   URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
+  URL_node              = 'http://wpn-xm.org/get.php?s=node';
+  URL_nodenpm           = 'http://wpn-xm.org/get.php?s=nodenpm';
   URL_openssl           = 'http://wpn-xm.org/get.php?s=openssl';
   URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
   URL_perl              = 'http://wpn-xm.org/get.php?s=perl';
   URL_php               = 'http://wpn-xm.org/get.php?s=php';
+  URL_phpext_amqp       = 'http://wpn-xm.org/get.php?s=phpext_amqp';
   URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc';
   URL_phpext_imagick    = 'http://wpn-xm.org/get.php?s=phpext_imagick';
   URL_phpext_mailparse  = 'http://wpn-xm.org/get.php?s=phpext_mailparse';
   URL_phpext_memcache   = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_mongo      = 'http://wpn-xm.org/get.php?s=phpext_mongo';
+  URL_phpext_msgpack    = 'http://wpn-xm.org/get.php?s=phpext_msgpack';
   URL_phpext_rar        = 'http://wpn-xm.org/get.php?s=phpext_rar';
   URL_phpext_trader     = 'http://wpn-xm.org/get.php?s=phpext_trader';
+  URL_phpext_varnish    = 'http://wpn-xm.org/get.php?s=phpext_varnish';
   URL_phpext_wincache   = 'http://wpn-xm.org/get.php?s=phpext_wincache';
   URL_phpext_xcache     = 'http://wpn-xm.org/get.php?s=phpext_xcache';
   URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug';
@@ -318,8 +286,10 @@ const
   URL_phpmemcachedadmin = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_postgresql        = 'http://wpn-xm.org/get.php?s=postgresql';
+  URL_redis             = 'http://wpn-xm.org/get.php?s=redis';
   URL_rockmongo         = 'http://wpn-xm.org/get.php?s=rockmongo';
   URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
+  URL_varnish           = 'http://wpn-xm.org/get.php?s=varnish';
   URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
   URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
@@ -327,9 +297,12 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
+  Filename_closure_compiler  = 'closure-compiler.zip';
   Filename_composer          = 'composer.phar';
   Filename_imagick           = 'imagick.zip';
   Filename_junction          = 'junction.zip';
+  Filename_node              = 'node.exe'; // WATCH IT: EXE!
+  Filename_nodenpm           = 'nodenpm.zip';
   Filename_mariadb           = 'mariadb.zip';
   Filename_memadmin          = 'memadmin.zip';
   Filename_memcached         = 'memcached.zip';
@@ -339,13 +312,16 @@ const
   Filename_pear              = 'go-pear.phar';
   Filename_perl              = 'perl.zip';
   Filename_php               = 'php.zip';
+  Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
   Filename_phpext_imagick    = 'phpext_imagick.zip';
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_msgpack    = 'phpext_msgpack.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
+  Filename_phpext_varnish    = 'phpext_varnish.zip';
   Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
   Filename_phpext_xcache     = 'phpext_xcache.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
@@ -354,8 +330,10 @@ const
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_postgresql        = 'postgresql.zip';
+  Filename_redis             = 'redis.zip';
   Filename_rockmongo         = 'rockmongo.zip';
   Filename_sendmail          = 'sendmail.zip';
+  Filename_varnish           = 'varnish.zip';
   Filename_vcredist          = 'vcredist_x86.exe';
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
@@ -404,6 +382,46 @@ end;
 function VCRedistributableNeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
+end;
+
+procedure SaveComponentsPage(out Storage: TPositionStorage);
+begin
+  SetArrayLength(Storage, 13);
+
+  Storage[0] := WizardForm.Height;
+  Storage[1] := WizardForm.NextButton.Top;
+  Storage[2] := WizardForm.BackButton.Top;
+  Storage[3] := WizardForm.CancelButton.Top;
+  Storage[4] := WizardForm.ComponentsList.Height;
+  Storage[5] := WizardForm.OuterNotebook.Height;
+  Storage[6] := WizardForm.InnerNotebook.Height;
+  Storage[7] := WizardForm.Bevel.Top;
+  Storage[8] := WizardForm.BeveledLabel.Top;
+  Storage[9] := WizardForm.ComponentsDiskSpaceLabel.Top;
+  Storage[10] := WebsiteButton.Top;
+  Storage[11] := HelpButton.Top;
+  if DEBUG = true then Storage[12] := DebugLabel.Top;
+end;
+
+procedure LoadComponentsPage(const Storage: TPositionStorage;
+  HeightOffset: Integer);
+begin
+  if GetArrayLength(Storage) <> 13 then
+    RaiseException('Invalid storage array length.');
+
+  WizardForm.Height := Storage[0] + HeightOffset;
+  WizardForm.NextButton.Top := Storage[1] + HeightOffset;
+  WizardForm.BackButton.Top := Storage[2] + HeightOffset;
+  WizardForm.CancelButton.Top := Storage[3] + HeightOffset;
+  WizardForm.ComponentsList.Height := Storage[4] + HeightOffset;
+  WizardForm.OuterNotebook.Height := Storage[5] + HeightOffset;
+  WizardForm.InnerNotebook.Height := Storage[6] + HeightOffset;
+  WizardForm.Bevel.Top := Storage[7] + HeightOffset;
+  WizardForm.BeveledLabel.Top := Storage[8] + HeightOffset;
+  WizardForm.ComponentsDiskSpaceLabel.Top := Storage[9] + HeightOffset;
+  WebsiteButton.Top := Storage[10] + HeightOffset;
+  HelpButton.Top := Storage[11] + HeightOffset;
+  if DEBUG = true then DebugLabel.Top := Storage[12] + HeightOffset;
 end;
 
 {
@@ -688,10 +706,15 @@ begin
     end;
 
     if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
+    if IsComponentSelected('apc')                then idpAddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
+    if IsComponentSelected('closure-compiler')   then idpAddFile(URL_closure_compiler, ExpandConstant(targetPath + Filename_closure_compiler));
 
-    if IsComponentSelected('xdebug')     then idpAddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
-    if IsComponentSelected('apc')        then idpAddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
-    if IsComponentSelected('webgrind')   then idpAddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
+
+    if IsComponentSelected('node') then
+    begin
+       idpAddFile(URL_node,    ExpandConstant(targetPath + Filename_node));
+       idpAddFile(URL_nodenpm, ExpandConstant(targetPath + Filename_nodenpm));
+    end;
 
     if IsComponentSelected('memadmin')   then idpAddFile(URL_memadmin,      ExpandConstant(targetPath + Filename_memadmin));
     if IsComponentSelected('phpmyadmin') then idpAddFile(URL_phpmyadmin,    ExpandConstant(targetPath + Filename_phpmyadmin));
@@ -703,19 +726,30 @@ begin
     if IsComponentSelected('openssl')    then idpAddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
     if IsComponentSelected('perl')       then idpAddFile(URL_perl,          ExpandConstant(targetPath + Filename_perl));
     if IsComponentSelected('postgresql') then idpAddFile(URL_postgresql,    ExpandConstant(targetPath + Filename_postgresql));
+    if IsComponentSelected('redis')      then idpAddFile(URL_redis,         ExpandConstant(targetPath + Filename_redis));
     if IsComponentSelected('rockmongo')  then idpAddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
+    if IsComponentSelected('webgrind')   then idpAddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
+    if IsComponentSelected('xdebug')     then idpAddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
 
     if IsComponentSelected('phpextensions') then
     begin
+        idpAddFile(URL_phpext_ampq,      ExpandConstant(targetPath + Filename_phpext_ampq));
         idpAddFile(URL_phpext_rar,       ExpandConstant(targetPath + Filename_phpext_rar));
         idpAddFile(URL_phpext_trader,    ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
+        idpAddFile(URL_phpext_msgpack,   ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_mailparse, ExpandConstant(targetPath + Filename_phpext_mailparse));
+        idpAddFile(URL_phpext_varnish,   ExpandConstant(targetPath + Filename_phpext_varnish));
         idpAddFile(URL_phpext_wincache,  ExpandConstant(targetPath + Filename_phpext_wincache));
         idpAddFile(URL_phpext_xcache,    ExpandConstant(targetPath + Filename_phpext_xcache));
+        // phpext_imagick installed with imagick
+        // phpext_xhprof installed with xhprof
+        // phpext_mongo installed with mongo
+        // phpext_memcache installed with memcached
+        // phpext_xdebug is standalone
     end;
 
-    if IsComponentSelected('phpmemcachedadmin') then idpAddFile(URL_phpmemcachedadmin,     ExpandConstant(targetPath + Filename_phpmemcachedadmin));
+    if IsComponentSelected('phpmemcachedadmin') then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
 
     if IsComponentSelected('imagick') then
     begin
@@ -873,6 +907,31 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('redis', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Redis');
+      DoUnzip(ExpandConstant(targetPath + Filename_redis), ExpandConstant('{app}\bin\redis')); // no subfolder, top level
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('closure-compiler', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Google Closure Compiler');
+       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\closure-compiler'));
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('node', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Node');
+       DoUnzip(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'));
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('Node NPM');
+       DoUnzip(ExpandConstant(targetPath + Filename_nodenpm), ExpandConstant('{app}\bin\node')); // into the node folder
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('openssl', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('OpenSSL');
@@ -889,16 +948,18 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('apc', selectedComponents) > 0 then
+  if Pos('phpextensions', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PHP Extension - APC');
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
     UpdateTotalProgressBar();
-  end;
 
-  if Pos('phpextensions', selectedComponents) > 0 then
-  begin
+    UpdateCurrentComponentName('PHP Extension - AMQP');
+      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'amqp');
+      FileCopy(ExpandConstant(targetPath + 'msgpack\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
+    UpdateTotalProgressBar();
+
     UpdateCurrentComponentName('PHP Extension - RAR');
       DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
       FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
@@ -919,6 +980,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
     UpdateTotalProgressBar();
 
+    UpdateCurrentComponentName('PHP Extension - MsgPack');
+      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\msgpack');
+      FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+    UpdateTotalProgressBar();
+
     UpdateCurrentComponentName('PHP Extension - Wincache');
       // install exe in silent mode
       Exec(hideConsole, ExpandConstant(targetPath + Filename_phpext_wincache) + ' /T:"' + targetPath + '\wincache' +'" /C /Q',
@@ -935,6 +1001,17 @@ begin
       // copy xcache htdoc to webinterface
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\xcache') + '"',
           '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('varnish', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Varnish');
+      DoUnzip(targetPath + Filename_varnish, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+
+    UpdateCurrentComponentName('PHP Extension - Varnish');
+      DoUnzip(targetPath + Filename_phpext_varnish, targetPath + '\phpext_varnish');
+      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\phpext_varnish.dll'), ExpandConstant('{app}\bin\php\ext\phpext_varnish.dll'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -1106,6 +1183,12 @@ begin
       Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
+  // Varnish - rename directory, like "varnish-3.0.2"
+  if Pos('varnish', selectedComponents) > 0 then
+  begin
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\varnish-* ' + appPath + '\bin\varnish"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
   // ImageMagick - rename directory
   if Pos('imagick', selectedComponents) > 0 then
   begin
@@ -1114,7 +1197,7 @@ begin
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
   begin
-    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing CRT...
+    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing VCR...
   end;
 
   if Pos('rockmongo', selectedComponents) > 0 then
