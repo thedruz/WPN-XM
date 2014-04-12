@@ -25,10 +25,37 @@ VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-tba           REL    Version 0.6.z
+tba    REL    Version 0.x.y
 ------------  ----------------------------------------------------------------
 
  next  -->>   Bugfixes
+
+------------  ----------------------------------------------------------------
+12.04.2014    REL    Version 0.7.0
+------------  ----------------------------------------------------------------
+
+  12.04.2014  ADD google closure comiler
+              ADD node, nodenpm,
+              ADD redis
+              ADD varnish
+              ADD php extensions: amqp, wincache, msgpack, varnish
+              UPD WPN-XM SCP (icon bug fix in v0.6.1)
+
+              Milestone / Issues
+
+              https://github.com/WPN-XM/WPN-XM/issues?milestone=9&page=1&state=closed
+              + fixed lots of small issues i introduced over time
+
+              Version Information
+
+              https://github.com/WPN-XM/registry/blob/0.7.0/wpnxm-software-registry-bigpack-0.7.0-w32.csv
+              https://github.com/WPN-XM/registry/blob/0.7.0/wpnxm-software-registry-allinone-0.7.0-w32.csv
+              https://github.com/WPN-XM/registry/blob/0.7.0/wpnxm-software-registry-lite-0.7.0-w32.csv
+              Webinstaller -> Latest
+
+------------  ----------------------------------------------------------------
+tba           REL    Version 0.6.1
+------------  ----------------------------------------------------------------
 
  19.12.2013   UPD  Inno Download Plugin v1.1.0
 
