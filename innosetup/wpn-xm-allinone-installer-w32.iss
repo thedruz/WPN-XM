@@ -60,9 +60,11 @@ LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
+CloseApplications=no
 // disable wizard pages: Welcome, Languages, Ready, Select Start Menu Folder
 ShowLanguageDialog=no
 DisableWelcomePage=no
+DisableReadyPage=yes
 DisableProgramGroupPage=yes
 ShowComponentSizes=no
 BackColor=clBlack
@@ -100,7 +102,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 // Base Package "serverstack" consists of PHP + MariaDB + Nginx
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full
+Name: closure-compiler; Description: Google Closure Compiler; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000; Types: full
@@ -111,11 +113,12 @@ Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraD
 Name: phpextensions; Description: PHP Extensions; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: redis; Description: Rediska;
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
-Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
 Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
@@ -232,6 +235,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
+  Filename_closure_compiler  = 'closure-compiler.zip';
   Filename_composer          = 'composer.phar';
   Filename_junction          = 'junction.zip';
   Filename_mariadb           = 'mariadb.zip';
@@ -242,10 +246,12 @@ const
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
+  Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_msgpack    = 'phpext_msgpack.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
   Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
@@ -255,6 +261,7 @@ const
   Filename_phpext_zmq        = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
+  Filename_redis             = 'redis.zip';
   Filename_rockmongo         = 'rockmongo.zip';
   Filename_sendmail          = 'sendmail.zip';
   Filename_vcredist          = 'vcredist_x86.exe';
@@ -713,6 +720,22 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('redis', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Redis');
+      ExtractTemporaryFile(Filename_redis);
+      DoUnzip(ExpandConstant(targetPath + Filename_redis), ExpandConstant('{app}\bin\redis')); // no subfolder, top level
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('closure-compiler', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Google Closure Compiler');
+      ExtractTemporaryFile(Filename_closure-compiler);
+       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\closure-compiler'));
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('openssl', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('OpenSSL');
@@ -731,17 +754,20 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('apc', selectedComponents) > 0 then
+  if Pos('phpextensions', selectedComponents) > 0 then
   begin
+    UpdateCurrentComponentName('PHP Extension - AMQP');
+      ExtractTemporaryFile(Filename_phpext_amqp);
+      DoUnzip(targetPath + Filename_phpext_amqp, targetPath + 'amqp');
+      FileCopy(ExpandConstant(targetPath + 'amqp\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
+    UpdateTotalProgressBar();
+
     UpdateCurrentComponentName('PHP Extension - APC');
       ExtractTemporaryFile(Filename_phpext_apc);
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
     UpdateTotalProgressBar();
-  end;
 
-  if Pos('phpextensions', selectedComponents) > 0 then
-  begin
     UpdateCurrentComponentName('PHP Extension - RAR');
       ExtractTemporaryFile(Filename_phpext_rar);
       DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
@@ -764,6 +790,12 @@ begin
       ExtractTemporaryFile(Filename_phpext_mailparse);
       DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\mailparse');
       FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - MsgPack');
+      ExtractTemporaryFile(Filename_phpext_msgpack);
+      DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + '\msgpack');
+      FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');
