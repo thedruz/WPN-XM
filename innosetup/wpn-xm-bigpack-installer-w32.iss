@@ -245,13 +245,13 @@ const
   Filename_composer          = 'composer.phar';
   Filename_imagick           = 'imagick.zip';
   Filename_junction          = 'junction.zip';
-  Filename_node              = 'node.exe'; // WATCH IT: EXE!
-  Filename_nodenpm           = 'nodenpm.zip';
   Filename_mariadb           = 'mariadb.zip';
   Filename_memadmin          = 'memadmin.zip';
   Filename_memcached         = 'memcached.zip';
   Filename_mongodb           = 'mongodb.zip';
   Filename_nginx             = 'nginx.zip';
+  Filename_node              = 'node.exe'; // WATCH IT: EXE!
+  Filename_nodenpm           = 'nodenpm.zip';
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
   Filename_perl              = 'perl.zip';
