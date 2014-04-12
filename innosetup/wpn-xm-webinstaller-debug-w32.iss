@@ -733,7 +733,7 @@ begin
 
     if IsComponentSelected('phpextensions') then
     begin
-        idpAddFile(URL_phpext_ampq,      ExpandConstant(targetPath + Filename_phpext_ampq));
+        idpAddFile(URL_phpext_amqp,      ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_rar,       ExpandConstant(targetPath + Filename_phpext_rar));
         idpAddFile(URL_phpext_trader,    ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));

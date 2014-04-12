@@ -120,9 +120,11 @@ Name: phpextensions; Description: PHP Extensions; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
+Name: redis; Description: Rediska;
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: varnish; Description: Varnish Cache;
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
@@ -733,7 +735,7 @@ begin
 
     if IsComponentSelected('phpextensions') then
     begin
-        idpAddFile(URL_phpext_ampq,      ExpandConstant(targetPath + Filename_phpext_ampq));
+        idpAddFile(URL_phpext_amqp,      ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_rar,       ExpandConstant(targetPath + Filename_phpext_rar));
         idpAddFile(URL_phpext_trader,    ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
