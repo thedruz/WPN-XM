@@ -60,6 +60,7 @@ LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
+CloseApplications=no
 // disable wizard pages: Welcome, Languages, Ready, Select Start Menu Folder
 ShowLanguageDialog=no
 DisableWelcomePage=no
