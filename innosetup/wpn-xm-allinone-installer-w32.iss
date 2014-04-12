@@ -731,7 +731,7 @@ begin
   if Pos('closurecompiler', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Google Closure Compiler');
-      ExtractTemporaryFile(Filename_closure-compiler);
+      ExtractTemporaryFile(Filename_closure_compiler);
        DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\closure-compiler'));
     UpdateTotalProgressBar();
   end;
