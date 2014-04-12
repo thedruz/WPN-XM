@@ -60,9 +60,11 @@ LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
+CloseApplications=no
 // disable wizard pages: Welcome, Languages, Ready, Select Start Menu Folder
 ShowLanguageDialog=no
 DisableWelcomePage=no
+DisableReadyPage=yes
 DisableProgramGroupPage=yes
 ShowComponentSizes=no
 BackColor=clBlack
@@ -100,10 +102,11 @@ Name: custom; Description: Custom installation; Flags: iscustom
 // Base Package "serverstack" consists of PHP + MariaDB + Nginx
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: apc; Description: APC - PHP Extension for Caching (Alternative PHP Cache); ExtraDiskSpaceRequired: 100000; Types: full
+Name: closure-compiler; Description: Google Closure Compiler; ExtraDiskSpaceRequired: 1000000; Types: full debug
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
+Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full
@@ -117,6 +120,7 @@ Name: postgresql; Description: PostgreSQL - object-relational database managemen
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: varnish; Description: Varnish Cache;
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
@@ -237,9 +241,12 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
+  Filename_closure_compiler  = 'closure-compiler.zip';
   Filename_composer          = 'composer.phar';
   Filename_imagick           = 'imagick.zip';
   Filename_junction          = 'junction.zip';
+  Filename_node              = 'node.exe'; // WATCH IT: EXE!
+  Filename_nodenpm           = 'nodenpm.zip';
   Filename_mariadb           = 'mariadb.zip';
   Filename_memadmin          = 'memadmin.zip';
   Filename_memcached         = 'memcached.zip';
@@ -249,13 +256,16 @@ const
   Filename_pear              = 'go-pear.phar';
   Filename_perl              = 'perl.zip';
   Filename_php               = 'php.zip';
+  Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
   Filename_phpext_imagick    = 'phpext_imagick.zip';
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_msgpack    = 'phpext_msgpack.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
+  Filename_phpext_varnish    = 'phpext_varnish.zip';
   Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
   Filename_phpext_xcache     = 'phpext_xcache.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
@@ -264,8 +274,10 @@ const
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_postgresql        = 'postgresql.zip';
+  Filename_redis             = 'redis.zip';
   Filename_rockmongo         = 'rockmongo.zip';
   Filename_sendmail          = 'sendmail.zip';
+  Filename_varnish           = 'varnish.zip';
   Filename_vcredist          = 'vcredist_x86.exe';
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
@@ -722,6 +734,35 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('redis', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Redis');
+      ExtractTemporaryFile(Filename_redis);
+      DoUnzip(ExpandConstant(targetPath + Filename_redis), ExpandConstant('{app}\bin\redis')); // no subfolder, top level
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('closure-compiler', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Google Closure Compiler');
+      ExtractTemporaryFile(Filename_closure-compiler);
+       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\closure-compiler'));
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('node', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Node');
+       ExtractTemporaryFile(Filename_node);
+       DoUnzip(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'));
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('Node NPM');
+       ExtractTemporaryFile(Filename_nodenpm);
+       DoUnzip(ExpandConstant(targetPath + Filename_nodenpm), ExpandConstant('{app}\bin\node')); // into the node folder
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('openssl', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('OpenSSL');
@@ -740,17 +781,20 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('apc', selectedComponents) > 0 then
+  if Pos('phpextensions', selectedComponents) > 0 then
   begin
+    UpdateCurrentComponentName('PHP Extension - AMQP');
+      ExtractTemporaryFile(Filename_phpext_amqp);
+      DoUnzip(targetPath + Filename_phpext_amqp, targetPath + 'amqp');
+      FileCopy(ExpandConstant(targetPath + 'amqp\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
+    UpdateTotalProgressBar();
+
     UpdateCurrentComponentName('PHP Extension - APC');
       ExtractTemporaryFile(Filename_phpext_apc);
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
     UpdateTotalProgressBar();
-  end;
 
-  if Pos('phpextensions', selectedComponents) > 0 then
-  begin
     UpdateCurrentComponentName('PHP Extension - RAR');
       ExtractTemporaryFile(Filename_phpext_rar);
       DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
@@ -775,6 +819,12 @@ begin
       FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
     UpdateTotalProgressBar();
 
+    UpdateCurrentComponentName('PHP Extension - MsgPack');
+      ExtractTemporaryFile(Filename_phpext_msgpack);
+      DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + '\msgpack');
+      FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+    UpdateTotalProgressBar();
+
     UpdateCurrentComponentName('PHP Extension - Wincache');
       ExtractTemporaryFile(Filename_phpext_wincache);
       // install exe in silent mode
@@ -783,6 +833,29 @@ begin
 
       FileCopy(ExpandConstant(targetPath + 'wincache\php_wincache.dll'), ExpandConstant('{app}\bin\php\ext\php_wincache.dll'), false);
       FileCopy(ExpandConstant(targetPath + 'wincache\wincache.php'), ExpandConstant('{app}\www\wincache\index.php'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Xcache');
+      ExtractTemporaryFile(Filename_phpext_xcache);
+      DoUnzip(targetPath + Filename_phpext_xcache, targetPath + '\xcache');
+      // WATCH OUT: "Release_TS" subfolder !
+      FileCopy(ExpandConstant(targetPath + 'xcache\Release_TS\php_xcache.dll'), ExpandConstant('{app}\bin\php\ext\php_xcache.dll'), false);
+      // copy xcache htdoc to webinterface
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\xcache') + '"',
+          '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('varnish', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Varnish');
+      ExtractTemporaryFile(Filename_varnish);
+      DoUnzip(targetPath + Filename_varnish, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+
+    UpdateCurrentComponentName('PHP Extension - Varnish');
+      ExtractTemporaryFile(Filename_phpext_varnish);
+      DoUnzip(targetPath + Filename_phpext_varnish, targetPath + '\phpext_varnish');
+      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\phpext_varnish.dll'), ExpandConstant('{app}\bin\php\ext\phpext_varnish.dll'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -798,19 +871,7 @@ begin
       // copy php_imagick.dll and CORE_RL_*.dll
       Exec(hideConsole, 'cmd.exe /c "copy ' + targetPath + 'phpext_imagick\*.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\*.dll') + '"',
             '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-    UpdateTotalProgressBar();
-  end;
 
-  if Pos('phpextensions', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('PHP Extension - Xcache');
-      ExtractTemporaryFile(Filename_phpext_xcache);
-      DoUnzip(targetPath + Filename_phpext_xcache, targetPath + '\xcache');
-      // WATCH OUT: "Release_TS" subfolder !
-      FileCopy(ExpandConstant(targetPath + 'xcache\Release_TS\php_xcache.dll'), ExpandConstant('{app}\bin\php\ext\php_xcache.dll'), false);
-      // copy xcache htdoc to webinterface
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\xcache') + '"',
-          '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
 
