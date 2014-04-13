@@ -1046,7 +1046,17 @@ begin
   // MariaDB - initialize mysql tables, e.g. performance_tables
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // MongoDB folder correctly renamed during All-In-One Building
+  // MongoDB - rename directory
+  if Pos('mongodb', selectedComponents) > 0 then
+  begin
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
+  // Varnish - rename directory, like "varnish-3.0.2"
+  if Pos('varnish', selectedComponents) > 0 then
+  begin
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\varnish-* ' + appPath + '\bin\varnish"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
 
   // ImageMagick - rename directory
   if Pos('imagick', selectedComponents) > 0 then
