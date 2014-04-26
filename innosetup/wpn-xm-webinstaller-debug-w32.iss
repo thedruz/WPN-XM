@@ -144,7 +144,7 @@ Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface,.git*;
 // webinterface folder is only copied, if component is selected
-Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
+Source: ..\www\webinterface\*; DestDir: {app}\www\tools\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 // incorporate several startfiles
@@ -164,8 +164,8 @@ Source: ..\configs\wpn-xm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
-Source: ..\configs\config.inc.php; DestDir: {app}\www\phpmyadmin; Components: phpmyadmin
-Source: ..\configs\xhprof.php; DestDir: {app}\www\xhprof\xhprof_lib; DestName: "config.php"; Components: xhprof
+Source: ..\configs\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
+Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\xhprof\xhprof_lib; DestName: "config.php"; Components: xhprof
 Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 
 [Icons]
@@ -226,7 +226,7 @@ Name: {app}\bin\nginx\conf\domains-disabled
 Name: {app}\logs
 Name: {app}\temp
 Name: {app}\www
-Name: {app}\www\webinterface; Components: webinterface;
+Name: {app}\www\tools\webinterface; Components: webinterface;
 
 [Code]
 type
@@ -881,6 +881,7 @@ begin
 
   if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
   if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
+  if not DirExists(ExpandConstant('{app}\www\tools')) then ForceDirectories(ExpandConstant('{app}\www\tools'));
 
   // Update Progress Bars
 
@@ -991,7 +992,7 @@ begin
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
       FileCopy(ExpandConstant(targetPath + 'wincache\php_wincache.dll'), ExpandConstant('{app}\bin\php\ext\php_wincache.dll'), false);
-      FileCopy(ExpandConstant(targetPath + 'wincache\wincache.php'), ExpandConstant('{app}\www\wincache\index.php'), false);
+      FileCopy(ExpandConstant(targetPath + 'wincache\wincache.php'), ExpandConstant('{app}\www\tools\wincache\index.php'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Xcache');
@@ -999,7 +1000,7 @@ begin
       // WATCH OUT: "Release_TS" subfolder !
       FileCopy(ExpandConstant(targetPath + 'xcache\Release_TS\php_xcache.dll'), ExpandConstant('{app}\bin\php\ext\php_xcache.dll'), false);
       // copy xcache htdoc to webinterface
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\xcache') + '"',
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\tools\xcache') + '"',
           '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
@@ -1032,7 +1033,7 @@ begin
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('XHProf GUI');
-      DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
 
     UpdateCurrentComponentName('PHP Extension - XHProf');
       DoUnzip(targetPath + Filename_phpext_xhprof, ExpandConstant('{app}\bin\php\ext'));
@@ -1053,21 +1054,21 @@ begin
   if Pos('memadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Memadmin');
-      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
     UpdateTotalProgressBar();
   end;
 
   if Pos('phpmemcachedadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpMemcachedAdmin');
-      DoUnzip(targetPath + Filename_phpmemcachedadmin, ExpandConstant('{app}\www\phpmemcachedadmin'));
+      DoUnzip(targetPath + Filename_phpmemcachedadmin, ExpandConstant('{app}\www\tools\phpmemcachedadmin'));
     UpdateTotalProgressBar();
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpMyAdmin');
-      DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
     UpdateTotalProgressBar();
   end;
 
@@ -1082,8 +1083,8 @@ begin
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Adminer');
-      CreateDir(ExpandConstant('{app}\www\adminer\'));
-      FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
+      CreateDir(ExpandConstant('{app}\www\tools\adminer\'));
+      FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\tools\adminer\' + Filename_adminer), false);
     UpdateTotalProgressBar();
   end;
 
@@ -1122,14 +1123,14 @@ begin
   if Pos('webgrind', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Webgrind');
-      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
     UpdateTotalProgressBar();
   end;
 
   if Pos('rockmongo', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('RockMongo');
-      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
     UpdateTotalProgressBar();
   end;
 
@@ -1203,7 +1204,7 @@ begin
   if Pos('rockmongo', selectedComponents) > 0 then
   begin
       // rockmongo.zip brings also a "__MACOSX" folder with ".DS_Store" file. let's get rid of that crap
-      RockmongoCrapDir := AddBackslash(ExpandConstant('{app}\www\__MACOSX'));
+      RockmongoCrapDir := AddBackslash(ExpandConstant('{app}\www\tools\__MACOSX'));
       if DirExists(RockmongoCrapDir) then
       begin
         DelTree(RockmongoCrapDir, True, True, True);
@@ -1213,7 +1214,7 @@ begin
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     // xhprof - rename "xhprof-master" directory
-    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\xhprof-* ' + appPath + '\www\xhprof"',
+    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\tools\xhprof-* ' + appPath + '\www\tools\xhprof"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     // rename "xhprof_0.10.3_php54_vc9_nts.dll" to "xhprof.dll"
@@ -1229,13 +1230,13 @@ begin
       Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\bin\memcached\pthreadGC2.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
       // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
-      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\memadmin-* ' + appPath + '\www\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
      // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
-    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\phpMyAdmin-*  ' + appPath + '\www\phpmyadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\tools\phpMyAdmin-*  ' + appPath + '\www\tools\phpmyadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
 end;

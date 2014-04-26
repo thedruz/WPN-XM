@@ -119,7 +119,7 @@ Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\webinterface,.git*;
 // webinterface folder is only copied, if component is selected
-Source: ..\www\webinterface\*; DestDir: {app}\www\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
+Source: ..\www\webinterface\*; DestDir: {app}\www\tools\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 // incorporate several startfiles
@@ -194,7 +194,7 @@ Name: {app}\bin\nginx\conf\domains-disabled
 Name: {app}\logs
 Name: {app}\temp
 Name: {app}\www
-Name: {app}\www\webinterface; Components: webinterface;
+Name: {app}\www\tools\webinterface; Components: webinterface;
 
 [Code]
 var
@@ -596,6 +596,7 @@ begin
 
   if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
   if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
+  if not DirExists(ExpandConstant('{app}\www\tools')) then ForceDirectories(ExpandConstant('{app}\www\tools'));
 
   // Update Progress Bars
 
@@ -640,8 +641,8 @@ begin
   begin
     UpdateCurrentComponentName('Adminer');
       ExtractTemporaryFile(Filename_adminer);
-      CreateDir(ExpandConstant('{app}\www\adminer\'));
-      FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\adminer\' + Filename_adminer), false);
+      CreateDir(ExpandConstant('{app}\www\tools\adminer\'));
+      FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\tools\adminer\' + Filename_adminer), false);
     UpdateTotalProgressBar();
   end;
 
