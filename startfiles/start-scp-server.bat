@@ -7,4 +7,4 @@
 start "localhost:90-WPN-XM Dev Server" /MIN %cd%\bin\php\php.exe -S localhost:90 -t %cd%\www
 
 :: start WPN-XM Server Control Panel
-start http://localhost:90/webinterface
+start http://localhost:90/tools/webinterface
