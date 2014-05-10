@@ -66,7 +66,7 @@ goto END
     echo.
     echo Building "web" Installation Wizard
     echo.
-    call bin\nant\bin\nant.exe -buildfile:build.xml compile-wpnxm-webinstaller-setup
+    call bin\nant\bin\nant.exe -buildfile:build.xml compile-wpnxm-webinstaller-setup compile-wpnxm-webinstaller-debug-setup
 goto END
 
 :OPTION5
