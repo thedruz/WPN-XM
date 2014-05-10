@@ -671,7 +671,7 @@ begin
       Normally the temporary path is used for downloading.
       This means that downloaded components are deleted after installation or at least when the temp folder is cleaned.
 
-      In Debug mode the "c:\wpnxm-downloads" path is used.
+      In Debug mode the "D:\Github\WPN-XM\WPN-XM\downloads" path is used.
       The downloaded components are not deleted after installation.
       If you reinstall, the components are taken from there. They are not downloaded again.
     }
@@ -680,7 +680,7 @@ begin
       targetPath := ExpandConstant('{tmp}\');
     end else
     begin
-      targetPath := ExpandConstant('c:\wpnxm-downloads\');
+      targetPath := ExpandConstant('D:\Github\WPN-XM\WPN-XM\downloads\');
       // create folder, if it doesn't exist
       if not DirExists(ExpandConstant(targetPath)) then ForceDirectories(ExpandConstant(targetPath));
     end;
