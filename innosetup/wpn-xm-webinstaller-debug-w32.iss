@@ -881,8 +881,8 @@ begin
   ExtractTemporaryFile('RunHiddenConsole.exe');
 
   // define hideConsole shortcut
-  if (DEBUG = false) then hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
-  if (DEBUG = true) then hideConsole := ExpandConstant('cmd.exe /c');
+  if (DEBUG = false) then hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe') + '/w '; // wait for cmd termination
+  if (DEBUG = true) then hideConsole := ExpandConstant('cmd.exe');
 
   if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
   if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
@@ -1158,8 +1158,6 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
-      Exec(hideConsole, 'cmd.exe /c "move ' + targetPath + 'phpext_mongo\php_mongo-*-5.4-vc9-nts.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"',
-            '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
 
@@ -1176,10 +1174,10 @@ begin
   appPath := ExpandConstant('{app}');
 
   // nginx - rename directory
-  Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - rename directory
-  Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - install with user ROOT and without password (this is the position to add a default password)
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
@@ -1188,25 +1186,27 @@ begin
   // MariaDB - initialize mysql tables, e.g. performance_tables
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // MongoDB - rename directory
+  // MongoDB - rename directory and phpext_mongo - rename file
   if Pos('mongodb', selectedComponents) > 0 then
   begin
-      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\php\ext\phpext_mongo-* ' + appPath + '\bin\php\ext\php_mongo.dll',
+      '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   // Varnish - rename directory, like "varnish-3.0.2"
   if Pos('varnish', selectedComponents) > 0 then
   begin
-      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\varnish-* ' + appPath + '\bin\varnish"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\varnish-* ' + appPath + '\bin\varnish"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   // ImageMagick - rename directory
   if Pos('imagick', selectedComponents) > 0 then
   begin
-      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
-  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
+  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE) then
   begin
     //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing VCR...
   end;
@@ -1215,38 +1215,35 @@ begin
   begin
       // rockmongo.zip brings also a "__MACOSX" folder with ".DS_Store" file. let's get rid of that crap
       RockmongoCrapDir := AddBackslash(ExpandConstant('{app}\www\tools\__MACOSX'));
-      if DirExists(RockmongoCrapDir) then
-      begin
-        DelTree(RockmongoCrapDir, True, True, True);
-      end;
+      if DirExists(RockmongoCrapDir) then DelTree(RockmongoCrapDir, True, True, True);
   end;
 
   if Pos('xhprof', selectedComponents) > 0 then
   begin
     // xhprof - rename "xhprof-master" directory
-    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\tools\xhprof-* ' + appPath + '\www\tools\xhprof"',
+    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\xhprof-* ' + appPath + '\www\tools\xhprof"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     // rename "xhprof_0.10.3_php54_vc9_nts.dll" to "xhprof.dll"
-    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\php\ext\xhprof_* ' + appPath + '\bin\php\ext\xhprof.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\php\ext\xhprof_* ' + appPath + '\bin\php\ext\xhprof.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
       // rename the existing directory
-      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
       // fix "read-only" status of "pthreadGC2.dll", else this file will remain after uninstallation
       Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\bin\memcached\pthreadGC2.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
       // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
-      Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move /Y' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
      // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
-    Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\www\tools\phpMyAdmin-*  ' + appPath + '\www\tools\phpmyadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\phpMyAdmin-*  ' + appPath + '\www\tools\phpmyadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
 end;
