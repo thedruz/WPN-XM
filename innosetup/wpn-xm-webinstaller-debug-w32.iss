@@ -710,7 +710,6 @@ begin
     end;
 
     if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
-    if IsComponentSelected('apc')        then idpAddFile(URL_phpext_apc,    ExpandConstant(targetPath + Filename_phpext_apc));
     if IsComponentSelected('closurecompiler')   then idpAddFile(URL_closure_compiler, ExpandConstant(targetPath + Filename_closure_compiler));
 
 
@@ -738,20 +737,21 @@ begin
     if IsComponentSelected('phpextensions') then
     begin
         idpAddFile(URL_phpext_amqp,      ExpandConstant(targetPath + Filename_phpext_amqp));
+        idpAddFile(URL_phpext_apc,       ExpandConstant(targetPath + Filename_phpext_apc));
+        idpAddFile(URL_phpext_mailparse, ExpandConstant(targetPath + Filename_phpext_mailparse));
+        idpAddFile(URL_phpext_msgpack,   ExpandConstant(targetPath + Filename_phpext_msgpack));
+        idpAddFile(URL_phpext_phalcon,   ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_rar,       ExpandConstant(targetPath + Filename_phpext_rar));
         idpAddFile(URL_phpext_trader,    ExpandConstant(targetPath + Filename_phpext_trader));
-        idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
-        idpAddFile(URL_phpext_msgpack,   ExpandConstant(targetPath + Filename_phpext_msgpack));
-        idpAddFile(URL_phpext_mailparse, ExpandConstant(targetPath + Filename_phpext_mailparse));
-        idpAddFile(URL_phpext_phalcon,   ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_varnish,   ExpandConstant(targetPath + Filename_phpext_varnish));
         idpAddFile(URL_phpext_wincache,  ExpandConstant(targetPath + Filename_phpext_wincache));
         idpAddFile(URL_phpext_xcache,    ExpandConstant(targetPath + Filename_phpext_xcache));
+        idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
-        // phpext_xhprof installed with xhprof
-        // phpext_mongo installed with mongo
         // phpext_memcache installed with memcached
+        // phpext_mongo installed with mongo
         // phpext_xdebug is standalone
+        // phpext_xhprof installed with xhprof
     end;
 
     if IsComponentSelected('phpmemcachedadmin') then idpAddFile(URL_phpmemcachedadmin,     ExpandConstant(targetPath + Filename_phpmemcachedadmin));
