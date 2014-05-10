@@ -118,6 +118,7 @@ Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administrati
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
 Name: redis; Description: Rediska;
+Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: varnish; Description: Varnish Cache;
@@ -263,6 +264,7 @@ const
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo      = 'phpext_mongo.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
+  Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
   Filename_phpext_varnish    = 'phpext_varnish.zip';
@@ -824,6 +826,12 @@ begin
       ExtractTemporaryFile(Filename_phpext_msgpack);
       DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + '\msgpack');
       FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Phalcon');
+      ExtractTemporaryFile(Filename_phpext_phalcon);
+      DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + '\phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phalcon\php_phalcon.dll'), ExpandConstant('{app}\bin\php\ext\php_phalcon.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');

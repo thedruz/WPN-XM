@@ -252,6 +252,7 @@ const
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo      = 'phpext_mongo.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
+  Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
   Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
@@ -797,6 +798,12 @@ begin
       ExtractTemporaryFile(Filename_phpext_msgpack);
       DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + '\msgpack');
       FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Phalcon');
+      ExtractTemporaryFile(Filename_phpext_phalcon);
+      DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + '\phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phalcon\php_phalcon.dll'), ExpandConstant('{app}\bin\php\ext\php_phalcon.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');

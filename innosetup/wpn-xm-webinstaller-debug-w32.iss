@@ -120,9 +120,11 @@ Name: phpextensions; Description: PHP Extensions; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
+Name: redis; Description: Rediska;
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: varnish; Description: Varnish Cache;
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
@@ -275,6 +277,7 @@ const
   URL_phpext_memcache   = 'http://wpn-xm.org/get.php?s=phpext_memcache';
   URL_phpext_mongo      = 'http://wpn-xm.org/get.php?s=phpext_mongo';
   URL_phpext_msgpack    = 'http://wpn-xm.org/get.php?s=phpext_msgpack';
+  URL_phpext_phalcon    = 'http://wpn-xm.org/get.php?s=phpext_phalcon';
   URL_phpext_rar        = 'http://wpn-xm.org/get.php?s=phpext_rar';
   URL_phpext_trader     = 'http://wpn-xm.org/get.php?s=phpext_trader';
   URL_phpext_varnish    = 'http://wpn-xm.org/get.php?s=phpext_varnish';
@@ -301,13 +304,13 @@ const
   Filename_composer          = 'composer.phar';
   Filename_imagick           = 'imagick.zip';
   Filename_junction          = 'junction.zip';
-  Filename_node              = 'node.exe'; // WATCH IT: EXE!
-  Filename_nodenpm           = 'nodenpm.zip';
   Filename_mariadb           = 'mariadb.zip';
   Filename_memadmin          = 'memadmin.zip';
   Filename_memcached         = 'memcached.zip';
   Filename_mongodb           = 'mongodb.zip';
   Filename_nginx             = 'nginx.zip';
+  Filename_node              = 'node.exe'; // WATCH IT: EXE!
+  Filename_nodenpm           = 'nodenpm.zip';
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
   Filename_perl              = 'perl.zip';
@@ -319,6 +322,7 @@ const
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo      = 'phpext_mongo.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
+  Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
   Filename_phpext_varnish    = 'phpext_varnish.zip';
@@ -739,6 +743,7 @@ begin
         idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
         idpAddFile(URL_phpext_msgpack,   ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_mailparse, ExpandConstant(targetPath + Filename_phpext_mailparse));
+        idpAddFile(URL_phpext_phalcon,   ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_varnish,   ExpandConstant(targetPath + Filename_phpext_varnish));
         idpAddFile(URL_phpext_wincache,  ExpandConstant(targetPath + Filename_phpext_wincache));
         idpAddFile(URL_phpext_xcache,    ExpandConstant(targetPath + Filename_phpext_xcache));
@@ -984,6 +989,11 @@ begin
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\msgpack');
       FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Phalcon');
+      DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + '\phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phalcon\php_phalcon.dll'), ExpandConstant('{app}\bin\php\ext\php_phalcon.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');
