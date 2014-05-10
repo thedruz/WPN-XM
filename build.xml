@@ -71,15 +71,15 @@
         <echo file="${dir.Base}/server-control-panel/src/version.h">${filecontent.wpnxm.version}</echo>
 
         <!-- Insert the version number into webinterface's "bootstrap.php" file. (file is overwritten) -->
-        <loadfile file="${dir.Base}/www/webinterface/bootstrap.php" property="filecontent.php.bootstrap" encoding="UTF-8">
+        <loadfile file="${dir.Base}/www/tools/webinterface/bootstrap.php" property="filecontent.php.bootstrap" encoding="UTF-8">
             <filterchain>
                 <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
                 </replacetokens>
             </filterchain>
         </loadfile>
-        <delete file="${dir.Base}/www/webinterface/bootstrap.php"/>
-        <echo file="${dir.Base}/www/webinterface/bootstrap.php" encoding="UTF-8">${filecontent.php.bootstrap}</echo>
+        <delete file="${dir.Base}/www/tools/webinterface/bootstrap.php"/>
+        <echo file="${dir.Base}/www/tools/webinterface/bootstrap.php" encoding="UTF-8">${filecontent.php.bootstrap}</echo>
     </target>
 
     <target name="print-version-number">
@@ -89,13 +89,13 @@
     <target name="clean-webinterface-folder">
         <echo message="Cleans the webinterface folder for production, by removing .git and dev files."/>
         <!-- git -->
-        <delete file="${dir.Base}/www/webinterface/.git"/>
-        <delete file="${dir.Base}/www/webinterface/.gitignore"/>
-        <delete file="${dir.Base}/www/webinterface/.gitattributes"/>
+        <delete file="${dir.Base}/www/tools/webinterface/.git"/>
+        <delete file="${dir.Base}/www/tools/webinterface/.gitignore"/>
+        <delete file="${dir.Base}/www/tools/webinterface/.gitattributes"/>
         <!-- dev -->
-        <delete file="${dir.Base}/www/webinterface/.travis.yml"/>
-        <delete file="${dir.Base}/www/webinterface/composer.json"/>
-        <delete dir="${dir.Base}/www/webinterface/tests"/>
+        <delete file="${dir.Base}/www/tools/webinterface/.travis.yml"/>
+        <delete file="${dir.Base}/www/tools/webinterface/composer.json"/>
+        <delete dir="${dir.Base}/www/tools/webinterface/tests"/>
     </target>
 
     <target name="compile-wpnxm-webinstaller-setup" description="Builds the WPN-XM setup executable."
@@ -424,7 +424,7 @@
     <target name="reset-git-submodules"
             description="Reset the git submodules to their original state. This reverts all changes made by bump-version-number during the replace operation.">
         <!-- we need to refetch the webinterface folder from git, in case we already removed .git artefacts for production (clean-webinterface-folder) -->
-        <delete if="${not file::exists(dir.Base+'/www/webinterface/.git')}" dir="${dir.Base}/www/webinterface"/>
+        <delete if="${not file::exists(dir.Base+'/www/tools/webinterface/.git')}" dir="${dir.Base}/www/tools/webinterface"/>
         <exec program="git">
             <arg value="submodule"/>
             <arg value="foreach"/>
