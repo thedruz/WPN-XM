@@ -780,10 +780,10 @@ begin
     end;
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
-    if (DEBUG = true) then
+    if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip')) = true) then
     begin
        MsgBox('Debug On. Skipping all downloads, because file exists: ' + ExpandConstant(targetPath + 'nginx.zip'), mbInformation, MB_OK);
-       if(FileExists(ExpandConstant(targetPath + 'nginx.zip'))) then idpClearFiles();
+       idpClearFiles();
     end;
 
   end; // of wpSelectComponents
@@ -881,7 +881,8 @@ begin
   ExtractTemporaryFile('RunHiddenConsole.exe');
 
   // define hideConsole shortcut
-  hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
+  if (DEBUG = false) then hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
+  if (DEBUG = true) then hideConsole := ExpandConstant('cmd.exe /c');
 
   if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
   if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
