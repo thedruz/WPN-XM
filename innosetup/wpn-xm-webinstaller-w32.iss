@@ -703,15 +703,30 @@ begin
       idpAddFile(URL_mariadb, ExpandConstant(targetPath + Filename_mariadb));
     end;
 
-    if IsComponentSelected('webinterface') and VCRedistributableNeedsInstall then
+    if IsComponentSelected('adminer')            then idpAddFile(URL_adminer,           ExpandConstant(targetPath + Filename_adminer));
+    if IsComponentSelected('closurecompiler')    then idpAddFile(URL_closure_compiler,  ExpandConstant(targetPath + Filename_closure_compiler));
+    if IsComponentSelected('composer')           then idpAddFile(URL_composer,          ExpandConstant(targetPath + Filename_composer));
+
+    if IsComponentSelected('imagick') then
     begin
-      // the webinterface depends on vc2008-redistributable .dll stuff
-      idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
+       idpAddFile(URL_imagick,           ExpandConstant(targetPath + Filename_imagick));
+       idpAddFile(URL_phpext_imagick,    ExpandConstant(targetPath + Filename_phpext_imagick));
     end;
 
-    if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp, ExpandConstant(targetPath + Filename_wpnxmscp));
-    if IsComponentSelected('closurecompiler')   then idpAddFile(URL_closure_compiler, ExpandConstant(targetPath + Filename_closure_compiler));
+    if IsComponentSelected('junction')           then idpAddFile(URL_junction,          ExpandConstant(targetPath + Filename_junction));
+    if IsComponentSelected('memadmin')           then idpAddFile(URL_memadmin,          ExpandConstant(targetPath + Filename_memadmin));
 
+    if IsComponentSelected('memcached') then
+    begin
+        idpAddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
+        idpAddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
+    end;
+
+    if IsComponentSelected('mongodb')    then
+    begin
+        idpAddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
+        idpAddFile(URL_phpext_mongo,  ExpandConstant(targetPath + Filename_phpext_mongo));
+    end;
 
     if IsComponentSelected('node') then
     begin
@@ -719,20 +734,18 @@ begin
        idpAddFile(URL_nodenpm, ExpandConstant(targetPath + Filename_nodenpm));
     end;
 
-    if IsComponentSelected('memadmin')   then idpAddFile(URL_memadmin,      ExpandConstant(targetPath + Filename_memadmin));
-    if IsComponentSelected('phpmyadmin') then idpAddFile(URL_phpmyadmin,    ExpandConstant(targetPath + Filename_phpmyadmin));
-    if IsComponentSelected('adminer')    then idpAddFile(URL_adminer,       ExpandConstant(targetPath + Filename_adminer));
-    if IsComponentSelected('junction')   then idpAddFile(URL_junction,      ExpandConstant(targetPath + Filename_junction));
-    if IsComponentSelected('pear')       then idpAddFile(URL_pear,          ExpandConstant(targetPath + Filename_pear));
-    if IsComponentSelected('composer')   then idpAddFile(URL_composer,      ExpandConstant(targetPath + Filename_composer));
-    if IsComponentSelected('sendmail')   then idpAddFile(URL_sendmail,      ExpandConstant(targetPath + Filename_sendmail));
-    if IsComponentSelected('openssl')    then idpAddFile(URL_openssl,       ExpandConstant(targetPath + Filename_openssl));
-    if IsComponentSelected('perl')       then idpAddFile(URL_perl,          ExpandConstant(targetPath + Filename_perl));
-    if IsComponentSelected('postgresql') then idpAddFile(URL_postgresql,    ExpandConstant(targetPath + Filename_postgresql));
-    if IsComponentSelected('redis')      then idpAddFile(URL_redis,         ExpandConstant(targetPath + Filename_redis));
-    if IsComponentSelected('rockmongo')  then idpAddFile(URL_rockmongo,     ExpandConstant(targetPath + Filename_rockmongo));
-    if IsComponentSelected('webgrind')   then idpAddFileSize(URL_webgrind,  ExpandConstant(targetPath + Filename_webgrind), 648000);
-    if IsComponentSelected('xdebug')     then idpAddFile(URL_phpext_xdebug, ExpandConstant(targetPath + Filename_phpext_xdebug));
+    if IsComponentSelected('openssl')            then idpAddFile(URL_openssl,           ExpandConstant(targetPath + Filename_openssl));
+    if IsComponentSelected('pear')               then idpAddFile(URL_pear,              ExpandConstant(targetPath + Filename_pear));
+    if IsComponentSelected('perl')               then idpAddFile(URL_perl,              ExpandConstant(targetPath + Filename_perl));
+    if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
+    if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
+    if IsComponentSelected('postgresql')         then idpAddFile(URL_postgresql,        ExpandConstant(targetPath + Filename_postgresql));
+    if IsComponentSelected('redis')              then idpAddFile(URL_redis,             ExpandConstant(targetPath + Filename_redis));
+    if IsComponentSelected('rockmongo')          then idpAddFile(URL_rockmongo,         ExpandConstant(targetPath + Filename_rockmongo));
+    if IsComponentSelected('sendmail')           then idpAddFile(URL_sendmail,          ExpandConstant(targetPath + Filename_sendmail));
+    if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxmscp));
+    if IsComponentSelected('webgrind')           then idpAddFileSize(URL_webgrind,      ExpandConstant(targetPath + Filename_webgrind), 648000);
+    if IsComponentSelected('xdebug')             then idpAddFile(URL_phpext_xdebug,     ExpandConstant(targetPath + Filename_phpext_xdebug));
 
     if IsComponentSelected('phpextensions') then
     begin
@@ -754,30 +767,16 @@ begin
         // phpext_xhprof installed with xhprof
     end;
 
-    if IsComponentSelected('phpmemcachedadmin') then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
-
-    if IsComponentSelected('imagick') then
+    if IsComponentSelected('webinterface') and VCRedistributableNeedsInstall then
     begin
-       idpAddFile(URL_imagick,           ExpandConstant(targetPath + Filename_imagick));
-       idpAddFile(URL_phpext_imagick,    ExpandConstant(targetPath + Filename_phpext_imagick));
+      // the webinterface depends on vc2008-redistributable .dll stuff
+      idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
     end;
 
     if IsComponentSelected('xhprof') then
     begin
         idpAddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
         idpAddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
-    end;
-
-    if IsComponentSelected('memcached') then
-    begin
-        idpAddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
-        idpAddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
-    end;
-
-    if IsComponentSelected('mongodb')    then
-    begin
-        idpAddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
-        idpAddFile(URL_phpext_mongo,  ExpandConstant(targetPath + Filename_phpext_mongo));
     end;
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
