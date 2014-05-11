@@ -788,69 +788,69 @@ begin
   begin
     UpdateCurrentComponentName('PHP Extension - AMQP');
       ExtractTemporaryFile(Filename_phpext_amqp);
-      DoUnzip(targetPath + Filename_phpext_amqp, targetPath + 'amqp');
-      FileCopy(ExpandConstant(targetPath + 'amqp\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - APC');
       ExtractTemporaryFile(Filename_phpext_apc);
-      DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
-      FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_apc, targetPath + 'phpext_apc');
+      FileCopy(ExpandConstant(targetPath + 'phpext_apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mailparse');
       ExtractTemporaryFile(Filename_phpext_mailparse);
-      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\mailparse');
-      FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       ExtractTemporaryFile(Filename_phpext_msgpack);
-      DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + '\msgpack');
-      FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
+      FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Phalcon');
       ExtractTemporaryFile(Filename_phpext_phalcon);
-      DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + '\phalcon');
-      FileCopy(ExpandConstant(targetPath + 'phalcon\php_phalcon.dll'), ExpandConstant('{app}\bin\php\ext\php_phalcon.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), ExpandConstant('{app}\bin\php\ext\php_phalcon.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - RAR');
       ExtractTemporaryFile(Filename_phpext_rar);
-      DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
-      FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
-    UpdateTotalProgressBar();    
+      DoUnzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
+      FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');
       ExtractTemporaryFile(Filename_phpext_trader);
-      DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
-      FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
+      FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');
       ExtractTemporaryFile(Filename_phpext_wincache);
       // install exe in silent mode
-      Exec(hideConsole, ExpandConstant(targetPath + Filename_phpext_wincache) + ' /T:"' + targetPath + '\wincache' +'" /C /Q',
+      Exec(hideConsole, ExpandConstant(targetPath + Filename_phpext_wincache) + ' /T:"' + targetPath + 'phpext_wincache' +'" /C /Q',
         '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-      FileCopy(ExpandConstant(targetPath + 'wincache\php_wincache.dll'), ExpandConstant('{app}\bin\php\ext\php_wincache.dll'), false);
-      FileCopy(ExpandConstant(targetPath + 'wincache\wincache.php'), ExpandConstant('{app}\www\tools\wincache\index.php'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_wincache\php_wincache.dll'), ExpandConstant('{app}\bin\php\ext\php_wincache.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_wincache\wincache.php'), ExpandConstant('{app}\www\tools\wincache\index.php'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Xcache');
       ExtractTemporaryFile(Filename_phpext_xcache);
-      DoUnzip(targetPath + Filename_phpext_xcache, targetPath + '\xcache');
+      DoUnzip(targetPath + Filename_phpext_xcache, targetPath + 'phpext_xcache');
       // WATCH OUT: "Release_TS" subfolder !
-      FileCopy(ExpandConstant(targetPath + 'xcache\Release_TS\php_xcache.dll'), ExpandConstant('{app}\bin\php\ext\php_xcache.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_xcache\Release_TS\php_xcache.dll'), ExpandConstant('{app}\bin\php\ext\php_xcache.dll'), false);
       // copy xcache htdoc to webinterface
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\tools\xcache') + '"',
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'phpext_xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\tools\xcache') + '"',
           '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       ExtractTemporaryFile(Filename_phpext_zmq);
-      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
+      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + 'zmq');
       FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
     UpdateTotalProgressBar();
   end;
@@ -863,7 +863,7 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - Varnish');
       ExtractTemporaryFile(Filename_phpext_varnish);
-      DoUnzip(targetPath + Filename_phpext_varnish, targetPath + '\phpext_varnish');
+      DoUnzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
       FileCopy(ExpandConstant(targetPath + 'phpext_varnish\phpext_varnish.dll'), ExpandConstant('{app}\bin\php\ext\phpext_varnish.dll'), false);
     UpdateTotalProgressBar();
   end;
@@ -876,7 +876,7 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - Imagick');
       ExtractTemporaryFile(Filename_phpext_imagick);
-      DoUnzip(targetPath + Filename_phpext_imagick, targetPath + '\phpext_imagick');
+      DoUnzip(targetPath + Filename_phpext_imagick, targetPath + 'phpext_imagick');
       // copy php_imagick.dll and CORE_RL_*.dll
       Exec(hideConsole, 'cmd.exe /c "copy ' + targetPath + 'phpext_imagick\*.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\*.dll') + '"',
             '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
@@ -1024,7 +1024,7 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       ExtractTemporaryFile(Filename_phpext_mongo);
-      DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
+      DoUnzip(targetPath + Filename_phpext_mongo, targetPath + 'phpext_mongo');
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'phpext_mongo\php_mongo-* ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"',
             '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
