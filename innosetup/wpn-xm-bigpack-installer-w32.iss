@@ -850,8 +850,8 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       ExtractTemporaryFile(Filename_phpext_zmq);
-      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + 'zmq');
-      FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -1073,7 +1073,7 @@ begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
-  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
+  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE) then
   begin
     //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin;
     //Status Msg: Installing VCR...

@@ -822,8 +822,8 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       ExtractTemporaryFile(Filename_phpext_zmq);
-      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + 'zmq');
-      FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
     UpdateTotalProgressBar();
   end;
 

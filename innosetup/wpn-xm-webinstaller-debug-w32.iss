@@ -1237,7 +1237,7 @@ begin
       Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\bin\memcached\pthreadGC2.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
       // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
-      Exec(hideConsole, 'cmd.exe /c "move /Y' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
