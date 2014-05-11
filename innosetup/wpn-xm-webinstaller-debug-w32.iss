@@ -1208,7 +1208,8 @@ begin
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE) then
   begin
-    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing VCR...
+    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin;
+    //Status Msg: Installing VCR...
   end;
 
   if Pos('rockmongo', selectedComponents) > 0 then

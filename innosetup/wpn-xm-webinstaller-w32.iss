@@ -196,8 +196,8 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 // Automatically started...
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb"; Flags: runhidden;
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb; Flags: runhidden;
-Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
-Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
+Filename: {app}\bin\perl\relocation.pl.bat; Components: perl; Flags: runhidden;
+Filename: {app}\bin\perl\update_env.pl.bat; Components: perl; Flags:runhidden;
 // User selected Postinstall runs
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
@@ -1208,7 +1208,8 @@ begin
 
   if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE)then
   begin
-    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin; StatusMsg: Installing VCR...
+    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin;
+    //Status Msg: Installing VCR...
   end;
 
   if Pos('rockmongo', selectedComponents) > 0 then
