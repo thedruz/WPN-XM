@@ -881,8 +881,7 @@ begin
   ExtractTemporaryFile('RunHiddenConsole.exe');
 
   // define hideConsole shortcut
-  if (DEBUG = false) then hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe') + '/w '; // wait for cmd termination
-  if (DEBUG = true) then hideConsole := ExpandConstant('cmd.exe');
+  hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
 
   if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
   if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
@@ -956,14 +955,29 @@ begin
 
   if Pos('phpextensions', selectedComponents) > 0 then
   begin
+    UpdateCurrentComponentName('PHP Extension - AMQP');
+      DoUnzip(targetPath + Filename_phpext_amqp, targetPath + '\amqp');
+      FileCopy(ExpandConstant(targetPath + 'amqp\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
+    UpdateTotalProgressBar();
+
     UpdateCurrentComponentName('PHP Extension - APC');
       DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
       FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - AMQP');
-      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'amqp');
-      FileCopy(ExpandConstant(targetPath + 'msgpack\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\mailparse');
+      FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - MsgPack');
+      DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + '\msgpack');
+      FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Phalcon');
+      DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + '\phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phalcon\php_phalcon.dll'), ExpandConstant('{app}\bin\php\ext\php_phalcon.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - RAR');
@@ -974,26 +988,6 @@ begin
     UpdateCurrentComponentName('PHP Extension - Trader');
       DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
       FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - ZMQ');
-      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
-      FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Mailparse');
-      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\mailparse');
-      FileCopy(ExpandConstant(targetPath + 'mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - MsgPack');
-      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + '\msgpack');
-      FileCopy(ExpandConstant(targetPath + 'msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Phalcon');
-      DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + '\phalcon');
-      FileCopy(ExpandConstant(targetPath + 'phalcon\php_phalcon.dll'), ExpandConstant('{app}\bin\php\ext\php_phalcon.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');
@@ -1012,6 +1006,11 @@ begin
       // copy xcache htdoc to webinterface
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\tools\xcache') + '"',
           '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - ZMQ');
+      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
+      FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -1158,6 +1157,8 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + '\phpext_mongo');
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'phpext_mongo\php_mongo-* ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"',
+            '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
   end;
 
@@ -1186,12 +1187,10 @@ begin
   // MariaDB - initialize mysql tables, e.g. performance_tables
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
-  // MongoDB - rename directory and phpext_mongo - rename file
+  // MongoDB - rename directory
   if Pos('mongodb', selectedComponents) > 0 then
   begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\php\ext\phpext_mongo-* ' + appPath + '\bin\php\ext\php_mongo.dll',
-      '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   // Varnish - rename directory, like "varnish-3.0.2"

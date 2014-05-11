@@ -956,29 +956,14 @@ begin
 
   if Pos('phpextensions', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('PHP Extension - APC');
-      DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
-      FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
-    UpdateTotalProgressBar();
-
     UpdateCurrentComponentName('PHP Extension - AMQP');
       DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'amqp');
       FileCopy(ExpandConstant(targetPath + 'msgpack\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - RAR');
-      DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
-      FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Trader');
-      DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
-      FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - ZMQ');
-      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
-      FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+    UpdateCurrentComponentName('PHP Extension - APC');
+      DoUnzip(targetPath + Filename_phpext_apc, targetPath + '\apc');
+      FileCopy(ExpandConstant(targetPath + 'apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mailparse');
@@ -994,6 +979,16 @@ begin
     UpdateCurrentComponentName('PHP Extension - Phalcon');
       DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + '\phalcon');
       FileCopy(ExpandConstant(targetPath + 'phalcon\php_phalcon.dll'), ExpandConstant('{app}\bin\php\ext\php_phalcon.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - RAR');
+      DoUnzip(targetPath + Filename_phpext_rar, targetPath + '\rar');
+      FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Trader');
+      DoUnzip(targetPath + Filename_phpext_trader, targetPath + '\trader');
+      FileCopy(ExpandConstant(targetPath + 'trader\php_trader.dll'), ExpandConstant('{app}\bin\php\ext\php_trader.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');
@@ -1012,6 +1007,11 @@ begin
       // copy xcache htdoc to webinterface
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\tools\xcache') + '"',
           '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - ZMQ');
+      DoUnzip(targetPath + Filename_phpext_zmq, targetPath + '\zmq');
+      FileCopy(ExpandConstant(targetPath + 'zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
     UpdateTotalProgressBar();
   end;
 
