@@ -196,6 +196,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 // Automatically started...
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb";
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb;
+Filename: {tmp}\stripdown-postgresql.bat; Parameters: "{app}\bin\pgsql"; Components: postgresql;
 Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
 Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
 // User selected Postinstall runs

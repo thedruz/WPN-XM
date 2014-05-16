@@ -196,6 +196,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 // Automatically started...
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb"; Flags: runhidden;
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb; Flags: runhidden;
+Filename: {tmp}\stripdown-postgresql.bat; Parameters: "{app}\bin\pgsql"; Components: postgresql; Flags: runhidden;
 Filename: {app}\bin\perl\relocation.pl.bat; Components: perl; Flags: runhidden;
 Filename: {app}\bin\perl\update_env.pl.bat; Components: perl; Flags:runhidden;
 // User selected Postinstall runs
@@ -1084,7 +1085,7 @@ begin
   if Pos('postgresql', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PostgreSQL');
-      DoUnzip(targetPath + Filename_postgresql, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_postgresql, ExpandConstant('{app}\bin')); // no subfolder, brings own dir "pgsql"
     UpdateTotalProgressBar();
   end;
 
