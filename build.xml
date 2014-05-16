@@ -119,7 +119,7 @@
     </target>
 
     <target name="compile-wpnxm-lite-installer" description="Downloads all components and builds the WPN-XM setup executable."
-            depends="download-components, stripdown-mariadb, stripdown-mongodb, prepare-downloads-lite">
+            depends="download-components, stripdown-mariadb, prepare-downloads-lite">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
@@ -160,7 +160,7 @@
 
     <target name="compile-wpnxm-allinone-installer"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="download-components, stripdown-mariadb, stripdown-mongodb, prepare-downloads-allinone">
+            depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql, prepare-downloads-allinone">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
@@ -182,7 +182,7 @@
 
     <target name="compile-wpnxm-bigpack-installer"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="download-components, stripdown-mariadb, stripdown-mongodb">
+            depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql">
         <exec program="${innosetupcompiler}">
             <!-- use our build dir as output dir -->
             <arg value="-o${dir.Build}"/>
