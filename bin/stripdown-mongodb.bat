@@ -2,16 +2,15 @@
 :: Change this to ON when debugging this batch file.
 
 :: +-------------------------------------------------------------------------
-:: | MongoDB 2.2.1 win32 - Stripdown Script for WPN-XM Server Stack.
+:: | MongoDB - Stripdown Script for WPN-XM Server Stack.
 :: | http://wpn-xm.org/
 :: | Author: Jens-André Koch
 :: +-----------------------------------------------------------------------<3
 
-:: ############# Accept "path to MongoDB" as first parameter
+:: ############# Accepts the "path to MongoDB" as first parameter
 
-:: Because of possible spaces in the folder name,
-:: one must use quotes on the argument, like so
-:: create-mongodb-light-win32.bat "c:\program files\somewhere"
+:: Use quotes on the argument, if the folder name contains spaces
+:: stripdown-mongodb.bat "c:\program files\somewhere"
 
 :: Check - Parameter is not empty
 

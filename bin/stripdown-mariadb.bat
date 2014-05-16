@@ -2,16 +2,15 @@
 :: Change this to ON when debugging this batch file.
 
 :: +-------------------------------------------------------------------------
-:: | MariaDB 5.5.15 win32 - Stripdown Script for WPN-XM Server Stack.
+:: | MariaDB - Stripdown Script for WPN-XM Server Stack.
 :: | http://wpn-xm.org/
 :: | Author: Jens-André Koch
 :: +-----------------------------------------------------------------------<3
 
-:: ############# Accept "path to MariaDB" as first parameter
+:: ############# Accepts the "path to MariaDB" as first parameter
 
-:: Because of possible spaces in the folder name,
-:: one must use quotes on the argument, like so
-:: create-maridb-light-win32.bat "c:\program files\somewhere"
+:: Use quotes on the argument, if the folder name contains spaces
+:: stripdown-mariadb.bat "c:\program files\somewhere"
 
 :: Check - Parameter is not empty
 
@@ -153,12 +152,12 @@ rd /s /q "%MARIADB_DIR%\support-files"
 
 :: ############# compress executables with UPX
 
-::IF EXIST "%~dp0/upx/upx.exe" (
+::IF EXIST "%~dp0\upx\upx.exe" (
 ::    echo.
 ::   echo [x] Compressing MariaDB executables.
 ::    echo.
 ::
-::    %~dp0/upx/upx.exe -9 %MARIADB_DIR%\bin\*.exe
+::    %~dp0\upx\upx.exe -9 %MARIADB_DIR%\bin\*.exe
 ::)
 
 :: ############# DONE
