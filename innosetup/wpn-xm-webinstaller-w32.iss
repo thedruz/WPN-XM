@@ -983,7 +983,7 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - RAR');
       DoUnzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-      FileCopy(ExpandConstant(targetPath + 'rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), ExpandConstant('{app}\bin\php\ext\php_rar.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');
@@ -1192,6 +1192,12 @@ begin
   if Pos('mongodb', selectedComponents) > 0 then
   begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
+  // PostgreSQL - initial setup
+  if Pos('postgresql', selectedComponents) > 0 then
+  begin
+      Exec(hideConsole, appPath + '\bin\pgsql\bin\initdb.exe ' + appPath + '\bin\pgsql\data"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   // Varnish - rename directory, like "varnish-3.0.2"

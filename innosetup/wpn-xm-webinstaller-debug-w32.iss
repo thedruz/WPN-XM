@@ -1085,7 +1085,7 @@ begin
   if Pos('postgresql', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PostgreSQL');
-      DoUnzip(targetPath + Filename_postgresql, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_postgresql, ExpandConstant('{app}\bin')); // no subfolder, brings own dir "pgsql"
     UpdateTotalProgressBar();
   end;
 
@@ -1192,6 +1192,12 @@ begin
   if Pos('mongodb', selectedComponents) > 0 then
   begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
+  // PostgreSQL - initial setup
+  if Pos('postgresql', selectedComponents) > 0 then
+  begin
+      Exec(hideConsole, appPath + '\bin\pgsql\bin\initdb.exe ' + appPath + '\bin\pgsql\data"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   // Varnish - rename directory, like "varnish-3.0.2"
