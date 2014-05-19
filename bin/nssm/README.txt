@@ -1,5 +1,5 @@
 NSSM: The Non-Sucking Service Manager
-Version 2.21.1, 2013-12-03
+Version 2.22, 2014-05-16
 
 NSSM is a service helper program similar to srvany and cygrunsrv.  It can 
 start any application as an NT service and will restart the service if it 
@@ -53,13 +53,29 @@ Since version 2.19, NSSM can add to the service's environment by setting
 AppEnvironmentExtra in place of or in addition to the srvany-compatible
 AppEnvironment.
 
+Since version 2.22, NSSM can set the managed application's process priority
+and CPU affinity.
+
+Since version 2.22, NSSM can apply an unconditional delay before restarting
+an application which has exited.
+
+Since version 2.22, NSSM can rotate existing output files when redirecting I/O.
+
+Since version 2.22, NSSM can set service display name, description, startup
+type, log on details and dependencies.
+
+Since version 2.22, NSSM can manage existing services.
+
 
 Usage
 -----
-In the usage notes below, arguments to the program may be written in angle 
-brackets and/or square brackets.  <string> means you must insert the 
-appropriate string and [<string>] means the string is optional.  See the 
+In the usage notes below, arguments to the program may be written in angle
+brackets and/or square brackets.  <string> means you must insert the
+appropriate string and [<string>] means the string is optional.  See the
 examples below...
+
+Note that everywhere <servicename> appears you may substitute the
+service's display name.
 
 
 Installation using the GUI
@@ -116,6 +132,17 @@ You can change the threshold for the service by setting the number of
 milliseconds as a REG_DWORD value in the registry at
 HKLM\SYSTEM\CurrentControlSet\Services\<service>\Parameters\AppThrottle.
 
+Alternatively, NSSM can pause for a configurable amount of time before
+attempting to restart the application even if it successfully ran for the
+amount of time specified by AppThrottle.  NSSM will consult the REG_DWORD value
+at HKLM\SYSTEM\CurrentControlSet\Services\<service>\Parameters\AppRestartDelay
+for the number of milliseconds to wait before attempting a restart.  If
+AppRestartDelay is set and the application is determined to be subject to
+throttling, NSSM will pause the service for whichever is longer of the
+configured restart delay and the calculated throttle period.
+
+If AppRestartDelay is missing or invalid, only throttling will be applied.
+
 NSSM will look in the registry under
 HKLM\SYSTEM\CurrentControlSet\Services\<service>\Parameters\AppExit for
 string (REG_EXPAND_SZ) values corresponding to the exit code of the application.
@@ -148,6 +175,34 @@ pre-Vista systems where you wish to apply a service recovery action.  Note
 that if the monitored application exits with code 0, NSSM will only honour a
 request to suicide if you explicitly configure a registry key for exit code 0.
 If only the default action is set to Suicide NSSM will instead exit gracefully.
+
+
+Application priority
+--------------------
+NSSM can set the priority class of the managed application.  NSSM will look in
+the registry under HKLM\SYSTEM\CurrentControlSet\Services\<service>\Parameters
+for the REG_DWORD entry AppPriority.  Valid values correspond to arguments to
+SetPriorityClass().  If AppPriority() is missing or invalid the
+application will be launched with normal priority.
+
+
+Processor affinity
+------------------
+NSSM can set the CPU affinity of the managed application.  NSSM will look in
+the registry under HKLM\SYSTEM\CurrentControlSet\Services\<service>\Parameters
+for the REG_SZ entry AppAffinity.   It should specify a comma-separated listed
+of zero-indexed processor IDs.  A range of processors may optionally be
+specified with a dash.  No other characters are allowed in the string.
+
+For example, to specify the first; second; third and fifth CPUs, an appropriate
+AppAffinity would be 0-2,4.
+
+If AppAffinity is missing or invalid, NSSM will not attempt to restrict the
+application to specific CPUs.
+
+Note that the 64-bit version of NSSM can configure a maximum of 64 CPUs in this
+way and that the 32-bit version can configure a maxium of 32 CPUs even when
+running on 64-bit Windows.
 
 
 Stopping the service
@@ -207,6 +262,17 @@ so the actual time to shutdown may be longer than the sum of all configured
 timeouts if the application spawns multiple subprocesses.
 
 
+Console window
+--------------
+By default, NSSM will create a console window so that applications which
+are capable of reading user input can do so - subject to the service being
+allowed to interact with the desktop.
+
+Creation of the console can be suppressed by setting the integer (REG_DWORD)
+HKLM\SYSTEM\CurrentControlSet\Services\<service>\Parameters\AppNoConsole
+registry value to 1.
+
+
 I/O redirection
 ---------------
 NSSM can redirect the managed application's I/O to any path capable of being
@@ -234,6 +300,51 @@ work.  Remember, however, that the path must be accessible to the user
 running the service.
 
 
+File rotation
+-------------
+When using I/O redirection, NSSM can rotate existing output files prior to
+opening stdout and/or stderr.  An existing file will be renamed with a
+suffix based on the file's last write time, to millisecond precision.  For
+example, the file nssm.log might be rotated to nssm-20131221T113939.457.log.
+
+NSSM will look in the registry under
+HKLM\SYSTEM\CurrentControlSet\Services\<service>\Parameters for REG_DWORD
+entries which control how rotation happens.
+
+If AppRotateFiles is missing or set to 0, rotation is disabled.  Any non-zero
+value enables rotation.
+
+If AppRotateSeconds is non-zero, a file will not be rotated if its last write
+time is less than the given number of seconds in the past.
+
+If AppRotateBytes is non-zero, a file will not be rotated if it is smaller
+than the given number of bytes.  64-bit file sizes can be handled by setting
+a non-zero value of AppRotateBytesHigh.
+
+Rotation is independent of the CreateFile() parameters used to open the files.
+They will be rotated regardless of whether NSSM would otherwise have appended
+or replaced them.
+
+NSSM can also rotate files which hit the configured size threshold while the
+service is running.  Additionally, you can trigger an on-demand rotation by
+running the command
+
+    nssm rotate <servicename>
+
+On-demand rotations will happen after the next line of data is read from
+the managed application, regardless of the value of AppRotateBytes. Be aware
+that if the application is not particularly verbose the rotation may not
+happen for some time.
+
+To enable online and on-demand rotation, set AppRotateOnline to a non-zero
+value.
+
+Note that online rotation requires NSSM to intercept the application's I/O
+and create the output files on its behalf.  This is more complex and
+error-prone than simply redirecting the I/O streams before launching the
+application.  Therefore online rotation is not enabled by default.
+
+
 Environment variables
 ---------------------
 NSSM can replace or append to the managed application's environment.  Two
@@ -247,7 +358,219 @@ environment variables which will be added to the service's environment.
 Each entry in the list should be of the form KEY=VALUE.  It is possible to
 omit the VALUE but the = symbol is mandatory.
 
-srvany only supports AppEnvironment.
+Environment variables listed in both AppEnvironment and AppEnvironmentExtra
+are subject to normal expansion, so it is possible, for example, to update the
+system path by setting "PATH=C:\bin;%PATH%" in AppEnvironmentExtra.  Variables
+are expanded in the order in which they appear, so if you want to include the
+value of one variable in another variable you should declare the dependency
+first.
+
+Because variables defined in AppEnvironment override the existing
+environment it is not possible to refer to any variables which were previously
+defined.
+
+For example, the following AppEnvironment block:
+
+      PATH=C:\Windows\System32;C:\Windows
+      PATH=C:\bin;%PATH%
+
+Would result in a PATH of "C:\bin;C:\Windows\System32;C:\Windows" as expected.
+
+Whereas the following AppEnvironment block:
+
+      PATH=C:\bin;%PATH%
+
+Would result in a path containing only C:\bin and probably cause the
+application to fail to start.
+
+Most people will want to use AppEnvironmentExtra exclusively.  srvany only
+supports AppEnvironment.
+
+
+Managing services using the GUI
+-------------------------------
+NSSM can edit the settings of existing services with the same GUI that is
+used to install them.  Run
+
+    nssm edit <servicename>
+
+to bring up the GUI.
+
+NSSM offers limited editing capabilities for services other than those which
+run NSSM itself.  When NSSM is asked to edit a service which does not have
+the App* registry settings described above, the GUI will allow editing only
+system settings such as the service display name and description.
+
+
+Managing services using the command line
+----------------------------------------
+NSSM can retrieve or set individual service parameters from the command line.
+In general the syntax is as follows, though see below for exceptions.
+
+    nssm get <servicename> <parameter>
+
+    nssm set <servicename> <parameter> <value>
+
+Parameters can also be reset to their default values.
+
+    nssm reset <servicename> <parameter>
+
+The parameter names recognised by NSSM are the same as the registry entry
+names described above, eg AppDirectory.
+
+NSSM offers limited editing capabilities for Services other than those which
+run NSSM itself.  The parameters recognised are as follows:
+
+  Description: Service description.
+  DisplayName: Service display name.
+  ImagePath: Path to the service executable.
+  ObjectName: User account which runs the service.
+  Name: Service key name.
+  Start: Service startup type.
+  Type: Service type.
+
+These correspond to the registry values under the service's key
+HKLM\SYSTEM\CurrentControlSet\Services\<service>.
+
+
+Note that NSSM will concatenate all arguments passed on the command line
+with spaces to form the value to set.  Thus the following two invocations
+would have the same effect.
+
+    nssm set <servicename> Description "NSSM managed service"
+
+    nssm set <servicename> Description NSSM managed service
+
+
+Non-standard parameters
+-----------------------
+The AppEnvironment and AppEnvironmentExtra parameters recognise an
+additional argument when querying the environment.  The following syntax
+will print all extra environment variables configured for a service
+
+    nssm get <servicename> AppEnvironmentExtra
+
+whereas the syntax below will print only the value of the CLASSPATH
+variable if it is configured in the environment block, or the empty string
+if it is not configured.
+
+    nssm get <servicename> AppEnvironmentExtra CLASSPATH
+
+When setting an environment block, each variable should be specified as a
+KEY=VALUE pair in separate command line arguments.  For example:
+
+    nssm set <servicename> AppEnvironment CLASSPATH=C:\Classes TEMP=C:\Temp
+
+
+The AppExit parameter requires an additional argument specifying the exit
+code to get or set.  The default action can be specified with the string
+Default.
+
+For example, to get the default exit action for a service you should run
+
+    nssm get <servicename> AppExit Default
+
+To get the exit action when the application exits with exit code 2, run
+
+    nssm get <servicename> AppExit 2
+
+Note that if no explicit action is configured for a specified exit code,
+NSSM will print the default exit action.
+
+To set configure the service to stop when the application exits with an
+exit code of 2, run
+
+    nssm set <servicename> AppExit 2 Exit
+
+
+The AppPriority parameter is used to set the priority class of the
+managed application.  Valid priorities are as follows:
+
+  REALTIME_PRIORITY_CLASS
+  HIGH_PRIORITY_CLASS
+  ABOVE_NORMAL_PRIORITY_CLASS
+  NORMAL_PRIORITY_CLASS
+  BELOW_NORMAL_PRIORITY_CLASS
+  IDLE_PRIORITY_CLASS
+
+
+The DependOnGroup and DependOnService parameters are used to query or set
+the dependencies for the service.  When setting dependencies, each service
+or service group (preceded with the + symbol) should be specified in
+separate command line arguments.  For example:
+
+    nssm set <servicename> DependOnService RpcSs LanmanWorkstation
+
+
+The Name parameter can only be queried, not set.  It returns the service's
+registry key name.  This may be useful to know if you take advantage of
+the fact that you can substitute the service's display name anywhere where
+the syntax calls for <servicename>.
+
+
+The ObjectName parameter requires an additional argument only when setting
+a username.  The additional argument is the password of the user.
+
+To retrieve the username, run
+
+    nssm get <servicename> ObjectName
+
+To set the username and password, run
+
+    nssm set <servicename> ObjectName <username> <password>
+
+Note that the rules of argument concatenation still apply.  The following
+invocation is valid and will have the expected effect.
+
+    nssm set <servicename> ObjectName <username> correct horse battery staple
+
+The following well-known usernames do not need a password.  The password
+parameter can be omitted when using them:
+
+  "LocalSystem" aka "System" aka "NT Authority\System"
+  "LocalService" aka "Local Service" aka "NT Authority\Local Service"
+  "NetworkService" aka "Network Service" aka "NT Authority\Network Service"
+
+
+The Start parameter is used to query or set the startup type of the service.
+Valid service startup types are as follows:
+
+  SERVICE_AUTO_START: Automatic startup at boot.
+  SERVICE_DELAYED_START: Delayed startup at boot.
+  SERVICE_DEMAND_START: Manual service startup.
+  SERVICE_DISABLED: The service is disabled.
+
+Note that SERVICE_DELAYED_START is not supported on versions of Windows prior
+to Vista.  NSSM will set the service to automatic startup if delayed start is
+unavailable.
+
+
+The Type parameter is used to query or set the service type.  NSSM recognises
+all currently documented service types but will only allow setting one of two
+types:
+
+  SERVICE_WIN32_OWN_PROCESS: A standalone service.  This is the default.
+  SERVICE_INTERACTIVE_PROCESS: A service which can interact with the desktop.
+
+Note that a service may only be configured as interactive if it runs under
+the LocalSystem account.  The safe way to configure an interactive service
+is in two stages as follows.
+
+    nssm reset <servicename> ObjectName
+    nssm set <servicename> Type SERVICE_INTERACTIVE_PROCESS
+
+
+Controlling services using the command line
+-------------------------------------------
+NSSM offers rudimentary service control features.
+
+    nssm start <servicename>
+
+    nssm restart <servicename>
+
+    nssm stop <servicename>
+
+    nssm status <servicename>
 
 
 Removing services using the GUI
@@ -287,18 +610,39 @@ To install an Unreal Tournament server:
 
     nssm install UT2004 c:\games\ut2004\system\ucc.exe server
 
+To run the server as the "games" user:
+
+    nssm set UT2004 ObjectName games password
+
+To configure the server to log to a file:
+
+    nssm set UT2004 AppStdout c:\games\ut2004\service.log
+
+To restrict the server to a single CPU:
+
+    nssm set UT2004 AppAffinity 0
+
 To remove the server:
 
     nssm remove UT2004 confirm
 
+To find out the service name of a service with a display name:
+
+    nssm get "Background Intelligent Transfer Service" Name
+
 
 Building NSSM from source
 -------------------------
-NSSM is known to compile with Visual Studio 6, Visual Studio 2005 and Visual
-Studio 2008.
+NSSM is known to compile with Visual Studio 2008 and later.  Older Visual
+Studio releases may or may not work if you install an appropriate SDK and
+edit the nssm.vcproj and nssm.sln files to set a lower version number.
+They are known not to work with default settings.
 
 NSSM will also compile with Visual Studio 2010 but the resulting executable
-will not run on versions of Windows older than XP SP2.
+will not run on versions of Windows older than XP SP2.  If you require
+compatiblity with older Windows releases you should change the Platform
+Toolset to v90 in the General section of the project's Configuration
+Properties.
 
 
 Credits
@@ -309,22 +653,35 @@ Thanks to Joel Reingold for spotting a command line truncation bug.
 Thanks to Arve Knudsen for spotting that child processes of the monitored
 application could be left running on service shutdown, and that a missing
 registry value for AppDirectory confused NSSM.
-Thanks to Peter Wagemans and Laszlo Keresztfalvi for suggesting throttling restarts.
+Thanks to Peter Wagemans and Laszlo Keresztfalvi for suggesting throttling
+restarts.
 Thanks to Eugene Lifshitz for finding an edge case in CreateProcess() and for
 advising how to build messages.mc correctly in paths containing spaces.
 Thanks to Rob Sharp for pointing out that NSSM did not respect the
 AppEnvironment registry value used by srvany.
 Thanks to Szymon Nowak for help with Windows 2000 compatibility.
-Thanks to François-Régis Tardy for French translation.
+Thanks to François-Régis Tardy and Gildas le Nadan for French translation.
 Thanks to Emilio Frini for spotting that French was inadvertently set as
 the default language when the user's display language was not translated.
-Thanks to Riccardo Gusmeroli for Italian translation.
+Thanks to Riccardo Gusmeroli and Marco Certelli for Italian translation.
 Thanks to Eric Cheldelin for the inspiration to generate a Control-C event
 on shutdown.
-Thanks to Brian Baxter for suggesting how to escape quotes from the command prompt.
+Thanks to Brian Baxter for suggesting how to escape quotes from the command
+prompt.
 Thanks to Russ Holmann for suggesting that the shutdown timeout be configurable.
 Thanks to Paul Spause for spotting a bug with default registry entries.
 Thanks to BUGHUNTER for spotting more GUI bugs.
+Thanks to Doug Watson for suggesting file rotation.
+Thanks to Арслан Сайдуганов for suggesting setting process priority.
+Thanks to Robert Middleton for suggestion and draft implementation of process
+affinity support.
+Thanks to Andrew RedzMax for suggesting an unconditional restart delay.
+Thanks to Bryan Senseman for noticing that applications with redirected stdout
+and/or stderr which attempt to read from stdin would fail.
+Thanks to Czenda Czendov for help with Visual Studio 2013 and Server 2012R2.
+Thanks to Alessandro Gherardi for reporting and draft fix of the bug whereby
+the second restart of the application would have a corrupted environment.
+Thanks to Hadrien Kohl for suggesting to disable the console window's menu.
 
 Licence
 -------

@@ -23,6 +23,7 @@ int get_process_exit_time(HANDLE process_handle, FILETIME *ft) {
     return 1;
   }
 
+  if (! (exit_time.dwLowDateTime || exit_time.dwHighDateTime)) return 2;
   memmove(ft, &exit_time, sizeof(exit_time));
 
   return 0;
@@ -40,8 +41,8 @@ int check_parent(nssm_service_t *service, PROCESSENTRY32 *pe, unsigned long ppid
   */
   HANDLE process_handle = OpenProcess(PROCESS_QUERY_INFORMATION, false, pe->th32ProcessID);
   if (! process_handle) {
-    char pid_string[16];
-    _snprintf_s(pid_string, sizeof(pid_string), _TRUNCATE, "%lu", pe->th32ProcessID);
+    TCHAR pid_string[16];
+    _sntprintf_s(pid_string, _countof(pid_string), _TRUNCATE, _T("%lu"), pe->th32ProcessID);
     log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_OPENPROCESS_FAILED, pid_string, service->name, error_string(GetLastError()), 0);
     return 2;
   }
@@ -90,7 +91,7 @@ int CALLBACK kill_window(HWND window, LPARAM arg) {
   processes so this function returns only true if at least one thread was
   successfully prodded.
 */
-int kill_threads(char *service_name, kill_t *k) {
+int kill_threads(TCHAR *service_name, kill_t *k) {
   int ret = 0;
 
   /* Get a snapshot of all threads in the system. */
@@ -151,7 +152,7 @@ int kill_process(nssm_service_t *service, HANDLE process_handle, unsigned long p
 
   /* Try to send a Control-C event to the console. */
   if (service->stop_method & NSSM_STOP_METHOD_CONSOLE) {
-    if (! kill_console(service)) return 1;
+    if (! kill_console(service, &k)) return 1;
   }
 
   /*
@@ -162,7 +163,7 @@ int kill_process(nssm_service_t *service, HANDLE process_handle, unsigned long p
   if (service->stop_method & NSSM_STOP_METHOD_WINDOW) {
     EnumWindows((WNDENUMPROC) kill_window, (LPARAM) &k);
     if (k.signalled) {
-      if (! await_shutdown(service, __FUNCTION__, service->kill_window_delay)) return 1;
+      if (! await_shutdown(service, _T(__FUNCTION__), service->kill_window_delay)) return 1;
     }
   }
 
@@ -173,7 +174,7 @@ int kill_process(nssm_service_t *service, HANDLE process_handle, unsigned long p
   */
   if (service->stop_method & NSSM_STOP_METHOD_THREADS) {
     if (kill_threads(service->name, &k)) {
-      if (! await_shutdown(service, __FUNCTION__, service->kill_threads_delay)) return 1;
+      if (! await_shutdown(service, _T(__FUNCTION__), service->kill_threads_delay)) return 1;
     }
   }
 
@@ -186,7 +187,7 @@ int kill_process(nssm_service_t *service, HANDLE process_handle, unsigned long p
 }
 
 /* Simulate a Control-C event to our console (shared with the app). */
-int kill_console(nssm_service_t *service) {
+int kill_console(nssm_service_t *service, kill_t *k) {
   unsigned long ret;
 
   if (! service) return 1;
@@ -195,7 +196,7 @@ int kill_console(nssm_service_t *service) {
   if (! imports.AttachConsole) return 4;
 
   /* Try to attach to the process's console. */
-  if (! imports.AttachConsole(service->pid)) {
+  if (! imports.AttachConsole(k->pid)) {
     ret = GetLastError();
 
     switch (ret) {
@@ -236,7 +237,7 @@ int kill_console(nssm_service_t *service) {
   }
 
   /* Wait for process to exit. */
-  if (await_shutdown(service, __FUNCTION__, service->kill_console_delay)) ret = 6;
+  if (await_shutdown(service, _T(__FUNCTION__), service->kill_console_delay)) ret = 6;
 
   return ret;
 }
@@ -245,10 +246,30 @@ void kill_process_tree(nssm_service_t *service, unsigned long pid, unsigned long
   /* Shouldn't happen unless the service failed to start. */
   if (! pid) return;
 
-  char pid_string[16], code[16];
-  _snprintf_s(pid_string, sizeof(pid_string), _TRUNCATE, "%lu", pid);
-  _snprintf_s(code, sizeof(code), _TRUNCATE, "%lu", exitcode);
+  TCHAR pid_string[16], code[16];
+  _sntprintf_s(pid_string, _countof(pid_string), _TRUNCATE, _T("%lu"), pid);
+  _sntprintf_s(code, _countof(code), _TRUNCATE, _T("%lu"), exitcode);
   log_event(EVENTLOG_INFORMATION_TYPE, NSSM_EVENT_KILLING, service->name, pid_string, code, 0);
+
+  /* We will need a process handle in order to call TerminateProcess() later. */
+  HANDLE process_handle = OpenProcess(SYNCHRONIZE | PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE, false, pid);
+  if (process_handle) {
+    /* Kill this process first, then its descendents. */
+    TCHAR ppid_string[16];
+    _sntprintf_s(ppid_string, _countof(ppid_string), _TRUNCATE, _T("%lu"), ppid);
+    log_event(EVENTLOG_INFORMATION_TYPE, NSSM_EVENT_KILL_PROCESS_TREE, pid_string, ppid_string, service->name, 0);
+    if (! kill_process(service, process_handle, pid, exitcode)) {
+      /* Maybe it already died. */
+      unsigned long ret;
+      if (! GetExitCodeProcess(process_handle, &ret) || ret == STILL_ACTIVE) {
+        if (service->stop_method & NSSM_STOP_METHOD_TERMINATE) log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_TERMINATEPROCESS_FAILED, pid_string, service->name, error_string(GetLastError()), 0);
+        else log_event(EVENTLOG_WARNING_TYPE, NSSM_EVENT_PROCESS_STILL_ACTIVE, service->name, pid_string, NSSM, NSSM_REG_STOP_METHOD_SKIP, 0);
+      }
+    }
+
+    CloseHandle(process_handle);
+  }
+  else log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_OPENPROCESS_FAILED, pid_string, service->name, error_string(GetLastError()), 0);
 
   /* Get a snapshot of all processes in the system. */
   HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -284,25 +305,4 @@ void kill_process_tree(nssm_service_t *service, unsigned long pid, unsigned long
   }
 
   CloseHandle(snapshot);
-
-  /* We will need a process handle in order to call TerminateProcess() later. */
-  HANDLE process_handle = OpenProcess(SYNCHRONIZE | PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE, false, pid);
-  if (! process_handle) {
-    log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_OPENPROCESS_FAILED, pid_string, service->name, error_string(GetLastError()), 0);
-    return;
-  }
-
-  char ppid_string[16];
-  _snprintf_s(ppid_string, sizeof(ppid_string), _TRUNCATE, "%lu", ppid);
-  log_event(EVENTLOG_INFORMATION_TYPE, NSSM_EVENT_KILL_PROCESS_TREE, pid_string, ppid_string, service->name, 0);
-  if (! kill_process(service, process_handle, pid, exitcode)) {
-    /* Maybe it already died. */
-    unsigned long ret;
-    if (! GetExitCodeProcess(process_handle, &ret) || ret == STILL_ACTIVE) {
-      if (service->stop_method & NSSM_STOP_METHOD_TERMINATE) log_event(EVENTLOG_ERROR_TYPE, NSSM_EVENT_TERMINATEPROCESS_FAILED, pid_string, service->name, error_string(GetLastError()), 0);
-      else log_event(EVENTLOG_WARNING_TYPE, NSSM_EVENT_PROCESS_STILL_ACTIVE, service->name, pid_string, NSSM, NSSM_REG_STOP_METHOD_SKIP, 0);
-    }
-  }
-
-  CloseHandle(process_handle);
 }

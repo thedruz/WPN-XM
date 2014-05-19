@@ -1,30 +1,54 @@
+Changes since 2.21
+------------------
+  * Existing services can now be managed using the GUI
+    or on the command line.
+
+  * NSSM can now set the priority class and processor
+    affinity of the managed application.
+
+  * NSSM can now apply an unconditional delay before
+    restarting the application.
+
+  * NSSM can now optionally rotate existing files when
+    redirecting I/O.
+
+  * Unqualified path names are now relative to the
+    application startup directory when redirecting I/O.
+
+  * NSSM can now set the service display name, description,
+    startup type and log on details.
+
+  * All services now receive a standard console window,
+    allowing them to read input correctly (if running in
+    interactive mode).
+
 Changes since 2.20
------------------
+------------------
   * Services installed from the GUI no longer have incorrect
     AppParameters set in the registry.
 
 Changes since 2.19
------------------
+------------------
   * Services installed from the commandline without using the
     GUI no longer have incorrect AppStopMethod* registry
     entries set.
 
 Changes since 2.18
------------------
+------------------
   * Support AppEnvironmentExtra to append to the environment
     instead of replacing it.
 
   * The GUI is significantly less sucky.
 
 Changes since 2.17
------------------
+------------------
   * Timeouts for each shutdown method can be configured in
     the registry.
 
   * The GUI is slightly less sucky.
 
 Changes since 2.16
------------------
+------------------
   * NSSM can now redirect the service's I/O streams to any path
     capable of being opened by CreateFile().
 
@@ -36,26 +60,26 @@ Changes since 2.16
     shutting them down.
 
 Changes since 2.15
------------------
+------------------
   * Fixed case where NSSM could kill unrelated processes when
     shutting down.
 
 Changes since 2.14
------------------
+------------------
   * NSSM is now translated into Italian.
 
   * Fixed GUI not allowing paths longer than 256 characters.
 
 Changes since 2.13
------------------
+------------------
   * Fixed default GUI language being French not English.
 
 Changes since 2.12
------------------
+------------------
   * Fixed failure to run on Windows 2000.
 
 Changes since 2.11
------------------
+------------------
   * NSSM is now translated into French.
 
   * Really ensure systems recovery actions can happen.
@@ -65,7 +89,7 @@ Changes since 2.11
     a non-zero error code didn't actually work.
 
 Changes since 2.10
------------------
+------------------
   * Support AppEnvironment for compatibility with srvany.
 
 Changes since 2.9
@@ -201,6 +225,6 @@ Changes since 2.1
 
 Changes since 2.0
 -----------------
-  * Added support for building a 64-bit executable. 
+  * Added support for building a 64-bit executable.
 
   * Added project files for newer versions of Visual Studio.

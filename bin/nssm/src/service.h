@@ -4,40 +4,81 @@
 /*
   MSDN says the commandline in CreateProcess() is limited to 32768 characters
   and the application name to MAX_PATH.
+  A service name and service display name are limited to 256 characters.
   A registry key is limited to 255 characters.
   A registry value is limited to 16383 characters.
   Therefore we limit the service name to accommodate the path under HKLM.
 */
-#define EXE_LENGTH MAX_PATH
+#define EXE_LENGTH PATH_LENGTH
 #define CMD_LENGTH 32768
 #define KEY_LENGTH 255
 #define VALUE_LENGTH 16383
-#define SERVICE_NAME_LENGTH KEY_LENGTH - 55
+#define SERVICE_NAME_LENGTH 256
 
 #define ACTION_LEN 16
 
+#define NSSM_KERNEL_DRIVER _T("SERVICE_KERNEL_DRIVER")
+#define NSSM_FILE_SYSTEM_DRIVER _T("SERVICE_FILE_SYSTEM_DRIVER")
+#define NSSM_WIN32_OWN_PROCESS _T("SERVICE_WIN32_OWN_PROCESS")
+#define NSSM_WIN32_SHARE_PROCESS _T("SERVICE_WIN32_SHARE_PROCESS")
+#define NSSM_INTERACTIVE_PROCESS _T("SERVICE_INTERACTIVE_PROCESS")
+#define NSSM_SHARE_INTERACTIVE_PROCESS NSSM_WIN32_SHARE_PROCESS _T("|") NSSM_INTERACTIVE_PROCESS
+#define NSSM_UNKNOWN _T("?")
+
+#define NSSM_ROTATE_OFFLINE 0
+#define NSSM_ROTATE_ONLINE 1
+#define NSSM_ROTATE_ONLINE_ASAP 2
+
 typedef struct {
-  char name[SERVICE_NAME_LENGTH];
-  char exe[EXE_LENGTH];
-  char flags[VALUE_LENGTH];
-  char dir[MAX_PATH];
-  char *env;
+  bool native;
+  TCHAR name[SERVICE_NAME_LENGTH];
+  TCHAR displayname[SERVICE_NAME_LENGTH];
+  TCHAR description[VALUE_LENGTH];
+  unsigned long startup;
+  TCHAR *username;
+  size_t usernamelen;
+  TCHAR *password;
+  size_t passwordlen;
+  unsigned long type;
+  TCHAR image[PATH_LENGTH];
+  TCHAR exe[EXE_LENGTH];
+  TCHAR flags[VALUE_LENGTH];
+  TCHAR dir[DIR_LENGTH];
+  TCHAR *env;
+  __int64 affinity;
+  TCHAR *dependencies;
+  unsigned long dependencieslen;
   unsigned long envlen;
-  char *env_extra;
+  TCHAR *env_extra;
   unsigned long env_extralen;
-  char stdin_path[MAX_PATH];
+  unsigned long priority;
+  unsigned long no_console;
+  TCHAR stdin_path[PATH_LENGTH];
   unsigned long stdin_sharing;
   unsigned long stdin_disposition;
   unsigned long stdin_flags;
-  char stdout_path[MAX_PATH];
+  TCHAR stdout_path[PATH_LENGTH];
   unsigned long stdout_sharing;
   unsigned long stdout_disposition;
   unsigned long stdout_flags;
-  char stderr_path[MAX_PATH];
+  HANDLE stdout_pipe;
+  HANDLE stdout_thread;
+  unsigned long stdout_tid;
+  TCHAR stderr_path[PATH_LENGTH];
   unsigned long stderr_sharing;
   unsigned long stderr_disposition;
   unsigned long stderr_flags;
+  HANDLE stderr_pipe;
+  HANDLE stderr_thread;
+  unsigned long stderr_tid;
+  bool rotate_files;
+  unsigned long rotate_stdout_online;
+  unsigned long rotate_stderr_online;
+  unsigned long rotate_seconds;
+  unsigned long rotate_bytes_low;
+  unsigned long rotate_bytes_high;
   unsigned long default_exit_action;
+  unsigned long restart_delay;
   unsigned long throttle_delay;
   unsigned long stop_method;
   unsigned long kill_console_delay;
@@ -59,27 +100,47 @@ typedef struct {
   LARGE_INTEGER throttle_duetime;
   FILETIME creation_time;
   FILETIME exit_time;
+  TCHAR *initial_env;
 } nssm_service_t;
 
-void WINAPI service_main(unsigned long, char **);
-char *service_control_text(unsigned long);
-void log_service_control(char *, unsigned long, bool);
+void WINAPI service_main(unsigned long, TCHAR **);
+TCHAR *service_control_text(unsigned long);
+TCHAR *service_status_text(unsigned long);
+void log_service_control(TCHAR *, unsigned long, bool);
 unsigned long WINAPI service_control_handler(unsigned long, unsigned long, void *, void *);
+
+int affinity_mask_to_string(__int64, TCHAR **);
+int affinity_string_to_mask(TCHAR *, __int64 *);
+unsigned long priority_mask();
+int priority_constant_to_index(unsigned long);
+unsigned long priority_index_to_constant(int);
 
 nssm_service_t *alloc_nssm_service();
 void set_nssm_service_defaults(nssm_service_t *);
 void cleanup_nssm_service(nssm_service_t *);
-SC_HANDLE open_service_manager();
-int pre_install_service(int, char **);
-int pre_remove_service(int, char **);
+SC_HANDLE open_service_manager(unsigned long);
+SC_HANDLE open_service(SC_HANDLE, TCHAR *, unsigned long, TCHAR *, unsigned long);
+QUERY_SERVICE_CONFIG *query_service_config(const TCHAR *, SC_HANDLE);
+int set_service_dependencies(const TCHAR *, SC_HANDLE, TCHAR *);
+int get_service_dependencies(const TCHAR *, SC_HANDLE, TCHAR **, unsigned long *, int);
+int get_service_dependencies(const TCHAR *, SC_HANDLE, TCHAR **, unsigned long *);
+int set_service_description(const TCHAR *, SC_HANDLE, TCHAR *);
+int get_service_description(const TCHAR *, SC_HANDLE, unsigned long, TCHAR *);
+int get_service_startup(const TCHAR *, SC_HANDLE, const QUERY_SERVICE_CONFIG *, unsigned long *);
+int get_service_username(const TCHAR *, const QUERY_SERVICE_CONFIG *, TCHAR **, size_t *);
+int pre_install_service(int, TCHAR **);
+int pre_remove_service(int, TCHAR **);
+int pre_edit_service(int, TCHAR **);
 int install_service(nssm_service_t *);
 int remove_service(nssm_service_t *);
+int edit_service(nssm_service_t *, bool);
+int control_service(unsigned long, int, TCHAR **);
 void set_service_recovery(nssm_service_t *);
 int monitor_service(nssm_service_t *);
 int start_service(nssm_service_t *);
 int stop_service(nssm_service_t *, unsigned long, bool, bool);
 void CALLBACK end_service(void *, unsigned char);
 void throttle_restart(nssm_service_t *);
-int await_shutdown(nssm_service_t *, char *, unsigned long);
+int await_shutdown(nssm_service_t *, TCHAR *, unsigned long);
 
 #endif
