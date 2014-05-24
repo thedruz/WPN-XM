@@ -304,6 +304,30 @@
         <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
+    <target name="stripdown-postgresql" description="Unzip PostgreSQL. Delete unnecessary files. Zip Postgresql. (xxMB to xxMB on vx.y.z!)"
+            if="${file::get-length(dir.Downloads + '\postgresql.zip') &gt; 20971520}">
+        <!-- target folder for unzipping -->
+        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
+        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
+        <!-- unzip -->
+        <unzip zipfile="${dir.Downloads}\postgresql.zip" todir="${dir.Downloads}\stripdown"/>
+        <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\postgresql* ${dir.Downloads}\stripdown\postgresql"/>
+        <!-- stripdown -->
+        <exec program="${dir.Base}\bin\stripdown-postgresql.bat">
+            <arg value="${dir.Downloads}\stripdown\postgresql"/>
+        </exec>
+        <!-- rename original download file (process in use lock out?) -->
+        <delete file="${dir.Downloads}\postgresql.zip"/>
+        <!-- create postgresql.zip, from stripdowned postgresql folder -->
+        <zip zipfile="${dir.Downloads}\postgresql.zip">
+            <fileset basedir="${dir.Downloads}\stripdown">
+                <include name="**/*"/>
+            </fileset>
+        </zip>
+        <!-- delete the stripdown folder -->
+        <delete dir="${dir.Downloads}\stripdown"/>
+    </target>
+
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
          <mkdir dir="${dir.Downloads}"/>
     </target>
