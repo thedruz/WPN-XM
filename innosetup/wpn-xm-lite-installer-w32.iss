@@ -129,11 +129,9 @@ Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
 Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
 Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
 Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}
 // config files
