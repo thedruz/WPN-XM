@@ -127,6 +127,7 @@ Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDisk
 Source: ..\downloads\allinone\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\backup\*; DestDir: DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
@@ -141,17 +142,18 @@ Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Flag
 // if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 // incorporate several startfiles
-Source: ..\startfiles\webinterface.url; DestDir: {app}
-Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
-Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
-Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
-Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
-Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
+Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
+Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
+Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
+Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
+Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\webinterface.url; DestDir: {app}
 // config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
