@@ -7,6 +7,7 @@ Contributors include:
 * Tobias Fichtner       - https://github.com/tobiasfichtner
 * Daniel Winterfeldt    - https://github.com/dawinterfeldt
 * Lucio M. Tato         - https://github.com/luciotato
+* Peter Vandenberghe    - https://github.com/petervdb
 
 The WPN-XM Server Control Panel is a fork of Easy WEMP
 originally written by
