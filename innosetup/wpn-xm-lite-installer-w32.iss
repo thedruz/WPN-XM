@@ -116,7 +116,6 @@ Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
-Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\tools\webinterface,.git*;
 // webinterface folder is only copied, if component is selected
@@ -127,6 +126,7 @@ Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Compon
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\start-mongodb.bat; DestDir: {app}

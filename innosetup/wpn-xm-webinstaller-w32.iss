@@ -143,7 +143,6 @@ Source: ..\bin\generate-certificate.bat; DestDir: {app}\bin\openssl; Components:
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
 Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}; Components: mongodb
-Source: ..\bin\install-phpunit.bat; DestDir:{app}\bin\php\
 // incorporate the whole "www" folder into the setup, except webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\tools\webinterface,.git*;
 // webinterface folder is only copied, if component is selected
@@ -154,6 +153,7 @@ Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Compon
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
