@@ -11,7 +11,7 @@
     <!-- Version -->
     <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
     <property name="version.Major"          value="0"/>
-    <property name="version.Minor"          value="7"/>
+    <property name="version.Minor"          value="8"/>
     <property name="version.BuildNumber"    value="0"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
 
@@ -219,45 +219,30 @@
     <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
             depends="make-downloads-dir, update-git-submodules, versionize-registries">
 
-        <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" delim=","
-                 property="component,source,destination,version">
+        <!-- ${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" delim="," -->
 
-            <echo message="&#xa; Downloading ${component} &#xa;"/>
+        <!-- Aria2C - http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
+                      http://aria2.sourceforge.net/manual/en/html/aria2c.html-->
+        <exec program="cmd.exe" commandline="/c ${dir.Base}\bin\aria\aria2c.exe">
+            <arg value="-i ${dir.Base}\registry\downloads.txt"/>
+            <arg value="-d ${dir.Base}\downloads"/>
+            <arg value="--max-connection-per-server=8"/>
+            <arg value="--min-split-size=1M"/>
+            <arg value="--max-tries=5"/>
+            <arg value="--file-allocation=falloc"/>
+            <arg value="--check-certificate=false"/>
+            <arg value="--conditional-get=true"/>
+            <arg value="--auto-file-renaming=false"/>
+            <arg value="--allow-overwrite=true"/>
+            <arg value="--http-accept-gzip=true"/>
+            <arg value="--http-no-cache=true"/>
+            <arg value="--user-agent=WPN-XM Server Stack Downloader"/>
+        </exec>
 
-            <!-- NAnt - Native Get Command -->
-            <!-- <get src="${source}" dest="${dir.Downloads}\${destination}" usetimestamp="true" verbose="true"/> -->
-
-            <!-- WGET -->
-            <!-- <exec program="${dir.Base}\bin\UnxUtils\wget.exe">
-                <arg value="-N"/>
-                <arg value="-O ../../downloads/${destination}"/>
-                <arg value="${source}"/>
-            </exec>
-        -->
-
-            <!-- Aria2C - http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
-                          http://aria2.sourceforge.net/manual/en/html/aria2c.html-->
-            <exec program="${dir.Base}\bin\aria\aria2c.exe">
-                <arg value="--max-connection-per-server=8"/>
-                <arg value="--min-split-size=1M"/>
-                <arg value="--max-tries=10"/>
-                <arg value="--file-allocation=falloc"/>
-                <arg value="--check-certificate=false"/>
-                <arg value="--conditional-get=true"/>
-                <arg value="--auto-file-renaming=false"/>
-                <arg value="--allow-overwrite=true"/>
-                <arg value="--http-accept-gzip=true"/>
-                <arg value="--http-no-cache=true"/>
-                <arg value="--user-agent=WPN-XM Server Stack Downloader"/>
-                <arg value="-R"/>
-                <arg value="-o downloads\${destination}"/>
-                <arg value="${source}"/>
-            </exec>
-        </foreach>
     </target>
 
     <target name="stripdown-mariadb" description="Unzip MariaDB. Delete unnecessary files. Zip MariaDB. (136MB to 16MB on v5.5.28!)"
-            if="${file::get-length(dir.Downloads + '\mariadb.zip') &gt; 20971520}">
+            if="${file::get-length(dir.Downloads + '\mariadb.zip') &gt; 25000000}"><!-- 25MB -->
         <!-- target folder for unzipping -->
         <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
@@ -281,7 +266,7 @@
     </target>
 
     <target name="stripdown-mongodb" description="Unzip MongoDB. Delete unnecessary files. Zip MongoDb. (55MB to 16MB on v2.2.1!)"
-            if="${file::get-length(dir.Downloads + '\mongodb.zip') &gt; 20971520}">
+            if="${file::get-length(dir.Downloads + '\mongodb.zip') &gt; 25000000}"><!-- 25MB -->
         <!-- target folder for unzipping -->
         <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
@@ -305,7 +290,7 @@
     </target>
 
     <target name="stripdown-postgresql" description="Unzip PostgreSQL. Delete unnecessary files. Zip Postgresql. (xxMB to xxMB on vx.y.z!)"
-            if="${file::get-length(dir.Downloads + '\postgresql.zip') &gt; 20971520}">
+            if="${file::get-length(dir.Downloads + '\postgresql.zip') &gt; 25000000}"><!-- 25MB -->
         <!-- target folder for unzipping -->
         <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
