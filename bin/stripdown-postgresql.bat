@@ -49,10 +49,10 @@ echo.
 
 :: # 1) delete pdb files (windows crashdumps helpers / debug symbols)
 
-del /s /q "%POSTGRESQL_DIR%\bin\symbols\*.pdb"
+del /s /q "%POSTGRESQL_DIR%\symbols\*.pdb"
 
-rd /s /q "%POSTGRESQL_DIR%\bin\symbols"
-rd /s /q "%POSTGRESQL_DIR%\docs"
+rd /s /q "%POSTGRESQL_DIR%\symbols"
+rd /s /q "%POSTGRESQL_DIR%\doc"
 rd /s /q "%POSTGRESQL_DIR%\include"
 
 :: ############# compress executables with UPX
