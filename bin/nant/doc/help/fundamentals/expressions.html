@@ -17,12 +17,12 @@
                     Expressions
                 </td>
                 <td class="NavBar-Cell" align="right">
-                    v0.92
+                    v0.93-nightly-2013-10-20
                 </td>
             </tr>
         </table>
         <h1>Expressions</h1>
-        
+        <p class="topicstatus">[This is preliminary documentation and subject to change.]</p>
         <h2><a id="contents" />Contents</h2>
         <div>
             1 <a href="#introduction">Introduction</a><br />
@@ -191,7 +191,7 @@
                 <p>All tasks support <code>if</code> and <code>unless</code> attributes. 
                     Expressions can be used there to control which tasks get executed:</p>
                 <p>
-                    <code>&lt;property name="myprj.basedir" value="c:\" unless="<a href="../functions/property.exists.html">property::exists</a>('myprj.basedir')" 
+                    <code>&lt;property name="myprj.basedir" value="c:\" unless="<span class="expression">${<a href="../functions/property.exists.html">property::exists</a>('myprj.basedir')}</span>" 
                         /&gt;<br />
                         &lt;csc target="library" output="out.dll" ...
                         <br />

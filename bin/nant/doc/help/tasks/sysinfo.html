@@ -20,10 +20,11 @@
           <a href="../tasks/index.html">Task Reference</a>
           <img alt="-&gt;" src="../images/arrow.gif" /> &lt;sysinfo&gt;</td>
         <td class="NavBar-Cell" align="right">
-                        v0.92</td>
+                        v0.93-nightly-2013-10-20</td>
       </tr>
     </table>
     <h1>&lt;sysinfo&gt;</h1>
+    <p class="topicstatus">[This is preliminary documentation and subject to change.]</p>
     <p> Sets properties with system information. </p>
     <p>Sets a number of properties with information about the system environment. The intent of this task is for nightly build logs to have a record of system information so that the build was performed on.</p>
     <div class="table">
@@ -38,7 +39,7 @@
         </tr>
         <tr>
           <td>&lt;<code>prefix</code>&gt;.env.*</td>
-          <td>Environment variables (e.g., &lt;<code>prefix</code>&gt;.env.PATH).</td>
+          <td>Environment variables (e.g., &lt;<code>prefix</code>&gt;.env.PATH). Note that on x64 machines, variable's names containing "(x86)" will contain ".x86" instead (e.g., &lt;<code>prefix</code>&gt;.env.ProgramFiles.x86).</td>
         </tr>
         <tr>
           <td>&lt;<code>prefix</code>&gt;.os.platform</td>
@@ -82,7 +83,9 @@
         </tr>
       </table>
     </div>
-    <p> When the name of an environment variable is not a valid property name, the task will fail. In that case, set <code>failonerror</code> to <b>true</b> to allow that environment variable to be skipped. </p>
+    <p> When the name of an environment variable contains characters that are not allowed in a property name, the task will use a property name where each of such characters is replaced with an underscore (_). </p>
+    <p> Moreover when the name of an environment variable ends with the string "(x86)" the name of the property that is defined by this task will end with ".x86" instead. </p>
+    <p> For example the environment variable "ProgramFiles(x86)" will become "sys.env.ProgramFiles.x86" but an environment variable named "Program(x86)Files" would become "sys.env.Program_x86_Files". </p>
     <p class="i2">
       <b>Note:</b>  we advise you to use the following functions instead: </p>
     <div class="table">
@@ -187,7 +190,7 @@
     </ul>
     <h3>Requirements</h3>
     <div style="margin-left: 20px;">
-      <b>Assembly:</b> NAnt.Core (0.92.4543.0)
+      <b>Assembly:</b> NAnt.Core (0.93.5041.0)
             </div>
   </body>
 </html>

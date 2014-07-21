@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:nant="http://nant.sf.net/release/0.92/nant.xsd" elementFormDefault="qualified" targetNamespace="http://nant.sf.net/release/0.92/nant.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:nant="http://nant.sf.net/nightly/2013-10-20-0.93/nant.xsd" elementFormDefault="qualified" targetNamespace="http://nant.sf.net/nightly/2013-10-20-0.93/nant.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
-    <xs:documentation>NAnt schema generated at 06/09/2012 07:28:04</xs:documentation>
+    <xs:documentation>NAnt schema generated at 10/20/2013 19:08:53</xs:documentation>
   </xs:annotation>
   <xs:complexType name="NAnt.Core.TaskContainer">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">

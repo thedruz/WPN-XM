@@ -2255,7 +2255,7 @@
               </para>
               <code>
                 <![CDATA[
-            <echo message="${version::get-major-version(assemblyname::get-version(assemblyname::get-assembly-name('nunit.framework.dll')))}" />
+            <echo message="${version::get-major(assemblyname::get-version(assemblyname::get-assembly-name('nunit.framework.dll')))}" />
                 ]]>
               </code>
             </example>
@@ -2634,6 +2634,36 @@
               <code>
                 <![CDATA[
             <delete dir="test" if="${directory::exists('test')}" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Core.Functions.DirectoryFunctions.GetName(System.String)">
+            <summary>
+            Retrieves the directory name of the specified <paramref name="path"/>.
+            </summary>
+            <param name="path">The directory's full path. The path parameter can be a 
+            file name, including a file on a Universal Naming Convention (UNC) share.
+            </param>
+            <returns>
+            A string containing the name of the directory.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="path"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="path"/> is a zero-length string, contains only white space, 
+            or contains one or more invalid characters.
+            </exception>
+            <exception cref="T:System.IO.PathTooLongException">
+            The specified path, file name, or both exceed the system-defined maximum 
+            length.
+            </exception>
+            <example>
+              <para>Gets directory name "test" from full path string.</para>
+              <code>
+                <![CDATA[
+            <property name="test.dir" value="${directory::get-name('C:\Temp\bin\test')}" />
                 ]]>
               </code>
             </example>
@@ -8643,7 +8673,7 @@
                 </item>
                 <item>
                   <term>&lt;<see cref="P:NAnt.Core.Tasks.SysInfoTask.Prefix"/>&gt;.env.*</term>
-                  <description>Environment variables (e.g., &lt;<see cref="P:NAnt.Core.Tasks.SysInfoTask.Prefix"/>&gt;.env.PATH).</description>
+                  <description>Environment variables (e.g., &lt;<see cref="P:NAnt.Core.Tasks.SysInfoTask.Prefix"/>&gt;.env.PATH). Note that on x64 machines, variable's names containing "(x86)" will contain ".x86" instead (e.g., &lt;<see cref="P:NAnt.Core.Tasks.SysInfoTask.Prefix"/>&gt;.env.ProgramFiles.x86).</description>
                 </item>
                 <item>
                   <term>&lt;<see cref="P:NAnt.Core.Tasks.SysInfoTask.Prefix"/>&gt;.os.platform</term>
@@ -8687,10 +8717,17 @@
                 </item>
               </list>
               <para>
-              When the name of an environment variable is not a valid property name,
-              the task will fail. In that case, set <see cref="P:NAnt.Core.Task.FailOnError"/> to 
-              <see langword="true"/> to allow that environment variable to be 
-              skipped.
+              When the name of an environment variable contains characters that are not allowed 
+              in a property name, the task will use a property name where each of such characters
+              is replaced with an underscore (_).
+              </para>
+              <para>
+              Moreover when the name of an environment variable ends with the string "(x86)" the name
+              of the property that is defined by this task will end with ".x86" instead.
+              </para>
+              <para>
+              For example the environment variable "ProgramFiles(x86)" will become "sys.env.ProgramFiles.x86"
+              but an environment variable named "Program(x86)Files" would become "sys.env.Program_x86_Files".
               </para>
               <note>
               we advise you to use the following functions instead:

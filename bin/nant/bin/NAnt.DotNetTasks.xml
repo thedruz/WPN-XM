@@ -1280,6 +1280,12 @@
             The default is <see langword="false" />.
             </summary>
         </member>
+        <member name="P:NAnt.DotNet.Tasks.CscTask.McsSdk">
+            <summary>
+            Gets or sets the mcs sdk version to apply to the new mcs compiler
+            for Mono 3.0+
+            </summary>
+        </member>
         <member name="P:NAnt.DotNet.Tasks.CscTask.Extension">
             <summary>
             Gets the file extension required by the current compiler.
