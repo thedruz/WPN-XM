@@ -219,6 +219,7 @@ de.RemoveApp=WPN-XM Server Stack deinstallieren
 en.RemoveApp=Uninstall WPN-XM Server Stack
 
 [Dirs]
+Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\domains-enabled
 Name: {app}\bin\nginx\conf\domains-disabled
 Name: {app}\logs
