@@ -266,7 +266,7 @@
     </target>
 
     <target name="stripdown-mongodb" description="Unzip MongoDB. Delete unnecessary files. Zip MongoDb. (55MB to 16MB on v2.2.1!)"
-            if="${file::get-length(dir.Downloads + '\mongodb.zip') &gt; 25000000}"><!-- 25MB -->
+            if="${file::get-length(dir.Downloads + '\mongodb.zip') &gt; 50000000}"><!-- 50MB -->
         <!-- target folder for unzipping -->
         <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
         <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
