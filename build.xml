@@ -46,11 +46,24 @@
         -->
         <copy todir="${dir.Build}" overwrite="true">
             <fileset basedir="${dir.Base}/innosetup/">
-                <include name="wpn-xm-webinstaller-w32.iss"/>
-                <include name="wpn-xm-webinstaller-debug-w32.iss"/>
-                <include name="wpn-xm-allinone-installer-w32.iss"/>
-                <include name="wpn-xm-bigpack-installer-w32.iss"/>
-                <include name="wpn-xm-lite-installer-w32.iss"/>
+                <!-- PHP 5.4 w32 -->
+                <include name="wpn-xm-webinstaller-php54-w32.iss"/>
+                <include name="wpn-xm-webinstaller-debug-php54-w32.iss"/>
+                <include name="wpn-xm-allinone-installer-php54-w32.iss"/>
+                <include name="wpn-xm-bigpack-installer-php54-w32.iss"/>
+                <include name="wpn-xm-lite-installer-php54-w32.iss"/>
+                <!-- PHP 5.5 w32 -->
+                <include name="wpn-xm-webinstaller-php55-w32.iss"/>
+                <include name="wpn-xm-webinstaller-debug-php55-w32.iss"/>
+                <include name="wpn-xm-allinone-installer-php55-w32.iss"/>
+                <include name="wpn-xm-bigpack-installer-php55-w32.iss"/>
+                <include name="wpn-xm-lite-installer-php55-w32.iss"/>
+                 <!-- PHP 5.5 w64 -->
+                <include name="wpn-xm-webinstaller-php55-w64.iss"/>
+                <include name="wpn-xm-webinstaller-debug-php55-w64.iss"/>
+                <include name="wpn-xm-allinone-installer-php55-w64.iss"/>
+                <include name="wpn-xm-bigpack-installer-php55-w64.iss"/>
+                <include name="wpn-xm-lite-installer-php55-w64.iss"/>
             </fileset>
             <filterchain>
                 <replacetokens>
