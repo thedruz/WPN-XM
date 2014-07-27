@@ -1,8 +1,6 @@
 @echo off
 
-SET PATH-OF-WIN-CMDS=%SystemRoot%\System32
-
-if exist "%PATH-OF-WIN-CMDS%\taskkill.exe" (
+if exist "%SystemRoot%\System32\taskkill.exe" (
     echo Using "taskkill" to kill the processes.
     SET KILL-PROCESS=taskkill /F /IM
     GOTO :kill-processes
@@ -15,7 +13,7 @@ if exist "%~dp0bin\tools\killprocess\Process.exe" (
 )
 
 : can't get tskill to work...
-if exist "%PATH-OF-WIN-CMDS%\tskill.exe" (
+if exist "%SystemRoot%\System32\tskill.exe" (
     echo Using "tskill" to kill the processes.
     SET KILL-PROCESS=tskill /A
     GOTO :kill-processes
@@ -35,7 +33,7 @@ IF "%1"=="" (
     call:stop-nginx
 ) ELSE (
     :: stop specific daemon
-    :: where $1 is the first cli argument, e.g. "stop-wpnxm.bat php"
+    :: where %1 is the first cli argument, e.g. "stop-wpnxm.bat php"
     call:stop-%1
 )
 GOTO END
