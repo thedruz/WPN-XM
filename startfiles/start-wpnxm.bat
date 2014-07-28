@@ -62,8 +62,6 @@ goto END
     start http://localhost/
 goto END
 
-goto END
-
 :ERROR
 pause>nul
 
