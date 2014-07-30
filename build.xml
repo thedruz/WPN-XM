@@ -33,6 +33,7 @@
     <property name="dir.Build"              value="${dir.Base}\_build"/>
     <property name="dir.Downloads"          value="${dir.Base}\downloads"/>
     <property name="dir.Installers"         value="${dir.Base}\installers"/>
+    <property name="dir.Registry"           value="${dir.Base}\registry"/>
 
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
     <property name="dir.qmake"              value="D:\Qt\Qt5.2.0\5.2.0-rc1\mingw48_32\bin"/>
@@ -215,7 +216,7 @@
     <target name="prepare-downloads-lite" description="Moves all components for the Lite installer from the downloads folder to downloads/lite."
             depends="versionize-registries">
         <echo message="&#xa; Moving All-In-One Components &#xa;"/>
-        <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv" delim=","
+        <foreach item="Line" in="${dir.Registry}/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv" delim=","
                  property="component,source,destination,version">
             <copy file="${dir.Downloads}\${destination}" tofile="${dir.Downloads}\lite\${destination}"/>
         </foreach>
@@ -225,7 +226,7 @@
             description="Moves all components for the All-In-One installer from the downloads folder to downloads/allinone."
             depends="versionize-registries">
         <echo message="&#xa; Moving All-In-One Components &#xa;"/>
-        <foreach item="Line" in="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv" delim=","
+        <foreach item="Line" in="${dir.Registry}/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv" delim=","
                  property="component,source,destination,version">
             <copy file="${dir.Downloads}\${destination}" tofile="${dir.Downloads}\allinone\${destination}"/>
         </foreach>
@@ -308,28 +309,28 @@
 
     <target name="versionize-registries"
             description="Adds the current version number to the registry .csv files.">
-        <echo message="&#xa; Versionizing Registries &#xa;"/>
+        <echo message="&#xa; Versionizing Registries"/>
         <echo message="&#xa;  | Big-Pack &#xa;"/>
-        <copy file="${dir.Base}/registry/wpnxm-software-registry-bigpack-w32.csv"
-            tofile="${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv"/>
+        <copy file="${dir.Registry}/wpnxm-software-registry-bigpack-w32.csv"
+            tofile="${dir.Registry}/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv"/>
         <echo message="&#xa;  | All-In-One &#xa;"/>
-        <copy file="${dir.Base}/registry/wpnxm-software-registry-allinone-w32.csv"
-            tofile="${dir.Base}/registry/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv"/>
+        <copy file="${dir.Registry}/wpnxm-software-registry-allinone-w32.csv"
+            tofile="${dir.Registry}/wpnxm-software-registry-allinone-${wpnxm.Version}-w32.csv"/>
         <echo message="&#xa;  | Lite &#xa;"/>
-        <copy file="${dir.Base}/registry/wpnxm-software-registry-lite-w32.csv"
-            tofile="${dir.Base}/registry/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv"/>
+        <copy file="${dir.Registry}/wpnxm-software-registry-lite-w32.csv"
+            tofile="${dir.Registry}/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv"/>
     </target>
 
     <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
             depends="make-downloads-dir, update-git-submodules, versionize-registries">
 
-        <!-- ${dir.Base}/registry/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" delim="," -->
+        <!-- ${dir.Registry}/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" delim="," -->
 
         <!-- Aria2C - http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
                       http://aria2.sourceforge.net/manual/en/html/aria2c.html-->
         <exec program="cmd.exe" commandline="/c ${dir.Base}\bin\aria\aria2c.exe">
-            <arg value="-i ${dir.Base}\registry\downloads.txt"/>
-            <arg value="-d ${dir.Base}\downloads"/>
+            <arg value="-i ${dir.Registry}\downloads.txt"/>
+            <arg value="-d ${dir.Downloads}"/>
             <arg value="--max-connection-per-server=8"/>
             <arg value="--min-split-size=1M"/>
             <arg value="--max-tries=5"/>
@@ -523,11 +524,11 @@
 
     <target name="commit-versionized-registries"
             description="Commits the versionized WPN-XM Software Component Registries (all untracked files in /registry folder).">
-         <exec program="git" workingdir="${dir.Base}/registry">
+         <exec program="git" workingdir="${dir.Registry}">
             <arg value="add"/>
             <arg value="-A"/>
         </exec>
-        <exec program="git"  workingdir="${dir.Base}/registry">
+        <exec program="git"  workingdir="${dir.Registry}">
             <arg value="commit"/>
             <arg value="-am Added WPN-XM Software Components Registry for Version ${wpnxm.Version}"/>
         </exec>
