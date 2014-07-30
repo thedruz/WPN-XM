@@ -563,10 +563,8 @@
         </exec>
     </target>
 
-    <target name="kill-aria">
-        <exec program="${dir.Base}\bin\killprocess\Process.exe">
-            <arg value="-k aria2c.exe"/>
-        </exec>
+    <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
+        <exec program="${dir.Base}\bin\killprocess\Process.exe" commandline="-k aria2c.exe" failonerror="false"/>
     </target>
 
     <target name="all"
