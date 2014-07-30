@@ -160,14 +160,12 @@
         <delete file="${dir.Base}/www/tools/webinterface/composer.json"/>
         <delete dir="${dir.Base}/www/tools/webinterface/tests"/>
     </target>
-    
+
     <target name="inno-compile">
         <echo message="Compiling ${installer.file}"/>
         <exec program="${innosetupcompiler}">
-                <!-- use our build dir as output dir -->
-                <arg value="-o${dir.Build}"/>
-                <!-- use files from build folder (tokens replaced) -->
-                <arg value="${installer.file}"/>
+            <arg value="-o${dir.Build}"/>
+            <arg value="${installer.file}"/>
         </exec>
     </target>
 
@@ -196,7 +194,7 @@
         <do>
             <call target="inno-compile"/>
         </do>
-        </foreach>       
+        </foreach>
     </target>
 
     <target name="compile-lite" description="Downloads all components and builds the WPN-XM setup executable."
@@ -210,7 +208,7 @@
         <do>
             <call target="inno-compile"/>
         </do>
-        </foreach>        
+        </foreach>
     </target>
 
     <target name="prepare-downloads-lite" description="Moves all components for the Lite installer from the downloads folder to downloads/lite."
@@ -244,7 +242,7 @@
         <do>
             <call target="inno-compile"/>
         </do>
-        </foreach>       
+        </foreach>
     </target>
 
     <target name="compile-allinone"
@@ -259,7 +257,7 @@
         <do>
             <call target="inno-compile"/>
         </do>
-        </foreach>        
+        </foreach>
     </target>
 
     <target name="compile-allinone-no-download"
@@ -274,7 +272,7 @@
         <do>
             <call target="inno-compile"/>
         </do>
-        </foreach>        
+        </foreach>
     </target>
 
     <target name="compile-bigpack"
@@ -289,7 +287,7 @@
         <do>
             <call target="inno-compile"/>
         </do>
-        </foreach>        
+        </foreach>
     </target>
 
     <target name="compile-bigpack-no-download"
@@ -323,11 +321,12 @@
 
     <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
             depends="make-downloads-dir, update-git-submodules, versionize-registries">
+        <!--
+                        Aria2C for Parallel Downloading
 
-        <!-- ${dir.Registry}/wpnxm-software-registry-bigpack-${wpnxm.Version}-w32.csv" delim="," -->
-
-        <!-- Aria2C - http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
-                      http://aria2.sourceforge.net/manual/en/html/aria2c.html-->
+            http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
+            http://aria2.sourceforge.net/manual/en/html/aria2c.html
+        -->
         <exec program="cmd.exe" commandline="/c ${dir.Base}\bin\aria\aria2c.exe">
             <arg value="-i ${dir.Registry}\downloads.txt"/>
             <arg value="-d ${dir.Downloads}"/>
@@ -343,77 +342,92 @@
             <arg value="--http-no-cache=true"/>
             <arg value="--user-agent=WPN-XM Server Stack Downloader"/>
         </exec>
+    </target>
 
+    <!--
+                        Stripdown Scripts
+
+         We are re-packaging several components, because they ship files, which are
+         hardly ever needed by the average developer.
+
+         The stripdown procedure consists of the following steps:
+
+         1. the stripdown folder is deleted and re-created, to have a clean target folder
+         2. the downloaded component is unziped into the stripdown folder
+         3. if the component zip shipped a versionized folder it is renamed to a short name
+         4. the stripdown script for this component is executed, reducing the files
+         5. the original zip file is deleted
+         6. the stripdown folder is zipped to the download folder, under the short name of the component
+         7. the stripdown folder is deleted
+
+     -->
+
+    <target name="recreate-stripdown-folder">
+        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
+        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
     </target>
 
     <target name="stripdown-mariadb" description="Unzip MariaDB. Delete unnecessary files. Zip MariaDB. (136MB to 16MB on v5.5.28!)"
+            depends="recreate-stripdown-folder"
             if="${file::get-length(dir.Downloads + '\mariadb.zip') &gt; 25000000}"><!-- 25MB -->
-        <!-- target folder for unzipping -->
-        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
-        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
-        <!-- unzip mariadb -->
+
         <unzip zipfile="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
         <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb"/>
-        <!-- stripdown -->
+
         <exec program="${dir.Base}\bin\stripdown-mariadb.bat">
             <arg value="${dir.Downloads}\stripdown\mariadb"/>
         </exec>
-        <!-- rename original download file (process in use lock out?) -->
+
         <delete file="${dir.Downloads}\mariadb.zip"/>
-        <!-- create mariadb.zip, from stripdowned mariadb folder -->
+
         <zip zipfile="${dir.Downloads}\mariadb.zip">
             <fileset basedir="${dir.Downloads}\stripdown">
                 <include name="**/*"/>
             </fileset>
         </zip>
-        <!-- delete the stripdown folder -->
+
         <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
     <target name="stripdown-mongodb" description="Unzip MongoDB. Delete unnecessary files. Zip MongoDb. (55MB to 16MB on v2.2.1!)"
+            depends="recreate-stripdown-folder"
             if="${file::get-length(dir.Downloads + '\mongodb.zip') &gt; 50000000}"><!-- 50MB -->
-        <!-- target folder for unzipping -->
-        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
-        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
-        <!-- unzip -->
+
         <unzip zipfile="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
         <exec program="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb"/>
-        <!-- stripdown -->
+
         <exec program="${dir.Base}\bin\stripdown-mongodb.bat">
             <arg value="${dir.Downloads}\stripdown\mongodb"/>
         </exec>
-        <!-- rename original download file (process in use lock out?) -->
+
         <delete file="${dir.Downloads}\mongodb.zip"/>
-        <!-- create mongodb.zip, from stripdowned mongodb folder -->
+
         <zip zipfile="${dir.Downloads}\mongodb.zip">
             <fileset basedir="${dir.Downloads}\stripdown">
                 <include name="**/*"/>
             </fileset>
         </zip>
-        <!-- delete the stripdown folder -->
+
         <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
     <target name="stripdown-postgresql" description="Unzip PostgreSQL. Delete unnecessary files. Zip Postgresql. (xxMB to xxMB on vx.y.z!)"
+            depends="recreate-stripdown-folder"
             if="${file::get-length(dir.Downloads + '\postgresql.zip') &gt; 25000000}"><!-- 25MB -->
-        <!-- target folder for unzipping -->
-        <delete dir="${dir.Downloads}/stripdown" if="${directory::exists(dir.Downloads + '/stripdown')}"/>
-        <mkdir dir="${dir.Downloads}/stripdown" if="${not directory::exists(dir.Downloads + '/stripdown')}"/>
-        <!-- unzip -->
+
         <unzip zipfile="${dir.Downloads}\postgresql.zip" todir="${dir.Downloads}\stripdown"/>
-        <!-- stripdown -->
+
         <exec program="${dir.Base}\bin\stripdown-postgresql.bat">
             <arg value="${dir.Downloads}\stripdown\pgsql"/>
         </exec>
-        <!-- rename original download file (process in use lock out?) -->
+
         <delete file="${dir.Downloads}\postgresql.zip"/>
-        <!-- create postgresql.zip, from stripdowned postgresql folder -->
+
         <zip zipfile="${dir.Downloads}\postgresql.zip">
             <fileset basedir="${dir.Downloads}\stripdown">
                 <include name="**/*"/>
             </fileset>
         </zip>
-        <!-- delete the stripdown folder -->
         <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
@@ -548,11 +562,11 @@
             <arg value="git clean -fxd"/> <!-- drop all untracked files, folders, e.g. /build crap. -->
         </exec>
     </target>
-    
+
     <target name="kill-aria">
         <exec program="${dir.Base}\bin\killprocess\Process.exe">
             <arg value="-k aria2c.exe"/>
-        </exec>    
+        </exec>
     </target>
 
     <target name="all"
