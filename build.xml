@@ -89,7 +89,7 @@
         Insert the version number into the innosetup script files.
         This is done via a copy operation with an applied filterchain, see below.
         The then preprocessed *.iss files are moved from the /installers folder to the /build directory.
-        Because they are used for the actual build, this step must run before any "compile-wpnxm-*" step.
+        Because they are used for the actual build, this step must run before any "compile-*" step.
      -->
     <target name="bump-version-number-in-installers">
         <echo message="&#xa;Inserting Version Number into Installer Script Fileset - '${fileset}'&#xa;" />
@@ -170,7 +170,7 @@
         </exec>
     </target>
 
-    <target name="compile-wpnxm-webinstaller" description="Builds the WPN-XM setup executable."
+    <target name="compile-webinstaller" description="Builds the WPN-XM setup executable."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach item="File" property="installer.file">
         <in>
@@ -184,7 +184,7 @@
         </foreach>
     </target>
 
-    <target name="compile-wpnxm-webinstaller-debug" description="Builds the WPN-XM setup executable for debugging."
+    <target name="compile-webinstaller-debug" description="Builds the WPN-XM setup executable for debugging."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach item="File" property="installer.file">
         <in>
@@ -198,7 +198,7 @@
         </foreach>       
     </target>
 
-    <target name="compile-wpnxm-lite" description="Downloads all components and builds the WPN-XM setup executable."
+    <target name="compile-lite" description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, prepare-downloads-lite">
         <foreach item="File" property="installer.file">
         <in>
@@ -231,7 +231,7 @@
         </foreach>
     </target>
 
-    <target name="compile-wpnxm-lite-no-download"
+    <target name="compile-lite-no-download"
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach item="File" property="installer.file">
@@ -246,7 +246,7 @@
         </foreach>       
     </target>
 
-    <target name="compile-wpnxm-allinone"
+    <target name="compile-allinone"
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql, prepare-downloads-allinone">
         <foreach item="File" property="installer.file">
@@ -261,7 +261,7 @@
         </foreach>        
     </target>
 
-    <target name="compile-wpnxm-allinone-no-download"
+    <target name="compile-allinone-no-download"
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach item="File" property="installer.file">
@@ -276,7 +276,7 @@
         </foreach>        
     </target>
 
-    <target name="compile-wpnxm-bigpack"
+    <target name="compile-bigpack"
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql">
         <foreach item="File" property="installer.file">
@@ -291,7 +291,7 @@
         </foreach>        
     </target>
 
-    <target name="compile-wpnxm-bigpack-no-download"
+    <target name="compile-bigpack-no-download"
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number, clean-webinterface-folder">
          <foreach item="File" property="installer.file">
@@ -555,11 +555,11 @@
                  bump-version-number,
                  print-version-number,
                  clean-webinterface-folder,
-                 compile-wpnxm-webinstaller,
-                 compile-wpnxm-webinstaller-debug,
-                 compile-wpnxm-allinone,
-                 compile-wpnxm-bigpack,
-                 compile-wpnxm-lite,
+                 compile-webinstaller,
+                 compile-webinstaller-debug,
+                 compile-allinone,
+                 compile-bigpack,
+                 compile-lite,
                  commit-versionized-registries,
                  reset-git-submodules">
     </target>

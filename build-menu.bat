@@ -59,14 +59,14 @@ goto END
     echo.
     echo Building "not-web" Installation Wizards (use existing Downloads)
     echo.
-    call bin\nant\bin\nant.exe -buildfile:build.xml compile-wpnxm-allinone-installer-no-download compile-wpnxm-bigpack-installer-no-download compile-wpnxm-lite-installer-no-download
+    call bin\nant\bin\nant.exe -buildfile:build.xml compile-allinone-no-download compile-bigpack-no-download compile-lite-no-download
 goto END
 
 :OPTION4
     echo.
     echo Building "web" Installation Wizard
     echo.
-    call bin\nant\bin\nant.exe -buildfile:build.xml compile-wpnxm-webinstaller-setup compile-wpnxm-webinstaller-debug-setup
+    call bin\nant\bin\nant.exe -buildfile:build.xml compile-webinstaller compile-webinstaller-debug
 goto END
 
 :OPTION5
