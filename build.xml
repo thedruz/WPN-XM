@@ -547,6 +547,12 @@
             <arg value="git clean -fxd"/> <!-- drop all untracked files, folders, e.g. /build crap. -->
         </exec>
     </target>
+    
+    <target name="kill-aria">
+        <exec program="${dir.Base}\bin\killprocess\Process.exe">
+            <arg value="-k aria2c.exe"/>
+        </exec>    
+    </target>
 
     <target name="all"
         depends="clean-build-dir,
@@ -561,7 +567,8 @@
                  compile-bigpack,
                  compile-lite,
                  commit-versionized-registries,
-                 reset-git-submodules">
+                 reset-git-submodules,
+                 kill-aria">
     </target>
 
 </project>
