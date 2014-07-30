@@ -57,7 +57,7 @@ AppUpdatesURL={#AppURL}
 // default installation folder is "c:\server". users might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#AppName}
-OutputBaseFilename=WPNXM-{#AppVersion}-{#InstallerType}-Setup-w32
+OutputBaseFilename=WPNXM-{#AppVersion}-{#InstallerType}-Setup-php55-w32
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
 InternalCompressLevel=max
