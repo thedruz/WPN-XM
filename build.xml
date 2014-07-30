@@ -45,33 +45,33 @@
     <!-- PHP 5.4 w32 -->
     <target name="fileset-php54-w32">
         <fileset id="files" basedir="${dir.Installers}">
-            <include name="wpn-xm-webinstaller-php54-w32.iss"/>
-            <include name="wpn-xm-webinstaller-debug-php54-w32.iss"/>
-            <include name="wpn-xm-allinone-php54-w32.iss"/>
-            <include name="wpn-xm-bigpack-php54-w32.iss"/>
-            <include name="wpn-xm-lite-php54-w32.iss"/>
+            <include name="webinstaller-php54-w32.iss"/>
+            <include name="webinstaller-debug-php54-w32.iss"/>
+            <include name="allinone-php54-w32.iss"/>
+            <include name="bigpack-php54-w32.iss"/>
+            <include name="lite-php54-w32.iss"/>
         </fileset>
     </target>
 
     <!-- PHP 5.5 w32 -->
     <target name="fileset-php55-w32">
         <fileset id="files" basedir="${dir.Installers}">
-            <include name="wpn-xm-webinstaller-php55-w32.iss"/>
-            <include name="wpn-xm-webinstaller-debug-php55-w32.iss"/>
-            <include name="wpn-xm-allinone-php55-w32.iss"/>
-            <include name="wpn-xm-bigpack-php55-w32.iss"/>
-            <include name="wpn-xm-lite-php55-w32.iss"/>
+            <include name="webinstaller-php55-w32.iss"/>
+            <include name="webinstaller-debug-php55-w32.iss"/>
+            <include name="allinone-php55-w32.iss"/>
+            <include name="bigpack-php55-w32.iss"/>
+            <include name="lite-php55-w32.iss"/>
         </fileset>
     </target>
 
     <!-- PHP 5.5 w64 -->
     <target name="fileset-php55-w64">
         <fileset id="files" basedir="${dir.Installers}">
-            <include name="wpn-xm-webinstaller-php55-w64.iss"/>
-            <include name="wpn-xm-webinstaller-debug-php55-w64.iss"/>
-            <include name="wpn-xm-allinone-php55-w64.iss"/>
-            <include name="wpn-xm-bigpack-php55-w64.iss"/>
-            <include name="wpn-xm-lite-php55-w64.iss"/>
+            <include name="webinstaller-php55-w64.iss"/>
+            <include name="webinstaller-debug-php55-w64.iss"/>
+            <include name="allinone-php55-w64.iss"/>
+            <include name="bigpack-php55-w64.iss"/>
+            <include name="lite-php55-w64.iss"/>
         </fileset>
     </target>
 
@@ -175,7 +175,7 @@
         <foreach item="File" property="installer.file">
         <in>
             <items basedir="${dir.Build}">
-              <include name="**/wpn-xm-webinstaller-*.iss" />
+              <include name="**/webinstaller-*.iss" />
             </items>
         </in>
         <do>
@@ -189,7 +189,7 @@
         <foreach item="File" property="installer.file">
         <in>
             <items basedir="${dir.Build}">
-              <include name="**/wpn-xm-webinstaller-debug-*.iss" />
+              <include name="**/webinstaller-debug-*.iss" />
             </items>
         </in>
         <do>
@@ -203,7 +203,7 @@
         <foreach item="File" property="installer.file">
         <in>
             <items basedir="${dir.Build}">
-              <include name="**/wpn-xm-lite-*.iss" />
+              <include name="**/lite-*.iss" />
             </items>
         </in>
         <do>
@@ -237,7 +237,7 @@
         <foreach item="File" property="installer.file">
         <in>
             <items basedir="${dir.Build}">
-              <include name="**/wpn-xm-lite-*.iss" />
+              <include name="**/lite-*.iss" />
             </items>
         </in>
         <do>
@@ -252,7 +252,7 @@
         <foreach item="File" property="installer.file">
         <in>
             <items basedir="${dir.Build}">
-              <include name="**/wpn-xm-allinone-*.iss" />
+              <include name="**/allinone-*.iss" />
             </items>
         </in>
         <do>
@@ -267,7 +267,7 @@
         <foreach item="File" property="installer.file">
         <in>
             <items basedir="${dir.Build}">
-              <include name="**/wpn-xm-allinone-*.iss" />
+              <include name="**/allinone-*.iss" />
             </items>
         </in>
         <do>
@@ -282,7 +282,7 @@
         <foreach item="File" property="installer.file">
         <in>
             <items basedir="${dir.Build}">
-              <include name="**/wpn-xm-bigpack-*.iss" />
+              <include name="**/bigpack-*.iss" />
             </items>
         </in>
         <do>
@@ -297,7 +297,7 @@
          <foreach item="File" property="installer.file">
         <in>
             <items basedir="${dir.Build}">
-              <include name="**/wpn-xm-bigpack-*.iss" />
+              <include name="**/bigpack-*.iss" />
             </items>
         </in>
         <do>
