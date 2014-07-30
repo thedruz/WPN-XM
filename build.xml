@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://nant.sf.net/release/0.91/nant.xsd" name="WPN-XM" default="all">
 
     <!--
@@ -6,6 +6,19 @@
 
          You might find the comprehensive Nant Task Reference under:
          http://nant.sourceforge.net/release/latest/help/tasks/index.html
+    -->
+
+    <!-- @todo Split build.xml
+        <property file="build.properties" />
+        <import file="build-config/init-and-clean.xml"/>
+        <import file="build-config/compile-and-build.xml"/>
+        <import file="build-config/test.xml"/>
+        <import file="build-config/dist-and-deploy.xml"/>
+        <import file="build-config/quality.xml"/>
+     -->
+
+    <!--
+                        Build Properties
     -->
 
     <!-- Version -->
@@ -19,16 +32,52 @@
     <property name="dir.Base"               value="${project::get-base-directory()}"/>
     <property name="dir.Build"              value="${dir.Base}\_build"/>
     <property name="dir.Downloads"          value="${dir.Base}\downloads"/>
+    <property name="dir.Installers"         value="${dir.Base}\installers"/>
 
     <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
     <property name="dir.qmake"              value="D:\Qt\Qt5.2.0\5.2.0-rc1\mingw48_32\bin"/>
     <property name="dir.mingw32"            value="D:\Qt\Qt5.2.0\Tools\mingw48_32\bin\"/>
 
-    <!-- File Names -->
-    <property name="wpnxm.ZipFileName"      value="WPNXM-${wpnxm.Version}.zip"/>
-    <property name="wpnxm.ZipFile"          value="${dir.Build}\${wpnxm.ZipFileName}"/>
+    <!--
+                        Installer Filesets
+    -->
 
-    <!-- Targets (Build Commands) -->
+    <!-- PHP 5.4 w32 -->
+    <target name="fileset-php54-w32">
+        <fileset id="files" basedir="${dir.Installers}">
+            <include name="wpn-xm-webinstaller-php54-w32.iss"/>
+            <include name="wpn-xm-webinstaller-debug-php54-w32.iss"/>
+            <include name="wpn-xm-allinone-installer-php54-w32.iss"/>
+            <include name="wpn-xm-bigpack-installer-php54-w32.iss"/>
+            <include name="wpn-xm-lite-installer-php54-w32.iss"/>
+        </fileset>
+    </target>
+
+    <!-- PHP 5.5 w32 -->
+    <target name="fileset-php55-w32">
+        <fileset id="files" basedir="${dir.Installers}">
+            <include name="wpn-xm-webinstaller-php55-w32.iss"/>
+            <include name="wpn-xm-webinstaller-debug-php55-w32.iss"/>
+            <include name="wpn-xm-allinone-installer-php55-w32.iss"/>
+            <include name="wpn-xm-bigpack-installer-php55-w32.iss"/>
+            <include name="wpn-xm-lite-installer-php55-w32.iss"/>
+        </fileset>
+    </target>
+
+    <!-- PHP 5.5 w64 -->
+    <target name="fileset-php55-w64">
+        <fileset id="files" basedir="${dir.Installers}">
+            <include name="wpn-xm-webinstaller-php55-w64.iss"/>
+            <include name="wpn-xm-webinstaller-debug-php55-w64.iss"/>
+            <include name="wpn-xm-allinone-installer-php55-w64.iss"/>
+            <include name="wpn-xm-bigpack-installer-php55-w64.iss"/>
+            <include name="wpn-xm-lite-installer-php55-w64.iss"/>
+        </fileset>
+    </target>
+
+    <!--
+                        Targets (Build Commands)
+    -->
 
     <target name="clean-build-dir" description="Mr. Proper cleans the build environment and recreates it.">
         <delete dir="${dir.Build}"/>
@@ -36,41 +85,41 @@
         <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
-    <target name="bump-version-number"
-            description="Inserts the current version number into the InnoScripts, Webinterface and Server-Control-Panel.">
-        <!--
-            Insert the version number into the innosetup script files.
-            This is done via a copy operation with an applied filterchain, see below.
-            The then preprocessed *.iss files are moved from the /innosetup folder to the /build directory.
-            Because they are used for the actual build, this step must run before any "compile-wpnxm-*" step.
-        -->
+    <!--
+        Insert the version number into the innosetup script files.
+        This is done via a copy operation with an applied filterchain, see below.
+        The then preprocessed *.iss files are moved from the /installers folder to the /build directory.
+        Because they are used for the actual build, this step must run before any "compile-wpnxm-*" step.
+     -->
+    <target name="bump-version-number-in-installers">
+        <echo message="&#xa;Inserting Version Number into Installer Script Fileset - '${fileset}'&#xa;" />
         <copy todir="${dir.Build}" overwrite="true">
-            <fileset basedir="${dir.Base}/innosetup/">
-                <!-- PHP 5.4 w32 -->
-                <include name="wpn-xm-webinstaller-php54-w32.iss"/>
-                <include name="wpn-xm-webinstaller-debug-php54-w32.iss"/>
-                <include name="wpn-xm-allinone-installer-php54-w32.iss"/>
-                <include name="wpn-xm-bigpack-installer-php54-w32.iss"/>
-                <include name="wpn-xm-lite-installer-php54-w32.iss"/>
-                <!-- PHP 5.5 w32 -->
-                <include name="wpn-xm-webinstaller-php55-w32.iss"/>
-                <include name="wpn-xm-webinstaller-debug-php55-w32.iss"/>
-                <include name="wpn-xm-allinone-installer-php55-w32.iss"/>
-                <include name="wpn-xm-bigpack-installer-php55-w32.iss"/>
-                <include name="wpn-xm-lite-installer-php55-w32.iss"/>
-                 <!-- PHP 5.5 w64 -->
-                <include name="wpn-xm-webinstaller-php55-w64.iss"/>
-                <include name="wpn-xm-webinstaller-debug-php55-w64.iss"/>
-                <include name="wpn-xm-allinone-installer-php55-w64.iss"/>
-                <include name="wpn-xm-bigpack-installer-php55-w64.iss"/>
-                <include name="wpn-xm-lite-installer-php55-w64.iss"/>
-            </fileset>
-            <filterchain>
+           <fileset refid="files"/>
+           <filterchain>
                 <replacetokens>
                     <token key="APPVERSION" value="${wpnxm.Version}"/>
                 </replacetokens>
-            </filterchain>
+           </filterchain>
         </copy>
+    </target>
+
+    <target name="bump-version-number"
+            description="Inserts the current version number into the InnoScripts, Webinterface and Server-Control-Panel.">
+
+        <!--
+            nant does not support dynamic refid's. we have to use dynamic targets as a workaround.
+            each time the target "fileset-${fileset}" is called, the static refid "files" is redefined.
+            then "bump-version-number-in-installers" is called, which works on the re-defined "files" fileset.
+            plain stupid bullshit!
+        -->
+
+        <property name="installer.filesets" value="php54-w32, php55-w32, php55-w64"/>
+        <foreach item="String" in="${installer.filesets}" delim="," property="fileset" trim="Start">
+            <do>
+                <call target="fileset-${fileset}"/>
+                <call target="bump-version-number-in-installers"/>
+            </do>
+        </foreach>
 
         <!-- WPN-XM Server Control Panel -->
         <loadfile file="${dir.Base}/server-control-panel/src/version.h" property="filecontent.wpnxm.version" encoding="UTF-8">
@@ -444,7 +493,9 @@
 
     <target name="reset-git-submodules"
             description="Reset the git submodules to their original state. This reverts all changes made by bump-version-number during the replace operation.">
-        <!-- we need to refetch the webinterface folder from git, in case we already removed .git artefacts for production (clean-webinterface-folder) -->
+        <!-- we need to refetch the webinterface folder from git, in case we already removed .git artefacts for production (clean-webinterface-folder)
+             we simply delete it, then it gets fully refetched as submodule
+             -->
         <delete if="${not file::exists(dir.Base+'/www/tools/webinterface/.git')}" dir="${dir.Base}/www/tools/webinterface"/>
         <exec program="git">
             <arg value="submodule"/>
