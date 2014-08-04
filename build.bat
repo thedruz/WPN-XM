@@ -15,17 +15,15 @@ set SETCOLOR=bin\chgcolor\chgcolor.exe
 echo.
 echo ^+--------------------------------------------------------------------------+
 echo ^|                                                                          ^|
-echo ^|  WPN-XM Server Stack for Windows - Build Script       Version 16.01.2012 ^|
+echo ^|  WPN-XM Server Stack - Build Script                   http://wpn-xm.org/ ^|
 echo ^|                                                                          ^|
 echo ^+--------------------------------------------------------------------------+
 echo ^|                                                                          ^|
 echo ^|  The WPN-XM build process is automated with NANT.                        ^|
 echo ^|                                                                          ^|
 echo ^|  Author      Jens-Andre Koch (jakoch@web.de)                             ^|
-echo ^|  License     GNU/GPL Version 2 and any later version                     ^|
-echo ^|  Copyright   2011 - 2012                                                 ^|
-echo ^|                                                                          ^|
-echo ^|  Website     http://wpn-xm.org                                           ^|
+echo ^|  Copyright   2010 - 2014                                                 ^|
+echo ^|  License     MIT                                                         ^|
 echo ^|                                                                          ^|
 echo ^+-------------------------------------------------------------------------^<3
 echo.
