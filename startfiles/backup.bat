@@ -1,7 +1,10 @@
 @echo off
-::
-:: WPN-XM Backup
-::
+
+:: +-------------------------------------------------------------------------
+:: |
+:: | WPN-XM Server Stack - Backup Script
+:: |
+:: +-----------------------------------------------------------------------<3
 
 :: Define the folders to backup
 
@@ -17,7 +20,6 @@ set backup_folder="C:\Backup\"
 
 :: Temporary Working Dir
 set working_folder="C:\Windows\Temp\"
-
 set logfile=".\logs\backup.log"
 
 :: Set Compression Level

@@ -1,15 +1,14 @@
 @echo off
-:: Change this to ON when debugging this batch file.
 
 :: +-------------------------------------------------------------------------
-:: | PostgreSQL - Stripdown Script for WPN-XM Server Stack.
-:: | http://wpn-xm.org/
-:: | Author: Jens-André Koch
+:: |
+:: | WPN-XM Server Stack - Stripdown Script for PostgreSQL
+:: |
 :: +-----------------------------------------------------------------------<3
 
-:: ############# Accepts the "path to PostgreSQL" as first parameter
+:: Accepts the "path to PostgreSQL" as first parameter
 
-:: Use quotes on the argument, if the folder name contains spaces
+:: Use quotes on the argument, if the folder name contains spaces:
 :: stripdown-postgresql.bat "c:\program files\somewhere"
 
 :: Check - Parameter is not empty
@@ -45,7 +44,7 @@ echo.
 echo [x] Stripdown PostgreSQL
 echo.
 
-:: ############# process the /bin folder
+:: process the /bin folder
 
 :: # 1) delete pdb files (windows crashdumps helpers / debug symbols)
 
@@ -55,7 +54,7 @@ rd /s /q "%POSTGRESQL_DIR%\symbols"
 rd /s /q "%POSTGRESQL_DIR%\doc"
 rd /s /q "%POSTGRESQL_DIR%\include"
 
-:: ############# compress executables with UPX
+:: compress executables with UPX
 
 IF EXIST "%~dp0/upx/upx.exe" (
     echo.
@@ -65,14 +64,14 @@ IF EXIST "%~dp0/upx/upx.exe" (
     %~dp0\upx\upx.exe -9 %POSTGRESQL_DIR%\bin\*.exe
 )
 
-:: ############# DONE
+:: DONE
 
 echo.
 echo [+] PostgreSQL stripdown done.
 echo.
 GOTO END;
 
-:: ############# EOF GOTO TARGET
+:: EOF GOTO TARGET
 
 :EOF
 echo.
@@ -80,5 +79,5 @@ echo [-] PostgreSQL stripdown failed.
 echo.
 pause
 
-:: ############# Have a nice day.
+:: Have a nice day.
 :END

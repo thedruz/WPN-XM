@@ -1,5 +1,11 @@
 @echo off
 
+:: +-------------------------------------------------------------------------
+:: |
+:: | WPN-XM Server Stack - Restart Daemons
+:: |
+:: +-----------------------------------------------------------------------<3
+
 if not exist "start-wpnxm.bat" (
     echo "ERROR: start-wpnxm.bat is missing."
     goto END

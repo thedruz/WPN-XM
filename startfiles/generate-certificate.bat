@@ -1,4 +1,11 @@
 @echo off
+
+:: +-------------------------------------------------------------------------
+:: |
+:: | WPN-XM Server Stack - Generate SSL Certificate
+:: |
+:: +-----------------------------------------------------------------------<3
+
 cls
 
 :: set window title
@@ -19,4 +26,5 @@ if not exist "%~dp0\certs" (
 echo .
 echo "Find your new SSL Certificate in %~dp0\certs"
 echo .
+
 pause

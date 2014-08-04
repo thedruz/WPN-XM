@@ -1,15 +1,14 @@
 @echo off
-:: Change this to ON when debugging this batch file.
 
 :: +-------------------------------------------------------------------------
-:: | MariaDB - Stripdown Script for WPN-XM Server Stack.
-:: | http://wpn-xm.org/
-:: | Author: Jens-André Koch
+:: |
+:: | WPN-XM Server Stack - Stripdown Script for MariaDB
+:: |
 :: +-----------------------------------------------------------------------<3
 
-:: ############# Accepts the "path to MariaDB" as first parameter
+:: Accepts the "path to MariaDB" as first parameter
 
-:: Use quotes on the argument, if the folder name contains spaces
+:: Use quotes on the argument, if the folder name contains spaces:
 :: stripdown-mariadb.bat "c:\program files\somewhere"
 
 :: Check - Parameter is not empty
@@ -45,18 +44,18 @@ echo.
 echo [x] Stripdown MariaDB
 echo.
 
-:: ############# Toplevel remove *.ini - replaced by our own
+:: Toplevel remove *.ini - replaced by our own
 
 del /s /q "%MARIADB_DIR%\*.ini"
 
-:: ############# remove these folders completely
+:: remove these folders completely
 
 rd /s /q "%MARIADB_DIR%\docs"
 rd /s /q "%MARIADB_DIR%\include"
 rd /s /q "%MARIADB_DIR%\mysql-test"
 rd /s /q "%MARIADB_DIR%\sql-bench"
 
-:: ############# process the /bin folder
+:: process the /bin folder
 
 :: # 1) delete pdb files (windows crashdumps debug files)
 
@@ -105,7 +104,7 @@ del /q /f "%MARIADB_DIR%\bin\mysqld_multi.pl"
 del /q /f "%MARIADB_DIR%\bin\mysqldumpslow.pl"
 del /q /f "%MARIADB_DIR%\bin\mysqlhotcopy.pl"
 
-:: ############# process the /data folder
+:: process the /data folder
 
 del /s /q "%MARIADB_DIR%\data\performance_schema\*.*"
 rd /s /q "%MARIADB_DIR%\data\performance_schema"
@@ -113,12 +112,12 @@ rd /s /q "%MARIADB_DIR%\data\performance_schema"
 del /s /q "%MARIADB_DIR%\data\test\*.*"
 rd /s /q "%MARIADB_DIR%\data\test"
 
-:: ############# process the /lib folder
+:: process the /lib folder
 
 del /s /q "%MARIADB_DIR%\lib\*.pdb"
 del /s /q "%MARIADB_DIR%\lib\*.lib"
 
-:: ############# process the /share folder
+:: process the /share folder
 
 :: whats left in this folder? english & german
 
@@ -144,13 +143,13 @@ rd /s /q "%MARIADB_DIR%\share\slovak"
 rd /s /q "%MARIADB_DIR%\share\swedish"
 rd /s /q "%MARIADB_DIR%\share\ukrainian"
 
-:: ############# process the /support-files folder
+:: process the /support-files folder
 
 :: wtf? a solaris script in a windows distribution?
 
 rd /s /q "%MARIADB_DIR%\support-files"
 
-:: ############# compress executables with UPX
+:: compress executables with UPX
 
 ::IF EXIST "%~dp0\upx\upx.exe" (
 ::    echo.
@@ -160,14 +159,14 @@ rd /s /q "%MARIADB_DIR%\support-files"
 ::    %~dp0\upx\upx.exe -9 %MARIADB_DIR%\bin\*.exe
 ::)
 
-:: ############# DONE
+:: DONE
 
 echo.
 echo [+] MariaDB stripdown done.
 echo.
 GOTO END;
 
-:: ############# EOF GOTO TARGET
+:: EOF GOTO TARGET
 
 :EOF
 echo.
@@ -175,5 +174,5 @@ echo [-] MariaDB stripdown failed.
 echo.
 pause
 
-:: ############# Have a nice day.
+:: Have a nice day.
 :END

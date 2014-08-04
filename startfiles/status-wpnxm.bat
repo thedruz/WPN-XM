@@ -1,5 +1,11 @@
 @echo off
 
+:: +-------------------------------------------------------------------------
+:: |
+:: | WPN-XM Server Stack - Daemon Status Monitor
+:: |
+:: +-----------------------------------------------------------------------<3
+
 :: set window title
 TITLE WPN-XM Serverpack - Daemon Status Monitor
 

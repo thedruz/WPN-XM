@@ -1,5 +1,11 @@
 @echo off
 
+:: +-------------------------------------------------------------------------
+:: |
+:: | WPN-XM Server Stack - Start embedded PHP server for Sever Control Panel
+:: |
+:: +-----------------------------------------------------------------------<3
+
 :: stop embedded PHP Development Server ungracefully
 %~dp0bin\tools\killprocess\Process.exe -k php.exe
 

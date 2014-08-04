@@ -1,5 +1,11 @@
 @echo off
 
+:: +-------------------------------------------------------------------------
+:: |
+:: | WPN-XM Server Stack - Stop Daemons
+:: |
+:: +-----------------------------------------------------------------------<3
+
 if exist "%SystemRoot%\System32\taskkill.exe" (
     echo Using "taskkill" to kill the processes.
     SET KILL-PROCESS=taskkill /F /IM

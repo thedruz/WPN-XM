@@ -1,10 +1,9 @@
 @echo off
-:: Change this to ON when debugging this batch file.
 
 :: +-------------------------------------------------------------------------
-:: | WPN-XM - Installation Script for PEAR.
-:: | http://wpn-xm.org/
-:: | Author: Jens-André Koch
+:: |
+:: | WPN-XM Server Stack - Installation Script for PEAR
+:: |
 :: +-----------------------------------------------------------------------<3
 
 cls
