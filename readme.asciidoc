@@ -10,13 +10,13 @@ The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX,
 
 The stack has a "Software Components Registry", which is an online database of all software components provided by the project.
 This registry is maintained via the "Registry Updater", which allows crawling the vendor sites for latest versions of their software and updates the registry accordingly.
-The registry is exposed via our WebAPI. All packages are available for selective download.
+The registry is exposed via our WEB-API. All packages are available for selective download.
 
 WPИ-XM provides 4 Installation Wizards, which are build in a One-Click-Build process.
-The Webinstaller, which is 1 MB of size and uses the WebAPI to retrieve and install the latest versions of software components.
-The Lite Installer, which ships only a minimal set of components.
-The All-In-One Installer, which ships components relevant for PHP development.
-And the Big-Pack Installer, which ships the whole registry and includes Strawberry Perl & PostgreSQL.
+The Webinstaller is 1 MB of size and and uses our WEB-API to retrieve and install the latest versions of software components.
+The Lite Installer ships only a minimal set of components.
+The Standard Installer ships components relevant for PHP development.
+The Full Installer ships our whole registry and includes Strawberry Perl & PostgreSQL.
 
 WPИ-XM is open-source and MIT licensed.
 Technology in use: Innosetup, Inno Download Plugin, Pascal, nAnt, Bash, Batch, C++, Qt, PHP, HTML, JS/jQuery, upx, aria2c.

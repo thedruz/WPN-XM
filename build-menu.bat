@@ -1,12 +1,16 @@
 @echo off
-:: Change this to ON when debugging this batch file.
+
+:: +-------------------------------------------------------------------------
+:: |
+:: | WPN-XM Server Stack - Build Menu
+:: |
+:: +-----------------------------------------------------------------------<3
 
 SetLocal
-
 cls
 
 :: set window title
-TITLE WPN-XM Server Stack for Windows - Build Script!
+TITLE WPN-XM Server Stack for Windows - Build Menu
 
 :: display a Menu
 
@@ -17,9 +21,9 @@ echo             WPN-XM Build Menu
 echo             =================
 echo.
 echo   [1] Start "One-Click Build"
-echo   [2] Download Components for the "not-web" Installation Wizards
-echo   [3] Build the "not-web" Installation Wizards
-echo   [4] Build the   "web"   Installation Wizard
+echo   [2] Download Components for all packaging Installation Wizards
+echo   [3] Build the packaging Installation Wizards
+echo   [4] Build the   web     Installation Wizard
 echo   [5] Build the "Server-Control-Panel" (Tray Application)
 echo   [x] Quit
 echo.
@@ -50,30 +54,30 @@ goto END
 
 :OPTION2
     echo.
-    echo Downloading all Components for the "not-web" Installation Wizards
+    echo Downloading all Components for packaging Installation Wizards
     echo.
-    call bin\nant\bin\nant.exe -buildfile:build.xml download-components
+    call bin\phing\phing.bat -f %~dp0build.xml download-components
 goto END
 
 :OPTION3
     echo.
-    echo Building "not-web" Installation Wizards (use existing Downloads)
+    echo Building packaged Installation Wizards (use existing Downloads)
     echo.
-    call bin\nant\bin\nant.exe -buildfile:build.xml compile-allinone-no-download compile-bigpack-no-download compile-lite-no-download
+    call bin\phing\phing.bat -f %~dp0build.xml compile-full-no-download compile-standard-no-download compile-lite-no-download
 goto END
 
 :OPTION4
     echo.
-    echo Building "web" Installation Wizard
+    echo Building Web-Installation Wizards
     echo.
-    call bin\nant\bin\nant.exe -buildfile:build.xml compile-webinstaller compile-webinstaller-debug
+    call bin\phing\phing.bat -f %~dp0build.xml compile-webinstaller compile-webinstaller-debug
 goto END
 
 :OPTION5
     echo.
     echo Building the "Server-Control-Panel" (Tray Application)
     echo.
-    call bin\nant\bin\nant.exe -buildfile:build.xml build-server-control-panel
+    call bin\phing\phing.bat -f %~dp0build.xml build-server-control-panel
 goto END
 
 :END

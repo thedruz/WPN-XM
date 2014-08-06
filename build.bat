@@ -1,14 +1,18 @@
 @echo off
-:: Change this to ON when debugging this batch file.
+
+:: +-------------------------------------------------------------------------
+:: |
+:: | WPN-XM Server Stack - Execute Phing with WPN-XM build file
+:: |
+:: +-----------------------------------------------------------------------<3
 
 SetLocal
-
 cls
 
 :: set window title
 TITLE WPN-XM Server Stack for Windows - Build Script!
 
-:: define shortcuts to commands
+:: set shortcut to color command
 set SETCOLOR=bin\chgcolor\chgcolor.exe
 
 %SETCOLOR% 0C
@@ -19,7 +23,7 @@ echo ^|  WPN-XM Server Stack - Build Script                   http://wpn-xm.org/
 echo ^|                                                                          ^|
 echo ^+--------------------------------------------------------------------------+
 echo ^|                                                                          ^|
-echo ^|  The WPN-XM build process is automated with NANT.                        ^|
+echo ^|  The WPN-XM build process is automated with Phing.                       ^|
 echo ^|                                                                          ^|
 echo ^|  Author      Jens-Andre Koch (jakoch@web.de)                             ^|
 echo ^|  Copyright   2010 - 2014                                                 ^|
@@ -29,10 +33,9 @@ echo ^+-------------------------------------------------------------------------
 echo.
 %SETCOLOR% 07
 
-:: +-------------------------------------------------------------------------
-:: | Execute Nant with WPN-XM build file
-:: +-------------------------------------------------------------------------
-bin\nant\bin\nant.exe -buildfile:build.xml all -logfile:build.log
+
+:: Execute Phing with WPN-XM build file, run task "all" and produce log
+bin\phing\phing.bat -buildfile build.xml all -logfile build.log
 
 EndLocal
 :END
