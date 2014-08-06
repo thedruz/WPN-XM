@@ -43,7 +43,7 @@
     </target>
 
     <target name="reset-git-submodules" description="Reset the git submodules to their original state.">
-    	 <!-- hard reset to latest commit and drop all untracked files and folders, e.g. /build crap. -->
+         <!-- hard reset to latest commit and drop all untracked files and folders, e.g. /build crap. -->
         <exec command="git submodule foreach git reset --hard HEAD; git clean -fxd"/>
     </target>
 
@@ -58,23 +58,23 @@
             description="Inserts the current version number into the InnoScripts, Webinterface and Server-Control-Panel.">
 
         <!--
-		        Insert the version number into the innosetup script files.
-		        This is done via a copy operation with an applied filterchain, see below.
-		        The then preprocessed *.iss files are moved from the /installers folder to the /build directory.
-		        Because they are used for the actual build, this step must run before any "compile-*" step.
+                Insert the version number into the innosetup script files.
+                This is done via a copy operation with an applied filterchain, see below.
+                The then preprocessed *.iss files are moved from the /installers folder to the /build directory.
+                Because they are used for the actual build, this step must run before any "compile-*" step.
         -->
 
         <echo msg="Inserting Version Number into Installer Script Files"/>
-		<copy todir="${dir.Build}" overwrite="true">
-			<fileset dir="${dir.Installers}">
-		    	<include name="**"/>
-			</fileset>
-			<filterchain>
-				<replacetokens>
-				    <token key="APPVERSION" value="${wpnxm.Version}"/>
-				</replacetokens>
-			</filterchain>
-		</copy>
+        <copy todir="${dir.Build}" overwrite="true">
+            <fileset dir="${dir.Installers}">
+                <include name="**"/>
+            </fileset>
+            <filterchain>
+                <replacetokens>
+                    <token key="APPVERSION" value="${wpnxm.Version}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
 
         <!-- WPN-XM Server Control Panel -->
         <loadfile file="${dir.Base}/server-control-panel/src/version.h" property="filecontent.wpnxm.version">
@@ -117,14 +117,8 @@
 
     <target name="commit-versionized-registries"
             description="Commits the versionized WPN-XM Software Component Registries (all untracked files in /registry folder).">
-         <exec command="git" workingdir="${dir.Registry}">
-            <arg value="add"/>
-            <arg value="-A"/>
-        </exec>
-        <exec command="git"  workingdir="${dir.Registry}">
-            <arg value="commit"/>
-            <arg value="-am Added WPN-XM Software Components Registry for Version ${wpnxm.Version}"/>
-        </exec>
+        <exec command="git add -A" dir="${dir.Registry}" />
+        <exec command="git commit -am Added WPN-XM Software Components Registry for Version ${wpnxm.Version}" dir="${dir.Registry}" />
     </target>
 
     <target name="inno-compile">
@@ -133,20 +127,20 @@
     </target>
 
     <target name="compile-webinstaller" description="Builds the WPN-XM setup executable." depends="bump-version-number, clean-webinterface-folder">
-		<foreach target="inno-compile" param="installer.file">
-			<fileset dir="${dir.Build}">
-			    <include name="**/webinstaller-*.iss"/>
-			    <exclude name="**/webinstalller-debug-*.iss"/>
-			</fileset>
+        <foreach target="inno-compile" param="installer.file">
+            <fileset dir="${dir.Build}">
+                <include name="**/webinstaller-*.iss"/>
+                <exclude name="**/webinstalller-debug-*.iss"/>
+            </fileset>
         </foreach>
     </target>
 
     <target name="compile-webinstaller-debug" description="Builds the WPN-XM setup executable for debugging."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
-			<fileset dir="${dir.Build}">
-			    <include name="**/webinstalller-debug-*.iss"/>
-			</fileset>
+            <fileset dir="${dir.Build}">
+                <include name="**/webinstalller-debug-*.iss"/>
+            </fileset>
         </foreach>
     </target>
 
@@ -154,9 +148,9 @@
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
-			<fileset dir="${dir.Build}">
-			    <include name="**/lite-*.iss"/>
-			</fileset>
+            <fileset dir="${dir.Build}">
+                <include name="**/lite-*.iss"/>
+            </fileset>
         </foreach>
     </target>
 
@@ -164,19 +158,19 @@
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
-			<fileset dir="${dir.Build}">
-			    <include name="**/lite-*.iss"/>
-			</fileset>
+            <fileset dir="${dir.Build}">
+                <include name="**/lite-*.iss"/>
+            </fileset>
         </foreach>
     </target>
 
     <target name="compile-standard"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql, prepare-downloads-standard">
+            depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql, prepare-downloads">
         <foreach target="inno-compile" param="installer.file">
-			<fileset dir="${dir.Build}">
-			    <include name="**/standard-*.iss" />
-			</fileset>
+            <fileset dir="${dir.Build}">
+                <include name="**/standard-*.iss" />
+            </fileset>
         </foreach>
     </target>
 
@@ -184,9 +178,9 @@
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
-			<fileset dir="${dir.Build}">
-			    <include name="**/standard-*.iss" />
-			</fileset>
+            <fileset dir="${dir.Build}">
+                <include name="**/standard-*.iss" />
+            </fileset>
         </foreach>
     </target>
 
@@ -194,9 +188,9 @@
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql">
         <foreach target="inno-compile" param="installer.file">
-			<fileset dir="${dir.Build}">
-			    <include name="**/full-*.iss" />
-			</fileset>
+            <fileset dir="${dir.Build}">
+                <include name="**/full-*.iss" />
+            </fileset>
         </foreach>
     </target>
 
@@ -204,29 +198,18 @@
             description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
-			<fileset dir="${dir.Build}">
-			    <include name="**/full-*.iss" />
-			</fileset>
+            <fileset dir="${dir.Build}">
+                <include name="**/full-*.iss" />
+            </fileset>
         </foreach>
     </target>
 
     <!--
-						Downloads
+                        Downloads
 
     -->
 
-    <target name="prepare-downloads-lite"
-            description="Moves all components for the Lite installer from the downloads folder to downloads/lite."
-            depends="versionize-registries">
-        <echo message="&#xa; Moving Standard Components &#xa;"/>
-        <foreach item="Line" in="${dir.Registry}/wpnxm-software-registry-lite-${wpnxm.Version}-w32.csv" delim=","
-                 property="component,source,destination,version">
-            <copy file="${dir.Downloads}\${destination}" tofile="${dir.Downloads}\lite\${destination}"/>
-        </foreach>
-    </target>
-
-    <target name="prepare-downloads-standard"
-            description="Moves all components for the Standard installer from the downloads folder to downloads/standard."
+    <target name="prepare-downloads" description="Moves components for all packaged installers from the full folder to their subfolder."
             depends="versionize-registries">
         <echo message="&#xa; Moving Standard Components &#xa;"/>
 
@@ -252,54 +235,54 @@
                 }
 
                 function main() {
-                	$registries = glob($this->registryfolder . '\*0.8.0*.json');
+                    $registries = glob($this->registryfolder . '\*0.8.0*.json');
 
-                	foreach($registries as $registry)
-                	{
-                		$basename = basename($registry, '.json');
+                    foreach($registries as $registry)
+                    {
+                        $basename = basename($registry, '.json');
 
-                		// skip full, because thats our download source
-                		if(false !== strpos($basename, 'full')) {
-                			continue;
-                		}
+                        // skip full, because thats our download source
+                        if(false !== strpos($basename, 'full')) {
+                            continue;
+                        }
 
-                		$fullFolder = preg_replace('(lite|standard)', 'full', $basename);
+                        $fullFolder = preg_replace('(lite|standard)', 'full', $basename);
 
-						$this->log("\n");
-	                	$this->log('Moving Download Files for "' . $basename . '" from ' . $fullFolder);
-	                	$this->log("\n");
+                        $this->log("\n");
+                        $this->log('Moving Download Files for "' . $basename . '" from ' . $fullFolder);
+                        $this->log("\n");
 
-   	                	$components = json_decode(file_get_contents($registry));
+                        $components = json_decode(file_get_contents($registry));
 
-	                	foreach($components as $component)
-	                	{
-	                		$source = $this->downloadfolder . '\\'.$fullFolder.'\\' . $component[2];
+                        foreach($components as $component)
+                        {
+                            $source = $this->downloadfolder . '\\'.$fullFolder.'\\' . $component[2];
 
-	                		if(is_file($source)) {
-								$this->log('Component ' . $component[0] . ' v' . $component[3]);
+                            if(is_file($source)) {
+                                $this->log('Component ' . $component[0] . ' v' . $component[3]);
 
-							    $targetDir = $this->downloadfolder. '\\'. $basename;
+                                $targetDir = $this->downloadfolder. '\\'. $basename;
 
-								if(!is_dir($targetDir)) {
-									mkdir($targetDir);
-								}
+                                if(!is_dir($targetDir)) {
+                                    mkdir($targetDir);
+                                }
 
-								$target = $targetDir . '\\' . $component[2];
+                                $target = $targetDir . '\\' . $component[2];
 
-							    $this->log('  Copying ' . $source);
-							    $this->log('       to ' . $target);
+                                $this->log('  Copying ' . $source);
+                                $this->log('       to ' . $target);
 
-								if(!is_file($targetFile)) {
-									#copy($source, $target);
-								} else {
-								    $this->log('Target file exists already.');
-								}
+                                if(!is_file($targetFile)) {
+                                    #copy($source, $target);
+                                } else {
+                                    $this->log('Target file exists already.');
+                                }
 
-	                		} else {
-	                			$this->log('Component ' . $component[0] . '- missing download: ' . $component[2]);
-	                		}
-	                	}
-	                }
+                            } else {
+                                $this->log('Component ' . $component[0] . '- missing download: ' . $component[2]);
+                            }
+                        }
+                    }
                 }
             }
         ]]></adhoc-task>
@@ -308,7 +291,7 @@
     </target>
 
     <target name="create-download-files" description="Generate download.txt files for all full installers. Create aria2c file for multiple parallel downloads.">
-    	<adhoc-task name="GenerateDownloadFiles"><![CDATA[
+        <adhoc-task name="GenerateDownloadFiles"><![CDATA[
             class GenerateDownloadFiles extends Task
             {
                 private $registryfolder;
@@ -324,57 +307,57 @@
                     $this->downloadfolder = $downloadfolder;
                 }
 
-			    function getAriaFileHeader($installerName)
-			    {
-			        $txt = '#' . PHP_EOL;
-			    	$txt .= '# WPN-XM Server Stack' . PHP_EOL;
-			    	$txt .= '#' . PHP_EOL;
-			    	$txt .= '# Download Links for the Installation Wizard "' . $installerName . '".' . PHP_EOL;
-			    	$txt .= '#' . PHP_EOL;
-			    	$txt .= '# This is an aria2c input file.' . PHP_EOL;
-			    	$txt .= '# It contains a list of URIs for aria2 to download in parallel.' . PHP_EOL;
-			        $txt .= '# The file is auto-generated. Do not modify.' . PHP_EOL;
-			        $txt .= '#' . PHP_EOL;
-			        $txt .= '# For syntax, see:' . PHP_EOL;
-			        $txt .= '#   http://aria2.sourceforge.net/manual/en/html/aria2c.html#id2' . PHP_EOL;
-			        $txt .= '#' . PHP_EOL;
-			        return $txt;
-			    }
+                function getAriaFileHeader($installerName)
+                {
+                    $txt = '#' . PHP_EOL;
+                    $txt .= '# WPN-XM Server Stack' . PHP_EOL;
+                    $txt .= '#' . PHP_EOL;
+                    $txt .= '# Download Links for the Installation Wizard "' . $installerName . '".' . PHP_EOL;
+                    $txt .= '#' . PHP_EOL;
+                    $txt .= '# This is an aria2c input file.' . PHP_EOL;
+                    $txt .= '# It contains a list of URIs for aria2 to download in parallel.' . PHP_EOL;
+                    $txt .= '# The file is auto-generated. Do not modify.' . PHP_EOL;
+                    $txt .= '#' . PHP_EOL;
+                    $txt .= '# For syntax, see:' . PHP_EOL;
+                    $txt .= '#   http://aria2.sourceforge.net/manual/en/html/aria2c.html#id2' . PHP_EOL;
+                    $txt .= '#' . PHP_EOL;
+                    return $txt;
+                }
 
-			    // add a download line in Aria2C Syntax
-			    function insertDownload($url = '', $target = '')
-			    {
-			        $txt .= $url . PHP_EOL;
-			        $txt .= '    out=' . $target . PHP_EOL;
+                // add a download line in Aria2C Syntax
+                function insertDownload($url = '', $target = '')
+                {
+                    $txt .= $url . PHP_EOL;
+                    $txt .= '    out=' . $target . PHP_EOL;
 
-			        return $txt;
-			    }
+                    return $txt;
+                }
 
                 function main()
                 {
-                	$registries = glob($this->registryfolder . '\full-next-*.json');
+                    $registries = glob($this->registryfolder . '\full-next-*.json');
 
-                	foreach($registries as $registry) {
+                    foreach($registries as $registry) {
 
-                		$basename = basename($registry, '.json');
-                		$file = $this->registryfolder . '\\downloads-for-' . $basename . '.json';
+                        $basename = basename($registry, '.json');
+                        $file = $this->registryfolder . '\\downloads-for-' . $basename . '.json';
 
-                		$txt = $this->getAriaFileHeader($basename);
+                        $txt = $this->getAriaFileHeader($basename);
 
-                		$components = json_decode(file_get_contents($registry));
+                        $components = json_decode(file_get_contents($registry));
 
-	                	foreach($components as $component)
-	                	{
-	                		$url = $component[1];
-	                		$target = $this->downloadfolder . '\\' . $basename . '\\' . $component[2];
+                        foreach($components as $component)
+                        {
+                            $url = $component[1];
+                            $target = $this->downloadfolder . '\\' . $basename . '\\' . $component[2];
 
-	                		$txt .= $this->insertDownload($url, $target);
-				        }
+                            $txt .= $this->insertDownload($url, $target);
+                        }
 
-	                	file_put_contents($file, $txt);
+                        file_put_contents($file, $txt);
 
-				        $this->log('Created Download Description File - ' . $file);
-                	}
+                        $this->log('Created Download Description File - ' . $file);
+                    }
                 }
             }
         ]]></adhoc-task>
@@ -383,15 +366,24 @@
     </target>
 
     <target name="versionize-registries" description="Adds the build version number to the 'next' installer registry files.">
-    	<copy todir="${dir.Registry}">
+        <copy todir="${dir.Registry}">
           <mapper type="regexp" from="^(.*)-next-(.*).json" to="\1-${wpnxm.Version}-\2.json"/>
           <fileset dir="${dir.Registry}">
-          	<include name="**/*next*.json"/>
+            <include name="**/*next*.json"/>
           </fileset>
-		</copy>
+        </copy>
     </target>
 
-    <target name="download-components" description="Downloads all components for building the 'not-web' Installers."
+    <target name="download-components" description="Download components for all full installers."
+    	    depends="create-download-files">
+        <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
+            <fileset dir="${dir.Registry}">
+                <include name="**/downloads-for-full-next-*.json" />
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="downloading-components-for-installer" description="Downloads all components for building the 'not-web' Installers."
             depends="make-downloads-dir, update-git-submodules, versionize-registries">
         <!--
                         Aria2C for Parallel Downloading
@@ -399,25 +391,11 @@
             http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
             http://aria2.sourceforge.net/manual/en/html/aria2c.html
         -->
-        <exec command="cmd.exe /c ${dir.Base}\bin\aria\aria2c.exe">
-            <arg value="-i ${dir.Registry}\downloads.txt"/>
-            <arg value="-d ${dir.Downloads}"/>
-            <arg value="--max-connection-per-server=8"/>
-            <arg value="--min-split-size=1M"/>
-            <arg value="--max-tries=5"/>
-            <arg value="--file-allocation=falloc"/>
-            <arg value="--check-certificate=false"/>
-            <arg value="--conditional-get=true"/>
-            <arg value="--auto-file-renaming=false"/>
-            <arg value="--allow-overwrite=true"/>
-            <arg value="--http-accept-gzip=true"/>
-            <arg value="--http-no-cache=true"/>
-            <arg value="--user-agent=WPN-XM Server Stack Downloader"/>
-        </exec>
+        <exec command="cmd.exe /c ${dir.Base}\bin\aria\aria2c.exe -i ${installer.aria.downloads} --max-connection-per-server=8 --min-split-size=1M --max-tries=5 --file-allocation=falloc --check-certificate=false --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --http-no-cache=true --user-agent=WPN-XM Server Stack Downloader"/>
     </target>
 
     <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
-        <exec command="${dir.Base}\bin\killprocess\Process.exe" commandline="-k aria2c.exe" failonerror="false"/>
+        <exec command="${dir.Base}\bin\killprocess\Process.exe -k aria2c.exe" failonerror="false"/>
     </target>
 
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
@@ -452,7 +430,7 @@
             if="${file::get-length(dir.Downloads + '\mariadb.zip') &gt; 25000000}"><!-- 25MB -->
 
         <unzip zipfile="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
-        <exec command="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb"/>
+        <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb"/>
 
         <exec command="${dir.Base}\bin\stripdown-mariadb.bat">
             <arg value="${dir.Downloads}\stripdown\mariadb"/>
@@ -474,7 +452,7 @@
             if="${file::get-length(dir.Downloads + '\mongodb.zip') &gt; 50000000}"><!-- 50MB -->
 
         <unzip zipfile="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
-        <exec command="cmd.exe" commandline="/c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb"/>
+        <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb"/>
 
         <exec command="${dir.Base}\bin\stripdown-mongodb.bat">
             <arg value="${dir.Downloads}\stripdown\mongodb"/>
@@ -530,91 +508,71 @@
             <copy file="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip" tofile="${dir.Base}/downloads/wpnxmscp.zip" />
 
             <echo message="&#xa;Clean Server-Control-Panel folder&#xa;"/>
-            <exec command="git" workingdir="${dir.Base}/server-control-panel/">
-                <arg value="clean"/>
-                <arg value="-fxd"/><!-- remove files, ignores and folders. you might add "n" for dry-run -->
-            </exec>
+            <!-- remove files, ignores and folders. you might add "n" for dry-run -->
+            <exec command="git clean -fxd" dir="${dir.Base}/server-control-panel/" />
     </target>
 
-	<target name="compile-server-control-panel"
+    <target name="compile-server-control-panel"
             description="Compiles the Server Control Panel Tray Application via Qt Framework and it's build tools."
             depends="update-git-submodules, bump-version-number">
             <!-- This tasks requires that you have installed Qt and setup all environment path vars correctly.
                  The build tools will not be found otherwise. -->
 
         <echo message="&#xa;"/>
-        <exec command="qmake" basedir="${dir.qmake}">
-            <arg value="-v"/>
-        </exec>
+        <exec command="qmake v" dir="${dir.qmake}"/>
 
         <echo message="&#xa;QMAKE Query"/>
-        <exec command="qmake" basedir="${dir.qmake}">
-            <arg value="-query"/>
-        </exec>
+        <exec command="qmake -query" dir="${dir.qmake}"/>
 
         <echo message="&#xa;Clean Server-Control-Panel folder&#xa;"/>
-        <exec command="git" workingdir="${dir.Base}/server-control-panel/">
-            <arg value="clean"/>
-            <arg value="-fxd"/><!-- remove files, ignores and folders. you might add "n" for dry-run -->
-        </exec>
+        <!-- remove files, ignores and folders. you might add "n" for dry-run -->
+        <exec command="git clean -fxd" dir="${dir.Base}/server-control-panel/">
 
         <echo message="&#xa;"/>
         <!-- http://doc-snapshot.qt-project.org/4.8/qmake-variable-reference.html -->
-        <exec command="qmake" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.qmake}"
-              commandline="-r -spec win32-g++ -o Makefile ${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro -Wall">
-        </exec>
+        <exec command="qmake -r -spec win32-g++ -o Makefile ${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro -Wall"
+        	  dir="${dir.Base}/server-control-panel/" dir="${dir.qmake}" />
 
         <echo message="&#xa;"/>
-        <exec command="mingw32-make" basedir="${dir.mingw32}">
-            <arg value="-v"/>
-        </exec>
+        <exec command="mingw32-make -v" dir="${dir.mingw32}" />
 
         <echo message="&#xa;"/>
-        <exec command="mingw32-make" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.mingw32}"
-              commandline="-f Makefile.Release -j4"> <!-- use 4 build jobs -->
-              <environment>
-                <variable name="PATH" value="${dir.mingw32}" />
-              </environment>
+        <exec command="mingw32-make -f Makefile.Release -j4" dir="${dir.Base}/server-control-panel/" dir="${dir.mingw32}">
+			<environment>
+				<variable name="PATH" value="${dir.mingw32}" />
+			</environment>
         </exec>
 
         <echo message="&#xa;Copy runtime deependencies of Qt&#xa;"/>
-        <exec command="mingw32-make" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.mingw32}">
-            <arg value="install"/>
-        </exec>
+        <exec command="mingw32-make install" dir="${dir.Base}/server-control-panel/" dir="${dir.mingw32}" />
 
         <echo message="&#xa;Cleaning build directory&#xa;"/>
-        <exec command="mingw32-make" workingdir="${dir.Base}/server-control-panel/" basedir="${dir.mingw32}">
-            <arg value="clean"/>
-        </exec>
+        <exec command="mingw32-make clean" dir="${dir.Base}/server-control-panel/" dir="${dir.mingw32}" />
 
         <echo message="&#xa;Removing all unneeded debugging symbols and sections from executable...&#xa;"/>
-        <exec command="strip.exe" verbose="true" basedir="${dir.mingw32}" workingdir="${dir.Base}/server-control-panel/build/release/"
-              commandline="-s wpn-xm.exe -o wpn-xm.exe.stripped"/>
+        <exec command="strip.exe -s wpn-xm.exe -o wpn-xm.exe.stripped" verbose="true" dir="${dir.mingw32}" dir="${dir.Base}/server-control-panel/build/release/" />
         <sleep seconds="3"/>
-        <exec command="cmd.exe" workingdir="${dir.Base}/server-control-panel/build/release/"
-            commandline="/c move wpn-xm.exe.stripped wpn-xm.exe"/>
+        <exec command="cmd.exe /c move wpn-xm.exe.stripped wpn-xm.exe" dir="${dir.Base}/server-control-panel/build/release/" />
 
         <echo message="&#xa;Compressing executable...&#xa;"/>
-        <exec command="${dir.Base}/bin/upx/upx" verbose="true">
-            <arg line="-9 ${dir.Base}/server-control-panel/build/release/*.exe"/>
-        </exec>
+        <exec command="${dir.Base}/bin/upx/upx -9 ${dir.Base}/server-control-panel/build/release/*.exe" verbose="true" />
     </target>
 
     <target name="main"
-    	    depends="clean-build-dir,
-                 	reset-git-submodules,
-                 	update-git-submodules,
-                 	bump-version-number,
-                 	print-version-number,
-                 	clean-webinterface-folder,
-                 	compile-webinstaller,
-                 	compile-webinstaller-debug,
-                 	compile-standard,
-                 	compile-full,
-                 	compile-lite,
-                 	commit-versionized-registries,
-                 	reset-git-submodules,
-                 	kill-aria">
+            depends="clean-build-dir,
+                    reset-git-submodules,
+                    update-git-submodules,
+                    bump-version-number,
+                    print-version-number,
+                    clean-webinterface-folder,
+                    compile-webinstaller,
+                    compile-webinstaller-debug,
+                    compile-standard,
+                    compile-full,
+                    compile-lite,
+                    commit-versionized-registries,
+                    reset-git-submodules,
+                    kill-aria">
     </target>
 
 
