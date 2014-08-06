@@ -40,6 +40,11 @@
         <mkdir dir="${dir.Build}"/>
         <delete dir="${dir.Downloads}\stripdown"/>
         <delete dir="${dir.Base}/www/tools/webinterface"/>
+        <delete>
+            <fileset dir="${dir.Registry}">
+                <include name="**/downloads*.json" />
+            </fileset>
+        </delete>
     </target>
 
     <target name="reset-git-submodules" description="Reset the git submodules to their original state.">
@@ -211,7 +216,7 @@
 
     <target name="prepare-downloads" description="Moves components for all packaged installers from the full folder to their subfolder."
             depends="versionize-registries">
-        <echo message="&#xa; Moving Standard Components &#xa;"/>
+        <echo message=" Moving Standard Components "/>
 
         <adhoc-task name="MoveDownloadFiles"><![CDATA[
             class MoveDownloadFiles extends Task {
@@ -340,7 +345,7 @@
                     foreach($registries as $registry) {
 
                         $basename = basename($registry, '.json');
-                        $file = $this->registryfolder . '\\downloads-for-' . $basename . '.json';
+                        $file = $this->registryfolder . '\\downloads-for-' . $basename . '.txt';
 
                         $txt = $this->getAriaFileHeader($basename);
 
@@ -375,27 +380,39 @@
     </target>
 
     <target name="download-components" description="Download components for all full installers."
-    	    depends="create-download-files">
+    	    depends="update-git-submodules, make-downloads-dir, create-download-files">
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
             <fileset dir="${dir.Registry}">
-                <include name="**/downloads-for-full-next-*.json" />
+                <include name="**/downloads-for-full-next-*.txt" />
             </fileset>
         </foreach>
     </target>
 
-    <target name="downloading-components-for-installer" description="Downloads all components for building the 'not-web' Installers."
-            depends="make-downloads-dir, update-git-submodules, versionize-registries">
+    <target name="downloading-components-for-installer" description="Downloads all components for building the 'not-web' Installers.">
         <!--
                         Aria2C for Parallel Downloading
 
             http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
             http://aria2.sourceforge.net/manual/en/html/aria2c.html
         -->
-        <exec command="cmd.exe /c ${dir.Base}\bin\aria\aria2c.exe -i ${installer.aria.downloads} --max-connection-per-server=8 --min-split-size=1M --max-tries=5 --file-allocation=falloc --check-certificate=false --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --http-no-cache=true --user-agent=WPN-XM Server Stack Downloader"/>
+        <echo msg="Using ${dir.Registry}\${installer.aria.downloads}" />
+        <exec command="${dir.Base}\bin\aria\aria2c.exe">
+            <arg value="-i ${dir.Registry}\${installer.aria.downloads}"/>
+            <arg value="--max-connection-per-server=8"/>
+            <arg value="--min-split-size=1M"/>
+            <arg value="--max-tries=5"/>
+            <arg value="--file-allocation=falloc"/>
+            <arg value="--check-certificate=false"/>
+            <arg value="--conditional-get=true"/>
+            <arg value="--auto-file-renaming=false"/>
+            <arg value="--allow-overwrite=true"/>
+            <arg value="--http-accept-gzip=true --http-no-cache=true"/>
+            <arg value="--user-agent=WPN-XM Server Stack Downloader"/>
+        </exec>
     </target>
 
     <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
-        <exec command="${dir.Base}\bin\killprocess\Process.exe -k aria2c.exe" failonerror="false"/>
+        <exec command="${dir.Base}\bin\killprocess\Process.exe -k aria2c.exe"/>
     </target>
 
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
@@ -498,8 +515,8 @@
             description="Prepares the freshly build SCP zip archive for distribution."
             depends="compile-server-control-panel">
             <!-- zip the build/release folder to "_build/wpnxm-scp-1.2.3"-->
-            <echo message="&#xa;Building zip archive of Server-Control-Panel for distribution&#xa;"/>
-            <zip zipfile="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip" ziplevel="9" verbose="true">
+            <echo message="Building zip archive of Server-Control-Panel for distribution"/>
+            <zip zipfile="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip" ziplevel="9">
                 <fileset basedir="${dir.Base}/server-control-panel/build/release/">
                     <include name="**/*" />
                 </fileset>
@@ -507,7 +524,7 @@
             <!-- copy zip to the downloads folder -->
             <copy file="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip" tofile="${dir.Base}/downloads/wpnxmscp.zip" />
 
-            <echo message="&#xa;Clean Server-Control-Panel folder&#xa;"/>
+            <echo message="Clean Server-Control-Panel folder"/>
             <!-- remove files, ignores and folders. you might add "n" for dry-run -->
             <exec command="git clean -fxd" dir="${dir.Base}/server-control-panel/" />
     </target>
@@ -518,44 +535,41 @@
             <!-- This tasks requires that you have installed Qt and setup all environment path vars correctly.
                  The build tools will not be found otherwise. -->
 
-        <echo message="&#xa;"/>
         <exec command="qmake v" dir="${dir.qmake}"/>
 
-        <echo message="&#xa;QMAKE Query"/>
+        <echo message="QMAKE Query"/>
         <exec command="qmake -query" dir="${dir.qmake}"/>
-
-        <echo message="&#xa;Clean Server-Control-Panel folder&#xa;"/>
+        <echo message="Clean Server-Control-Panel folder"/>
         <!-- remove files, ignores and folders. you might add "n" for dry-run -->
         <exec command="git clean -fxd" dir="${dir.Base}/server-control-panel/">
 
-        <echo message="&#xa;"/>
         <!-- http://doc-snapshot.qt-project.org/4.8/qmake-variable-reference.html -->
-        <exec command="qmake -r -spec win32-g++ -o Makefile ${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro -Wall"
-        	  dir="${dir.Base}/server-control-panel/" dir="${dir.qmake}" />
+        <exec command="${dir.qmake}\qmake" dir="${dir.Base}/server-control-panel/"/>
+        	<arg value=" -r -spec win32-g++ -o Makefile ${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro -Wall"/>
+    	</exec>
 
-        <echo message="&#xa;"/>
-        <exec command="mingw32-make -v" dir="${dir.mingw32}" />
+        <exec command="${dir.mingw32}\mingw32-make -v"/>
 
-        <echo message="&#xa;"/>
-        <exec command="mingw32-make -f Makefile.Release -j4" dir="${dir.Base}/server-control-panel/" dir="${dir.mingw32}">
+        <exec command="${dir.mingw32}\mingw32-make -f Makefile.Release -j4" dir="${dir.Base}/server-control-panel/">
 			<environment>
-				<variable name="PATH" value="${dir.mingw32}" />
+				<variable name="PATH" value="${dir.mingw32}"/>
 			</environment>
         </exec>
 
-        <echo message="&#xa;Copy runtime deependencies of Qt&#xa;"/>
-        <exec command="mingw32-make install" dir="${dir.Base}/server-control-panel/" dir="${dir.mingw32}" />
+        <echo message="Copy runtime deependencies of Qt"/>
+        <exec command="${dir.mingw32}\mingw32-make install" dir="${dir.Base}/server-control-panel/"/>
 
-        <echo message="&#xa;Cleaning build directory&#xa;"/>
-        <exec command="mingw32-make clean" dir="${dir.Base}/server-control-panel/" dir="${dir.mingw32}" />
+        <echo message="Cleaning build directory"/>
+        <exec command="${dir.mingw32}\mingw32-make clean" dir="${dir.Base}/server-control-panel/"/>
 
-        <echo message="&#xa;Removing all unneeded debugging symbols and sections from executable...&#xa;"/>
-        <exec command="strip.exe -s wpn-xm.exe -o wpn-xm.exe.stripped" verbose="true" dir="${dir.mingw32}" dir="${dir.Base}/server-control-panel/build/release/" />
+        <echo message="Removing all unneeded debugging symbols and sections from executable..."/>
+        <exec command="${dir.mingw32}\strip.exe -s wpn-xm.exe -o wpn-xm.exe.stripped" dir="${dir.Base}/server-control-panel/build/release/"/>
         <sleep seconds="3"/>
-        <exec command="cmd.exe /c move wpn-xm.exe.stripped wpn-xm.exe" dir="${dir.Base}/server-control-panel/build/release/" />
+        <exec command="cmd.exe /c move wpn-xm.exe.stripped wpn-xm.exe" dir="${dir.Base}/server-control-panel/build/release/"/>
 
-        <echo message="&#xa;Compressing executable...&#xa;"/>
-        <exec command="${dir.Base}/bin/upx/upx -9 ${dir.Base}/server-control-panel/build/release/*.exe" verbose="true" />
+        <echo message="Compressing executable..."/>
+        <exec command="${dir.Base}/bin/upx/upx -9 ${dir.Base}/server-control-panel/build/release/*.exe" level="verbose"/>
+
     </target>
 
     <target name="main"
