@@ -110,7 +110,7 @@ Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceR
 
 [Files]
 // incorporate the whole downloads folder (all in one)
-Source: ..\downloads\lite\*; DestDir: {tmp}; Flags: deleteafterinstall;
+Source: ..\downloads\lite-php55-w32\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: DestDir: {app}\bin\backup\

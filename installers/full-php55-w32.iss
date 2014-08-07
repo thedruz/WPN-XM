@@ -39,7 +39,7 @@
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
-#define InstallerType "BigPack"
+#define InstallerType "Full"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -132,7 +132,7 @@ Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDisk
 
 [Files]
 // incorporate the whole downloads folder (all in one)
-Source: ..\downloads\*; DestDir: {tmp}; Flags: deleteafterinstall; Excludes: ..\downloads\allinone, ..\downloads\lite;
+Source: ..\downloads\full-php55-w32\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: DestDir: {app}\bin\backup\
