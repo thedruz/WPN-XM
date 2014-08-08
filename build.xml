@@ -354,7 +354,7 @@
                         foreach($components as $component)
                         {
                             $url = $component[1];
-                            $target = $this->downloadfolder . '\\' . $basename . '\\' . $component[2];
+                            $target = '\\downloads\\' . $basename . '\\' . $component[2];
 
                             $txt .= $this->insertDownload($url, $target);
                         }
