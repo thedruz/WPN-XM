@@ -35,7 +35,7 @@ echo.
 
 
 :: Execute Phing with WPN-XM build file, run task "all" and produce log
-bin\phing\phing.bat -buildfile build.xml all -logfile build.log
+bin\phing\phing.bat -logfile build.log
 
 EndLocal
 :END
