@@ -49,14 +49,14 @@
 
     <target name="reset-git-submodules" description="Reset the git submodules to their original state.">
          <!-- hard reset to latest commit and drop all untracked files and folders, e.g. /build crap. -->
-        <exec command="git submodule foreach git reset --hard HEAD; git clean -fxd"/>
+        <exec command="git submodule foreach &quot;git reset --hard HEAD&quot;" level="debug" passthru="true"/>
     </target>
 
     <!-- The "git" command must be on your env path, check that with "env|grep PATH". -->
     <target name="update-git-submodules"
             description="Updating git submodules. Fetching latest version of server-control-panel and webinterface.">
-        <exec command="git submodule update --init --recursive --force"/>
-        <exec command="git submodule foreach pull origin master"/>
+        <exec command="git submodule update --init --recursive --force" level="debug" passthru="true"/>
+        <exec command="git submodule foreach &quot;git pull origin master&quot;" level="debug" passthru="true"/>
     </target>
 
     <target name="bump-version-number"
@@ -122,13 +122,13 @@
 
     <target name="commit-versionized-registries"
             description="Commits the versionized WPN-XM Software Component Registries (all untracked files in /registry folder).">
-        <exec command="git add -A" dir="${dir.Registry}" />
-        <exec command="git commit -am Added WPN-XM Software Components Registry for Version ${wpnxm.Version}" dir="${dir.Registry}" />
+        <exec command="git add -A ${dir.Registry}" level="debug" passthru="true"/>
+        <exec command="git commit -am Added WPN-XM Installer Registries for Version ${wpnxm.Version}" dir="${dir.Registry}" level="debug" passthru="true"/>
     </target>
 
     <target name="inno-compile">
         <echo message="Compiling ${installer.file}"/>
-        <exec command="${innosetupcompiler} -o${dir.Build} ${installer.file}"/>
+        <exec command="${innosetupcompiler} -o${dir.Build} ${dir.Build}\${installer.file}" level="debug" passthru="true"/>
     </target>
 
     <target name="compile-webinstaller" description="Builds the WPN-XM setup executable." depends="bump-version-number, clean-webinterface-folder">
@@ -396,8 +396,8 @@
             http://aria2.sourceforge.net/manual/en/html/aria2c.html
         -->
         <echo msg="Using ${dir.Registry}\${installer.aria.downloads}" />
-        <exec command="${dir.Base}\bin\aria\aria2c.exe">
-            <arg value="-i ${dir.Registry}\${installer.aria.downloads}"/>
+        <exec command="${dir.Base}\bin\aria\aria2c.exe" level="debug" passthru="true">
+            <arg value=" -i ${dir.Registry}\${installer.aria.downloads}"/>
             <arg value="--max-connection-per-server=8"/>
             <arg value="--min-split-size=1M"/>
             <arg value="--max-tries=5"/>
@@ -412,7 +412,7 @@
     </target>
 
     <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
-        <exec command="${dir.Base}\bin\killprocess\Process.exe -k aria2c.exe"/>
+        <exec command="${dir.Base}\bin\killprocess\Process.exe -k aria2c.exe" passthru="true"/>
     </target>
 
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
@@ -445,59 +445,41 @@
     <target name="stripdown-mariadb" description="Stripdown MariaDB and repackage. (136MB to 16MB on v5.5.28!)"
             depends="recreate-stripdown-folder"
             if="${file::get-length(dir.Downloads + '\mariadb.zip') &gt; 25000000}"><!-- 25MB -->
-
         <unzip zipfile="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
-        <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb"/>
-
-        <exec command="${dir.Base}\bin\stripdown-mariadb.bat">
-            <arg value="${dir.Downloads}\stripdown\mariadb"/>
-        </exec>
-
+        <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb" passthru="true"/>
+        <exec command="${dir.Base}\bin\stripdown-mariadb.bat ${dir.Downloads}\stripdown\mariadb" passthru="true"/>
         <delete file="${dir.Downloads}\mariadb.zip"/>
-
         <zip zipfile="${dir.Downloads}\mariadb.zip">
             <fileset basedir="${dir.Downloads}\stripdown">
                 <include name="**/*"/>
             </fileset>
         </zip>
-
         <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
     <target name="stripdown-mongodb" description="Stripdown MongoDB and repackage. (55MB to 16MB on v2.2.1!)"
             depends="recreate-stripdown-folder"
             if="${file::get-length(dir.Downloads + '\mongodb.zip') &gt; 50000000}"><!-- 50MB -->
-
         <unzip zipfile="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
-        <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb"/>
-
-        <exec command="${dir.Base}\bin\stripdown-mongodb.bat">
+        <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb" passthru="true"/>
+        <exec command="${dir.Base}\bin\stripdown-mongodb.bat" passthru="true">
             <arg value="${dir.Downloads}\stripdown\mongodb"/>
         </exec>
-
         <delete file="${dir.Downloads}\mongodb.zip"/>
-
         <zip zipfile="${dir.Downloads}\mongodb.zip">
             <fileset basedir="${dir.Downloads}\stripdown">
                 <include name="**/*"/>
             </fileset>
         </zip>
-
         <delete dir="${dir.Downloads}\stripdown"/>
     </target>
 
     <target name="stripdown-postgresql" description="Stripdown PostgreSQL and repackage. (xxMB to xxMB on vx.y.z!)"
             depends="recreate-stripdown-folder"
             if="${file::get-length(dir.Downloads + '\postgresql.zip') &gt; 25000000}"><!-- 25MB -->
-
         <unzip zipfile="${dir.Downloads}\postgresql.zip" todir="${dir.Downloads}\stripdown"/>
-
-        <exec command="${dir.Base}\bin\stripdown-postgresql.bat">
-            <arg value="${dir.Downloads}\stripdown\pgsql"/>
-        </exec>
-
+        <exec command="${dir.Base}\bin\stripdown-postgresql.bat ${dir.Downloads}\stripdown\pgsql" passthru="true"/>
         <delete file="${dir.Downloads}\postgresql.zip"/>
-
         <zip zipfile="${dir.Downloads}\postgresql.zip">
             <fileset basedir="${dir.Downloads}\stripdown">
                 <include name="**/*"/>
@@ -526,7 +508,7 @@
 
             <echo message="Clean Server-Control-Panel folder"/>
             <!-- remove files, ignores and folders. you might add "n" for dry-run -->
-            <exec command="git clean -fxd" dir="${dir.Base}/server-control-panel/" />
+            <exec command="git clean -fxd" dir="${dir.Base}/server-control-panel/" passthru="true"/>
     </target>
 
     <target name="compile-server-control-panel"
@@ -538,37 +520,37 @@
         <exec command="qmake v" dir="${dir.qmake}"/>
 
         <echo message="QMAKE Query"/>
-        <exec command="qmake -query" dir="${dir.qmake}"/>
+        <exec command="qmake -query" dir="${dir.qmake}" passthru="true"/>
         <echo message="Clean Server-Control-Panel folder"/>
         <!-- remove files, ignores and folders. you might add "n" for dry-run -->
-        <exec command="git clean -fxd" dir="${dir.Base}/server-control-panel/">
+        <exec command="git clean -fxd" dir="${dir.Base}/server-control-panel/" passthru="true"/>
 
         <!-- http://doc-snapshot.qt-project.org/4.8/qmake-variable-reference.html -->
-        <exec command="${dir.qmake}\qmake" dir="${dir.Base}/server-control-panel/"/>
+        <exec command="${dir.qmake}\qmake" dir="${dir.Base}/server-control-panel/" passthru="true">
         	<arg value=" -r -spec win32-g++ -o Makefile ${dir.Base}/server-control-panel/wpnxm-servercontrolpanel.pro -Wall"/>
     	</exec>
 
-        <exec command="${dir.mingw32}\mingw32-make -v"/>
+        <exec command="${dir.mingw32}\mingw32-make -v" passthru="true"/>
 
-        <exec command="${dir.mingw32}\mingw32-make -f Makefile.Release -j4" dir="${dir.Base}/server-control-panel/">
+        <exec command="${dir.mingw32}\mingw32-make -f Makefile.Release -j4" dir="${dir.Base}/server-control-panel/" passthru="true">
 			<environment>
 				<variable name="PATH" value="${dir.mingw32}"/>
 			</environment>
         </exec>
 
         <echo message="Copy runtime deependencies of Qt"/>
-        <exec command="${dir.mingw32}\mingw32-make install" dir="${dir.Base}/server-control-panel/"/>
+        <exec command="${dir.mingw32}\mingw32-make install" dir="${dir.Base}/server-control-panel/" passthru="true"/>
 
         <echo message="Cleaning build directory"/>
-        <exec command="${dir.mingw32}\mingw32-make clean" dir="${dir.Base}/server-control-panel/"/>
+        <exec command="${dir.mingw32}\mingw32-make clean" dir="${dir.Base}/server-control-panel/" passthru="true"/>
 
         <echo message="Removing all unneeded debugging symbols and sections from executable..."/>
-        <exec command="${dir.mingw32}\strip.exe -s wpn-xm.exe -o wpn-xm.exe.stripped" dir="${dir.Base}/server-control-panel/build/release/"/>
+        <exec command="${dir.mingw32}\strip.exe -s wpn-xm.exe -o wpn-xm.exe.stripped" dir="${dir.Base}/server-control-panel/build/release/" passthru="true"/>
         <sleep seconds="3"/>
-        <exec command="cmd.exe /c move wpn-xm.exe.stripped wpn-xm.exe" dir="${dir.Base}/server-control-panel/build/release/"/>
+        <exec command="cmd.exe /c move wpn-xm.exe.stripped wpn-xm.exe" dir="${dir.Base}/server-control-panel/build/release/" passthru="true"/>
 
         <echo message="Compressing executable..."/>
-        <exec command="${dir.Base}/bin/upx/upx -9 ${dir.Base}/server-control-panel/build/release/*.exe" level="verbose"/>
+        <exec command="${dir.Base}/bin/upx/upx -9 ${dir.Base}/server-control-panel/build/release/*.exe" level="verbose" passthru="true"/>
 
     </target>
 
