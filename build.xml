@@ -354,7 +354,7 @@
                         foreach($components as $component)
                         {
                             $url = $component[1];
-                            $target = '\\downloads\\' . $basename . '\\' . $component[2];
+                            $target = 'downloads\\' . $basename . '\\' . $component[2];
 
                             $txt .= $this->insertDownload($url, $target);
                         }
@@ -396,19 +396,7 @@
             http://aria2.sourceforge.net/manual/en/html/aria2c.html
         -->
         <echo msg="Using ${dir.Registry}\${installer.aria.downloads}" />
-        <exec command="${dir.Base}\bin\aria\aria2c.exe" level="debug" passthru="true">
-            <arg value=" -i ${dir.Registry}\${installer.aria.downloads}"/>
-            <arg value="--max-connection-per-server=8"/>
-            <arg value="--min-split-size=1M"/>
-            <arg value="--max-tries=5"/>
-            <arg value="--file-allocation=falloc"/>
-            <arg value="--check-certificate=false"/>
-            <arg value="--conditional-get=true"/>
-            <arg value="--auto-file-renaming=false"/>
-            <arg value="--allow-overwrite=true"/>
-            <arg value="--http-accept-gzip=true --http-no-cache=true"/>
-            <arg value="--user-agent=WPN-XM Server Stack Downloader"/>
-        </exec>
+        <exec command="${dir.Base}\bin\aria\aria2c.exe -i ${dir.Registry}\${installer.aria.downloads} --max-connection-per-server=8 --min-split-size=1M --max-tries=5 --file-allocation=falloc --check-certificate=false --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --http-no-cache=true --user-agent=WPN-XM Server Stack Downloader" level="debug" passthru="true" dir="${dir.Base}" escape="false"/>
     </target>
 
     <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
