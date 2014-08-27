@@ -128,6 +128,7 @@ Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Compon
 // incorporate several startfiles
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
@@ -219,6 +220,7 @@ const
   Filename_nginx             = 'nginx.zip';
   Filename_php               = 'php.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
+  Filename_pickle            = 'pickle.phar';
   Filename_vcredist          = 'vcredist_x86.exe';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
 
@@ -635,12 +637,21 @@ begin
   begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
-      // xdebug is not a zipped, its just a dll file, so copy it to the target path
+      // xdebug is not zipped, its just a dll file, so copy it to the target path
       FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
     UpdateTotalProgressBar();
   end;
 
-  // adminer is not a zipped, its just a php file, so copy it to the target path
+  // pickle is not zipped, its just a php phar package, so copy it to the php path
+  if Pos('pickle', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('pickle');
+      ExtractTemporaryFile(Filename_pickle);
+      FileCopy(ExpandConstant(targetPath + Filename_pickle), ExpandConstant('{app}\bin\php\' + Filename_pickle), false);
+    UpdateTotalProgressBar();
+  end;
+
+  // adminer is not zipped, its just a php file, so copy it to the target path
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Adminer');
@@ -650,7 +661,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // composer is not a zipped, its just a php phar package, so copy it to the php path
+  // composer is not zipped, its just a php phar package, so copy it to the php path
   if Pos('composer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('composer');
@@ -671,10 +682,10 @@ begin
   appPath := ExpandConstant('{app}');
 
   // nginx - rename directory
-  Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - rename directory
-  Exec(hideConsole, 'cmd.exe /c "move ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
   // MariaDB - install with user ROOT and without password (this is the position to add a default password)
   Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',

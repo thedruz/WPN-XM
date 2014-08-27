@@ -119,6 +119,7 @@ Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Typ
 Name: phpextensions; Description: PHP Extensions; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
 Name: redis; Description: Rediska;
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
@@ -150,6 +151,7 @@ Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Compon
 // incorporate several startfiles
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
@@ -281,6 +283,7 @@ const
   Filename_phpext_zmq        = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
+  Filename_pickle            = 'pickle.phar';
   Filename_postgresql        = 'postgresql.zip';
   Filename_redis             = 'redis.zip';
   Filename_rockmongo         = 'rockmongo.zip';
@@ -785,7 +788,7 @@ begin
   begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
-      // xdebug is not a zipped, its just a dll file, so copy it to the target path
+      // xdebug is not zipped, its just a dll file, so copy it to the target path
       FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
     UpdateTotalProgressBar();
   end;
@@ -939,6 +942,15 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  // pickle is not zipped, its just a php phar package, so copy it to the php path
+  if Pos('pickle', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('pickle');
+      ExtractTemporaryFile(Filename_pickle);
+      FileCopy(ExpandConstant(targetPath + Filename_pickle), ExpandConstant('{app}\bin\php\' + Filename_pickle), false);
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('postgresql', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PostgreSQL');
@@ -947,7 +959,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // adminer is not a zipped, its just a php file, so copy it to the target path
+  // adminer is not zipped, its just a php file, so copy it to the target path
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Adminer');
@@ -965,7 +977,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // pear is not a zipped, its just a php phar package, so copy it to php\pear subfolder
+  // pear is not zipped, its just a php phar package, so copy it to php\pear subfolder
   if Pos('pear', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PEAR');
@@ -975,7 +987,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // composer is not a zipped, its just a php phar package, so copy it to the php path
+  // composer is not zipped, its just a php phar package, so copy it to the php path
   if Pos('composer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('composer');

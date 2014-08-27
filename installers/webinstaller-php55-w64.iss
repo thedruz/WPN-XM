@@ -123,6 +123,7 @@ Name: phpextensions; Description: PHP Extensions; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
+Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: redis; Description: Rediska;
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
@@ -155,6 +156,7 @@ Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Compon
 // incorporate several startfiles
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
@@ -296,6 +298,7 @@ const
   URL_phpext_zmq        = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=5.5';
   URL_phpmemcachedadmin = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
+  URL_pickle            = 'http://wpn-xm.org/get.php?s=pickle';
   URL_postgresql        = 'http://wpn-xm.org/get.php?s=postgresql';
   URL_redis             = 'http://wpn-xm.org/get.php?s=redis';
   URL_rockmongo         = 'http://wpn-xm.org/get.php?s=rockmongo';
@@ -342,6 +345,7 @@ const
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_postgresql        = 'postgresql.zip';
+  Filename_pickle            = 'pickle.phar';
   Filename_redis             = 'redis.zip';
   Filename_rockmongo         = 'rockmongo.zip';
   Filename_sendmail          = 'sendmail.zip';
@@ -748,6 +752,7 @@ begin
     if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
     if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
     if IsComponentSelected('postgresql')         then idpAddFile(URL_postgresql,        ExpandConstant(targetPath + Filename_postgresql));
+    if IsComponentSelected('pickle')             then idpAddFile(URL_pickle,            ExpandConstant(targetPath + Filename_pickle));
     if IsComponentSelected('redis')              then idpAddFile(URL_redis,             ExpandConstant(targetPath + Filename_redis));
     if IsComponentSelected('rockmongo')          then idpAddFile(URL_rockmongo,         ExpandConstant(targetPath + Filename_rockmongo));
     if IsComponentSelected('sendmail')           then idpAddFile(URL_sendmail,          ExpandConstant(targetPath + Filename_sendmail));
@@ -1096,7 +1101,15 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // adminer is not a zipped, its just a php file, so copy it to the target path
+  // pickle is not zipped, its just a php phar package, so copy it to the php path
+  if Pos('pickle', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('pickle');
+      FileCopy(ExpandConstant(targetPath + Filename_pickle), ExpandConstant('{app}\bin\php\' + Filename_pickle), false);
+    UpdateTotalProgressBar();
+  end;
+
+  // adminer is not zipped, its just a php file, so copy it to the target path
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Adminer');
@@ -1112,7 +1125,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // pear is not a zipped, its just a php phar package, so copy it to php\pear subfolder
+  // pear is not zipped, its just a php phar package, so copy it to php\pear subfolder
   if Pos('pear', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PEAR');
@@ -1121,7 +1134,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // composer is not a zipped, its just a php phar package, so copy it to the php path
+  // composer is not zipped, its just a php phar package, so copy it to the php path
   if Pos('composer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('composer');
