@@ -109,10 +109,10 @@ Name: closurecompiler; Description: Google Closure Compiler; ExtraDiskSpaceRequi
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
-Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full
+Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
@@ -249,50 +249,51 @@ const
   DEBUG = {#DEBUG};
 
   // Define file names for the downloads
-  Filename_adminer           = 'adminer.php';
-  Filename_closure_compiler  = 'closure-compiler.zip';
-  Filename_composer          = 'composer.phar';
-  Filename_imagick           = 'imagick.zip';
-  Filename_junction          = 'junction.zip';
-  Filename_mariadb           = 'mariadb.zip';
-  Filename_memadmin          = 'memadmin.zip';
-  Filename_memcached         = 'memcached.zip';
-  Filename_mongodb           = 'mongodb.zip';
-  Filename_nginx             = 'nginx.zip';
-  Filename_node              = 'node.exe'; // WATCH IT: EXE!
-  Filename_nodenpm           = 'nodenpm.zip';
-  Filename_openssl           = 'openssl.exe';
-  Filename_pear              = 'go-pear.phar';
-  Filename_perl              = 'perl.zip';
-  Filename_php               = 'php.zip';
-  Filename_phpext_amqp       = 'phpext_amqp.zip';
-  Filename_phpext_apc        = 'phpext_apc.zip';
-  Filename_phpext_imagick    = 'phpext_imagick.zip';
-  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
-  Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_mongo      = 'phpext_mongo.zip';
-  Filename_phpext_msgpack    = 'phpext_msgpack.zip';
-  Filename_phpext_phalcon    = 'phpext_phalcon.zip';
-  Filename_phpext_rar        = 'phpext_rar.zip';
-  Filename_phpext_trader     = 'phpext_trader.zip';
-  Filename_phpext_varnish    = 'phpext_varnish.zip';
-  Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
-  Filename_phpext_xcache     = 'phpext_xcache.zip';
-  Filename_phpext_xdebug     = 'phpext_xdebug.dll';
-  Filename_phpext_xhprof     = 'phpext_xhprof.zip';
-  Filename_phpext_zmq        = 'phpext_zmq.zip';
-  Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
-  Filename_phpmyadmin        = 'phpmyadmin.zip';
-  Filename_pickle            = 'pickle.phar';
-  Filename_postgresql        = 'postgresql.zip';
-  Filename_redis             = 'redis.zip';
-  Filename_rockmongo         = 'rockmongo.zip';
-  Filename_sendmail          = 'sendmail.zip';
-  Filename_varnish           = 'varnish.zip';
-  Filename_vcredist          = 'vcredist_x86.exe';
-  Filename_webgrind          = 'webgrind.zip';
-  Filename_wpnxmscp          = 'wpnxmscp.zip';
-  Filename_xhprof            = 'xhprof.zip';
+  Filename_adminer               = 'adminer.php';
+  Filename_closure_compiler      = 'closure-compiler.zip';
+  Filename_composer              = 'composer.phar';
+  Filename_imagick               = 'imagick.zip';
+  Filename_junction              = 'junction.zip';
+  Filename_mariadb               = 'mariadb.zip';
+  Filename_memadmin              = 'memadmin.zip';
+  Filename_memcached             = 'memcached.zip';
+  Filename_mongodb               = 'mongodb.zip';
+  Filename_nginx                 = 'nginx.zip';
+  Filename_node                  = 'node.exe'; // WATCH IT: EXE!
+  Filename_nodenpm               = 'nodenpm.zip';
+  Filename_openssl               = 'openssl.exe';
+  Filename_pear                  = 'go-pear.phar';
+  Filename_perl                  = 'perl.zip';
+  Filename_php                   = 'php.zip';
+  Filename_phpext_amqp           = 'phpext_amqp.zip';
+  Filename_phpext_apc            = 'phpext_apc.zip';
+  Filename_phpext_imagick        = 'phpext_imagick.zip';
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_mongo          = 'phpext_mongo.zip';
+  Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  Filename_phpext_phalcon        = 'phpext_phalcon.zip';
+  Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_trader         = 'phpext_trader.zip';
+  Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
+  Filename_phpext_varnish        = 'phpext_varnish.zip';
+  Filename_phpext_wincache       = 'phpext_wincache.exe'; // WATCH IT: EXE!
+  Filename_phpext_xcache         = 'phpext_xcache.zip';
+  Filename_phpext_xdebug         = 'phpext_xdebug.dll';
+  Filename_phpext_xhprof         = 'phpext_xhprof.zip';
+  Filename_phpext_zmq            = 'phpext_zmq.zip';
+  Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
+  Filename_phpmyadmin            = 'phpmyadmin.zip';
+  Filename_pickle                = 'pickle.phar';
+  Filename_postgresql            = 'postgresql.zip';
+  Filename_redis                 = 'redis.zip';
+  Filename_rockmongo             = 'rockmongo.zip';
+  Filename_sendmail              = 'sendmail.zip';
+  Filename_varnish               = 'varnish.zip';
+  Filename_vcredist              = 'vcredist_x86.exe';
+  Filename_webgrind              = 'webgrind.zip';
+  Filename_wpnxmscp              = 'wpnxmscp.zip';
+  Filename_xhprof                = 'xhprof.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -817,6 +818,12 @@ begin
       ExtractTemporaryFile(Filename_phpext_msgpack);
       DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - UploadProgress');
+      ExtractTemporaryFile(Filename_phpext_uploadprogress);
+      DoUnzip(targetPath + Filename_phpext_uploadprogress, targetPath + 'phpext_uploadprogress');
+      FileCopy(ExpandConstant(targetPath + 'phpext_uploadprogress\php_uploadprogress.dll'), ExpandConstant('{app}\bin\php\ext\php_uploadprogress.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Phalcon');

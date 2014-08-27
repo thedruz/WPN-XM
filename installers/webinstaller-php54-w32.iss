@@ -112,18 +112,18 @@ Name: closurecompiler; Description: Google Closure Compiler; ExtraDiskSpaceRequi
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
-Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full
+Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
 Name: phpextensions; Description: PHP Extensions; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
-Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
 Name: redis; Description: Rediska;
 Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
@@ -264,96 +264,98 @@ const
   //
   // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   //
-  URL_adminer           = 'http://wpn-xm.org/get.php?s=adminer';
-  URL_closure_compiler  = 'http://wpn-xm.org/get.php?s=closure-compiler';
-  URL_composer          = 'http://wpn-xm.org/get.php?s=composer';
-  URL_imagick           = 'http://wpn-xm.org/get.php?s=imagick';
-  URL_junction          = 'http://wpn-xm.org/get.php?s=junction';
-  URL_mariadb           = 'http://wpn-xm.org/get.php?s=mariadb';
-  URL_memadmin          = 'http://wpn-xm.org/get.php?s=memadmin';
-  URL_memcached         = 'http://wpn-xm.org/get.php?s=memcached';
-  URL_mongodb           = 'http://wpn-xm.org/get.php?s=mongodb';
-  URL_nginx             = 'http://wpn-xm.org/get.php?s=nginx';
-  URL_node              = 'http://wpn-xm.org/get.php?s=node';
-  URL_nodenpm           = 'http://wpn-xm.org/get.php?s=nodenpm';
-  URL_openssl           = 'http://wpn-xm.org/get.php?s=openssl';
-  URL_pear              = 'http://wpn-xm.org/get.php?s=pear';
-  URL_perl              = 'http://wpn-xm.org/get.php?s=perl';
-  URL_php               = 'http://wpn-xm.org/get.php?s=php&p=5.4';
-  URL_phpext_amqp       = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.4';
-  URL_phpext_apc        = 'http://wpn-xm.org/get.php?s=phpext_apc&p=5.4';
-  URL_phpext_imagick    = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.4';
-  URL_phpext_mailparse  = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.4';
-  URL_phpext_memcache   = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.4';
-  URL_phpext_mongo      = 'http://wpn-xm.org/get.php?s=phpext_mongo&p=5.4';
-  URL_phpext_msgpack    = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.4';
-  URL_phpext_phalcon    = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.4';
-  URL_phpext_rar        = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.4';
-  URL_phpext_trader     = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.4';
-  URL_phpext_varnish    = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=5.4';
-  URL_phpext_wincache   = 'http://wpn-xm.org/get.php?s=phpext_wincache&p=5.4';
-  URL_phpext_xcache     = 'http://wpn-xm.org/get.php?s=phpext_xcache&p=5.4';
-  URL_phpext_xdebug     = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=5.4';
-  URL_phpext_xhprof     = 'http://wpn-xm.org/get.php?s=phpext_xhprof&p=5.4';
-  URL_phpext_zmq        = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=5.4';
-  URL_phpmemcachedadmin = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
-  URL_phpmyadmin        = 'http://wpn-xm.org/get.php?s=phpmyadmin';
-  URL_pickle            = 'http://wpn-xm.org/get.php?s=pickle';
-  URL_postgresql        = 'http://wpn-xm.org/get.php?s=postgresql';
-  URL_redis             = 'http://wpn-xm.org/get.php?s=redis';
-  URL_rockmongo         = 'http://wpn-xm.org/get.php?s=rockmongo';
-  URL_sendmail          = 'http://wpn-xm.org/get.php?s=sendmail';
-  URL_varnish           = 'http://wpn-xm.org/get.php?s=varnish';
-  URL_vcredist          = 'http://wpn-xm.org/get.php?s=vcredist';
-  URL_webgrind          = 'http://wpn-xm.org/get.php?s=webgrind';
-  URL_wpnxmscp          = 'http://wpn-xm.org/get.php?s=wpnxmscp';
-  URL_xhprof            = 'http://wpn-xm.org/get.php?s=xhprof';
+  URL_adminer               = 'http://wpn-xm.org/get.php?s=adminer';
+  URL_closure_compiler      = 'http://wpn-xm.org/get.php?s=closure-compiler';
+  URL_composer              = 'http://wpn-xm.org/get.php?s=composer';
+  URL_imagick               = 'http://wpn-xm.org/get.php?s=imagick';
+  URL_junction              = 'http://wpn-xm.org/get.php?s=junction';
+  URL_mariadb               = 'http://wpn-xm.org/get.php?s=mariadb';
+  URL_memadmin              = 'http://wpn-xm.org/get.php?s=memadmin';
+  URL_memcached             = 'http://wpn-xm.org/get.php?s=memcached';
+  URL_mongodb               = 'http://wpn-xm.org/get.php?s=mongodb';
+  URL_nginx                 = 'http://wpn-xm.org/get.php?s=nginx';
+  URL_node                  = 'http://wpn-xm.org/get.php?s=node';
+  URL_nodenpm               = 'http://wpn-xm.org/get.php?s=nodenpm';
+  URL_openssl               = 'http://wpn-xm.org/get.php?s=openssl';
+  URL_pear                  = 'http://wpn-xm.org/get.php?s=pear';
+  URL_perl                  = 'http://wpn-xm.org/get.php?s=perl';
+  URL_php                   = 'http://wpn-xm.org/get.php?s=php&p=5.4';
+  URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.4';
+  URL_phpext_apc            = 'http://wpn-xm.org/get.php?s=phpext_apc&p=5.4';
+  URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.4';
+  URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.4';
+  URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.4';
+  URL_phpext_mongo          = 'http://wpn-xm.org/get.php?s=phpext_mongo&p=5.4';
+  URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.4';
+  URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.4';
+  URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.4';
+  URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.4';
+  URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.4';
+  URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=5.4';
+  URL_phpext_wincache       = 'http://wpn-xm.org/get.php?s=phpext_wincache&p=5.4';
+  URL_phpext_xcache         = 'http://wpn-xm.org/get.php?s=phpext_xcache&p=5.4';
+  URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=5.4';
+  URL_phpext_xhprof         = 'http://wpn-xm.org/get.php?s=phpext_xhprof&p=5.4';
+  URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=5.4';
+  URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
+  URL_phpmyadmin            = 'http://wpn-xm.org/get.php?s=phpmyadmin';
+  URL_pickle                = 'http://wpn-xm.org/get.php?s=pickle';
+  URL_postgresql            = 'http://wpn-xm.org/get.php?s=postgresql';
+  URL_redis                 = 'http://wpn-xm.org/get.php?s=redis';
+  URL_rockmongo             = 'http://wpn-xm.org/get.php?s=rockmongo';
+  URL_sendmail              = 'http://wpn-xm.org/get.php?s=sendmail';
+  URL_varnish               = 'http://wpn-xm.org/get.php?s=varnish';
+  URL_vcredist              = 'http://wpn-xm.org/get.php?s=vcredist';
+  URL_webgrind              = 'http://wpn-xm.org/get.php?s=webgrind';
+  URL_wpnxmscp              = 'http://wpn-xm.org/get.php?s=wpnxmscp';
+  URL_xhprof                = 'http://wpn-xm.org/get.php?s=xhprof';
 
   // Define file names for the downloads
-  Filename_adminer           = 'adminer.php';
-  Filename_closure_compiler  = 'closure-compiler.zip';
-  Filename_composer          = 'composer.phar';
-  Filename_imagick           = 'imagick.zip';
-  Filename_junction          = 'junction.zip';
-  Filename_mariadb           = 'mariadb.zip';
-  Filename_memadmin          = 'memadmin.zip';
-  Filename_memcached         = 'memcached.zip';
-  Filename_mongodb           = 'mongodb.zip';
-  Filename_nginx             = 'nginx.zip';
-  Filename_node              = 'node.exe'; // WATCH IT: EXE!
-  Filename_nodenpm           = 'nodenpm.zip';
-  Filename_openssl           = 'openssl.exe';
-  Filename_pear              = 'go-pear.phar';
-  Filename_perl              = 'perl.zip';
-  Filename_php               = 'php.zip';
-  Filename_phpext_amqp       = 'phpext_amqp.zip';
-  Filename_phpext_apc        = 'phpext_apc.zip';
-  Filename_phpext_imagick    = 'phpext_imagick.zip';
-  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
-  Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_mongo      = 'phpext_mongo.zip';
-  Filename_phpext_msgpack    = 'phpext_msgpack.zip';
-  Filename_phpext_phalcon    = 'phpext_phalcon.zip';
-  Filename_phpext_rar        = 'phpext_rar.zip';
-  Filename_phpext_trader     = 'phpext_trader.zip';
-  Filename_phpext_varnish    = 'phpext_varnish.zip';
-  Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
-  Filename_phpext_xcache     = 'phpext_xcache.zip';
-  Filename_phpext_xdebug     = 'phpext_xdebug.dll';
-  Filename_phpext_xhprof     = 'phpext_xhprof.zip';
-  Filename_phpext_zmq        = 'phpext_zmq.zip';
-  Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
-  Filename_phpmyadmin        = 'phpmyadmin.zip';
-  Filename_postgresql        = 'postgresql.zip';
-  Filename_pickle            = 'pickle.phar';
-  Filename_redis             = 'redis.zip';
-  Filename_rockmongo         = 'rockmongo.zip';
-  Filename_sendmail          = 'sendmail.zip';
-  Filename_varnish           = 'varnish.zip';
-  Filename_vcredist          = 'vcredist_x86.exe';
-  Filename_webgrind          = 'webgrind.zip';
-  Filename_wpnxmscp          = 'wpnxmscp.zip';
-  Filename_xhprof            = 'xhprof.zip';
+  Filename_adminer               = 'adminer.php';
+  Filename_closure_compiler      = 'closure-compiler.zip';
+  Filename_composer              = 'composer.phar';
+  Filename_imagick               = 'imagick.zip';
+  Filename_junction              = 'junction.zip';
+  Filename_mariadb               = 'mariadb.zip';
+  Filename_memadmin              = 'memadmin.zip';
+  Filename_memcached             = 'memcached.zip';
+  Filename_mongodb               = 'mongodb.zip';
+  Filename_nginx                 = 'nginx.zip';
+  Filename_node                  = 'node.exe'; // WATCH IT: EXE!
+  Filename_nodenpm               = 'nodenpm.zip';
+  Filename_openssl               = 'openssl.exe';
+  Filename_pear                  = 'go-pear.phar';
+  Filename_perl                  = 'perl.zip';
+  Filename_php                   = 'php.zip';
+  Filename_phpext_amqp           = 'phpext_amqp.zip';
+  Filename_phpext_apc            = 'phpext_apc.zip';
+  Filename_phpext_imagick        = 'phpext_imagick.zip';
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
+  Filename_phpext_mongo          = 'phpext_mongo.zip';
+  Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  Filename_phpext_phalcon        = 'phpext_phalcon.zip';
+  Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_trader         = 'phpext_trader.zip';
+  Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
+  Filename_phpext_varnish        = 'phpext_varnish.zip';
+  Filename_phpext_wincache       = 'phpext_wincache.exe'; // WATCH IT: EXE!
+  Filename_phpext_xcache         = 'phpext_xcache.zip';
+  Filename_phpext_xdebug         = 'phpext_xdebug.dll';
+  Filename_phpext_xhprof         = 'phpext_xhprof.zip';
+  Filename_phpext_zmq            = 'phpext_zmq.zip';
+  Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
+  Filename_phpmyadmin            = 'phpmyadmin.zip';
+  Filename_pickle                = 'pickle.phar';
+  Filename_postgresql            = 'postgresql.zip';
+  Filename_redis                 = 'redis.zip';
+  Filename_rockmongo             = 'rockmongo.zip';
+  Filename_sendmail              = 'sendmail.zip';
+  Filename_varnish               = 'varnish.zip';
+  Filename_vcredist              = 'vcredist_x86.exe';
+  Filename_webgrind              = 'webgrind.zip';
+  Filename_wpnxmscp              = 'wpnxmscp.zip';
+  Filename_xhprof                = 'xhprof.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -762,17 +764,18 @@ begin
 
     if IsComponentSelected('phpextensions') then
     begin
-        idpAddFile(URL_phpext_amqp,      ExpandConstant(targetPath + Filename_phpext_amqp));
-        idpAddFile(URL_phpext_apc,       ExpandConstant(targetPath + Filename_phpext_apc));
-        idpAddFile(URL_phpext_mailparse, ExpandConstant(targetPath + Filename_phpext_mailparse));
-        idpAddFile(URL_phpext_msgpack,   ExpandConstant(targetPath + Filename_phpext_msgpack));
-        idpAddFile(URL_phpext_phalcon,   ExpandConstant(targetPath + Filename_phpext_phalcon));
-        idpAddFile(URL_phpext_rar,       ExpandConstant(targetPath + Filename_phpext_rar));
-        idpAddFile(URL_phpext_trader,    ExpandConstant(targetPath + Filename_phpext_trader));
-        idpAddFile(URL_phpext_varnish,   ExpandConstant(targetPath + Filename_phpext_varnish));
-        idpAddFile(URL_phpext_wincache,  ExpandConstant(targetPath + Filename_phpext_wincache));
-        idpAddFile(URL_phpext_xcache,    ExpandConstant(targetPath + Filename_phpext_xcache));
-        idpAddFile(URL_phpext_zmq,       ExpandConstant(targetPath + Filename_phpext_zmq));
+        idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
+        idpAddFile(URL_phpext_apc,            ExpandConstant(targetPath + Filename_phpext_apc));
+        idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
+        idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
+        idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
+        idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
+        idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
+        idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
+        idpAddFile(URL_phpext_varnish,        ExpandConstant(targetPath + Filename_phpext_varnish));
+        idpAddFile(URL_phpext_wincache,       ExpandConstant(targetPath + Filename_phpext_wincache));
+        idpAddFile(URL_phpext_xcache,         ExpandConstant(targetPath + Filename_phpext_xcache));
+        idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
         // phpext_memcache installed with memcached
         // phpext_mongo installed with mongo
@@ -986,6 +989,11 @@ begin
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), ExpandConstant('{app}\bin\php\ext\php_msgpack.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - UploadProgress');
+      DoUnzip(targetPath + Filename_phpext_uploadprogress, targetPath + 'phpext_uploadprogress');
+      FileCopy(ExpandConstant(targetPath + 'phpext_uploadprogress\php_uploadprogress.dll'), ExpandConstant('{app}\bin\php\ext\php_uploadprogress.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Phalcon');
