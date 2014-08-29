@@ -215,7 +215,7 @@
     -->
 
     <target name="prepare-downloads" description="Moves components for all packaged installers from the full folder to their subfolder.">
-        <echo message=" Moving Standard Components "/>
+        <echo message=" Moving components from the full download folder to their subfolders... "/>
 
         <adhoc-task name="MoveDownloadFiles"><![CDATA[
             class MoveDownloadFiles extends Task {
@@ -367,7 +367,7 @@
 
                         file_put_contents($file, $txt);
 
-                        $this->log('Created Download Description File - ' . $file);
+                        $this->log('Created Aria2 Download Description File - ' . $file);
                     }
                 }
             }
