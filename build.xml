@@ -221,7 +221,7 @@
             class MoveDownloadFiles extends Task {
                 private $registryfolder;
                 private $downloadfolder;
-                private $version;
+                private $wpnxmversion;
 
                 function setRegistryFolder($registryfolder)
                 {
@@ -233,13 +233,14 @@
                     $this->downloadfolder = $downloadfolder;
                 }
 
-                function setVersion($version)
+                function setWpnxmVersion($wpnxmversion)
                 {
-                    $this->version = $version;
+                    $this->wpnxmversion = $wpnxmversion;
                 }
 
                 function main() {
-                    $registries = glob($this->registryfolder . '\*0.8.0*.json');
+                    // e.g. "registries\*0.8.0*.json"
+                    $registries = glob($this->registryfolder . '\*' . $this->wpnxmversion . '*.json');
 
                     foreach($registries as $registry)
                     {
@@ -291,7 +292,7 @@
             }
         ]]></adhoc-task>
         <!-- how to access properties defined in build.xml inside an adhoc-task? can we get rid of passing stuff in? -->
-        <MoveDownloadFiles registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" version="${wpnxm.Version}"/>
+        <MoveDownloadFiles registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
     </target>
 
     <target name="create-download-files" description="Generate download.txt files for all full installers. Create aria2c file for multiple parallel downloads.">
