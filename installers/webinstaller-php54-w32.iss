@@ -132,7 +132,7 @@ Name: varnish; Description: Varnish Cache;
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
-Name: xhprof; Description: XhProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
 // tools:
@@ -175,7 +175,7 @@ Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
-Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\xhprof\xhprof_lib; DestName: "config.php"; Components: xhprof
+Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
 Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 
 [Icons]
@@ -295,7 +295,7 @@ const
   URL_phpext_wincache       = 'http://wpn-xm.org/get.php?s=phpext_wincache&p=5.4';
   URL_phpext_xcache         = 'http://wpn-xm.org/get.php?s=phpext_xcache&p=5.4';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=5.4';
-  URL_phpext_xhprof         = 'http://wpn-xm.org/get.php?s=phpext_xhprof&p=5.4';
+  URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=5.5';
   URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=5.4';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin            = 'http://wpn-xm.org/get.php?s=phpmyadmin';
@@ -308,7 +308,7 @@ const
   URL_vcredist              = 'http://wpn-xm.org/get.php?s=vcredist';
   URL_webgrind              = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp              = 'http://wpn-xm.org/get.php?s=wpnxmscp';
-  URL_xhprof                = 'http://wpn-xm.org/get.php?s=xhprof';
+  URL_uprofiler             = 'http://wpn-xm.org/get.php?s=uprofiler';
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
@@ -342,7 +342,7 @@ const
   Filename_phpext_wincache       = 'phpext_wincache.exe'; // WATCH IT: EXE!
   Filename_phpext_xcache         = 'phpext_xcache.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.dll';
-  Filename_phpext_xhprof         = 'phpext_xhprof.zip';
+  Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
@@ -355,7 +355,7 @@ const
   Filename_vcredist              = 'vcredist_x86.exe';
   Filename_webgrind              = 'webgrind.zip';
   Filename_wpnxmscp              = 'wpnxmscp.zip';
-  Filename_xhprof                = 'xhprof.zip';
+  Filename_uprofiler             = 'uprofiler.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -704,7 +704,7 @@ begin
       There is a strange bug, when trying to get the filesize from googlecode.
       So webgrind has a size of 0. Thats why "unknown" is shown as total progress.
 
-      idpGetFileSize(URL_xhprof, size);
+      idpGetFileSize(URL_uprofiler, size);
       MsgBox(intToStr(size), mbError, MB_OK);
     }
 
@@ -780,7 +780,7 @@ begin
         // phpext_memcache installed with memcached
         // phpext_mongo installed with mongo
         // phpext_xdebug is standalone
-        // phpext_xhprof installed with xhprof
+        // phpext_uprofiler installed with uprofiler
     end;
 
     if IsComponentSelected('webinterface') and VCRedistributableNeedsInstall then
@@ -789,10 +789,10 @@ begin
       idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
     end;
 
-    if IsComponentSelected('xhprof') then
+    if IsComponentSelected('uprofiler') then
     begin
-        idpAddFile(URL_xhprof,           ExpandConstant(targetPath + Filename_xhprof));
-        idpAddFile(URL_phpext_xhprof,    ExpandConstant(targetPath + Filename_phpext_xhprof));
+        idpAddFile(URL_uprofiler,           ExpandConstant(targetPath + Filename_uprofiler));
+        idpAddFile(URL_phpext_uprofiler,    ExpandConstant(targetPath + Filename_phpext_uprofiler));
     end;
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
@@ -1060,13 +1060,13 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('xhprof', selectedComponents) > 0 then
+  if Pos('uprofiler', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('XHProf GUI');
-      DoUnzip(targetPath + Filename_xhprof, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+    UpdateCurrentComponentName('uProfiler GUI');
+      DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
 
-    UpdateCurrentComponentName('PHP Extension - XHProf');
-      DoUnzip(targetPath + Filename_phpext_xhprof, ExpandConstant('{app}\bin\php\ext'));
+    UpdateCurrentComponentName('PHP Extension - uProfiler');
+      DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
 
     UpdateTotalProgressBar;
   end;
@@ -1253,14 +1253,11 @@ begin
       if DirExists(RockmongoCrapDir) then DelTree(RockmongoCrapDir, True, True, True);
   end;
 
-  if Pos('xhprof', selectedComponents) > 0 then
+  if Pos('uprofiler', selectedComponents) > 0 then
   begin
-    // xhprof - rename "xhprof-master" directory
-    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\xhprof-* ' + appPath + '\www\tools\xhprof"',
+    // uprofiler - rename "uprofiler-master" directory
+    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-    // rename "xhprof_0.10.3_php54_vc9_nts.dll" to "xhprof.dll"
-    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\php\ext\xhprof_* ' + appPath + '\bin\php\ext\xhprof.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
