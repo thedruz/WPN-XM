@@ -211,9 +211,11 @@ Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
-; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
-; no registry change, if in portable mode
+// a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
+// no registry change, if in portable mode
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
+// add the /bin/php/ext to PATH, when installing Imagick, because the extensions seeks for imagick CORE_*.dlls
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
 
 [Messages]
@@ -1056,6 +1058,16 @@ begin
       // copy php_imagick.dll and CORE_RL_*.dll
       Exec(hideConsole, 'cmd.exe /c "copy ' + targetPath + 'phpext_imagick\*.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\*.dll') + '"',
             '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+      // Delete pdb and crappy text files
+      DelTree(targetPath + 'phpext_imagick\*.dll', False, True, False);
+      DeleteFile(targetPath + 'phpext_imagick\TODO');
+      DeleteFile(targetPath + 'phpext_imagick\INSTALL');
+      DeleteFile(targetPath + 'phpext_imagick\CREDITS');
+      DeleteFile(targetPath + 'phpext_imagick\ChangeLog');
+
+      // Move all remaining files (examples) shipped with the extension to /www/tools/imagick
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'phpext_imagick\*.* ' + appPath + '\www\tools\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
     UpdateTotalProgressBar();
   end;
