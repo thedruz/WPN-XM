@@ -367,7 +367,7 @@
 
                         file_put_contents($file, $txt);
 
-                        $this->log('Created Download Description File - ' . $file);
+                        $this->log('Created Aria2 Download Description File - ' . $file);
                     }
                 }
             }
