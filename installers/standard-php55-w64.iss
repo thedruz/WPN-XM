@@ -128,7 +128,7 @@ Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDi
 
 [Files]
 // incorporate the whole downloads folder (all in one)
-Source: ..\downloads\standard-php55-w64\*; DestDir: {tmp}; Flags: deleteafterinstall;
+Source: ..\downloads\standard-{#AppVersion}-php55-w64\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: DestDir: {app}\bin\backup\
