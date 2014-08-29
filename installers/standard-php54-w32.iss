@@ -263,6 +263,7 @@ const
   Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
+  Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_wincache   = 'phpext_wincache.exe'; // WATCH IT: EXE!
   Filename_phpext_xcache     = 'phpext_xcache.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.dll';
