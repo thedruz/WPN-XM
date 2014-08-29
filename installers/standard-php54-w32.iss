@@ -845,11 +845,11 @@ begin
   if Pos('uprofiler', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('uProfiler GUI');
-      ExtractTemporaryFile(Filename_uploadprogress);
+      ExtractTemporaryFile(Filename_uprofiler);
       DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
 
     UpdateCurrentComponentName('PHP Extension - uProfiler');
-      ExtractTemporaryFile(Filename_uploadprogress);
+      ExtractTemporaryFile(Filename_phpext_uprofiler);
       DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
 
     UpdateTotalProgressBar;
@@ -1031,7 +1031,6 @@ begin
     // uprofiler - rename "uprofiler-master" directory
     Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"',
     '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
