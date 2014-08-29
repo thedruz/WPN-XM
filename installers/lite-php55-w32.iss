@@ -110,7 +110,7 @@ Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration;
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full
 
 [Files]
-// incorporate the whole downloads folder (all in one)
+// incorporate the whole downloads folder
 Source: ..\downloads\lite-{#AppVersion}-php55-w32\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
