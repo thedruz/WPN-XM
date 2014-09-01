@@ -132,7 +132,7 @@ Name: varnish; Description: Varnish Cache;
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
-Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
+//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
 // tools:
@@ -297,7 +297,7 @@ const
   URL_phpext_wincache       = 'http://wpn-xm.org/get.php?s=phpext_wincache&p=5.6&bitsize=x64';
   URL_phpext_xcache         = 'http://wpn-xm.org/get.php?s=phpext_xcache&p=5.6&bitsize=x64';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=5.6&bitsize=x64';
-  URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=5.6&bitsize=x64';
+  //URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=5.6&bitsize=x64';
   URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=5.6&bitsize=x64';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin            = 'http://wpn-xm.org/get.php?s=phpmyadmin';
@@ -310,7 +310,7 @@ const
   URL_vcredist              = 'http://wpn-xm.org/get.php?s=vcredist';
   URL_webgrind              = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp              = 'http://wpn-xm.org/get.php?s=wpnxmscp';
-  URL_uprofiler             = 'http://wpn-xm.org/get.php?s=uprofiler';
+  //URL_uprofiler             = 'http://wpn-xm.org/get.php?s=uprofiler';
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
@@ -791,11 +791,11 @@ begin
       idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
     end;
 
-    if IsComponentSelected('uprofiler') then
-    begin
-        idpAddFile(URL_uprofiler,           ExpandConstant(targetPath + Filename_uprofiler));
-        idpAddFile(URL_phpext_uprofiler,    ExpandConstant(targetPath + Filename_phpext_uprofiler));
-    end;
+    //if IsComponentSelected('uprofiler') then
+    //begin
+    //    idpAddFile(URL_uprofiler,           ExpandConstant(targetPath + Filename_uprofiler));
+    //    idpAddFile(URL_phpext_uprofiler,    ExpandConstant(targetPath + Filename_phpext_uprofiler));
+    //end;
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip')) = true) then
@@ -1072,16 +1072,16 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('uprofiler', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('uProfiler GUI');
-      DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
-
-    UpdateCurrentComponentName('PHP Extension - uProfiler');
-      DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
-
-    UpdateTotalProgressBar;
-  end;
+  //if Pos('uprofiler', selectedComponents) > 0 then
+  //begin
+  //  UpdateCurrentComponentName('uProfiler GUI');
+  //    DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+  //
+  //  UpdateCurrentComponentName('PHP Extension - uProfiler');
+  //    DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
+  //
+  // UpdateTotalProgressBar;
+  //end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
@@ -1265,12 +1265,12 @@ begin
       if DirExists(RockmongoCrapDir) then DelTree(RockmongoCrapDir, True, True, True);
   end;
 
-  if Pos('uprofiler', selectedComponents) > 0 then
-  begin
-    // uprofiler - rename "uprofiler-master" directory
-    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"',
-    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-  end;
+  //if Pos('uprofiler', selectedComponents) > 0 then
+  //begin
+  //  // uprofiler - rename "uprofiler-master" directory
+  //  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"',
+  //  '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  //end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin

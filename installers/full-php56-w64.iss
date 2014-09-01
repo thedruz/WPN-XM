@@ -129,7 +129,7 @@ Name: varnish; Description: Varnish Cache;
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - PHP Extension for Debugging; ExtraDiskSpaceRequired: 300000; Types: full debug
-Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
+//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
 // incorporate the whole downloads folder
@@ -282,7 +282,7 @@ const
   Filename_phpext_wincache       = 'phpext_wincache.exe'; // WATCH IT: EXE!
   Filename_phpext_xcache         = 'phpext_xcache.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.dll';
-  Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
+  //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
@@ -295,7 +295,7 @@ const
   Filename_vcredist              = 'vcredist_x86.exe';
   Filename_webgrind              = 'webgrind.zip';
   Filename_wpnxmscp              = 'wpnxmscp.zip';
-  Filename_uprofiler             = 'uprofiler.zip';
+  //Filename_uprofiler             = 'uprofiler.zip';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -912,18 +912,18 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('uprofiler', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('uProfiler GUI');
-      ExtractTemporaryFile(Filename_uprofiler);
-      DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+  //if Pos('uprofiler', selectedComponents) > 0 then
+  //begin
+  //  UpdateCurrentComponentName('uProfiler GUI');
+  //    ExtractTemporaryFile(Filename_uprofiler);
+  //    DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
 
-    UpdateCurrentComponentName('PHP Extension - uProfiler');
-      ExtractTemporaryFile(Filename_phpext_uprofiler);
-      DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
+  //  UpdateCurrentComponentName('PHP Extension - uProfiler');
+  //    ExtractTemporaryFile(Filename_phpext_uprofiler);
+  //    DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
 
-    UpdateTotalProgressBar;
-  end;
+  //  UpdateTotalProgressBar;
+  //end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
@@ -1129,12 +1129,12 @@ begin
       if DirExists(RockmongoCrapDir) then DelTree(RockmongoCrapDir, True, True, True);
   end;
 
-  if Pos('uprofiler', selectedComponents) > 0 then
-  begin
-    // uprofiler - rename "uprofiler-master" directory
-    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"',
-    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-  end;
+  //if Pos('uprofiler', selectedComponents) > 0 then
+  //begin
+  //  // uprofiler - rename "uprofiler-master" directory
+  //  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"',
+  //  '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  //end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
