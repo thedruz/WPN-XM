@@ -255,8 +255,8 @@ const
   Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
   Filename_phpext_amqp       = 'phpext_amqp.zip';
-  Filename_phpext_apc        = 'phpext_apc.zip';
-  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
+  Filename_phpext_apcu        = 'phpext_apcu.zip';
+  //Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo      = 'phpext_mongo.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
@@ -774,17 +774,17 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - APC');
-      ExtractTemporaryFile(Filename_phpext_apc);
-      DoUnzip(targetPath + Filename_phpext_apc, targetPath + 'phpext_apc');
-      FileCopy(ExpandConstant(targetPath + 'phpext_apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
+    UpdateCurrentComponentName('PHP Extension - APCu');
+      ExtractTemporaryFile(Filename_phpext_apcu);
+      DoUnzip(targetPath + Filename_phpext_apcu, targetPath + 'phpext_apcu');
+      FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), ExpandConstant('{app}\bin\php\ext\php_apcu.dll'), false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - Mailparse');
-      ExtractTemporaryFile(Filename_phpext_mailparse);
-      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
-    UpdateTotalProgressBar();
+    //UpdateCurrentComponentName('PHP Extension - Mailparse');
+    //  ExtractTemporaryFile(Filename_phpext_mailparse);
+    //  DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+    //  FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
+    //UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       ExtractTemporaryFile(Filename_phpext_msgpack);
@@ -1120,13 +1120,13 @@ begin
   if Pos('memcached', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
-      //SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file ); // disabled in v0.3.0: MODULE API=20090625 != PHP API 20100525
+      //SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file );
   end;
 
-  if Pos('apc', selectedComponents) > 0 then
+  if Pos('apcu', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
-      //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
+      //SetIniString('PHP', 'extension', 'php_apcu.dll', php_ini_file );
   end;
 
   if Pos('mongodb', selectedComponents) > 0 then

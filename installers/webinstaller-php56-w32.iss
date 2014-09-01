@@ -285,7 +285,7 @@ const
   URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.6';
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=5.6';
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.6';
-  URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.6';
+  //URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.6&bitsize=x64'; not existant, yet
   URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.6';
   URL_phpext_mongo          = 'http://wpn-xm.org/get.php?s=phpext_mongo&p=5.6';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.6';
@@ -332,7 +332,7 @@ const
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
-  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo          = 'phpext_mongo.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
@@ -768,7 +768,7 @@ begin
     begin
         idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
-        idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
+        //idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
@@ -983,10 +983,10 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), ExpandConstant('{app}\bin\php\ext\php_apcu.dll'), false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - Mailparse');
-      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
-    UpdateTotalProgressBar();
+    //UpdateCurrentComponentName('PHP Extension - Mailparse');
+    //  DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+    //  FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
+    //UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
