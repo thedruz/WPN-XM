@@ -58,7 +58,7 @@ rd /s /q "%POSTGRESQL_DIR%\include"
 
 IF EXIST "%~dp0/upx/upx.exe" (
     echo.
-    echo [x] Compressing PostgreSQL executables.
+    echo [x] Compressing PostgreSQL executables with UPX.
     echo.
 
     %~dp0\upx\upx.exe -9 %POSTGRESQL_DIR%\bin\*.exe
