@@ -277,7 +277,7 @@
                                 $this->log('  Copying ' . $source);
                                 $this->log('       to ' . $target);
 
-                                if(!is_file($targetFile)) {
+                                if(!is_file($target)) {
                                     copy($source, $target);
                                 } else {
                                     $this->log('Target file exists already.');
