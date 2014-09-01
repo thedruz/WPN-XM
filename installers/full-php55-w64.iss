@@ -136,7 +136,7 @@ Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDi
 Source: ..\downloads\full-{#AppVersion}-php5.5-w64\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
-Source: ..\bin\backup\*; DestDir: DestDir: {app}\bin\backup\
+Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\

@@ -138,7 +138,7 @@ Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDi
 // tools:
 Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
-Source: ..\bin\backup\*; DestDir: DestDir: {app}\bin\backup\
+Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
