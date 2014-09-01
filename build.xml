@@ -150,7 +150,7 @@
     </target>
 
     <target name="compile-lite"
-            description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+            description="Builds the WPN-XM setup executable using already downloaded components."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
@@ -160,7 +160,7 @@
     </target>
 
     <target name="compile-lite-no-download"
-            description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+            description="Builds the WPN-XM setup executable using already downloaded components."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
@@ -180,7 +180,7 @@
     </target>
 
     <target name="compile-standard-no-download"
-            description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+            description="Builds the WPN-XM setup executable using already downloaded components."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
@@ -200,7 +200,7 @@
     </target>
 
     <target name="compile-full-no-download"
-            description="Builds the WPN-XM setup executable using already downloaded components. Assumes that stripdowns are done."
+            description="Builds the WPN-XM setup executable using already downloaded components."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
@@ -410,7 +410,16 @@
     </target>
 
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
-         <mkdir dir="${dir.Downloads}"/>
+        <if>
+            <not><available file="${dir.Downloads}" type="dir"/></not>
+            <then>
+                <echo>Creating Downloads Folder</echo>
+                <mkdir dir="${dir.Downloads}"/>
+            </then>
+            <else>
+                <echo>Downloads Folder exists already.</echo>
+            </else>
+        </if>
     </target>
 
     <!--
@@ -436,50 +445,79 @@
         <mkdir dir="${dir.Downloads}/stripdown"/>
     </target>
 
-    <target name="stripdown-mariadb" description="Stripdown MariaDB and repackage. (136MB to 16MB on v5.5.28!)"
-            depends="recreate-stripdown-folder"
-            if="${file::get-length(dir.Downloads + '\mariadb.zip') &gt; 25000000}"><!-- 25MB -->
-        <unzip zipfile="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
-        <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb" passthru="true"/>
-        <exec command="${dir.Base}\bin\stripdown-mariadb.bat ${dir.Downloads}\stripdown\mariadb" passthru="true"/>
-        <delete file="${dir.Downloads}\mariadb.zip"/>
-        <zip zipfile="${dir.Downloads}\mariadb.zip">
-            <fileset basedir="${dir.Downloads}\stripdown">
-                <include name="**/*"/>
-            </fileset>
-        </zip>
-        <delete dir="${dir.Downloads}\stripdown"/>
+    <target name="stripdown-mariadb" description="Stripdown MariaDB and repackage. (136MB to 16MB on v5.5.28! 187MB to 21MB on 10.0.10!)"
+            depends="recreate-stripdown-folder">
+        <filesize file="${dir.Downloads}\mariadb.zip" />
+        <php expression="floor(${filesize}/1024/1024)" returnProperty="mariadb.size" />
+        <echo msg="Filesize is: ${mariadb.size} MB"/>
+        <php expression="(${mariadb.size} &gt; 25) ? true : false;" returnProperty="mariadb.needs.stripdown" />
+        <if>
+            <and>
+                <istrue value="${mariadb.needs.stripdown}" />
+            </and>
+            <then>
+                <unzip file="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
+                <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb" passthru="true"/>
+                <exec command="${dir.Base}\bin\stripdown-mariadb.bat ${dir.Downloads}\stripdown\mariadb" passthru="true"/>
+                <delete file="${dir.Downloads}\mariadb.zip"/>
+                <zip destfile="${dir.Downloads}\mariadb.zip">
+                    <fileset dir="${dir.Downloads}\stripdown">
+                        <include name="**/*"/>
+                    </fileset>
+                </zip>
+                <delete dir="${dir.Downloads}\stripdown"/>
+            </then>
+        </if>
     </target>
 
     <target name="stripdown-mongodb" description="Stripdown MongoDB and repackage. (55MB to 16MB on v2.2.1!)"
-            depends="recreate-stripdown-folder"
-            if="${file::get-length(dir.Downloads + '\mongodb.zip') &gt; 50000000}"><!-- 50MB -->
-        <unzip zipfile="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
-        <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb" passthru="true"/>
-        <exec command="${dir.Base}\bin\stripdown-mongodb.bat" passthru="true">
-            <arg value="${dir.Downloads}\stripdown\mongodb"/>
-        </exec>
-        <delete file="${dir.Downloads}\mongodb.zip"/>
-        <zip zipfile="${dir.Downloads}\mongodb.zip">
-            <fileset basedir="${dir.Downloads}\stripdown">
-                <include name="**/*"/>
-            </fileset>
-        </zip>
-        <delete dir="${dir.Downloads}\stripdown"/>
+            depends="recreate-stripdown-folder">
+        <!-- 50MB -->
+        <filesize file="${dir.Downloads}\mongodb.zip" />
+        <php expression="floor(${filesize}/1024/1024)" returnProperty="mongodb.size" />
+        <echo msg="Filesize is: ${mongodb.size} MB"/>
+        <php expression="(${mongodb.size} &gt; 50) ? true : false;" returnProperty="mongodb.needs.stripdown" />
+        <if>
+            <and>
+                <istrue value="${mongodb.needs.stripdown}" />
+            </and>
+            <then>
+                <unzip file="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
+                <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb" passthru="true"/>
+                <exec command="${dir.Base}\bin\stripdown-mongodb.bat ${dir.Downloads}\stripdown\mongodb" passthru="true"/>
+                <delete file="${dir.Downloads}\mongodb.zip"/>
+                <zip destfile="${dir.Downloads}\mongodb.zip">
+                    <fileset dir="${dir.Downloads}\stripdown">
+                        <include name="**/*"/>
+                    </fileset>
+                </zip>
+                <delete dir="${dir.Downloads}\stripdown"/>
+            </then>
+        </if>
     </target>
 
     <target name="stripdown-postgresql" description="Stripdown PostgreSQL and repackage. (xxMB to xxMB on vx.y.z!)"
-            depends="recreate-stripdown-folder"
-            if="${file::get-length(dir.Downloads + '\postgresql.zip') &gt; 25000000}"><!-- 25MB -->
-        <unzip zipfile="${dir.Downloads}\postgresql.zip" todir="${dir.Downloads}\stripdown"/>
-        <exec command="${dir.Base}\bin\stripdown-postgresql.bat ${dir.Downloads}\stripdown\pgsql" passthru="true"/>
-        <delete file="${dir.Downloads}\postgresql.zip"/>
-        <zip zipfile="${dir.Downloads}\postgresql.zip">
-            <fileset basedir="${dir.Downloads}\stripdown">
-                <include name="**/*"/>
-            </fileset>
-        </zip>
-        <delete dir="${dir.Downloads}\stripdown"/>
+            depends="recreate-stripdown-folder">
+        <filesize file="${dir.Downloads}\postgresql.zip" />
+        <php expression="floor(${filesize}/1024/1024)" returnProperty="postgresql.size" />
+        <echo msg="Filesize is: ${postgresql.size} MB"/>
+        <php expression="(${postgresql.size} &gt; 25) ? true : false;" returnProperty="postgresql.needs.stripdown" />
+        <if>
+            <and>
+                <istrue value="${postgresql.needs.stripdown}" />
+            </and>
+            <then>
+                <unzip file="${dir.Downloads}\postgresql.zip" todir="${dir.Downloads}\stripdown"/>
+                <exec command="${dir.Base}\bin\stripdown-postgresql.bat ${dir.Downloads}\stripdown\pgsql" passthru="true"/>
+                <delete file="${dir.Downloads}\postgresql.zip"/>
+                <zip destfile="${dir.Downloads}\postgresql.zip">
+                    <fileset dir="${dir.Downloads}\stripdown">
+                        <include name="**/*"/>
+                    </fileset>
+                </zip>
+                <delete dir="${dir.Downloads}\stripdown"/>
+            </then>
+        </if>
     </target>
 
     <!--
@@ -493,7 +531,7 @@
             <!-- zip the build/release folder to "_build/wpnxm-scp-1.2.3"-->
             <echo message="Building zip archive of Server-Control-Panel for distribution"/>
             <zip zipfile="${dir.Base}/_build/wpnxm-scp-${wpnxm.Version}.zip" ziplevel="9">
-                <fileset basedir="${dir.Base}/server-control-panel/build/release/">
+                <fileset dir="${dir.Base}/server-control-panel/build/release/">
                     <include name="**/*" />
                 </fileset>
             </zip>
