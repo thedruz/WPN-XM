@@ -445,6 +445,31 @@
         <mkdir dir="${dir.Downloads}/stripdown"/>
     </target>
 
+    <target name="stripdown-imagick" description="Stripdown Imagick and repackage."
+            depends="recreate-stripdown-folder">
+        <filesize file="${dir.Downloads}\imagick.zip" />
+        <php expression="floor(${filesize}/1024/1024)" returnProperty="imagick.size" />
+        <echo msg="Filesize is: ${imagick.size} MB"/>
+        <php expression="(${imagick.size} &gt; 50) ? true : false;" returnProperty="imagick.needs.stripdown" />
+        <if>
+            <and>
+                <istrue value="${imagick.needs.stripdown}" />
+            </and>
+            <then>
+                <unzip file="${dir.Downloads}\imagick.zip" todir="${dir.Downloads}\stripdown"/>
+                <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\imagick* ${dir.Downloads}\stripdown\imagick" passthru="true"/>
+                <exec command="${dir.Base}\bin\stripdown-imagick.bat ${dir.Downloads}\stripdown\imagick" passthru="true"/>
+                <delete file="${dir.Downloads}\imagick.zip"/>
+                <zip destfile="${dir.Downloads}\imagick.zip">
+                    <fileset dir="${dir.Downloads}\stripdown">
+                        <include name="**/*"/>
+                    </fileset>
+                </zip>
+                <delete dir="${dir.Downloads}\stripdown"/>
+            </then>
+        </if>
+    </target>
+
     <target name="stripdown-mariadb" description="Stripdown MariaDB and repackage. (136MB to 16MB on v5.5.28! 187MB to 21MB on 10.0.10!)"
             depends="recreate-stripdown-folder">
         <filesize file="${dir.Downloads}\mariadb.zip" />
