@@ -402,7 +402,7 @@
             http://aria2.sourceforge.net/manual/en/html/aria2c.html
         -->
         <echo msg="Using ${dir.Registry}\${installer.aria.downloads}" />
-        <exec command="${dir.Base}\bin\aria\aria2c.exe -i ${dir.Registry}\${installer.aria.downloads} --max-connection-per-server=8 --max-tries=5 --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --user-agent=WPN-XM Server Stack Downloader" level="debug" passthru="true" dir="${dir.Base}" escape="false"/>
+        <exec command="${dir.Base}\bin\aria\aria2c.exe -i ${dir.Registry}\${installer.aria.downloads} --max-connection-per-server=5 --max-tries=3 --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --user-agent=WPN-XM Server Stack Downloader" level="debug" passthru="true" dir="${dir.Base}" escape="false"/>
     </target>
 
     <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
@@ -432,7 +432,7 @@
 
          1. the stripdown folder is deleted and re-created, to have a clean target folder
          2. the downloaded component is unziped into the stripdown folder
-         3. if the component zip shipped a versionized folder it is renamed to a short name
+         3. if the component zip, shipped a versionized folder, it is renamed to a short name
          4. the stripdown script for this component is executed, reducing the files
          5. the original zip file is deleted
          6. the stripdown folder is zipped to the download folder, under the short name of the component
@@ -440,107 +440,116 @@
 
      -->
 
-    <target name="recreate-stripdown-folder">
-        <delete dir="${dir.Downloads}/stripdown"/>
-        <mkdir dir="${dir.Downloads}/stripdown"/>
+    <target name="stripdown-all" description="Apply stripdown scripts to each 'full' download folder.">
+        <foreach target="stripdown-folder" param="full.installer.registry">
+          <fileset dir="${dir.Registry}">
+            <include name="**/*full-${wpnxm.Version}*.json"/>
+          </fileset>
+        </foreach>
     </target>
 
-    <target name="stripdown-imagick" description="Stripdown Imagick and repackage."
-            depends="recreate-stripdown-folder">
-        <filesize file="${dir.Downloads}\imagick.zip" />
+    <target name="stripdown-folder" description="Apply stripdown script to the specified folder.">
+        <echo msg="${full.installer.registry}"/>
+        <php expression="substr('${full.installer.registry}', 0, -5)" returnProperty="full.folder"/>
+        <echo msg="Running Stripdown in folder: ${dir.Downloads}\${full.folder}"/>
+
+        <phingcall target="stripdown-imagick">
+            <property name="full.installer.downloads.dir" value="${dir.Downloads}\${full.folder}" />
+        </phingcall>
+    </target>
+
+    <target name="stripdown-imagick" description="Stripdown Imagick and repackage.">
+        <filesize file="${full.installer.downloads.dir}\imagick.zip" />
         <php expression="floor(${filesize}/1024/1024)" returnProperty="imagick.size" />
-        <echo msg="Filesize is: ${imagick.size} MB"/>
+        <echo msg="Filesize before Stripdown: ${imagick.size} MB"/>
         <php expression="(${imagick.size} &gt; 50) ? true : false;" returnProperty="imagick.needs.stripdown" />
         <if>
             <and>
                 <istrue value="${imagick.needs.stripdown}" />
             </and>
             <then>
-                <unzip file="${dir.Downloads}\imagick.zip" todir="${dir.Downloads}\stripdown"/>
-                <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\imagick* ${dir.Downloads}\stripdown\imagick" passthru="true"/>
-                <exec command="${dir.Base}\bin\stripdown-imagick.bat ${dir.Downloads}\stripdown\imagick" passthru="true"/>
-                <delete file="${dir.Downloads}\imagick.zip"/>
-                <zip destfile="${dir.Downloads}\imagick.zip">
-                    <fileset dir="${dir.Downloads}\stripdown">
+                <unzip file="${full.installer.downloads.dir}\imagick.zip" todir="${full.installer.downloads.dir}\stripdown"/>
+                <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\imagick* ${full.installer.downloads.dir}\stripdown\imagick" passthru="true"/>
+                <exec command="${dir.Base}\bin\stripdown-imagick.bat ${full.installer.downloads.dir}\stripdown\imagick" passthru="true"/>
+                <delete file="${full.installer.downloads.dir}\imagick.zip"/>
+                <zip destfile="${full.installer.downloads.dir}\imagick.zip">
+                    <fileset dir="${full.installer.downloads.dir}\stripdown">
                         <include name="**/*"/>
                     </fileset>
                 </zip>
-                <delete dir="${dir.Downloads}\stripdown"/>
+                <delete dir="${full.installer.downloads.dir}\stripdown"/>
             </then>
         </if>
     </target>
 
-    <target name="stripdown-mariadb" description="Stripdown MariaDB and repackage. (136MB to 16MB on v5.5.28! 187MB to 21MB on 10.0.10!)"
-            depends="recreate-stripdown-folder">
-        <filesize file="${dir.Downloads}\mariadb.zip" />
+    <target name="stripdown-mariadb" description="Stripdown MariaDB and repackage. (136MB to 16MB on v5.5.28! 187MB to 21MB on 10.0.10!)">
+        <filesize file="${full.installer.downloads.dir}\mariadb.zip" />
         <php expression="floor(${filesize}/1024/1024)" returnProperty="mariadb.size" />
-        <echo msg="Filesize is: ${mariadb.size} MB"/>
+        <echo msg="Filesize before Stripdown: ${mariadb.size} MB"/>
         <php expression="(${mariadb.size} &gt; 25) ? true : false;" returnProperty="mariadb.needs.stripdown" />
         <if>
             <and>
                 <istrue value="${mariadb.needs.stripdown}" />
             </and>
             <then>
-                <unzip file="${dir.Downloads}\mariadb.zip" todir="${dir.Downloads}\stripdown"/>
-                <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mariadb* ${dir.Downloads}\stripdown\mariadb" passthru="true"/>
-                <exec command="${dir.Base}\bin\stripdown-mariadb.bat ${dir.Downloads}\stripdown\mariadb" passthru="true"/>
-                <delete file="${dir.Downloads}\mariadb.zip"/>
-                <zip destfile="${dir.Downloads}\mariadb.zip">
-                    <fileset dir="${dir.Downloads}\stripdown">
+                <unzip file="${full.installer.downloads.dir}\mariadb.zip" todir="${full.installer.downloads.dir}\stripdown"/>
+                <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\mariadb* ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
+                <exec command="${dir.Base}\bin\stripdown-mariadb.bat ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
+                <delete file="${full.installer.downloads.dir}\mariadb.zip"/>
+                <zip destfile="${full.installer.downloads.dir}\mariadb.zip">
+                    <fileset dir="${full.installer.downloads.dir}\stripdown">
                         <include name="**/*"/>
                     </fileset>
                 </zip>
-                <delete dir="${dir.Downloads}\stripdown"/>
+                <delete dir="${full.installer.downloads.dir}\stripdown"/>
             </then>
         </if>
     </target>
 
-    <target name="stripdown-mongodb" description="Stripdown MongoDB and repackage. (55MB to 16MB on v2.2.1!)"
-            depends="recreate-stripdown-folder">
+    <target name="stripdown-mongodb" description="Stripdown MongoDB and repackage. (55MB to 16MB on v2.2.1!)">
         <!-- 50MB -->
-        <filesize file="${dir.Downloads}\mongodb.zip" />
+        <filesize file="${full.installer.downloads.dir}\mongodb.zip" />
         <php expression="floor(${filesize}/1024/1024)" returnProperty="mongodb.size" />
-        <echo msg="Filesize is: ${mongodb.size} MB"/>
+        <echo msg="Filesize before Stripdown: ${mongodb.size} MB"/>
         <php expression="(${mongodb.size} &gt; 50) ? true : false;" returnProperty="mongodb.needs.stripdown" />
         <if>
             <and>
                 <istrue value="${mongodb.needs.stripdown}" />
             </and>
             <then>
-                <unzip file="${dir.Downloads}\mongodb.zip" todir="${dir.Downloads}\stripdown"/>
-                <exec command="cmd.exe /c move ${dir.Downloads}\stripdown\mongo* ${dir.Downloads}\stripdown\mongodb" passthru="true"/>
-                <exec command="${dir.Base}\bin\stripdown-mongodb.bat ${dir.Downloads}\stripdown\mongodb" passthru="true"/>
-                <delete file="${dir.Downloads}\mongodb.zip"/>
-                <zip destfile="${dir.Downloads}\mongodb.zip">
-                    <fileset dir="${dir.Downloads}\stripdown">
+                <unzip file="${full.installer.downloads.dir}\mongodb.zip" todir="${full.installer.downloads.dir}\stripdown"/>
+                <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\mongo* ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
+                <exec command="${dir.Base}\bin\stripdown-mongodb.bat ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
+                <delete file="${full.installer.downloads.dir}\mongodb.zip"/>
+                <zip destfile="${full.installer.downloads.dir}\mongodb.zip">
+                    <fileset dir="${full.installer.downloads.dir}\stripdown">
                         <include name="**/*"/>
                     </fileset>
                 </zip>
-                <delete dir="${dir.Downloads}\stripdown"/>
+                <delete dir="${full.installer.downloads.dir}\stripdown"/>
             </then>
         </if>
     </target>
 
-    <target name="stripdown-postgresql" description="Stripdown PostgreSQL and repackage. (xxMB to xxMB on vx.y.z!)"
-            depends="recreate-stripdown-folder">
-        <filesize file="${dir.Downloads}\postgresql.zip" />
+    <target name="stripdown-postgresql" description="Stripdown PostgreSQL and repackage. (xxMB to xxMB on vx.y.z!)">
+        <filesize file="${full.installer.downloads.dir}\postgresql.zip" />
         <php expression="floor(${filesize}/1024/1024)" returnProperty="postgresql.size" />
-        <echo msg="Filesize is: ${postgresql.size} MB"/>
+        <echo msg="Filesize before Stripdown: ${postgresql.size} MB"/>
         <php expression="(${postgresql.size} &gt; 25) ? true : false;" returnProperty="postgresql.needs.stripdown" />
         <if>
             <and>
                 <istrue value="${postgresql.needs.stripdown}" />
             </and>
             <then>
-                <unzip file="${dir.Downloads}\postgresql.zip" todir="${dir.Downloads}\stripdown"/>
-                <exec command="${dir.Base}\bin\stripdown-postgresql.bat ${dir.Downloads}\stripdown\pgsql" passthru="true"/>
-                <delete file="${dir.Downloads}\postgresql.zip"/>
-                <zip destfile="${dir.Downloads}\postgresql.zip">
-                    <fileset dir="${dir.Downloads}\stripdown">
+                <unzip file="${full.installer.downloads.dir}\postgresql.zip" todir="${full.installer.downloads.dir}\stripdown"/>
+                <exec command="${dir.Base}\bin\stripdown-postgresql.bat ${full.installer.downloads.dir}\stripdown\pgsql" passthru="true"/>
+                <delete file="${full.installer.downloads.dir}\postgresql.zip"/>
+                <zip destfile="${full.installer.downloads.dir}\postgresql.zip">
+                    <fileset dir="${full.installer.downloads.dir}\stripdown">
                         <include name="**/*"/>
                     </fileset>
                 </zip>
-                <delete dir="${dir.Downloads}\stripdown"/>
+                <delete dir="${full.installer.downloads.dir}\stripdown"/>
             </then>
         </if>
     </target>
