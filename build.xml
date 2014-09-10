@@ -122,8 +122,8 @@
 
     <target name="commit-versionized-registries"
             description="Commits the versionized WPN-XM Software Component Registries (all untracked files in /registry folder).">
-        <exec command="git add -A ${dir.Registry}" level="debug" passthru="true"/>
-        <exec command="git commit -am Added WPN-XM Installer Registries for Version ${wpnxm.Version}" dir="${dir.Registry}" level="debug" passthru="true"/>
+        <exec command="cd ${dir.Registry} &amp; git add -A" level="debug" passthru="true"/> <!-- git stage ALL -->
+        <exec command="cd ${dir.Registry} &amp; git commit -am &quot;Added WPN-XM Installer Registries for Version ${wpnxm.Version}&quot;" level="debug" passthru="true"/>
     </target>
 
     <target name="inno-compile">
@@ -151,7 +151,7 @@
 
     <target name="compile-lite"
             description="Builds the WPN-XM setup executable using already downloaded components."
-            depends="bump-version-number, clean-webinterface-folder">
+            depends="bump-version-number, clean-webinterface-folder, download-components, prepare-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**/lite-*.iss"/>
@@ -171,7 +171,7 @@
 
     <target name="compile-standard"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql, prepare-downloads">
+            depends="bump-version-number, clean-webinterface-folder, download-components, prepare-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**/standard-*.iss" />
@@ -191,7 +191,7 @@
 
     <target name="compile-full"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="download-components, stripdown-mariadb, stripdown-mongodb, stripdown-postgresql">
+            depends="bump-version-number, clean-webinterface-folder, download-components, prepare-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**/full-*.iss" />
