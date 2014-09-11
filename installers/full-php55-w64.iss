@@ -151,20 +151,20 @@ Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Flag
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 // incorporate several startfiles
 Source: ..\startfiles\backup.bat; DestDir: {app}
-Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php
-Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php
+Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
+Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\start-mongodb.bat; DestDir: {app}
+Source: ..\startfiles\start-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
 Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}
+Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\webinterface.url; DestDir: {app}
+Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
 // config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
@@ -1279,7 +1279,7 @@ end;
 }
 
 // boolean function for calling IsModuleLoaded on psvince.dll
-function IsModuleLoaded(modulename: String ):  Boolean;
+function IsModuleLoaded(modulename: AnsiString) : Boolean;
 external 'IsModuleLoaded@{app}\bin\tools\psvince.dll stdcall uninstallonly';
 
 function ProcessesRunningWhenUninstall(): Boolean;
