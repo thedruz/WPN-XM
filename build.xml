@@ -60,7 +60,8 @@
     </target>
 
     <target name="bump-version-number"
-            description="Inserts the current version number into the InnoScripts, Webinterface and Server-Control-Panel.">
+            description="Inserts the current version number into the InnoScripts, Webinterface and Server-Control-Panel."
+            depends="reset-git-submodules, update-git-submodules">
 
         <!--
                 Insert the version number into the innosetup script files.
