@@ -63,6 +63,7 @@ DefaultGroupName={#AppName}
 OutputBaseFilename=WPNXM-{#AppVersion}-{#InstallerType}-Debug-Setup-php56-w32
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
+LZMANumBlockThreads=2
 InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
