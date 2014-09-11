@@ -340,7 +340,7 @@ const
   Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_varnish        = 'phpext_varnish.zip';
-  Filename_phpext_wincache       = 'phpext_wincache.exe'; // WATCH IT: EXE!
+  Filename_phpext_wincache       = 'phpext_wincache.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.dll';
   //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
@@ -1011,12 +1011,8 @@ begin
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');
-      // install exe in silent mode
-      Exec(hideConsole, ExpandConstant(targetPath + Filename_phpext_wincache) + ' /T:"' + targetPath + 'phpext_wincache' +'" /C /Q',
-        '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
+      DoUnzip(targetPath + Filename_phpext_wincache, targetPath + 'phpext_wincache');
       FileCopy(ExpandConstant(targetPath + 'phpext_wincache\php_wincache.dll'), ExpandConstant('{app}\bin\php\ext\php_wincache.dll'), false);
-      FileCopy(ExpandConstant(targetPath + 'phpext_wincache\wincache.php'), ExpandConstant('{app}\www\tools\wincache\index.php'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
