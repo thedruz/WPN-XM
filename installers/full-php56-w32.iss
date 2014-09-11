@@ -280,7 +280,6 @@ const
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_wincache       = 'phpext_wincache.exe'; // WATCH IT: EXE!
-  Filename_phpext_xcache         = 'phpext_xcache.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.dll';
   //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
@@ -854,16 +853,6 @@ begin
 
       FileCopy(ExpandConstant(targetPath + 'phpext_wincache\php_wincache.dll'), ExpandConstant('{app}\bin\php\ext\php_wincache.dll'), false);
       FileCopy(ExpandConstant(targetPath + 'phpext_wincache\wincache.php'), ExpandConstant('{app}\www\tools\wincache\index.php'), false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Xcache');
-      ExtractTemporaryFile(Filename_phpext_xcache);
-      DoUnzip(targetPath + Filename_phpext_xcache, targetPath + 'phpext_xcache');
-      // WATCH OUT: "Release_TS" subfolder !
-      FileCopy(ExpandConstant(targetPath + 'phpext_xcache\Release_TS\php_xcache.dll'), ExpandConstant('{app}\bin\php\ext\php_xcache.dll'), false);
-      // copy xcache htdoc to webinterface
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'phpext_xcache\Release_TS\htdocs' + ' ' + ExpandConstant('{app}\www\tools\xcache') + '"',
-          '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
