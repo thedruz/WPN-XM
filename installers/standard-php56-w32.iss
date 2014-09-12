@@ -1008,7 +1008,10 @@ begin
 
   if Pos('rockmongo', selectedComponents) > 0 then
   begin
-      // rockmongo.zip brings also a "__MACOSX" folder with ".DS_Store" file. let's get rid of that crap
+      // remove version number from folder name. rockmongo comes in a versionized folder "rockmongo-1.2.3".
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\rockmongo* ' + appPath + '\bin\rockmongo"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
+      // older versions of rockmongo.zip also bring a "__MACOSX" folder with ".DS_Store" file. let's get rid of that crap
       RockmongoCrapDir := AddBackslash(ExpandConstant('{app}\www\tools\__MACOSX'));
       if DirExists(RockmongoCrapDir) then DelTree(RockmongoCrapDir, True, True, True);
   end;
