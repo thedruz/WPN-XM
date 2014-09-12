@@ -22,9 +22,9 @@ echo             =================
 echo.
 echo   [1] Start "One-Click Build"
 echo   [2] Download Components for all packaging Installation Wizards
-echo   [3] Build the packaging Installation Wizards
-echo   [4] Build the   web     Installation Wizard
-echo   [5] Build the "Server-Control-Panel" (Tray Application)
+echo   [3] Build  packaged  Installation Wizards
+echo   [4] Build    web     Installation Wizards
+echo   [5] Build "Server-Control-Panel" (Tray Application)
 echo   [x] Quit
 echo.
 
