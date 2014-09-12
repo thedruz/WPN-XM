@@ -8,10 +8,13 @@
 
 :: Define the folders to backup
 
-:: Define onw oe multiple folders in backup-folders file.
-:: - put each folder on a new line
-:: - folders must end with a backslash (\)
-:: - when space in path use quotes, like so "c:\Pa Th\"
+:: Define one or multiple folders to backup in the backup-folders file,
+:: located at \bin\backup\backup-folders.txt
+
+:: Put each folder on a new line.
+:: Folders must end with a backslash (\).
+:: When a space is in the path, use quotes, like so "c:\Pa th\".
+::
 set source="@.\bin\backup\backup-folders.txt"
 
 :: Target Folder for Backups
