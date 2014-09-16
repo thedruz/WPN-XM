@@ -221,7 +221,7 @@ const
   Filename_mariadb           = 'mariadb.zip';
   Filename_nginx             = 'nginx.zip';
   Filename_php               = 'php.zip';
-  Filename_phpext_xdebug     = 'phpext_xdebug.dll';
+  Filename_phpext_xdebug     = 'phpext_xdebug.zip';
   Filename_pickle            = 'pickle.phar';
   Filename_vcredist          = 'vcredist_x86.exe';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
@@ -639,8 +639,8 @@ begin
   begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
-      // xdebug is not zipped, its just a dll file, so copy it to the target path
-      FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);    UpdateTotalProgressBar();
     UpdateTotalProgressBar();
   end;
 

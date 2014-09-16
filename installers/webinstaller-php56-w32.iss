@@ -342,7 +342,7 @@ const
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_wincache       = 'phpext_wincache.zip';
-  Filename_phpext_xdebug         = 'phpext_xdebug.dll';
+  Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
@@ -964,8 +964,8 @@ begin
   if Pos('xdebug', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Xdebug');
-      // xdebug is not zipped, its just a dll file, so just copy it to the target path
-      FileCopy(ExpandConstant(targetPath + Filename_phpext_xdebug), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+      DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
     UpdateTotalProgressBar();
   end;
 
