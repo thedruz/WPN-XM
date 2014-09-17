@@ -35,7 +35,10 @@ echo.
 
 
 :: Execute Phing with WPN-XM build file, run task "all" and produce log
-bin\phing\phing.bat -logfile build.log
+bin\phing\phing.bat
+
+:: Use the build log only for debugging purposes, it slows down the build process.
+:: bin\phing\phing.bat -logfile build.log > build2.log
 
 EndLocal
 :END
