@@ -280,8 +280,11 @@
 
                                 if(!is_file($target)) {
                                     copy($source, $target);
+                                } elseif(is_file($target) && filesize($source) !== filesize($target)) {
+                                    $this->log('Target file exists already, but differs in size. Overwriting!');
+                                    copy($source, $target);
                                 } else {
-                                    $this->log('Target file exists already.');
+                                    $this->log('Target file exists already');
                                 }
 
                             } else {
@@ -387,7 +390,7 @@
     </target>
 
     <target name="download-components" description="Download components for all full installers."
-    	    depends="update-git-submodules, make-downloads-dir, create-download-files">
+    	    depends="update-git-submodules, make-downloads-dir, create-download-files, prepare-downloads">
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
             <fileset dir="${dir.Registry}">
                 <include name="**/downloads-for-full-${wpnxm.Version}-*.txt" />
