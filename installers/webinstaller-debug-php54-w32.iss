@@ -1183,8 +1183,7 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + 'phpext_mongo');
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'phpext_mongo\php_mongo-* ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"',
-            '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), ExpandConstant('{app}\bin\php\ext\php_mongo.dll'), false);
     UpdateTotalProgressBar();
   end;
 

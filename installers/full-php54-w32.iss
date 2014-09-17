@@ -1040,16 +1040,10 @@ begin
       ExtractTemporaryFile(Filename_mongodb);
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
 
-    // Notes - phpext_mongo
-    // 1. the archive contains lots of files (ts/nts, 32/x86-64), we unzip to temp dir
-    // 2. we use "php-X.Y.Z-nts-Win32-VC9-x86", so we need "php_mongo-X.Y.Z-5.4-vc9-nts.dll"
-    // 3. FileCopy() does not handle wildcards? wtf?
-
     UpdateCurrentComponentName('PHP Extension - Mongo');
       ExtractTemporaryFile(Filename_phpext_mongo);
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + 'phpext_mongo');
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'phpext_mongo\php_mongo-* ' + ExpandConstant('{app}\bin\php\ext\php_mongo.dll') + '"',
-            '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), ExpandConstant('{app}\bin\php\ext\php_mongo.dll'), false);
     UpdateTotalProgressBar();
   end;
 
