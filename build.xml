@@ -625,6 +625,7 @@
                     clean-webinterface-folder,
                     versionize-registries,
                     download-components,
+                    prepare-downloads,
                     compile-webinstaller,
                     compile-webinstaller-debug,
                     compile-standard,
