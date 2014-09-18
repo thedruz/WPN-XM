@@ -152,7 +152,7 @@
 
     <target name="compile-lite"
             description="Builds the WPN-XM setup executable using already downloaded components."
-            depends="bump-version-number, clean-webinterface-folder, download-components, prepare-downloads, stripdown-all">
+            depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**/lite-*.iss"/>
@@ -172,7 +172,7 @@
 
     <target name="compile-standard"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder, download-components, prepare-downloads, stripdown-all">
+            depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**/standard-*.iss" />
@@ -192,7 +192,7 @@
 
     <target name="compile-full"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder, download-components, prepare-downloads, stripdown-all">
+            depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**/full-*.iss" />
@@ -215,7 +215,7 @@
 
     -->
 
-    <target name="prepare-downloads" description="Moves components for all packaged installers from the full folder to their subfolder.">
+    <target name="move-downloads" description="Moves components for all packaged installers from the full folder to their subfolder.">
         <echo message=" Moving components from the full download folder to their subfolders... "/>
 
         <adhoc-task name="MoveDownloadFiles"><![CDATA[
@@ -390,7 +390,7 @@
     </target>
 
     <target name="download-components" description="Download components for all full installers."
-    	    depends="update-git-submodules, make-downloads-dir, create-download-files, prepare-downloads">
+    	    depends="update-git-submodules, make-downloads-dir, create-download-files">
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
             <fileset dir="${dir.Registry}">
                 <include name="**/downloads-for-full-${wpnxm.Version}-*.txt" />
@@ -625,7 +625,7 @@
                     clean-webinterface-folder,
                     versionize-registries,
                     download-components,
-                    prepare-downloads,
+                    move-downloads,
                     compile-webinstaller,
                     compile-webinstaller-debug,
                     compile-standard,
