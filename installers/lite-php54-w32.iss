@@ -140,6 +140,10 @@ Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
+// backup config files (when upgrading)
+Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
+Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
+Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
 // config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\configs\php.ini; DestDir: {app}\bin\php

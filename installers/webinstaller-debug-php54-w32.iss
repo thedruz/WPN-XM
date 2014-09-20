@@ -171,6 +171,11 @@ Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
+// backup config files (when upgrading)
+Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
+Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
+Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
+Source: {app}\bin\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; DestName: "mongodb.conf.old"; Flags: external skipifsourcedoesntexist; Components: mongodb;
 // config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
