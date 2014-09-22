@@ -33,6 +33,10 @@ Technology in use: Innosetup, Inno Download Plugin, Pascal, nAnt, Bash, Batch, C
 
 **Ask a question:**     http://stackoverflow.com/questions/tagged/wpn-xm
 
+=== Downloads
+
+https://github.com/WPN-XM/WPN-XM/releases/latest[Latest Version Downloads]
+
 === Installing WPN-XM on Windows
 
 https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation Guide]
