@@ -12,4 +12,4 @@ Contributors include:
 The WPN-XM Server Control Panel is a fork of Easy WEMP
 originally written by
 
-* Yann Le Moigne
+* Yann Le Moigne        - https://github.com/ylemoigne
