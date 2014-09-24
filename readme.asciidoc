@@ -33,13 +33,29 @@ Technology in use: Innosetup, Inno Download Plugin, Pascal, nAnt, Bash, Batch, C
 
 **Ask a question:**     http://stackoverflow.com/questions/tagged/wpn-xm
 
-=== Screenshot
+=== Downloads
 
-.WPN-XM Server Control Panel v0.6.0
-image::https://pbs.twimg.com/media/Bb2YwQNCYAEtKM1.jpg:large[WPN-XM Server Control Panel v0.6.0]
+https://github.com/WPN-XM/WPN-XM/releases/latest[Latest Version Downloads]
 
 === Installing WPN-XM on Windows
 
 https://github.com/WPN-XM/WPN-XM/wiki/Installing-WPN-XM-on-Windows[Installation Guide]
+
+=== Screenshots
+
+.WPN-XM Server Control Panel v0.8.0
+image::https://cloud.githubusercontent.com/assets/85608/4353472/9dfe4d10-4233-11e4-96bd-939f82b82869.jpg[Splashscreen]
+
+.WPN-XM Server Control Panel v0.8.0 - Main Application Window
+image::https://cloud.githubusercontent.com/assets/85608/4353466/85a395c2-4233-11e4-9ff3-5d7d975e7396.jpg[WPN-XM Server Control Panel v0.8.0]
+
+.WPN-XM Server Control Panel v0.8.0 - Configuration Window
+image::https://cloud.githubusercontent.com/assets/85608/4353464/859cb536-4233-11e4-981c-130328182eef.jpg[WPN-XM Server Control Panel - Configuration - v0.8.0]
+
+.WPN-XM Server Control Panel v0.8.0 - Webinterface
+image::https://cloud.githubusercontent.com/assets/85608/4353481/9e293520-4233-11e4-8555-298c2e8ac93c.jpg[WPN-XM Server Control Panel v0.8.0 - Webinterface]
+
+.WPN-XM Server Control Panel v0.8.0 - Registry Updater
+image::https://cloud.githubusercontent.com/assets/85608/4353482/9e38b69e-4233-11e4-9d29-79845ce324a6.jpg[WPN-XM Server Control Panel v0.8.0 - Registry Updater]
 
 *Regards, Jens-André Koch*
