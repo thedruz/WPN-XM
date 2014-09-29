@@ -51,17 +51,110 @@ _____________________________________________________________________________
 
               https://github.com/WPN-XM/WPN-XM/issues?milestone=10&q=is%3Aclosed
 
-              General Version Information
+              #252 https://github.com/WPN-XM/WPN-XM/issues/252  mongo stop command doesn't work
+              #250 https://github.com/WPN-XM/WPN-XM/issues/250  Warning/PHP Startup: Unable to load dynamic library 'ext\php_mongo.dll' - %1 is not a valid Win32 application.
+              #244 https://github.com/WPN-XM/WPN-XM/issues/244  Web Installer Failure - 404 on php extension X-cache
+              #243 https://github.com/WPN-XM/WPN-XM/issues/243  rockmongo is installed in a versionized folder
+              #239 https://github.com/WPN-XM/WPN-XM/issues/239  [build.xml][commit-versionized-registries] workingdir is not found
+              #237 https://github.com/WPN-XM/WPN-XM/issues/237  execute stripdown scripts in each "full-version-phpversion-bitsize" folder
+              #234 https://github.com/WPN-XM/WPN-XM/issues/234  some php extensions for 5.5 (and 5.6) missing
+              #233 https://github.com/WPN-XM/WPN-XM/issues/233  movedownloadfiles misses downloads
+              #231 https://github.com/WPN-XM/WPN-XM/issues/231  exchange xhprof with uprofiler
+              #229 https://github.com/WPN-XM/WPN-XM/issues/229  add pickle - php extension installer
+              #224 https://github.com/WPN-XM/WPN-XM/issues/224  switch buildsystem from nAnt to Phing
+              #223 https://github.com/WPN-XM/WPN-XM/issues/223  the imagick core dlls must be filtered out on the php extensions tab (config)
+              #222 https://github.com/WPN-XM/WPN-XM/issues/222  "CORE_RL_wand_.dll is missing" error when enabling imagik.
+              #219 https://github.com/WPN-XM/WPN-XM/issues/219  Varnish installed under \bin\varnish-3.0.2
+              #216 https://github.com/WPN-XM/WPN-XM/issues/216  Add php_uploadprogress extension.
+              #212 https://github.com/WPN-XM/WPN-XM/issues/212  /bin/backup folder is not created during install the
+              #211 https://github.com/WPN-XM/WPN-XM/issues/211  Starting MongoDB after installation
+              #210 https://github.com/WPN-XM/WPN-XM/issues/210  Starting memcached
+              #207 https://github.com/WPN-XM/WPN-XM/issues/207  Going from MariaDB 5.5 to 10.0
+              #206 https://github.com/WPN-XM/WPN-XM/issues/206  add option to start control panel minimized
+              #204 https://github.com/WPN-XM/WPN-XM/issues/204  lift MongoDb version lock (v2.0.8)
+              #196 https://github.com/WPN-XM/WPN-XM/issues/196  PostgreSQL is not in control panel
+              #195 https://github.com/WPN-XM/WPN-XM/issues/195  Put all the admin folders in "server/www/tools/"
+              #194 https://github.com/WPN-XM/WPN-XM/issues/194  Website shows 0.6.0 as Latest Release
+              #193 https://github.com/WPN-XM/WPN-XM/issues/193  add php extension phalcon
+              #186 https://github.com/WPN-XM/WPN-XM/issues/186  updater: add dialog "building custom registries for installers"
+              #152 https://github.com/WPN-XM/WPN-XM/issues/152  show only installed components in the SCP
+              #56  https://github.com/WPN-XM/WPN-XM/issues/56   switch between PHP versions
+
+              Commits
+
+              https://github.com/WPN-XM/WPN-XM/compare/0.7.0...v0.8.0
+
+              Version Information
 
               Please see the website for the full version information of
-              software components shipped by the full, standard and lite installer.
+              software components shipped by the full, standard and lite installation wizards.
               The webinstaller ships latest versions from our registry.
 
               http://wpn-xm.org/#downloads-list
 
-              Changes
+              Version Information
 
-              https://github.com/WPN-XM/WPN-XM/compare/0.7.0...v0.8.0
+              Changes (bigpack-0.7.0-w32 -> full-0.8.0-php5.4-w32)
+
+              UPD adminer was updated from v4.0.3 to v4.1.0
+              UPD imagick was updated from v6.8.9-0 to v6.8.9-7
+              UPD mariadb was updated from v5.5.36 to v10.1.0
+              UPD memcached was updated from v1.4.5 to v1.5.7
+              UPD mongodb was updated from v2.0.8 to v2.7.6
+              UPD nginx was updated from v1.5.13 to v1.7.5
+              UPD node was updated from v0.11.12 to v0.11.13
+              UPD nodenpm was updated from v1.4.6 to v1.4.12
+              UPD perl was updated from v5.18.2.1 to v5.20.1.1
+              UPD php was updated from v5.4.27 to v5.4.33
+              UPD phpext_amqp was updated from v1.4.0beta2 to v1.4.0
+              UPD phpext_imagick was updated from v3.2.0b1 to v3.2.0b2
+              UPD phpext_mongo was updated from v1.4.5 to v1.5.7
+              DEL phpext_xcache was removed
+              UPD phpext_xdebug was updated from v2.2.4 to v2.2.5
+              DEL phpext_xhprof was removed
+              UPD phpmyadmin was updated from v4.2.0-alpha2 to v4.2.8.1
+              UPD postgresql was updated from v9.3.4 to v9.3.5
+              UPD rockmongo was updated from v1.1.5 to v1.1.7
+              UPD wpnxmscp was updated from v0.6.1 to v0.8.0
+              DEL xhprof was removed
+              ADD phpext_phalcon v1.3.2 was added
+              ADD phpext_uploadprogress v1.0.3.1 was added
+              ADD phpext_uprofiler v0.9.2 was added
+              ADD pickle v0.1.1 was added
+              ADD uprofiler v1.0 was added
+
+              Changes (allinone-0.7.0-w32 -> standard-0.8.0-php5.4-w32)
+
+              UPD adminer was updated from v4.0.3 to v4.1.0
+              UPD mariadb was updated from v5.5.36 to v10.1.0
+              UPD memcached was updated from v1.4.5 to v1.5.7
+              UPD mongodb was updated from v2.0.8 to v2.7.6
+              UPD nginx was updated from v1.5.13 to v1.7.5
+              UPD php was updated from v5.4.27 to v5.4.33
+              UPD phpext_amqp was updated from v1.4.0beta2 to v1.4.0
+              UPD phpext_mongo was updated from v1.4.5 to v1.5.7
+              DEL phpext_xcache was removed
+              UPD phpext_xdebug was updated from v2.2.4 to v2.2.5
+              DEL phpext_xhprof was removed
+              UPD phpmyadmin was updated from v4.2.0-alpha2 to v4.2.8.1
+              UPD rockmongo was updated from v1.1.5 to v1.1.7
+              UPD wpnxmscp was updated from v0.6.1 to v0.8.0
+              DEL xhprof was removed
+              ADD phpext_phalcon v1.3.2 was added
+              ADD phpext_uploadprogress v1.0.3.1 was added
+              ADD phpext_uprofiler v0.9.2 was added
+              ADD pickle v0.1.1 was added
+              ADD uprofiler v1.0 was added
+              ADD varnish v3.0.2 was added
+
+              Changes (lite-0.7.0-w32 -> lite-0.8.0-php5.4-w32)
+
+              UPD adminer was updated from v4.0.3 to v4.1.0
+              UPD mariadb was updated from v5.5.36 to v10.1.0
+              UPD nginx was updated from v1.5.13 to v1.7.5
+              UPD php was updated from v5.4.27 to v5.4.33
+              UPD wpnxmscp was updated from v0.6.1 to v0.8.0
+              ADD pickle v0.1.1 was added
 
 ------------  ----------------------------------------------------------------
 12.04.2014    REL    Version 0.7.0
