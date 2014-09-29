@@ -1,41 +1,67 @@
                          ___________
                          W P И - X M
 
-_____________________________________________________________________________
  WPИ-XM Server Stack
  http://wpn-xm.org/
- Copyright (c) 20010-2014, Jens-André Koch
- All rights reserved.
-_____________________________________________________________________________
+ Copyright (c) 2010-2014, Jens-André Koch. All rights reserved.
+______________________________________________________________________________
 
-ÄNDERUNGSHISTORIE | CHANGELOG
-
+CHANGELOG
 ------------  ----------------------------------------------------------------
-Legende:      NEW    Neues Feature            |    New Feature
-              CHG    Änderung                 |    Change
-              FIX    Fehler behoben           |    Bugfix
-              LNG    Sprachdatei aktualisiert |    Updated language file
-              RQM    Neue Systemanforderung   |    New requirement
-              MOD    Neues Module             |    New module
-              REL    Neues Release            |    New release
-              UPD    Aktualisierung           |    Update
+Legend        NEW   New Feature
+              CHG   Change
+              FIX   Bugfix
+              LNG   Updated language file
+              RQM   New requirement
+              MOD   New module
+              REL   New release
+              UPD   Update
 ------------  ----------------------------------------------------------------
-
-VORLAGE FÜR NEUE EINTRÄGE | TEMPLATE FOR NEW ENTRIES
+TEMPLATE FOR  NEW ENTRIES
 ------------  ----------------------------------------------------------------
-[x.x.2007]    REL    VERSION 0.x
+[x.x.2014]    REL   VERSION x.y.z
 ------------  ----------------------------------------------------------------
-[x.x.2007]    NEW    added this n that
-[x.x.2007]    FIX    fixed this n that
-[x.x.2007]    CHG    removed this n that
-[x.x.2007]    LNG    added english language file for this n that
+[x.x.2014]    NEW   added this n that
+[x.x.2014]    FIX   fixed this n that
+[x.x.2014]    CHG   removed this n that
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-tba    REL    Version 0.x.y
+20.09.2014    REL    Version 0.8.0
 ------------  ----------------------------------------------------------------
 
- next  -->>   Bugfixes
+  20.09.2014  CHG   Renamed Installation Wizards
+
+                    There are 4 installation wizard types:
+                     - webinstaller
+                     - full (formerly bigpack)
+                     - standard (formerly allinone)
+                     - lite
+
+              CHG   Installation wizards for multiple PHP versions (including x64):
+
+                    Each installation wizards is build for the following PHP versions:
+                     - PHP 5.4 x86
+                     - PHP 5.5 x86 & x64
+                     - PHP 5.6 x86 & x64
+
+              CHG    Deployment to Github, Sourceforge and WPN-XM server
+
+              Milestone Issues
+
+              https://github.com/WPN-XM/WPN-XM/issues?milestone=10&q=is%3Aclosed
+
+              General Version Information
+
+              Please see the website for the full version information of
+              software components shipped by the full, standard and lite installer.
+              The webinstaller ships latest versions from our registry.
+
+              http://wpn-xm.org/#downloads-list
+
+              Changes
+
+              https://github.com/WPN-XM/WPN-XM/compare/0.7.0...v0.8.0
 
 ------------  ----------------------------------------------------------------
 12.04.2014    REL    Version 0.7.0
