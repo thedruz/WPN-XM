@@ -278,6 +278,7 @@ const
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
+  Filename_phpext_jsond          = 'phpext_jsond.zip';
   //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo          = 'phpext_mongo.zip';
@@ -799,7 +800,7 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);    UpdateTotalProgressBar();
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -815,6 +816,12 @@ begin
       ExtractTemporaryFile(Filename_phpext_apcu);
       DoUnzip(targetPath + Filename_phpext_apcu, targetPath + 'phpext_apcu');
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), ExpandConstant('{app}\bin\php\ext\php_apcu.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - JSOND');
+      ExtractTemporaryFile(Filename_phpext_jsond);
+      DoUnzip(targetPath + Filename_phpext_jsond, targetPath + 'phpext_jsond');
+      FileCopy(ExpandConstant(targetPath + 'phpext_jsond\php_jsond.dll'), ExpandConstant('{app}\bin\php\ext\php_jsond.dll'), false);
     UpdateTotalProgressBar();
 
     //UpdateCurrentComponentName('PHP Extension - Mailparse');

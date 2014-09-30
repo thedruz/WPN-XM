@@ -264,6 +264,7 @@ const
   Filename_php               = 'php.zip';
   Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
+  Filename_phpext_jsond      = 'phpext_jsond.zip';
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongo      = 'phpext_mongo.zip';
@@ -787,10 +788,10 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apc\php_apc.dll'), ExpandConstant('{app}\bin\php\ext\php_apc.dll'), false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - Mailparse');
-      ExtractTemporaryFile(Filename_phpext_mailparse);
-      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
+    UpdateCurrentComponentName('PHP Extension - JSOND');
+      ExtractTemporaryFile(Filename_phpext_jsond);
+      DoUnzip(targetPath + Filename_phpext_jsond, targetPath + 'phpext_jsond');
+      FileCopy(ExpandConstant(targetPath + 'phpext_jsond\php_jsond.dll'), ExpandConstant('{app}\bin\php\ext\php_jsond.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
