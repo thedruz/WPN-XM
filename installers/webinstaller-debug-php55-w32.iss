@@ -319,6 +319,7 @@ const
   URL_webgrind              = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp              = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_uprofiler             = 'http://wpn-xm.org/get.php?s=uprofiler';
+  URL_yuicompressor         = 'http://wpn-xm.org/get.php?s=yuicompressor';
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';

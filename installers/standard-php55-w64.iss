@@ -797,6 +797,12 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_jsond\php_jsond.dll'), ExpandConstant('{app}\bin\php\ext\php_jsond.dll'), false);
     UpdateTotalProgressBar();
 
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      ExtractTemporaryFile(Filename_phpext_mailparse);
+      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
+    UpdateTotalProgressBar();
+
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       ExtractTemporaryFile(Filename_phpext_msgpack);
       DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');

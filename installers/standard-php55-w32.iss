@@ -773,7 +773,7 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);    UpdateTotalProgressBar();
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -795,6 +795,12 @@ begin
       ExtractTemporaryFile(Filename_phpext_jsond);
       DoUnzip(targetPath + Filename_phpext_jsond, targetPath + 'phpext_jsond');
       FileCopy(ExpandConstant(targetPath + 'phpext_jsond\php_jsond.dll'), ExpandConstant('{app}\bin\php\ext\php_jsond.dll'), false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      ExtractTemporaryFile(Filename_phpext_mailparse);
+      DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), ExpandConstant('{app}\bin\php\ext\php_mailparse.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
