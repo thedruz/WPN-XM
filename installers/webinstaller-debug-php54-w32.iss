@@ -319,6 +319,7 @@ const
   URL_webgrind              = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp              = 'http://wpn-xm.org/get.php?s=wpnxmscp';
   URL_uprofiler             = 'http://wpn-xm.org/get.php?s=uprofiler';
+  URL_yuicompressor         = 'http://wpn-xm.org/get.php?s=yuicompressor';
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
@@ -366,6 +367,7 @@ const
   Filename_webgrind              = 'webgrind.zip';
   Filename_wpnxmscp              = 'wpnxmscp.zip';
   Filename_uprofiler             = 'uprofiler.zip';
+  Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -945,10 +947,11 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('closurecompiler', selectedComponents) > 0 then
+  if Pos('asset-tools', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Google Closure Compiler');
-       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\closure-compiler'));
+    UpdateCurrentComponentName('Google Closure Compiler & yuicompressor');
+       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\asset-tools'));
+       DoUnzip(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\asset-tools'));
     UpdateTotalProgressBar();
   end;
 

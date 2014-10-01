@@ -106,7 +106,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 // Base Package "serverstack" consists of PHP + MariaDB + Nginx
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: closurecompiler; Description: Google Closure Compiler; ExtraDiskSpaceRequired: 1000000; Types: full
+Name: asset-tools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000; Types: full
@@ -287,6 +287,7 @@ const
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
   Filename_uprofiler         = 'uprofiler.zip';
+  Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
@@ -748,11 +749,13 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('closurecompiler', selectedComponents) > 0 then
+  if Pos('asset-tools', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Google Closure Compiler');
+    UpdateCurrentComponentName('Google Closure Compiler & yuicompressor');
       ExtractTemporaryFile(Filename_closure_compiler);
-       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\closure-compiler'));
+      ExtractTemporaryFile(Filename_yuicompressor);
+      DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\asset-tools'));
+      FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\asset-tools\' + Filename_yuicompressor'), false);
     UpdateTotalProgressBar();
   end;
 
