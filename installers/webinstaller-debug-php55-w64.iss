@@ -1360,18 +1360,6 @@ begin
       SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file);
   end;
 
-  if Pos('memcached', selectedComponents) > 0 then
-  begin
-      // php.ini entry for loading the the extension
-      //SetIniString('PHP', 'extension', 'php_memcache.dll', php_ini_file ); // disabled in v0.3.0: MODULE API=20090625 != PHP API 20100525
-  end;
-
-  if Pos('apc', selectedComponents) > 0 then
-  begin
-      // php.ini entry for loading the the extension
-      //SetIniString('PHP', 'extension', 'php_apc.dll', php_ini_file ); // APC buggy: disabled for 0.3.0 release
-  end;
-
   if Pos('mongodb', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
