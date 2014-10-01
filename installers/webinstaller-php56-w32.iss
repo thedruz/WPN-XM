@@ -120,7 +120,7 @@ Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applic
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
-Name: phpextensions; Description: PHP Extensions; Types: full
+Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 4000000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
