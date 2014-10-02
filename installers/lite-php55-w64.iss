@@ -84,7 +84,7 @@ VersionInfoCopyright=Copyright (C) 2011 - 2013 {#AppPublisher}, All Rights Reser
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
-; Tell Windows Explorer to reload the environment (because modify environment variable PATH)
+; Tell Windows Explorer to reload the environment, because we modify the environment variable PATH
 ChangesEnvironment=yes
 ; Portable Mode
 ; a) do no create registry keys for uninstallation
@@ -101,7 +101,7 @@ Name: full; Description: Full installation
 Name: custom; Description: Custom installation; Flags: iscustom
 
 [Components]
-// Base Package "serverstack" consists of PHP + MariaDB + Nginx
+// The base component "serverstack" consists of PHP + MariaDB + Nginx. These three components are always installed.
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
@@ -111,7 +111,7 @@ Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration;
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full
 
 [Files]
-// incorporate the whole downloads folder
+// incorporate all files of the download folder for this installation wizard
 Source: ..\downloads\lite-{#AppVersion}-php5.5-w64\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
 // tools:
 Source: ..\bin\backup\7z.exe; DestDir: {tmp}; Flags: dontcopy
@@ -121,13 +121,13 @@ Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
-// incorporate the whole "www" folder into the setup, except webinterface folder
+// incorporate the whole "www" folder into the setup, except the webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\tools\webinterface,.git*;
-// webinterface folder is only copied, if component is selected
+// webinterface folder is only copied, if component "webinterface" is selected.
 Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
-// incorporate several startfiles
+// incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
@@ -141,7 +141,7 @@ Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
-// backup config files (when upgrading)
+// backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
@@ -175,7 +175,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 
 [Run]
 // Automatically started...
-// User selected Postinstallation runs
+// User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
@@ -215,7 +215,6 @@ var
   HelpButton    : TButton;
   DebugLabel    : TNewStaticText;
 
-// Constants and global variables
 const
   // reassigning the preprocessor defined constant debug
   DEBUG = {#DEBUG};

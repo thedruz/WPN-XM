@@ -84,7 +84,7 @@ VersionInfoCopyright=Copyright (C) 2011 - 2013 {#AppPublisher}, All Rights Reser
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
-; Tell Windows Explorer to reload the environment (because modify environment variable PATH)
+; Tell Windows Explorer to reload the environment, because we modify the environment variable PATH
 ChangesEnvironment=yes
 ; Portable Mode
 ; a) do no create registry keys for uninstallation
@@ -103,7 +103,7 @@ Name: debug; Description: Server Stack with Debugtools
 Name: custom; Description: Custom installation; Flags: iscustom
 
 [Components]
-// Base Package "serverstack" consists of PHP + MariaDB + Nginx
+// The base component "serverstack" consists of PHP + MariaDB + Nginx. These three components are always installed.
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: asset-tools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
@@ -128,7 +128,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 //Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
 
 [Files]
-// incorporate the whole downloads folder
+// incorporate all files of the download folder for this installation wizard
 Source: ..\downloads\standard-{#AppVersion}-php5.6-w32\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
 // tools:
 Source: ..\bin\backup\7z.exe; DestDir: {tmp}; Flags: dontcopy
@@ -138,13 +138,13 @@ Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 // psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
-// incorporate the whole "www" folder into the setup, except webinterface folder
+// incorporate the whole "www" folder into the setup, except the webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\tools\webinterface,.git*;
-// webinterface folder is only copied, if component is selected
+// webinterface folder is only copied, if component "webinterface" is selected.
 Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
 // if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
-// incorporate several startfiles
+// incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
@@ -162,7 +162,7 @@ Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
-// backup config files (when upgrading)
+// backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
@@ -200,13 +200,12 @@ Name: add_desktopicon; Description: Create a &Desktop icon for the Server Contro
 Name: add_startstop_desktopicons; Description: Create &Desktop icons for starting and stopping; GroupDescription: Additional Icons:; Flags: unchecked
 
 [Run]
-// Automatically started...
-// User selected Postinstallation runs
+// User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
-; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
-; no registry change, if in portable mode
+// a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
+// The registry is not modified, when in portable mode.
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
 
@@ -237,6 +236,7 @@ Name: {app}\www\tools\webinterface; Components: webinterface;
 [Code]
 type
   TPositionStorage = array of Integer;
+
 var
   CompPageModified: Boolean;
   CompPagePositions: TPositionStorage;
@@ -245,7 +245,6 @@ var
   HelpButton    : TButton;
   DebugLabel    : TNewStaticText;
 
-// Constants and global variables
 const
   // reassigning the preprocessor defined constant debug
   DEBUG = {#DEBUG};
