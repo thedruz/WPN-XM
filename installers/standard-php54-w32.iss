@@ -129,7 +129,7 @@ Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDi
 
 [Files]
 // incorporate the whole downloads folder
-Source: ..\downloads\standard-{#AppVersion}-php5.4-w32\*; DestDir: {tmp}; Flags: deleteafterinstall;
+Source: ..\downloads\standard-{#AppVersion}-php5.4-w32\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
 // tools:
 Source: ..\bin\backup\7z.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
@@ -201,7 +201,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 
 [Run]
 // Automatically started...
-// User selected... these files are shown for launch after everything is done
+// User selected Postinstall runs
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
