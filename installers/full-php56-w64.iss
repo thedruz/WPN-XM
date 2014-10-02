@@ -136,7 +136,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 // incorporate the whole downloads folder
 Source: ..\downloads\full-{#AppVersion}-php5.6-w64\*; DestDir: {tmp}; Flags: deleteafterinstall;
 // tools:
-Source: ..\bin\UnxUtils\unzip.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\backup\7z.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
@@ -639,14 +639,14 @@ begin
     // source contains tmp constant, so resolve it to path name
     source := ExpandConstant(source);
 
-    unzipTool := ExpandConstant('{tmp}\unzip.exe');
+    unzipTool := ExpandConstant('{tmp}\7z.exe');
 
     if not FileExists(unzipTool)
     then MsgBox('UnzipTool not found: ' + unzipTool, mbError, MB_OK)
     else if not FileExists(source)
     then MsgBox('File was not found while trying to unzip: ' + source, mbError, MB_OK)
     else begin
-         if Exec(unzipTool, '-o -qq "' + source + '" -d "' + targetdir + '"',
+         if Exec(unzipTool, ' x "' + source + '" -o"' + targetdir + '" -y',
                  '', SW_HIDE, ewWaitUntilTerminated, ReturnCode) = false
          then begin
              MsgBox('Unzip failed:' + source, mbError, MB_OK)
@@ -720,7 +720,7 @@ begin
   if (DEBUG = true) then MsgBox('Each processed component will add ' + intToStr(percentagePerComponent) + ' % to the progress bar.', mbInformation, MB_OK);
 
   // fetch the unzip command from the compressed setup
-  ExtractTemporaryFile('unzip.exe');
+  ExtractTemporaryFile('7z.exe');
   ExtractTemporaryFile('RunHiddenConsole.exe');
 
   // define hideConsole shortcut
