@@ -216,7 +216,7 @@ Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Componen
 Filename: {tmp}\stripdown-postgresql.bat; Parameters: "{app}\bin\pgsql"; Components: postgresql;
 Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
 Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
-// User selected Postinstall runs
+// User selected Postinstallation runs
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
