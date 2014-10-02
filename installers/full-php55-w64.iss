@@ -156,6 +156,7 @@ Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
+Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\repair-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}

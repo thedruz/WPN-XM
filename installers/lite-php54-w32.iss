@@ -133,6 +133,7 @@ Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
+Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
 Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
