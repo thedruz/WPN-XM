@@ -33,7 +33,7 @@
 
 // defines for the setup section
 #define AppName "WPN-XM Server Stack"
-// the -APPVERSION- token is replaced during the nant build process
+// the -APPVERSION- token is replaced during the build process
 #define AppVersion "@APPVERSION@"
 #define AppPublisher "Jens-André Koch"
 #define AppURL "http://wpn-xm.org/"
