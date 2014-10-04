@@ -104,33 +104,33 @@ Name: custom; Description: Custom installation; Flags: iscustom
 
 [Components]
 // The base component "serverstack" consists of PHP + MariaDB + Nginx. These three components are always installed.
-Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
+Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 188430000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: asset-tools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
-Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
-Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
-Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 125000; Types: full
-Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 400000; Types: full
-Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 10000000; Types: full
-Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
+Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 6030000; Types: full
+Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 80000; Types: full
+Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 630000; Types: full
+Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 240000; Types: full
+Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 620000; Types: full
+Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 3680000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
-Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 100000000; Types: full
-Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 4000000; Types: full
-Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 50000; Types: full
-Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 3300000; Types: full
+Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 232530000; Types: full
+Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 27040000; Types: full
+Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
+Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 13020000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
-Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 44000000; Types: full
-Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 1000000; Types: full
-Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 1000000; Types: full
-Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1000000; Types: full
-Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 17000000; Types: full
-Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 500000; Types: full debug
+Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 33430000; Types: full
+Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
+Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 620000; Types: full
+Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
+Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 1550000; Types: full serverstack debug
+Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
+Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
-Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 1000000; Types: full debug
+Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 690000; Types: full debug
+Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 
 [Files]
 // incorporate all files of the download folder for this installation wizard
@@ -316,7 +316,7 @@ var
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
 
-// Make vcredist x86 install if needed
+// Detect, if Visual C++ Redistributable needs to be installed
 // http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
 #IFDEF UNICODE
   #DEFINE AW "W"
@@ -333,7 +333,9 @@ const
   INSTALLSTATE_DEFAULT = 5;      // The product is installed for the current user.
 
   // software package = registry key to look for
-  VC_2008_REDIST_X86 = '{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}';
+  VC_2010_REDIST_X86 = '{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}';
+  // "Microsoft Visual C++ 2012 Redistributable (x86) - 11.0.51106" - VSU4\vcredist_x86.exe - 6.9 MB
+  VC_2012_REDIST_X86 = '{8e70e4e1-06d7-470b-9f74-a51bef21088e}';
 
 function MsiQueryProductState(szProduct: string): INSTALLSTATE;
   external 'MsiQueryProductState{#AW}@msi.dll stdcall';
@@ -343,13 +345,18 @@ begin
   Result := MsiQueryProductState(ProductID) = INSTALLSTATE_DEFAULT;
 end;
 
-{
-  // The Result must be "True" when you need to install your VCRedist
-  // or "False" when you don't need to.
-}
-function VCRedistributableNeedsInstall: Boolean;
+function VCRedist2010NeedsInstall: Boolean;
 begin
-  Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
+  Result := not (VCVersionInstalled(VC_2010_REDIST_X86));
+  Log('Visual C++ 2010 Redistributables ');
+  If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
+end;
+
+function VCRedist2012NeedsInstall: Boolean;
+begin
+  Result := not (VCVersionInstalled(VC_2012_REDIST_X86));
+  Log('Visual C++ 2012 Redistributables ');
+  If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
 
 procedure SaveComponentsPage(out Storage: TPositionStorage);
@@ -1112,12 +1119,6 @@ begin
   if Pos('imagick', selectedComponents) > 0 then
   begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-  end;
-
-  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE) then
-  begin
-    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin;
-    //Status Msg: Installing VCR...
   end;
 
   if Pos('rockmongo', selectedComponents) > 0 then
