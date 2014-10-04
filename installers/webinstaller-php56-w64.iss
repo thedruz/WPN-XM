@@ -1531,10 +1531,12 @@ var
   Path: String;
 begin
   RegQueryStringValue(HKCU, 'Environment\', 'PATH', Path);
-  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then
-  begin
+  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then begin
      StringChange(Path, PathToRemove + ';', '');
      RegWriteStringValue(HKCU, 'Environment\', 'PATH', Path);
+     Result := true;
+  end else begin
+     Result := false;
   end;
 end;
 
