@@ -106,7 +106,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 // The base component "serverstack" consists of PHP + MariaDB + Nginx. These three components are always installed.
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
-Name: asset-tools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
+Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 150000000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 157000; Types: full
@@ -767,13 +767,13 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('asset-tools', selectedComponents) > 0 then
+  if Pos('assettools', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Google Closure Compiler & yuicompressor');
       ExtractTemporaryFile(Filename_closure_compiler);
       ExtractTemporaryFile(Filename_yuicompressor);
-      DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\asset-tools'));
-      FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\asset-tools\' + Filename_yuicompressor'), false);
+      DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
+      FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
     UpdateTotalProgressBar();
   end;
 
