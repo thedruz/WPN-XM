@@ -13,6 +13,7 @@ Extract all files to any directory you wish. Add following line to the end of <b
 </p></dd>
 </dl>
 <a id="usage"><h3>Usage</h3></a>
+<h4>Basic usage</h4>
 To add download functionality to your installation script:
 <ul>
   <li>Include IDP include file: <code>#include &lt;idp.iss&gt;</code></li>
@@ -40,10 +41,21 @@ begin
   end;
 end;</pre>
 For more examples, see <b>examples</b> folder.
+<h4>Proxy support</h4>
+Inno Download Plugin can handle proxy automatically, by reading user internet settings <i>(proxy or direct connection, proxy name, etc.)</i> from the registry. Also, proxy settings can be specified manually (<tt>idpSetProxy*</tt> functions).
+<h4>HTTPS</h4>
+To configure handling of unknown/invalid SSL certificates, use <a href="idpSetOption.htm">idpSetOption</a> function.
+<h4>Graphical Installer support</h4>
+To use Inno Download Plugin with <a href="http://www.graphical-installer.com/">Graphical Installer</a>,
+you need to:
+<ul>
+  <li>Define <tt>GRAPHICAL_INSTALLER_PROJECT</tt> <b>before</b> inlcuding <tt>&lt;idp.iss&gt;</tt></li>
+  <li>Call <a href="idpDownloadAfter.htm">idpDownloadAfter</a> <b>before</b> InitGraphicalInstaller()</li>
+</ul>
 <a id="links"><h3>Links &amp; Copyright</h3></a>
 For updates and support please visit:
 <ul>
-  <li><a href="http://mitrich.net23.net/">Website</a></li>
+  <li><a href="http://mitrichsoftware.wordpress.com/">Website</a></li>
   <li><a href="http://groups.google.com/group/inno-download-plugin">Discussion forum</a></li>
   <li><a href="https://code.google.com/p/inno-download-plugin/">Source code repository</a></li>
 </ul>
@@ -51,9 +63,13 @@ Inno Download Plugin &copy;2013-]] .. os.date("%Y") .. [[ Mitrich Software
 <p>
 Translations provided by:
 <table>
-  <tr><td>Belarusian</td><td>pavlushko.m</td></tr>
-  <tr><td>German</td>    <td>fois</td></tr>
-  <tr><td>Polish</td>    <td>Adam Siwon</td></tr>
+  <tr><td>Belarusian</td>          <td>pavlushko.m</td></tr>
+  <tr><td>Brazilian Portuguese</td><td>Celio Marcos</td></tr>
+  <tr><td>Finnish</td>             <td>Jouni Turunen</td></tr>
+  <tr><td>German</td>              <td>fois</td></tr>
+  <tr><td>Italian</td>             <td>Alex</td></tr>
+  <tr><td>Polish</td>              <td>Adam Siwon</td></tr>
+  <tr><td>Simplified Chinese</td>  <td>Ivan Yan</td></tr>
 </table>
 </p>
 ]]

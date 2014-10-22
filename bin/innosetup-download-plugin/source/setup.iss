@@ -1,7 +1,7 @@
 #define ProgName "Inno Download Plugin"
 #define ProgVer  Copy(GetFileVersion("unicode\idp.dll"), 1, 5)
 #define ProgYear GetDateTimeString("yyyy", "", "")
-#define WebSite  "http://mitrich.net23.net"
+#define WebSite  "http://mitrichsoftware.wordpress.com"
 #define Forum    "https://groups.google.com/forum/#!forum/inno-download-plugin"
 
 [Setup]
@@ -40,7 +40,7 @@ Source: "ansi\idp.dll";           DestDir: "{app}\ansi";                   Compo
 Source: "idp.iss";                DestDir: "{app}";                        Components: main
 Source: "unicode\idplang\*.iss";  DestDir: "{app}\unicode\idplang";        Components: main
 Source: "ansi\idplang\*.iss";     DestDir: "{app}\ansi\idplang";           Components: main
-Source: "examples\*.iss";         DestDir: "{app}\examples";               Components: main
+Source: "examples\*.*";           DestDir: "{app}\examples";               Components: main; Flags: recursesubdirs
 Source: "doc\idp.chm";            DestDir: "{app}";                        Components: main
 Source: "COPYING.txt";            DestDir: "{app}";                        Components: main
 
@@ -61,14 +61,13 @@ Source: "doc\build.bat";                DestDir: "{app}\source\doc";            
 Source: "doc\styles.css";               DestDir: "{app}\source\doc";             Components: src
 Source: "doc\tooltip.js";               DestDir: "{app}\source\doc";             Components: src
 Source: "doc\*.png";                    DestDir: "{app}\source\doc";             Components: src
-Source: "examples\*.iss";               DestDir: "{app}\source\examples";        Components: src
+Source: "examples\*.*";                 DestDir: "{app}\source\examples";        Components: src; Flags: recursesubdirs
 Source: "misc\DownloadForm.isf";        DestDir: "{app}\source\misc";            Components: src
 Source: "misc\*.lua";                   DestDir: "{app}\source\misc";            Components: src
 Source: "misc\*.bat";                   DestDir: "{app}\source\misc";            Components: src
 Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src
 
-Source: "tests\idptest.iss";                  DestDir: "{app}\source\tests";            Components: src
-Source: "tests\mirrortest.iss";               DestDir: "{app}\source\tests";            Components: src
+Source: "tests\*.iss";                        DestDir: "{app}\source\tests";            Components: src
 Source: "tests\statictest\statictest.vcproj"; DestDir: "{app}\source\tests\statictest"; Components: src
 Source: "tests\statictest\main.cpp";          DestDir: "{app}\source\tests\statictest"; Components: src
 Source: "tests\dlltest\dlltest.vcproj";       DestDir: "{app}\source\tests\dlltest";    Components: src

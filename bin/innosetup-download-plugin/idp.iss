@@ -1,6 +1,6 @@
 ; Inno Download Plugin
-; (c)2013 Mitrich Software
-; http://mitrich.net23.net/
+; (c)2013-2014 Mitrich Software
+; http://mitrichsoftware.wordpress.com/
 ; https://code.google.com/p/inno-download-plugin/
 
 #define IDPROOT ExtractFilePath(__PATHFILENAME__)
@@ -11,7 +11,7 @@
     #pragma include __INCLUDE__ + ";" + IDPROOT + "\ansi"
 #endif
 
-; If IDPDEBUG is defined before including idp.iss, script will use debug version of idp.dll.
+; If IDPDEBUG is defined before including idp.iss, script will use debug version of idp.dll (not included, you need to build it yourself).
 ; Debug dll messages can be viewed with SysInternals DebugView (http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx)
 #ifdef IDPDEBUG
     #define DBGSUFFIX " debug"
@@ -28,37 +28,49 @@ Source: "{#IDPROOT}\ansi{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
 
 [Code]
 procedure idpAddFile(url, filename: String);                     external 'idpAddFile@files:idp.dll cdecl';
+procedure idpAddFileComp(url, filename, components: String);     external 'idpAddFileComp@files:idp.dll cdecl';
 procedure idpAddMirror(url, mirror: String);                     external 'idpAddMirror@files:idp.dll cdecl';
 procedure idpClearFiles;                                         external 'idpClearFiles@files:idp.dll cdecl';
 function  idpFilesCount: Integer;                                external 'idpFilesCount@files:idp.dll cdecl';
+function  idpFileDownloaded(url: String): Boolean;               external 'idpFileDownloaded@files:idp.dll cdecl';
 function  idpFilesDownloaded: Boolean;                           external 'idpFilesDownloaded@files:idp.dll cdecl';
 function  idpDownloadFile(url, filename: String): Boolean;       external 'idpDownloadFile@files:idp.dll cdecl';
 function  idpDownloadFiles: Boolean;                             external 'idpDownloadFiles@files:idp.dll cdecl';
+function  idpDownloadFilesComp: Boolean;                         external 'idpDownloadFilesComp@files:idp.dll cdecl';
+function  idpDownloadFilesCompUi: Boolean;                       external 'idpDownloadFilesCompUi@files:idp.dll cdecl';
 procedure idpStartDownload;                                      external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpStopDownload;                                       external 'idpStopDownload@files:idp.dll cdecl';
+procedure idpSetProxyMode(mode: String);                         external 'idpSetProxyMode@files:idp.dll cdecl';
+procedure idpSetProxyName(name: String);                         external 'idpSetProxyName@files:idp.dll cdecl';
+procedure idpSetProxyLogin(login, password: String);             external 'idpSetProxyLogin@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; Handle: HWND);         external 'idpConnectControl@files:idp.dll cdecl';
 procedure idpAddMessage(name, message: String);                  external 'idpAddMessage@files:idp.dll cdecl';
 procedure idpSetInternalOption(name, value: String);             external 'idpSetInternalOption@files:idp.dll cdecl';
 procedure idpSetDetailedMode(mode: Boolean);                     external 'idpSetDetailedMode@files:idp.dll cdecl';
+procedure idpSetComponents(components: String);                  external 'idpSetComponents@files:idp.dll cdecl';
+procedure idpReportError;                                        external 'idpReportError@files:idp.dll cdecl';
+procedure idpTrace(text: String);                                external 'idpTrace@files:idp.dll cdecl';
 
 #ifdef UNICODE
 procedure idpAddFileSize(url, filename: String; size: Int64);    external 'idpAddFileSize@files:idp.dll cdecl';
+procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: String); external 'idpAddFileSize@files:idp.dll cdecl';
 function  idpGetFileSize(url: String; var size: Int64): Boolean; external 'idpGetFileSize@files:idp.dll cdecl';
 function  idpGetFilesSize(var size: Int64): Boolean;             external 'idpGetFilesSize@files:idp.dll cdecl';
 #else
 procedure idpAddFileSize(url, filename: String; size: Dword);    external 'idpAddFileSize32@files:idp.dll cdecl';
+procedure idpAddFileSizeComp(url, filename: String; size: Dword; components: String); external 'idpAddFileSize32@files:idp.dll cdecl';
 function  idpGetFileSize(url: String; var size: Dword): Boolean; external 'idpGetFileSize32@files:idp.dll cdecl';
 function  idpGetFilesSize(var size: Dword): Boolean;             external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
 
-type IDPFormRec = record
+type TIdpForm = record
         Page              : TWizardPage;
         TotalProgressBar  : TNewProgressBar;
         FileProgressBar   : TNewProgressBar;
         TotalProgressLabel: TNewStaticText;
         CurrentFileLabel  : TNewStaticText;
-        TotalDownloaded   : TPanel; // TNewStaticText has no Alignment property to display right-aligned text,
-        FileDownloaded    : TPanel; // TLabel has no Handle property, needed to interface with idp.dll
+        TotalDownloaded   : TNewStaticText; 
+        FileDownloaded    : TNewStaticText;
         FileNameLabel     : TNewStaticText;
         SpeedLabel        : TNewStaticText;
         StatusLabel       : TNewStaticText;
@@ -69,18 +81,21 @@ type IDPFormRec = record
         Status            : TNewStaticText;
         ElapsedTime       : TNewStaticText;
         RemainingTime     : TNewStaticText;
-        DetailsButton     : TButton;
+        DetailsButton     : TNewButton;
+        GIDetailsButton   : HWND; //Graphical Installer
         DetailsVisible    : Boolean;
+        InvisibleButton   : TNewButton;
     end;
 
-    IDPOptionsRec = record
+    TIdpOptions = record
         DetailedMode   : Boolean;
         NoDetailsButton: Boolean;
         NoRetryButton  : Boolean;
+        NoSkinnedButton: Boolean; //Graphical Installer
     end;
 
-var IDPForm   : IDPFormRec;
-    IDPOptions: IDPOptionsRec;
+var IDPForm   : TIdpForm;
+    IDPOptions: TIdpOptions;
 
 function StrToBool(value: String): Boolean;
 var s: String;
@@ -88,12 +103,44 @@ begin
     s := LowerCase(value);
 
     if      s = 'true'  then result := true
+    else if s = 't'     then result := true
     else if s = 'yes'   then result := true
     else if s = 'y'     then result := true
     else if s = 'false' then result := false
+    else if s = 'f'     then result := false
     else if s = 'no'    then result := false
     else if s = 'n'     then result := false
     else                     result := StrToInt(value) > 0;
+end;
+
+function WizardVerySilent: Boolean;
+var i: Integer;
+begin
+    for i := 1 to ParamCount do
+    begin
+        if UpperCase(ParamStr(i)) = '/VERYSILENT' then
+        begin
+            result := true;
+            exit;
+        end;
+    end;
+    
+    result := false;
+end;
+
+function WizardSupressMsgBoxes: Boolean;
+var i: Integer;
+begin
+    for i := 1 to ParamCount do
+    begin
+        if UpperCase(ParamStr(i)) = '/SUPPRESSMSGBOXES' then
+        begin
+            result := true;
+            exit;
+        end;
+    end;
+    
+    result := false;
 end;
 
 procedure idpSetOption(name, value: String);
@@ -101,9 +148,11 @@ var key: String;
 begin
     key := LowerCase(name);
 
-    if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToBool(value)
-    else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := not StrToBool(value)
-    else if key = 'retrybutton'   then 
+    if      key = 'detailedmode'    then IDPOptions.DetailedMode    := StrToBool(value)
+    else if key = 'detailsvisible'  then IDPOptions.DetailedMode    := StrToBool(value) //alias
+    else if key = 'detailsbutton'   then IDPOptions.NoDetailsButton := not StrToBool(value)
+    else if key = 'skinnedbutton'   then IDPOptions.NoSkinnedButton := not StrToBool(value)
+    else if key = 'retrybutton'     then 
     begin
         IDPOptions.NoRetryButton := StrToInt(value) = 0;
         idpSetInternalOption('RetryButton', value);
@@ -149,18 +198,102 @@ begin
     idpShowDetails(not IDPForm.DetailsVisible);
 end;
 
+#ifdef GRAPHICAL_INSTALLER_PROJECT
+procedure idpGIDetailsButtonClick(hButton: HWND);
+begin
+    idpShowDetails(not IDPForm.DetailsVisible);
+  
+    if IDPForm.DetailsVisible then
+    begin
+        ButtonSetText(IDPForm.GIDetailsButton, PAnsiChar(ExpandConstant('{cm:IDP_HideButton}')));
+        ButtonSetPosition(IDPForm.GIDetailsButton, IDPForm.DetailsButton.Left-ScaleX(5), ScaleY(184), ButtonWidth, ButtonHeight);
+    end
+    else
+    begin
+        ButtonSetText(IDPForm.GIDetailsButton, PAnsiChar(ExpandConstant('{cm:IDP_DetailsButton}')));
+        ButtonSetPosition(IDPForm.GIDetailsButton, IDPForm.DetailsButton.Left-ScaleX(5), ScaleY(44), ButtonWidth, ButtonHeight);
+    end;
+     
+    ButtonRefresh(hButton);
+end;
+
+procedure idpCreateGIDetailsButton;
+var swButtonNormalColor  : TColor;
+    swButtonFocusedColor : TColor;
+    swButtonPressedColor : TColor;
+    swButtonDisabledColor: TColor;
+begin
+    swButtonNormalColor   := SwitchColorFormat(ExpandConstant('{#ButtonNormalColor}'));
+    swButtonFocusedColor  := SwitchColorFormat(ExpandConstant('{#ButtonFocusedColor}'));
+    swButtonPressedColor  := SwitchColorFormat(ExpandConstant('{#ButtonPressedColor}'));
+    swButtonDisabledColor := SwitchColorFormat(ExpandConstant('{#ButtonDisabledColor}'));
+
+    with IDPForm.DetailsButton do 
+    begin
+        IDPForm.GIDetailsButton := ButtonCreate(IDPForm.Page.Surface.Handle, Left-ScaleX(5), Top, ButtonWidth, ButtonHeight, 
+                                   ExpandConstant('{tmp}\{#ButtonPicture}'), coButtonShadow, False);
+
+        ButtonSetEvent(IDPForm.GIDetailsButton, ButtonClickEventID, WrapButtonCallback(@idpGIDetailsButtonClick, 1));
+        ButtonSetFont(IDPForm.GIDetailsButton, ButtonFont.Handle);
+        ButtonSetFontColor(IDPForm.GIDetailsButton, swButtonNormalColor, swButtonFocusedColor, swButtonPressedColor, swButtonDisabledColor);
+        ButtonSetText(IDPForm.GIDetailsButton, PAnsiChar(Caption));
+        ButtonSetVisibility(IDPForm.GIDetailsButton, true);
+        ButtonSetEnabled(IDPForm.GIDetailsButton, true);
+    end;
+end;
+#endif
+
 procedure idpFormActivate(Page: TWizardPage);
 begin
+    if WizardSilent then
+        idpSetOption('RetryButton', '0');
+        
+    if WizardSupressMsgBoxes then
+        idpSetInternalOption('ErrorDialog', 'none');
+
     if not IDPOptions.NoRetryButton then
         WizardForm.BackButton.Caption := ExpandConstant('{cm:IDP_RetryButton}');
          
     idpShowDetails(IDPOptions.DetailedMode);
     IDPForm.DetailsButton.Visible := not IDPOptions.NoDetailsButton;
-    idpStartDownload;
+
+#ifdef GRAPHICAL_INSTALLER_PROJECT
+    idpSetInternalOption('RedrawBackground', '1');
+    idpConnectControl('GIBackButton', hBackButton);
+    idpConnectControl('GINextButton', hNextButton);
+
+    if not IDPOptions.NoSkinnedButton then
+    begin
+        IDPForm.DetailsButton.Visible := false;
+        if IDPForm.GIDetailsButton = 0 then
+            idpCreateGIDetailsButton;
+    end;
+
+    if IDPOptions.NoRetryButton then
+        WizardForm.BackButton.Enabled := false
+    else
+        WizardForm.BackButton.Visible := false;
+
+    WizardForm.NextButton.Enabled := false;
+#endif
+    idpSetComponents(WizardSelectedComponents(false));
+    
+    if WizardVerySilent then
+        idpDownloadFilesComp
+    else if WizardSilent then
+    begin
+        WizardForm.Show;
+        WizardForm.Repaint;
+        idpDownloadFilesCompUi;
+        WizardForm.Hide;
+    end
+    else
+        idpStartDownload;
 end;
 
 function idpShouldSkipPage(Page: TWizardPage): Boolean;
 begin
+    idpSetComponents(WizardSelectedComponents(false));
     Result := (idpFilesCount = 0) or idpFilesDownloaded;
 end;
 
@@ -192,6 +325,11 @@ begin
     end
     else
         Cancel := false;
+end;
+
+procedure idpReportErrorHelper(Sender: TObject);
+begin
+    idpReportError; //calling idpReportError in main thread for compatibility with VCL Styles for IS
 end;
 
 function idpCreateDownloadForm(PreviousPageId: Integer): Integer;
@@ -248,33 +386,29 @@ begin
         Max := 100;
     end;
 
-    IDPForm.TotalDownloaded := TPanel.Create(IDPForm.Page);
+    IDPForm.TotalDownloaded := TNewStaticText.Create(IDPForm.Page);
     with IDPForm.TotalDownloaded do
     begin
         Parent := IDPForm.Page.Surface;
         Caption := '';
-        Left := ScaleX(288);
+        Left := ScaleX(290);
         Top := ScaleY(0);
         Width := ScaleX(120);
         Height := ScaleY(14);
-        Alignment := taRightJustify;
-        BevelOuter := bvNone;
-        ParentBackground := false;
+        AutoSize := False;
         TabOrder := 4;
     end;
 
-    IDPForm.FileDownloaded := TPanel.Create(IDPForm.Page);
+    IDPForm.FileDownloaded := TNewStaticText.Create(IDPForm.Page);
     with IDPForm.FileDownloaded do
     begin
         Parent := IDPForm.Page.Surface;
         Caption := '';
-        Left := ScaleX(288);
+        Left := ScaleX(290);
         Top := ScaleY(48);
         Width := ScaleX(120);
         Height := ScaleY(14);
-        Alignment := taRightJustify;
-        BevelOuter := bvNone;
-        ParentBackground := false;
+        AutoSize := False;
         TabOrder := 5;
     end;
 
@@ -350,7 +484,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(100);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 11;
@@ -363,7 +497,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(116);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 12;
@@ -376,7 +510,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(132);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 13;
@@ -389,7 +523,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(148);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 14;
@@ -402,13 +536,13 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(164);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 15;
     end;
 
-    IDPForm.DetailsButton := TButton.Create(IDPForm.Page);
+    IDPForm.DetailsButton := TNewButton.Create(IDPForm.Page);
     with IDPForm.DetailsButton do
     begin
         Parent := IDPForm.Page.Surface;
@@ -419,6 +553,20 @@ begin
         Height := ScaleY(23);
         TabOrder := 16;
         OnClick := @idpDetailsButtonClick;
+    end;
+    
+    IDPForm.InvisibleButton := TNewButton.Create(IDPForm.Page);
+    with IDPForm.InvisibleButton do
+    begin
+        Parent := IDPForm.Page.Surface;
+        Caption := ExpandConstant('You must not see this button');
+        Left := ScaleX(0);
+        Top := ScaleY(0);
+        Width := ScaleX(10);
+        Height := ScaleY(10);
+        TabOrder := 17;
+        Visible := False;
+        OnClick := @idpReportErrorHelper;
     end;
   
     with IDPForm.Page do
@@ -445,9 +593,12 @@ begin
     idpConnectControl('Status',             IDPForm.Status.Handle);
     idpConnectControl('ElapsedTime',        IDPForm.ElapsedTime.Handle);
     idpConnectControl('RemainingTime',      IDPForm.RemainingTime.Handle);
+    idpConnectControl('InvisibleButton',    IDPForm.InvisibleButton.Handle);
+    idpConnectControl('WizardPage',         IDPForm.Page.Surface.Handle);
     idpConnectControl('WizardForm',         WizardForm.Handle);
     idpConnectControl('BackButton',         WizardForm.BackButton.Handle);
     idpConnectControl('NextButton',         WizardForm.NextButton.Handle);
+    idpConnectControl('LabelFont',          IDPForm.TotalDownloaded.Font.Handle);
 end;
 
 procedure idpInitMessages;
@@ -469,13 +620,18 @@ begin
     idpAddMessage('Cannot connect',              ExpandConstant('{cm:IDP_CannotConnect}'));
     idpAddMessage('Unknown',                     ExpandConstant('{cm:IDP_Unknown}'));
     idpAddMessage('Download cancelled',          ExpandConstant('{cm:IDP_DownloadCancelled}'));
-    idpAddMessage('HTTP Error %d',               ExpandConstant('{cm:IDP_HTTPError_X}'));
+    idpAddMessage('HTTP error %d',               ExpandConstant('{cm:IDP_HTTPError_X}'));
     idpAddMessage('400',                         ExpandConstant('{cm:IDP_400}'));
     idpAddMessage('401',                         ExpandConstant('{cm:IDP_401}'));
     idpAddMessage('404',                         ExpandConstant('{cm:IDP_404}'));
+    idpAddMessage('407',                         ExpandConstant('{cm:IDP_407}'));
     idpAddMessage('500',                         ExpandConstant('{cm:IDP_500}'));
     idpAddMessage('502',                         ExpandConstant('{cm:IDP_502}'));
     idpAddMessage('503',                         ExpandConstant('{cm:IDP_503}'));
+    idpAddMessage('Retry',                       ExpandConstant('{cm:IDP_RetryButton}'));
+    idpAddMessage('Ignore',                      ExpandConstant('{cm:IDP_IgnoreButton}'));
+    idpAddMessage('Cancel',                      SetupMessage(msgButtonCancel));
+    idpAddMessage('The following files were not downloaded:', ExpandConstant('{cm:IDP_FilesNotDownloaded}'));
     idpAddMessage('Check your connection and click ''Retry'' to try downloading the files again, or click ''Next'' to continue installing anyway.', ExpandConstant('{cm:IDP_RetryNext}'));
     idpAddMessage('Check your connection and click ''Retry'' to try downloading the files again, or click ''Cancel'' to terminate setup.', ExpandConstant('{cm:IDP_RetryCancel}'));
 end;
