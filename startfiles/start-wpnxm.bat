@@ -8,7 +8,8 @@
 
 if exist "%cd%\temp" (
     echo Removing Temporary Files...
-    rd "%cd%\temp\" /S /Q
+    del /F/S/Q "%cd%\temp\" > nul
+    rmdir /S/Q "%cd%\temp\"
 )
 
 if not exist "%cd%\temp" (
