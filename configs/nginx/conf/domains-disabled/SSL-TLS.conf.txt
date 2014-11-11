@@ -1,3 +1,8 @@
+#
+# Nginx Server Setup Example
+# for SSL with TLS and a few good ciphers
+#
+
 server {
     listen 443 ssl;
 
