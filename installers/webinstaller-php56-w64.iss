@@ -280,7 +280,7 @@ const
   URL_composer              = 'http://wpn-xm.org/get.php?s=composer';
   URL_imagick               = 'http://wpn-xm.org/get.php?s=imagick';
   URL_junction              = 'http://wpn-xm.org/get.php?s=junction';
-  URL_mariadb               = 'http://wpn-xm.org/get.php?s=mariadb';
+  URL_mariadb               = 'http://wpn-xm.org/get.php?s=mariadb-x64';
   URL_memadmin              = 'http://wpn-xm.org/get.php?s=memadmin';
   URL_memcached             = 'http://wpn-xm.org/get.php?s=memcached';
   URL_mongodb               = 'http://wpn-xm.org/get.php?s=mongodb';
