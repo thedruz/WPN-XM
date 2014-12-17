@@ -10,14 +10,14 @@ cls
 
 IF NOT EXIST "%cd%\bin\mongodb\data" (
     echo .
-    echo Creating Directory for Mongo's Database (data)
+    echo Creating Directory for MongoDB's Database - \data
     mkdir "%cd%\bin\mongodb\data"
 )
 
 
 IF NOT EXIST "%cd%\bin\mongodb\data\db" (
     echo .
-    echo Creating Directory for Mongo's Database (db)
+    echo Creating Directory for MongoDB's Database - \data\db
     mkdir "%cd%\bin\mongodb\data\db"
 )
 
