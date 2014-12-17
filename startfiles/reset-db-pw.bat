@@ -17,17 +17,22 @@ echo Please enter a new password (no spaces, only use alphanumeric chars).
 set /P password="New Password: "
 
 echo.
-echo READY !
 echo Press any key to reset the password for the user "root" to "%password%" (without quotes) . . .
 pause>nul
 
 echo.
+echo Updating User Table
 echo UPDATE mysql.user SET Password=PASSWORD('%password%') WHERE User='root'; | bin\mariadb\bin\mysqld.exe --bootstrap --console
+
+echo.
+echo Updating wpn-xm.ini
+     %cd%\bin\php\php.exe -r "file_put_contents('wpn-xm.ini', preg_replace('/(password)(.+)/','password=%password%', file_get_contents('wpn-xm.ini'), 1));"
 
 echo.
 echo DONE !
 echo The password for the user "root" has now been reset to "%password%" (without quotes).
 echo.
+
 echo Remember to restart the database daemon.
 echo Press any key to exit.
 pause>nul
