@@ -19,6 +19,7 @@
     <property name="version.Minor"          value="8"/>
     <property name="version.BuildNumber"    value="0"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
+    <property name="wpnxm.VersionForRcFile" value="${version.Major},${version.Minor},${version.BuildNumber},0"/>
 
     <!-- Paths -->
     <property name="dir.Base"               value="${project.basedir}"/>
@@ -86,7 +87,8 @@
         <loadfile file="${dir.Base}/server-control-panel/src/version.h" property="filecontent.wpnxm.version">
             <filterchain>
                 <replacetokens>
-                     <token key="APPVERSION" value="${wpnxm.Version}"/>
+                    <token key="APPVERSION" value="${wpnxm.Version}"/>
+                    <token key="APPVERSIONRC" value="${wpnxm.VersionForRcFile}"/>
                 </replacetokens>
             </filterchain>
         </loadfile>
