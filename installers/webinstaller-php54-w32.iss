@@ -1543,11 +1543,19 @@ end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
-  if (CurUninstallStep = usPostUninstall) then begin
-     RemovePath(ExpandConstant('{app}\php\bin'));
+
+  // open uninstall survey in browser on (non-silent) uninstallation
+  if (IsUninstaller and not UninstallSilent) then
+    begin
+    if (CurUninstallStep = usDone) then
+        begin
+          OpenBrowser('http://wpn-xm.org/uninstall-survey.php?version=' + ExpandConstant('{#AppVersion}'));
+        end;
+    end;
   end;
 
-  if CurUninstallStep = usUninstall then begin
+  // warn the user, that his working folder is going to be deleted and projects might get lost
+  if (CurUninstallStep = usUninstall) then begin
     if MsgBox('***WARNING***'#13#10#13#10 +
         'The WPN-XM installation folder is [ '+ ExpandConstant('{app}') +' ].'#13#10 +
         'You are about to delete this folder and all its subfolders,'#13#10 +
@@ -1561,5 +1569,10 @@ begin
       //MsgBox('User clicked No!', mbInformation, MB_OK);
       Abort;
     end;
+  end;
+
+  // finally, remove the PHP bin folder
+  if (CurUninstallStep = usPostUninstall) then begin
+     RemovePath(ExpandConstant('{app}\php\bin'));
   end;
 end;
