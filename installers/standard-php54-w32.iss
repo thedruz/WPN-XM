@@ -114,6 +114,7 @@ Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskS
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 620000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
+Name: phpcsfixer: Description: PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 13020000; Types: full
@@ -262,6 +263,7 @@ const
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
+  Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apc        = 'phpext_apc.zip';
   Filename_phpext_jsond      = 'phpext_jsond.zip';
@@ -938,6 +940,15 @@ begin
     UpdateCurrentComponentName('composer');
       ExtractTemporaryFile(Filename_composer);
       FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
+    UpdateTotalProgressBar();
+  end;
+
+  // php-cs-fixer is a php phar package, so copy it to the php path
+  if Pos('phpcsfixer', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('phpcsfixer');
+      ExtractTemporaryFile(Filename_phpcsfixer);
+      FileCopy(ExpandConstant(targetPath + Filename_phpcsfixer), ExpandConstant('{app}\bin\php\' + Filename_phpcsfixer), false);
     UpdateTotalProgressBar();
   end;
 

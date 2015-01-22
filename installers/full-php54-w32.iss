@@ -116,6 +116,7 @@ Name: mongodb; Description: MongoDb - scalable, high-performance, open source No
 Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 3680000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
+Name: phpcsfixer: Description: PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 232530000; Types: full
 Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
@@ -276,6 +277,7 @@ const
   Filename_pear                  = 'go-pear.phar';
   Filename_perl                  = 'perl.zip';
   Filename_php                   = 'php.zip';
+  Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apc            = 'phpext_apc.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
@@ -1026,6 +1028,15 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  // php-cs-fixer is a php phar package, so copy it to the php path
+  if Pos('phpcsfixer', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('phpcsfixer');
+      ExtractTemporaryFile(Filename_phpcsfixer);
+      FileCopy(ExpandConstant(targetPath + Filename_phpcsfixer), ExpandConstant('{app}\bin\php\' + Filename_phpcsfixer), false);
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('sendmail', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Sendmail');
@@ -1119,6 +1130,12 @@ begin
   if Pos('imagick', selectedComponents) > 0 then
   begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  end;
+
+  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE) then
+  begin
+    //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin;
+    //Status Msg: Installing VCR...
   end;
 
   if Pos('rockmongo', selectedComponents) > 0 then

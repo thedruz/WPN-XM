@@ -120,6 +120,7 @@ Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applic
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 232530000; Types: full
+Name: phpcsfixer: Description: PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 13020000; Types: full
@@ -291,6 +292,7 @@ const
   URL_pear                  = 'http://wpn-xm.org/get.php?s=pear';
   URL_perl                  = 'http://wpn-xm.org/get.php?s=perl';
   URL_php                   = 'http://wpn-xm.org/get.php?s=php&p=5.5';
+  URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.5';
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=5.5';
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.5';
@@ -339,6 +341,7 @@ const
   Filename_pear                  = 'go-pear.phar';
   Filename_perl                  = 'perl.zip';
   Filename_php                   = 'php.zip';
+  Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
@@ -764,6 +767,7 @@ begin
     if IsComponentSelected('openssl')            then idpAddFile(URL_openssl,           ExpandConstant(targetPath + Filename_openssl));
     if IsComponentSelected('pear')               then idpAddFile(URL_pear,              ExpandConstant(targetPath + Filename_pear));
     if IsComponentSelected('perl')               then idpAddFile(URL_perl,              ExpandConstant(targetPath + Filename_perl));
+    if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_phpcsfixer));
     if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
     if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
     if IsComponentSelected('postgresql')         then idpAddFile(URL_postgresql,        ExpandConstant(targetPath + Filename_postgresql));
@@ -1163,6 +1167,14 @@ begin
   begin
     UpdateCurrentComponentName('composer');
       FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
+    UpdateTotalProgressBar();
+  end;
+
+  // php-cs-fixer is a php phar package, so copy it to the php path
+  if Pos('phpcsfixer', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('phpcsfixer');
+      FileCopy(ExpandConstant(targetPath + Filename_phpcsfixer), ExpandConstant('{app}\bin\php\' + Filename_phpcsfixer), false);
     UpdateTotalProgressBar();
   end;
 
