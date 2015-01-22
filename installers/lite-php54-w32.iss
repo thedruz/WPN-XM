@@ -239,7 +239,7 @@ var
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
 
-// Make vcredist x86 install if needed
+// Detect, if Visual C++ Redistributable needs to be installed
 // http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
 #IFDEF UNICODE
   #DEFINE AW "W"
@@ -495,7 +495,7 @@ begin
       Normally the temporary path is used for downloading.
       This means that downloaded components are deleted after installation or at least when the temp folder is cleaned.
 
-      In Debug mode the "c:\wpnxm-downloads" path is used.
+      In Debug mode the "wpnxm-downloads" path is used.
       The downloaded components are not deleted after installation.
       If you reinstall, the components are taken from there. They are not downloaded again.
     }
@@ -504,7 +504,7 @@ begin
       targetPath := ExpandConstant('{tmp}\');
     end else
     begin
-      targetPath := ExpandConstant('c:\wpnxm-downloads\');
+      targetPath := ExpandConstant('D:\Github\WPN-XM\WPN-XM\downloads\');
       // create folder, if it doesn't exist
       if not DirExists(ExpandConstant(targetPath)) then ForceDirectories(ExpandConstant(targetPath));
     end;
@@ -644,7 +644,7 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);    UpdateTotalProgressBar();
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
     UpdateTotalProgressBar();
   end;
 
