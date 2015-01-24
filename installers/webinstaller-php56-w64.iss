@@ -291,7 +291,7 @@ const
   URL_nginx                 = 'http://wpn-xm.org/get.php?s=nginx';
   URL_node                  = 'http://wpn-xm.org/get.php?s=node';
   URL_nodenpm               = 'http://wpn-xm.org/get.php?s=nodenpm';
-  URL_openssl               = 'http://wpn-xm.org/get.php?s=openssl';
+  URL_openssl               = 'http://wpn-xm.org/get.php?s=openssl-x64';
   URL_pear                  = 'http://wpn-xm.org/get.php?s=pear';
   URL_perl                  = 'http://wpn-xm.org/get.php?s=perl';
   URL_php                   = 'http://wpn-xm.org/get.php?s=php-x64&p=5.6';
