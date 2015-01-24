@@ -263,7 +263,7 @@ const
   Filename_openssl           = 'openssl.exe';
   Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
-  Filename_phpcsfixer            = 'php-cs-fixer.phar';
+  Filename_phpcsfixer        = 'php-cs-fixer.phar';
   Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apcu       = 'phpext_apcu.zip';
   Filename_phpext_jsond      = 'phpext_jsond.zip';
@@ -289,7 +289,7 @@ const
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
   Filename_uprofiler         = 'uprofiler.zip';
-  Filename_yuicompressor         = 'yuicompressor.jar';
+  Filename_yuicompressor     = 'yuicompressor.jar';
 
 var
   unzipTool   : String;   // path+filename of unzip helper for exec
