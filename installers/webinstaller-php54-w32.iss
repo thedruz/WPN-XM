@@ -280,7 +280,7 @@ const
   URL_adminer               = 'http://wpn-xm.org/get.php?s=adminer';
   URL_closure_compiler      = 'http://wpn-xm.org/get.php?s=closure-compiler';
   URL_composer              = 'http://wpn-xm.org/get.php?s=composer';
-  URL_gogitservice          = 'http://wpn-xm.org/get.php?s=gogs';
+  URL_gogitservice          = 'http://wpn-xm.org/get.php?s=gogs-x86';
   URL_imagick               = 'http://wpn-xm.org/get.php?s=imagick';
   URL_junction              = 'http://wpn-xm.org/get.php?s=junction';
   URL_mariadb               = 'http://wpn-xm.org/get.php?s=mariadb';
