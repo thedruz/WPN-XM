@@ -108,6 +108,7 @@ Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & M
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: git; Description: Git Version Control (Msysgit & Go Git Service); ExtraDiskSpaceRequired: 24000000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 6030000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 80000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 630000; Types: full
@@ -264,12 +265,14 @@ const
   Filename_adminer               = 'adminer.php';
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_composer              = 'composer.phar';
+  Filename_gogitservice          = 'gogitservice.zip';
   Filename_imagick               = 'imagick.zip';
   Filename_junction              = 'junction.zip';
   Filename_mariadb               = 'mariadb.zip';
   Filename_memadmin              = 'memadmin.zip';
   Filename_memcached             = 'memcached.zip';
   Filename_mongodb               = 'mongodb.zip';
+  Filename_msysgit               = 'msysgit.7z';
   Filename_nginx                 = 'nginx.zip';
   Filename_node                  = 'node.exe'; // WATCH IT: EXE!
   Filename_nodenpm               = 'nodenpm.zip';
@@ -617,7 +620,7 @@ begin
       Normally the temporary path is used for downloading.
       This means that downloaded components are deleted after installation or at least when the temp folder is cleaned.
 
-      In Debug mode the "wpnxm-downloads" path is used.
+      In Debug mode the "D:\Github\WPN-XM\WPN-XM\downloads" path is used.
       The downloaded components are not deleted after installation.
       If you reinstall, the components are taken from there. They are not downloaded again.
     }
@@ -758,6 +761,16 @@ begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
       ExtractTemporaryFile(Filename_wpnxmscp);
       DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('git', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Git for Windows & Go Git Service');
+      ExtractTemporaryFile(Filename_gogitservice);
+      ExtractTemporaryFile(Filename_msysgit);
+      DoUnzip(ExpandConstant(targetPath + Filename_gogitservice), ExpandConstant('{app}\bin\git')); // no subfolder, brings own dir (/gogs)
+      DoUnzip(ExpandConstant(targetPath + Filename_msysgit), ExpandConstant('{app}\bin\git\msysgit'));
     UpdateTotalProgressBar();
   end;
 

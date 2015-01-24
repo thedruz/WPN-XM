@@ -111,6 +111,7 @@ Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & M
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: git; Description: Git Version Control (Msysgit & Go Git Service); ExtraDiskSpaceRequired: 24000000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 6030000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 80000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 630000; Types: full
@@ -279,12 +280,14 @@ const
   URL_adminer               = 'http://wpn-xm.org/get.php?s=adminer';
   URL_closure_compiler      = 'http://wpn-xm.org/get.php?s=closure-compiler';
   URL_composer              = 'http://wpn-xm.org/get.php?s=composer';
+  URL_gogitservice          = 'http://wpn-xm.org/get.php?s=gogs';
   URL_imagick               = 'http://wpn-xm.org/get.php?s=imagick';
   URL_junction              = 'http://wpn-xm.org/get.php?s=junction';
   URL_mariadb               = 'http://wpn-xm.org/get.php?s=mariadb';
   URL_memadmin              = 'http://wpn-xm.org/get.php?s=memadmin';
   URL_memcached             = 'http://wpn-xm.org/get.php?s=memcached';
   URL_mongodb               = 'http://wpn-xm.org/get.php?s=mongodb';
+  URL_msysgit               = 'http://wpn-xm.org/get.php?s=msysgit';
   URL_nginx                 = 'http://wpn-xm.org/get.php?s=nginx';
   URL_node                  = 'http://wpn-xm.org/get.php?s=node';
   URL_nodenpm               = 'http://wpn-xm.org/get.php?s=nodenpm';
@@ -328,14 +331,16 @@ const
   Filename_adminer               = 'adminer.php';
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_composer              = 'composer.phar';
+  Filename_gogitservice          = 'gogitservice.zip';
   Filename_imagick               = 'imagick.zip';
   Filename_junction              = 'junction.zip';
   Filename_mariadb               = 'mariadb.zip';
   Filename_memadmin              = 'memadmin.zip';
   Filename_memcached             = 'memcached.zip';
   Filename_mongodb               = 'mongodb.zip';
+  Filename_msysgit               = 'msysgit.7z';
   Filename_nginx                 = 'nginx.zip';
-  Filename_node                  = 'node.exe'; // WATCH IT: EXE!
+  Filename_node                  = 'node.exe';
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.exe';
   Filename_pear                  = 'go-pear.phar';
@@ -382,7 +387,7 @@ var
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
 
-// Make vcredist x86 install if needed
+// Detect, if Visual C++ Redistributable needs to be installed
 // http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
 #IFDEF UNICODE
   #DEFINE AW "W"
@@ -737,6 +742,12 @@ begin
     if IsComponentSelected('closurecompiler')    then idpAddFile(URL_closure_compiler,  ExpandConstant(targetPath + Filename_closure_compiler));
     if IsComponentSelected('composer')           then idpAddFile(URL_composer,          ExpandConstant(targetPath + Filename_composer));
 
+    if IsComponentSelected('git') then
+    begin
+       idpAddFile(URL_gogitservice, ExpandConstant(targetPath + Filename_gogitservice));
+       idpAddFile(URL_msysgit,      ExpandConstant(targetPath + Filename_msysgit));
+    end;
+
     if IsComponentSelected('imagick') then
     begin
        idpAddFile(URL_imagick,           ExpandConstant(targetPath + Filename_imagick));
@@ -945,6 +956,14 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('git', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('Git for Windows & Go Git Service');
+      DoUnzip(ExpandConstant(targetPath + Filename_gogitservice), ExpandConstant('{app}\bin\git')); // no subfolder, brings own dir (/gogs)
+      DoUnzip(ExpandConstant(targetPath + Filename_msysgit), ExpandConstant('{app}\bin\git\msysgit'));
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('redis', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Redis');
@@ -955,7 +974,7 @@ begin
   if Pos('assettools', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Google Closure Compiler & yuicompressor');
-       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
+      DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
       FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
     UpdateTotalProgressBar();
   end;
@@ -1122,18 +1141,18 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('postgresql', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('PostgreSQL');
-      DoUnzip(targetPath + Filename_postgresql, ExpandConstant('{app}\bin')); // no subfolder, brings own dir "pgsql"
-    UpdateTotalProgressBar();
-  end;
-
   // pickle is not zipped, its just a php phar package, so copy it to the php path
   if Pos('pickle', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('pickle');
       FileCopy(ExpandConstant(targetPath + Filename_pickle), ExpandConstant('{app}\bin\php\' + Filename_pickle), false);
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('postgresql', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('PostgreSQL');
+      DoUnzip(targetPath + Filename_postgresql, ExpandConstant('{app}\bin')); // no subfolder, brings own dir "pgsql"
     UpdateTotalProgressBar();
   end;
 
