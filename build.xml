@@ -74,7 +74,7 @@
         <echo msg="Inserting Version Number into Installer Script Files"/>
         <copy todir="${dir.Build}" overwrite="true">
             <fileset dir="${dir.Installers}">
-                <include name="**"/>
+                <include name="**/*.iss"/>
             </fileset>
             <filterchain>
                 <replacetokens>
