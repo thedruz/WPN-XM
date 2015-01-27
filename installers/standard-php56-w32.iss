@@ -1311,12 +1311,9 @@ procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
 
   // open uninstall survey in browser on (non-silent) uninstallation
-  if (IsUninstaller and not UninstallSilent) then
-    begin
-    if (CurUninstallStep = usDone) then
-        begin
+  if (IsUninstaller and not UninstallSilent) then begin
+    if (CurUninstallStep = usDone) then begin
           OpenBrowser('http://wpn-xm.org/uninstall-survey.php?version=' + ExpandConstant('{#AppVersion}'));
-        end;
     end;
   end;
 
