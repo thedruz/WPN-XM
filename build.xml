@@ -221,7 +221,8 @@
         <echo message=" Moving components from the full download folder to their subfolders... "/>
 
         <adhoc-task name="MoveDownloadFiles"><![CDATA[
-            class MoveDownloadFiles extends Task {
+            class MoveDownloadFiles extends Task
+            {
                 private $registryfolder;
                 private $downloadfolder;
                 private $wpnxmversion;
@@ -241,16 +242,16 @@
                     $this->wpnxmversion = $wpnxmversion;
                 }
 
-                function main() {
+                function main()
+                {
                     // e.g. "registries\*0.8.0*.json"
                     $registries = glob($this->registryfolder . '\*' . $this->wpnxmversion . '*.json');
 
-                    foreach($registries as $registry)
-                    {
+                    foreach ($registries as $registry) {
                         $basename = basename($registry, '.json');
 
                         // skip full, because thats our download source
-                        if(false !== strpos($basename, 'full')) {
+                        if (false !== strpos($basename, 'full')) {
                             continue;
                         }
 
@@ -262,16 +263,15 @@
 
                         $components = json_decode(file_get_contents($registry));
 
-                        foreach($components as $component)
-                        {
-                            $source = $this->downloadfolder . '\\'.$fullFolder.'\\' . $component[2];
+                        foreach ($components as $component) {
+                            $source = $this->downloadfolder . '\\' . $fullFolder . '\\' . $component[2];
 
-                            if(is_file($source)) {
+                            if (is_file($source)) {
                                 $this->log('Component ' . $component[0] . ' v' . $component[3]);
 
-                                $targetDir = $this->downloadfolder. '\\'. $basename;
+                                $targetDir = $this->downloadfolder . '\\' . $basename;
 
-                                if(!is_dir($targetDir)) {
+                                if (is_dir($targetDir) === false) {
                                     mkdir($targetDir);
                                 }
 
@@ -280,15 +280,14 @@
                                 $this->log('  Copying ' . $source);
                                 $this->log('       to ' . $target);
 
-                                if(!is_file($target)) {
+                                if (is_file($target) === false) {
                                     copy($source, $target);
-                                } elseif(is_file($target) && filesize($source) !== filesize($target)) {
+                                } elseif (is_file($target) && filesize($source) !== filesize($target)) {
                                     $this->log('Target file exists already, but differs in size. Overwriting!');
                                     copy($source, $target);
                                 } else {
                                     $this->log('Target file exists already');
                                 }
-
                             } else {
                                 $this->log('Component ' . $component[0] . '- missing download: ' . $component[2]);
                             }
@@ -338,6 +337,7 @@
                     $txt .= '# For syntax, see:' . PHP_EOL;
                     $txt .= '#   http://aria2.sourceforge.net/manual/en/html/aria2c.html#id2' . PHP_EOL;
                     $txt .= '#' . PHP_EOL;
+
                     return $txt;
                 }
 
@@ -354,18 +354,17 @@
                 {
                     $registries = glob($this->registryfolder . '\full-' . $this->wpnxmversion . '-*.json');
 
-                    foreach($registries as $registry) {
+                    foreach ($registries as $registry) {
 
                         $basename = basename($registry, '.json');
-                        $file = $this->registryfolder . '\\downloads-for-' . $basename . '.txt';
+                        $file     = $this->registryfolder . '\\downloads-for-' . $basename . '.txt';
 
                         $txt = $this->getAriaFileHeader($basename);
 
                         $components = json_decode(file_get_contents($registry));
 
-                        foreach($components as $component)
-                        {
-                            $url = $component[1];
+                        foreach ($components as $component) {
+                            $url    = $component[1];
                             $target = 'downloads\\' . $basename . '\\' . $component[2];
 
                             $txt .= $this->insertDownload($url, $target);
