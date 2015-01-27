@@ -117,7 +117,7 @@ Name: mongodb; Description: MongoDb - scalable, high-performance, open source No
 Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
-Name: phpcsfixer: Description: PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
+Name: phpcsfixer; Description: PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 232530000; Types: full
 Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
