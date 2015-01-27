@@ -810,10 +810,9 @@ begin
         // phpext_uprofiler installed with uprofiler
     end;
 
-    if IsComponentSelected('webinterface') and VCRedistributableNeedsInstall then
+    if (VCRedistributableNeedsInstall() = TRUE) then
     begin
-      // the webinterface depends on vc2008-redistributable .dll stuff
-      idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
+        idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
     end;
 
     //if IsComponentSelected('uprofiler') then

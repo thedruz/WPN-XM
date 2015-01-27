@@ -1137,10 +1137,9 @@ begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
-  if (Pos('webinterface', selectedComponents) > 0) and (VCRedistributableNeedsInstall() = TRUE) then
+  if (VCRedistributableNeedsInstall() = TRUE) then
   begin
     //Exec('cmd.exe', '/c {tmp}\vcredist_x86.exe /q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\bin;
-    //Status Msg: Installing VCR...
   end;
 
   if Pos('rockmongo', selectedComponents) > 0 then
