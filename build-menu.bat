@@ -24,7 +24,6 @@ echo   [1] Start "One-Click Build"
 echo   [2] Download Components for all packaging Installation Wizards
 echo   [3] Build  packaged  Installation Wizards
 echo   [4] Build    web     Installation Wizards
-echo   [5] Build "Server-Control-Panel" (Tray Application)
 echo   [x] Quit
 echo.
 
@@ -39,7 +38,6 @@ if %input%==1 goto OPTION1
 if %input%==2 goto OPTION2
 if %input%==3 goto OPTION3
 if %input%==4 goto OPTION4
-if %input%==5 goto OPTION5
 IF %input%==x goto QUIT
 goto SHOWMENU
 
@@ -71,13 +69,6 @@ goto END
     echo Building Web-Installation Wizards
     echo.
     call bin\phing\phing.bat -f %~dp0build.xml compile-webinstaller compile-webinstaller-debug
-goto END
-
-:OPTION5
-    echo.
-    echo Building the "Server-Control-Panel" (Tray Application)
-    echo.
-    call bin\phing\phing.bat -f %~dp0build.xml build-server-control-panel
 goto END
 
 :END
