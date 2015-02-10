@@ -59,7 +59,7 @@
     </target>
 
     <target name="bump-version-number"
-            description="Inserts the current version number into the InnoScripts, Webinterface and Server-Control-Panel."
+            description="Inserts the current version number into the InnoScripts, Webinterface."
             depends="reset-git-submodules, update-git-submodules">
 
         <!--
@@ -80,18 +80,6 @@
                 </replacetokens>
             </filterchain>
         </copy>
-
-        <!-- WPN-XM Server Control Panel -->
-        <loadfile file="${dir.Base}/server-control-panel/src/version.h" property="filecontent.wpnxm.version">
-            <filterchain>
-                <replacetokens>
-                    <token key="APPVERSION" value="${wpnxm.Version}"/>
-                    <token key="APPVERSIONRC" value="${wpnxm.VersionForRcFile}"/>
-                </replacetokens>
-            </filterchain>
-        </loadfile>
-        <delete file="${dir.Base}/server-control-panel/src/version.h"/>
-        <echo file="${dir.Base}/server-control-panel/src/version.h">${filecontent.wpnxm.version}</echo>
 
         <!-- Insert the version number into webinterface's "bootstrap.php" file. (file is overwritten) -->
         <loadfile file="${dir.Base}/www/tools/webinterface/bootstrap.php" property="filecontent.php.bootstrap">
@@ -567,11 +555,6 @@
                     commit-versionized-registries,
                     reset-git-submodules,
                     kill-aria">
-    </target>
-
-
-    <target name="travis">
-
     </target>
 
 </project>
