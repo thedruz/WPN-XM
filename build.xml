@@ -17,18 +17,49 @@
     <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
     <property name="version.Major"          value="0"/>
     <property name="version.Minor"          value="8"/>
-    <property name="version.BuildNumber"    value="0"/>
+    <property name="version.BuildNumber"    value="1"/>
     <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
     <property name="wpnxm.VersionForRcFile" value="${version.Major},${version.Minor},${version.BuildNumber},0"/>
 
     <!-- Paths -->
     <property name="dir.Base"               value="${project.basedir}"/>
-    <property name="dir.Build"              value="${dir.Base}\_build"/>
-    <property name="dir.Downloads"          value="${dir.Base}\downloads"/>
-    <property name="dir.Installers"         value="${dir.Base}\installers"/>
-    <property name="dir.Registry"           value="${dir.Base}\registry"/>
+    <property name="dir.Build"              value="${dir.Base}/_build"/>
+    <property name="dir.Downloads"          value="${dir.Base}/downloads"/>
+    <property name="dir.Installers"         value="${dir.Base}/installers"/>
+    <property name="dir.Registry"           value="${dir.Base}/registry"/>
 
-    <property name="innosetupcompiler"      value="${dir.Base}\bin\innosetup\ISCC.exe"/>
+    <echo message="OS is ${os.name}" />
+    <echo message="Basedir is ${project.basedir}" />
+    <echo message="WPN-XM ${wpnxm.Version}" />
+
+    <!-- WineConsole -->
+    <condition property="wineconsole" value="wine">
+        <os family="unix"/>
+    </condition>
+
+    <!-- InnoSetup Compiler -->
+    <condition property="innosetupcompiler" value="${dir.Base}/bin/innosetup/ISCC.exe">
+        <os family="windows"/>
+    </condition>
+    <condition property="innosetupcompiler" value="${wineconsole} ${dir.Base}/bin/innosetup/ISCC.exe">
+        <os family="unix"/>
+    </condition>
+
+    <!-- Aria -->
+    <condition property="aria" value="${dir.Base}/bin/aria/aria2c.exe">
+        <os family="windows"/>
+    </condition>
+    <condition property="aria" value="aria2c">
+        <os family="unix"/>
+    </condition>
+
+    <!-- 7zip -->
+    <condition property="7z" value="${dir.Base}/bin/backup/7z.exe">
+        <os family="windows"/>
+    </condition>
+    <condition property="7z" value="7z">
+        <os family="unix"/>
+    </condition>
 
     <!--
                         Targets (Build Commands)
@@ -37,7 +68,7 @@
     <target name="clean-build-dir" description="Mr. Proper cleans the build environment and recreates it.">
         <delete dir="${dir.Build}"/>
         <mkdir dir="${dir.Build}"/>
-        <delete dir="${dir.Downloads}\stripdown"/>
+        <delete dir="${dir.Downloads}/stripdown"/>
         <delete dir="${dir.Base}/www/tools/webinterface"/>
         <delete>
             <fileset dir="${dir.Registry}">
@@ -117,14 +148,15 @@
 
     <target name="inno-compile">
         <echo message="Compiling ${installer.file}"/>
-        <exec command="${innosetupcompiler} -o${dir.Build} ${dir.Build}\${installer.file}" level="debug" passthru="true"/>
+        <echo message="${innosetupcompiler} -o${dir.Build} ${installer.file}"/>
+        <exec command="${innosetupcompiler} -o${dir.Build} ${installer.file} /eo" dir="${dir.Build}"/>
     </target>
 
     <target name="compile-webinstaller" description="Builds the WPN-XM setup executable." depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**/webinstaller-*.iss"/>
-                <exclude name="**/webinstalller-debug-*.iss"/>
+                <include name="**\webinstaller-*.iss"/>
+                <exclude name="**\webinstaller-debug-*.iss"/>
             </fileset>
         </foreach>
     </target>
@@ -133,7 +165,7 @@
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**/webinstalller-debug-*.iss"/>
+                <include name="**\webinstaller-debug-*.iss"/>
             </fileset>
         </foreach>
     </target>
@@ -143,7 +175,7 @@
             depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**/lite-*.iss"/>
+                <include name="**\lite-*.iss"/>
             </fileset>
         </foreach>
     </target>
@@ -153,7 +185,7 @@
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**/lite-*.iss"/>
+                <include name="**\lite-*.iss"/>
             </fileset>
         </foreach>
     </target>
@@ -163,7 +195,7 @@
             depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**/standard-*.iss" />
+                <include name="**\standard-*.iss" />
             </fileset>
         </foreach>
     </target>
@@ -173,7 +205,7 @@
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**/standard-*.iss" />
+                <include name="**\standard-*.iss" />
             </fileset>
         </foreach>
     </target>
@@ -183,7 +215,7 @@
             depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**/full-*.iss" />
+                <include name="**\full-*.iss" />
             </fileset>
         </foreach>
     </target>
@@ -193,7 +225,7 @@
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**/full-*.iss" />
+                <include name="**\full-*.iss" />
             </fileset>
         </foreach>
     </target>
@@ -230,8 +262,10 @@
 
                 function main()
                 {
-                    // e.g. "registries\*0.8.0*.json"
-                    $registries = glob($this->registryfolder . '\*' . $this->wpnxmversion . '*.json');
+                    define('DS', DIRECTORY_SEPARATOR);
+
+                    // e.g. "registries/*0.8.0*.json"
+                    $registries = glob($this->registryfolder . DS . '*' . $this->wpnxmversion . '*.json');
 
                     foreach ($registries as $registry) {
                         $basename = basename($registry, '.json');
@@ -241,7 +275,7 @@
                             continue;
                         }
 
-                        $fullFolder = preg_replace('(lite|standard)', 'full', $basename);
+                        $fullFolder = preg_replace('(lite|standard|qa)', 'full', $basename);
 
                         $this->log("\n");
                         $this->log('Moving Download Files for "' . $basename . '" from "' . $fullFolder . '"');
@@ -250,18 +284,18 @@
                         $components = json_decode(file_get_contents($registry));
 
                         foreach ($components as $component) {
-                            $source = $this->downloadfolder . '\\' . $fullFolder . '\\' . $component[2];
+                            $source = $this->downloadfolder . DS . $fullFolder . DS . $component[2];
 
                             if (is_file($source)) {
                                 $this->log('Component ' . $component[0] . ' v' . $component[3]);
 
-                                $targetDir = $this->downloadfolder . '\\' . $basename;
+                                $targetDir = $this->downloadfolder . DS . $basename;
 
                                 if (is_dir($targetDir) === false) {
                                     mkdir($targetDir);
                                 }
 
-                                $target = $targetDir . '\\' . $component[2];
+                                $target = $targetDir . DS . $component[2];
 
                                 $this->log('  Copying ' . $source);
                                 $this->log('       to ' . $target);
@@ -338,12 +372,14 @@
 
                 function main()
                 {
-                    $registries = glob($this->registryfolder . '\full-' . $this->wpnxmversion . '-*.json');
+                    define('DS', DIRECTORY_SEPARATOR);
+
+                    $registries = glob($this->registryfolder . DS . 'full-' . $this->wpnxmversion . '-*.json');
 
                     foreach ($registries as $registry) {
 
                         $basename = basename($registry, '.json');
-                        $file     = $this->registryfolder . '\\downloads-for-' . $basename . '.txt';
+                        $file     = $this->registryfolder . DS . 'downloads-for-' . $basename . '.txt';
 
                         $txt = $this->getAriaFileHeader($basename);
 
@@ -351,7 +387,7 @@
 
                         foreach ($components as $component) {
                             $url    = $component[1];
-                            $target = 'downloads\\' . $basename . '\\' . $component[2];
+                            $target = 'downloads' . DS . $basename . DS . $component[2];
 
                             $txt .= $this->insertDownload($url, $target);
                         }
@@ -377,7 +413,7 @@
     </target>
 
     <target name="download-components" description="Download components for all full installers."
-    	    depends="update-git-submodules, make-downloads-dir, create-download-files">
+            depends="update-git-submodules, make-downloads-dir, create-download-files">
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
             <fileset dir="${dir.Registry}">
                 <include name="**/downloads-for-full-${wpnxm.Version}-*.txt" />
@@ -392,8 +428,8 @@
             http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
             http://aria2.sourceforge.net/manual/en/html/aria2c.html
         -->
-        <echo msg="Using ${dir.Registry}\${installer.aria.downloads}" />
-        <exec command="${dir.Base}\bin\aria\aria2c.exe -i ${dir.Registry}\${installer.aria.downloads} --max-connection-per-server=5 --max-tries=3 --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --user-agent=WPN-XM Server Stack Downloader" level="debug" passthru="true" dir="${dir.Base}" escape="false"/>
+        <echo msg="Using ${dir.Registry}/${installer.aria.downloads}" />
+        <exec command="${aria} -i ${dir.Registry}/${installer.aria.downloads} --max-connection-per-server=5 --max-tries=3 --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --user-agent=WPN-XM Server Stack Downloader" level="debug" passthru="true" dir="${dir.Base}" escape="false"/>
     </target>
 
     <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
@@ -442,100 +478,136 @@
     <target name="stripdown-folder" description="Apply stripdown script to the specified folder.">
         <echo msg="${full.installer.registry}"/>
         <php expression="substr('${full.installer.registry}', 0, -5)" returnProperty="full.folder"/>
-        <echo msg="Running Stripdown in folder: ${dir.Downloads}\${full.folder}"/>
+        <echo msg="Running Stripdown in folder: ${dir.Downloads}/${full.folder}"/>
 
-        <phingcall target="stripdown-imagick">
-            <property name="full.installer.downloads.dir" value="${dir.Downloads}\${full.folder}" />
+        <!--<phingcall target="stripdown-imagick">
+            <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
         </phingcall>
+        -->
 
         <phingcall target="stripdown-mariadb">
-            <property name="full.installer.downloads.dir" value="${dir.Downloads}\${full.folder}" />
+            <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
         </phingcall>
 
         <phingcall target="stripdown-mongodb">
-            <property name="full.installer.downloads.dir" value="${dir.Downloads}\${full.folder}" />
+            <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
         </phingcall>
 
          <phingcall target="stripdown-postgresql">
-            <property name="full.installer.downloads.dir" value="${dir.Downloads}\${full.folder}" />
+            <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
         </phingcall>
     </target>
 
     <target name="stripdown-imagick" description="Stripdown Imagick and repackage.">
-        <filesize file="${full.installer.downloads.dir}\imagick.zip" />
+        <filesize file="${full.installer.downloads.dir}/imagick.zip" />
         <php expression="floor(${filesize}/1024/1024)" returnProperty="imagick.size" />
         <echo msg="Filesize before Stripdown: ${imagick.size} MB"/>
         <php expression="(${imagick.size} &gt; 55) ? true : false;" returnProperty="imagick.needs.stripdown" />
         <if>
             <and><istrue value="${imagick.needs.stripdown}"/></and>
             <then>
-                <exec command="D:\Github\WPN-XM\WPN-XM\bin\backup\7z.exe x ${full.installer.downloads.dir}\imagick.zip -o${full.installer.downloads.dir}\stripdown -y" passthru="true"/>
+                <exec command="${7z} x ${full.installer.downloads.dir}/imagick.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
                 <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-                <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\ImageMagick* ${full.installer.downloads.dir}\stripdown\imagick" level="debug" passthru="true"/>
-                <exec command="${dir.Base}\bin\stripdown-imagick.bat ${full.installer.downloads.dir}\stripdown\imagick" passthru="true"/>
-                <delete file="${full.installer.downloads.dir}\imagick.zip"/>
-                <exec command="D:\Github\WPN-XM\WPN-XM\bin\backup\7z.exe a -mx9 -mmt ${full.installer.downloads.dir}\imagick.zip ${full.installer.downloads.dir}\stripdown\*" passthru="true"/>
-                <delete dir="${full.installer.downloads.dir}\stripdown"/>
+
+                <if>
+                  <os family="windows" />
+                  <then>
+                     <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\ImageMagick* ${full.installer.downloads.dir}\stripdown\imagick" level="debug" passthru="true"/>
+                  </then>
+                  <else>
+                     <exec command="mv -if ${full.installer.downloads.dir}/stripdown/ImageMagick* ${full.installer.downloads.dir}/stripdown/imagick"/>
+                  </else>
+                </if>
+
+                <exec command="${wineconsole} ${dir.Base}\bin\stripdown-imagick.bat ${full.installer.downloads.dir}\stripdown\imagick" passthru="true"/>
+                <delete file="${full.installer.downloads.dir}/imagick.zip"/>
+                <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/imagick.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
+                <delete dir="${full.installer.downloads.dir}/stripdown"/>
             </then>
         </if>
     </target>
 
     <target name="stripdown-mariadb" description="Stripdown MariaDB and repackage. (136MB to 16MB on v5.5.28! 187MB to 21MB on 10.0.10!)">
-        <filesize file="${full.installer.downloads.dir}\mariadb.zip" />
+        <filesize file="${full.installer.downloads.dir}/mariadb.zip" />
         <php expression="floor(${filesize}/1024/1024)" returnProperty="mariadb.size" />
         <echo msg="Filesize before Stripdown: ${mariadb.size} MB"/>
         <php expression="(${mariadb.size} &gt; 25) ? true : false;" returnProperty="mariadb.needs.stripdown" />
         <if>
             <and><istrue value="${mariadb.needs.stripdown}"/></and>
             <then>
-                <exec command="D:\Github\WPN-XM\WPN-XM\bin\backup\7z.exe x ${full.installer.downloads.dir}\mariadb.zip -o${full.installer.downloads.dir}\stripdown -y" passthru="true"/>
+                <exec command="${7z} x ${full.installer.downloads.dir}/mariadb.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
                 <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-                <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\mariadb* ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
-                <exec command="${dir.Base}\bin\stripdown-mariadb.bat ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
-                <delete file="${full.installer.downloads.dir}\mariadb.zip"/>
-                <exec command="D:\Github\WPN-XM\WPN-XM\bin\backup\7z.exe a -mx9 -mmt ${full.installer.downloads.dir}\mariadb.zip ${full.installer.downloads.dir}\stripdown\*" passthru="true"/>
-                <delete dir="${full.installer.downloads.dir}\stripdown"/>
+
+                <if>
+                  <os family="windows" />
+                  <then>
+                     <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\mariadb* ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
+                  </then>
+                  <else>
+                     <exec command="mv -if ${full.installer.downloads.dir}/stripdown/mariadb* ${full.installer.downloads.dir}/stripdown/mariadb"/>
+                  </else>
+                </if>
+
+                <exec command="${wineconsole} ${dir.Base}/bin/stripdown-mariadb.bat ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
+                <delete file="${full.installer.downloads.dir}/mariadb.zip"/>
+                <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/mariadb.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
+                <delete dir="${full.installer.downloads.dir}/stripdown"/>
             </then>
         </if>
     </target>
 
     <target name="stripdown-mongodb" description="Stripdown MongoDB and repackage. (55MB to 16MB on v2.2.1!)">
         <!-- 50MB -->
-        <filesize file="${full.installer.downloads.dir}\mongodb.zip" />
+        <filesize file="${full.installer.downloads.dir}/mongodb.zip" />
         <php expression="floor(${filesize}/1024/1024)" returnProperty="mongodb.size" />
         <echo msg="Filesize before Stripdown: ${mongodb.size} MB"/>
         <php expression="(${mongodb.size} &gt; 50) ? true : false;" returnProperty="mongodb.needs.stripdown" />
         <if>
             <and><istrue value="${mongodb.needs.stripdown}"/></and>
             <then>
-                <exec command="D:\Github\WPN-XM\WPN-XM\bin\backup\7z.exe x ${full.installer.downloads.dir}\mongodb.zip -o${full.installer.downloads.dir}\stripdown -y" passthru="true"/>
+                <exec command="${7z} x ${full.installer.downloads.dir}/mongodb.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
                 <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-                <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\mongo* ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
-                <exec command="${dir.Base}\bin\stripdown-mongodb.bat ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
-                <delete file="${full.installer.downloads.dir}\mongodb.zip"/>
-                <exec command="D:\Github\WPN-XM\WPN-XM\bin\backup\7z.exe a -mx9 -mmt ${full.installer.downloads.dir}\mongodb.zip ${full.installer.downloads.dir}\stripdown\*" passthru="true"/>
-                <delete dir="${full.installer.downloads.dir}\stripdown"/>
+
+                 <if>
+                  <os family="windows" />
+                  <then>
+                     <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\mongo* ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
+                  </then>
+                  <else>
+                     <exec command="mv -if ${full.installer.downloads.dir}/stripdown/mongo* ${full.installer.downloads.dir}/stripdown/mongodb"/>
+                  </else>
+                </if>
+
+                <exec command="${wineconsole} ${dir.Base}\bin\stripdown-mongodb.bat ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
+                <delete file="${full.installer.downloads.dir}/mongodb.zip"/>
+                <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/mongodb.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
+                <delete dir="${full.installer.downloads.dir}/stripdown"/>
             </then>
         </if>
     </target>
 
     <target name="stripdown-postgresql" description="Stripdown PostgreSQL and repackage. (xxMB to xxMB on vx.y.z!)">
-        <filesize file="${full.installer.downloads.dir}\postgresql.zip" />
+        <filesize file="${full.installer.downloads.dir}/postgresql.zip" />
         <php expression="floor(${filesize}/1024/1024)" returnProperty="postgresql.size" />
         <echo msg="Filesize before Stripdown: ${postgresql.size} MB"/>
         <php expression="(${postgresql.size} &gt; 25) ? true : false;" returnProperty="postgresql.needs.stripdown" />
         <if>
             <and><istrue value="${postgresql.needs.stripdown}"/></and>
             <then>
-                <exec command="D:\Github\WPN-XM\WPN-XM\bin\backup\7z.exe x ${full.installer.downloads.dir}\postgresql.zip -o${full.installer.downloads.dir}\stripdown -y" passthru="true"/>
+                <exec command="${7z} x ${full.installer.downloads.dir}/postgresql.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
                 <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-                <exec command="${dir.Base}\bin\stripdown-postgresql.bat ${full.installer.downloads.dir}\stripdown\pgsql" passthru="true"/>
-                <delete file="${full.installer.downloads.dir}\postgresql.zip"/>
-                <exec command="D:\Github\WPN-XM\WPN-XM\bin\backup\7z.exe a -mx9 -mmt ${full.installer.downloads.dir}\postgresql.zip ${full.installer.downloads.dir}\stripdown\*" passthru="true"/>
-                <delete dir="${full.installer.downloads.dir}\stripdown"/>
+                <exec command="${wineconsole} ${dir.Base}/bin/stripdown-postgresql.bat ${full.installer.downloads.dir}/stripdown/pgsql" passthru="true"/>
+                <delete file="${full.installer.downloads.dir}/postgresql.zip"/>
+                <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/postgresql.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
+                <delete dir="${full.installer.downloads.dir}/stripdown"/>
             </then>
         </if>
     </target>
+
+    <!-- Check aria2c and 7z available on env.PATH when unix-->
+    <property environment="env" />
+    <available file="7z" filepath="${env.PATH}" property="7z.present"/>
+    <available file="aria2c" filepath="${env.PATH}" property="aria.present"/>
 
     <target name="main"
             depends="clean-build-dir,
@@ -555,6 +627,11 @@
                     commit-versionized-registries,
                     reset-git-submodules,
                     kill-aria">
+    </target>
+
+    <target name="test">
+        <echo message="wineconsole ${dir.Base}/bin/stripdown-mongodb.bat /home/dev/WPN-XM/WPN-XM/downloads/full-0.8.1-php5.4-w32/stripdown/mongodb"/>
+        <exec command="wineconsole ${dir.Base}/bin/stripdown-mongodb.bat \home\dev\WPN-XM\WPN-XM\downloads\full-0.8.1-php5.4-w32\stripdown\mongodb > log.txt" dir="${dir.Base}/" escape="false"/>
     </target>
 
 </project>
