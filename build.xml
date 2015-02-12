@@ -419,7 +419,7 @@
     </target>
 
     <target name="download-components" description="Download components for all full installers."
-            depends="update-git-submodules, make-downloads-dir, create-download-files">
+            depends="make-downloads-dir, create-download-files">
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
             <fileset dir="${dir.Registry}">
                 <include name="**/downloads-for-full-${wpnxm.Version}-*.txt" />
@@ -478,10 +478,9 @@
         <php expression="substr('${full.installer.registry}', 0, -5)" returnProperty="full.folder"/>
         <echo message="Running Stripdown in folder: ${dir.Downloads}/${full.folder}"/>
 
-        <!--<phingcall target="stripdown-imagick">
+        <phingcall target="stripdown-imagick">
             <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
         </phingcall>
-        -->
 
         <phingcall target="stripdown-mariadb">
             <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
