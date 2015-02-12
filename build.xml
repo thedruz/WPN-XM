@@ -627,6 +627,18 @@
                     kill-aria">
     </target>
 
+    <target name="travis-using-ant-part1"
+            depends="clean-build-dir,
+                    reset-git-submodules,
+                    update-git-submodules,
+                    bump-version-number,
+                    print-version-number,
+                    clean-webinterface-folder,
+                    versionize-registries">
+    </target>
+
+    <target name="travis-using-phing-part2" depends="download-components, move-downloads"></target>
+
     <target name="a">
         <echo message="wineconsole ${dir.Base}/bin/stripdown-mongodb.bat /home/dev/WPN-XM/WPN-XM/downloads/full-0.8.1-php5.4-w32/stripdown/mongodb"/>
         <exec command="wineconsole ${dir.Base}/bin/stripdown-mongodb.bat \home\dev\WPN-XM\WPN-XM\downloads\full-0.8.1-php5.4-w32\stripdown\mongodb > log.txt" dir="${dir.Base}/" escape="false"/>
