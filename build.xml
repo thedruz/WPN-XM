@@ -90,7 +90,7 @@
     </target>
 
     <target name="bump-version-number"
-            description="Inserts the current version number into the InnoScripts, Webinterface."
+            description="Inserts the current version number into the InnoScripts and the Webinterface."
             depends="reset-git-submodules, update-git-submodules">
 
         <!--
@@ -129,7 +129,7 @@
     </target>
 
     <target name="clean-webinterface-folder">
-        <echo message="Cleans the webinterface folder for production, by removing .git and dev files."/>
+        <echo message="Cleans the webinterface folder for production by removing .git and dev files."/>
         <!-- git -->
         <delete file="${dir.Base}/www/tools/webinterface/.git"/>
         <delete file="${dir.Base}/www/tools/webinterface/.gitignore"/>
@@ -171,7 +171,7 @@
     </target>
 
     <target name="compile-lite"
-            description="Builds the WPN-XM setup executable using already downloaded components."
+            description="Downloads all components and builds the WPN-XM setup executable."
             depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
@@ -235,7 +235,7 @@
 
     -->
 
-    <target name="move-downloads" description="Moves components for all packaged installers from the full folder to their subfolder.">
+    <target name="move-downloads" description="Moves components for all packaged installers from the full folder to installer specific subfolders.">
         <echo message=" Moving components from the full download folder to their subfolders... "/>
 
         <adhoc-task name="MoveDownloadFiles"><![CDATA[
@@ -320,7 +320,7 @@
         <MoveDownloadFiles registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
     </target>
 
-    <target name="create-download-files" description="Generate download.txt files for all full installers. Create aria2c file for multiple parallel downloads.">
+    <target name="create-download-files" description="Generate download description files for all full installers. Aria2 uses them for multiple parallel downloads.">
         <adhoc-task name="GenerateDownloadFiles"><![CDATA[
             class GenerateDownloadFiles extends Task
             {
@@ -475,15 +475,14 @@
         </foreach>
     </target>
 
-    <target name="stripdown-folder" description="Apply stripdown script to the specified folder.">
+    <target name="stripdown-folder" description="Apply stripdown scripts to the specified folder (subtarget: used by stripdown-all).">
         <echo msg="${full.installer.registry}"/>
         <php expression="substr('${full.installer.registry}', 0, -5)" returnProperty="full.folder"/>
         <echo msg="Running Stripdown in folder: ${dir.Downloads}/${full.folder}"/>
 
-        <!--<phingcall target="stripdown-imagick">
+        <phingcall target="stripdown-imagick">
             <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
         </phingcall>
-        -->
 
         <phingcall target="stripdown-mariadb">
             <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
