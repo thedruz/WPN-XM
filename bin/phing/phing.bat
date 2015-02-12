@@ -8,4 +8,4 @@
 
 "%~dp0php.exe" "%~dp0phing-latest.phar" %*
 
-pause
+::pause
