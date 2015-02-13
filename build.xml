@@ -55,7 +55,7 @@
     <echo message="OS is ${os.name}" />
     <echo message="Basedir is ${dir.Base}" />
     <echo message="Building WPN-XM v${wpnxm.Version}" />
-    <echo message="Tools found: 7z [${7z.present}] - aria2 [${aria2.present}] - upx [${upx.present}]" />
+    <echo message="Tools found: 7z [{7z.present} - aria2 ${aria2.present} - upx ${upx.present}" />
 
     <!--
                         Targets (Build Commands)
