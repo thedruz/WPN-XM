@@ -57,7 +57,7 @@ IF EXIST "%~dp0/upx/upx.exe" (
     echo [x] Compressing MongoDB executables with UPX.
     echo.
 
-    %~dp0/upx/upx.exe -9 %MONGO_DIR%\bin\*.exe
+    %~dp0upx\upx.exe -9 %MONGO_DIR%\bin\*.exe
 )
 
 :: DONE

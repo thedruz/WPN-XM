@@ -55,7 +55,7 @@ IF EXIST "%~dp0/upx/upx.exe" (
     echo [x] Compressing Imagick executables with UPX.
     echo.
 
-    %~dp0/upx/upx.exe -9 %IMAGICK_DIR%\*.exe
+    %~dp0upx\upx.exe -9 %IMAGICK_DIR%\*.exe
 )
 
 :: DONE

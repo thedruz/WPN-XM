@@ -61,7 +61,7 @@ IF EXIST "%~dp0/upx/upx.exe" (
     echo [x] Compressing PostgreSQL executables with UPX.
     echo.
 
-    %~dp0\upx\upx.exe -9 %POSTGRESQL_DIR%\bin\*.exe
+    %~dp0upx\upx.exe -9 %POSTGRESQL_DIR%\bin\*.exe
 )
 
 :: DONE
