@@ -249,12 +249,12 @@
 
                 function setRegistryFolder($registryfolder)
                 {
-                    $this->registryfolder = $registryfolder;
+                    $this->registryfolder = realpath($registryfolder);
                 }
 
                 function setDownloadFolder($downloadfolder)
                 {
-                    $this->downloadfolder = $downloadfolder;
+                    $this->downloadfolder = realpath($downloadfolder);
                 }
 
                 function setWpnxmVersion($wpnxmversion)
@@ -332,12 +332,12 @@
 
                 function setRegistryFolder($registryfolder)
                 {
-                    $this->registryfolder = $registryfolder;
+                    $this->registryfolder = realpath($registryfolder);
                 }
 
                 function setDownloadFolder($downloadfolder)
                 {
-                    $this->downloadfolder = $downloadfolder;
+                    $this->downloadfolder = realpath($downloadfolder);
                 }
 
                 function setWpnxmVersion($wpnxmversion)
@@ -375,8 +375,6 @@
                 function main()
                 {
                     define('DS', DIRECTORY_SEPARATOR);
-
-                    $this->registryfolder = realpath($this->registryfolder);
 
                     $registries = glob($this->registryfolder . DS . 'full-' . $this->wpnxmversion . '-*.json');
 
