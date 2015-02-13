@@ -112,7 +112,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 
 [Files]
 // incorporate all files of the download folder for this installation wizard
-Source: ..\downloads\qa-{#AppVersion}-php5.5-w32\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
+Source: ..\downloads\qa-{#AppVersion}-php5.6-w32\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
 // tools:
 Source: ..\bin\backup\7z.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
