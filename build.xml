@@ -23,50 +23,39 @@
 
     <!-- Paths -->
 
-    <condition property="dir.Base" value="${project.basedir}">
-        <os family="windows"/>
-    </condition>
-    <condition property="dir.Base" value="${basedir}">
-        <os family="unix"/>
-    </condition>
+    <condition property="dir.Base"      value="${project.basedir}"><os family="windows"/></condition>
+    <condition property="dir.Base"      value="${basedir}"><os family="unix"/></condition>
 
-    <property name="dir.Build"              value="${dir.Base}/_build"/>
-    <property name="dir.Downloads"          value="${dir.Base}/downloads"/>
-    <property name="dir.Installers"         value="${dir.Base}/installers"/>
-    <property name="dir.Registry"           value="${dir.Base}/registry"/>
+    <property name="dir.Build"          value="${dir.Base}/_build"/>
+    <property name="dir.Downloads"      value="${dir.Base}/downloads"/>
+    <property name="dir.Installers"     value="${dir.Base}/installers"/>
+    <property name="dir.Registry"       value="${dir.Base}/registry"/>
+
+    <!-- WineConsole -->
+    <condition property="wineconsole" value="wine"><os family="unix"/></condition>
+
+    <!-- InnoSetup Compiler -->
+    <condition property="innosetupcompiler" value="${dir.Base}/bin/innosetup/ISCC.exe"><os family="windows"/></condition>
+    <condition property="innosetupcompiler" value="${wineconsole} ${dir.Base}/bin/innosetup/ISCC.exe"><os family="unix"/></condition>
+
+    <!-- Aria -->
+    <condition property="aria" value="${dir.Base}/bin/aria/aria2c.exe"><os family="windows"/></condition>
+    <condition property="aria" value="aria2c"><os family="unix"/></condition>
+
+    <!-- 7zip -->
+    <condition property="7z" value="${dir.Base}/bin/backup/7z.exe"><os family="windows"/></condition>
+    <condition property="7z" value="7z"><os family="unix"/></condition>
+
+    <!-- Check aria2c, upx and 7z available on env.PATH when unix-->
+    <property environment="env" />
+    <available file="7z" filepath="${env.PATH}" property="7z.present"/>
+    <available file="aria2c" filepath="${env.PATH}" property="aria2.present"/>
+    <available file="upx" filepath="${env.PATH}" property="upx.present"/>
 
     <echo message="OS is ${os.name}" />
     <echo message="Basedir is ${dir.Base}" />
     <echo message="Building WPN-XM v${wpnxm.Version}" />
-
-    <!-- WineConsole -->
-    <condition property="wineconsole" value="wine">
-        <os family="unix"/>
-    </condition>
-
-    <!-- InnoSetup Compiler -->
-    <condition property="innosetupcompiler" value="${dir.Base}/bin/innosetup/ISCC.exe">
-        <os family="windows"/>
-    </condition>
-    <condition property="innosetupcompiler" value="${wineconsole} ${dir.Base}/bin/innosetup/ISCC.exe">
-        <os family="unix"/>
-    </condition>
-
-    <!-- Aria -->
-    <condition property="aria" value="${dir.Base}/bin/aria/aria2c.exe">
-        <os family="windows"/>
-    </condition>
-    <condition property="aria" value="aria2c">
-        <os family="unix"/>
-    </condition>
-
-    <!-- 7zip -->
-    <condition property="7z" value="${dir.Base}/bin/backup/7z.exe">
-        <os family="windows"/>
-    </condition>
-    <condition property="7z" value="7z">
-        <os family="unix"/>
-    </condition>
+    <echo message="Tools found: 7z [${7z.present}] - aria2 [${aria2.present}] - upx [${upx.present}]" />
 
     <!--
                         Targets (Build Commands)
@@ -607,11 +596,6 @@
             </then>
         </if>
     </target>
-
-    <!-- Check aria2c and 7z available on env.PATH when unix-->
-    <property environment="env" />
-    <available file="7z" filepath="${env.PATH}" property="7z.present"/>
-    <available file="aria2c" filepath="${env.PATH}" property="aria.present"/>
 
     <target name="main"
             depends="clean-build-dir,
