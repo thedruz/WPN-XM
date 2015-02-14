@@ -282,12 +282,12 @@
                     foreach ($registries as $registry) {
                         $basename = basename($registry, '.json');
 
-                        // skip full, because thats our download source
-                        if (false !== strpos($basename, 'full')) {
+                        // skip full, because thats our download source / skip qa, too
+                        if ((false !== strpos($basename, 'full')) || (false !== strpos($basename, 'qa'))) {
                             continue;
                         }
 
-                        $fullFolder = preg_replace('(lite|standard|qa)', 'full', $basename);
+                        $fullFolder = preg_replace('(lite|standard)', 'full', $basename);
 
                         $this->log("\n");
                         $this->log('Moving Download Files for "' . $basename . '" from "' . $fullFolder . '"');
@@ -386,7 +386,11 @@
                 {
                     define('DS', DIRECTORY_SEPARATOR);
 
-                    $registries = glob($this->registryfolder . DS . 'full-' . $this->wpnxmversion . '-*.json');
+                    /**
+                     * 5 x full installer (download all packages, then move to standard and lite folders)
+                     * 2 x qa installers
+                     */
+                    $registries = glob($this->registryfolder . DS . '{qa,full}-' . $this->wpnxmversion . '-*.json');
 
                     foreach ($registries as $registry) {
 
