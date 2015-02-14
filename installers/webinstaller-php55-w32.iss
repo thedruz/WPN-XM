@@ -342,7 +342,7 @@ const
   Filename_nginx                 = 'nginx.zip';
   Filename_node                  = 'node.exe';
   Filename_nodenpm               = 'nodenpm.zip';
-  Filename_openssl               = 'openssl.exe';
+  Filename_openssl               = 'openssl.zip';
   Filename_pear                  = 'go-pear.phar';
   Filename_perl                  = 'perl.zip';
   Filename_php                   = 'php.zip';
@@ -992,8 +992,7 @@ begin
   if Pos('openssl', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('OpenSSL');
-        Exec(hideConsole, ExpandConstant(targetPath + Filename_openssl) + ' /DIR="' + ExpandConstant('{app}\bin\openssl') +'" /silent /verysilent /sp- /suppressmsgboxes',
-        '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      DoUnzip(ExpandConstant(targetPath + Filename_openssl), ExpandConstant('{app}\bin\openssl'));
     UpdateTotalProgressBar();
   end;
 
