@@ -1,4 +1,6 @@
 #
+# WPN-XM Server Stack
+#
 # Nginx Server Setup Example
 # for SSL with TLS and a few good ciphers
 #
