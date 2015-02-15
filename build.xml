@@ -433,6 +433,7 @@
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
             <fileset dir="${dir.Registry}">
                 <include name="**/downloads-for-full-${wpnxm.Version}-*.txt" />
+                <include name="**/downloads-for-qa-${wpnxm.Version}-*.txt" />
             </fileset>
         </foreach>
     </target>
