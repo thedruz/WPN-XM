@@ -644,9 +644,11 @@
 
     <target name="travis-using-phing-part2" depends="download-components, move-downloads"></target>
 
-    <target name="a">
-        <echo message="wineconsole ${dir.Base}/bin/stripdown-mongodb.bat /home/dev/WPN-XM/WPN-XM/downloads/full-0.8.1-php5.4-w32/stripdown/mongodb"/>
-        <exec command="wineconsole ${dir.Base}/bin/stripdown-mongodb.bat \home\dev\WPN-XM\WPN-XM\downloads\full-0.8.1-php5.4-w32\stripdown\mongodb > log.txt" dir="${dir.Base}/" escape="false"/>
+    <target name="stripdown-test">
+        <echo message="wine cmd.exe /c ${dir.Base}/bin/stripdown-mongodb.bat ${dir.Base}\downloads\full-0.8.1-php5.4-w32\stripdown\mongodb"/>
+        <exec executable="wine">
+            <arg line="cmd.exe /c ${dir.Base}/bin/stripdown-mongodb.bat ${dir.Base}\downloads\full-0.8.1-php5.4-w32\stripdown\mongodb > log.txt"/>
+        </exec>
     </target>
 
 </project>
