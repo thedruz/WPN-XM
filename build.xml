@@ -273,7 +273,9 @@
 
                 function main()
                 {
-                    define('DS', DIRECTORY_SEPARATOR);
+                    if(!defined('DS')) {
+                        define('DS', DIRECTORY_SEPARATOR);
+                    }
 
                     // e.g. "registries/*0.8.0*.json"
                     $registries = glob($this->registryfolder . DS . '*' . $this->wpnxmversion . '*.json');
@@ -383,7 +385,9 @@
 
                 function main()
                 {
-                    define('DS', DIRECTORY_SEPARATOR);
+                    if(!defined('DS')) {
+                        define('DS', DIRECTORY_SEPARATOR);
+                    }
 
                     /**
                      * 5 x full installer (download all packages, then move to standard and lite folders)
