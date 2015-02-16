@@ -56,6 +56,7 @@
     <echo message="Basedir is ${dir.Base}" />
     <echo message="Building WPN-XM v${wpnxm.Version}" />
     <echo message="Tools found: 7z {7z.present} - aria2 ${aria2.present} - upx ${upx.present}" />
+    <exec command="${aria} --version"/>
 
     <!--
                         Targets (Build Commands)
@@ -321,7 +322,7 @@
                                     $this->log('Target file exists already');
                                 }
                             } else {
-                                $this->log('Component ' . $component[0] . '- missing download: ' . $component[2]);
+                                $this->log('Download missing for Component [' . $component[0] . ']: ' . $component[2]);
                             }
                         }
                     }
