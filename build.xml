@@ -22,7 +22,7 @@
     <property name="wpnxm.VersionForRcFile" value="${version.Major},${version.Minor},${version.BuildNumber},0"/>
 
     <!-- Paths -->
-
+    <property name="basedir"            value="${project.basedir}" />
     <property name="dir.Base"           value="${project.basedir}"/>
     <property name="dir.Build"          value="${dir.Base}/_build"/>
     <property name="dir.Downloads"      value="${dir.Base}/downloads"/>
