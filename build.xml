@@ -23,9 +23,7 @@
 
     <!-- Paths -->
 
-    <condition property="dir.Base"      value="${project.basedir}"><os family="windows"/></condition>
-    <condition property="dir.Base"      value="${basedir}"><os family="unix"/></condition>
-
+    <property name="dir.Base"           value="${project.basedir}"/>
     <property name="dir.Build"          value="${dir.Base}/_build"/>
     <property name="dir.Downloads"      value="${dir.Base}/downloads"/>
     <property name="dir.Installers"     value="${dir.Base}/installers"/>
