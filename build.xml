@@ -31,12 +31,12 @@
     <property name="dir.Installers"     value="${dir.Base}/installers"/>
     <property name="dir.Registry"       value="${dir.Base}/registry"/>
 
-    <!-- WineConsole -->
-    <condition property="wineconsole" value="wine"><os family="unix"/></condition>
+    <!-- Wine -->
+    <condition property="wine" value="wine cmd.exe /c"><os family="unix"/></condition>
 
     <!-- InnoSetup Compiler -->
     <condition property="innosetupcompiler" value="${dir.Base}\bin\innosetup\ISCC.exe"><os family="windows"/></condition>
-    <condition property="innosetupcompiler" value="${wineconsole} ${dir.Base}/bin/innosetup/ISCC.exe"><os family="unix"/></condition>
+    <condition property="innosetupcompiler" value="${wine} ${dir.Base}/bin/innosetup/ISCC.exe"><os family="unix"/></condition>
 
     <!-- Aria -->
     <condition property="aria" value="${dir.Base}\bin\aria\aria2c.exe"><os family="windows"/></condition>
@@ -57,7 +57,7 @@
     <echo message="Building WPN-XM v${wpnxm.Version}" />
     <echo message="Tools found: 7z {7z.present} - aria2 ${aria2.present} - upx ${upx.present}" />
     <echo message="Aria used: ${aria}" />
-    <exec command="${aria} --version" />
+    <exec command="${wine} ${aria} --version" />
 
     <!--
                         Targets (Build Commands)
@@ -532,7 +532,7 @@
                   </else>
                 </if>
 
-                <exec command="${wineconsole} ${dir.Base}\bin\stripdown-imagick.bat ${full.installer.downloads.dir}\stripdown\imagick" passthru="true"/>
+                <exec command="${wine} ${dir.Base}\bin\stripdown-imagick.bat ${full.installer.downloads.dir}\stripdown\imagick" passthru="true"/>
                 <delete file="${full.installer.downloads.dir}/imagick.zip"/>
                 <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/imagick.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
                 <delete dir="${full.installer.downloads.dir}/stripdown"/>
@@ -561,7 +561,7 @@
                   </else>
                 </if>
 
-                <exec command="${wineconsole} ${dir.Base}/bin/stripdown-mariadb.bat ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
+                <exec command="${wine} ${dir.Base}/bin/stripdown-mariadb.bat ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
                 <delete file="${full.installer.downloads.dir}/mariadb.zip"/>
                 <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/mariadb.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
                 <delete dir="${full.installer.downloads.dir}/stripdown"/>
@@ -591,7 +591,7 @@
                   </else>
                 </if>
 
-                <exec command="${wineconsole} ${dir.Base}\bin\stripdown-mongodb.bat ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
+                <exec command="${wine} ${dir.Base}\bin\stripdown-mongodb.bat ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
                 <delete file="${full.installer.downloads.dir}/mongodb.zip"/>
                 <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/mongodb.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
                 <delete dir="${full.installer.downloads.dir}/stripdown"/>
@@ -609,7 +609,7 @@
             <then>
                 <exec command="${7z} x ${full.installer.downloads.dir}/postgresql.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
                 <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-                <exec command="${wineconsole} ${dir.Base}/bin/stripdown-postgresql.bat ${full.installer.downloads.dir}/stripdown/pgsql" passthru="true"/>
+                <exec command="${wine} ${dir.Base}/bin/stripdown-postgresql.bat ${full.installer.downloads.dir}/stripdown/pgsql" passthru="true"/>
                 <delete file="${full.installer.downloads.dir}/postgresql.zip"/>
                 <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/postgresql.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
                 <delete dir="${full.installer.downloads.dir}/stripdown"/>
