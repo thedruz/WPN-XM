@@ -37,24 +37,10 @@
     <condition property="innosetupcompiler" value="${wine} ${dir.Base}/bin/innosetup/ISCC.exe"><os family="unix"/></condition>
 
     <!-- Aria -->
-    <condition property="aria" value="${dir.Base}\bin\aria\aria2c.exe"><os family="windows"/></condition>
-    <condition property="aria" value="aria2c"><os family="unix"/></condition>
+    <property name="aria" value="${dir.Base}\bin\aria\aria2c.exe"/>
 
     <!-- 7zip -->
-    <condition property="7z" value="${dir.Base}\bin\backup\7z.exe"><os family="windows"/></condition>
-    <condition property="7z" value="7z"><os family="unix"/></condition>
-
-    <!-- Check aria2c, upx and 7z available on env.PATH when unix-->
-    <property environment="env" />
-    <available file="7z" filepath="${env.PATH}" property="7z.present"/>
-    <available file="aria2c" filepath="${env.PATH}" property="aria2.present"/>
-    <available file="upx" filepath="${env.PATH}" property="upx.present"/>
-
-    <echo message="OS is ${os.name}" />
-    <echo message="Basedir is ${dir.Base}" />
-    <echo message="Building WPN-XM v${wpnxm.Version}" />
-    <echo message="Tools found: 7z {7z.present} - aria2 ${aria2.present} - upx ${upx.present}" />
-    <echo message="Aria used: ${aria}" />
+    <property name="7z" value="${dir.Base}\bin\backup\7z.exe"/>
 
     <!--
                         Targets (Build Commands)
