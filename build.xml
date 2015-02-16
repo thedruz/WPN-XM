@@ -56,7 +56,7 @@
     <echo message="Basedir is ${dir.Base}" />
     <echo message="Building WPN-XM v${wpnxm.Version}" />
     <echo message="Tools found: 7z {7z.present} - aria2 ${aria2.present} - upx ${upx.present}" />
-    <echo message="Aria used: ${aria}" />>
+    <echo message="Aria used: ${aria}" />
     <exec command="${aria} --version" />
 
     <!--
