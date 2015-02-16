@@ -57,7 +57,9 @@
     <echo message="Building WPN-XM v${wpnxm.Version}" />
     <echo message="Tools found: 7z {7z.present} - aria2 ${aria2.present} - upx ${upx.present}" />
     <echo message="Aria used: ${aria}" />
-    <exec command="${wine} ${aria} --version" />
+    <exec executable="${wine}">
+        <arg line="${aria} --version" />
+    </exec>
 
     <!--
                         Targets (Build Commands)
