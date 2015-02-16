@@ -37,10 +37,10 @@
     <condition property="innosetupcompiler" value="${wine} ${dir.Base}/bin/innosetup/ISCC.exe"><os family="unix"/></condition>
 
     <!-- Aria -->
-    <property name="aria" value="${dir.Base}\bin\aria\aria2c.exe"/>
+    <property name="aria" value="${wine} ${dir.Base}\bin\aria\aria2c.exe"/>
 
     <!-- 7zip -->
-    <property name="7z" value="${dir.Base}\bin\backup\7z.exe"/>
+    <property name="7z" value="${wine} ${dir.Base}\bin\backup\7z.exe"/>
 
     <!--
                         Targets (Build Commands)
