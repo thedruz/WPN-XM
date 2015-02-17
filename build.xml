@@ -30,7 +30,7 @@
     <property name="dir.Registry"       value="${dir.Base}/registry"/>
 
     <!-- Wine -->
-    <condition property="wine" value="wine cmd.exe /c"><os family="unix"/></condition>
+    <condition property="wine" value="/opt/wine-staging/bin/wine cmd.exe /c"><os family="unix"/></condition>
 
     <!-- InnoSetup Compiler -->
     <condition property="innosetupcompiler" value="${dir.Base}\bin\innosetup\ISCC.exe"><os family="windows"/></condition>
