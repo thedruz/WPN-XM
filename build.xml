@@ -364,7 +364,7 @@
                 // add a download line in Aria2C Syntax
                 function insertDownload($url = '', $target = '')
                 {
-                    $txt .= $url . PHP_EOL;
+                    $txt .= '"'.$url.'"' . PHP_EOL;
                     $txt .= '    out=' . $target . PHP_EOL;
 
                     return $txt;
