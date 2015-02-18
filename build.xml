@@ -453,7 +453,7 @@
                     {
                         $basename = basename($registry, '.json');
 
-                        $this->log('Starting Downloads for ['. $basename .'] [' . $file .']');
+                        $this->log('Starting Downloads for Installer ['. $basename .']');
 
                         $components = json_decode(file_get_contents($registry));
 
@@ -467,8 +467,6 @@
                                 array($url, $targetFolder, $targetFile),
                                 $aria_cmd_template
                             );
-
-                            #echo $aria_cmd;
 
                             passthru($aria_cmd);
                         }
