@@ -438,9 +438,7 @@
         -->
         <echo message="Using ${dir.Registry}/${installer.aria.downloads}" />
         <!-- the windows aria2c fails with a "WinTLS handshake error" -->
-        <!-- the linux aria2c fails with "The response status is not successful."
-             check-certificate=false split=6 --min-split-size=1M max-connection-per-server=6 max-tries=3
-        -->
+        <!-- the linux aria2c fails with "The response status is not successful." -->
         <exec command="${aria} -i ${dir.Registry}/${installer.aria.downloads} --dry-run --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --user-agent=WPN-XM Server Stack Downloader" dir="${dir.Base}" level="debug" />
     </target>
 
