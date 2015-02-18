@@ -409,6 +409,79 @@
         <GenerateDownloadFiles registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
     </target>
 
+     <target name="download-files-simple" description="Download files for all full installers.">
+        <adhoc-task name="DownloadFilesSimple"><![CDATA[
+            class DownloadFiles extends Task
+            {
+                private $registryfolder;
+                private $downloadfolder;
+                private $wpnxmversion;
+
+                function setRegistryFolder($registryfolder)
+                {
+                    $this->registryfolder = realpath($registryfolder);
+                }
+
+                function setDownloadFolder($downloadfolder)
+                {
+                    $this->downloadfolder = realpath($downloadfolder);
+                }
+
+                function setWpnxmVersion($wpnxmversion)
+                {
+                    $this->wpnxmversion = $wpnxmversion;
+                }
+
+                function main()
+                {
+                    if(!defined('DS')) {
+                        define('DS', DIRECTORY_SEPARATOR);
+                    }
+
+                    $aria_cmd_template = "aria2c \"%url%\" --dir=%targetFolder% --out=%targetFile%";
+                    $aria_cmd_template .= " --check-certificate=false --split=4 --min-split-size=1M --max-connection-per-server=4 --max-tries=3";
+                    $aria_cmd_template .= " --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true";
+                    $aria_cmd_template .= " --user-agent=\"WPN-XM Server Stack Downloader\" ";
+
+                    /**
+                     * 5 x full installer (download all packages, then move to standard and lite folders)
+                     * 2 x qa installers
+                     */
+                    $registries = glob($this->registryfolder . DS . '{qa,full}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
+
+                    foreach ($registries as $registry)
+                    {
+                        $basename = basename($registry, '.json');
+
+                        $this->log('Starting Downloads for ['. $basename .'] [' . $file .']');
+
+                        $components = json_decode(file_get_contents($registry));
+
+                        foreach ($components as $component) {
+                            $url          = $component[1];
+                            $targetFolder = 'downloads\\' . $basename;
+                            $targetFile   = $component[2];
+
+                            $aria_cmd = str_replace(
+                                array('%url%', '%targetFolder%', '%targetFile%'),
+                                array($url, $targetFolder, $targetFile),
+                                $aria_cmd_template
+                            );
+
+                            #echo $aria_cmd;
+
+                            passthru($aria_cmd);
+                        }
+
+                        $this->log('---- End ----');
+                    }
+                }
+            }
+        ]]></adhoc-task>
+        <!-- how to access properties defined in build.xml inside an adhoc-task? can we get rid of passing stuff in? -->
+        <DownloadFilesSimple registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
+    </target>
+
     <target name="versionize-registries" description="Adds the build version number to the 'next' installer registry files.">
         <copy todir="${dir.Registry}">
           <mapper type="regexp" from="^(.*)-next-(.*).json" to="\1-${wpnxm.Version}-\2.json"/>
@@ -419,6 +492,11 @@
     </target>
 
     <target name="download-components" description="Download components for all full installers."
+            depends="make-downloads-dir, download-files-simple">
+        <echo message="Downloading Components - one by one via Aria."/>
+    </target>
+
+    <target name="download-components-with-aria" description="Download components for all full installers."
             depends="make-downloads-dir, create-download-files">
         <echo message="Downloading Components using Aria"/>
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
