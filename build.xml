@@ -550,136 +550,20 @@
         <foreach target="stripdown-folder" param="full.installer.registry">
           <fileset dir="${dir.Registry}">
             <include name="**/*full-${wpnxm.Version}*.json"/>
+            <include name="**/*qa-${wpnxm.Version}*.json"/>
           </fileset>
         </foreach>
     </target>
 
     <target name="stripdown-folder" description="Apply stripdown scripts to the specified folder (subtarget: used by stripdown-all).">
-        <echo message="${full.installer.registry}"/>
+        <echo message="Stripdown for Registry: ${full.installer.registry}"/>
         <php expression="substr('${full.installer.registry}', 0, -5)" returnProperty="full.folder"/>
         <echo message="Running Stripdown in folder: ${dir.Downloads}/${full.folder}"/>
 
-        <phingcall target="stripdown-imagick">
-            <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
-        </phingcall>
-
-        <phingcall target="stripdown-mariadb">
-            <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
-        </phingcall>
-
-        <phingcall target="stripdown-mongodb">
-            <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
-        </phingcall>
-
-         <phingcall target="stripdown-postgresql">
-            <property name="full.installer.downloads.dir" value="${dir.Downloads}/${full.folder}" />
-        </phingcall>
-    </target>
-
-    <target name="stripdown-imagick" description="Stripdown Imagick and repackage.">
-        <filesize file="${full.installer.downloads.dir}/imagick.zip" />
-        <php expression="floor(${filesize}/1024/1024)" returnProperty="imagick.size" />
-        <echo message="Filesize before Stripdown: ${imagick.size} MB"/>
-        <php expression="(${imagick.size} &gt; 55) ? true : false;" returnProperty="imagick.needs.stripdown" />
-        <if>
-            <and><istrue value="${imagick.needs.stripdown}"/></and>
-            <then>
-                <exec command="${7z} x ${full.installer.downloads.dir}/imagick.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
-                <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-
-                <if>
-                  <os family="windows" />
-                  <then>
-                     <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\ImageMagick* ${full.installer.downloads.dir}\stripdown\imagick" level="debug" passthru="true"/>
-                  </then>
-                  <else>
-                     <exec command="mv -if ${full.installer.downloads.dir}/stripdown/ImageMagick* ${full.installer.downloads.dir}/stripdown/imagick"/>
-                  </else>
-                </if>
-
-                <exec command="${wine} ${dir.Base}\bin\stripdown-imagick.bat ${full.installer.downloads.dir}\stripdown\imagick" passthru="true"/>
-                <delete file="${full.installer.downloads.dir}/imagick.zip"/>
-                <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/imagick.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
-                <delete dir="${full.installer.downloads.dir}/stripdown"/>
-            </then>
-        </if>
-    </target>
-
-    <target name="stripdown-mariadb" description="Stripdown MariaDB and repackage. (136MB to 16MB on v5.5.28! 187MB to 21MB on 10.0.10!)">
-        <filesize file="${full.installer.downloads.dir}/mariadb.zip" />
-        <php expression="floor(${filesize}/1024/1024)" returnProperty="mariadb.size" />
-        <echo message="Filesize before Stripdown: ${mariadb.size} MB"/>
-        <php expression="(${mariadb.size} &gt; 25) ? true : false;" returnProperty="mariadb.needs.stripdown" />
-        <if>
-            <and><istrue value="${mariadb.needs.stripdown}"/></and>
-            <then>
-                <exec command="${7z} x ${full.installer.downloads.dir}/mariadb.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
-                <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-
-                <if>
-                  <os family="windows" />
-                  <then>
-                     <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\mariadb* ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
-                  </then>
-                  <else>
-                     <exec command="mv -if ${full.installer.downloads.dir}/stripdown/mariadb* ${full.installer.downloads.dir}/stripdown/mariadb"/>
-                  </else>
-                </if>
-
-                <exec command="${wine} ${dir.Base}/bin/stripdown-mariadb.bat ${full.installer.downloads.dir}\stripdown\mariadb" passthru="true"/>
-                <delete file="${full.installer.downloads.dir}/mariadb.zip"/>
-                <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/mariadb.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
-                <delete dir="${full.installer.downloads.dir}/stripdown"/>
-            </then>
-        </if>
-    </target>
-
-    <target name="stripdown-mongodb" description="Stripdown MongoDB and repackage. (55MB to 16MB on v2.2.1!)">
-        <!-- 50MB -->
-        <filesize file="${full.installer.downloads.dir}/mongodb.zip" />
-        <php expression="floor(${filesize}/1024/1024)" returnProperty="mongodb.size" />
-        <echo message="Filesize before Stripdown: ${mongodb.size} MB"/>
-        <php expression="(${mongodb.size} &gt; 50) ? true : false;" returnProperty="mongodb.needs.stripdown" />
-        <if>
-            <and><istrue value="${mongodb.needs.stripdown}"/></and>
-            <then>
-                <exec command="${7z} x ${full.installer.downloads.dir}/mongodb.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
-                <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-
-                 <if>
-                  <os family="windows" />
-                  <then>
-                     <exec command="cmd.exe /c move ${full.installer.downloads.dir}\stripdown\mongo* ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
-                  </then>
-                  <else>
-                     <exec command="mv -if ${full.installer.downloads.dir}/stripdown/mongo* ${full.installer.downloads.dir}/stripdown/mongodb"/>
-                  </else>
-                </if>
-
-                <exec command="${wine} ${dir.Base}\bin\stripdown-mongodb.bat ${full.installer.downloads.dir}\stripdown\mongodb" passthru="true"/>
-                <delete file="${full.installer.downloads.dir}/mongodb.zip"/>
-                <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/mongodb.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
-                <delete dir="${full.installer.downloads.dir}/stripdown"/>
-            </then>
-        </if>
-    </target>
-
-    <target name="stripdown-postgresql" description="Stripdown PostgreSQL and repackage. (xxMB to xxMB on vx.y.z!)">
-        <filesize file="${full.installer.downloads.dir}/postgresql.zip" />
-        <php expression="floor(${filesize}/1024/1024)" returnProperty="postgresql.size" />
-        <echo message="Filesize before Stripdown: ${postgresql.size} MB"/>
-        <php expression="(${postgresql.size} &gt; 25) ? true : false;" returnProperty="postgresql.needs.stripdown" />
-        <if>
-            <and><istrue value="${postgresql.needs.stripdown}"/></and>
-            <then>
-                <exec command="${7z} x ${full.installer.downloads.dir}/postgresql.zip -o${full.installer.downloads.dir}/stripdown -y" passthru="true"/>
-                <waitfor maxwaitunit="second" maxwait="1"><istrue value="false"/></waitfor>
-                <exec command="${wine} ${dir.Base}/bin/stripdown-postgresql.bat ${full.installer.downloads.dir}/stripdown/pgsql" passthru="true"/>
-                <delete file="${full.installer.downloads.dir}/postgresql.zip"/>
-                <exec command="${7z} a -mx9 -mmt ${full.installer.downloads.dir}/postgresql.zip ${full.installer.downloads.dir}/stripdown/*" passthru="true"/>
-                <delete dir="${full.installer.downloads.dir}/stripdown"/>
-            </then>
-        </if>
+        <exec command="php ${dir.Base}/bin/stripdown.php ${dir.Downloads}/${full.folder} imagick" passthru="true"/>
+        <exec command="php ${dir.Base}/bin/stripdown.php ${dir.Downloads}/${full.folder} mariadb" passthru="true"/>
+        <exec command="php ${dir.Base}/bin/stripdown.php ${dir.Downloads}/${full.folder} mongodb" passthru="true"/>
+        <exec command="php ${dir.Base}/bin/stripdown.php ${dir.Downloads}/${full.folder} postgresql" passthru="true"/>
     </target>
 
     <target name="main"
