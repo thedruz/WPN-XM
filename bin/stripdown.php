@@ -17,22 +17,26 @@
  *    7. the stripdown folder is deleted
  */
 
-$stripdown = Stripdown($argv[1], $argv[2]);
+$stripdown = new Stripdown($argv[1], $argv[2]);
 $stripdown->run();
 
 class Stripdown
 {
 	function __construct($dir, $component)
 	{
+		if(strpos($dir, "$") !== false) {
+			exit('    Folder invalid: ' . $dir . "\n");
+		}
+
 		$this->downloadsDir = $dir;
 		$this->component = $component;
 		$this->componentZip = $component . '.zip';
-		$this->componentZipFileInDownloadFolder = realpath($dir . DIRECTORY_SEPERATOR . $this->componentZip);
-		$this->stripdownFolder = $this->downloadsDir . DIRECTORY_SEPERATOR . 'stripdown';
+		$this->componentZipFileInDownloadFolder = realpath($dir . DIRECTORY_SEPARATOR . $this->componentZip);
+		$this->stripdownFolder = $this->downloadsDir . DIRECTORY_SEPARATOR . 'stripdown';
 
 		// all components have their component name as extraction folder, except postgresql
 		$folder = ($component != 'postgresql') ? $component : 'pgsql';
-		$this->stripdownFolderWithComponent = $this->stripdownFolder . DIRECTORY_SEPERATOR . $folder;
+		$this->stripdownFolderWithComponent = $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
 
 		echo 'Stripdown for [' . $dir . '][' . $component . ']';
 	}
@@ -46,8 +50,8 @@ class Stripdown
 		if(!$this->checkFilesize()) {
 			exit(0);
 		}
-
-		$this->unzip()
+exit;
+		$this->unzip();
 		$this->renameFolder();
 		#$this->extractedCheck();
 		$this->stripdown();
@@ -311,7 +315,7 @@ class Stripdown
 	function getFilesize($file)
 	{
 		$sizeBytes = filesize($file);
-
-		return str_replace(".", "," , strval(round((floatval($size) / pow(1024, 2), 2)));
+		$sizeMb = floatval($size) / pow(1024, 2);
+		return str_replace(".", ",", strval(round($sizeMb, 2)));
 	}
 }
