@@ -447,8 +447,9 @@
                     /**
                      * 5 x full installer (download all packages, then move to standard and lite folders)
                      * 2 x qa installers
+                     * ,full
                      */
-                    $registries = glob($this->registryfolder . DS . '{qa,full}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
+                    $registries = glob($this->registryfolder . DS . '{qa}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
 
                     foreach ($registries as $registry)
                     {

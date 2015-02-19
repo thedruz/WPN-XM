@@ -50,7 +50,7 @@ class Stripdown
         if(!$this->checkFilesize()) {
             exit(0);
         }
-exit;
+
         $this->unzip();
         $this->renameFolder();
         #$this->extractedCheck();
