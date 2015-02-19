@@ -287,7 +287,8 @@
                             $source = $this->downloadfolder . DS . $fullFolder . DS . $component[2];
 
                             if (is_file($source)) {
-                                $this->log('Component ' . $component[0] . ' v' . $component[3]);
+                                $version = ($component[3] === 'latest') ? $component[3] : ' v' . $component[3]:
+                                $this->log('Component ' . $component[0] . ' ' . $version);
 
                                 $targetDir = $this->downloadfolder . DS . $basename;
 
