@@ -575,6 +575,7 @@
                     clean-webinterface-folder,
                     versionize-registries,
                     download-components,
+                    stripdown-all,
                     move-downloads,
                     compile-webinstaller,
                     compile-webinstaller-debug,
@@ -585,25 +586,6 @@
                     commit-versionized-registries,
                     reset-git-submodules,
                     kill-aria">
-    </target>
-
-    <target name="travis-using-ant-part1"
-            depends="clean-build-dir,
-                    reset-git-submodules,
-                    update-git-submodules,
-                    bump-version-number,
-                    print-version-number,
-                    clean-webinterface-folder,
-                    versionize-registries">
-    </target>
-
-    <target name="travis-using-phing-part2" depends="download-components, move-downloads"></target>
-
-    <target name="stripdown-test">
-        <echo message="wine cmd.exe /c ${dir.Base}/bin/stripdown-mongodb.bat ${dir.Base}\downloads\full-0.8.1-php5.4-w32\stripdown\mongodb"/>
-        <exec executable="wine">
-            <arg line="cmd.exe /c ${dir.Base}/bin/stripdown-mongodb.bat ${dir.Base}\downloads\full-0.8.1-php5.4-w32\stripdown\mongodb > log.txt"/>
-        </exec>
     </target>
 
 </project>
