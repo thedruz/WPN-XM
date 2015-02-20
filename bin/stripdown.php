@@ -38,7 +38,7 @@ class Stripdown
         $folder = ($component != 'postgresql') ? $component : 'pgsql';
         $this->stripdownFolderWithComponent = $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
 
-        echo 'Stripdown for [' . $dir . '][' . $component . ']';
+        echo 'Stripdown for [' . $dir . '][' . $component . "]\n";
     }
 
     function run()
@@ -64,10 +64,10 @@ class Stripdown
     {
         if(is_file($this->componentZipFileInDownloadFolder))
         {
-            echo "- Component found.\n";
+            echo "\t[+] Component found.\n";
             return true;
         } else {
-            echo "- Component not found.\n";
+            echo "\t[-] Component not found.\n";
             return false;
         }
     }
@@ -76,21 +76,21 @@ class Stripdown
     {
         $size = $this->getFilesize($this->componentZipFileInDownloadFolder);
 
-        echo 'Filesize before Stripdown: ' . $size . ' MB';
+        echo "\tFilesize before Stripdown: " . $size . " MB\n";
 
-        if($component === 'postgresql' && $size >= '25') {
+        if($this->component === 'postgresql' && $size >= '25') {
             return true;
         }
 
-        if($component === 'imagick' && $size >= '55') {
+        if($this->component === 'imagick' && $size >= '55') {
             return true;
         }
 
-        if($component === 'mariadb' && $size >= '25') {
+        if($this->component === 'mariadb' && $size >= '25') {
             return true;
         }
 
-        if($component === 'mongodb' && $size >= '50') {
+        if($this->component === 'mongodb' && $size >= '50') {
             return true;
         }
 
@@ -99,41 +99,41 @@ class Stripdown
 
     function unzip()
     {
-        exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
+        passthru('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
     }
 
     function renameFolder()
     {
         // fix case issues and remove version information from folder
 
-        if($component === 'imagick') {
-            exec('mv -if ' . $this->stripdownFolder . '/ImageMagick* ' . $this->stripdownFolderWithComponent);
+        if($this->component === 'imagick') {
+            passthru('mv -if ' . $this->stripdownFolder . '/ImageMagick* ' . $this->stripdownFolderWithComponent);
         }
 
-        if($component === 'mariadb') {
-            exec('mv -if ' . $this->stripdownFolder . '/mariadb* ' . $this->stripdownFolderWithComponent);
+        if($this->component === 'mariadb') {
+            passthru('mv -if ' . $this->stripdownFolder . '/mariadb* ' . $this->stripdownFolderWithComponent);
         }
 
-        if($component === 'mongodb') {
-            exec('mv -if ' . $this->stripdownFolder . '/mongodb* ' . $this->stripdownFolderWithComponent);
+        if($this->component === 'mongodb') {
+            passthru('mv -if ' . $this->stripdownFolder . '/mongodb* ' . $this->stripdownFolderWithComponent);
         }
     }
 
     function extractedCheck()
     {
-        if($component === 'postgresql' && is_file($this->stripdownFolderWithComponent . '/bin/pg_ctl.exe')) {
+        if($this->component === 'postgresql' && is_file($this->stripdownFolderWithComponent . '/bin/pg_ctl.exe')) {
             return true;
         }
 
-        if($component === 'imagick' && is_file($this->stripdownFolderWithComponent . '/animate.exe')) {
+        if($this->component === 'imagick' && is_file($this->stripdownFolderWithComponent . '/animate.exe')) {
             return true;
         }
 
-        if($component === 'mariadb' && is_file($this->stripdownFolderWithComponent . '/bin/mysqld.exe')) {
+        if($this->component === 'mariadb' && is_file($this->stripdownFolderWithComponent . '/bin/mysqld.exe')) {
             return true;
         }
 
-        if($component === 'mongodb' && is_file($this->stripdownFolderWithComponent . '/bin/mongo.exe')) {
+        if($this->component === 'mongodb' && is_file($this->stripdownFolderWithComponent . '/bin/mongo.exe')) {
             return true;
         }
 
@@ -142,7 +142,9 @@ class Stripdown
 
     function stripdown()
     {
-        if($component = 'postgresql') {
+    echo "\t[x] Stripdown.\n";
+
+        if($this->component = 'postgresql') {
             // process the /bin folder
             // delete pdb files (windows crashdumps helpers / debug symbols)
             $this->deleteFiles($this->stripdownFolderWithComponent . '/symbols/*.pdb');
@@ -152,16 +154,16 @@ class Stripdown
             $this->deleteFolder($this->stripdownFolderWithComponent . '/include');
         }
 
-        if($component === 'imagick') {
+        if($this->component === 'imagick') {
             // process the /www folder
             $this->deleteFolder($this->stripdownFolderWithComponent . '/www');
         }
 
-        if($component === 'mongodb') {
+        if($this->component === 'mongodb') {
             $this->deleteFiles($this->stripdownFolderWithComponent . '/bin/*.pdb');
         }
 
-        if($component === 'mariadb') {
+        if($this->component === 'mariadb') {
             // Toplevel remove *.ini - replaced by our own
             $this->deleteFiles($this->stripdownFolderWithComponent . '/*.ini');
 
@@ -266,6 +268,8 @@ class Stripdown
 
             $this->deleteFolder($this->stripdownFolderWithComponent . '/support-files');
         }
+
+        echo "\t[+] Done.\n";
     }
 
     function deleteFiles($mask = "*.pdb")
@@ -273,49 +277,84 @@ class Stripdown
         array_map("unlink", glob($mask));
     }
 
-    function deleteFolder($dir)
+    function deleteFolder($path)
     {
-        foreach (scandir($dir) as $item)
+        if (is_dir($path) === true)
         {
-            if ($item == '.' || $item == '..')
-            {
-                continue;
-            }
+        $files = new RecursiveIteratorIterator(
+                   new RecursiveDirectoryIterator($path), 
+                   RecursiveIteratorIterator::CHILD_FIRST
+                );
 
-            unlink($dir . DIRECTORY_SEPARATOR . $item);
+        foreach ($files as $file)
+        {
+            if (in_array($file->getBasename(), array('.', '..')) !== true)
+            {
+                if ($file->isDir() === true)
+                {
+                    rmdir($file->getPathName());
+                }
+
+                else if (($file->isFile() === true) || ($file->isLink() === true))
+                {
+                    unlink($file->getPathname());
+                }
+            }
         }
 
-        rmdir($dir);
+        return rmdir($path);
+        }
+
+        else if ((is_file($path) === true) || (is_link($path) === true))
+        {
+        return unlink($path);
+        }
+
+        return false;
     }
 
     function compressExecutables()
     {
-        #echo ' [x] Compressing ' . $component . ' executables with UPX.';
+        echo "\t[x] Compressing executables with UPX.\n";
 
-        $binFolder = dirname($this->downloadsDir) . '/bin';
-        $upx = $binFolder . '/upx.exe';
+        $upx = getcwd() . '/bin/upx/upx.exe';
 
-        passthru('wine cmd.exe /c ' . $upx . ' ' . $this->stripdownFolder . '\*.exe');
+        passthru('wine cmd.exe /c ' . $upx . ' ' . $this->stripdownFolderWithComponent . '/bin/*.exe');
+
+        echo "\t[+] Done.\n";
     }
 
     function zip()
     {
+        echo "\t[x] Zipping.\n";
+
         // delete old zip file in the download folder
         unlink($this->componentZipFileInDownloadFolder);
 
         // zip the stripdown folder (and "replace" the old zip file)
-        exec('7z a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . $this->stripdownFolder . '/*');
+        passthru('7z a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . realpath($this->stripdownFolderWithComponent) . '/*');
+
+        echo "\t[+] Done.\n";
     }
 
     function cleanup()
     {
+        echo "\t[x] Cleanup.\n";
+
         $this->deleteFolder($this->stripdownFolder);
+
+        echo "\t[+] Done.\n";
     }
 
     function getFilesize($file)
     {
-        $sizeBytes = filesize($file);
+        $size = filesize($file);
         $sizeMb = floatval($size) / pow(1024, 2);
         return str_replace(".", ",", strval(round($sizeMb, 2)));
+    }
+
+    function __destructor()
+    {
+        echo "\t[+] Stripdown finished.\n";
     }
 }
