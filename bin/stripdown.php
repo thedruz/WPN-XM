@@ -178,7 +178,7 @@ class Stripdown
 
             // 1) delete pdb files (windows crashdumps debug files)
 
-            $this->deleteFiles($this->stripdownFolderWithComponent . '/*.pdb');
+            $this->deleteFiles($this->stripdownFolderWithComponent . '/bin/*.pdb');
 
             // 2) delete certain executables
             // This list of executables equals a MariaDB win32 msi install (with only database and no client executables)
@@ -235,6 +235,7 @@ class Stripdown
 
             $this->deleteFiles($this->stripdownFolderWithComponent . '/lib/*.pdb');
             $this->deleteFiles($this->stripdownFolderWithComponent . '/lib/*.lib');
+            $this->deleteFiles($this->stripdownFolderWithComponent . '/lib/plugin/*.pdb');
 
             // process the /share folder
 
