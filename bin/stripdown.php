@@ -76,7 +76,7 @@ class Stripdown
     {
         $size = $this->getFilesize($this->componentZipFileInDownloadFolder);
 
-        echo "\tFilesize before Stripdown: " . $size . " MB\n";
+        echo "\t\tFilesize before Stripdown: " . $size . " MB\n";
 
         if($this->component === 'postgresql' && $size >= '25') {
             return true;
@@ -99,7 +99,11 @@ class Stripdown
 
     function unzip()
     {
+        echo "\t[x] Unzipping.\n";
+
         exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
+
+        echo "\t\tDone.\n";
     }
 
     function renameFolder()
@@ -270,7 +274,7 @@ class Stripdown
             $this->deleteFolder($this->stripdownFolderWithComponent . '/support-files');
         }
 
-        echo "\t[+] Done.\n";
+        echo "\t\tDone.\n";
     }
 
     function deleteFiles($mask = "*.pdb")
@@ -322,7 +326,7 @@ class Stripdown
 
         passthru('wine cmd.exe /c ' . $upx . ' ' . $this->stripdownFolderWithComponent . '/bin/*.exe');
 
-        echo "\t[+] Done.\n";
+        echo "\t\tDone.\n";
     }
 
     function zip()
@@ -344,7 +348,7 @@ class Stripdown
 
         $this->deleteFolder($this->stripdownFolder);
 
-        echo "\t[+] Done.\n";
+        echo "\t\tDone.\n";
     }
 
     function getFilesize($file)
@@ -357,5 +361,9 @@ class Stripdown
     function __destructor()
     {
         echo "\t[+] Stripdown finished.\n";
+
+        $size = $this->getFilesize($this->componentZipFileInDownloadFolder);
+
+        echo "\t\tFilesize after Stripdown: " . $size . " MB\n";
     }
 }
