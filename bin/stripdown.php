@@ -36,7 +36,7 @@ class Stripdown
 
         // all components have their component name as extraction folder, except postgresql
         $folder = ($component != 'postgresql') ? $component : 'pgsql';
-        $this->stripdownFolderWithComponent = getcwd() . DIRECTORY_SEPARATOR . $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
+        $this->stripdownFolderWithComponent = /*getcwd() . DIRECTORY_SEPARATOR .*/ $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
 
         echo 'Stripdown for [' . $dir . '][' . $component . "]\n";
     }
