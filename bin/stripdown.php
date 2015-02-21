@@ -36,7 +36,7 @@ class Stripdown
 
         // all components have their component name as extraction folder, except postgresql
         $folder = ($component != 'postgresql') ? $component : 'pgsql';
-        $this->stripdownFolderWithComponent = $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
+        $this->stripdownFolderWithComponent = getcwd() . DIRECTORY_SEPARATOR . $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
 
         echo 'Stripdown for [' . $dir . '][' . $component . "]\n";
     }
@@ -99,7 +99,7 @@ class Stripdown
 
     function unzip()
     {
-        passthru('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
+        exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
     }
 
     function renameFolder()
@@ -142,9 +142,9 @@ class Stripdown
 
     function stripdown()
     {
-    echo "\t[x] Stripdown.\n";
+        echo "\t[x] Stripdown [$this->component].\n";
 
-        if($this->component = 'postgresql') {
+        if($this->component === 'postgresql') {
             // process the /bin folder
             // delete pdb files (windows crashdumps helpers / debug symbols)
             $this->deleteFiles($this->stripdownFolderWithComponent . '/symbols/*.pdb');
@@ -274,7 +274,7 @@ class Stripdown
 
     function deleteFiles($mask = "*.pdb")
     {
-        array_map("unlink", glob($mask));
+        array_map('unlink', glob($mask));
     }
 
     function deleteFolder($path)
@@ -282,7 +282,7 @@ class Stripdown
         if (is_dir($path) === true)
         {
         $files = new RecursiveIteratorIterator(
-                   new RecursiveDirectoryIterator($path), 
+                   new RecursiveDirectoryIterator($path),
                    RecursiveIteratorIterator::CHILD_FIRST
                 );
 
