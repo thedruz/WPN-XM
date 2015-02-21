@@ -473,6 +473,8 @@
 
                             exec($aria_cmd);
                         }
+
+                        $this->log('');
                     }
                 }
             }

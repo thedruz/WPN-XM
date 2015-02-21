@@ -58,6 +58,7 @@ class Stripdown
         $this->compressExecutables();
         $this->zip();
         $this->cleanup();
+        $this->goodbye();
     }
 
     function checkComponentExists()
@@ -358,7 +359,7 @@ class Stripdown
         return str_replace(".", ",", strval(round($sizeMb, 2)));
     }
 
-    function __destructor()
+    function goodbye()
     {
         echo "\t[+] Stripdown finished.\n";
 
