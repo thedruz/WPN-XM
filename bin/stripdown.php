@@ -107,15 +107,15 @@ class Stripdown
         // fix case issues and remove version information from folder
 
         if($this->component === 'imagick') {
-            passthru('mv -if ' . $this->stripdownFolder . '/ImageMagick* ' . $this->stripdownFolderWithComponent);
+            passthru('sudo mv -if ' . $this->stripdownFolder . '/ImageMagick* ' . $this->stripdownFolderWithComponent);
         }
 
         if($this->component === 'mariadb') {
-            passthru('mv -if ' . $this->stripdownFolder . '/mariadb* ' . $this->stripdownFolderWithComponent);
+            passthru('sudo mv -if ' . $this->stripdownFolder . '/mariadb* ' . $this->stripdownFolderWithComponent);
         }
 
         if($this->component === 'mongodb') {
-            passthru('mv -if ' . $this->stripdownFolder . '/mongodb* ' . $this->stripdownFolderWithComponent);
+            passthru('sudo mv -if ' . $this->stripdownFolder . '/mongodb* ' . $this->stripdownFolderWithComponent);
         }
     }
 
