@@ -442,7 +442,7 @@
                     $aria_cmd_template = "aria2c \"%url%\" --dir=%targetFolder% --out=%targetFile%";
                     $aria_cmd_template .= " --check-certificate=false --split=6 --min-split-size=2M --max-connection-per-server=6 --max-tries=3";
                     $aria_cmd_template .= " --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true";
-                    $aria_cmd_template .= " --user-agent=\"WPN-XM Server Stack Downloader\" ";
+                    $aria_cmd_template .= " --quiet=true --user-agent=\"WPN-XM Server Stack Downloader\" ";
 
                     /**
                      * 5 x full installer (download all packages, then move to standard and lite folders)
@@ -469,10 +469,10 @@
                                 $aria_cmd_template
                             );
 
-                            passthru($aria_cmd);
-                        }
+                            $this->log('Downloading: ' . $targetFolder . DS . $targetFile);
 
-                        $this->log('---- End ----');
+                            exec($aria_cmd);
+                        }
                     }
                 }
             }
