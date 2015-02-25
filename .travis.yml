@@ -1,0 +1,58 @@
+#
+# .travis.yml - configuration file for the travis continuous integration service
+#
+# see http://about.travis-ci.org/docs/user/languages/php for more hints
+#
+language: php
+
+php: [5.6]
+
+cache:
+  apt: true
+
+before_install:
+  # install apt-fast to speedup later dependency installation
+  - sudo add-apt-repository -y ppa:apt-fast/stable
+  - sudo add-apt-repository -y ppa:ubuntu-wine/ppa #< wine 1.17.8
+  - sudo add-apt-repository -y ppa:t-tujikawa/ppa #< aria2 (we need newer version, because stable version has SSL issues.)
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq apt-fast
+  # use apt-fast for installation of dependencies
+  - sudo apt-fast -y update
+  - sudo apt-fast -m -y install aria2 p7zip-full upx ca-certificates wine1.7 winetricks
+
+before_script:
+  # start framebuffer (wine wants this)
+  - "sh -e /etc/init.d/xvfb start"
+  - "export DISPLAY=:99.0"
+  # adjust PHP env (increase memory)
+  - phpenv config-add .travis.php.ini
+
+script:
+  #- sudo /opt/wine-staging/bin/wine --version
+  #- wine --version #< ubuntu-wine/ppa
+  #- wineconsole --version
+  #- aria2c --version
+  - cd WPN-XM
+  - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar main
+  # show content of folders
+  - sudo ls -alh /home/travis/build/WPN-XM/WPN-XM/*
+  - sudo ls -alh /home/travis/build/WPN-XM/WPN-XM/_build/*
+
+notifications:
+  email: false
+  irc:
+    channels:
+      - "irc.freenode.org#koch"
+    use_notice: true
+
+# deploy the installer executables to github releases
+deploy:
+  provider: releases
+  api_key:
+    secure: EXN1Q+iXC9acOgUujeCxCQywzDCLQUWQbAa8GMxnqF1nBAvSDeXnTIBQnfDsuQZkWtSMz34zyC4ZN/eta9Lytq4yKMP4XvKVBP5bXQNanDzck+CuUFbnYKE8bVbON6mksN09H5/qt0QHWxjE/vlxCXdoD7Kaek3coWET9s82yXg=
+  file_glob: true
+  file: ${HOME}/build/${TRAVIS_REPO_SLUG}/_build/*.exe
+  skip_cleanup: true
+  on:
+    tags: true #  the application is deployed, when a tag is applied to the commit
