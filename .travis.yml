@@ -33,7 +33,6 @@ script:
   #- wine --version #< ubuntu-wine/ppa
   #- wineconsole --version
   #- aria2c --version
-  - cd WPN-XM
   - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar main
   # show content of folders
   - sudo ls -alh /home/travis/build/WPN-XM/WPN-XM/*
