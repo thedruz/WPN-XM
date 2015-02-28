@@ -471,7 +471,7 @@
 
                             $this->log('Downloading: ' . $targetFolder . DS . $targetFile);
 
-                            exec($aria_cmd);
+                            passthru($aria_cmd);
 
                             if(is_file($targetFolder . DS . $targetFile) === false) {
                                 $this->log('File not found. Download failed.');
