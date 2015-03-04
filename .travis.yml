@@ -36,7 +36,6 @@ script:
   - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar main
   # show content of folders
   - sudo ls -alh /home/travis/build/WPN-XM/WPN-XM/*
-  - sudo ls -alh /home/travis/build/WPN-XM/WPN-XM/_build/*
 
 notifications:
   email: false
