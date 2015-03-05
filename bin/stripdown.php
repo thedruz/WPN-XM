@@ -38,7 +38,7 @@ class Stripdown
         $folder = ($component != 'postgresql') ? $component : 'pgsql';
         $this->stripdownFolderWithComponent = /*getcwd() . DIRECTORY_SEPARATOR .*/ $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
 
-        echo 'Stripdown for [' . $dir . '][' . $component . "]\n";
+        echo "\n\t" . 'Stripdown for [' . $dir . '][' . $component . "]\n";
     }
 
     function run()
@@ -68,7 +68,7 @@ class Stripdown
             echo "\t[+] Component found.\n";
             return true;
         } else {
-            echo "\t[-] Component not found.\n";
+            echo "\t[-] Component not found. Skipping. \n";
             return false;
         }
     }
@@ -325,7 +325,13 @@ class Stripdown
 
         $upx = getcwd() . '/bin/upx/upx.exe';
 
-        passthru('wine cmd.exe /c ' . $upx . ' ' . $this->stripdownFolderWithComponent . '/bin/*.exe');
+        if($this->component === 'imagick') {
+            $executablesPath = '/*.exe';
+        } else {
+            $executablesPath = '/bin/*.exe';
+        }
+
+        passthru('wine cmd.exe /c ' . $upx . ' ' . $this->stripdownFolderWithComponent . $executablesPath);
 
         echo "\t\tDone.\n";
     }
