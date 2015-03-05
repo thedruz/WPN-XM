@@ -43,13 +43,8 @@ class Stripdown
 
     function run()
     {
-        if(!$this->checkComponentExists()) {
-            exit(0);
-        }
-
-        if(!$this->checkFilesize()) {
-            exit(0);
-        }
+        $this->checkComponentExists();
+        $this->checkFilesize();
 
         $this->unzip();
         $this->renameFolder();
@@ -66,10 +61,10 @@ class Stripdown
         if(is_file($this->componentZipFileInDownloadFolder))
         {
             echo "\t[+] Component found.\n";
-            return true;
+            return;
         } else {
-            echo "\t[-] Component not found. Skipping. \n";
-            return false;
+            echo "\t[-] Component not found. Skipping.\n";
+            exit(0);
         }
     }
 
@@ -80,29 +75,29 @@ class Stripdown
         echo "\t\tFilesize before Stripdown: " . $size . " MB\n";
 
         if($this->component === 'postgresql' && $size >= '25') {
-            return true;
+            return;
         }
 
         if($this->component === 'imagick' && $size >= '55') {
-            return true;
+            return;
         }
 
         if($this->component === 'mariadb' && $size >= '25') {
-            return true;
+            return;
         }
 
         if($this->component === 'mongodb' && $size >= '50') {
-            return true;
+            return;
         }
 
-        return false;
+        exit(0);
     }
 
     function unzip()
     {
         echo "\t[x] Unzipping.\n";
 
-        exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
+        passthru('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
 
         echo "\t\tDone.\n";
     }
