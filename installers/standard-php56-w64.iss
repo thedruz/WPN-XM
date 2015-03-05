@@ -168,6 +168,7 @@ Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; 
 Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; DestName: "mongodb.conf.old"; Flags: external skipifsourcedoesntexist; Components: mongodb;
+Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 // config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
