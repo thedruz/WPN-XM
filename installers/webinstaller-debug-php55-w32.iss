@@ -844,7 +844,7 @@ begin
         // phpext_uprofiler installed with uprofiler
     end;
 
-    if (VCRedist2008NeedsInstall() = TRUE) then
+    if (VCRedist2012NeedsInstall() = TRUE) then
     begin
         idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
     end;
