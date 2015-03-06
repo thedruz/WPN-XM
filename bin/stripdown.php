@@ -100,7 +100,7 @@ class Stripdown
     {
         echo "\t[x] Unzipping.\n";
 
-        passthru('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
+        exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
 
         echo "\t\tDone.\n";
     }
@@ -329,7 +329,7 @@ class Stripdown
             $executablesPath = '/bin/*.exe';
         }
 
-        passthru('wine cmd.exe /c ' . $upx . ' ' . $this->stripdownFolderWithComponent . $executablesPath);
+        exec('wine cmd.exe /c ' . $upx . ' ' . $this->stripdownFolderWithComponent . $executablesPath);
 
         echo "\t\tDone.\n";
     }
@@ -342,7 +342,7 @@ class Stripdown
         unlink($this->componentZipFileInDownloadFolder);
 
         // zip the stripdown folder (and "replace" the old zip file)
-        passthru('7z a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . realpath($this->stripdownFolderWithComponent) . '/*');
+        exec('7z a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . realpath($this->stripdownFolderWithComponent) . '/*');
 
         echo "\t[+] Done.\n";
     }
