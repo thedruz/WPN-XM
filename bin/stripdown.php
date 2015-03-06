@@ -64,7 +64,7 @@ class Stripdown
             return;
         } else {
             echo "\t[-] Component not found. Skipping.\n";
-            exit(0);
+            exit;
         }
     }
 
@@ -91,7 +91,7 @@ class Stripdown
         }
 
         echo "\tThe archive is too small for a stripdown. Skipping.\n";
-        exit(0);
+        exit;
     }
 
     function unzip()
