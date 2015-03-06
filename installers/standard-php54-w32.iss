@@ -371,7 +371,7 @@ end;
 
 function VCRedist2012NeedsInstall: Boolean;
 begin
-  Result := not (VCVersionInstalled(VC_2012_REDIST_X86));
+  Result := not (VCVersionInstalled(VC_2012_REDIST_MIN_UPD4_X86));
   Log('Visual C++ 2012 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
