@@ -90,6 +90,7 @@ class Stripdown
             return;
         }
 
+        echo "\tThe archive is too small for a stripdown. Skipping.\n";
         exit(0);
     }
 
