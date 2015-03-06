@@ -39,7 +39,7 @@
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
-#define InstallerType "QA"
+#define InstallerType "LiteRC"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -112,7 +112,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 
 [Files]
 // incorporate all files of the download folder for this installation wizard
-Source: ..\downloads\qa-{#AppVersion}-php5.6-w64\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
+Source: ..\downloads\literc-{#AppVersion}-php5.6-w64\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
 // tools:
 Source: ..\bin\backup\7z.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
