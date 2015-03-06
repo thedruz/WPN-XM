@@ -158,12 +158,12 @@
         </foreach>
     </target>
 
-    <target name="compile-qa"
+    <target name="compile-literc"
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
-                <include name="**\qa-*.iss"/>
+                <include name="**\literc-*.iss"/>
             </fileset>
         </foreach>
     </target>
@@ -270,8 +270,9 @@
                     foreach ($registries as $registry) {
                         $basename = basename($registry, '.json');
 
-                        // skip full, because thats our download source / skip qa, too
-                        if ((false !== strpos($basename, 'full')) || (false !== strpos($basename, 'qa'))) {
+                        // skip "full", because these are general download sources
+                        // skip "literc", because these fetch PHP-RC versions
+                        if ((false !== strpos($basename, 'full')) || (false !== strpos($basename, 'literc'))) {
                             continue;
                         }
 
@@ -379,9 +380,9 @@
 
                     /**
                      * 5 x full installer (download all packages, then move to standard and lite folders)
-                     * 2 x qa installers
+                     * 2 x literc installers
                      */
-                    $registries = glob($this->registryfolder . DS . '{qa,full}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
+                    $registries = glob($this->registryfolder . DS . '{full,literc}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
 
                     foreach ($registries as $registry) {
 
@@ -446,9 +447,9 @@
 
                     /**
                      * 5 x full installer (download all packages, then move to standard and lite folders)
-                     * 2 x qa installers
+                     * 2 x literc installers
                      */
-                    $registries = glob($this->registryfolder . DS . '{qa,full}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
+                    $registries = glob($this->registryfolder . DS . '{full,literc}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
 
                     foreach ($registries as $registry)
                     {
@@ -508,7 +509,7 @@
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
             <fileset dir="${dir.Registry}">
                 <include name="**/downloads-for-full-${wpnxm.Version}-*.txt" />
-                <include name="**/downloads-for-qa-${wpnxm.Version}-*.txt" />
+                <include name="**/downloads-for-literc-${wpnxm.Version}-*.txt" />
             </fileset>
         </foreach>
     </target>
@@ -557,7 +558,7 @@
         <foreach target="stripdown-folder" param="full.installer.registry">
           <fileset dir="${dir.Registry}">
             <include name="**/*full-${wpnxm.Version}*.json"/>
-            <include name="**/*qa-${wpnxm.Version}*.json"/>
+            <include name="**/*literc-${wpnxm.Version}*.json"/>
           </fileset>
         </foreach>
     </target>
@@ -588,7 +589,7 @@
                     compile-standard,
                     compile-full,
                     compile-lite,
-                    compile-qa,
+                    compile-literc,
                     commit-versionized-registries,
                     reset-git-submodules,
                     kill-aria">
