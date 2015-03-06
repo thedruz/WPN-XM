@@ -72,25 +72,27 @@ class Stripdown
     {
         $size = $this->getFilesize($this->componentZipFileInDownloadFolder);
 
+        $size = round($size, 0);
+
         echo "\t\tFilesize before Stripdown: " . $size . " MB\n";
 
-        if($this->component === 'postgresql' && $size >= '25') {
+        if($this->component === 'postgresql' && $size >= 25) {
             return;
         }
 
-        if($this->component === 'imagick' && $size >= '55') {
+        if($this->component === 'imagick' && $size >= 55) {
             return;
         }
 
-        if($this->component === 'mariadb' && $size >= '25') {
+        if($this->component === 'mariadb' && $size >= 25) {
             return;
         }
 
-        if($this->component === 'mongodb' && $size >= '50') {
+        if($this->component === 'mongodb' && $size >= 50) {
             return;
         }
 
-        echo "\tThe archive is too small for a stripdown. Skipping.\n";
+        echo "\t\tThe archive is too small for a stripdown. Skipping.\n";
         exit;
     }
 
