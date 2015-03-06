@@ -497,12 +497,12 @@
         </copy>
     </target>
 
-    <target name="download-components-one-by-one" description="Download components for all full installers (with-aria in sequence)."
+    <target name="download-components" description="Download components for all full installers (with-aria in sequence)."
             depends="make-downloads-dir, download-files-simple">
         <echo message="Downloading Components - one by one via Aria."/>
     </target>
 
-    <target name="download-components" description="Download components for all full installers (with-aria parallel)"
+    <target name="download-components-aria" description="Download components for all full installers (with-aria parallel)"
             depends="make-downloads-dir, create-download-files">
         <echo message="Downloading Components using Aria"/>
         <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
