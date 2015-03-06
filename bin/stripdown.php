@@ -38,7 +38,7 @@ class Stripdown
         $folder = ($component != 'postgresql') ? $component : 'pgsql';
         $this->stripdownFolderWithComponent = /*getcwd() . DIRECTORY_SEPARATOR .*/ $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
 
-        echo "\n\t" . 'Stripdown for [' . $dir . '][' . $component . "]\n";
+        echo "\n\t" . 'Stripdown for [' . $dir . '][' . $component . "]\n\n";
     }
 
     function run()
@@ -60,10 +60,10 @@ class Stripdown
     {
         if(is_file($this->componentZipFileInDownloadFolder))
         {
-            echo "\t[+] Component found.\n";
+            echo "\t> Component found.\n";
             return;
         } else {
-            echo "\t[-] Component not found. Skipping.\n";
+            echo "\t> Component not found. Skipping.\n";
             exit;
         }
     }
@@ -98,7 +98,7 @@ class Stripdown
 
     function unzip()
     {
-        echo "\t[x] Unzipping.\n";
+        echo "\t> Unzipping.\n";
 
         exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
 
@@ -145,7 +145,7 @@ class Stripdown
 
     function stripdown()
     {
-        echo "\t[x] Stripdown [$this->component].\n";
+        echo "\t> Stripdown [$this->component].\n";
 
         if($this->component === 'postgresql') {
             // process the /bin folder
@@ -319,7 +319,7 @@ class Stripdown
 
     function compressExecutables()
     {
-        echo "\t[x] Compressing executables with UPX.\n";
+        echo "\t> Compressing executables with UPX.\n";
 
         $upx = getcwd() . '/bin/upx/upx.exe';
 
@@ -336,7 +336,7 @@ class Stripdown
 
     function zip()
     {
-        echo "\t[x] Zipping.\n";
+        echo "\t> Zipping.\n";
 
         // delete old zip file in the download folder
         unlink($this->componentZipFileInDownloadFolder);
@@ -344,12 +344,12 @@ class Stripdown
         // zip the stripdown folder (and "replace" the old zip file)
         exec('7z a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . realpath($this->stripdownFolderWithComponent) . '/*');
 
-        echo "\t[+] Done.\n";
+        echo "\t\tDone.\n";
     }
 
     function cleanup()
     {
-        echo "\t[x] Cleanup.\n";
+        echo "\t> Cleanup.\n";
 
         $this->deleteFolder($this->stripdownFolder);
 
@@ -365,7 +365,7 @@ class Stripdown
 
     function goodbye()
     {
-        echo "\t[+] Stripdown finished.\n";
+        echo "\t> Stripdown finished.\n";
 
         $size = $this->getFilesize($this->componentZipFileInDownloadFolder);
 
