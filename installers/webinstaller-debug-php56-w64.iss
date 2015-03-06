@@ -1016,7 +1016,7 @@ begin
   if Pos('node', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Node');
-       DoUnzip(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'));
+       FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('Node NPM');
