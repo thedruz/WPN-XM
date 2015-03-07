@@ -43,6 +43,16 @@
     <!-- 7zip -->
     <property name="7z" value="${wine} ${dir.Base}/bin/backup/7z.exe"/>
 
+    <!-- PHP
+    <php expression="ini_set('memory_limit', '1G');" />
+    <php expression="ini_get('memory_limit');" returnProperty="limit"/>
+    <echo>PHP memory_limit: ${limit}</echo>
+    -->
+
+    <!-- Force a Garbage Collection during stacked or foreached PhingCalls
+    <php expression="gc_collect_cycles();" />
+    -->
+
     <!--
                         Targets (Build Commands)
     -->
@@ -366,10 +376,7 @@
                 // add a download line in Aria2C Syntax
                 function insertDownload($url = '', $target = '')
                 {
-                    $txt .= $url . PHP_EOL;
-                    $txt .= '    out=' . $target . PHP_EOL;
-
-                    return $txt;
+                    return $url . PHP_EOL . '    out=' . $target . PHP_EOL;
                 }
 
                 function main()
@@ -395,7 +402,7 @@
 
                         foreach ($components as $component) {
                             $url    = $component[1];
-                            $target = 'downloads\\' . $basename . '\\' . $component[2];
+                            $target = 'downloads' . DS . $basename . DS . $component[2];
 
                             $txt .= $this->insertDownload($url, $target);
                         }
@@ -414,6 +421,109 @@
      <target name="download-files-simple" description="Download files for all full installers.">
         <adhoc-task name="DownloadFilesSimple"><![CDATA[
             class DownloadFiles extends Task
+            {
+                private $registryfolder;
+                private $wpnxmversion;
+
+                function setRegistryFolder($registryfolder)
+                {
+                    $this->registryfolder = realpath($registryfolder);
+                }
+
+                function setWpnxmVersion($wpnxmversion)
+                {
+                    $this->wpnxmversion = $wpnxmversion;
+                }
+
+                function main()
+                {
+                    if(!defined('DS')) {
+                        define('DS', DIRECTORY_SEPARATOR);
+                    }
+
+                    // wget fails on sourceforge downloads
+                    // $wget_cmd_template = "wget --continue --progress=bar:force --tries=5 --no-check-certificate %url% -O %targetFolder%/%targetFile%";
+
+                    //$curl_cmd_template = "curl -C - --insecure --fail --retry 5 --stderr - --location %url% -o %targetFolder%/%targetFile%";
+
+                    $aria_cmd_template = "aria2c \"%url%\" --dir=%targetFolder% --out=%targetFile%";
+                    $aria_cmd_template .= " --disk-cache=0 --max-download-result=0 --max-tries=5"; // --file-allocation=none,prealloc,alloc
+                    $aria_cmd_template .= " --check-certificate=false --split=6 --min-split-size=12M --max-connection-per-server=6";
+                    $aria_cmd_template .= " --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true";
+                    $aria_cmd_template .= " --quiet=true --user-agent=\"WPN-XM Server Stack Downloader\" ";
+
+                    /**
+                     * 5 x full installer (download all packages, then move to standard and lite folders)
+                     * 2 x literc installers
+                     */
+                    $registries = glob($this->registryfolder . DS . '{full,literc}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
+
+                    foreach ($registries as $registry)
+                    {
+                        $basename = basename($registry, '.json');
+
+                        $this->log('Starting Downloads for Installer ['. $basename .']');
+                        $this->log('');
+
+                        $targetFolder = 'downloads' . DS . $basename;
+
+                        if (!file_exists($targetFolder)) {
+                            mkdir($targetFolder, 0777, true);
+                        }
+
+                        $components = json_decode(file_get_contents($registry));
+
+                        foreach ($components as $component)
+                        {
+                            $url          = $component[1];
+                            $targetFile   = $component[2];
+
+                            $download_cmd = str_replace(
+                                array('%url%', '%targetFolder%', '%targetFile%'),
+                                array($url, $targetFolder, $targetFile),
+                                $aria_cmd_template
+                            );
+
+                            $this->log('Downloading: ' . $targetFolder . DS . $targetFile);
+
+                            exec($download_cmd);
+
+                            if(is_file($targetFolder . DS . $targetFile) === false) {
+                                $this->log('File not found. Download failed.');
+                            }
+
+                            unset($url, $targetFile, $download_cmd);
+                        }
+
+                        $this->log('');
+
+                        unset($basename, $targetFolder, $components);
+                    }
+                    unset($registries);
+                }
+            }
+        ]]></adhoc-task>
+        <!-- how to access properties defined in build.xml inside an adhoc-task? can we get rid of passing stuff in? -->
+        <DownloadFilesSimple registryfolder="${dir.Registry}" wpnxmversion="${wpnxm.Version}"/>
+    </target>
+
+    <target name="versionize-registries" description="Adds the build version number to the 'next' installer registry files.">
+        <copy todir="${dir.Registry}">
+          <mapper type="regexp" from="^(.*)-next-(.*).json" to="\1-${wpnxm.Version}-\2.json"/>
+          <fileset dir="${dir.Registry}">
+            <include name="**/*next*.json"/>
+          </fileset>
+        </copy>
+    </target>
+
+    <target name="download-components-sequence" description="Download components for all full installers (with-aria in sequence)."
+            depends="make-downloads-dir, download-files-simple">
+        <echo message="Downloading Components - one by one via Aria."/>
+    </target>
+
+    <target name="download-components" description="Download components for all full installers (with-aria parallel)">
+        <adhoc-task name="RunAria"><![CDATA[
+            class RunAria extends Task
             {
                 private $registryfolder;
                 private $downloadfolder;
@@ -436,95 +546,40 @@
 
                 function main()
                 {
-                    if(!defined('DS')) {
-                        define('DS', DIRECTORY_SEPARATOR);
-                    }
+                    if(!defined('DS')) { define('DS', DIRECTORY_SEPARATOR); }
 
-                    $aria_cmd_template = "aria2c \"%url%\" --dir=%targetFolder% --out=%targetFile%";
-                    $aria_cmd_template .= " --check-certificate=false --split=6 --min-split-size=2M --max-connection-per-server=6 --max-tries=5";
-                    $aria_cmd_template .= " --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true";
-                    $aria_cmd_template .= " --quiet=true --user-agent=\"WPN-XM Server Stack Downloader\" ";
+                    $this->log('Downloading Components using Aria');
 
-                    /**
-                     * 5 x full installer (download all packages, then move to standard and lite folders)
-                     * 2 x literc installers
-                     */
-                    $registries = glob($this->registryfolder . DS . '{full,literc}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
+                    // get aria download description files
+                    $files = glob($this->registryfolder . DS . 'downloads-for-{full,literc}-' . $this->wpnxmversion . '*.txt', GLOB_BRACE);
 
-                    foreach ($registries as $registry)
+                    foreach($files as $file)
                     {
-                        $basename = basename($registry, '.json');
+                        /**
+                                        Aria2C for Parallel Downloading
 
-                        $this->log('Starting Downloads for Installer ['. $basename .']');
-                        $this->log('');
+                            http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
+                            http://aria2.sourceforge.net/manual/en/html/aria2c.html
 
-                        $components = json_decode(file_get_contents($registry));
+                            the windows aria2c fails with a "WinTLS handshake error" | ${aria}
+                            the linux aria2c fails with "The response status is not successful"
+                        **/
 
-                        foreach ($components as $component) {
-                            $url          = $component[1];
-                            $targetFolder = 'downloads' . DS . $basename;
-                            $targetFile   = $component[2];
+                        $this->log('Using ' . $file);
 
-                            $aria_cmd = str_replace(
-                                array('%url%', '%targetFolder%', '%targetFile%'),
-                                array($url, $targetFolder, $targetFile),
-                                $aria_cmd_template
-                            );
+                        $aria_cmd = 'aria2c -i ' . $file
+                        . ' --deferred-input=true --console-log-level=warn --log-level=warn'
+                        . ' --file-allocation=none --disk-cache=0 --max-download-result=0 --check-certificate=false'
+                        . ' --split=4 --min-split-size=22M --max-connection-per-server=4 --max-tries=5'
+                        . ' --conditional-get=true --auto-file-renaming=false --allow-overwrite=true'
+                        . ' --http-accept-gzip=true --user-agent=WPN-XM Server Stack Downloader';
 
-                            $this->log('Downloading: ' . $targetFolder . DS . $targetFile);
-
-                            exec($aria_cmd);
-
-                            if(is_file($targetFolder . DS . $targetFile) === false) {
-                                $this->log('File not found. Download failed.');
-                            }
-                        }
-
-                        $this->log('');
+                        exec($aria_cmd);
                     }
                 }
             }
         ]]></adhoc-task>
-        <!-- how to access properties defined in build.xml inside an adhoc-task? can we get rid of passing stuff in? -->
-        <DownloadFilesSimple registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
-    </target>
-
-    <target name="versionize-registries" description="Adds the build version number to the 'next' installer registry files.">
-        <copy todir="${dir.Registry}">
-          <mapper type="regexp" from="^(.*)-next-(.*).json" to="\1-${wpnxm.Version}-\2.json"/>
-          <fileset dir="${dir.Registry}">
-            <include name="**/*next*.json"/>
-          </fileset>
-        </copy>
-    </target>
-
-    <target name="download-components" description="Download components for all full installers (with-aria in sequence)."
-            depends="make-downloads-dir, download-files-simple">
-        <echo message="Downloading Components - one by one via Aria."/>
-    </target>
-
-    <target name="download-components-aria" description="Download components for all full installers (with-aria parallel)"
-            depends="make-downloads-dir, create-download-files">
-        <echo message="Downloading Components using Aria"/>
-        <foreach target="downloading-components-for-installer" param="installer.aria.downloads">
-            <fileset dir="${dir.Registry}">
-                <include name="**/downloads-for-full-${wpnxm.Version}-*.txt" />
-                <include name="**/downloads-for-literc-${wpnxm.Version}-*.txt" />
-            </fileset>
-        </foreach>
-    </target>
-
-    <target name="downloading-components-for-installer" description="Downloads all components for building the 'not-web' Installers.">
-        <!--
-                        Aria2C for Parallel Downloading
-
-            http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
-            http://aria2.sourceforge.net/manual/en/html/aria2c.html
-        -->
-        <echo message="Using ${dir.Registry}/${installer.aria.downloads}" />
-        <!-- the windows aria2c fails with a "WinTLS handshake error" -->
-        <!-- the linux aria2c fails with "The response status is not successful." -->
-        <exec command="${aria} -i ${dir.Registry}/${installer.aria.downloads} --check-certificate=false --split=6 --min-split-size=2M --max-connection-per-server=6 --max-tries=5 --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true --user-agent=WPN-XM Server Stack Downloader" dir="${dir.Base}" level="debug" passthru="true" />
+        <RunAria registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
     </target>
 
     <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
@@ -582,8 +637,36 @@
                     print-version-number,
                     clean-webinterface-folder,
                     versionize-registries,
+                    make-downloads-dir,
+                    create-download-files,
                     download-components,
                     stripdown-all,
+                    move-downloads,
+                    compile-webinstaller,
+                    compile-standard,
+                    compile-full,
+                    compile-lite,
+                    compile-literc,
+                    commit-versionized-registries,
+                    reset-git-submodules,
+                    kill-aria">
+    </target>
+
+    <target name="main-part1"
+            depends="clean-build-dir,
+                    reset-git-submodules,
+                    update-git-submodules,
+                    bump-version-number,
+                    print-version-number,
+                    clean-webinterface-folder,
+                    versionize-registries,
+                    make-downloads-dir,
+                    create-download-files">
+    </target>
+
+    <!-- removed "download-components" from main-part2, trying to execute this target with ant -->
+    <target name="main-part2"
+            depends="stripdown-all,
                     move-downloads,
                     compile-webinstaller,
                     compile-standard,
