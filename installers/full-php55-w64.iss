@@ -805,7 +805,7 @@ begin
 
   if Pos('git', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Git for Windows & Go Git Service');
+    UpdateCurrentComponentName('Git for Windows + Go Git Service');
       ExtractTemporaryFile(Filename_gogitservice);
       ExtractTemporaryFile(Filename_msysgit);
       DoUnzip(ExpandConstant(targetPath + Filename_gogitservice), ExpandConstant('{app}\bin\git')); // no subfolder, brings own dir (/gogs)
@@ -823,7 +823,7 @@ begin
 
   if Pos('assettools', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Google Closure Compiler & yuicompressor');
+    UpdateCurrentComponentName('Google Closure Compiler + yuicompressor');
       ExtractTemporaryFile(Filename_closure_compiler);
       ExtractTemporaryFile(Filename_yuicompressor);
       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));

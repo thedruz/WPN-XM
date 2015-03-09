@@ -992,7 +992,7 @@ begin
 
   if Pos('git', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Git for Windows & Go Git Service');
+    UpdateCurrentComponentName('Git for Windows + Go Git Service');
       DoUnzip(ExpandConstant(targetPath + Filename_gogitservice), ExpandConstant('{app}\bin\git')); // no subfolder, brings own dir (/gogs)
       DoUnzip(ExpandConstant(targetPath + Filename_msysgit), ExpandConstant('{app}\bin\git\msysgit'));
     UpdateTotalProgressBar();
@@ -1007,7 +1007,7 @@ begin
 
   if Pos('assettools', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Google Closure Compiler & yuicompressor');
+    UpdateCurrentComponentName('Google Closure Compiler + yuicompressor');
       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
       FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
     UpdateTotalProgressBar();

@@ -793,7 +793,7 @@ begin
 
   if Pos('assettools', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Google Closure Compiler & yuicompressor');
+    UpdateCurrentComponentName('Google Closure Compiler + yuicompressor');
       ExtractTemporaryFile(Filename_closure_compiler);
       ExtractTemporaryFile(Filename_yuicompressor);
       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
