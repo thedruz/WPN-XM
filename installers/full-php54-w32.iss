@@ -213,8 +213,8 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 
 [Run]
 // Automatically started...
-Filename: {app}\bin\perl\relocation.pl.bat; Components: perl;
-Filename: {app}\bin\perl\update_env.pl.bat; Components: perl;
+Filename: {app}\bin\perl\relocation.pl.bat; Flags: runhidden; Components: perl;
+Filename: {app}\bin\perl\update_env.pl.bat; Flags: runhidden; Components: perl;
 // VCRedist Conditional Installation Check
 Filename: "{tmp}\vcredist_x86_2008.exe"; Check: VCRedist2008NeedsInstall
 // User selected Postinstallation runs...

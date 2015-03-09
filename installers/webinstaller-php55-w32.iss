@@ -218,8 +218,8 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb"; Flags: runhidden;
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb; Flags: runhidden;
 Filename: {tmp}\stripdown-postgresql.bat; Parameters: "{app}\bin\pgsql"; Components: postgresql; Flags: runhidden;
-Filename: {app}\bin\perl\relocation.pl.bat; Components: perl; Flags: runhidden;
-Filename: {app}\bin\perl\update_env.pl.bat; Components: perl; Flags:runhidden;
+Filename: {app}\bin\perl\relocation.pl.bat; Flags: runhidden; Components: perl;
+Filename: {app}\bin\perl\update_env.pl.bat; Flags: runhidden; Components: perl;
 // User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
