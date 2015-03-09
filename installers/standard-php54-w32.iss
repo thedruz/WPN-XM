@@ -267,7 +267,7 @@ const
   Filename_memcached         = 'memcached.zip';
   Filename_mongodb           = 'mongodb.zip';
   Filename_nginx             = 'nginx.zip';
-  Filename_openssl           = 'openssl.exe';
+  Filename_openssl           = 'openssl.zip';
   Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
   Filename_phpcsfixer        = 'php-cs-fixer.phar';

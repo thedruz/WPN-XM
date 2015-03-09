@@ -283,7 +283,7 @@ const
   Filename_nginx                 = 'nginx.zip';
   Filename_node                  = 'node.exe'; // WATCH IT: EXE!
   Filename_nodenpm               = 'nodenpm.zip';
-  Filename_openssl               = 'openssl.exe';
+  Filename_openssl               = 'openssl.zip';
   Filename_pear                  = 'go-pear.phar';
   Filename_perl                  = 'perl.zip';
   Filename_php                   = 'php.zip';
