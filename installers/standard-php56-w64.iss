@@ -975,7 +975,7 @@ begin
   // composer is not zipped, its just a php phar package, so copy it to the php path
   if Pos('composer', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('composer');
+    UpdateCurrentComponentName('Composer');
       ExtractTemporaryFile(Filename_composer);
       FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
     UpdateTotalProgressBar();
