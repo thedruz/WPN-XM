@@ -207,9 +207,13 @@ class Stripdown
             # keep mysql.exe
             $this->deleteFiles($this->stripdownFolderWithComponent . '/bin/mysql_embedded.exe');
             # keep mysql_install_db.exe
+            # removed, because of false positive detection after UPX compression
+            $this->deleteFiles($this->stripdownFolderWithComponent . '/bin/mysql_install_db.exe');
             $this->deleteFiles($this->stripdownFolderWithComponent . '/bin/mysql_plugin.exe');
             $this->deleteFiles($this->stripdownFolderWithComponent . '/bin/mysql_tzinfo_to_sql.exe');
             # keep mysql_upgrade.exe
+            # removed, because of false positive detection after UPX compression
+            $this->deleteFiles($this->stripdownFolderWithComponent . '/bin/mysql_upgrade.exe');
             # keep mysql_upgrade_service.exe
             # keep mysql_upgrade_wizard.exe
             # keep mysqladmin.exe
