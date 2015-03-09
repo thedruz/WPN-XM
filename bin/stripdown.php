@@ -350,7 +350,7 @@ class Stripdown
         unlink($this->componentZipFileInDownloadFolder);
 
         // zip the stripdown folder (and "replace" the old zip file)
-        exec('7z a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . realpath($this->stripdownFolderWithComponent) . '/*');
+        exec('7z a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . realpath($this->stripdownFolder) . '/*');
 
         echo "\t\tDone.\n";
     }
