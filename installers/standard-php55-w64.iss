@@ -173,6 +173,7 @@ Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backu
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
 Source: ..\configs\webgrind.config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind

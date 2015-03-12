@@ -150,6 +150,7 @@ Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backu
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
 // Visual C++ Redistributable 2010 is needed by PHP VC11 builds
 // The file is always included, but installed only if needed, see conditional install check in the run section.
