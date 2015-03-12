@@ -185,6 +185,7 @@ Source: ..\configs\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Componen
 Source: ..\configs\webgrind.config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
 Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
 Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
+Source: ..\configs\openssl.conf; DestDir: {app}\bin\openssl; Components: openssl
 // Visual C++ Redistributable 2010 is needed by PHP VC11 builds
 // The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x64_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
