@@ -191,7 +191,7 @@ Source: ..\configs\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Componen
 Source: ..\configs\webgrind.config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
 //Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
 Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
-Source: ..\configs\openssl.conf; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\wpn-xm.exe; Tasks: add_startmenu
