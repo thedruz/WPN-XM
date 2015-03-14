@@ -43,15 +43,14 @@
     <!-- 7zip -->
     <property name="7z" value="${wine} ${dir.Base}/bin/backup/7z.exe"/>
 
-    <!-- PHP
-    <php expression="ini_set('memory_limit', '1G');" />
+    <!-- PHP -->
+    <php expression="ini_set('memory_limit', '2G');" />
     <php expression="ini_get('memory_limit');" returnProperty="limit"/>
     <echo>PHP memory_limit: ${limit}</echo>
-    -->
 
-    <!-- Force a Garbage Collection during stacked or foreached PhingCalls
+
+    <!-- Force a Garbage Collection during stacked or foreached PhingCalls -->
     <php expression="gc_collect_cycles();" />
-    -->
 
     <!--
                         Targets (Build Commands)

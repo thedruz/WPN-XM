@@ -16,6 +16,8 @@ before_install:
   - sudo free -m -t
   - sudo /etc/init.d/mysql stop
   - sudo /etc/init.d/postgresql stop
+  - sudo service couchdb stop
+  - sudo service redis-server stop
   - sudo free -m -t
   # install apt-fast to speedup later dependency installation
   - sudo add-apt-repository -y ppa:apt-fast/stable
