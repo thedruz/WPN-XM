@@ -27,6 +27,22 @@ TEMPLATE FOR  NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
+[14.03.2015]  REL   VERSION 0.8.2
+------------  ----------------------------------------------------------------
+
+  14.03.2015  FIX   mariadb inital database creation failed
+              FIX   updated wpn-xm.ini with missing values
+              FIX   missing openssl.conf
+              FIX   paths in generate-certificates.bat
+              FIX   copy additional nginx config examples (domains-disabled)
+              FIX   mariadb extraction error
+              FIX   openssl extraction error
+              FIX   run PERL relocation script hidden
+              CHG   disable deprecated PHP Extensions php_mysql in default cfg
+              FIX   ampersand UTF-8 problem in the install wizard by using +
+              FIX   rockmongo is no longer extracted to \bin but to \www\tools
+
+------------  ----------------------------------------------------------------
 [07.03.2015]  REL   VERSION 0.8.1
 ------------  ----------------------------------------------------------------
 
