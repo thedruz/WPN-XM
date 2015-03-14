@@ -170,7 +170,7 @@
 
     <target name="compile-literc"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
+            depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**\literc-*.iss"/>
@@ -180,7 +180,7 @@
 
     <target name="compile-lite"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
+            depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**\lite-*.iss"/>
@@ -200,7 +200,7 @@
 
     <target name="compile-standard"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
+            depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**\standard-*.iss" />
@@ -220,7 +220,7 @@
 
     <target name="compile-full"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder, download-components, move-downloads, stripdown-all">
+            depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**\full-*.iss" />
