@@ -1477,7 +1477,7 @@ begin
       //MsgBox('User clicked YES!', mbInformation, MB_OK);
 
 	  // fix "read-only" status of all files and folders, else some things might remain after uninstallation
-	  Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\*.* /s"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+	  Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\*.* /s /d"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
       DeleteWPNXM(ExpandConstant('{app}'));
     end else begin
