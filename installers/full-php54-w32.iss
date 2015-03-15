@@ -1201,7 +1201,7 @@ begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
       // fix "read-only" status of "pthreadGC2.dll", else this file will remain after uninstallation
-      Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\bin\memcached\pthreadGC2.dll"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\bin\memcached\*.*" /s', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
 
       // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
@@ -1478,6 +1478,10 @@ begin
         'Do you want to proceed?'#13#10, mbConfirmation, MB_YESNO) = IDYES
     then begin
       //MsgBox('User clicked YES!', mbInformation, MB_OK);
+
+	  // fix "read-only" status of all files and folders, else some things might remain after uninstallation
+	  Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\*.* /s"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+
       DeleteWPNXM(ExpandConstant('{app}'));
     end else begin
       //MsgBox('User clicked No!', mbInformation, MB_OK);
