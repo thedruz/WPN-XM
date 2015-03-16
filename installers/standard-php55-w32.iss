@@ -132,7 +132,7 @@ Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDi
 // incorporate all files of the download folder for this installation wizard
 Source: ..\downloads\standard-{#AppVersion}-php5.5-w32\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
 // tools:
-Source: ..\bin\backup\7z.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
@@ -665,7 +665,7 @@ begin
     // source contains tmp constant, so resolve it to path name
     source := ExpandConstant(source);
 
-    unzipTool := ExpandConstant('{tmp}\7z.exe');
+    unzipTool := ExpandConstant('{tmp}\7za.exe');
 
     if not FileExists(unzipTool)
     then MsgBox('UnzipTool not found: ' + unzipTool, mbError, MB_OK)
@@ -746,7 +746,7 @@ begin
   if (DEBUG = true) then MsgBox('Each processed component will add ' + intToStr(percentagePerComponent) + ' % to the progress bar.', mbInformation, MB_OK);
 
   // fetch the unzip command from the compressed setup
-  ExtractTemporaryFile('7z.exe');
+  ExtractTemporaryFile('7za.exe');
   ExtractTemporaryFile('RunHiddenConsole.exe');
 
   // define hideConsole shortcut
