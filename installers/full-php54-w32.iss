@@ -218,7 +218,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 Filename: {app}\bin\perl\relocation.pl.bat; Flags: runhidden; Components: perl;
 Filename: {app}\bin\perl\update_env.pl.bat; Flags: runhidden; Components: perl;
 // VCRedist Conditional Installation Check
-Filename: "{tmp}\vcredist_x86_2008.exe"; Check: VCRedist2008NeedsInstall
+Filename: "{tmp}\vcredist_x86_2008.exe"; Parameters: "/quiet /norestart"; Check: VCRedist2008NeedsInstall; Flags: nowait
 // User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
