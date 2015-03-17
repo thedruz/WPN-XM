@@ -125,7 +125,7 @@ Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webint
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 33430000; Types: full
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
-Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 620000; Types: full
+Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
@@ -312,7 +312,7 @@ const
   Filename_pickle                = 'pickle.phar';
   Filename_postgresql            = 'postgresql.zip';
   Filename_redis                 = 'redis.zip';
-  Filename_rockmongo             = 'rockmongo.zip';
+  Filename_robomongo             = 'robomongo.zip';
   Filename_sendmail              = 'sendmail.zip';
   Filename_varnish               = 'varnish.zip';
   Filename_webgrind              = 'webgrind.zip';
@@ -1100,11 +1100,11 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('rockmongo', selectedComponents) > 0 then
+  if Pos('robomongo', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('RockMongo');
-      ExtractTemporaryFile(Filename_rockmongo);
-      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+    UpdateCurrentComponentName('RoboMongo');
+      ExtractTemporaryFile(Filename_robomongo);
+      DoUnzip(targetPath + Filename_robomongo, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
     UpdateTotalProgressBar();
   end;
 
@@ -1134,7 +1134,6 @@ end;
 procedure MoveFiles();
 var
   selectedComponents: String;
-  RockmongoCrapDir: String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
@@ -1178,14 +1177,10 @@ begin
       Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
-  if Pos('rockmongo', selectedComponents) > 0 then
+  if Pos('robomongo', selectedComponents) > 0 then
   begin
-      // remove version number from folder name. rockmongo comes in a versionized folder "rockmongo-1.2.3".
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\rockmongo* ' + appPath + '\www\tools\rockmongo"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-      // older versions of rockmongo.zip also bring a "__MACOSX" folder with ".DS_Store" file. let's get rid of that crap
-      RockmongoCrapDir := AddBackslash(ExpandConstant('{app}\www\tools\__MACOSX'));
-      if DirExists(RockmongoCrapDir) then DelTree(RockmongoCrapDir, True, True, True);
+      // remove version number from folder name. robomongo comes in a versionized folder "robomongo-1.2.3-i386".
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\robomongo-* ' + appPath + '\bin\robomongo"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('uprofiler', selectedComponents) > 0 then

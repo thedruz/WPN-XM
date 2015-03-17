@@ -128,7 +128,7 @@ Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webint
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 33430000; Types: full
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
-Name: rockmongo; Description: RockMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 620000; Types: full
+Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 620000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
@@ -322,7 +322,7 @@ const
   URL_pickle                = 'http://wpn-xm.org/get.php?s=pickle';
   URL_postgresql            = 'http://wpn-xm.org/get.php?s=postgresql';
   URL_redis                 = 'http://wpn-xm.org/get.php?s=redis';
-  URL_rockmongo             = 'http://wpn-xm.org/get.php?s=rockmongo';
+  URL_robomongo             = 'http://wpn-xm.org/get.php?s=robomongo';
   URL_sendmail              = 'http://wpn-xm.org/get.php?s=sendmail';
   URL_varnish               = 'http://wpn-xm.org/get.php?s=varnish';
   URL_vcredist              = 'http://wpn-xm.org/get.php?s=vcredist-x64&v=11.0.61030'; // VCRedist 2012 x64
@@ -373,7 +373,7 @@ const
   Filename_pickle                = 'pickle.phar';
   Filename_postgresql            = 'postgresql.zip';
   Filename_redis                 = 'redis.zip';
-  Filename_rockmongo             = 'rockmongo.zip';
+  Filename_robomongo             = 'robomongo.zip';
   Filename_sendmail              = 'sendmail.zip';
   Filename_varnish               = 'varnish.zip';
   Filename_vcredist              = 'vcredist_x86.exe';
@@ -821,7 +821,7 @@ begin
     if IsComponentSelected('postgresql')         then idpAddFile(URL_postgresql,        ExpandConstant(targetPath + Filename_postgresql));
     if IsComponentSelected('pickle')             then idpAddFile(URL_pickle,            ExpandConstant(targetPath + Filename_pickle));
     if IsComponentSelected('redis')              then idpAddFile(URL_redis,             ExpandConstant(targetPath + Filename_redis));
-    if IsComponentSelected('rockmongo')          then idpAddFile(URL_rockmongo,         ExpandConstant(targetPath + Filename_rockmongo));
+    if IsComponentSelected('robomongo')          then idpAddFile(URL_robomongo,         ExpandConstant(targetPath + Filename_robomongo));
     if IsComponentSelected('sendmail')           then idpAddFile(URL_sendmail,          ExpandConstant(targetPath + Filename_sendmail));
     if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxmscp));
     if IsComponentSelected('webgrind')           then idpAddFileSize(URL_webgrind,      ExpandConstant(targetPath + Filename_webgrind), 648000);
@@ -1247,10 +1247,10 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('rockmongo', selectedComponents) > 0 then
+  if Pos('robomongo', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('RockMongo');
-      DoUnzip(targetPath + Filename_rockmongo, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+    UpdateCurrentComponentName('RoboMongo');
+      DoUnzip(targetPath + Filename_robomongo, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
     UpdateTotalProgressBar();
   end;
 
@@ -1277,7 +1277,6 @@ end;
 procedure MoveFiles();
 var
   selectedComponents: String;
-  RockmongoCrapDir: String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
@@ -1326,14 +1325,10 @@ begin
     Exec(hideConsole, 'cmd.exe /c {tmp}\vcredist_x64.exe /quiet /norestart', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
-  if Pos('rockmongo', selectedComponents) > 0 then
+  if Pos('robomongo', selectedComponents) > 0 then
   begin
-      // remove version number from folder name. rockmongo comes in a versionized folder "rockmongo-1.2.3".
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\rockmongo* ' + appPath + '\www\tools\rockmongo"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
-
-      // older versions of rockmongo.zip also bring a "__MACOSX" folder with ".DS_Store" file. let's get rid of that crap
-      RockmongoCrapDir := AddBackslash(ExpandConstant('{app}\www\tools\__MACOSX'));
-      if DirExists(RockmongoCrapDir) then DelTree(RockmongoCrapDir, True, True, True);
+      // remove version number from folder name. robomongo comes in a versionized folder "robomongo-1.2.3-i386".
+      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\robomongo-* ' + appPath + '\bin\robomongo"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
   end;
 
   if Pos('uprofiler', selectedComponents) > 0 then
