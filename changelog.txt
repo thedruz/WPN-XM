@@ -30,6 +30,8 @@ _____________________________________________________________________________
 [tba.2015]    REL   VERSION 0.8.3
 ------------  ----------------------------------------------------------------
 
+  22.03.2015  NEW   added Strawberry Perl x64
+              CHG   x64 versions of the Full Installer include Perl x64
   17.03.2015  NEW   added RoboMongo
               CHG   dropped RockMongo - unmaintained.
               CHG   silent installation of VCREDIST
