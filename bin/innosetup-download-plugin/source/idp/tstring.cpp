@@ -105,3 +105,29 @@ void tstringtoset(set<tstring> &stringset, tstring str, _TCHAR sep)
     while(getline(s, token, sep))
         stringset.insert(token);
 }
+
+tstring addslash(tstring s)
+{
+    if(s.empty())
+        return s;
+
+    tstring r = s;
+
+    if(!(r.at(r.length()-1) == '/'))
+        r.append(_T("/"));
+    
+    return r;
+}
+
+tstring addbackslash(tstring s)
+{
+    if(s.empty())
+        return s;
+
+    tstring r = s;
+
+    if(!(r.at(r.length()-1) == '\\'))
+        r.append(_T("\\"));
+    
+    return r;
+}

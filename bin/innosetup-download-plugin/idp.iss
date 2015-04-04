@@ -11,27 +11,42 @@
     #pragma include __INCLUDE__ + ";" + IDPROOT + "\ansi"
 #endif
 
-; If IDPDEBUG is defined before including idp.iss, script will use debug version of idp.dll (not included, you need to build it yourself).
+; If IDP_DEBUG is defined before including idp.iss, script will use debug version of idp.dll (not included, you need to build it yourself).
 ; Debug dll messages can be viewed with SysInternals DebugView (http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx)
-#ifdef IDPDEBUG
+#ifdef IDP_DEBUG
     #define DBGSUFFIX " debug"
 #else
     #define DBGSUFFIX
-#endif         
+#endif
+
+#ifdef UNICODE
+    #define IDPDLLDIR IDPROOT + "\unicode" + DBGSUFFIX
+#else
+    #define IDPDLLDIR IDPROOT + "\ansi" + DBGSUFFIX
+#endif
+
+#define IDP_VER_MAJOR         
+#define IDP_VER_MINOR
+#define IDP_VER_REV
+#define IDP_VER_BUILD
+
+#expr ParseVersion(IDPDLLDIR + "\idp.dll", IDP_VER_MAJOR, IDP_VER_MINOR, IDP_VER_REV, IDP_VER_BUILD)
+#define IDP_VER EncodeVer(IDP_VER_MAJOR, IDP_VER_MINOR, IDP_VER_REV, IDP_VER_BUILD)
+
+#define IDP_VER_STR GetFileVersion(IDPDLLDIR + "\idp.dll")
 
 [Files]
-#ifdef UNICODE
-Source: "{#IDPROOT}\unicode{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
-#else
-Source: "{#IDPROOT}\ansi{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
-#endif
+Source: "{#IDPDLLDIR}\idp.dll"; Flags: dontcopy;
 
 [Code]
 procedure idpAddFile(url, filename: String);                     external 'idpAddFile@files:idp.dll cdecl';
 procedure idpAddFileComp(url, filename, components: String);     external 'idpAddFileComp@files:idp.dll cdecl';
 procedure idpAddMirror(url, mirror: String);                     external 'idpAddMirror@files:idp.dll cdecl';
+procedure idpAddFtpDir(url, mask, destdir: String; recursive: Boolean); external 'idpAddFtpDir@files:idp.dll cdecl';
+procedure idpAddFtpDirComp(url, mask, destdir: String; recursive: Boolean; components: String); external 'idpAddFtpDirComp@files:idp.dll cdecl';
 procedure idpClearFiles;                                         external 'idpClearFiles@files:idp.dll cdecl';
 function  idpFilesCount: Integer;                                external 'idpFilesCount@files:idp.dll cdecl';
+function  idpFtpDirsCount: Integer;                              external 'idpFtpDirsCount@files:idp.dll cdecl';
 function  idpFileDownloaded(url: String): Boolean;               external 'idpFileDownloaded@files:idp.dll cdecl';
 function  idpFilesDownloaded: Boolean;                           external 'idpFilesDownloaded@files:idp.dll cdecl';
 function  idpDownloadFile(url, filename: String): Boolean;       external 'idpDownloadFile@files:idp.dll cdecl';
@@ -40,6 +55,7 @@ function  idpDownloadFilesComp: Boolean;                         external 'idpDo
 function  idpDownloadFilesCompUi: Boolean;                       external 'idpDownloadFilesCompUi@files:idp.dll cdecl';
 procedure idpStartDownload;                                      external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpStopDownload;                                       external 'idpStopDownload@files:idp.dll cdecl';
+procedure idpSetLogin(login, password: String);                  external 'idpSetLogin@files:idp.dll cdecl';
 procedure idpSetProxyMode(mode: String);                         external 'idpSetProxyMode@files:idp.dll cdecl';
 procedure idpSetProxyName(name: String);                         external 'idpSetProxyName@files:idp.dll cdecl';
 procedure idpSetProxyLogin(login, password: String);             external 'idpSetProxyLogin@files:idp.dll cdecl';
@@ -51,7 +67,7 @@ procedure idpSetComponents(components: String);                  external 'idpSe
 procedure idpReportError;                                        external 'idpReportError@files:idp.dll cdecl';
 procedure idpTrace(text: String);                                external 'idpTrace@files:idp.dll cdecl';
 
-#ifdef UNICODE
+#if defined(UNICODE) && (Ver >= 0x05050300)
 procedure idpAddFileSize(url, filename: String; size: Int64);    external 'idpAddFileSize@files:idp.dll cdecl';
 procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: String); external 'idpAddFileSize@files:idp.dll cdecl';
 function  idpGetFileSize(url: String; var size: Int64): Boolean; external 'idpGetFileSize@files:idp.dll cdecl';
@@ -294,7 +310,7 @@ end;
 function idpShouldSkipPage(Page: TWizardPage): Boolean;
 begin
     idpSetComponents(WizardSelectedComponents(false));
-    Result := (idpFilesCount = 0) or idpFilesDownloaded;
+    Result := ((idpFilesCount = 0) and (idpFtpDirsCount = 0)) or idpFilesDownloaded;
 end;
 
 function idpBackButtonClick(Page: TWizardPage): Boolean;
@@ -315,7 +331,7 @@ end;
 
 procedure idpCancelButtonClick(Page: TWizardPage; var Cancel, Confirm: Boolean);
 begin
-    if MsgBox(SetupMessage(msgExitSetupMessage), mbConfirmation, MB_YESNO) = IDYES then
+    if ExitSetupMsgBox then
     begin
         IDPForm.Status.Caption := ExpandConstant('{cm:IDP_CancellingDownload}');
         WizardForm.Repaint;

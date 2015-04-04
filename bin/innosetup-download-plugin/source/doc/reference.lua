@@ -1,3 +1,5 @@
+group "Functions"
+
 idpAddFile = {
     proto = [[
 procedure idpAddFile(url, filename: String);
@@ -6,7 +8,8 @@ procedure idpAddFileComp(url, filename, components: String);
 procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: String);
 ]],
     title = "idpAddFile, idpAddFileSize, idpAddFileComp, idpAddFileSizeComp",
-    desc  = "Adds file to download list. User name, password and port number can be specified as part of the URL.",
+    desc  = [[Adds file to download list. User name, password and port number can be specified as part of the URL
+              (this will override global user name and password, specified with @idpSetLogin function).]],
     params = {
         { "url",      "Full file URL" },
         { "filename", "File name on the local disk." },
@@ -15,10 +18,11 @@ procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: Str
                                 A file without a components parameter is always downloaded.]] }
     },
     notes = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup",
-              "idpDownloadFiles() and idpGetFilesSize() ignores this parameter"
+              "@idpDownloadFiles and @idpGetFilesSize ignores this parameter"
         },
-    seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles" },
-    keywords = { "login", "password", "components" },
+    seealso  = { "idpAddFtpDir", "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles", "idpSetLogin" },
+--  keywords = { "login", "password", "components" },
+    keywords = { "file", "files", "components" },
     example  = [[
 procedure <b>InitializeWizard</b>();
 begin
@@ -47,13 +51,13 @@ idpAddMirror = {
 
 idpClearFiles = {
     proto   = "procedure idpClearFiles;",
-    desc    = "Clear all files, previously added with idpAddFile() procedure",
+    desc    = "Clear all files, previously added with @idpAddFile procedure",
     seealso = { "idpAddFile" }
 }
 
 idpFilesCount = {
     proto   = "function idpFilesCount: Integer;",
-    desc    = "Returns number of files, previously added with idpAddFile() procedure.",
+    desc    = "Returns number of files, previously added with @idpAddFile procedure.",
     returns = "Number of files",
     seealso = { "idpAddFile", "idpClearFiles" }
 }
@@ -102,7 +106,7 @@ idpDownloadFile = {
 
 idpDownloadFiles = {
     proto   = "function idpDownloadFiles: Boolean;",
-    desc    = [[Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.
+    desc    = [[Immediately download all files, previously added with @idpAddFile procedure, without UI indication. Returns when all files downloaded.
               This function always downloads all files, ignoring component selection.]],
     returns = idpFilesDownloaded.returns,
     seealso = { "idpDownloadFilesComp", "idpDownloadFile", "idpDownloadAfter" }
@@ -110,7 +114,7 @@ idpDownloadFiles = {
 
 idpDownloadFilesComp = {
     proto   = "function idpDownloadFilesComp: Boolean;",
-    desc    = "Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.",
+    desc    = "Immediately download all files, previously added with @idpAddFile procedure, without UI indication. Returns when all files downloaded.",
     returns = idpFilesDownloaded.returns,
     seealso = { "idpDownloadFiles", "idpDownloadFile", "idpDownloadAfter" }
 }
@@ -123,7 +127,7 @@ idpDownloadAfter = {
     },
     example = idpAddFile.example,
     notes   = { 'When using <a href="http://www.graphical-installer.com/">Graphical Installer</a>, this function should be called <u>before</u> calling InitGraphicalInstaller()' },
-    seealso = { "idpAddFile" }
+    seealso = { "idpAddFile", "idpAddFtpDir" }
 }
 
 idpGetFileSize = {
@@ -146,7 +150,7 @@ if idpGetFileSize('http://www.example.com/file.zip', size) then
 
 idpGetFilesSize = {
     proto = "function idpGetFilesSize(var size: Int64{note-1}): Boolean;",
-    desc  = "Get size of all files, previously added with <a href=\"idpAddFile, idpAddFileSize.htm\">idpAddFile</a> procedure.",
+    desc  = "Get size of all files, previously added with @idpAddFile procedure.",
     params = {
         { "size", "The variable to store the size into" }
     },
@@ -154,6 +158,8 @@ idpGetFilesSize = {
     notes   = idpGetFileSize.notes,
     seealso = { "idpGetFileSize" }
 }
+
+dofile "version.lua" --idp version functions
 
 idpSetOption = {
     proto = "procedure idpSetOption(name, value: String);",
@@ -164,10 +170,10 @@ idpSetOption = {
     },
     options = {
         { "AllowContinue",    [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
-                              you can use <a href="idpFilesDownloaded.htm">idpFilesDownloaded</a> function 
-                              to check download status]],                                                                 "0{note-1}" },
+                              you can use @idpFilesDownloaded function to check download status]],                        "0{note-1}" },
         { "StopOnError",      [[If one file cannot be downloaded, do not try to download other files. When <tt>AllowContinue</tt> 
                               is set to <tt>1</tt>, this option automatically sets to <tt>0</tt> and vise versa.]],       "<b>not</b> AllowContinue" },
+        { "PreserveFtpDirs",  "Preserve FTP directory structure when using @idpAddFtpDir",                                "1" },
         { "DetailedMode",     "If set to <tt>1</tt>, download details will be visible by default",                        "0" },
         { "DetailsButton",    "Controls availability of 'Details' button",                                                "1" },
         { "RetryButton",      [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
@@ -185,7 +191,7 @@ idpSetOption = {
                                 If setup started with <tt>/SUPPRESSMSGBOXES</tt> parameter, this option automatically 
                                 sets to <tt>None</tt>.]],                                                                 "Simple" },
         { "Referer",          "Referer URL, to use in HTTP and HTTPS requests",                                           ""  },
-        { "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       "InnoDownloadPlugin/1.4" },
+        { "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       userAgent() },
         { "InvalidCert",      [[Action to perform, when HTTPS certificate is invalid. Possible values are:
                                   <ul>
                                   <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
@@ -197,10 +203,12 @@ idpSetOption = {
                               Can be set to <tt>Infinite</tt> to disable this timer]],                                    "</tt>System default{note-3}<tt>" },
         { "SendTimeout",      "Time-out value, in milliseconds, to send a request",                                       "</tt>System default<tt>" },
         { "ReceiveTimeout",   "Time-out value, in milliseconds, to receive a response to a request",                      "</tt>System default<tt>" },
-        { "ProxyMode",        'See <a href="idpSetProxyMode.htm">idpSetProxyMode</a>',                                    "Auto" },
-        { "ProxyName",        'See <a href="idpSetProxyName.htm">idpSetProxyName</a>',                                    "" },
-        { "ProxyUsername",    'See <a href="idpSetProxyLogin.htm">idpSetProxyLogin</a>',                                  "" },
-        { "ProxyPassword",    'See <a href="idpSetProxyLogin.htm">idpSetProxyLogin</a>',                                  "" },
+        { "Username",         'User name for HTTP/HTTPS and FTP. See also @idpSetLogin',                                  "" },
+        { "Password",         'Password for HTTP/HTTPS and FTP. See also @idpSetLogin',                                   "" },
+        { "ProxyMode",        'See @idpSetProxyMode',                                                                     "Auto" },
+        { "ProxyName",        'See @idpSetProxyName',                                                                     "" },
+        { "ProxyUsername",    'See @idpSetProxyLogin',                                                                    "" },
+        { "ProxyPassword",    'See @idpSetProxyLogin',                                                                    "" },
         
     },
     keywords = { "user agent", "timeout", "ShowDlg", "Ignore", "Stop"},
@@ -234,7 +242,7 @@ idpSetProxyMode = {
     params  = {
         { "mode", "Connection mode" }
     },
-    notes    = { 'You can also set proxy server parameters using <a href="idpSetOption.htm">idpSetOption</a> function.' },
+    notes    = { 'You can also set proxy access parameters using @idpSetOption function.' },
 --  keywords = { "proxy" },
     seealso  = { "idpSetProxyName", "idpSetProxyLogin", "idpSetOption" },
     example  = [[
@@ -266,8 +274,58 @@ idpSetProxyLogin = {
     example  = idpSetProxyMode.example,
     notes    = idpSetProxyMode.notes,
 --  keywords = { "proxy" },
-    seealso  = { "idpSetProxyMode", "idpSetProxyName", "idpSetOption" }
+    seealso  = { "idpSetProxyMode", "idpSetProxyName", "idpSetOption", "idpSetLogin" }
 }
+
+idpSetLogin = {
+    proto   = "procedure idpSetLogin(username, password: String);",
+    desc    = [[Sets user name and password for HTTP/HTTPS and FTP. User name and password can be also specified
+                for each file separately, as part of the URL, overriding global settings (see @idpAddFile).]],
+    params  = {
+        { "username", "User name" },
+        { "password", "Password" }
+    },
+    keywords = { "login", "user name", "password" },
+    notes    = { 'You can also set user name and password using @idpSetOption function.' },
+    seealso  = { "idpAddFile" }
+}
+
+idpAddFtpDir = {
+    title = "idpAddFtpDir, idpAddFtpDirComp",
+    proto = [[
+procedure idpAddFtpDir(url, mask, destdir: String; recursive: Boolean);
+procedure idpAddFtpDirComp(url, mask, destdir: String; recursive: Boolean; components: String);
+]],
+    desc = [[Adds all files in specified FTP directory to download list. If <tt>recursive</tt> is true, then: 
+             <ul>
+             <li>This function will scan all subdirectories</li>
+             <li>When files downloaded, directory structure will be preserved
+                 (this can be switched off by setting <a href="idpSetOption.htm"><tt>PreserveFtpDirs</tt> option</a>
+                 to <tt>false</tt>)</li>
+             </ul>
+             ]],
+    params = {
+        { "url",        "URL" },
+        { "mask",       "File mask wildcards or empty string to select all files" },
+        { "destdir",    "Destignation directory on the local disk" },
+        { "recursive",  "If true, recursively add all subdirectories" },
+        { "components", [[A space separated list of component names, telling IDP to which components the directory belongs.
+                        A ftp directory without a components parameter is always downloaded.]] }
+    },
+    keywords = { "ftp", "directory" },
+    seealso  = { "idpAddFile" },
+    example  = [[
+//Add all files in URL, including subdirectories
+idpAddFtpDir('ftp://ftpserver.com/pub/myfiles', '', ExpandConstant('{tmp}'), true);
+
+//Add only *.dll files; do not look in subdirectories
+idpAddFtpDir('ftp://ftpserver.com/pub/myfiles', '*.dll', ExpandConstant('{tmp}'), false);
+]]
+}
+
+idpAddFtpDirComp = idpAddFtpDir;
+
+group "Support functions"
 
 StrToBool = {
     proto  = "function StrToBool(value: String): Boolean;",
@@ -279,18 +337,22 @@ StrToBool = {
 }
 
 WizardSuppressMsgBoxes = {
-    proto   = "function WizardSupressMsgBoxes: Boolean;",
-    desc    = "Returns <tt>True</tt> if <tt>/SUPPRESSMSGBOXES</tt> command line parameter was passed to setup.",
-    returns = "True or false",
-    seealso = { "WizardVerySilent" }
+    proto    = "function WizardSupressMsgBoxes: Boolean;",
+    desc     = "Returns <tt>True</tt> if <tt>/SUPPRESSMSGBOXES</tt> command line parameter was passed to setup.",
+    returns  = "True or false",
+    keywords = { "/SUPPRESSMSGBOXES" },
+    seealso  = { "WizardVerySilent" }
 }
 
 WizardVerySilent = {
-    proto   = "function WizardVerySilent: Boolean;",
-    desc    = "Returns <tt>True</tt> if <tt>/VERYSILENT</tt> command line parameter was passed to setup.",
-    returns = "True or false",
-    seealso = { "WizardSuppressMsgBoxes" }
+    proto    = "function WizardVerySilent: Boolean;",
+    desc     = "Returns <tt>True</tt> if <tt>/VERYSILENT</tt> command line parameter was passed to setup.",
+    returns  = "True or false",
+    keywords = { "/VERYSILENT" },
+    seealso  = { "WizardSuppressMsgBoxes" }
 }
+
+group "Types"
 
 TIdpForm = {
     proto = [[
@@ -322,5 +384,47 @@ var IDPForm: TIdpForm;
     desc     = "This record holds all IDP wizard page controls. They are accessible after calling idpDownloadAfter().",
     notes    = { "Details button handle when <tt>GRAPHICAL_INSTALLER_PROJECT</tt> is defined and <tt>SkinnedButton</tt> set to 1" },
     seealso  = { "idpDownloadAfter" },
-  --keywords = { "TIdpForm", "IDPForm", "controls" }
+    keywords = { "TIdpForm", "IDPForm", "controls" }
+}
+
+group "Macros"
+
+IDP_VER = {
+    title = "IDP_VER, IDP_VER_STR, IDP_VER_MAJOR, IDP_VER_MINOR, IDP_VER_REV, IDP_VER_BUILD",
+    proto = [[
+#define IDP_VER_STR
+#define IDP_VER
+#define IDP_VER_MAJOR
+#define IDP_VER_MINOR
+#define IDP_VER_REV
+#define IDP_VER_BUILD
+]],
+    desc = "These predefined macros stores Inno Download Plugin version numbers.",
+    params = {
+        { "IDP_VER_STR",   "Version as string (<tt>"                 .. verStr   .. "</tt>)" },
+        { "IDP_VER",       "Version encoded as 32-bit integer (<tt>" .. verDword .. "</tt>)" },
+        { "IDP_VER_MAJOR", "Version major number (<tt>"              .. verMajor .. "</tt>)" },
+        { "IDP_VER_MINOR", "Version minor number (<tt>"              .. verMinor .. "</tt>)" },
+        { "IDP_VER_REV",   "Version revision number (<tt>"           .. verRev   .. "</tt>)" },
+        { "IDP_VER_BUILD", "Version build number (<tt>"              .. verBuild .. "</tt>)" }
+    },
+    keywords = { "version" },
+}
+
+IDP_VER_STR   = IDP_VER
+IDP_VER_MAJOR = IDP_VER
+IDP_VER_MINOR = IDP_VER
+IDP_VER_REV   = IDP_VER
+IDP_VER_BUILD = IDP_VER
+
+IDP_DEBUG = {
+    proto   = "#define IDP_DEBUG",
+    desc    = [[If <tt>IDP_DEBUG</tt> is defined before including idp.iss, script will use debug version of idp.dll
+                (not included, you need to build it from sources), which prints debug information during download process.
+                Debug dll messages can be viewed with <a href="http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx">SysInternals DebugView</a>.]],
+    example = [[
+#define IDP_DEBUG
+#include &lt;idp.iss&gt;
+]],
+    keywords = { "Debugging" }
 }
