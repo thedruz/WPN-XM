@@ -65,9 +65,8 @@ InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
 CloseApplications=no
-// disable wizard pages: Welcome, Languages, Ready, Select Start Menu Folder
+// disable wizard pages: Languages, Ready, Select Start Menu Folder
 ShowLanguageDialog=no
-DisableWelcomePage=no
 DisableReadyPage=yes
 DisableProgramGroupPage=yes
 ShowComponentSizes=no

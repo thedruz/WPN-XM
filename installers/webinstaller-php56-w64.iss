@@ -68,9 +68,8 @@ InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
 CloseApplications=no
-// disable wizard pages: Welcome, Languages, Ready, Select Start Menu Folder
+// disable wizard pages: Languages, Ready, Select Start Menu Folder
 ShowLanguageDialog=no
-DisableWelcomePage=no
 DisableReadyPage=yes
 DisableProgramGroupPage=yes
 ShowComponentSizes=no
@@ -1429,7 +1428,7 @@ end;
   DoPostInstall will be called after Inno has completed installing all of
   the [Files], [Registry] entries, and so forth, and also after all the
   non-postinstall [Run] entries, but before the wpInfoAfter or wpFinished pages.
-  Its triggerd by CurStep == ssPostInstall. see procedure CurStepChanged().
+  Its triggerd by CurStep == ssPostInstall. See procedure CurStepChanged().
   wpInstalling Install finshed -> ssPostInstall
 }
 procedure DoPostInstall();
@@ -1442,7 +1441,8 @@ begin
   if CurStep = ssInstall then DoPreInstall();
   if CurStep = ssPostInstall then DoPostInstall();
 
-  // when wizward finished, copy logfile from tmp dir to the application dir
+  // when wizard finishes, copy the installation logfile from tmp dir to application dir.
+  // this allows easier debugging of installation problems. the user can upload or reference parts of the log.
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;
