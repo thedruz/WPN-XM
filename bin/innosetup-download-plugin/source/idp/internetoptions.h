@@ -2,6 +2,12 @@
 
 #include <windows.h>
 #include <wininet.h>
+
+//Workaround for old MinGW version header files
+#ifndef INTERNET_OPEN_TYPE_PRECONFIG_WITH_NO_AUTOPROXY
+    #define INTERNET_OPEN_TYPE_PRECONFIG_WITH_NO_AUTOPROXY 4
+#endif
+
 #include "tstring.h"
 
 #define INVC_SHOWDLG 0
@@ -11,7 +17,7 @@
 #define TIMEOUT_INFINITE 0xFFFFFFFF
 #define TIMEOUT_DEFAULT  0xFFFFFFFE
 
-#define IDP_USER_AGENT _T("InnoDownloadPlugin/1.4")
+#define IDP_USER_AGENT _T("InnoDownloadPlugin/1.5")
 
 class InternetOptions
 {

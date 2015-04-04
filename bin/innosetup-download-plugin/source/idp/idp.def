@@ -5,8 +5,11 @@ idpAddFileSize
 idpAddFileComp
 idpAddFileSizeComp
 idpAddMirror
+idpAddFtpDir
+idpAddFtpDirComp
 idpClearFiles
 idpFilesCount
+idpFtpDirsCount
 idpFilesDownloaded
 idpFileDownloaded
 idpGetFileSize
@@ -20,6 +23,7 @@ idpStopDownload
 idpSetProxyMode
 idpSetProxyName
 idpSetProxyLogin
+idpSetLogin
 idpConnectControl
 idpAddMessage
 idpAddFileSize32

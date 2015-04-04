@@ -329,49 +329,57 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\idp\downloader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\idp\errordialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\idp\file.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\idp\internetoptions.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\idp\netfile.cpp"
+			<Filter
+				Name="idp"
 				>
-			</File>
-			<File
-				RelativePath="..\..\idp\timer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\idp\trace.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\idp\tstring.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\idp\ui.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\idp\url.cpp"
-				>
-			</File>
+				<File
+					RelativePath="..\..\idp\downloader.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\errordialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\file.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\ftpdir.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\internetoptions.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\netfile.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\timer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\trace.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\tstring.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\ui.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\idp\url.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

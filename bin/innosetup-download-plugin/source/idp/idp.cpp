@@ -32,14 +32,29 @@ void idpAddMirror(_TCHAR *url, _TCHAR *mirror)
     downloader.addMirror(STR(url), STR(mirror));
 }
 
+void idpAddFtpDir(_TCHAR *url, _TCHAR *mask, _TCHAR *destdir, bool recursive)
+{
+    downloader.addFtpDir(STR(url), STR(mask), STR(destdir), recursive);
+}
+
+void idpAddFtpDirComp(_TCHAR *url, _TCHAR *mask, _TCHAR *destdir, bool recursive, _TCHAR *components)
+{
+    downloader.addFtpDir(STR(url), STR(mask), STR(destdir), recursive, components);
+}
+
 void idpClearFiles()
 {
     downloader.clearFiles();
 }
 
-int    idpFilesCount()
+int idpFilesCount()
 {
     return downloader.filesCount();
+}
+
+int idpFtpDirsCount()
+{
+    return downloader.ftpDirsCount();
 }
 
 bool idpFilesDownloaded()
@@ -149,7 +164,7 @@ void idpConnectControl(_TCHAR *name, HWND handle)
 void idpAddMessage(_TCHAR *name, _TCHAR *message)
 {
     if(name)
-        ui.addMessage(name, message ? message : _T(""));
+        ui.addMessage(STR(name), STR(message));
 }
 
 void idpSetComponents(_TCHAR *components)
@@ -313,6 +328,7 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
         downloader.stopOnError = !ui.allowContinue;
     }
     else if(key.compare("stoponerror")      == 0) downloader.stopOnError         = boolVal(value);
+    else if(key.compare("preserveftpdirs")  == 0) downloader.preserveFtpDirs     = boolVal(value);
     else if(key.compare("retrybutton")      == 0) ui.hasRetryButton              = boolVal(value);
     else if(key.compare("redrawbackground") == 0) ui.redrawBackground            = boolVal(value);
     else if(key.compare("errordialog")      == 0) ui.errorDlgMode                = dlgVal(value);
@@ -324,6 +340,8 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
     else if(key.compare("connecttimeout")   == 0) internetOptions.connectTimeout = timeoutVal(value);
     else if(key.compare("sendtimeout")      == 0) internetOptions.sendTimeout    = timeoutVal(value);
     else if(key.compare("receivetimeout")   == 0) internetOptions.receiveTimeout = timeoutVal(value);
+    else if(key.compare("username")         == 0) internetOptions.login          = STR(value);
+    else if(key.compare("password")         == 0) internetOptions.password       = STR(value);
     else if(key.compare("proxymode")        == 0) internetOptions.accessType     = proxyVal(value);
     else if(key.compare("proxyusername")    == 0) internetOptions.proxyLogin     = STR(value);
     else if(key.compare("proxypassword")    == 0) internetOptions.proxyPassword  = STR(value);
@@ -358,6 +376,12 @@ void idpSetProxyLogin(_TCHAR *login, _TCHAR *password)
     internetOptions.proxyPassword = STR(password);
 }
 
+void idpSetLogin(_TCHAR *login, _TCHAR *password)
+{
+    internetOptions.login    = STR(login);
+    internetOptions.password = STR(password);
+}
+
 void idpSetDetailedMode(bool mode)
 {
     ui.setDetailedMode(mode);
@@ -365,7 +389,7 @@ void idpSetDetailedMode(bool mode)
 
 void idpTrace(_TCHAR *text)
 {
-    TRACE(text);
+    TRACE(_T("%s"), text);
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)

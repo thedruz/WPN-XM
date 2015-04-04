@@ -65,6 +65,9 @@
 				</ExtraCommands>
 			</Target>
 		</Build>
+		<VirtualTargets>
+			<Add alias="All configurations" targets="Debug;Release;Debug ANSI;Release ANSI;" />
+		</VirtualTargets>
 		<Compiler>
 			<Add option="-D__USE_MINGW_ANSI_STDIO" />
 		</Compiler>
@@ -82,6 +85,8 @@
 		<Unit filename="errordialog.h" />
 		<Unit filename="file.cpp" />
 		<Unit filename="file.h" />
+		<Unit filename="ftpdir.cpp" />
+		<Unit filename="ftpdir.h" />
 		<Unit filename="idp.cpp" />
 		<Unit filename="idp.def" />
 		<Unit filename="idp.h" />

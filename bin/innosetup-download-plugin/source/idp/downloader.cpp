@@ -1,4 +1,5 @@
 #include <process.h>
+#include <direct.h>
 #include "downloader.h"
 #include "file.h"
 #include "trace.h"
@@ -7,13 +8,15 @@ Downloader::Downloader()
 {
     stopOnError         = true;
     ownMsgLoop          = false;
-    filesSize            = 0;
+    preserveFtpDirs     = true;
+    filesSize           = 0;
     downloadedFilesSize = 0;
-    ui                    = NULL;
-    errorCode            = 0;
+    ui                  = NULL;
+    errorCode           = 0;
     internet            = NULL;
     downloadThread      = NULL;
     downloadCancelled   = false;
+    downloadPaused      = false;
     finishedCallback    = NULL;
 }
 
@@ -21,6 +24,7 @@ Downloader::~Downloader()
 {
     clearFiles();
     clearMirrors();
+    clearFtpDirs();
 }
 
 void Downloader::setUi(Ui *newUi)
@@ -80,7 +84,7 @@ void Downloader::clearFiles()
     }
 
     files.clear();
-    filesSize            = 0;
+    filesSize           = 0;
     downloadedFilesSize = 0;
 }
 
@@ -90,13 +94,35 @@ void Downloader::clearMirrors()
         mirrors.clear();
 }
 
+void Downloader::clearFtpDirs()
+{
+    if(ftpDirs.empty())
+        return;
+
+    for(list<FtpDir *>::iterator i = ftpDirs.begin(); i != ftpDirs.end(); i++)
+    {
+        FtpDir *f = *i;
+        delete f;
+    }
+
+    ftpDirs.clear();
+}
+
 int Downloader::filesCount()
 {
     return (int)files.size();
 }
 
+int Downloader::ftpDirsCount()
+{
+    return (int)ftpDirs.size();
+}
+
 bool Downloader::filesDownloaded()
 {
+    if(!ftpDirsProcessed())
+        return false;
+
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
         NetFile *file = i->second;
@@ -111,6 +137,22 @@ bool Downloader::filesDownloaded()
     return true;
 }
 
+bool Downloader::ftpDirsProcessed()
+{
+    for(list<FtpDir *>::iterator i = ftpDirs.begin(); i != ftpDirs.end(); i++)
+    {
+        FtpDir *dir = *i;
+
+        if(!dir->selected(components))
+            continue;
+
+        if(!dir->processed)
+            return false;
+    }
+
+    return true;
+}
+
 bool Downloader::fileDownloaded(tstring url)
 {
     return files[url]->downloaded;
@@ -118,6 +160,9 @@ bool Downloader::fileDownloaded(tstring url)
 
 bool Downloader::openInternet()
 {
+    if(internet)
+        return true; //already opened
+
 #ifdef _DEBUG
     _TCHAR *atype;
 
@@ -129,11 +174,11 @@ bool Downloader::openInternet()
     case INTERNET_OPEN_TYPE_PROXY                      : atype = _T("INTERNET_OPEN_TYPE_PROXY"); break;
     default: atype = _T("Unknown (error)!");
     }
-#endif
 
     TRACE(_T("Opening internet..."));
     TRACE(_T("    access type: %s"), atype);
     TRACE(_T("    proxy name : %s"), internetOptions.proxyName.empty() ? _T("(none)") : internetOptions.proxyName.c_str());
+#endif
 
     if(!internet)
         if(!(internet = InternetOpen(internetOptions.userAgent.c_str(), internetOptions.accessType, 
@@ -208,6 +253,16 @@ void Downloader::stopDownload()
     WaitForSingleObject(downloadThread, DOWNLOAD_CANCEL_TIMEOUT);
     downloadCancelled = false;
     ui = uitmp;
+}
+
+void Downloader::pauseDownload()
+{
+    downloadPaused = true;
+}
+
+void Downloader::resumeDownload()
+{
+    downloadPaused = false;
 }
 
 DWORDLONG Downloader::getFileSizes(bool useComponents)
@@ -301,10 +356,12 @@ bool Downloader::downloadFiles(bool useComponents)
     if(ownMsgLoop)
         downloadCancelled = false;
 
-    if(files.empty())
+    if(files.empty() && ftpDirs.empty())
         return true;
 
     setMarquee(true);
+
+    processFtpDirs();
 
     if(getFileSizes() == OPERATION_STOPPED)
     {
@@ -540,6 +597,12 @@ void Downloader::updateFileName(NetFile *file)
         ui->setFileName(file->getShortName());
 }
 
+void Downloader::updateFileName(tstring filename)
+{
+    if(ui)
+        ui->setFileName(filename);
+}
+
 void Downloader::updateSpeed(NetFile *file, Timer *timer)
 {
     if(ui)
@@ -621,4 +684,145 @@ DWORD Downloader::getLastError()
 tstring Downloader::getLastErrorStr()
 {
     return errorStr;
+}
+
+void Downloader::addFtpDir(tstring url, tstring mask, tstring destdir, bool recursive, tstring comp)
+{
+    ftpDirs.push_back(new FtpDir(url, mask, destdir, recursive, comp));
+}
+
+bool Downloader::scanFtpDir(FtpDir *ftpDir, tstring destsubdir)
+{
+    Url url(ftpDir->url);
+    url.internetOptions = internetOptions;
+    
+    updateFileName(url.components.lpszUrlPath);
+    
+    if(!url.connect(internet))
+    {
+        storeError();
+        return false;
+    }
+    
+    if(!FtpSetCurrentDirectory(url.connection, url.components.lpszUrlPath))
+    {
+        storeError();
+        return false;
+    }
+    
+    list<tstring> dirs;
+    WIN32_FIND_DATA fd;
+
+    TRACE(_T("Scanning FTP dir %s:"), ftpDir->url.c_str());
+    HINTERNET handle = FtpFindFirstFile(url.connection, ftpDir->mask.c_str(), &fd, NULL, NULL);
+
+    if(handle)
+    {
+        TRACE(_T("    (%s) %s"), (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _T("D") : _T("F"), fd.cFileName);
+        updateFileName(tstring(fd.cFileName));
+
+        if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+        {
+            tstring dirname(fd.cFileName);
+
+            if(!(dirname.compare(_T(".")) == 0) && !(dirname.compare(_T("..")) == 0))
+                dirs.push_back(dirname);
+        }
+        else
+        {
+            tstring fileUrl  = addslash(ftpDir->url);
+            tstring fileName = addbackslash(ftpDir->destdir);
+            fileUrl  += tstring(fd.cFileName);
+            fileName += addbackslash(destsubdir);
+            fileName += tstring(fd.cFileName);
+            
+            addFile(fileUrl, fileName, ((DWORDLONG)fd.nFileSizeHigh << 32) | fd.nFileSizeLow, ftpDir->compstr);
+        }
+
+        while(InternetFindNextFile(handle, &fd))
+        {
+            TRACE(_T("    (%s) %s"), (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _T("D") : _T("F"), fd.cFileName);
+            updateFileName(tstring(fd.cFileName));
+
+            if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+            {
+                tstring dirname(fd.cFileName);
+
+                if(!(dirname.compare(_T(".")) == 0) && !(dirname.compare(_T("..")) == 0))
+                    dirs.push_back(dirname);
+            }
+            else
+            {
+                tstring fileUrl  = addslash(ftpDir->url);
+                tstring fileName = addbackslash(ftpDir->destdir);
+                fileUrl  += tstring(fd.cFileName);
+                fileName += addbackslash(destsubdir);
+                fileName += tstring(fd.cFileName);
+                
+                addFile(fileUrl, fileName, ((DWORDLONG)fd.nFileSizeHigh << 32) | fd.nFileSizeLow, ftpDir->compstr);
+            }
+        }
+    }
+
+    url.disconnect();
+
+    if(ftpDir->recursive && !dirs.empty())
+    {
+        for(list<tstring>::iterator i = dirs.begin(); i != dirs.end(); i++)
+        {
+            tstring dir = *i;
+
+            tstring urlstr = addslash(ftpDir->url);
+            urlstr += dir;
+            FtpDir fdir(urlstr, ftpDir->mask, ftpDir->destdir, ftpDir->recursive, ftpDir->compstr);
+            
+            if(preserveFtpDirs)
+            {
+                tstring destdir(addbackslash(ftpDir->destdir));
+                destdir += addbackslash(destsubdir);
+                destdir += dir;
+                TRACE(_T("Creating directory %s"), destdir.c_str());
+                _tmkdir(destdir.c_str());
+
+                tstring subdir = addbackslash(destsubdir);
+                subdir += dir;
+                scanFtpDir(&fdir, subdir);
+            }
+            else
+                scanFtpDir(&fdir);
+        }
+    }
+
+    return true;
+}
+
+void Downloader::processFtpDirs()
+{
+    if(ftpDirsProcessed())
+        return;
+
+    openInternet();
+
+    if(!ftpDirs.empty())
+    {
+        updateStatus(msg("Getting file information..."));
+        processMessages();
+
+        for(list<FtpDir *>::iterator i = ftpDirs.begin(); i != ftpDirs.end(); i++)
+        {
+            FtpDir *f = *i;
+
+            if(f->processed)
+                continue;
+
+            if(f->selected(components))
+            {
+                if(scanFtpDir(f))
+                    f->processed = true;
+            }
+        }
+    }
+    
+    if(ftpDirsProcessed())
+        clearFtpDirs();
 }

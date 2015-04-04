@@ -16,7 +16,7 @@ DefaultDirName       = {pf}\{#ProgName}
 DefaultGroupName     = {#ProgName}
 AllowNoIcons         = yes
 SolidCompression     = yes
-SetupIconFile        = compiler:\Images\Setup.ico
+SetupIconFile        = misc\Setup.ico
 VersionInfoVersion   = {#ProgVer}
 OutputBaseFilename   = idpsetup-{#ProgVer}
 OutputDir            = .
@@ -63,6 +63,7 @@ Source: "doc\tooltip.js";               DestDir: "{app}\source\doc";            
 Source: "doc\*.png";                    DestDir: "{app}\source\doc";             Components: src
 Source: "examples\*.*";                 DestDir: "{app}\source\examples";        Components: src; Flags: recursesubdirs
 Source: "misc\DownloadForm.isf";        DestDir: "{app}\source\misc";            Components: src
+Source: "misc\Setup.ico";               DestDir: "{app}\source\misc";            Components: src
 Source: "misc\*.lua";                   DestDir: "{app}\source\misc";            Components: src
 Source: "misc\*.bat";                   DestDir: "{app}\source\misc";            Components: src
 Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src
@@ -72,6 +73,8 @@ Source: "tests\statictest\statictest.vcproj"; DestDir: "{app}\source\tests\stati
 Source: "tests\statictest\main.cpp";          DestDir: "{app}\source\tests\statictest"; Components: src
 Source: "tests\dlltest\dlltest.vcproj";       DestDir: "{app}\source\tests\dlltest";    Components: src
 Source: "tests\dlltest\main.cpp";             DestDir: "{app}\source\tests\dlltest";    Components: src
+Source: "tests\ftpdirtest\ftpdirtest.vcproj"; DestDir: "{app}\source\tests\ftpdirtest"; Components: src
+Source: "tests\ftpdirtest\main.cpp";          DestDir: "{app}\source\tests\ftpdirtest"; Components: src
 
 [Icons]
 Name: "{group}\{#ProgName} {cm:Documentation}";    Filename: "{app}\idp.chm"
