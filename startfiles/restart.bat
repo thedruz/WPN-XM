@@ -6,13 +6,13 @@
 :: |
 :: +-----------------------------------------------------------------------<3
 
-if not exist "start-wpnxm.bat" (
-    echo "ERROR: start-wpnxm.bat is missing."
+if not exist "start.bat" (
+    echo "ERROR: start.bat is missing."
     goto END
 )
 
-if not exist "stop-wpnxm.bat" (
-    echo "ERROR: stop-wpnxm.bat is missing."
+if not exist "stop.bat" (
+    echo "ERROR: stop.bat is missing."
     goto END
 )
 
@@ -22,7 +22,7 @@ if "%1"=="" (
     goto restart-all
 ) else (
     :: restart specific daemon
-    :: where $1 is the first cli argument, e.g. "restart-wpnxm.bat php"
+    :: where $1 is the first cli argument, e.g. "restart.bat php"
     goto restart-%1
 )
 goto END
@@ -38,29 +38,29 @@ goto END
 
 :restart-php
     echo Restarting PHP FastCGI...
-    call stop-wpnxm.bat php
-    call start-wpnxm.bat php
+    call stop.bat php
+    call start.bat php
     echo.
 goto END
 
 :restart-mariadb
     echo Restarting MariaDb...
-    call stop-wpnxm.bat mariadb
-    call start-wpnxm.bat mariadb
+    call stop.bat mariadb
+    call start.bat mariadb
     echo.
 goto END
 
 :restart-memcached
     echo Restarting Memcached...
-    call stop-wpnxm.bat memcached
-    call start-wpnxm.bat memcached
+    call stop.bat memcached
+    call start.bat memcached
     echo.
 goto END
 
 :restart-nginx
     echo Restarting nginx...
-    call stop-wpnxm.bat nginx
-    call start-wpnxm.bat nginx
+    call stop.bat nginx
+    call start.bat nginx
     echo.
 goto END
 

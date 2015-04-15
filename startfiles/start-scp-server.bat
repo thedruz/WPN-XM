@@ -2,7 +2,7 @@
 
 :: +-------------------------------------------------------------------------
 :: |
-:: | WPN-XM Server Stack - Start embedded PHP server for Sever Control Panel
+:: | WPN-XM Server Stack - Start embedded PHP server for Webinterface
 :: |
 :: +-----------------------------------------------------------------------<3
 
@@ -10,7 +10,7 @@
 %~dp0bin\tools\killprocess\Process.exe -k php.exe
 
 :: start embedded PHP Development Server
-start "localhost:90-WPN-XM Dev Server" /MIN %cd%\bin\php\php.exe -S localhost:90 -t %cd%\www
+start "localhost:90-WPN-XM Dev Server" /MIN %~dp0bin\php\php.exe -S localhost:90 -t %~dp0www
 
-:: start WPN-XM Server Control Panel
+:: start WPN-XM Webinterface
 start http://localhost:90/tools/webinterface

@@ -26,7 +26,7 @@ echo UPDATE mysql.user SET Password=PASSWORD('%password%') WHERE User='root'; | 
 
 echo.
 echo Updating wpn-xm.ini
-     %cd%\bin\php\php.exe -r "file_put_contents('wpn-xm.ini', preg_replace('/(password)(.+)/','password=%password%', file_get_contents('wpn-xm.ini'), 1));"
+     %~dp0bin\php\php.exe -r "file_put_contents('wpn-xm.ini', preg_replace('/(password)(.+)/','password=%password%', file_get_contents('wpn-xm.ini'), 1));"
 
 echo.
 echo DONE !

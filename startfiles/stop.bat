@@ -18,7 +18,7 @@ if exist "%~dp0bin\tools\killprocess\Process.exe" (
     GOTO :kill-processes
 )
 
-: can't get tskill to work...
+:: can't get tskill to work...
 if exist "%SystemRoot%\System32\tskill.exe" (
     echo Using "tskill" to kill the processes.
     SET KILL-PROCESS=tskill /A

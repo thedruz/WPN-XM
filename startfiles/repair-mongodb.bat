@@ -8,6 +8,6 @@
 
 cls
 
-%cd%\bin\mongodb\bin\mongod.exe --repair --logpath "%cd%\logs\mongodb.log" --dbpath "%cd%\bin\mongodb\data\db"
+%~dp0bin\mongodb\bin\mongod.exe --repair --logpath "%~dp0logs\mongodb.log" --dbpath "%~dp0bin\mongodb\data\db"
 
 pause

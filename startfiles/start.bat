@@ -6,23 +6,23 @@
 :: |
 :: +-----------------------------------------------------------------------<3
 
-if exist "%cd%\temp" (
+if exist "%~dp0temp" (
     echo Removing Temporary Files...
-    del /F/S/Q "%cd%\temp\" > nul
-    rmdir /S/Q "%cd%\temp\"
+    del /F/S/Q "%~dp0temp\" > nul
+    rmdir /S/Q "%~dp0temp\"
 )
 
-if not exist "%cd%\temp" (
+if not exist "%~dp0temp" (
     echo Creating Directories for Temporary Files...
-    mkdir "%cd%\temp"
+    mkdir "%~dp0temp"
 )
 
-if not exist "%cd%\logs" (
+if not exist "%~dp0logs" (
     echo Creating Directories for Logs...
-    mkdir "%cd%\logs"
+    mkdir "%~dp0logs"
 )
 
-SET HIDECONSOLE=%cd%\bin\tools\RunHiddenConsole.exe
+SET HIDECONSOLE=%~dp0bin\tools\RunHiddenConsole.exe
 
 :: start all daemons, if no argument given (default)
 if "%1"=="" (
@@ -42,25 +42,25 @@ goto END
 
 :start-php
     echo Starting PHP FastCGI...
-    %HIDECONSOLE% %cd%\bin\php\php-cgi.exe -b 127.0.0.1:9100 -c %cd%\bin\php\php.ini
+    %HIDECONSOLE% %~dp0bin\php\php-cgi.exe -b 127.0.0.1:9100 -c %~dp0bin\php\php.ini
     echo.
 goto END
 
 :start-mariadb
     echo Starting MariaDb...
-    %HIDECONSOLE% %cd%\bin\mariadb\bin\mysqld.exe --defaults-file=%cd%\bin\mariadb\my.ini
+    %HIDECONSOLE% %~dp0bin\mariadb\bin\mysqld.exe --defaults-file=%~dp0bin\mariadb\my.ini
     echo.
 goto END
 
 :start-memcached
     echo Starting Memcached...
-    %HIDECONSOLE% %cd%\bin\memcached\memcached.exe -p 11211 -U 0 -t 2 -c 2048 -m 2048
+    %HIDECONSOLE% %~dp0bin\memcached\memcached.exe -p 11211 -U 0 -t 2 -c 2048 -m 2048
     echo.
 goto END
 
 :start-nginx
     echo Starting nginx...
-    %HIDECONSOLE% %cd%\bin\nginx\nginx.exe -p %cd% -c %cd%\bin\nginx\conf\nginx.conf
+    %HIDECONSOLE% %~dp0bin\nginx\nginx.exe -p %~dp0 -c %~dp0bin\nginx\conf\nginx.conf
     echo.
 goto END
 

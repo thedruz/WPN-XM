@@ -154,13 +154,13 @@ Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\repair-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
-Source: ..\startfiles\restart-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\restart.bat; DestDir: {app}
 Source: ..\startfiles\start-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
-Source: ..\startfiles\start-wpnxm.bat; DestDir: {app}
-Source: ..\startfiles\status-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\start.bat; DestDir: {app}
+Source: ..\startfiles\status.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}; Components: mongodb
-Source: ..\startfiles\stop-wpnxm.bat; DestDir: {app}
+Source: ..\startfiles\stop.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
 // backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
@@ -185,9 +185,9 @@ Source: ..\bin\vcredist\vcredist_x86_2008.exe; DestDir: {tmp}; Flags: deleteafte
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\wpn-xm.exe; Tasks: add_startmenu
-Name: {group}\Start WPN-XM; Filename: {app}\start-wpnxm.bat; Tasks: add_startmenu
-Name: {group}\Stop WPN-XM; Filename: {app}\stop-wpnxm.bat; Tasks: add_startmenu
-Name: {group}\Status of WPN-XM; Filename: {app}\status-wpnxm.bat; Tasks: add_startmenu
+Name: {group}\Start WPN-XM; Filename: {app}\start.bat; Tasks: add_startmenu
+Name: {group}\Stop WPN-XM; Filename: {app}\stop.bat; Tasks: add_startmenu
+Name: {group}\Status of WPN-XM; Filename: {app}\status.bat; Tasks: add_startmenu
 Name: {group}\Localhost; Filename: {app}\localhost.url; Tasks: add_startmenu
 Name: {group}\Administration; Filename: {app}\administration.url; Tasks: add_startmenu
 Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}; Tasks: add_startmenu
@@ -195,8 +195,8 @@ Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}; Tasks: add_startmenu
 Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Tasks: add_startmenu
 Name: {userdesktop}\WPN-XM ServerControlPanel; Filename: {app}\wpn-xm.exe; Tasks: add_desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpn-xm.exe; Tasks: add_quicklaunchicon
-Name: {userdesktop}\WPN-XM Start; Filename: {app}\start-wpnxm.bat; Tasks: add_startstop_desktopicons
-Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop-wpnxm.bat; Tasks: add_startstop_desktopicons
+Name: {userdesktop}\WPN-XM Start; Filename: {app}\start.bat; Tasks: add_startstop_desktopicons
+Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop.bat; Tasks: add_startstop_desktopicons
 
 [Tasks]
 Name: portablemode; Description: "Portable Mode"; Flags: unchecked
@@ -1266,7 +1266,7 @@ begin
     if( ButtonPressed = IDRETRY ) then
     begin
       // "Yes/Retry" clicked, now shutdown the processes
-      if Exec('cmd.exe', '/c ' + ExpandConstant('{app}\stop-wpnxm.bat'), '', SW_HIDE,
+      if Exec('cmd.exe', '/c ' + ExpandConstant('{app}\stop.bat'), '', SW_HIDE,
          ewWaitUntilTerminated, ResultCode) then
       begin
         Result := ResultCode > 0;

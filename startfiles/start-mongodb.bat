@@ -8,28 +8,28 @@
 
 cls
 
-IF NOT EXIST "%cd%\bin\mongodb\data" (
+IF NOT EXIST "%~dp0bin\mongodb\data" (
     echo .
     echo Creating Directory for MongoDB's Database - \data
-    mkdir "%cd%\bin\mongodb\data"
+    mkdir "%~dp0bin\mongodb\data"
 )
 
 
-IF NOT EXIST "%cd%\bin\mongodb\data\db" (
+IF NOT EXIST "%~dp0bin\mongodb\data\db" (
     echo .
     echo Creating Directory for MongoDB's Database - \data\db
-    mkdir "%cd%\bin\mongodb\data\db"
+    mkdir "%~dp0bin\mongodb\data\db"
 )
 
-IF NOT EXIST "%cd%\logs\mongodb.log" (
+IF NOT EXIST "%~dp0logs\mongodb.log" (
     echo.
-    echo Creating empty logfile... "%cd%\logs\mongodb.log"
-    echo. 2>"%cd%\logs\mongodb.log"
+    echo Creating empty logfile... "%~dp0logs\mongodb.log"
+    echo. 2>"%~dp0logs\mongodb.log"
 )
 
 echo.
 echo Starting MongoDB
-     %cd%\bin\mongodb\bin\mongod.exe --config "%cd%\bin\mongodb\mongodb.conf" --logpath "%cd%\logs\mongodb.log" --dbpath "%cd%\bin\mongodb\data\db"
+     %~dp0bin\mongodb\bin\mongod.exe --config "%~dp0bin\mongodb\mongodb.conf" --logpath "%~dp0logs\mongodb.log" --dbpath "%~dp0bin\mongodb\data\db"
 echo.
 
 pause
