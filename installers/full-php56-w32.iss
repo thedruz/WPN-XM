@@ -185,7 +185,8 @@ Source: ..\configs\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Componen
 Source: ..\configs\webgrind.config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
 //Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
 Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
-Source: ..\configs\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
 // Visual C++ Redistributable 2010 is needed by PHP VC11 builds
 // The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x86_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
@@ -1269,6 +1270,12 @@ begin
       SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file);
   end;
 
+  if Pos('openssl', selectedComponents) > 0 then
+  begin
+    ReplaceStringInFile(";curl.cainfo =", "curl.cainfo =" + appPath + "\bin\openssl\ca-bundle.crt", php_ini_file);
+    ReplaceStringInFile(";openssl.cafile=, "openssl.cafile =" + appPath + "\bin\openssl\ca-bundle.crt", php_ini_file);  end;
+  end;
+
   if Pos('mongodb', selectedComponents) > 0 then
   begin
       // php.ini entry for loading the the extension
@@ -1446,6 +1453,33 @@ begin
      Result := true;
   end else begin
      Result := false;
+  end;
+end;
+
+function ReplaceStringInFile(SearchString: string, ReplaceString: string, const FileName):boolean;
+var
+  MyFile : TStrings;
+  MyText : string;
+begin
+  MyFile := TStringList.Create;
+
+  try
+    result := true;
+
+    try
+      MyFile.LoadFromFile(FileName);
+      MyText := MyFile.Text;
+
+      if StringChangeEx(MyText, SearchString, ReplaceString, True) > 0 then // save only, if text was changed
+      begin;
+        MyFile.Text := MyText;
+        MyFile.SaveToFile(FileName);
+      end;
+    except
+      result := false;
+    end;
+  finally
+    MyFile.Free;
   end;
 end;
 

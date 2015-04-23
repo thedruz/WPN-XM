@@ -108,6 +108,7 @@ Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequi
 Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full
+Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 
 [Files]
 // incorporate all files of the download folder for this installation wizard
@@ -130,6 +131,7 @@ Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Compon
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
+Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
@@ -151,6 +153,8 @@ Source: ..\configs\php.ini; DestDir: {app}\bin\php
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
+Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
 // Visual C++ Redistributable 2010 is needed by PHP VC11 builds
 // The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x64_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
@@ -230,6 +234,7 @@ const
   Filename_composer          = 'composer.phar';
   Filename_mariadb           = 'mariadb.zip';
   Filename_nginx             = 'nginx.zip';
+  Filename_openssl           = 'openssl.zip';
   Filename_php               = 'php.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.zip';
   Filename_pickle            = 'pickle.phar';
@@ -677,6 +682,14 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('openssl', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('OpenSSL');
+      ExtractTemporaryFile(Filename_openssl);
+      DoUnzip(ExpandConstant(targetPath + Filename_openssl), ExpandConstant('{app}\bin\openssl'));
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('xdebug', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Xdebug');
@@ -801,6 +814,12 @@ begin
       SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file);
       SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file);
       SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file);
+  end;
+
+  if Pos('openssl', selectedComponents) > 0 then
+  begin
+    ReplaceStringInFile(";curl.cainfo =", "curl.cainfo =" + appPath + "\bin\openssl\ca-bundle.crt", php_ini_file);
+    ReplaceStringInFile(";openssl.cafile=, "openssl.cafile =" + appPath + "\bin\openssl\ca-bundle.crt", php_ini_file);  end;
   end;
 
 end;
@@ -961,6 +980,33 @@ begin
      Result := true;
   end else begin
      Result := false;
+  end;
+end;
+
+function ReplaceStringInFile(SearchString: string, ReplaceString: string, const FileName):boolean;
+var
+  MyFile : TStrings;
+  MyText : string;
+begin
+  MyFile := TStringList.Create;
+
+  try
+    result := true;
+
+    try
+      MyFile.LoadFromFile(FileName);
+      MyText := MyFile.Text;
+
+      if StringChangeEx(MyText, SearchString, ReplaceString, True) > 0 then // save only, if text was changed
+      begin;
+        MyFile.Text := MyText;
+        MyFile.SaveToFile(FileName);
+      end;
+    except
+      result := false;
+    end;
+  finally
+    MyFile.Free;
   end;
 end;
 
