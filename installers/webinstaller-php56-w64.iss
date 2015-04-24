@@ -182,7 +182,7 @@ Source: {app}\bin\pgsql\data\postgresql.conf; DestDir: {app}\bin\pgsql\data; Des
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 // config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\configs\php.ini; DestDir: {app}\bin\php
+Source: ..\configs\php\php56.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
