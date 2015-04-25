@@ -30,10 +30,21 @@ _____________________________________________________________________________
 [tba.2015]    REL   VERSION 0.8.3
 ------------  ----------------------------------------------------------------
 
+  25.04.2015  CHG   Removed Debug-Webinstallers and their build tasks
+              CHG   added ExecHidden() function to installers
+              CHG   moved webgrind config into "/configs/webgrind"
+                    and updated installers accordingly
+  24.04.2015  FIX   fixed another crash of the SCP
+                    (when trying to start the not-installed PostgreSQL)
+              CHG   use individual php.ini's per PHP version
+  23.04.2015  NEW   improved SSL pre-configuration (added ca-bundle.crt)
+                    set cainfo settings to PHP.ini
+  15.04.2015  CHG   adjusted batch scripts: replaced %cd% with %~dp0)
+                    renamed batch scripts: removed "wpnxm-" prefix
   22.03.2015  NEW   added Strawberry Perl x64
               CHG   x64 versions of the Full Installer include Perl x64
   17.03.2015  NEW   added RoboMongo
-              CHG   dropped RockMongo - unmaintained.
+              CHG   dropped RockMongo (it's unmaintained).
               CHG   silent installation of VCREDIST
 
 ------------  ----------------------------------------------------------------
