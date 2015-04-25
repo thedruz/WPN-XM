@@ -338,6 +338,20 @@ begin
      Result := Pos(';' + UpperCase(PathToAdd) + '\;', ';' + UpperCase(OrigPath) + ';') = 0;
 end;
 
+// Runs an external command via RunHiddenConsole
+function RunHidden(Command: String): Integer;
+var
+  ResultCode: Integer;
+begin
+  if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
+  begin
+    Result := ResultCode;
+  end
+  else begin
+    Result := ResultCode;
+  end;
+end;
+
 procedure OpenBrowser(Url: string);
 var
   ErrorCode: Integer;
@@ -739,17 +753,16 @@ begin
   appPath := ExpandConstant('{app}');
 
   // nginx - rename directory
-  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"');
 
   // MariaDB - rename directory
-  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"');
 
   // MariaDB - install with user ROOT and without password (this is the position to add a default password)
-  Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
-   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  ExecHidden(appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=');
 
   // MariaDB - initialize mysql tables, e.g. performance_tables
-  Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  ExecHidden(appPath + '\bin\mariadb\bin\mysql_upgrade.exe');
 
 end;
 
@@ -1032,7 +1045,7 @@ begin
       //MsgBox('User clicked YES!', mbInformation, MB_OK);
 
       // fix "read-only" status of all files and folders, else some things might remain after uninstallation
-      Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\*.* /s /d"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "attrib -R ' + appPath + '\*.* /s /d"');
 
       DeleteWPNXM(ExpandConstant('{app}'));
     end else begin

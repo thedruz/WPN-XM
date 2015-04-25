@@ -458,6 +458,20 @@ begin
      Result := Pos(';' + UpperCase(PathToAdd) + '\;', ';' + UpperCase(OrigPath) + ';') = 0;
 end;
 
+// Runs an external command via RunHiddenConsole
+function RunHidden(Command: String): Integer;
+var
+  ResultCode: Integer;
+begin
+  if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
+  begin
+    Result := ResultCode;
+  end
+  else begin
+    Result := ResultCode;
+  end;
+end;
+
 procedure OpenBrowser(Url: string);
 var
   ErrorCode: Integer;
@@ -955,8 +969,7 @@ begin
       ExtractTemporaryFile(Filename_phpext_imagick);
       DoUnzip(targetPath + Filename_phpext_imagick, targetPath + 'phpext_imagick');
       // copy php_imagick.dll and CORE_RL_*.dll
-      Exec(hideConsole, 'cmd.exe /c "copy ' + targetPath + 'phpext_imagick\*.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\*.dll') + '"',
-            '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "copy ' + targetPath + 'phpext_imagick\*.dll' + ' ' + ExpandConstant('{app}\bin\php\ext\*.dll') + '"');
 
       // Delete pdb and crappy text files
       DelTree(targetPath + 'phpext_imagick\*.dll', False, True, False);
@@ -966,7 +979,7 @@ begin
       DeleteFile(targetPath + 'phpext_imagick\ChangeLog');
 
       // Move all remaining files (examples) shipped with the extension to /www/tools/imagick
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + targetPath + 'phpext_imagick\*.* ' + appPath + '\www\tools\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_imagick\*.* ' + appPath + '\www\tools\imagick"');
 
     UpdateTotalProgressBar();
   end;
@@ -1141,68 +1154,66 @@ begin
   appPath := ExpandConstant('{app}');
 
   // nginx - rename directory
-  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"');
 
   // MariaDB - rename directory
-  Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"');
 
   // MariaDB - install with user ROOT and without password (this is the position to add a default password)
-  Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=',
-   '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  ExecHidden(appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=');
 
   // MariaDB - initialize mysql tables, e.g. performance_tables
-  Exec(hideConsole, appPath + '\bin\mariadb\bin\mysql_upgrade.exe', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+  ExecHidden(appPath + '\bin\mariadb\bin\mysql_upgrade.exe');
 
   // MongoDB - rename directory
   if Pos('mongodb', selectedComponents) > 0 then
   begin
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"');
   end;
 
   // PostgreSQL - initial setup
   if Pos('postgresql', selectedComponents) > 0 then
   begin
-      Exec(hideConsole, appPath + '\bin\pgsql\bin\initdb.exe ' + appPath + '\bin\pgsql\data"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden(appPath + '\bin\pgsql\bin\initdb.exe ' + appPath + '\bin\pgsql\data"');
   end;
 
   // Varnish - rename directory, like "varnish-3.0.2"
   if Pos('varnish', selectedComponents) > 0 then
   begin
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\varnish-* ' + appPath + '\bin\varnish"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\varnish-* ' + appPath + '\bin\varnish"');
   end;
 
   // ImageMagick - rename directory
   if Pos('imagick', selectedComponents) > 0 then
   begin
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\ImageMagick-* ' + appPath + '\bin\imagick"');
   end;
 
   if Pos('robomongo', selectedComponents) > 0 then
   begin
       // remove version number from folder name. robomongo comes in a versionized folder "robomongo-1.2.3-i386".
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\robomongo-* ' + appPath + '\bin\robomongo"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\robomongo-* ' + appPath + '\bin\robomongo"');
   end;
 
   if Pos('uprofiler', selectedComponents) > 0 then
   begin
     // uprofiler - rename "uprofiler-master" directory
-    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"',
-    '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    ExecHidden('cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"');
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
       // rename the existing directory
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"');
 
       // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
-      Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"');
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
      // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
-    Exec(hideConsole, 'cmd.exe /c "move /Y ' + appPath + '\www\tools\phpMyAdmin-*  ' + appPath + '\www\tools\phpmyadmin"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+    ExecHidden('cmd.exe /c "move /Y ' + appPath + '\www\tools\phpMyAdmin-*  ' + appPath + '\www\tools\phpmyadmin"');
   end;
 
 end;
@@ -1504,8 +1515,8 @@ begin
     then begin
       //MsgBox('User clicked YES!', mbInformation, MB_OK);
 
-	  // fix "read-only" status of all files and folders, else some things might remain after uninstallation
-	  Exec(hideConsole, 'cmd.exe /c "attrib -R ' + appPath + '\*.* /s /d"', '', SW_SHOW, ewWaitUntilTerminated, ReturnCode);
+      // fix "read-only" status of all files and folders, else some things might remain after uninstallation
+      ExecHidden('cmd.exe /c "attrib -R ' + appPath + '\*.* /s /d"');
 
       DeleteWPNXM(ExpandConstant('{app}'));
     end else begin
