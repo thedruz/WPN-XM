@@ -154,16 +154,6 @@
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**\webinstaller-*.iss"/>
-                <exclude name="**\webinstaller-debug-*.iss"/>
-            </fileset>
-        </foreach>
-    </target>
-
-    <target name="compile-webinstaller-debug" description="Builds the WPN-XM setup executable for debugging."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\webinstaller-debug-*.iss"/>
             </fileset>
         </foreach>
     </target>

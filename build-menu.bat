@@ -68,7 +68,7 @@ goto END
     echo.
     echo Building Web-Installation Wizards
     echo.
-    call bin\phing\phing.bat -f %~dp0build.xml compile-webinstaller compile-webinstaller-debug
+    call bin\phing\phing.bat -f %~dp0build.xml compile-webinstaller
 goto END
 
 :END
