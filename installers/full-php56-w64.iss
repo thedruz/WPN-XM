@@ -35,38 +35,38 @@
 #define SOURCE_ROOT AddBackslash(SourcePath);
 
 // defines for the setup section
-#define AppName "WPN-XM Server Stack"
+#define APP_NAME "WPN-XM Server Stack"
 
 #ifdef COMPILE_FROM_IDE
 #define APP_VERSION "LocalSnapshot"
 #else
 // the -APPVERSION- token is replaced during the build process
-#define AppVersion "@APPVERSION@"
+#define APP_VERSION "@APPVERSION@"
 #endif
 
-#define AppPublisher "Jens-Andre Koch"
-#define AppURL "http://wpn-xm.org/"
-#define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
+#define APP_PUBLISHER "Jens-Andre Koch"
+#define APP_URL "http://wpn-xm.org/"
+#define APP_SUPPORT_URL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
-#define InstallerType "Full"
+#define INSTALLER_TYPE "Full"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{8E0B8E63-FF85-4B78-9C7F-109F905E1D3B}}
-AppName={#AppName}
-AppVerName={#AppName} {#AppVersion}
-AppVersion={#AppVersion}
-AppPublisher={#AppPublisher}
-AppCopyright=© {#AppPublisher}
-AppPublisherURL={#AppURL}
-AppSupportURL={#AppSupportURL}
-AppUpdatesURL={#AppURL}
+AppName={#APP_NAME}
+AppVerName={#APP_NAME} {#APP_VERSION}
+AppVersion={#APP_VERSION}
+AppPublisher={#APP_PUBLISHER}
+AppCopyright=© {#APP_PUBLISHER}
+AppPublisherURL={#APP_URL}
+AppSupportURL={#APP_SUPPORT_URL}
+AppUpdatesURL={#APP_URL}
 // default installation folder is "c:\server". users might change this via dialog.
 DefaultDirName={sd}\server
-DefaultGroupName={#AppName}
-OutputBaseFilename=WPNXM-{#AppVersion}-{#InstallerType}-Setup-php56-w64
+DefaultGroupName={#APP_NAME}
+OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-php56-w64
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
 LZMANumBlockThreads=2
@@ -84,11 +84,11 @@ BackColor=clBlack
 PrivilegesRequired=none
 // create a log file, see [code] procedure CurStepChanged
 SetupLogging=yes
-VersionInfoVersion={#AppVersion}
-VersionInfoCompany={#AppPublisher}
-VersionInfoDescription={#AppName} {#AppVersion}
-VersionInfoTextVersion={#AppVersion}
-VersionInfoCopyright=Copyright (C) 2011 - 2013 {#AppPublisher}, All Rights Reserved.
+VersionInfoVersion={#APP_VERSION}
+VersionInfoCompany={#APP_PUBLISHER}
+VersionInfoDescription={#APP_NAME} {#APP_VERSION}
+VersionInfoTextVersion={#APP_VERSION}
+VersionInfoCopyright=Copyright (C) 2011 - 2013 {#APP_PUBLISHER}, All Rights Reserved.
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
@@ -144,7 +144,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 
 [Files]
 // incorporate all files of the download folder for this installation wizard
-Source: ..\downloads\full-{#AppVersion}-php5.6-w64\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
+Source: ..\downloads\full-{#APP_VERSION}-php5.6-w64\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
 // tools:
 Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
@@ -207,8 +207,8 @@ Name: {group}\Stop WPN-XM; Filename: {app}\stop.bat; Tasks: add_startmenu
 Name: {group}\Status of WPN-XM; Filename: {app}\status.bat; Tasks: add_startmenu
 Name: {group}\Localhost; Filename: {app}\localhost.url; Tasks: add_startmenu
 Name: {group}\Administration; Filename: {app}\administration.url; Tasks: add_startmenu
-Name: {group}\{cm:ProgramOnTheWeb,{#AppName}}; Filename: {#AppURL}; Tasks: add_startmenu
-Name: {group}\{cm:ReportBug}; Filename: {#AppSupportURL}; Tasks: add_startmenu
+Name: {group}\{cm:ProgramOnTheWeb,{#APP_NAME}}; Filename: {#APP_URL}; Tasks: add_startmenu
+Name: {group}\{cm:ReportBug}; Filename: {#APP_SUPPORT_URL}; Tasks: add_startmenu
 Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Tasks: add_startmenu
 Name: {userdesktop}\WPN-XM ServerControlPanel; Filename: {app}\wpn-xm.exe; Tasks: add_desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpn-xm.exe; Tasks: add_quicklaunchicon
@@ -241,8 +241,8 @@ Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData
 
 [Messages]
 // define wizard title and tray status msg; overwritten, because defined in /bin/innosetup/default.isl
-SetupAppTitle =Setup WPN-XM {#AppVersion}
-SetupWindowTitle =Setup - {#AppName} {#AppVersion}
+SetupAppTitle =Setup WPN-XM {#APP_VERSION}
+SetupWindowTitle =Setup - {#APP_NAME} {#APP_VERSION}
 
 [CustomMessages]
 de.WebsiteButton=wpn-xm.org
@@ -468,7 +468,7 @@ begin
 end;
 
 // Runs an external command via RunHiddenConsole
-function RunHidden(Command: String): Integer;
+function ExecHidden(Command: String): Integer;
 var
   ResultCode: Integer;
 begin
@@ -491,17 +491,17 @@ end;
 procedure HelpButtonClick(Sender: TObject);
 begin
   // example URL: http://wpn-xm.org/help.php?section=installation-wizard&type=webinstaller&page=1&version=0.6.0&language=de
-  OpenBrowser('{#AppURL}help.php'
+  OpenBrowser('{#APP_URL}help.php'
     + '?section=installation-wizard'
-    + '&type=' + Lowercase(ExpandConstant('{#InstallerType}'))
+    + '&type=' + Lowercase(ExpandConstant('{#INSTALLER_TYPE}'))
     + '&page=' + IntToStr(WizardForm.CurPageID)
-    + '&version=' + ExpandConstant('{#AppVersion}')
+    + '&version=' + ExpandConstant('{#APP_VERSION}')
     + '&language=' + ExpandConstant('{language}'));
 end;
 
 procedure WebsiteButtonClick(Sender: TObject);
 begin
-  OpenBrowser('{#AppURL}');
+  OpenBrowser('{#APP_URL}');
 end;
 
 {
@@ -616,7 +616,7 @@ begin
   VersionLabel            := TLabel.Create(WizardForm);
   VersionLabel.Top        := 43;
   VersionLabel.Left       := 129;
-  VersionLabel.Caption    := ExpandConstant('{#AppVersion}');
+  VersionLabel.Caption    := ExpandConstant('{#APP_VERSION}');
   VersionLabel.Font.Name  := 'Tahoma';
   VersionLabel.Font.Size  := 7;
   VersionLabel.Font.Style := [fsBold];
@@ -627,7 +627,7 @@ begin
   VersionLabel2            := TLabel.Create(WizardForm);
   VersionLabel2.Top        := 43;
   VersionLabel2.Left       := 129;
-  VersionLabel2.Caption    := ExpandConstant('{#AppVersion}');
+  VersionLabel2.Caption    := ExpandConstant('{#APP_VERSION}');
   VersionLabel2.Font.Name  := 'Tahoma';
   VersionLabel2.Font.Size  := 7;
   VersionLabel2.Font.Style := [fsBold];
@@ -1493,7 +1493,7 @@ begin
   // open uninstall survey in browser on (non-silent) uninstallation
   if (IsUninstaller and not UninstallSilent) then begin
     if (CurUninstallStep = usDone) then begin
-          OpenBrowser('http://wpn-xm.org/uninstall-survey.php?version=' + ExpandConstant('{#AppVersion}'));
+          OpenBrowser('http://wpn-xm.org/uninstall-survey.php?version=' + ExpandConstant('{#APP_VERSION}'));
     end;
   end;
 
