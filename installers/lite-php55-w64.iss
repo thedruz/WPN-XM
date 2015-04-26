@@ -152,7 +152,7 @@ Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\configs\php\php55.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
-Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
+Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
 // Visual C++ Redistributable 2010 is needed by PHP VC11 builds
