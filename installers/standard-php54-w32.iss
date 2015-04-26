@@ -174,7 +174,7 @@ Source: ..\configs\php\php54.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
-Source: ..\configs\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
+Source: ..\configs\phpmyadmin\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
 Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
 Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
 Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
