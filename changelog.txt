@@ -30,7 +30,7 @@ _____________________________________________________________________________
 [tba.2015]    REL   VERSION 0.8.3
 ------------  ----------------------------------------------------------------
 
-  26.04.2015  CHG   moved phpmyadmin config into "/configs/phpmyadmin"
+  26.04.2015  CHG   moved configs into subfolders
                     and updated installers accordingly
   25.04.2015  CHG   Removed Debug-Webinstallers and their build tasks
               CHG   added ExecHidden() function to installers

@@ -184,7 +184,7 @@ Source: ..\configs\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\phpmyadmin\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
 Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
 //Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
-Source: ..\configs\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
+Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
 
