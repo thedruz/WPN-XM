@@ -84,7 +84,9 @@ BackColor=clBlack
 PrivilegesRequired=none
 // create a log file, see [code] procedure CurStepChanged
 SetupLogging=yes
+#ifndef COMPILE_FROM_IDE
 VersionInfoVersion={#APP_VERSION}
+#endif
 VersionInfoCompany={#APP_PUBLISHER}
 VersionInfoDescription={#APP_NAME} {#APP_VERSION}
 VersionInfoTextVersion={#APP_VERSION}
