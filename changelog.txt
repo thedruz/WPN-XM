@@ -32,6 +32,7 @@ _____________________________________________________________________________
 
   26.04.2015  CHG   moved configs into subfolders
                     and updated installers accordingly
+              CHG   added "COMPILE_FROM_IDE" define to allow local compiles
   25.04.2015  CHG   Removed Debug-Webinstallers and their build tasks
               CHG   added ExecHidden() function to installers
               CHG   moved webgrind config into "/configs/webgrind"

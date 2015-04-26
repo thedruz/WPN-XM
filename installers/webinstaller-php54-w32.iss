@@ -25,6 +25,9 @@
 // +---------------------------------------------------------------------<3
 //
 
+; Uncomment the line below to be able to compile the script locally from the IDE.
+;#define COMPILE_FROM_IDE
+
 // debug mode toggle
 #define DEBUG "false"
 
@@ -33,8 +36,14 @@
 
 // defines for the setup section
 #define AppName "WPN-XM Server Stack"
+
+#ifdef COMPILE_FROM_IDE
+#define APP_VERSION "LocalSnapshot"
+#else
 // the -APPVERSION- token is replaced during the build process
 #define AppVersion "@APPVERSION@"
+#endif
+
 #define AppPublisher "Jens-Andre Koch"
 #define AppURL "http://wpn-xm.org/"
 #define AppSupportURL "https://github.com/WPN-XM/WPN-XM/issues/new/"
