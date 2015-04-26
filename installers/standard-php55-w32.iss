@@ -315,7 +315,7 @@ var
   unzipTool   : String;   // path+filename of unzip helper for exec
   returnCode  : Integer;  // errorcode
   targetPath  : String;   // if debug true will download to app/downloads, else temp dir
-  appPath     : String;   // application path (= the installaton folder)
+  appDir     : String;   // application path (= the installaton folder)
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
@@ -1073,45 +1073,45 @@ begin
   selectedComponents := WizardSelectedComponents(false);
 
   // set application path as global variable
-  appPath := ExpandConstant('{app}');
+  appDir := ExpandConstant('{app}');
 
   // nginx - rename directory
-  ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\nginx-* ' + appPath + '\bin\nginx"');
+  ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"');
 
   // MariaDB - rename directory
-  ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"');
+  ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');
 
   // MongoDB - rename directory
   if Pos('mongodb', selectedComponents) > 0 then
   begin
-      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\mongodb-* ' + appPath + '\bin\mongodb"');
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');
   end;
 
   if Pos('robomongo', selectedComponents) > 0 then
   begin
       // remove version number from folder name. robomongo comes in a versionized folder "robomongo-1.2.3-i386".
-      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\robomongo-* ' + appPath + '\bin\robomongo"');
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robomongo-* ' + appDir + '\bin\robomongo"');
   end;
 
   if Pos('uprofiler', selectedComponents) > 0 then
   begin
     // uprofiler - rename "uprofiler-master" directory
-    ExecHidden('cmd.exe /c "move /Y ' + appPath + '\www\tools\uprofiler-* ' + appPath + '\www\tools\uprofiler"');
+    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\uprofiler-* ' + appDir + '\www\tools\uprofiler"');
   end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
       // rename the existing directory
-      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\memcached-x86 ' + appPath + '\bin\memcached"');
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-x86 ' + appDir + '\bin\memcached"');
 
       // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
-      ExecHidden('cmd.exe /c "move /Y ' + appPath + '\www\tools\memadmin-* ' + appPath + '\www\tools\memadmin"');
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\memadmin-* ' + appDir + '\www\tools\memadmin"');
   end;
 
   if Pos('phpmyadmin', selectedComponents) > 0 then
   begin
      // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
-    ExecHidden('cmd.exe /c "move /Y ' + appPath + '\www\tools\phpMyAdmin-*  ' + appPath + '\www\tools\phpmyadmin"');
+    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\phpMyAdmin-*  ' + appDir + '\www\tools\phpmyadmin"');
   end;
 
 end;
@@ -1131,54 +1131,54 @@ end;
 procedure Configure();
 var
   selectedComponents: String;
-  appPathWithSlashes : String;
+  appDirWithSlashes : String;
   php_ini_file : String;
   mariadb_ini_file : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
   // set application path as global variable
-  appPath := ExpandConstant('{app}');
+  appDir := ExpandConstant('{app}');
 
   // StringChange(S,FromStr,ToStr) works on the string S, changing all occurances in S of FromStr to ToStr.
-  appPathWithSlashes := appPath;
-  StringChange (appPathWithSlashes, '\', '/');
+  appDirWithSlashes := appDir;
+  StringChange (appDirWithSlashes, '\', '/');
 
   {
     =============== Inital Setup for Components (post-install commands) ===============
   }
 
   // MariaDb - install with user ROOT and without password (this is the position to add a default password)
-  ExecHidden(appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=');
+  ExecHidden(appDir + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appDir + '\bin\mariadb\data" --default-user=root --password=');
 
   // MariaDB - initialize mysql tables, e.g. performance_tables
-  ExecHidden(appPath + '\bin\mariadb\bin\mysql_upgrade.exe');
+  ExecHidden(appDir + '\bin\mariadb\bin\mysql_upgrade.exe');
 
   {
     =============== Modify Configuration Files ===============
   }
 
   // config files
-  php_ini_file := appPath + '\bin\php\php.ini';
-  mariadb_ini_file := appPath + '\bin\mariadb\my.ini';
+  php_ini_file := appDir + '\bin\php\php.ini';
+  mariadb_ini_file := appDir + '\bin\mariadb\my.ini';
 
   // http://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-error
   // waring: mysqld will not start if backslashes (\) are used. fwd slashes (/) needed!
-  SetIniString('mysqld', 'log-error',        appPathWithSlashes + '/logs/mariadb_error.log',  mariadb_ini_file);
+  SetIniString('mysqld', 'log-error',        appDirWithSlashes + '/logs/mariadb_error.log',  mariadb_ini_file);
 
   // PHP
-  SetIniString('PHP', 'error_log',           appPath + '\logs\php_error.log',       php_ini_file);
-  SetIniString('PHP', 'include_path',        '.;' + appPath + '\bin\php\pear',      php_ini_file);
-  SetIniString('PHP', 'upload_tmp_dir',      appPath + '\temp',                     php_ini_file);
+  SetIniString('PHP', 'error_log',           appDir + '\logs\php_error.log',       php_ini_file);
+  SetIniString('PHP', 'include_path',        '.;' + appDir + '\bin\php\pear',      php_ini_file);
+  SetIniString('PHP', 'upload_tmp_dir',      appDir + '\temp',                     php_ini_file);
   SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file);
-  SetIniString('PHP', 'session.save_path',   appPath + '\temp',                     php_ini_file);
+  SetIniString('PHP', 'session.save_path',   appDir + '\temp',                     php_ini_file);
 
   // Xdebug
   if Pos('xdebug', selectedComponents) > 0 then
   begin
       if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
       begin
-          SetIniString('Zend', 'zend_extension', appPath + '\bin\php\ext\php_xdebug.dll', php_ini_file);
+          SetIniString('Zend', 'zend_extension', appDir + '\bin\php\ext\php_xdebug.dll', php_ini_file);
       end;
 
       // activate remote debugging
@@ -1190,8 +1190,8 @@ begin
 
   if Pos('openssl', selectedComponents) > 0 then
   begin
-    ReplaceStringInFile(';curl.cainfo =', 'curl.cainfo =' + appPath + '\bin\openssl\ca-bundle.crt', php_ini_file);
-    ReplaceStringInFile(';openssl.cafile =', 'openssl.cafile =' + appPath + '\bin\openssl\ca-bundle.crt', php_ini_file);
+    ReplaceStringInFile(';curl.cainfo =', 'curl.cainfo =' + appDir + '\bin\openssl\ca-bundle.crt', php_ini_file);
+    ReplaceStringInFile(';openssl.cafile =', 'openssl.cafile =' + appDir + '\bin\openssl\ca-bundle.crt', php_ini_file);
   end;
 
   if Pos('mongodb', selectedComponents) > 0 then
@@ -1397,7 +1397,7 @@ begin
       // User clicked: YES
 
       // fix "read-only" status of all files and folders, else some things might remain after uninstallation
-      ExecHidden('cmd.exe /c "attrib -R ' + appPath + '\*.* /s /d"');
+      ExecHidden('cmd.exe /c "attrib -R ' + appDir + '\*.* /s /d"');
 
       DeleteWPNXM(ExpandConstant('{app}'));
     end else begin
