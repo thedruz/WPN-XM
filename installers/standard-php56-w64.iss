@@ -25,7 +25,7 @@
 // +---------------------------------------------------------------------<3
 //
 
-// toggle for enabling/disabling the debug mode
+// debug mode toggle
 #define DEBUG "false"
 
 // defines the root folder
@@ -136,7 +136,7 @@ Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
-// psvince is install to app folder. it is needed during uninstallation, to to check if daemons are still running.
+// psvince is installed to the app folder, because it's needed during uninstallation, to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 // incorporate the whole "www" folder into the setup, except the webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\tools\webinterface,.git*;
@@ -647,29 +647,10 @@ function NextButtonClick(CurPage: Integer): Boolean;
 begin
   if CurPage = wpSelectComponents then
   begin
-
-    {
-      Define "targetPath" for the downloads. It depends on the debug mode.
-
-      Normally the temporary path is used for downloading.
-      This means that downloaded components are deleted after installation or at least when the temp folder is cleaned.
-
-      In Debug mode the "D:\Github\WPN-XM\WPN-XM\downloads" path is used.
-      The downloaded components are not deleted after installation.
-      If you reinstall, the components are taken from there. They are not downloaded again.
-    }
-    if DEBUG = false then
-    begin
-      targetPath := ExpandConstant('{tmp}\');
-    end else
-    begin
-      targetPath := ExpandConstant('D:\Github\WPN-XM\WPN-XM\downloads\');
-      // create folder, if it doesn't exist
-      if not DirExists(ExpandConstant(targetPath)) then ForceDirectories(ExpandConstant(targetPath));
-    end;
-
+    // The "targetPath" for downloads or extractions is the temporary path.
+    // When the installation is finished (or at least when temp folder gets cleared) the stuff gets deleted.
+    targetPath := ExpandConstant('{tmp}\');
   end; // of wpSelectComponents
-
   Result := True;
 end;
 
@@ -1061,12 +1042,6 @@ begin
   // MariaDB - rename directory
   ExecHidden('cmd.exe /c "move /Y ' + appPath + '\bin\mariadb-* ' + appPath + '\bin\mariadb"');
 
-  // MariaDB - install with user ROOT and without password (this is the position to add a default password)
-  ExecHidden(appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=');
-
-  // MariaDB - initialize mysql tables, e.g. performance_tables
-  ExecHidden(appPath + '\bin\mariadb\bin\mysql_upgrade.exe');
-
   // MongoDB - rename directory
   if Pos('mongodb', selectedComponents) > 0 then
   begin
@@ -1130,13 +1105,23 @@ begin
   appPathWithSlashes := appPath;
   StringChange (appPathWithSlashes, '\', '/');
 
+  {
+    =============== Inital Setup for Components (post-install commands) ===============
+  }
+
+  // MariaDb - install with user ROOT and without password (this is the position to add a default password)
+  ExecHidden(appPath + '\bin\mariadb\bin\mysql_install_db.exe --datadir="' + appPath + '\bin\mariadb\data" --default-user=root --password=');
+
+  // MariaDB - initialize mysql tables, e.g. performance_tables
+  ExecHidden(appPath + '\bin\mariadb\bin\mysql_upgrade.exe');
+
+  {
+    =============== Modify Configuration Files ===============
+  }
+
   // config files
   php_ini_file := appPath + '\bin\php\php.ini';
   mariadb_ini_file := appPath + '\bin\mariadb\my.ini';
-
-  // modifications to the config files
-
-  // MariaDb
 
   // http://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-error
   // waring: mysqld will not start if backslashes (\) are used. fwd slashes (/) needed!
@@ -1152,7 +1137,6 @@ begin
   // Xdebug
   if Pos('xdebug', selectedComponents) > 0 then
   begin
-      // add loading of xdebug.dll to php.ini
       if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
       begin
           SetIniString('Zend', 'zend_extension', appPath + '\bin\php\ext\php_xdebug.dll', php_ini_file);
@@ -1173,8 +1157,7 @@ begin
 
   if Pos('mongodb', selectedComponents) > 0 then
   begin
-      // php.ini entry for loading the the extension
-      SetIniString('PHP', 'extension', 'php_mongo.dll', php_ini_file );
+      SetIniString('PHP', 'extension', 'php_mongo.dll', php_ini_file);
   end;
 end;
 
@@ -1331,22 +1314,23 @@ begin
   end;
 end;
 
-{
-  removePath
-  fetch env var PATH
-  check if PathToRemove is inside PATH
-  replace the PathToRemove segment with empty and write the new path
-}
-function RemovePath(PathToRemove: string): boolean;
+function RemovePathFromEnvironmentPath(PathToRemove: string): boolean;
 var
   Path: String;
 begin
+  // fetch env var PATH
   RegQueryStringValue(HKCU, 'Environment\', 'PATH', Path);
-  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then begin
+
+  // check, if the PathToRemove is inside PATH
+  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then
+  begin
+     // replace the PathToRemove string segment with empty and write the new path
      StringChange(Path, PathToRemove + ';', '');
      RegWriteStringValue(HKCU, 'Environment\', 'PATH', Path);
      Result := true;
-  end else begin
+  end
+  else
+  begin
      Result := false;
   end;
 end;
@@ -1397,20 +1381,20 @@ begin
         'This is your last chance to do a backup of your files.'#13#10#13#10 +
         'Do you want to proceed?'#13#10, mbConfirmation, MB_YESNO) = IDYES
     then begin
-      //MsgBox('User clicked YES!', mbInformation, MB_OK);
+      // User clicked: YES
 
       // fix "read-only" status of all files and folders, else some things might remain after uninstallation
       ExecHidden('cmd.exe /c "attrib -R ' + appPath + '\*.* /s /d"');
 
       DeleteWPNXM(ExpandConstant('{app}'));
     end else begin
-      //MsgBox('User clicked No!', mbInformation, MB_OK);
+      // User clicked: No
       Abort;
     end;
   end;
 
   // finally, remove the PHP bin folder
   if (CurUninstallStep = usPostUninstall) then begin
-     RemovePath(ExpandConstant('{app}\php\bin'));
+     RemovePathFromEnvironmentPath(ExpandConstant('{app}\php\bin'));
   end;
 end;
