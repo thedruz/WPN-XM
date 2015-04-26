@@ -483,6 +483,33 @@ begin
   end;
 end;
 
+function ReplaceStringInFile(const SearchString: String; const ReplaceString: String; const FileName: String): boolean;
+var
+  MyFile : TStrings;
+  MyText : string;
+begin
+  MyFile := TStringList.Create;
+
+  try
+    result := true;
+
+    try
+      MyFile.LoadFromFile(FileName);
+      MyText := MyFile.Text;
+
+      if StringChangeEx(MyText, SearchString, ReplaceString, True) > 0 then // save only, if text was changed
+      begin;
+        MyFile.Text := MyText;
+        MyFile.SaveToFile(FileName);
+      end;
+    except
+      result := false;
+    end;
+  finally
+    MyFile.Free;
+  end;
+end;
+
 procedure OpenBrowser(Url: string);
 var
   ErrorCode: Integer;
@@ -1239,7 +1266,7 @@ begin
   // PostgreSQL - initial setup
   if Pos('postgresql', selectedComponents) > 0 then
   begin
-      ExecHidden(appPath + '\bin\pgsql\bin\initdb.exe ' + appPath + '\bin\pgsql\data"');
+      ExecHidden(appPath + '\bin\pgsql\bin\initdb.exe --encoding=UTF-8 --pgdata="' + appPath + '\bin\pgsql\data"');
   end;
 
   {
@@ -1278,8 +1305,8 @@ begin
 
   if Pos('openssl', selectedComponents) > 0 then
   begin
-    ReplaceStringInFile(";curl.cainfo =", "curl.cainfo =" + appPath + "\bin\openssl\ca-bundle.crt", php_ini_file);
-    ReplaceStringInFile(";openssl.cafile=, "openssl.cafile =" + appPath + "\bin\openssl\ca-bundle.crt", php_ini_file);  end;
+    ReplaceStringInFile(';curl.cainfo =', 'curl.cainfo =' + appPath + '\bin\openssl\ca-bundle.crt', php_ini_file);
+    ReplaceStringInFile(';openssl.cafile =', 'openssl.cafile =' + appPath + '\bin\openssl\ca-bundle.crt', php_ini_file);
   end;
 
   if Pos('mongodb', selectedComponents) > 0 then
@@ -1292,7 +1319,7 @@ end;
   DoPostInstall will be called after Inno has completed installing all of
   the [Files], [Registry] entries, and so forth, and also after all the
   non-postinstall [Run] entries, but before the wpInfoAfter or wpFinished pages.
-  Its triggerd by CurStep == ssPostInstall. see procedure CurStepChanged().
+  Its triggerd by CurStep == ssPostInstall. See procedure CurStepChanged().
   wpInstalling Install finshed -> ssPostInstall
 }
 procedure DoPostInstall();
@@ -1305,7 +1332,8 @@ begin
   if CurStep = ssInstall then DoPreInstall();
   if CurStep = ssPostInstall then DoPostInstall();
 
-  // when wizward finished, copy logfile from tmp dir to the application dir
+  // when the wizard finishes, copy the installation logfile from tmp dir to application dir.
+  // this allows easier debugging of installation problems. the user can upload or reference parts of the log.
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;
@@ -1459,33 +1487,6 @@ begin
   else
   begin
      Result := false;
-  end;
-end;
-
-function ReplaceStringInFile(SearchString: string, ReplaceString: string, const FileName):boolean;
-var
-  MyFile : TStrings;
-  MyText : string;
-begin
-  MyFile := TStringList.Create;
-
-  try
-    result := true;
-
-    try
-      MyFile.LoadFromFile(FileName);
-      MyText := MyFile.Text;
-
-      if StringChangeEx(MyText, SearchString, ReplaceString, True) > 0 then // save only, if text was changed
-      begin;
-        MyFile.Text := MyText;
-        MyFile.SaveToFile(FileName);
-      end;
-    except
-      result := false;
-    end;
-  finally
-    MyFile.Free;
   end;
 end;
 
