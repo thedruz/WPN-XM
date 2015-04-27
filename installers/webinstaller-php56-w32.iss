@@ -1,46 +1,45 @@
-//
-//          _\|/_
-//          (o o)
-// +-----oOO-{_}-OOo------------------------------------------------------+
-// |                                                                      |
-// |  WPN-XM Server Stack - Inno Setup Script File                        |
-// |  --------------------------------------------                        |
-// |                                                                      |
-// |  WPN-XM is a free and open-source web server solution stack          |
-// |  for professional PHP development on the Windows platform.           |
-// |                                                                      |
-// |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
-// |  Website:  http://wpn-xm.org/                                        |
-// |  License:  MIT                                                       |
-// |                                                                      |
-// |  For the full copyright and license information, please view         |
-// |  the LICENSE file that was distributed with this source code.        |
-// |                                                                      |
-// |  Note for developers                                                 |
-// |  -------------------                                                 |
-// |  A good resource for developing and understanding                    |
-// |  Inno Setup Script files is the official "Inno Setup Help".          |
-// |  Website:  http://jrsoftware.org/ishelp/index.php                    |
-// |                                                                      |
-// +---------------------------------------------------------------------<3
-//
+;
+;          _\|/_
+;          (o o)
+; +-----oOO-{_}-OOo------------------------------------------------------+
+; |                                                                      |
+; |  WPN-XM Server Stack - Inno Setup Script File                        |
+; |  --------------------------------------------                        |
+; |                                                                      |
+; |  WPN-XM is a free and open-source web server solution stack          |
+; |  for professional PHP development on the Windows platform.           |
+; |                                                                      |
+; |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
+; |  Website:  http://wpn-xm.org/                                        |
+; |  License:  MIT                                                       |
+; |                                                                      |
+; |  For the full copyright and license information, please view         |
+; |  the LICENSE file that was distributed with this source code.        |
+; |                                                                      |
+; |  Note for developers                                                 |
+; |  -------------------                                                 |
+; |  A good resource for developing and understanding                    |
+; |  Inno Setup Script files is the official "Inno Setup Help".          |
+; |  Website:  http://jrsoftware.org/ishelp/index.php                    |
+; |                                                                      |
+; +---------------------------------------------------------------------<3
 
 ; Uncomment the line below to be able to compile the script locally from the IDE.
 ;#define COMPILE_FROM_IDE
 
-// debug mode toggle
+; debug mode toggle
 #define DEBUG "false"
 
-// defines the root folder
+; defines the root folder
 #define SOURCE_ROOT AddBackslash(SourcePath);
 
-// defines for the setup section
+; defines for the setup section
 #define APP_NAME "WPN-XM Server Stack"
 
 #ifdef COMPILE_FROM_IDE
 #define APP_VERSION "LocalSnapshot"
 #else
-// the -APPVERSION- token is replaced during the build process
+; the -APPVERSION- token is replaced during the build process
 #define APP_VERSION "@APPVERSION@"
 #endif
 
@@ -66,7 +65,7 @@ AppCopyright=© {#APP_PUBLISHER}
 AppPublisherURL={#APP_URL}
 AppSupportURL={#APP_SUPPORT_URL}
 AppUpdatesURL={#APP_URL}
-// default installation folder is "c:\server". users might change this via dialog.
+; default installation folder is "c:\server". users might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#APP_NAME}
 OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-php56-w32
@@ -77,15 +76,14 @@ InternalCompressLevel=max
 SolidCompression=true
 CreateAppDir=true
 CloseApplications=no
-// disable wizard pages: Languages, Ready, Select Start Menu Folder
+; disable wizard pages: Languages, Ready, Select Start Menu Folder
 ShowLanguageDialog=no
 DisableReadyPage=yes
 DisableProgramGroupPage=yes
 ShowComponentSizes=no
 BackColor=clBlack
-// formerly admin
 PrivilegesRequired=none
-// create a log file, see [code] procedure CurStepChanged
+; create a log file, see [code] procedure CurStepChanged
 SetupLogging=yes
 #ifndef COMPILE_FROM_IDE
 VersionInfoVersion={#APP_VERSION}
@@ -148,25 +146,25 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 //Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 
 [Files]
-// tools:
+; tools:
 Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\killprocess\Process.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
-// psvince is installed to the app folder, because it's needed during uninstallation, to check if daemons are still running.
+; psvince is installed to the app folder, because it's needed during uninstallation, to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
 Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}; Components: mongodb
 Source: ..\bin\stripdown-postgresql.bat; DestDir: {tmp}; Components: postgresql
 // incorporate the whole "www" folder into the setup, except the webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: *\nbproject*,\tools\webinterface,.git*;
-// webinterface folder is only copied, if component "webinterface" is selected.
+; webinterface folder is only copied, if component "webinterface" is selected.
 Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Flags: recursesubdirs; Excludes: *\nbproject*; Components: webinterface
-// if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
+; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
-// incorporate several startfiles and shortcut commands
+; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
@@ -184,14 +182,14 @@ Source: ..\startfiles\status.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\stop.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
-// backup config files, when upgrading
+; backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; DestName: "mongodb.conf.old"; Flags: external skipifsourcedoesntexist; Components: mongodb;
 Source: {app}\bin\pgsql\data\postgresql.conf; DestDir: {app}\bin\pgsql\data; DestName: "postgresql.conf.old"; Flags: external skipifsourcedoesntexist; Components: postgresql;
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
-// config files
+; config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\configs\php\php56.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
 Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
@@ -227,25 +225,25 @@ Name: add_desktopicon; Description: Create a &Desktop icon for the Server Contro
 Name: add_startstop_desktopicons; Description: Create &Desktop icons for starting and stopping; GroupDescription: Additional Icons:; Flags: unchecked
 
 [Run]
-// Automatically started...
+; Automatically started...
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb"; Flags: runhidden;
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb; Flags: runhidden;
 Filename: {tmp}\stripdown-postgresql.bat; Parameters: "{app}\bin\pgsql"; Components: postgresql; Flags: runhidden;
 Filename: {app}\bin\perl\relocation.pl.bat; Flags: runhidden; Components: perl;
 Filename: {app}\bin\perl\update_env.pl.bat; Flags: runhidden; Components: perl;
-// User selected Postinstallation runs...
+; User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
-// a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
-// The registry is not modified, when in portable mode.
+; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
+; The registry is not modified, when in portable mode.
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
-// when installing Imagick, add the "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
+; when installing Imagick, add the "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
 
 [Messages]
-// define wizard title and tray status msg; overwritten, because defined in /bin/innosetup/default.isl
+; define wizard title and tray status msg; overwritten, because defined in /bin/innosetup/default.isl
 SetupAppTitle =Setup WPN-XM {#APP_VERSION}
 SetupWindowTitle =Setup - {#APP_NAME} {#APP_VERSION}
 
@@ -281,17 +279,19 @@ var
   DebugLabel    : TNewStaticText;
 
 const
-  // reassigning the preprocessor defined constant debug
+  // reassign preprocessor constant debug
   DEBUG = {#DEBUG};
 
-  // Define download URLs for the software packages
-  // ----------------------------------------------
-  // The majority of download URLs point to our redirection script.
-  // The WPN-XM redirection script uses an internal software registry for looking
-  // up the latest version and redirecting the installer to the download url.
-  //
-  // Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
-  //
+  {
+     Define download URLs for the software packages
+     ----------------------------------------------
+     The majority of download URLs point to our redirection script.
+     The WPN-XM redirection script uses an internal software registry for looking
+     up the latest version and redirecting the installer to the download url.
+
+     Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
+  }
+
   URL_adminer               = 'http://wpn-xm.org/get.php?s=adminer';
   URL_closure_compiler      = 'http://wpn-xm.org/get.php?s=closure-compiler';
   URL_composer              = 'http://wpn-xm.org/get.php?s=composer';
@@ -397,7 +397,7 @@ var
   unzipTool   : String;   // path+filename of unzip helper for exec
   returnCode  : Integer;  // errorcode
   targetPath  : String;   // if debug true will download to app/downloads, else temp dir
-  appDir     : String;   // application path (= the installaton folder)
+  appDir      : String;   // installation folder of the application
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
   InstallPage               : TWizardPage;
   percentagePerComponent    : Integer;
