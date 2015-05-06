@@ -158,7 +158,7 @@ Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
 Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}; Components: mongodb
 Source: ..\bin\stripdown-postgresql.bat; DestDir: {tmp}; Components: postgresql
-// incorporate the whole "www" folder into the setup, except the webinterface folder
+; incorporate the whole "www" folder into the setup, except the webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*;
 ; webinterface folder is only copied, if component "webinterface" is selected.
 Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Flags: recursesubdirs; Components: webinterface
