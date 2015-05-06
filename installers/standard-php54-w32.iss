@@ -138,7 +138,7 @@ Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDi
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
-Source: ..\downloads\standard-{#APP_VERSION}-php5.4-w32\*; DestDir: {tmp}; Flags: nocompression deleteafterinstall;
+Source: ..\downloads\standard-{#APP_VERSION}-php5.4-w32\*; Flags: nocompression dontcopy;
 ; tools:
 Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
