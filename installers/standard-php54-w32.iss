@@ -150,7 +150,7 @@ Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 ; incorporate the whole "www" folder into the setup, except the webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*;
 ; webinterface folder is only copied, if component "webinterface" is selected.
-Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Flags: recursesubdirs; Components: webinterface
+Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes:.git*,.travis*; Flags: recursesubdirs; Components: webinterface
 ; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 ; incorporate several startfiles and shortcut commands
@@ -306,7 +306,6 @@ const
   Filename_redis             = 'redis.zip';
   Filename_robomongo         = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
-
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
   Filename_uprofiler         = 'uprofiler.zip';
@@ -318,8 +317,9 @@ var
   targetPath  : String;   // if debug true will download to app/downloads, else temp dir
   appDir      : String;   // installation folder of the application
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
-  InstallPage               : TWizardPage;
-  percentagePerComponent    : Integer;
+  InstallPage                   : TWizardPage;
+  intTotalComponents            : Integer;
+  intInstalledComponentsCounter : Integer; 
 
 // Detect, if Visual C++ Redistributable needs to be installed
 // http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
@@ -438,8 +438,8 @@ function NeedsAddPath(PathToAdd: string): boolean;
 var
   OrigPath: string;
 begin
-  if not RegQueryStringValue(HKCU, 'Environment\', 'Path', OrigPath)
-  then begin
+  if not RegQueryStringValue(HKCU, 'Environment\', 'Path', OrigPath) then
+  begin
     Result := True;
     exit;
   end;
@@ -457,9 +457,10 @@ var
 begin
   if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
   begin
-    Result := ResultCode;
-  end
-  else begin
+    Result := ResultCode; 
+  end 
+  else 
+  begin 
     Result := ResultCode;
   end;
 end;
@@ -495,7 +496,7 @@ procedure OpenBrowser(Url: string);
 var
   ErrorCode: Integer;
 begin
-  ShellExec('open', Url, '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+  ShellExecAsOriginalUser('open', Url, '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
 end;
 
 procedure HelpButtonClick(Sender: TObject);
@@ -555,15 +556,17 @@ begin
   TotalProgressBar.Top := 40;
   TotalProgressBar.Width := 366;
   TotalProgressBar.Height := 24;
-  TotalProgressBar.Min := 0
-  TotalProgressBar.Max := 100
+  // The inital state of Min and Position is "-1". Position is set to "0", after Max has been
+  // calculated, based on the number of selected components (see GetTotalNumberOfComponents()).
+  TotalProgressBar.Min := -1       
+  TotalProgressBar.Position := -1  
   TotalProgressBar.Parent := InstallPage.Surface;
 
   TotalProgressLabel := TLabel.Create(InstallPage);
   TotalProgressLabel.Name := 'TotalProgressLabel'; // needed for FindComponent()
   TotalProgressLabel.Top := TotalProgressStaticText.Top;
   TotalProgressLabel.Left := TotalProgressBar.Width;
-  TotalProgressLabel.Caption := '0 %';
+  TotalProgressLabel.Caption := '--/--';
   TotalProgressLabel.Alignment := taRightJustify;
   TotalProgressLabel.Font.Style := [fsBold];
   TotalProgressLabel.Parent := InstallPage.Surface;
@@ -714,27 +717,77 @@ begin
     end;
 end;
 
+Procedure GetNumberOfSelectedComponents(selectedComponents : String);
+var            
+  i : Integer;
+begin
+  // determine the total number of components by counting the selected components.
+  for i := 0 to WizardForm.ComponentsList.Items.Count - 1 do
+    if WizardForm.ComponentsList.Checked[i] = true then 
+       intTotalComponents := intTotalComponents + 1;
+
+  if (DEBUG = true) then Log('# The following [' + IntToStr(intTotalComponents) + '] components are selected: ' + selectedComponents);
+   
+  // the "serverstack" contains 3 components and is always installed. we have to add 2 to the counter.
+  intTotalComponents := intTotalComponents + 2;
+
+  // the following components contain 2 components. if selected, we have to add 1 to the counter.
+  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('uprofiler',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+
+  // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
+  if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
+
+  if (DEBUG = true) then Log('# Recalculated total number of components: [' + IntToStr(intTotalComponents) + ']');
+end;
+
 procedure UpdateTotalProgressBar();
 {
   This procedure is called, when installing a component is finished.
   It updates the TotalProgessBar and the Label in the InstallationScreen with the new percentage.
 }
 var
-    newTotalPercentage : integer;
     TotalProgressBar   : TNewProgressBar;
     TotalProgressLabel : TLabel;
 begin
-    // Fetch ProgressBar
     TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
-    // calculate new total percentage
-    newTotalPercentage := TotalProgressBar.Position + percentagePerComponent;
-    // set to progress bar
-    TotalProgressBar.Position := newTotalPercentage;
+            
+    {
+      Initalize the ProgessBar
+    }
 
-    // Fetch Label
+    if(TotalProgressBar.Position = -1) then
+    begin
+        TotalProgressBar.Min := 0;
+        TotalProgressBar.Position := 0;
+        TotalProgressBar.Max := (intTotalComponents * 100);   
+        if (DEBUG = true) then Log('# ProgressBar.Max set to: [' + IntToStr(TotalProgressBar.Max) + '].');
+    end;
+
+    {    
+      Increase counter and update the ProgressBar accordingly 
+    }
+
+    // increase counter
+    intInstalledComponentsCounter := intInstalledComponentsCounter + 1;
+
+    // Update Label
     TotalProgressLabel := TLabel(InstallPage.FindComponent('TotalProgressLabel'));
-    // set to label
-    TotalProgressLabel.Caption := intToStr(newTotalPercentage) + ' %';
+    TotalProgressLabel.Caption := IntToStr(intInstalledComponentsCounter) + '/' +IntToStr(intTotalComponents); 
+
+    // Update ProgressBar
+    TotalProgressBar.Position := (intInstalledComponentsCounter * 100);
+
+    if (DEBUG = true) then 
+    begin
+      Log('# Processed Components '+IntToStr(intInstalledComponentsCounter) +'/'+IntToStr(intTotalComponents)+'.');
+    end;
 end;
 
 {
@@ -745,40 +798,19 @@ procedure UpdateCurrentComponentName(component: String);
 var
     CurrentComponentLabel : TLabel;
 begin
-    // fetch label
     CurrentComponentLabel := TLabel(InstallPage.FindComponent('CurrentComponentLabel'));
-    // set to label
     CurrentComponentLabel.Caption := component;
+    if (DEBUG = true) then Log('# Extracting Component: ' + component);
 end;
 
 procedure UnzipFiles();
 var
-  selectedComponents     : String;
-  intTotalComponents     : Integer;
-  i                      : Integer;
+  selectedComponents     : String;   
 begin
   selectedComponents := WizardSelectedComponents(false);
 
-  // count components (get only the selected ones from the total number of components to unzip)
-  for i := 0 to WizardForm.ComponentsList.Items.Count - 1 do
-    if WizardForm.ComponentsList.Checked[i]=true then
-    intTotalComponents:=intTotalComponents+1;
-
-  if (DEBUG = true) then MsgBox('The following components are selected:' + selectedComponents + '. Counter: ' + IntToStr(intTotalComponents), mbInformation, MB_OK);
-
-  // serverstack base are 3 components in 1 so we have to add 2 to the counter
-  intTotalComponents:=intTotalComponents+2;
-
-  {
-    Calculate the percentage per component: (100% / components) = ppc
-
-    When processing a component is finished, this value is added to the progress bar.
-    When all values are added (UpdateTotalProgressBar()), we will reach 100 % in total on the progress bar. (ppc * components) = 100%
-  }
-  percentagePerComponent := (100 div intTotalComponents);
-
-  if (DEBUG = true) then MsgBox('Each processed component will add ' + intToStr(percentagePerComponent) + ' % to the progress bar.', mbInformation, MB_OK);
-
+  GetNumberOfSelectedComponents(selectedComponents);
+                                 
   // fetch the unzip command from the compressed setup
   ExtractTemporaryFile('7za.exe');
   ExtractTemporaryFile('RunHiddenConsole.exe');
@@ -829,10 +861,13 @@ begin
 
   if Pos('assettools', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Google Closure Compiler + yuicompressor');
+    UpdateCurrentComponentName('Google Closure Compiler');
       ExtractTemporaryFile(Filename_closure_compiler);
-      ExtractTemporaryFile(Filename_yuicompressor);
       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
+    UpdateTotalProgressBar();
+    
+    UpdateCurrentComponentName('YUI Compressor');      
+      ExtractTemporaryFile(Filename_yuicompressor);
       FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
     UpdateTotalProgressBar();
   end;
@@ -928,11 +963,11 @@ begin
     UpdateCurrentComponentName('uProfiler GUI');
       ExtractTemporaryFile(Filename_uprofiler);
       DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+    UpdateTotalProgressBar;
 
     UpdateCurrentComponentName('PHP Extension - uProfiler');
       ExtractTemporaryFile(Filename_phpext_uprofiler);
       DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
-
     UpdateTotalProgressBar;
   end;
 
@@ -941,6 +976,7 @@ begin
     UpdateCurrentComponentName('Memcached');
       ExtractTemporaryFile(Filename_memcached);
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    UpdateTotalProgressBar;
 
     UpdateCurrentComponentName('PHP Extension - Memcached');
       ExtractTemporaryFile(Filename_phpext_memcache);
@@ -1057,6 +1093,7 @@ begin
     UpdateCurrentComponentName('MongoDB');
       ExtractTemporaryFile(Filename_mongodb);
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       ExtractTemporaryFile(Filename_phpext_mongo);

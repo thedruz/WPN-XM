@@ -114,7 +114,7 @@ Name: debug; Description: Server Stack with Debugtools
 Name: custom; Description: Custom installation; Flags: iscustom
 
 [Components]
-// The base component "serverstack" consists of PHP + MariaDB + Nginx. These three components are always installed.
+; The base component "serverstack" consists of PHP + MariaDB + Nginx. These three components are always installed.
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
@@ -161,7 +161,7 @@ Source: ..\bin\stripdown-postgresql.bat; DestDir: {tmp}; Components: postgresql
 ; incorporate the whole "www" folder into the setup, except the webinterface folder
 Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*;
 ; webinterface folder is only copied, if component "webinterface" is selected.
-Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Flags: recursesubdirs; Components: webinterface
+Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes:.git*,.travis*; Flags: recursesubdirs; Components: webinterface
 ; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 ; incorporate several startfiles and shortcut commands
@@ -355,7 +355,7 @@ const
   Filename_mongodb               = 'mongodb.zip';
   Filename_msysgit               = 'msysgit.7z';
   Filename_nginx                 = 'nginx.zip';
-  Filename_node                  = 'node.exe';
+  Filename_node                  = 'node.exe'; // WATCH IT: EXE!
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
   Filename_pear                  = 'go-pear.phar';
@@ -394,13 +394,14 @@ const
   Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
-  unzipTool   : String;   // path+filename of unzip helper for exec
+  unzipTool   : String;   // path + filename of unzip helper for exec
   returnCode  : Integer;  // errorcode
   targetPath  : String;   // if debug true will download to app/downloads, else temp dir
   appDir      : String;   // installation folder of the application
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
-  InstallPage               : TWizardPage;
-  percentagePerComponent    : Integer;
+  InstallPage                   : TWizardPage;
+  intTotalComponents            : Integer;
+  intInstalledComponentsCounter : Integer; 
 
 // Detect, if Visual C++ Redistributable needs to be installed
 // http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
@@ -519,8 +520,8 @@ function NeedsAddPath(PathToAdd: string): boolean;
 var
   OrigPath: string;
 begin
-  if not RegQueryStringValue(HKCU, 'Environment\', 'Path', OrigPath)
-  then begin
+  if not RegQueryStringValue(HKCU, 'Environment\', 'Path', OrigPath) then
+  begin
     Result := True;
     exit;
   end;
@@ -538,9 +539,10 @@ var
 begin
   if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
   begin
-    Result := ResultCode;
-  end
-  else begin
+    Result := ResultCode; 
+  end 
+  else 
+  begin 
     Result := ResultCode;
   end;
 end;
@@ -576,7 +578,7 @@ procedure OpenBrowser(Url: string);
 var
   ErrorCode: Integer;
 begin
-  ShellExec('open', Url, '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+  ShellExecAsOriginalUser('open', Url, '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
 end;
 
 procedure HelpButtonClick(Sender: TObject);
@@ -636,15 +638,17 @@ begin
   TotalProgressBar.Top := 40;
   TotalProgressBar.Width := 366;
   TotalProgressBar.Height := 24;
-  TotalProgressBar.Min := 0
-  TotalProgressBar.Max := 100
+  // The inital state of Min and Position is "-1". Position is set to "0", after Max has been
+  // calculated, based on the number of selected components (see GetTotalNumberOfComponents()).
+  TotalProgressBar.Min := -1       
+  TotalProgressBar.Position := -1  
   TotalProgressBar.Parent := InstallPage.Surface;
 
   TotalProgressLabel := TLabel.Create(InstallPage);
   TotalProgressLabel.Name := 'TotalProgressLabel'; // needed for FindComponent()
   TotalProgressLabel.Top := TotalProgressStaticText.Top;
   TotalProgressLabel.Left := TotalProgressBar.Width;
-  TotalProgressLabel.Caption := '0 %';
+  TotalProgressLabel.Caption := '--/--';
   TotalProgressLabel.Alignment := taRightJustify;
   TotalProgressLabel.Font.Style := [fsBold];
   TotalProgressLabel.Parent := InstallPage.Surface;
@@ -926,27 +930,77 @@ begin
     end;
 end;
 
+Procedure GetNumberOfSelectedComponents(selectedComponents : String);
+var            
+  i : Integer;
+begin
+  // determine the total number of components by counting the selected components.
+  for i := 0 to WizardForm.ComponentsList.Items.Count - 1 do
+    if WizardForm.ComponentsList.Checked[i] = true then 
+       intTotalComponents := intTotalComponents + 1;
+
+  if (DEBUG = true) then Log('# The following [' + IntToStr(intTotalComponents) + '] components are selected: ' + selectedComponents);
+   
+  // the "serverstack" contains 3 components and is always installed. we have to add 2 to the counter.
+  intTotalComponents := intTotalComponents + 2;
+
+  // the following components contain 2 components. if selected, we have to add 1 to the counter.
+  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('uprofiler',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+
+  // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
+  if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
+
+  if (DEBUG = true) then Log('# Recalculated total number of components: [' + IntToStr(intTotalComponents) + ']');
+end;
+
 procedure UpdateTotalProgressBar();
 {
   This procedure is called, when installing a component is finished.
   It updates the TotalProgessBar and the Label in the InstallationScreen with the new percentage.
 }
 var
-    newTotalPercentage : integer;
     TotalProgressBar   : TNewProgressBar;
     TotalProgressLabel : TLabel;
 begin
-    // Fetch ProgressBar
     TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
-    // calculate new total percentage
-    newTotalPercentage := TotalProgressBar.Position + percentagePerComponent;
-    // set to progress bar
-    TotalProgressBar.Position := newTotalPercentage;
+            
+    {
+      Initalize the ProgessBar
+    }
 
-    // Fetch Label
+    if(TotalProgressBar.Position = -1) then
+    begin
+        TotalProgressBar.Min := 0;
+        TotalProgressBar.Position := 0;
+        TotalProgressBar.Max := (intTotalComponents * 100);   
+        if (DEBUG = true) then Log('# ProgressBar.Max set to: [' + IntToStr(TotalProgressBar.Max) + '].');
+    end;
+
+    {    
+      Increase counter and update the ProgressBar accordingly 
+    }
+
+    // increase counter
+    intInstalledComponentsCounter := intInstalledComponentsCounter + 1;
+
+    // Update Label
     TotalProgressLabel := TLabel(InstallPage.FindComponent('TotalProgressLabel'));
-    // set to label
-    TotalProgressLabel.Caption := intToStr(newTotalPercentage) + ' %';
+    TotalProgressLabel.Caption := IntToStr(intInstalledComponentsCounter) + '/' +IntToStr(intTotalComponents); 
+
+    // Update ProgressBar
+    TotalProgressBar.Position := (intInstalledComponentsCounter * 100);
+
+    if (DEBUG = true) then 
+    begin
+      Log('# Processed Components '+IntToStr(intInstalledComponentsCounter) +'/'+IntToStr(intTotalComponents)+'.');
+    end;
 end;
 
 {
@@ -957,40 +1011,19 @@ procedure UpdateCurrentComponentName(component: String);
 var
     CurrentComponentLabel : TLabel;
 begin
-    // fetch label
     CurrentComponentLabel := TLabel(InstallPage.FindComponent('CurrentComponentLabel'));
-    // set to label
     CurrentComponentLabel.Caption := component;
+    if (DEBUG = true) then Log('# Extracting Component: ' + component);
 end;
 
 procedure UnzipFiles();
 var
-  selectedComponents     : String;
-  intTotalComponents     : Integer;
-  i                      : Integer;
+  selectedComponents     : String;   
 begin
   selectedComponents := WizardSelectedComponents(false);
 
-  // count components (get only the selected ones from the total number of components to unzip)
-  for i := 0 to WizardForm.ComponentsList.Items.Count - 1 do
-    if WizardForm.ComponentsList.Checked[i]=true then
-    intTotalComponents:=intTotalComponents+1;
-
-  if (DEBUG = true) then MsgBox('The following components are selected:' + selectedComponents + '. Counter: ' + IntToStr(intTotalComponents), mbInformation, MB_OK);
-
-  // serverstack base are 3 components in 1 so we have to add 2 to the counter
-  intTotalComponents:=intTotalComponents+2;
-
-  {
-    Calculate the percentage per component: (100% / components) = ppc
-
-    When processing a component is finished, this value is added to the progress bar.
-    When all values are added (UpdateTotalProgressBar()), we will reach 100 % in total on the progress bar. (ppc * components) = 100%
-  }
-  percentagePerComponent := (100 div intTotalComponents);
-
-  if (DEBUG = true) then MsgBox('Each processed component will add ' + intToStr(percentagePerComponent) + ' % to the progress bar.', mbInformation, MB_OK);
-
+  GetNumberOfSelectedComponents(selectedComponents);
+                                 
   // fetch the unzip command from the compressed setup
   ExtractTemporaryFile('7za.exe');
   ExtractTemporaryFile('RunHiddenConsole.exe');
@@ -1029,9 +1062,12 @@ begin
 
   if Pos('git', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Git for Windows + Go Git Service');
-      DoUnzip(ExpandConstant(targetPath + Filename_gogitservice), ExpandConstant('{app}\bin\git')); // no subfolder, brings own dir (/gogs)
+    UpdateCurrentComponentName('Git for Windows');
       DoUnzip(ExpandConstant(targetPath + Filename_msysgit), ExpandConstant('{app}\bin\git\msysgit'));
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('Go Git Service');
+      DoUnzip(ExpandConstant(targetPath + Filename_gogitservice), ExpandConstant('{app}\bin\git')); // no subfolder, brings own dir (/gogs)        
     UpdateTotalProgressBar();
   end;
 
@@ -1044,15 +1080,18 @@ begin
 
   if Pos('assettools', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Google Closure Compiler + yuicompressor');
+    UpdateCurrentComponentName('Google Closure Compiler');
       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
-      FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
+    UpdateTotalProgressBar();    
+
+    UpdateCurrentComponentName('YUI Compressor');      
+        FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
     UpdateTotalProgressBar();
   end;
 
   if Pos('node', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('Node');
+    UpdateCurrentComponentName('Node JS');
        FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'), false);
     UpdateTotalProgressBar();
 
@@ -1138,6 +1177,7 @@ begin
   begin
     UpdateCurrentComponentName('Varnish');
       DoUnzip(targetPath + Filename_varnish, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Varnish');
       DoUnzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
@@ -1149,6 +1189,7 @@ begin
   begin
     UpdateCurrentComponentName('Imagick');
       DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Imagick');
       DoUnzip(targetPath + Filename_phpext_imagick, targetPath + 'phpext_imagick');
@@ -1172,10 +1213,10 @@ begin
   begin
     UpdateCurrentComponentName('uProfiler GUI');
       DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+    UpdateTotalProgressBar;
 
     UpdateCurrentComponentName('PHP Extension - uProfiler');
       DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
-
     UpdateTotalProgressBar;
   end;
 
@@ -1183,6 +1224,7 @@ begin
   begin
     UpdateCurrentComponentName('Memcached');
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    UpdateTotalProgressBar;
 
     UpdateCurrentComponentName('PHP Extension - Memcached');
       DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
@@ -1299,6 +1341,7 @@ begin
   begin
     UpdateCurrentComponentName('MongoDB');
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + 'phpext_mongo');
