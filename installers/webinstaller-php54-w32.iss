@@ -401,7 +401,7 @@ var
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
   InstallPage                   : TWizardPage;
   intTotalComponents            : Integer;
-  intInstalledComponentsCounter : Integer; 
+  intInstalledComponentsCounter : Integer;
 
 // Detect, if Visual C++ Redistributable needs to be installed
 // http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
@@ -539,10 +539,10 @@ var
 begin
   if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
   begin
-    Result := ResultCode; 
-  end 
-  else 
-  begin 
+    Result := ResultCode;
+  end
+  else
+  begin
     Result := ResultCode;
   end;
 end;
@@ -640,8 +640,8 @@ begin
   TotalProgressBar.Height := 24;
   // The inital state of Min and Position is "-1". Position is set to "0", after Max has been
   // calculated, based on the number of selected components (see GetTotalNumberOfComponents()).
-  TotalProgressBar.Min := -1       
-  TotalProgressBar.Position := -1  
+  TotalProgressBar.Min := -1
+  TotalProgressBar.Position := -1
   TotalProgressBar.Parent := InstallPage.Surface;
 
   TotalProgressLabel := TLabel.Create(InstallPage);
@@ -706,13 +706,15 @@ begin
   WizardForm.FinishedPage.Color:=$ECECEC;
   WizardForm.WizardSmallBitmapImage.BackColor:=$ECECEC;
 
-  // Setup Inno Download Plugin
+  {
+    Configure Inno Download Plugin
 
-  // Turns on detailed error message popups for debugging the download process
-  // if (DEBUG = true) then itdSetOption('Debug_Messages', '1');
+    http://mitrich.net23.net/public/doc/idp/idpSetOption.htm
+  }
 
-  // when download fails, do not allow continuing with the installation
-  idpSetOption('AllowContinue',  '0');
+  // allow user to continue installation if download fails.
+  idpSetOption('AllowContinue',  '1');
+
   // Change from a simple overall progress bar to the detailed download view
   idpSetOption('DetailsVisible', '1');
   idpSetOption('DetailsButton',  '1');
@@ -931,16 +933,16 @@ begin
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
-var            
+var
   i : Integer;
 begin
   // determine the total number of components by counting the selected components.
   for i := 0 to WizardForm.ComponentsList.Items.Count - 1 do
-    if WizardForm.ComponentsList.Checked[i] = true then 
+    if WizardForm.ComponentsList.Checked[i] = true then
        intTotalComponents := intTotalComponents + 1;
 
   if (DEBUG = true) then Log('# The following [' + IntToStr(intTotalComponents) + '] components are selected: ' + selectedComponents);
-   
+
   // the "serverstack" contains 3 components and is always installed. we have to add 2 to the counter.
   intTotalComponents := intTotalComponents + 2;
 
@@ -970,7 +972,7 @@ var
     TotalProgressLabel : TLabel;
 begin
     TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
-            
+
     {
       Initalize the ProgessBar
     }
@@ -979,12 +981,12 @@ begin
     begin
         TotalProgressBar.Min := 0;
         TotalProgressBar.Position := 0;
-        TotalProgressBar.Max := (intTotalComponents * 100);   
+        TotalProgressBar.Max := (intTotalComponents * 100);
         if (DEBUG = true) then Log('# ProgressBar.Max set to: [' + IntToStr(TotalProgressBar.Max) + '].');
     end;
 
-    {    
-      Increase counter and update the ProgressBar accordingly 
+    {
+      Increase counter and update the ProgressBar accordingly
     }
 
     // increase counter
@@ -992,12 +994,12 @@ begin
 
     // Update Label
     TotalProgressLabel := TLabel(InstallPage.FindComponent('TotalProgressLabel'));
-    TotalProgressLabel.Caption := IntToStr(intInstalledComponentsCounter) + '/' +IntToStr(intTotalComponents); 
+    TotalProgressLabel.Caption := IntToStr(intInstalledComponentsCounter) + '/' +IntToStr(intTotalComponents);
 
     // Update ProgressBar
     TotalProgressBar.Position := (intInstalledComponentsCounter * 100);
 
-    if (DEBUG = true) then 
+    if (DEBUG = true) then
     begin
       Log('# Processed Components '+IntToStr(intInstalledComponentsCounter) +'/'+IntToStr(intTotalComponents)+'.');
     end;
@@ -1018,12 +1020,12 @@ end;
 
 procedure UnzipFiles();
 var
-  selectedComponents     : String;   
+  selectedComponents     : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
   GetNumberOfSelectedComponents(selectedComponents);
-                                 
+
   // fetch the unzip command from the compressed setup
   ExtractTemporaryFile('7za.exe');
   ExtractTemporaryFile('RunHiddenConsole.exe');
@@ -1067,7 +1069,7 @@ begin
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('Go Git Service');
-      DoUnzip(ExpandConstant(targetPath + Filename_gogitservice), ExpandConstant('{app}\bin\git')); // no subfolder, brings own dir (/gogs)        
+      DoUnzip(ExpandConstant(targetPath + Filename_gogitservice), ExpandConstant('{app}\bin\git')); // no subfolder, brings own dir (/gogs)
     UpdateTotalProgressBar();
   end;
 
@@ -1082,9 +1084,9 @@ begin
   begin
     UpdateCurrentComponentName('Google Closure Compiler');
       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
-    UpdateTotalProgressBar();    
+    UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('YUI Compressor');      
+    UpdateCurrentComponentName('YUI Compressor');
         FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
     UpdateTotalProgressBar();
   end;

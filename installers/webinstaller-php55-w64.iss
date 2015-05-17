@@ -706,13 +706,15 @@ begin
   WizardForm.FinishedPage.Color:=$ECECEC;
   WizardForm.WizardSmallBitmapImage.BackColor:=$ECECEC;
 
-  // Setup Inno Download Plugin
+  {
+    Configure Inno Download Plugin
 
-  // Turns on detailed error message popups for debugging the download process
-  // if (DEBUG = true) then itdSetOption('Debug_Messages', '1');
+    http://mitrich.net23.net/public/doc/idp/idpSetOption.htm
+  }
 
-  // when download fails, do not allow continuing with the installation
-  idpSetOption('AllowContinue',  '0');
+  // allow user to continue installation if download fails.
+  idpSetOption('AllowContinue',  '1');
+
   // Change from a simple overall progress bar to the detailed download view
   idpSetOption('DetailsVisible', '1');
   idpSetOption('DetailsButton',  '1');
