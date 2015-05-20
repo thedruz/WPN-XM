@@ -256,6 +256,8 @@ de.ReportBug=Fehler melden
 en.ReportBug=Report Bug
 de.RemoveApp=WPN-XM Server Stack deinstallieren
 en.RemoveApp=Uninstall WPN-XM Server Stack
+; overload "RetryNext" message of "Inno-Download-Plugin"
+IDP_RetryNext="Click ''OK'' to close. Then click ''Retry'' to try downloading the file again. Click ''Next'' to skip this file and continue installing anyway. Please report this issue, if it's not a client-side connectivity problem."
 
 [Dirs]
 Name: {app}\bin\backup
