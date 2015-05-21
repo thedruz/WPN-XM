@@ -153,6 +153,8 @@ Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\we
 Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes:.git*,.travis*; Flags: recursesubdirs; Components: webinterface
 ; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
+; ship documentation, changelog and license information
+Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
