@@ -42,6 +42,11 @@ goto END
 
 :start-php
     echo Starting PHP FastCGI...
+
+    :: disable default FCGI request limit of 500
+    set PHP_FCGI_MAX_REQUESTS=0
+    set PHP_FCGI_CHILDREN=4
+
     %HIDECONSOLE% %~dp0bin\php\php-cgi.exe -b 127.0.0.1:9100 -c %~dp0bin\php\php.ini
     echo.
 goto END
