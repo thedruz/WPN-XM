@@ -119,6 +119,7 @@ Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & M
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
 Name: git; Description: Git Version Control (Msysgit & Go Git Service); ExtraDiskSpaceRequired: 24000000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 6030000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 80000; Types: full
@@ -139,11 +140,11 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 620000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
-//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 
 [Files]
 ; tools:
@@ -169,6 +170,7 @@ Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
+Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
@@ -203,6 +205,7 @@ Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestN
 Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\conemu\ConEmu.xml; DestDir: {app}\bin\conemu; Components: conemu
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\wpn-xm.exe; Tasks: add_startmenu
@@ -292,13 +295,12 @@ const
      The majority of download URLs point to our redirection script.
      The WPN-XM redirection script uses an internal software registry for looking
      up the latest version and redirecting the installer to the download url.
-
-     Warning: Watch the protocol (Use http, not https!), if you add download links pointing to github.
   }
 
   URL_adminer               = 'http://wpn-xm.org/get.php?s=adminer';
   URL_closure_compiler      = 'http://wpn-xm.org/get.php?s=closure-compiler';
   URL_composer              = 'http://wpn-xm.org/get.php?s=composer';
+  URL_conemu                = 'http://wpn-xm.org/get.php?s=conemu';
   URL_gogitservice          = 'http://wpn-xm.org/get.php?s=gogs-x86';
   URL_imagick               = 'http://wpn-xm.org/get.php?s=imagick';
   URL_junction              = 'http://wpn-xm.org/get.php?s=junction';
@@ -349,6 +351,7 @@ const
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
   Filename_closure_compiler      = 'closure-compiler.zip';
+  Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
   Filename_gogitservice          = 'gogitservice.zip';
   Filename_imagick               = 'imagick.zip';
@@ -1046,7 +1049,7 @@ begin
   // always unzip the serverstack base (3 components)
 
   UpdateCurrentComponentName('Nginx');
-    DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
+    DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
@@ -1058,6 +1061,14 @@ begin
   UpdateTotalProgressBar();
 
   // unzip selected components
+
+  if Pos('conemu', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('ConEmu');
+      CreateDir(ExpandConstant('{app}\bin\conemu\'));
+      DoUnzip(targetPath + Filename_conemu, ExpandConstant('{app}\bin\conemu'));
+    UpdateTotalProgressBar();
+  end;
 
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
