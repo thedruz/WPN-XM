@@ -201,6 +201,7 @@ Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components:
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\conemu\ConEmu.xml; DestDir: {app}\bin\conemu; Components: conemu
+Source: ..\configs\git\bash_profile; DestDir: {app}\bin\git\etc; Components: git
 ; Visual C++ Redistributable 2010 is needed by PHP VC11 x86 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x86_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
