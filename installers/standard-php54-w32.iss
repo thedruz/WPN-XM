@@ -116,6 +116,7 @@ Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & M
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 80000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 630000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 240000; Types: full
@@ -131,10 +132,10 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
-Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
@@ -158,6 +159,7 @@ Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
+Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
@@ -191,6 +193,7 @@ Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib;
 Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\conemu\ConEmu.xml; DestDir: {app}\bin\conemu; Components: conemu
 ; Visual C++ Redistributable 2008 is needed by PHP 5.4 VC9 x86 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x86_2008.exe; DestDir: {tmp}; Flags: deleteafterinstall
@@ -276,6 +279,7 @@ const
 
   Filename_adminer           = 'adminer.php';
   Filename_closure_compiler  = 'closure-compiler.zip';
+  Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
   Filename_junction          = 'junction.zip';
   Filename_mariadb           = 'mariadb.zip';
@@ -844,6 +848,15 @@ begin
   UpdateTotalProgressBar();
 
   // unzip selected components
+
+  if Pos('conemu', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('ConEmu');
+      CreateDir(ExpandConstant('{app}\bin\conemu\'));
+      ExtractTemporaryFile(Filename_conemu);
+      DoUnzip(targetPath + Filename_conemu, ExpandConstant('{app}\bin\conemu'));
+    UpdateTotalProgressBar();
+  end;
 
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin

@@ -116,6 +116,7 @@ Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & M
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
 Name: git; Description: Git Version Control (Msysgit & Go Git Service); ExtraDiskSpaceRequired: 24000000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 6030000; Types: full
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 80000; Types: full
@@ -125,8 +126,8 @@ Name: mongodb; Description: MongoDb - scalable, high-performance, open source No
 Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
-Name: phpcsfixer; Description: phpcsfixer - PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 232530000; Types: full
+Name: phpcsfixer; Description: phpcsfixer - PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 13020000; Types: full
@@ -136,11 +137,11 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
-Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
@@ -164,6 +165,7 @@ Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
+Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
@@ -198,6 +200,7 @@ Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib;
 Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\conemu\ConEmu.xml; DestDir: {app}\bin\conemu; Components: conemu
 ; Visual C++ Redistributable 2010 is needed by PHP VC11 x86 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x86_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
@@ -865,6 +868,15 @@ begin
   UpdateTotalProgressBar();
 
   // unzip selected components
+
+  if Pos('conemu', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('ConEmu');
+      CreateDir(ExpandConstant('{app}\bin\conemu\'));
+      ExtractTemporaryFile(Filename_conemu);
+      DoUnzip(targetPath + Filename_conemu, ExpandConstant('{app}\bin\conemu'));
+    UpdateTotalProgressBar();
+  end;
 
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin

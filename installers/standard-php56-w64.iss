@@ -116,6 +116,7 @@ Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & M
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
 Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 80000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 630000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 240000; Types: full
@@ -131,10 +132,10 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
+//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
-//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
@@ -158,6 +159,7 @@ Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
+Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
@@ -191,6 +193,7 @@ Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestN
 Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\conemu\ConEmu.xml; DestDir: {app}\bin\conemu; Components: conemu
 ; Visual C++ Redistributable 2010 is needed by PHP VC11 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x64_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
@@ -276,6 +279,7 @@ const
 
   Filename_adminer           = 'adminer.php';
   Filename_closure_compiler  = 'closure-compiler.zip';
+  Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
   Filename_junction          = 'junction.zip';
   Filename_mariadb           = 'mariadb.zip';
@@ -321,7 +325,7 @@ var
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
   InstallPage                   : TWizardPage;
   intTotalComponents            : Integer;
-  intInstalledComponentsCounter : Integer; 
+  intInstalledComponentsCounter : Integer;
 
 // Detect, if Visual C++ Redistributable needs to be installed
 // http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
@@ -459,10 +463,10 @@ var
 begin
   if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
   begin
-    Result := ResultCode; 
-  end 
-  else 
-  begin 
+    Result := ResultCode;
+  end
+  else
+  begin
     Result := ResultCode;
   end;
 end;
@@ -560,8 +564,8 @@ begin
   TotalProgressBar.Height := 24;
   // The inital state of Min and Position is "-1". Position is set to "0", after Max has been
   // calculated, based on the number of selected components (see GetTotalNumberOfComponents()).
-  TotalProgressBar.Min := -1       
-  TotalProgressBar.Position := -1  
+  TotalProgressBar.Min := -1
+  TotalProgressBar.Position := -1
   TotalProgressBar.Parent := InstallPage.Surface;
 
   TotalProgressLabel := TLabel.Create(InstallPage);
@@ -720,16 +724,16 @@ begin
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
-var            
+var
   i : Integer;
 begin
   // determine the total number of components by counting the selected components.
   for i := 0 to WizardForm.ComponentsList.Items.Count - 1 do
-    if WizardForm.ComponentsList.Checked[i] = true then 
+    if WizardForm.ComponentsList.Checked[i] = true then
        intTotalComponents := intTotalComponents + 1;
 
   if (DEBUG = true) then Log('# The following [' + IntToStr(intTotalComponents) + '] components are selected: ' + selectedComponents);
-   
+
   // the "serverstack" contains 3 components and is always installed. we have to add 2 to the counter.
   intTotalComponents := intTotalComponents + 2;
 
@@ -759,7 +763,7 @@ var
     TotalProgressLabel : TLabel;
 begin
     TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
-            
+
     {
       Initalize the ProgessBar
     }
@@ -768,12 +772,12 @@ begin
     begin
         TotalProgressBar.Min := 0;
         TotalProgressBar.Position := 0;
-        TotalProgressBar.Max := (intTotalComponents * 100);   
+        TotalProgressBar.Max := (intTotalComponents * 100);
         if (DEBUG = true) then Log('# ProgressBar.Max set to: [' + IntToStr(TotalProgressBar.Max) + '].');
     end;
 
-    {    
-      Increase counter and update the ProgressBar accordingly 
+    {
+      Increase counter and update the ProgressBar accordingly
     }
 
     // increase counter
@@ -781,12 +785,12 @@ begin
 
     // Update Label
     TotalProgressLabel := TLabel(InstallPage.FindComponent('TotalProgressLabel'));
-    TotalProgressLabel.Caption := IntToStr(intInstalledComponentsCounter) + '/' +IntToStr(intTotalComponents); 
+    TotalProgressLabel.Caption := IntToStr(intInstalledComponentsCounter) + '/' +IntToStr(intTotalComponents);
 
     // Update ProgressBar
     TotalProgressBar.Position := (intInstalledComponentsCounter * 100);
 
-    if (DEBUG = true) then 
+    if (DEBUG = true) then
     begin
       Log('# Processed Components '+IntToStr(intInstalledComponentsCounter) +'/'+IntToStr(intTotalComponents)+'.');
     end;
@@ -807,12 +811,12 @@ end;
 
 procedure UnzipFiles();
 var
-  selectedComponents     : String;   
+  selectedComponents     : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
   GetNumberOfSelectedComponents(selectedComponents);
-                                 
+
   // fetch the unzip command from the compressed setup
   ExtractTemporaryFile('7za.exe');
   ExtractTemporaryFile('RunHiddenConsole.exe');
@@ -845,6 +849,15 @@ begin
 
   // unzip selected components
 
+  if Pos('conemu', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('ConEmu');
+      CreateDir(ExpandConstant('{app}\bin\conemu\'));
+      ExtractTemporaryFile(Filename_conemu);
+      DoUnzip(targetPath + Filename_conemu, ExpandConstant('{app}\bin\conemu'));
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
@@ -867,8 +880,8 @@ begin
       ExtractTemporaryFile(Filename_closure_compiler);
       DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), ExpandConstant('{app}\bin\assettools'));
     UpdateTotalProgressBar();
-    
-    UpdateCurrentComponentName('YUI Compressor');      
+
+    UpdateCurrentComponentName('YUI Compressor');
       ExtractTemporaryFile(Filename_yuicompressor);
       FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
     UpdateTotalProgressBar();
