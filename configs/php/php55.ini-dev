@@ -1961,3 +1961,6 @@ opcache.fast_shutdown=1
 ; Local Variables:
 ; tab-width: 4
 ; End:
+
+[Zend]
+zend_extension=php_opcache.dll
