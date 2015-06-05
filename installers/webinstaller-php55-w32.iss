@@ -205,7 +205,7 @@ Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib;
 Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\configs\conemu\ConEmu.xml; DestDir: {app}\bin\conemu; Components: conemu
+Source: ..\configs\conemu\*; DestDir: {app}\bin\conemu; Components: conemu
 Source: ..\configs\git\bash_profile; DestDir: {app}\bin\git\etc; Components: git
 
 [Icons]
