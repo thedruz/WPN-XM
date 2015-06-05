@@ -23,8 +23,8 @@ SET HIDECONSOLE=%~dp0bin\tools\RunHiddenConsole.exe
 :: On the bottom - git bash
 IF EXIST "%~dp0\bin\git\git-bash.bat" (
 	%HIDECONSOLE% %CONEMU% -cmdlist ^
-	cmd.exe -cur_console:fn:t:"Cmd":C:"C:\cygwin64\Cygwin.ico" ^|^|^| ^
-	%~dp0bin\git\git-bash.bat -cur_console:sV:t:"GitBash":C:"C:%~dp0\bin\git\etc\git.ico"
+	cmd.exe -cur_console:fn:t:"Cmd":C:"%~dp0bin\conemu\terminal.ico" ^|^|^| ^
+	%~dp0bin\git\git-bash.bat -cur_console:sV:t:"GitBash":C:"%~dp0bin\git\etc\git.ico"
 ) ELSE (
 	%HIDECONSOLE% %CONEMU%
 )
