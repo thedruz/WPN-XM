@@ -553,14 +553,14 @@
                         $this->log('Using ' . $file);
 
                         $aria_cmd = 'aria2c -i ' . $file
-                        . ' --file-allocation=none --disk-cache=0 --max-download-result=0 --check-certificate=false'
+                        . ' --file-allocation=none --disk-cache=0 --check-certificate=false'
+                        . ' --split=4 --min-split-size=20M --max-connection-per-server=4 --max-tries=5'
+                        . ' --conditional-get=true --auto-file-renaming=false --allow-overwrite=true'
                         . ' --http-accept-gzip=true'
                         . ' --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36"';
 
                         //. ' --deferred-input=true --console-log-level=warn --log-level=warn'
-                        //. ' --split=4 --min-split-size=20M --max-connection-per-server=4 --max-tries=5'
-                        //. ' --conditional-get=true --auto-file-renaming=false --allow-overwrite=true'
-                        //. ' --http-accept-gzip=true --user-agent=WPN-XM Server Stack Downloader';
+                        //. ' --user-agent=WPN-XM Server Stack Downloader';
 
                         passthru($aria_cmd);
                     }
