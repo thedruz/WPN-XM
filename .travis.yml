@@ -9,6 +9,8 @@ php: [5.6]
 
 cache:
   apt: true
+  directories:
+    - /var/cache/apt/archives/apt-fast/
 
 before_install:
   # shutdown stuff on Travis, which may have a memory impact
