@@ -227,10 +227,7 @@
         </foreach>
     </target>
 
-    <!--
-                        Downloads
-
-    -->
+    <!-- ============ Downloads ============ -->
 
     <target name="move-downloads" description="Moves components for all packaged installers from the full folder to installer specific subfolders.">
         <echo message=" Moving components from the full download folder to their subfolders... "/>
@@ -581,7 +578,7 @@
     </target>
 
     <!--
-                        Stripdown Scripts
+         ============ Stripdown Scripts ============
 
          We are re-packaging several components, because they ship files, which are
          hardly ever needed by the average developer.
