@@ -47,8 +47,9 @@
     <echo>PHP memory_limit: ${limit}</echo>
     -->
 
-    <!-- Force a Garbage Collection during stacked or foreached PhingCalls -->
+    <!-- Force a Garbage Collection during stacked or foreached PhingCalls
     <php expression="gc_collect_cycles();" />
+    -->
 
     <!--
                         Targets (Build Commands)
