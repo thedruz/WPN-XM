@@ -12,10 +12,6 @@ cls
 :: set window title
 TITLE WPN-XM Server Stack for Windows - Build Script!
 
-:: set shortcut to color command
-set SETCOLOR=bin\chgcolor\chgcolor.exe
-
-%SETCOLOR% 0C
 echo.
 echo ^+--------------------------------------------------------------------------+
 echo ^|                                                                          ^|
@@ -31,8 +27,6 @@ echo ^|  License     MIT                                                        
 echo ^|                                                                          ^|
 echo ^+-------------------------------------------------------------------------^<3
 echo.
-%SETCOLOR% 07
-
 
 :: Execute Phing with WPN-XM build file, run task "all" and produce log
 bin\phing\phing.bat -verbose -debug

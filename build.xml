@@ -9,9 +9,7 @@
          http://www.phing.info/docs/stable/hlhtml/index.html
     -->
 
-    <!--
-                        Build Properties
-    -->
+    <!-- ============ Build Properties ============ -->
 
     <!-- Version -->
     <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
