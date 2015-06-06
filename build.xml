@@ -471,7 +471,11 @@
 
                             $this->log('Downloading: ' . $targetFolder . DS . $targetFile);
 
-                            exec($download_cmd);
+                            // execute directly
+                            //exec($download_cmd);
+
+                            // write commands to file - for line-wise execution on the shell
+                            file_put_contents('downloads-cmds.txt', $download_cmd, FILE_APPEND);
 
                             if(is_file($targetFolder . DS . $targetFile) === false) {
                                 $this->log('File not found. Download failed.');
