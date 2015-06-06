@@ -46,7 +46,8 @@ script:
   #- wineconsole --version
   - aria2c --version
   - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar main-part1
-  - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar download-components
+  #- php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar download-components
+  - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar download-components-sequence
   - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar main-part2
   # show content of folders
   - sudo ls -alh /home/travis/build/WPN-XM/WPN-XM/*

@@ -435,7 +435,7 @@
                     $aria_cmd_template .= " --disk-cache=0 --max-download-result=0 --max-tries=5"; // --file-allocation=none,prealloc,alloc
                     $aria_cmd_template .= " --check-certificate=false --split=6 --min-split-size=12M --max-connection-per-server=6";
                     $aria_cmd_template .= " --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true";
-                    $aria_cmd_template .= " --quiet=true --user-agent=\"WPN-XM Server Stack Downloader\" ";
+                    $aria_cmd_template .= " --user-agent=\"WPN-XM Server Stack Downloader\" "; // --quiet=true
 
                     /**
                      * 5 x full installer (download all packages, then move to standard and lite folders)
