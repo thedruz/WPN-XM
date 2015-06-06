@@ -553,8 +553,8 @@
                         $this->log('Using ' . $file);
 
                         $aria_cmd = 'aria2c -i ' . $file
-                        . ' --file-allocation=none --disk-cache=20M --check-certificate=false'
-                        . ' --deferred-input=true'
+                        . ' --disk-cache=20M --check-certificate=false'
+                        . ' --deferred-input=true --force-sequential=true'
                         . ' --split=4 --min-split-size=20M --max-connection-per-server=4 --max-tries=5'
                         . ' --conditional-get=true --auto-file-renaming=false --allow-overwrite=true'
                         . ' --http-accept-gzip=true'
