@@ -45,7 +45,6 @@ script:
   #- wine --version #< ubuntu-wine/ppa
   #- wineconsole --version
   - aria2c --version
-  - aria2c -x4 http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-10.1.5/winx64-packages/mariadb-10.1.5-winx64.zip
   - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar main-part1
   - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar download-components
   - php /home/travis/build/WPN-XM/WPN-XM/bin/phing/phing-latest.phar main-part2
