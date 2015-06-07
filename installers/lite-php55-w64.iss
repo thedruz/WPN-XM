@@ -90,7 +90,7 @@ VersionInfoDescription={#APP_NAME} {#APP_VERSION}
 VersionInfoTextVersion={#APP_VERSION}
 VersionInfoCopyright=Copyright (C) 2011 - 2013 {#APP_PUBLISHER}, All Rights Reserved.
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
-WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314.bmp
+WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314-lite.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
 ; Tell Windows Explorer to reload the environment, because we modify the environment variable PATH
 ChangesEnvironment=yes
@@ -262,7 +262,7 @@ var
   hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
   InstallPage                   : TWizardPage;
   intTotalComponents            : Integer;
-  intInstalledComponentsCounter : Integer; 
+  intInstalledComponentsCounter : Integer;
 
 // Detect, if Visual C++ Redistributable needs to be installed
 // http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
@@ -360,10 +360,10 @@ var
 begin
   if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
   begin
-    Result := ResultCode; 
-  end 
-  else 
-  begin 
+    Result := ResultCode;
+  end
+  else
+  begin
     Result := ResultCode;
   end;
 end;
@@ -461,8 +461,8 @@ begin
   TotalProgressBar.Height := 24;
   // The inital state of Min and Position is "-1". Position is set to "0", after Max has been
   // calculated, based on the number of selected components (see GetTotalNumberOfComponents()).
-  TotalProgressBar.Min := -1       
-  TotalProgressBar.Position := -1  
+  TotalProgressBar.Min := -1
+  TotalProgressBar.Position := -1
   TotalProgressBar.Parent := InstallPage.Surface;
 
   TotalProgressLabel := TLabel.Create(InstallPage);
@@ -618,16 +618,16 @@ begin
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
-var            
+var
   i : Integer;
 begin
   // determine the total number of components by counting the selected components.
   for i := 0 to WizardForm.ComponentsList.Items.Count - 1 do
-    if WizardForm.ComponentsList.Checked[i] = true then 
+    if WizardForm.ComponentsList.Checked[i] = true then
        intTotalComponents := intTotalComponents + 1;
 
   if (DEBUG = true) then Log('# The following [' + IntToStr(intTotalComponents) + '] components are selected: ' + selectedComponents);
-   
+
   // the "serverstack" contains 3 components and is always installed. we have to add 2 to the counter.
   intTotalComponents := intTotalComponents + 2;
 
@@ -657,7 +657,7 @@ var
     TotalProgressLabel : TLabel;
 begin
     TotalProgressBar := TNewProgressBar(InstallPage.FindComponent('TotalProgressBar'));
-            
+
     {
       Initalize the ProgessBar
     }
@@ -666,12 +666,12 @@ begin
     begin
         TotalProgressBar.Min := 0;
         TotalProgressBar.Position := 0;
-        TotalProgressBar.Max := (intTotalComponents * 100);   
+        TotalProgressBar.Max := (intTotalComponents * 100);
         if (DEBUG = true) then Log('# ProgressBar.Max set to: [' + IntToStr(TotalProgressBar.Max) + '].');
     end;
 
-    {    
-      Increase counter and update the ProgressBar accordingly 
+    {
+      Increase counter and update the ProgressBar accordingly
     }
 
     // increase counter
@@ -679,12 +679,12 @@ begin
 
     // Update Label
     TotalProgressLabel := TLabel(InstallPage.FindComponent('TotalProgressLabel'));
-    TotalProgressLabel.Caption := IntToStr(intInstalledComponentsCounter) + '/' +IntToStr(intTotalComponents); 
+    TotalProgressLabel.Caption := IntToStr(intInstalledComponentsCounter) + '/' +IntToStr(intTotalComponents);
 
     // Update ProgressBar
     TotalProgressBar.Position := (intInstalledComponentsCounter * 100);
 
-    if (DEBUG = true) then 
+    if (DEBUG = true) then
     begin
       Log('# Processed Components '+IntToStr(intInstalledComponentsCounter) +'/'+IntToStr(intTotalComponents)+'.');
     end;
@@ -705,12 +705,12 @@ end;
 
 procedure UnzipFiles();
 var
-  selectedComponents     : String;   
+  selectedComponents     : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
   GetNumberOfSelectedComponents(selectedComponents);
-                                 
+
   // fetch the unzip command from the compressed setup
   ExtractTemporaryFile('7za.exe');
   ExtractTemporaryFile('RunHiddenConsole.exe');
