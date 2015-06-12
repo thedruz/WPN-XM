@@ -92,7 +92,7 @@ VersionInfoCompany={#APP_PUBLISHER}
 VersionInfoDescription={#APP_NAME} {#APP_VERSION}
 VersionInfoTextVersion={#APP_VERSION}
 VersionInfoCopyright=Copyright (C) 2011 - 2013 {#APP_PUBLISHER}, All Rights Reserved.
-SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
+SetupIconFile={#SOURCE_ROOT}..\bin\icons\Webinstaller-Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314-web.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
 ; Tell Windows Explorer to reload the environment, because we modify the environment variable PATH
