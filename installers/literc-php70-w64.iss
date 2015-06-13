@@ -121,7 +121,7 @@ Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
-Source: ..\downloads\literc-{#APP_VERSION}-php5.6-w64\*; Flags: nocompression dontcopy;
+Source: ..\downloads\literc-{#APP_VERSION}-php7.0-w64\*; Flags: nocompression dontcopy;
 ; tools:
 Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
