@@ -1351,10 +1351,9 @@ begin
   SetIniString('PHP', 'error_log',           appDir + '\logs\php_error.log',       php_ini_file);
   SetIniString('PHP', 'include_path',        '.;' + appDir + '\bin\php\pear',      php_ini_file);
   SetIniString('PHP', 'upload_tmp_dir',      appDir + '\temp',                     php_ini_file);
-  SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file);
+  SetIniString('PHP', 'upload_max_filesize', '8M',                                 php_ini_file);
   SetIniString('PHP', 'session.save_path',   appDir + '\temp',                     php_ini_file);
 
-  // Xdebug
   if Pos('xdebug', selectedComponents) > 0 then
   begin
       if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
@@ -1367,6 +1366,14 @@ begin
       SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file);
       SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file);
       SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file);
+  end;
+
+  if Pos('webgrind', selectedComponents) > 0 then
+  begin
+	SetIniString('Xdebug', 'xdebug.remote_connect_back',  	 '1',     				 php_ini_file);
+	SetIniString('Xdebug', 'xdebug.profiler_enable_trigger', '1',     				 php_ini_file);
+	SetIniString('Xdebug', 'xdebug.profiler_output_dir', 	 appDir + '\logs',    	 php_ini_file);
+	SetIniString('Xdebug', 'xdebug.profiler_output_name', 	 'cachegrind.out.%t.%p', php_ini_file);
   end;
 
   if Pos('openssl', selectedComponents) > 0 then
