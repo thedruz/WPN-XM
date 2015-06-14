@@ -524,7 +524,7 @@ procedure OpenBrowser(Url: string);
 var
   ErrorCode: Integer;
 begin
-  ShellExecAsOriginalUser('open', Url, '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+  ShellExec('open', Url, '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
 end;
 
 procedure HelpButtonClick(Sender: TObject);
