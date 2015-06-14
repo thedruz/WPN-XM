@@ -1429,6 +1429,12 @@ begin
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\phpMyAdmin-*  ' + appDir + '\www\tools\phpmyadmin"');
   end;
 
+  // Webgrind - rename directory "webgrind-master"
+  if Pos('webgrind', selectedComponents) > 0 then
+  begin
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\webgrind-master ' + appDir + '\www\tools\webgrind"');
+  end;
+
 end;
 
 {

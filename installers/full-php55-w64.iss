@@ -291,6 +291,7 @@ const
 
   Filename_adminer               = 'adminer.php';
   Filename_closure_compiler      = 'closure-compiler.zip';
+  Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
   Filename_gogitservice          = 'gogitservice.zip';
   Filename_imagick               = 'imagick.zip';
@@ -1280,6 +1281,12 @@ begin
   begin
      // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\phpMyAdmin-*  ' + appDir + '\www\tools\phpmyadmin"');
+  end;
+
+  // Webgrind - rename directory "webgrind-master"
+  if Pos('webgrind', selectedComponents) > 0 then
+  begin
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\webgrind-master ' + appDir + '\www\tools\webgrind"');
   end;
 
 end;
