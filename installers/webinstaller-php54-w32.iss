@@ -137,7 +137,7 @@ Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webint
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 33430000; Types: full
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
-Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 620000; Types: full
+Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
@@ -363,7 +363,7 @@ const
   Filename_mongodb               = 'mongodb.zip';
   Filename_msysgit               = 'msysgit.7z';
   Filename_nginx                 = 'nginx.zip';
-  Filename_node                  = 'node.exe'; // WATCH IT: EXE!
+  Filename_node                  = 'node.exe';
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
   Filename_pear                  = 'go-pear.phar';
@@ -875,6 +875,12 @@ begin
     if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxmscp));
     if IsComponentSelected('webgrind')           then idpAddFileSize(URL_webgrind,      ExpandConstant(targetPath + Filename_webgrind), 648000);
     if IsComponentSelected('xdebug')             then idpAddFile(URL_phpext_xdebug,     ExpandConstant(targetPath + Filename_phpext_xdebug));
+    
+    if IsComponentSelected('varnish') then
+    begin
+       idpAddFile(URL_varnish,                ExpandConstant(targetPath + Filename_varnish));
+       idpAddFile(URL_phpext_varnish,         ExpandConstant(targetPath + Filename_phpext_varnish));
+    end;
 
     if IsComponentSelected('phpextensions') then
     begin
@@ -887,7 +893,6 @@ begin
         idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
         idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
-        idpAddFile(URL_phpext_varnish,        ExpandConstant(targetPath + Filename_phpext_varnish));
         idpAddFile(URL_phpext_wincache,       ExpandConstant(targetPath + Filename_phpext_wincache));
         idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
