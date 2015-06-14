@@ -875,7 +875,7 @@ begin
     if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxmscp));
     if IsComponentSelected('webgrind')           then idpAddFileSize(URL_webgrind,      ExpandConstant(targetPath + Filename_webgrind), 648000);
     if IsComponentSelected('xdebug')             then idpAddFile(URL_phpext_xdebug,     ExpandConstant(targetPath + Filename_phpext_xdebug));
-    
+
     if IsComponentSelected('varnish') then
     begin
        idpAddFile(URL_varnish,                ExpandConstant(targetPath + Filename_varnish));
