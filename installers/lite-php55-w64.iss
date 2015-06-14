@@ -161,7 +161,7 @@ Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backu
 ; config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\configs\php\php55.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
-Source: ..\configs\nginx.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
