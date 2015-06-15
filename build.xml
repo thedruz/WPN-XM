@@ -41,15 +41,13 @@
     <!-- 7zip -->
     <property name="7z" value="${wine} ${dir.Base}/bin/backup/7za.exe"/>
 
-    <!-- PHP
+    <!-- PHP -->
     <php expression="ini_set('memory_limit', '2G');" />
     <php expression="ini_get('memory_limit');" returnProperty="limit"/>
     <echo>PHP memory_limit: ${limit}</echo>
-    -->
 
-    <!-- Force a Garbage Collection during stacked or foreached PhingCalls
+    <!-- Force a Garbage Collection during stacked or foreached PhingCalls -->
     <php expression="gc_collect_cycles();" />
-    -->
 
     <!--
                         Targets (Build Commands)
@@ -563,7 +561,7 @@
                         . ' --conditional-get=true --auto-file-renaming=false --allow-overwrite=true'
                         . ' --http-accept-gzip=true'
                         . ' --user-agent="WPN-XM Server Stack Downloader"';
-                        
+
                         //. ' --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36"';
 
                         passthru($aria_cmd);
