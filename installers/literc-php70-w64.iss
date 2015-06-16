@@ -65,7 +65,7 @@ AppUpdatesURL={#APP_URL}
 ; default installation folder is "c:\server". users might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#APP_NAME}
-OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-php56-w64
+OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-php70-w64
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
 LZMANumBlockThreads=2
@@ -160,7 +160,7 @@ Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
 Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\configs\php\php56.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
+Source: ..\configs\php\php70.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
 Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
