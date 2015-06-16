@@ -25,7 +25,7 @@
 ; +---------------------------------------------------------------------<3
 
 ; Uncomment the line below to be able to compile the script locally from the IDE.
-#define COMPILE_FROM_IDE
+;#define COMPILE_FROM_IDE
 
 ; debug mode toggle
 #define DEBUG "false"
