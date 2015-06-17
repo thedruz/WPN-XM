@@ -166,9 +166,9 @@ Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\
 Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
-; Visual C++ Redistributable 2010 is needed by PHP VC11 x86 builds
+; Visual C++ Redistributable 2015 is needed by PHP VC14 x86 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
-Source: ..\bin\vcredist\vcredist_x86_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
+Source: ..\bin\vcredist\vcredist_x86_2015.exe; DestDir: {tmp}; Flags: deleteafterinstall
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\wpn-xm.exe; Tasks: add_startmenu
@@ -195,7 +195,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 [Run]
 ; Automatically started...
 ; VCRedist Conditional Installation Check
-Filename: "{tmp}\vcredist_x86_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist2008NeedsInstall; Flags: nowait
+Filename: "{tmp}\vcredist_x86_2015.exe"; Parameters: "/quiet /norestart"; Check: VCRedist2015NeedsInstall; Flags: nowait
 ; User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
@@ -330,6 +330,18 @@ function VCRedist2012NeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2012_REDIST_MIN_UPD4_X86));
   Log('Visual C++ 2012 Redistributables ');
+  If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
+end;
+
+function VCRedist2015NeedsInstall: Boolean;
+begin
+  Result := (not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\VCRedist\x86')) and
+            (not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\VCRedist\x86'));
+
+  # not used, because RegistryKey for detection is unknown
+  #Result := not (VCVersionInstalled(VC_2015_REDIST_X86));
+
+  Log('Visual C++ 2015 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
 
