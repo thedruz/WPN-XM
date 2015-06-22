@@ -35,6 +35,7 @@
 
 ; defines for the setup section
 #define APP_NAME "WPN-XM Server Stack"
+#define COPYRIGHT_YEAR GetDateTimeString('yyyy', '', '');
 
 #ifdef COMPILE_FROM_IDE
 #define APP_VERSION "LocalSnapshot"
@@ -88,7 +89,7 @@ VersionInfoVersion={#APP_VERSION}
 VersionInfoCompany={#APP_PUBLISHER}
 VersionInfoDescription={#APP_NAME} {#APP_VERSION}
 VersionInfoTextVersion={#APP_VERSION}
-VersionInfoCopyright=Copyright (C) 2011 - 2013 {#APP_PUBLISHER}, All Rights Reserved.
+VersionInfoCopyright=Copyright (C) 2011 - {#COPYRIGHT_YEAR} {#APP_PUBLISHER}, All Rights Reserved.
 SetupIconFile={#SOURCE_ROOT}..\bin\icons\Setup.ico
 WizardImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\banner-left-164x314-lite.bmp
 WizardSmallImageFile={#SOURCE_ROOT}..\bin\icons\innosetup-wizard-images\icon-topright-55x55-stamp.bmp
