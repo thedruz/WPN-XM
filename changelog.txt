@@ -31,6 +31,8 @@ _____________________________________________________________________________
 ------------  ----------------------------------------------------------------
               RC
 
+  17.06.2015  NEW   added vcredist 2015 detection o LiteRC installer for PHP7
+
   26.04.2015  CHG   moved configs into subfolders
                     and updated installers accordingly
               CHG   added "COMPILE_FROM_IDE" define to allow local compiles
