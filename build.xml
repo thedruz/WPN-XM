@@ -430,7 +430,7 @@
                     //$curl_cmd_template = "curl -C - --insecure --fail --retry 5 --stderr - --location %url% -o %targetFolder%/%targetFile%";
 
                     $aria_cmd_template = "aria2c \"%url%\" --dir=%targetFolder% --out=%targetFile%";
-                    $aria_cmd_template .= " --deferred-input=true";
+                    //$aria_cmd_template .= " --deferred-input=true";
                     $aria_cmd_template .= " --disk-cache=0 --max-download-result=0 --max-tries=5 --file-allocation=falloc" //none,prealloc,alloc
                     $aria_cmd_template .= " --check-certificate=false --split=6 --min-split-size=12M --max-connection-per-server=6";
                     $aria_cmd_template .= " --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true";
