@@ -339,8 +339,8 @@ begin
   Result := (not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\VCRedist\x64')) and
             (not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\VCRedist\x64'));
 
-  # not used, because RegistryKey for detection is unknown
-  #Result := not (VCVersionInstalled(VC_2015_REDIST_X64));
+  // not used, because RegistryKey for detection is unknown
+  //Result := not (VCVersionInstalled(VC_2015_REDIST_X64));
 
   Log('Visual C++ 2015 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
