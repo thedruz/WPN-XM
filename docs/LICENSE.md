@@ -6,7 +6,7 @@ LICENSE
 	The terms for the different licenses we use are available below.
 
 	The relevant license for any given software package will be indicated
-	in the software documention, source code or accompanying information.
+	in the software documentation, source code or accompanying information.
 
 # License Terms
 
