@@ -911,6 +911,7 @@ begin
       ExtractTemporaryFile(Filename_phpext_amqp);
       DoUnzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
       FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), ExpandConstant('{app}\bin\php\ext\php_amqp.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), ExpandConstant('{app}\bin\php\ext\rabbitmq.1.dll'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - APC');
