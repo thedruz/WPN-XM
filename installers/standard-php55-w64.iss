@@ -972,6 +972,7 @@ begin
       ExtractTemporaryFile(Filename_phpext_zmq);
       DoUnzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
       FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), ExpandConstant('{app}\bin\php\ext\php_zmq.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), ExpandConstant('{app}\bin\php\ext\libzmq.dll'), false);
     UpdateTotalProgressBar();
   end;
 
