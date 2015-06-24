@@ -826,7 +826,13 @@ begin
     end;
 
     if IsComponentSelected('adminer')            then idpAddFile(URL_adminer,           ExpandConstant(targetPath + Filename_adminer));
-    if IsComponentSelected('closurecompiler')    then idpAddFile(URL_closure_compiler,  ExpandConstant(targetPath + Filename_closure_compiler));
+
+    if IsComponentSelected('assettools') then
+    begin
+       idpAddFile(URL_closure_compiler, ExpandConstant(targetPath + Filename_closure_compiler));
+       idpAddFile(URL_yuicompressor, ExpandConstant(targetPath + Filename_yuicompressor));
+    end;
+
     if IsComponentSelected('composer')           then idpAddFile(URL_composer,          ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('conemu')             then idpAddFile(URL_conemu,            ExpandConstant(targetPath + Filename_conemu));
 
@@ -1110,18 +1116,18 @@ begin
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('YUI Compressor');
-        FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
+      FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), ExpandConstant('{app}\bin\assettools\' + Filename_yuicompressor), false);
     UpdateTotalProgressBar();
   end;
 
   if Pos('node', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Node JS');
-       FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'), false);
+      FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('Node NPM');
-       DoUnzip(ExpandConstant(targetPath + Filename_nodenpm), ExpandConstant('{app}\bin\node')); // into the node folder
+      DoUnzip(ExpandConstant(targetPath + Filename_nodenpm), ExpandConstant('{app}\bin\node')); // into the node folder
     UpdateTotalProgressBar();
   end;
 
