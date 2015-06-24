@@ -828,6 +828,7 @@ begin
     if IsComponentSelected('adminer')            then idpAddFile(URL_adminer,           ExpandConstant(targetPath + Filename_adminer));
     if IsComponentSelected('closurecompiler')    then idpAddFile(URL_closure_compiler,  ExpandConstant(targetPath + Filename_closure_compiler));
     if IsComponentSelected('composer')           then idpAddFile(URL_composer,          ExpandConstant(targetPath + Filename_composer));
+    if IsComponentSelected('conemu')             then idpAddFile(URL_conemu,            ExpandConstant(targetPath + Filename_conemu));
 
     if IsComponentSelected('git') then
     begin
