@@ -1,5 +1,4 @@
-== WPИ-XM image:https://travis-ci.org/WPN-XM/WPN-XM.svg["Build Status", link="https://travis-ci.org/WPN-XM/WPN-XM"]
-
+== WPИ-XM image:https://travis-ci.org/WPN-XM/WPN-XM.svg["Build Status", link="https://travis-ci.org/WPN-XM/WPN-XM"] image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/pr?style=flat["IssueStats", link="http://issuestats.com/github/wpn-xm/wpn-xm"] image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/issue?style=flat["IssueStats", link="http://issuestats.com/github/wpn-xm/wpn-xm"]
 *WPИ-XM is a free and open-source web server solution stack for professional PHP development on the Windows platform.*
 
 The groundation of the server stack consists of NGINX, PHP and MariaDB.
