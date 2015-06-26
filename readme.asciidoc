@@ -1,20 +1,27 @@
 == WPИ-XM image:https://travis-ci.org/WPN-XM/WPN-XM.svg["Build Status", link="https://travis-ci.org/WPN-XM/WPN-XM"] image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/pr?style=flat["IssueStats", link="http://issuestats.com/github/wpn-xm/wpn-xm"] image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/issue?style=flat["IssueStats", link="http://issuestats.com/github/wpn-xm/wpn-xm"]
 *WPИ-XM is a free and open-source web server solution stack for professional PHP development on the Windows platform.*
 
-The groundation of the server stack consists of NGINX, PHP and MariaDB.
-Additionally XDebug, XhProf and Webgrind were added for profiling and debugging purposes; phpMyAdmin and Adminer for MySQL database administration purposes; memcached and APCu for caching; ZeroMQ for socket magic.
-WPИ-XM provides a webinterface for server administration and a server control panel (tray application) which makes starting and stopping of daemons easy.
-The abbreviation WPИ-XM consists of the initial letters of Windows, PHP, NGINX, XDebug and MariaDB.
+The abbreviation WPИ-XM consists of the initial letters of **W**indows, **P**HP, **N**GINX, **X**Debug and **M**ariaDB.
+
+This repository contains the build toolchain for the installation wizards of the server stack.
+
+The base of the server stack consists of NGINX, PHP and MariaDB.
+You may choose additional software packages for installation, including Composer, PostgreSQL, MongoDb, RoboMongo, ConEmu, NodeJS, msysGit and GoGitService, Strawberry Perl. XDebug and Webgrind were added for profiling and debugging purposes; phpMyAdmin and Adminer for MySQL database administration purposes; memcached and APCu for caching; ZeroMQ for socket magic. 
+WPИ-XM provides a webinterface for server administration and a server control panel (tray application) which makes starting and stopping of servers easy.
 
 The stack has a "Software Components Registry", which is an online database of all software components provided by the project.
 This registry is maintained via the "Registry Updater", which allows crawling the vendor sites for latest versions of their software and updates the registry accordingly.
 The registry is exposed via our WEB-API. All packages are available for selective download.
 
-WPИ-XM provides 4 Installation Wizards, which are build in a One-Click-Build process.
-The Webinstaller is 1 MB of size and and uses our WEB-API to retrieve and install the latest versions of software components.
-The Lite Installer ships only a minimal set of components.
-The Standard Installer ships components relevant for PHP development.
-The Full Installer ships our whole registry and includes Strawberry Perl & PostgreSQL.
+WPИ-XM provides 5 Installation Wizards.
+
+The installation wizards are continously integrated on Github, build on Travis-CI and released to Github Releases.
+
+1. The **Webinstaller** is 2 MB of size and uses our WEB-API to retrieve and install the latest versions of software components.
+2. The **Lite Installer** ships only a minimal set of components.
+3. The **LiteRC Installer** ships only a minimal set of components and includes the latest PHP RC version for testing purposes.
+4. The **Standard Installer** ships components relevant for web development with PHP.
+5. The **Full Installer** ships our whole registry and includes Strawberry Perl & PostgreSQL.
 
 WPИ-XM is open-source and MIT licensed.
 Technology in use: Innosetup, Inno Download Plugin, Pascal, Phing, Bash, Batch, C++, Qt, PHP, HTML, JS/jQuery, upx, aria2c.
