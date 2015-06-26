@@ -6,7 +6,8 @@ The abbreviation WPИ-XM consists of the initial letters of **W**indows, **P**HP
 This repository contains the build toolchain for the installation wizards of the server stack.
 
 The base of the server stack consists of NGINX, PHP and MariaDB.
-You may choose additional software packages for installation, including Composer, PostgreSQL, MongoDb, RoboMongo, ConEmu, NodeJS, msysGit and GoGitService, Strawberry Perl. XDebug and Webgrind were added for profiling and debugging purposes; phpMyAdmin and Adminer for MySQL database administration purposes; memcached and APCu for caching; ZeroMQ for socket magic. 
+You may choose additional software packages for installation, including Composer, PostgreSQL, MongoDb, RoboMongo, ConEmu, NodeJS, msysGit and GoGitService, Strawberry Perl. XDebug and Webgrind were added for profiling and debugging purposes; phpMyAdmin and Adminer for MySQL database administration purposes; memcached and APCu for caching; ZeroMQ for socket magic.
+
 WPИ-XM provides a webinterface for server administration and a server control panel (tray application) which makes starting and stopping of servers easy.
 
 The stack has a "Software Components Registry", which is an online database of all software components provided by the project.
@@ -15,7 +16,7 @@ The registry is exposed via our WEB-API. All packages are available for selectiv
 
 WPИ-XM provides 5 Installation Wizards.
 
-The installation wizards are continously integrated on Github, build on Travis-CI and released to Github Releases.
+The installation wizards are continuously integrated on Github, build on Travis-CI and released to Github Releases.
 
 1. The **Webinstaller** is 2 MB of size and uses our WEB-API to retrieve and install the latest versions of software components.
 2. The **Lite Installer** ships only a minimal set of components.
