@@ -927,7 +927,7 @@ begin
   begin
     UpdateCurrentComponentName('Node JS');
        ExtractTemporaryFile(Filename_node);
-       FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'), false);
+       FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('Node NPM');

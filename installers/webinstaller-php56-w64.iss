@@ -1123,7 +1123,7 @@ begin
   if Pos('node', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Node JS');
-      FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'), false);
+      FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('Node NPM');
