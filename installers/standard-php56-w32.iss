@@ -129,7 +129,7 @@ Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 310400
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 13020000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
-Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 520000; Types: full
+Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
@@ -189,6 +189,7 @@ Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\phpmyadmin\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
+Source: ..\configs\redis\redis.windows.config; DestDir: {app}\bin\redis; Components: redis
 Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
 //Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
 Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
