@@ -196,7 +196,7 @@ Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\phpmyadmin\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
-Source: ..\configs\redis\redis.windows.config; DestDir: {app}\bin\redis; Components: redis
+Source: ..\configs\redis\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
 Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
 //Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
 Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
