@@ -26,17 +26,23 @@ TEMPLATE FOR  NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-[tba.2015]    REL   VERSION 0.8.4
+[tba.2015]    REL   VERSION 0.8.x
+------------  ----------------------------------------------------------------
+
+              ...
+
+------------  ----------------------------------------------------------------
+[28.06.2015]  REL   VERSION 0.8.4
 ------------  ----------------------------------------------------------------
 
               FIX   fixed uninstaller to not recursively delete reparse points
               NEW   added redis configuration
               CHG   enabled PHP extensions (by default):
                       mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
-              CHG   server control panel is now released with version number
+  28.06.2015  CHG   server control panel is now released with version number
 
 ------------  ----------------------------------------------------------------
-[26.06.2015]    REL   VERSION 0.8.3
+[26.06.2015]  REL   VERSION 0.8.3
 ------------  ----------------------------------------------------------------
               RC
 
