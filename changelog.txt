@@ -29,7 +29,7 @@ _____________________________________________________________________________
 [tba.2015]    REL   VERSION 0.8.4
 ------------  ----------------------------------------------------------------
 
-              NEW   ...
+              FIX   fixed uninstaller to not recursively delete reparse points
               NEW   added redis configuration
               CHG   enabled PHP extensions (by default):
                       mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
