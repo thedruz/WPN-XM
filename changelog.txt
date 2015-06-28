@@ -25,9 +25,18 @@ TEMPLATE FOR  NEW ENTRIES
 [x.x.2015]    CHG   removed this n that
 _____________________________________________________________________________
 
+------------  ----------------------------------------------------------------
+[tba.2015]    REL   VERSION 0.8.4
+------------  ----------------------------------------------------------------
+
+              NEW   ...
+              NEW   added redis configuration
+              CHG   enabled PHP extensions (by default):
+                      mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
+              CHG   server control panel is now released with version number
 
 ------------  ----------------------------------------------------------------
-[tba.2015]    REL   VERSION 0.8.3
+[26.06.2015]    REL   VERSION 0.8.3
 ------------  ----------------------------------------------------------------
               RC
 
