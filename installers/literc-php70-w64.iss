@@ -1022,32 +1022,6 @@ begin
   Result := true;
 end;
 
-{
-  Watch it! Recursion!
-}
-procedure DeleteWPNXM(ADirName: string);
-var
-  FindRec: TFindRec;
-begin
-  if FindFirst( ADirName + '\*.*', FindRec) then begin
-    try
-      repeat
-        // delete folder
-        if FindRec.Attributes and FILE_ATTRIBUTE_DIRECTORY <> 0 then begin
-          if (FindRec.Name <> '.') and (FindRec.Name <> '..') then begin
-            DeleteWPNXM(ADirName + '\' + FindRec.Name);
-            RemoveDir(ADirName + '\' + FindRec.Name);
-          end;
-        end;
-        // delete file
-        DeleteFile(ADirName + '\' + FindRec.Name);
-      until not FindNext(FindRec);
-    finally
-      FindClose(FindRec);
-    end;
-  end;
-end;
-
 function RemovePathFromEnvironmentPath(PathToRemove: string): boolean;
 var
   Path: String;
@@ -1093,7 +1067,11 @@ begin
       // fix "read-only" status of all files and folders, else some things might remain after uninstallation
       ExecHidden('cmd.exe /c "attrib -R ' + appDir + '\*.* /s /d"');
 
-      DeleteWPNXM(ExpandConstant('{app}'));
+      // Deletes the application directory and everything inside it.
+      // This function will remove directories that are reparse points,
+      // but it will not recursively delete files/directories inside them.
+      DelTree(ExpandConstant('{app}'), True, True, True);
+
     end else begin
       // User clicked: No
       Abort;
