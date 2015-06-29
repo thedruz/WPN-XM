@@ -123,7 +123,6 @@ Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpa
 Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
 Name: git; Description: Git Version Control (Msysgit & Go Git Service); ExtraDiskSpaceRequired: 24000000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 6030000; Types: full
-Name: junction; Description: junction - Mircosoft tool for creating junctions (symlinks); ExtraDiskSpaceRequired: 80000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 630000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 240000; Types: full
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 620000; Types: full
@@ -306,7 +305,6 @@ const
   URL_conemu                = 'http://wpn-xm.org/get.php?s=conemu';
   URL_gogitservice          = 'http://wpn-xm.org/get.php?s=gogs-x86';
   URL_imagick               = 'http://wpn-xm.org/get.php?s=imagick';
-  URL_junction              = 'http://wpn-xm.org/get.php?s=junction';
   URL_mariadb               = 'http://wpn-xm.org/get.php?s=mariadb';
   URL_memadmin              = 'http://wpn-xm.org/get.php?s=memadmin';
   URL_memcached             = 'http://wpn-xm.org/get.php?s=memcached';
@@ -358,7 +356,6 @@ const
   Filename_composer              = 'composer.phar';
   Filename_gogitservice          = 'gogitservice.zip';
   Filename_imagick               = 'imagick.zip';
-  Filename_junction              = 'junction.zip';
   Filename_mariadb               = 'mariadb.zip';
   Filename_memadmin              = 'memadmin.zip';
   Filename_memcached             = 'memcached.zip';
@@ -849,7 +846,6 @@ begin
        idpAddFile(URL_phpext_imagick,    ExpandConstant(targetPath + Filename_phpext_imagick));
     end;
 
-    if IsComponentSelected('junction')           then idpAddFile(URL_junction,          ExpandConstant(targetPath + Filename_junction));
     if IsComponentSelected('memadmin')           then idpAddFile(URL_memadmin,          ExpandConstant(targetPath + Filename_memadmin));
 
     if IsComponentSelected('memcached') then
@@ -1307,13 +1303,6 @@ begin
     UpdateCurrentComponentName('Adminer');
       CreateDir(ExpandConstant('{app}\www\tools\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\tools\adminer\' + Filename_adminer), false);
-    UpdateTotalProgressBar();
-  end;
-
-  if Pos('junction', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Junction');
-      DoUnzip(targetPath + Filename_junction, ExpandConstant('{app}\bin\tools'));
     UpdateTotalProgressBar();
   end;
 
