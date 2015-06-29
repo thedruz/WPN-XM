@@ -2020,5 +2020,5 @@ xdebug.profiler_enable_trigger = 0
 xdebug.profiler_output_name    = cachegrind.out.%t.%p
 
 [Zend]
-zend_extension=php_opcache.dll
+;zend_extension=php_opcache.dll
 ;zend_extension=php_xdebug.dll

@@ -1525,6 +1525,9 @@ begin
   ReplaceStringInFile('upload_max_filesize = 2M',    'upload_max_filesize = 8M',                php_ini_file);
   ReplaceStringInFile(';session.save_path = "/tmp"', 'session.save_path = ' + appDir + '\temp', php_ini_file);
 
+  ReplaceStringInFile(';zend_extension=php_opcache.dll',
+                      'zend_extension=' + appDir + '\bin\php\ext\php_opcache.dll', php_ini_file);
+
   if Pos('xdebug', selectedComponents) > 0 then
   begin
       ReplaceStringInFile(';zend_extension=php_xdebug.dll',
