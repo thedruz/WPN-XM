@@ -1215,7 +1215,7 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - Varnish');
       DoUnzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
-      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\phpext_varnish.dll'), ExpandConstant('{app}\bin\php\ext\phpext_varnish.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), ExpandConstant('{app}\bin\php\ext\php_varnish.dll'), false);
     UpdateTotalProgressBar();
   end;
 
