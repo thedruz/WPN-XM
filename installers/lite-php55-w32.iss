@@ -867,13 +867,16 @@ begin
   SetIniString('mysqld', 'log-error',        appDirWithSlashes + '/logs/mariadb_error.log',  mariadb_ini_file);
 
   // PHP
-  SetIniString('PHP', 'error_log',           appDir + '\logs\php_error.log',       php_ini_file);
-  SetIniString('PHP', 'include_path',        '.;' + appDir + '\bin\php\pear',      php_ini_file);
-  SetIniString('PHP', 'upload_tmp_dir',      appDir + '\temp',                     php_ini_file);
-  SetIniString('PHP', 'upload_max_filesize', '8M',                                  php_ini_file);
-  SetIniString('PHP', 'session.save_path',   appDir + '\temp',                     php_ini_file);
+  ReplaceStringInFile('error_log = php_error.log',
+                      'error_log = ' + appDir + '\logs\php_error.log', php_ini_file);
 
-  // Xdebug
+  ReplaceStringInFile(';include_path = ".;c:\php\includes"',
+                      'include_path = ".;' + appDir + '\bin\php\pear"', php_ini_file);
+
+  ReplaceStringInFile(';upload_tmp_dir =',           'upload_tmp_dir = ' + appDir + '\temp',    php_ini_file);
+  ReplaceStringInFile('upload_max_filesize = 2M',    'upload_max_filesize = 8M',                php_ini_file);
+  ReplaceStringInFile(';session.save_path = "/tmp"', 'session.save_path = ' + appDir + '\temp', php_ini_file);
+
   if Pos('xdebug', selectedComponents) > 0 then
   begin
       if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
