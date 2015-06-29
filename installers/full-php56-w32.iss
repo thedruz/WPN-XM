@@ -1364,24 +1364,16 @@ begin
 
   if Pos('xdebug', selectedComponents) > 0 then
   begin
-      if not IniKeyExists('Zend', 'zend_extension', php_ini_file) then
-      begin
-          SetIniString('Zend', 'zend_extension', appDir + '\bin\php\ext\php_xdebug.dll', php_ini_file);
-      end;
-
-      // activate remote debugging
-      SetIniString('Xdebug', 'xdebug.remote_enable',  'on',        php_ini_file);
-      SetIniString('Xdebug', 'xdebug.remote_handler', 'dbgp',      php_ini_file);
-      SetIniString('Xdebug', 'xdebug.remote_host',    'localhost', php_ini_file);
-      SetIniString('Xdebug', 'xdebug.remote_port',    '9000',      php_ini_file);
+      ReplaceStringInFile(';zend_extension=php_xdebug.dll',
+                          'zend_extension=' + appDir + '\bin\php\ext\php_xdebug.dll', php_ini_file);
   end;
 
   if Pos('webgrind', selectedComponents) > 0 then
   begin
-	SetIniString('Xdebug', 'xdebug.remote_connect_back',  	 '1',     				 php_ini_file);
-	SetIniString('Xdebug', 'xdebug.profiler_enable_trigger', '1',     				 php_ini_file);
-	SetIniString('Xdebug', 'xdebug.profiler_output_dir', 	 appDir + '\logs',    	 php_ini_file);
-	SetIniString('Xdebug', 'xdebug.profiler_output_name', 	 'cachegrind.out.%t.%p', php_ini_file);
+	ReplaceStringInFile('xdebug.profiler_enable         = 0', 'xdebug.profiler_enable         = 1', php_ini_file);
+
+    ReplaceStringInFile(';xdebug.profiler_output_dir    = "C:\server\logs"',
+                        'xdebug.profiler_output_dir     = "' + appDir + '\logs"', php_ini_file);
   end;
 
   if Pos('openssl', selectedComponents) > 0 then
