@@ -272,7 +272,6 @@ Name: {app}\bin\nginx\conf\domains-enabled
 Name: {app}\bin\nginx\conf\domains-disabled
 Name: {app}\logs
 Name: {app}\temp
-Name: {app}\www
 Name: {app}\www\tools\webinterface; Components: webinterface;
 
 [Code]
@@ -1051,6 +1050,9 @@ begin
   // define hideConsole shortcut
   hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
 
+  // set application path as variable
+  appDir := ExpandConstant('{app}');
+
   if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
   if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
   if not DirExists(ExpandConstant('{app}\www\tools')) then ForceDirectories(ExpandConstant('{app}\www\tools'));
@@ -1061,6 +1063,7 @@ begin
 
   UpdateCurrentComponentName('Nginx');
     DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"'); // rename directory
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
@@ -1069,6 +1072,7 @@ begin
 
   UpdateCurrentComponentName('MariaDB');
     DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');  // rename directory
   UpdateTotalProgressBar();
 
   // unzip selected components
@@ -1120,6 +1124,7 @@ begin
   if Pos('node', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Node JS');
+      CreateDir(ExpandConstant('{app}\bin\node\'));
       FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node'), false);
     UpdateTotalProgressBar();
 
@@ -1140,6 +1145,8 @@ begin
     UpdateCurrentComponentName('Xdebug');
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+      CreateDir(ExpandConstant('{app}\www\tools\xdebug\'));
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), ExpandConstant('{app}\www\tools\xdebug\tracefile-analyser.php'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -1207,6 +1214,7 @@ begin
   begin
     UpdateCurrentComponentName('Varnish');
       DoUnzip(targetPath + Filename_varnish, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\varnish-* ' + appDir + '\bin\varnish"');// rename directory, like "varnish-3.0.2"
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Varnish');
@@ -1219,6 +1227,7 @@ begin
   begin
     UpdateCurrentComponentName('Imagick');
       DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\ImageMagick-* ' + appDir + '\bin\imagick"'); // rename directory
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Imagick');
@@ -1228,12 +1237,17 @@ begin
 
       // Delete pdb and crappy text files
       DelTree(targetPath + 'phpext_imagick\*.dll', False, True, False);
+      DelTree(targetPath + 'phpext_imagick\*.pdb', False, True, False);
       DeleteFile(targetPath + 'phpext_imagick\TODO');
       DeleteFile(targetPath + 'phpext_imagick\INSTALL');
       DeleteFile(targetPath + 'phpext_imagick\CREDITS');
       DeleteFile(targetPath + 'phpext_imagick\ChangeLog');
+      DeleteFile(targetPath + 'phpext_imagick\LICENSE');
+      DeleteFile(targetPath + 'phpext_imagick\LICENSE.IMAGEMAGICK');
+      DeleteFile(targetPath + 'phpext_imagick\OFL.txt'); 
 
       // Move all remaining files (examples) shipped with the extension to /www/tools/imagick
+      CreateDir(ExpandConstant('{app}\www\tools\imagick\'));
       ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_imagick\*.* ' + appDir + '\www\tools\imagick"');
 
     UpdateTotalProgressBar();
@@ -1243,10 +1257,12 @@ begin
   begin
     UpdateCurrentComponentName('uProfiler GUI');
       DoUnzip(targetPath + Filename_uprofiler, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\uprofiler-* ' + appDir + '\www\tools\uprofiler"');  // rename folder, e.g. "uprofiler-master"
     UpdateTotalProgressBar;
 
     UpdateCurrentComponentName('PHP Extension - uProfiler');
-      DoUnzip(targetPath + Filename_phpext_uprofiler, ExpandConstant('{app}\bin\php\ext'));
+      DoUnzip(targetPath + Filename_phpext_uprofiler, targetPath + 'phpext_uprofiler');
+      FileCopy(ExpandConstant(targetPath + 'phpext_uprofiler\php_uprofiler.dll'), ExpandConstant('{app}\bin\php\ext\php_uprofiler.dll'), false);
     UpdateTotalProgressBar;
   end;
 
@@ -1254,10 +1270,12 @@ begin
   begin
     UpdateCurrentComponentName('Memcached');
       DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-* ' + appDir + '\bin\memcached"'); // rename folder
     UpdateTotalProgressBar;
 
     UpdateCurrentComponentName('PHP Extension - Memcached');
-      DoUnzip(targetPath + Filename_phpext_memcache, ExpandConstant('{app}\bin\php\ext'));
+      DoUnzip(targetPath + Filename_phpext_memcache, targetPath + 'phpext_memcache');
+      FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), ExpandConstant('{app}\bin\php\ext\php_memcache.dll'), false);
     UpdateTotalProgressBar();
   end;
 
@@ -1265,6 +1283,7 @@ begin
   begin
     UpdateCurrentComponentName('Memadmin');
       DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\memadmin-* ' + appDir + '\www\tools\memadmin"'); // rename folder, e.g. "memadmin-1.0.11"
     UpdateTotalProgressBar();
   end;
 
@@ -1279,13 +1298,14 @@ begin
   begin
     UpdateCurrentComponentName('phpMyAdmin');
       DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\phpMyAdmin-*  ' + appDir + '\www\tools\phpmyadmin"'); // rename folder, e.g. "phpMyAdmin-3.4.6-english"
     UpdateTotalProgressBar();
   end;
 
-  // pickle is not zipped, its just a php phar package, so copy it to the php path
   if Pos('pickle', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('pickle');
+      // pickle is not zipped. its a php phar file. we copy it to the php path.
       FileCopy(ExpandConstant(targetPath + Filename_pickle), ExpandConstant('{app}\bin\php\' + Filename_pickle), false);
     UpdateTotalProgressBar();
   end;
@@ -1297,7 +1317,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // adminer is not zipped, its just a php file, so copy it to the target path
+  // adminer is not zipped. its a php file. copy it to the target path.
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Adminer');
@@ -1343,6 +1363,7 @@ begin
   begin
     UpdateCurrentComponentName('Webgrind');
       DoUnzip(targetPath + Filename_webgrind, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\webgrind-master ' + appDir + '\www\tools\webgrind"'); // rename folder, e.g. "webgrind-master"
     UpdateTotalProgressBar();
   end;
 
@@ -1350,6 +1371,7 @@ begin
   begin
     UpdateCurrentComponentName('RoboMongo');
       DoUnzip(targetPath + Filename_robomongo, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robomongo-* ' + appDir + '\bin\robomongo"'); // rename folder, e.g. "robomongo-1.2.3-i386"
     UpdateTotalProgressBar();
   end;
 
@@ -1364,80 +1386,13 @@ begin
   begin
     UpdateCurrentComponentName('MongoDB');
       DoUnzip(targetPath + Filename_mongodb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');  // rename directory
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + 'phpext_mongo');
       FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), ExpandConstant('{app}\bin\php\ext\php_mongo.dll'), false);
     UpdateTotalProgressBar();
-  end;
-
-end;
-
-procedure MoveFiles();
-var
-  selectedComponents: String;
-begin
-  selectedComponents := WizardSelectedComponents(false);
-
-  // set application path as global variable
-  appDir := ExpandConstant('{app}');
-
-  // nginx - rename directory
-  ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"');
-
-  // MariaDB - rename directory
-  ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');
-
-  // MongoDB - rename directory
-  if Pos('mongodb', selectedComponents) > 0 then
-  begin
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');
-  end;
-
-  // Varnish - rename directory, like "varnish-3.0.2"
-  if Pos('varnish', selectedComponents) > 0 then
-  begin
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\varnish-* ' + appDir + '\bin\varnish"');
-  end;
-
-  // ImageMagick - rename directory
-  if Pos('imagick', selectedComponents) > 0 then
-  begin
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\ImageMagick-* ' + appDir + '\bin\imagick"');
-  end;
-
-  if Pos('robomongo', selectedComponents) > 0 then
-  begin
-      // remove version number from folder name. robomongo comes in a versionized folder "robomongo-1.2.3-i386".
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robomongo-* ' + appDir + '\bin\robomongo"');
-  end;
-
-  if Pos('uprofiler', selectedComponents) > 0 then
-  begin
-    // uprofiler - rename "uprofiler-master" directory
-    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\uprofiler-* ' + appDir + '\www\tools\uprofiler"');
-  end;
-
-  if Pos('memcached', selectedComponents) > 0 then
-  begin
-      // rename the existing directory
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-x86 ' + appDir + '\bin\memcached"');
-
-      // memadmin - rename folder name "memadmin-1.0.11" to "memadmin"
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\memadmin-* ' + appDir + '\www\tools\memadmin"');
-  end;
-
-  if Pos('phpmyadmin', selectedComponents) > 0 then
-  begin
-     // phpmyadmin - rename "phpMyAdmin-3.4.6-english" directory
-    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\phpMyAdmin-*  ' + appDir + '\www\tools\phpmyadmin"');
-  end;
-
-  // Webgrind - rename directory "webgrind-master"
-  if Pos('webgrind', selectedComponents) > 0 then
-  begin
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\webgrind-master ' + appDir + '\www\tools\webgrind"');
   end;
 
 end;
@@ -1451,7 +1406,6 @@ end;
 procedure DoPreInstall();
 begin
   UnzipFiles();
-  MoveFiles();
 end;
 
 procedure Configure();

@@ -730,6 +730,7 @@ begin
   UpdateCurrentComponentName('Nginx');
     ExtractTemporaryFile(Filename_nginx);
     DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
+    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"'); // rename directory
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
@@ -740,6 +741,7 @@ begin
   UpdateCurrentComponentName('MariaDB');
     ExtractTemporaryFile(Filename_mariadb);
     DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');  // rename directory
   UpdateTotalProgressBar();
 
   // unzip selected components
@@ -765,15 +767,19 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false); 
+           
+      CreateDir(ExpandConstant('{app}\www\tools\xdebug\'));
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), ExpandConstant('{app}\www\tools\xdebug\tracefile-analyser.php'), false);
     UpdateTotalProgressBar();
   end;
 
-  // pickle is not zipped, its just a php phar package, so copy it to the php path
+
   if Pos('pickle', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('pickle');
       ExtractTemporaryFile(Filename_pickle);
+      // pickle is not zipped. its a php phar file. we copy it to the php path.
       FileCopy(ExpandConstant(targetPath + Filename_pickle), ExpandConstant('{app}\bin\php\' + Filename_pickle), false);
     UpdateTotalProgressBar();
   end;
@@ -799,23 +805,6 @@ begin
 
 end;
 
-procedure MoveFiles();
-var
-  selectedComponents: String;
-begin
-  selectedComponents := WizardSelectedComponents(false);
-
-  // set application path as global variable
-  appDir := ExpandConstant('{app}');
-
-  // nginx - rename directory
-  ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"');
-
-  // MariaDB - rename directory
-  ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');
-
-end;
-
 {
    DoPreInstall will be called after the user clicks Next on the wpReady page,
    but before Inno installs any of the [Files] and other standard script items.
@@ -825,7 +814,6 @@ end;
 procedure DoPreInstall();
 begin
   UnzipFiles();
-  MoveFiles();
 end;
 
 procedure Configure();

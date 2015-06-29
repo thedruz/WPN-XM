@@ -1282,10 +1282,10 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // pickle is not zipped, its just a php phar package, so copy it to the php path
   if Pos('pickle', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('pickle');
+      // pickle is not zipped. its a php phar file. we copy it to the php path.
       FileCopy(ExpandConstant(targetPath + Filename_pickle), ExpandConstant('{app}\bin\php\' + Filename_pickle), false);
     UpdateTotalProgressBar();
   end;
@@ -1297,7 +1297,7 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  // adminer is not zipped, its just a php file, so copy it to the target path
+  // adminer is not zipped. its a php file. copy it to the target path.
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Adminer');
