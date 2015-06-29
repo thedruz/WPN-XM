@@ -2005,5 +2005,20 @@ opcache.fast_shutdown=1
 ; tab-width: 4
 ; End:
 
+[Xdebug]
+
+; activate remote debugging
+xdebug.remote_enable   = on
+xdebug.remote_handler  = dbgp
+xdebug.remote_host     = localhost
+xdebug.remote_port     = 9000
+
+; profiler
+xdebug.profiler_enable         = 0
+xdebug.profiler_enable_trigger = 0
+;xdebug.profiler_output_dir    = "C:\server\logs"
+xdebug.profiler_output_name    = cachegrind.out.%t.%p
+
 [Zend]
 zend_extension=php_opcache.dll
+;zend_extension=php_xdebug.dll
