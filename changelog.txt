@@ -26,10 +26,27 @@ TEMPLATE FOR  NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-[tba.2015]    REL   VERSION 0.8.x
+[tba.2015]    REL   VERSION 0.8.*
 ------------  ----------------------------------------------------------------
 
-              ...
+              ...   ...
+
+------------  ----------------------------------------------------------------
+[12.07.2015]  REL   VERSION 0.8.5
+------------  ----------------------------------------------------------------
+
+              CHG   all "Lite Installers" ship "ConEmu"
+              FIX   phpext_phalcon download URLs
+              FIX   Imagick download URLs
+              CHG   switched to Imagick portable zips
+              NEW   added "Imagick x64" to "Full Installers x64"
+              FIX   removed MoveFiles() from all installers to avoid
+                    the folder renaming problem
+              FIX   fixed extraction errors of several PHP Extensions and Node
+              FIX   default configuration of xdebug from installer
+              FIX   fixed paths to the opcache and xdebug in php.ini
+              FIX   fixed webinterface cannot redeclare class error
+              CHG   removed component "junction"
 
 ------------  ----------------------------------------------------------------
 [28.06.2015]  REL   VERSION 0.8.4
