@@ -24,7 +24,9 @@ before_install:
   - ps aux --sort -rss | head -n15
   # try to raise the swap mem
   - sudo swapon -s
-  - size="4G" && file_swap=/swapfile_$size.img && sudo touch $file_swap && sudo fallocate -l $size /$file_swap && sudo mkswap /$file_swap && sudo swapon -p 20 /$file_swap
+  - sudo dd if=/dev/zero of=/swapfile_4G.img bs=1024 count=4M
+  - sudo mkswap /swapfile_4G.img
+  - sudo swapon -p 20 /swapfile_4G.img
   - sudo swapon -s
   - sudo free -m -t
   # install apt-fast to speedup later dependency installation
