@@ -35,6 +35,8 @@ _____________________________________________________________________________
 [12.07.2015]  REL   VERSION 0.8.5
 ------------  ----------------------------------------------------------------
 
+              FIX   installers to stop to inserting global settings
+                    into the extension section in php.ini
               CHG   all "Lite Installers" ship "ConEmu"
               FIX   phpext_phalcon download URLs
               FIX   Imagick download URLs
