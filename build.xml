@@ -495,6 +495,43 @@
         <DownloadFilesSimple registryfolder="${dir.Registry}" wpnxmversion="${wpnxm.Version}"/>
     </target>
 
+    <target name="check-download-filesizes" description="Check the filesize of all downloaded files and indicate download issues.">
+        <adhoc-task name="CheckFiles"><![CDATA[
+        class CheckFiles extends Task
+        {
+            private $downloadfolder;
+
+            function setDownloadFolder($downloadfolder)
+            {
+                $this->downloadfolder = realpath($downloadfolder);
+            }
+
+            function main()
+            {
+                $this->log('Checking Filesize of Downloads..');
+
+                $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->downloadfolder))
+
+                foreach ($rii as $filename)
+                {
+                    // filter out "." and ".."
+                    if ($filename->isDir()) {
+                        continue;
+                    }
+
+                    // if filesize is lower than 2kb, print warning
+                    if(filesize($filename) < 2048) {
+                        echo "\033[01;31m";
+                        echo "The file \"$filename\" is smaller than 2kb. Please check the download!\n";
+                        echo "\033[0m";
+                    }
+                }
+            }
+        }
+        ]]></adhoc-task>
+        <CheckFiles downloadfolder="${dir.Downloads}"/>
+    </target>
+
     <target name="versionize-registries" description="Adds the build version number to the 'next' installer registry files.">
         <copy todir="${dir.Registry}">
           <mapper type="regexp" from="^(.*)-next-(.*).json" to="\1-${wpnxm.Version}-\2.json"/>
@@ -631,6 +668,7 @@
                     make-downloads-dir,
                     create-download-files,
                     download-components,
+                    check-download-filesizes,
                     stripdown-all,
                     move-downloads,
                     compile-webinstaller,
@@ -657,7 +695,8 @@
 
     <!-- removed "download-components" from main-part2, trying to execute this target with ant -->
     <target name="main-part2"
-            depends="stripdown-all,
+            depends="check-download-filesizes,
+                    stripdown-all,
                     move-downloads,
                     compile-webinstaller,
                     compile-standard,
