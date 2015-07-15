@@ -78,3 +78,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true #  the application is deployed, when a tag is applied to the commit
+
+git:
+  depth: 10
