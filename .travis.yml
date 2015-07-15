@@ -22,13 +22,6 @@ before_install:
   - sudo /etc/init.d/redis-server stop
   - sudo free -m -t
   - ps aux --sort -rss | head -n15
-  # try to raise the swap mem
-  - sudo swapon -s
-  - sudo dd if=/dev/zero of=/swapfile_4G.img bs=1024 count=4M
-  - sudo mkswap /swapfile_4G.img
-  - sudo swapon -p 20 /swapfile_4G.img
-  - sudo swapon -s
-  - sudo free -m -t
   # install apt-fast to speedup later dependency installation
   - sudo add-apt-repository -y ppa:apt-fast/stable
   - sudo add-apt-repository -y ppa:ubuntu-wine/ppa #< wine 1.17.8

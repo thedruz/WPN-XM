@@ -42,7 +42,7 @@
     <property name="7z" value="${wine} ${dir.Base}/bin/backup/7za.exe"/>
 
     <!-- PHP -->
-    <php expression="ini_set('memory_limit', '2G');" />
+    <php expression="ini_set('memory_limit', '1G');" />
     <php expression="ini_get('memory_limit');" returnProperty="limit"/>
     <echo>PHP memory_limit: ${limit}</echo>
 
