@@ -21,7 +21,7 @@ before_install:
   - sudo /etc/init.d/couchdb stop
   - sudo /etc/init.d/redis-server stop
   - sudo free -m -t
-  - sudo free -m -t | grep "Total:" | awk '{ if ($4 < 4000) print "\n\nCAUTION \n\nNOT ENOUGH MEMORY FOR THE DOWNLOADS ("$4" MB).\n\n" }'
+  - sudo free -m -t | sudo grep "Total:" | sudo awk '{ if ($4 < 4000) print "\n\nCAUTION \n\nNOT ENOUGH MEMORY FOR THE DOWNLOADS ("$4" MB).\n\n" }'
   - ps aux --sort -rss | head -n15
   # install apt-fast to speedup later dependency installation
   - sudo add-apt-repository -y ppa:apt-fast/stable
