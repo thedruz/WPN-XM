@@ -1125,7 +1125,7 @@ begin
   begin
     UpdateCurrentComponentName('Node JS');
       CreateDir(ExpandConstant('{app}\bin\node\'));
-      FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node'), false);
+      FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'), false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('Node NPM');
@@ -1145,6 +1145,7 @@ begin
     UpdateCurrentComponentName('Xdebug');
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+
       CreateDir(ExpandConstant('{app}\www\tools\xdebug\'));
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), ExpandConstant('{app}\www\tools\xdebug\tracefile-analyser.php'), false);
     UpdateTotalProgressBar();
@@ -1226,8 +1227,8 @@ begin
   if Pos('imagick', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Imagick');
-      DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\ImageMagick-* ' + appDir + '\bin\imagick"'); // rename directory
+      CreateDir(ExpandConstant('{app}\bin\imagick\'));
+      DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin\imagick'));
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Imagick');
@@ -1244,7 +1245,7 @@ begin
       DeleteFile(targetPath + 'phpext_imagick\ChangeLog');
       DeleteFile(targetPath + 'phpext_imagick\LICENSE');
       DeleteFile(targetPath + 'phpext_imagick\LICENSE.IMAGEMAGICK');
-      DeleteFile(targetPath + 'phpext_imagick\OFL.txt'); 
+      DeleteFile(targetPath + 'phpext_imagick\OFL.txt');
 
       // Move all remaining files (examples) shipped with the extension to /www/tools/imagick
       CreateDir(ExpandConstant('{app}\www\tools\imagick\'));

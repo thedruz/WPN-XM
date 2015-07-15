@@ -953,8 +953,8 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false); 
-           
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+
       CreateDir(ExpandConstant('{app}\www\tools\xdebug\'));
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), ExpandConstant('{app}\www\tools\xdebug\tracefile-analyser.php'), false);
     UpdateTotalProgressBar();
@@ -1050,8 +1050,8 @@ begin
   begin
     UpdateCurrentComponentName('Imagick');
       ExtractTemporaryFile(Filename_imagick);
-      DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\ImageMagick-* ' + appDir + '\bin\imagick"'); // rename directory
+      CreateDir(ExpandConstant('{app}\bin\imagick\'));
+      DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin\imagick'));
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Imagick');
@@ -1069,7 +1069,7 @@ begin
       DeleteFile(targetPath + 'phpext_imagick\ChangeLog');
       DeleteFile(targetPath + 'phpext_imagick\LICENSE');
       DeleteFile(targetPath + 'phpext_imagick\LICENSE.IMAGEMAGICK');
-      DeleteFile(targetPath + 'phpext_imagick\OFL.txt'); 
+      DeleteFile(targetPath + 'phpext_imagick\OFL.txt');
 
       // Move all remaining files (examples) shipped with the extension to /www/tools/imagick
       CreateDir(ExpandConstant('{app}\www\tools\imagick\'));
@@ -1097,7 +1097,7 @@ begin
   begin
     UpdateCurrentComponentName('Memcached');
       ExtractTemporaryFile(Filename_memcached);
-      DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir 
+      DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-* ' + appDir + '\bin\memcached"'); // rename folder
     UpdateTotalProgressBar;
 
@@ -1112,7 +1112,7 @@ begin
   begin
     UpdateCurrentComponentName('Memadmin');
       ExtractTemporaryFile(Filename_memadmin);
-      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir      
+      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\memadmin-* ' + appDir + '\www\tools\memadmin"'); // rename folder, e.g. "memadmin-1.0.11"
     UpdateTotalProgressBar();
   end;
@@ -1129,7 +1129,7 @@ begin
   begin
     UpdateCurrentComponentName('phpMyAdmin');
       ExtractTemporaryFile(Filename_phpmyadmin);
-      DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir 
+      DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\phpMyAdmin-*  ' + appDir + '\www\tools\phpmyadmin"'); // rename folder, e.g. "phpMyAdmin-3.4.6-english"
     UpdateTotalProgressBar();
   end;
