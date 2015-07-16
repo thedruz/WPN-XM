@@ -53,7 +53,7 @@ class Stripdown
     {
         $this->checkComponentExists();
         $this->checkFilesize();
-
+        $this->createFolderForComponent();
         $this->unzip();
         $this->renameFolder();
         #$this->extractedCheck();
@@ -104,11 +104,29 @@ class Stripdown
         exit;
     }
 
+    function createFolderForComponent()
+    {
+        if($this->component === 'imagick')
+        {
+            mkdir($this->stripdownFolderWithComponent, 0777, true);
+        }
+    }
+
+    function getTargetFolder()
+    {
+        if($this->component === 'imagick')
+        {
+            return $this->stripdownFolderWithComponent;
+        }
+
+        return $this->stripdownFolder;
+    }
+
     function unzip()
     {
         echo "\t> Unzipping.\n";
 
-        exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->stripdownFolder .' -y');
+        exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->getTargetFolder() .' -y');
 
         echo "\t\tDone.\n";
     }
@@ -117,9 +135,6 @@ class Stripdown
     {
         // fix case issues and remove version information from folder
 
-        if($this->component === 'imagick') {
-            passthru('sudo mv -if ' . $this->stripdownFolder . '/ImageMagick* ' . $this->stripdownFolderWithComponent);
-        }
 
         if($this->component === 'mariadb') {
             passthru('sudo mv -if ' . $this->stripdownFolder . '/mariadb* ' . $this->stripdownFolderWithComponent);
