@@ -856,7 +856,7 @@ begin
   if Pos('conemu', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('ConEmu');
-      CreateDir(ExpandConstant('{app}\bin\conemu\'));
+      ForceDirectories(ExpandConstant('{app}\bin\conemu\'));
       ExtractTemporaryFile(Filename_conemu);
       DoUnzip(targetPath + Filename_conemu, ExpandConstant('{app}\bin\conemu'));
     UpdateTotalProgressBar();
@@ -904,9 +904,9 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false); 
-           
-      CreateDir(ExpandConstant('{app}\www\tools\xdebug\'));
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+
+      ForceDirectories(ExpandConstant('{app}\www\tools\xdebug\'));
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), ExpandConstant('{app}\www\tools\xdebug\tracefile-analyser.php'), false);
     UpdateTotalProgressBar();
   end;
@@ -1001,7 +1001,7 @@ begin
   begin
     UpdateCurrentComponentName('Memcached');
       ExtractTemporaryFile(Filename_memcached);
-      DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir 
+      DoUnzip(targetPath + Filename_memcached, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-* ' + appDir + '\bin\memcached"'); // rename folder
     UpdateTotalProgressBar;
 
@@ -1016,7 +1016,7 @@ begin
   begin
     UpdateCurrentComponentName('Memadmin');
       ExtractTemporaryFile(Filename_memadmin);
-      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir      
+      DoUnzip(targetPath + Filename_memadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\memadmin-* ' + appDir + '\www\tools\memadmin"'); // rename folder, e.g. "memadmin-1.0.11"
     UpdateTotalProgressBar();
   end;
@@ -1033,7 +1033,7 @@ begin
   begin
     UpdateCurrentComponentName('phpMyAdmin');
       ExtractTemporaryFile(Filename_phpmyadmin);
-      DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir 
+      DoUnzip(targetPath + Filename_phpmyadmin, ExpandConstant('{app}\www\tools')); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\phpMyAdmin-*  ' + appDir + '\www\tools\phpmyadmin"'); // rename folder, e.g. "phpMyAdmin-3.4.6-english"
     UpdateTotalProgressBar();
   end;
@@ -1053,7 +1053,7 @@ begin
   begin
     UpdateCurrentComponentName('Adminer');
       ExtractTemporaryFile(Filename_adminer);
-      CreateDir(ExpandConstant('{app}\www\tools\adminer\'));
+      ForceDirectories(ExpandConstant('{app}\www\tools\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\tools\adminer\' + Filename_adminer), false);
     UpdateTotalProgressBar();
   end;
@@ -1063,7 +1063,7 @@ begin
   begin
     UpdateCurrentComponentName('PEAR');
       ExtractTemporaryFile(Filename_pear);
-      CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
+      ForceDirectories(ExpandConstant('{app}\bin\php\PEAR\'));
       FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
     UpdateTotalProgressBar();
   end;
@@ -1090,7 +1090,7 @@ begin
   begin
     UpdateCurrentComponentName('Sendmail');
       ExtractTemporaryFile(Filename_sendmail);
-      CreateDir(ExpandConstant('{app}\bin\sendmail\'));
+      ForceDirectories(ExpandConstant('{app}\bin\sendmail\'));
       DoUnzip(targetPath + Filename_sendmail, ExpandConstant('{app}\bin\sendmail'));
     UpdateTotalProgressBar();
   end;

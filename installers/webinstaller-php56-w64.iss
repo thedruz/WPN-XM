@@ -1080,7 +1080,7 @@ begin
   if Pos('conemu', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('ConEmu');
-      CreateDir(ExpandConstant('{app}\bin\conemu\'));
+      ForceDirectories(ExpandConstant('{app}\bin\conemu\'));
       DoUnzip(targetPath + Filename_conemu, ExpandConstant('{app}\bin\conemu'));
     UpdateTotalProgressBar();
   end;
@@ -1124,7 +1124,7 @@ begin
   if Pos('node', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Node JS');
-      CreateDir(ExpandConstant('{app}\bin\node\'));
+      ForceDirectories(ExpandConstant('{app}\bin\node\'));
       FileCopy(ExpandConstant(targetPath + Filename_node), ExpandConstant('{app}\bin\node\node.exe'), false);
     UpdateTotalProgressBar();
 
@@ -1145,7 +1145,7 @@ begin
     UpdateCurrentComponentName('Xdebug');
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
-      CreateDir(ExpandConstant('{app}\www\tools\xdebug\'));
+      ForceDirectories(ExpandConstant('{app}\www\tools\xdebug\'));
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), ExpandConstant('{app}\www\tools\xdebug\tracefile-analyser.php'), false);
     UpdateTotalProgressBar();
   end;
@@ -1226,7 +1226,7 @@ begin
   if Pos('imagick', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Imagick');
-      CreateDir(ExpandConstant('{app}\bin\imagick\'));
+      ForceDirectories(ExpandConstant('{app}\bin\imagick\'));
       DoUnzip(targetPath + Filename_imagick, ExpandConstant('{app}\bin\imagick'));
     UpdateTotalProgressBar();
 
@@ -1247,7 +1247,7 @@ begin
       DeleteFile(targetPath + 'phpext_imagick\OFL.txt');
 
       // Move all remaining files (examples) shipped with the extension to /www/tools/imagick
-      CreateDir(ExpandConstant('{app}\www\tools\imagick\'));
+      ForceDirectories(ExpandConstant('{app}\www\tools\imagick\'));
       ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_imagick\*.* ' + appDir + '\www\tools\imagick"');
 
     UpdateTotalProgressBar();
@@ -1321,7 +1321,7 @@ begin
   if Pos('adminer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Adminer');
-      CreateDir(ExpandConstant('{app}\www\tools\adminer\'));
+      ForceDirectories(ExpandConstant('{app}\www\tools\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\tools\adminer\' + Filename_adminer), false);
     UpdateTotalProgressBar();
   end;
@@ -1330,7 +1330,7 @@ begin
   if Pos('pear', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('PEAR');
-      CreateDir(ExpandConstant('{app}\bin\php\PEAR\'));
+      ForceDirectories(ExpandConstant('{app}\bin\php\PEAR\'));
       FileCopy(ExpandConstant(targetPath + Filename_pear), ExpandConstant('{app}\bin\php\PEAR\' + Filename_pear), false);
     UpdateTotalProgressBar();
   end;
@@ -1354,7 +1354,7 @@ begin
   if Pos('sendmail', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Sendmail');
-      CreateDir(ExpandConstant('{app}\bin\sendmail\'));
+      ForceDirectories(ExpandConstant('{app}\bin\sendmail\'));
       DoUnzip(targetPath + Filename_sendmail, ExpandConstant('{app}\bin\sendmail'));
     UpdateTotalProgressBar();
   end;

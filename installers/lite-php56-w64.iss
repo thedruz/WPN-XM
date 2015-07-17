@@ -767,9 +767,9 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false); 
-           
-      CreateDir(ExpandConstant('{app}\www\tools\xdebug\'));
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+
+      ForceDirectories(ExpandConstant('{app}\www\tools\xdebug\'));
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), ExpandConstant('{app}\www\tools\xdebug\tracefile-analyser.php'), false);
     UpdateTotalProgressBar();
   end;
@@ -789,7 +789,7 @@ begin
   begin
     UpdateCurrentComponentName('Adminer');
       ExtractTemporaryFile(Filename_adminer);
-      CreateDir(ExpandConstant('{app}\www\tools\adminer\'));
+      ForceDirectories(ExpandConstant('{app}\www\tools\adminer\'));
       FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\tools\adminer\' + Filename_adminer), false);
     UpdateTotalProgressBar();
   end;
