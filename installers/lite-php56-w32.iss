@@ -1060,8 +1060,10 @@ begin
     end;
   end;
 
-  // finally, remove the PHP bin folder
+  // finally, remove paths from the ENV path
   if (CurUninstallStep = usPostUninstall) then begin
-     RemovePathFromEnvironmentPath(ExpandConstant('{app}\php\bin'));
+     RemovePathFromEnvironmentPath(appDir + '\bin\php');
+     RemovePathFromEnvironmentPath(appDir + '\bin\php\ext');
+     RemovePathFromEnvironmentPath(appDir + '\bin\mariadb\bin');
   end;
 end;
