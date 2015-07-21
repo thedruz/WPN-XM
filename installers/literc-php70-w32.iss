@@ -72,7 +72,6 @@ LZMAUseSeparateProcess=yes
 LZMANumBlockThreads=2
 InternalCompressLevel=max
 SolidCompression=true
-CreateAppDir=true
 CloseApplications=no
 ; disable wizard pages: Languages, Ready, Select Start Menu Folder
 ShowLanguageDialog=no
