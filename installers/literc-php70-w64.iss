@@ -242,6 +242,7 @@ const
     Define download file names
   }
 
+  // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
   Filename_composer          = 'composer.phar';
   Filename_mariadb           = 'mariadb.zip';
@@ -605,6 +606,7 @@ begin
     // When the installation is finished (or at least when temp folder gets cleared) the stuff gets deleted.
     targetPath := ExpandConstant('{tmp}\');
   end; // of wpSelectComponents
+
   Result := True;
 end;
 
@@ -753,18 +755,18 @@ begin
 
   UpdateCurrentComponentName('Nginx');
     ExtractTemporaryFile(Filename_nginx);
-    DoUnzip(targetPath + Filename_nginx, ExpandConstant('{app}\bin')); // no subfolder, because nginx brings own dir
+    DoUnzip(targetPath + Filename_nginx, appDir + '\bin')); // no subfolder, because nginx brings own dir
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"'); // rename directory
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
     ExtractTemporaryFile(Filename_php);
-    DoUnzip(targetPath + Filename_php, ExpandConstant('{app}\bin\php'));
+    DoUnzip(targetPath + Filename_php, appDir + '\bin\php'));
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('MariaDB');
     ExtractTemporaryFile(Filename_mariadb);
-    DoUnzip(targetPath + Filename_mariadb, ExpandConstant('{app}\bin')); // no subfolder, brings own dir
+    DoUnzip(targetPath + Filename_mariadb, appDir + '\bin')); // no subfolder, brings own dir
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');  // rename directory
   UpdateTotalProgressBar();
 
@@ -773,9 +775,9 @@ begin
   if Pos('conemu', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('ConEmu');
-      ForceDirectories(ExpandConstant('{app}\bin\conemu\'));
+      ForceDirectories(appDir + '\bin\conemu\'));
       ExtractTemporaryFile(Filename_conemu);
-      DoUnzip(targetPath + Filename_conemu, ExpandConstant('{app}\bin\conemu'));
+      DoUnzip(targetPath + Filename_conemu, appDir + '\bin\conemu'));
     UpdateTotalProgressBar();
   end;
 
@@ -783,7 +785,7 @@ begin
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
       ExtractTemporaryFile(Filename_wpnxmscp);
-      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), ExpandConstant('{app}')); // no subfolder, top level
+      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), appDir); // no subfolder, top level
     UpdateTotalProgressBar();
   end;
 
@@ -791,7 +793,7 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
-      DoUnzip(ExpandConstant(targetPath + Filename_openssl), ExpandConstant('{app}\bin\openssl'));
+      DoUnzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl'));
     UpdateTotalProgressBar();
   end;
 
@@ -800,20 +802,19 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), ExpandConstant('{app}\bin\php\ext\php_xdebug.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), appDir + '\bin\php\ext\php_xdebug.dll'), false);
 
-      ForceDirectories(ExpandConstant('{app}\www\tools\xdebug\'));
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), ExpandConstant('{app}\www\tools\xdebug\tracefile-analyser.php'), false);
+      ForceDirectories(appDir + '\www\tools\xdebug\'));
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), appDir + '\www\tools\xdebug\tracefile-analyser.php'), false);
     UpdateTotalProgressBar();
   end;
-
 
   if Pos('pickle', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('pickle');
       ExtractTemporaryFile(Filename_pickle);
       // pickle is not zipped. its a php phar file. we copy it to the php path.
-      FileCopy(ExpandConstant(targetPath + Filename_pickle), ExpandConstant('{app}\bin\php\' + Filename_pickle), false);
+      FileCopy(ExpandConstant(targetPath + Filename_pickle), appDir + '\bin\php\' + Filename_pickle), false);
     UpdateTotalProgressBar();
   end;
 
@@ -822,8 +823,8 @@ begin
   begin
     UpdateCurrentComponentName('Adminer');
       ExtractTemporaryFile(Filename_adminer);
-      ForceDirectories(ExpandConstant('{app}\www\tools\adminer\'));
-      FileCopy(ExpandConstant(targetPath + Filename_adminer), ExpandConstant('{app}\www\tools\adminer\' + Filename_adminer), false);
+      ForceDirectories(appDir + '\www\tools\adminer\'));
+      FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer), false);
     UpdateTotalProgressBar();
   end;
 
@@ -832,7 +833,7 @@ begin
   begin
     UpdateCurrentComponentName('Composer');
       ExtractTemporaryFile(Filename_composer);
-      FileCopy(ExpandConstant(targetPath + Filename_composer), ExpandConstant('{app}\bin\php\' + Filename_composer), false);
+      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\php\' + Filename_composer), false);
     UpdateTotalProgressBar();
   end;
 
