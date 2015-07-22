@@ -263,7 +263,6 @@ en.RemoveApp=Uninstall WPN-XM Server Stack
 [Dirs]
 Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\domains-enabled
-Name: {app}\bin\nginx\conf\domains-disabled
 Name: {app}\logs
 Name: {app}\temp
 Name: {app}\www\tools\webinterface; Components: webinterface;
@@ -487,6 +486,7 @@ begin
   end
   else
   begin
+    Log('[Error] ExecHidden failed executing the following command: [' + ExpandConstant(Command) + ']');
     Result := ResultCode;
   end;
 end;
@@ -725,7 +725,7 @@ end;
 
 procedure DoUnzip(source: String; targetdir: String);
 begin
-    // source contains tmp constant, so resolve it to path name
+    // source might contain {tmp} or {app} constant, so expand/resolve it to path name
     source := ExpandConstant(source);
 
     unzipTool := ExpandConstant('{tmp}\7za.exe');
@@ -829,6 +829,31 @@ begin
     if (DEBUG = true) then Log('# Extracting Component: ' + component);
 end;
 
+{
+  Called from DoPreInstall() before UnzipFiles().
+
+  We extract some tools
+}
+procedure PrepareUnzip();
+begin
+  // fetch the unzip command from the compressed setup
+  ExtractTemporaryFile('7za.exe');
+
+  // set application path as global variable
+  appDir := ExpandConstant('{app}');
+
+  // fetch the hide console command from the compressed setup and define a shortcut
+  ExtractTemporaryFile('RunHiddenConsole.exe');
+  hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
+
+  // create missing folders
+  ForceDirectories(ExpandConstant('{app}\bin'));
+  ForceDirectories(ExpandConstant('{app}\www\tools'));
+end;
+
+{
+  Called from DoPreInstall() after PrepareUnzip().
+}
 procedure UnzipFiles();
 var
   selectedComponents     : String;
@@ -836,20 +861,6 @@ begin
   selectedComponents := WizardSelectedComponents(false);
 
   GetNumberOfSelectedComponents(selectedComponents);
-
-  // fetch the unzip command from the compressed setup
-  ExtractTemporaryFile('7za.exe');
-  ExtractTemporaryFile('RunHiddenConsole.exe');
-
-  // define hideConsole shortcut
-  hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
-
-  // set application path as variable
-  appDir := ExpandConstant('{app}');
-
-  if not DirExists(ExpandConstant('{app}\bin')) then ForceDirectories(ExpandConstant('{app}\bin'));
-  if not DirExists(ExpandConstant('{app}\www')) then ForceDirectories(ExpandConstant('{app}\www'));
-  if not DirExists(ExpandConstant('{app}\www\tools')) then ForceDirectories(ExpandConstant('{app}\www\tools'));
 
   // Update Progress Bars
 
@@ -1248,24 +1259,22 @@ end;
 }
 procedure DoPreInstall();
 begin
+  PrepareUnzip();
   UnzipFiles();
 end;
 
 procedure Configure();
 var
   selectedComponents: String;
-  appDirWithSlashes : String;
+  appDirWithSlashes : String; // some servers (e.g. maria) expect linux paths in config files
   php_ini_file : String;
   mariadb_ini_file : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
-  // set application path as global variable
-  appDir := ExpandConstant('{app}');
-
   // StringChange(S,FromStr,ToStr) works on the string S, changing all occurances in S of FromStr to ToStr.
   appDirWithSlashes := appDir;
-  StringChange (appDirWithSlashes, '\', '/');
+  StringChange(appDirWithSlashes, '\', '/');
 
   {
     =============== Inital Setup for Components (post-install commands) ===============
