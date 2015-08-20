@@ -225,7 +225,7 @@ Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\domains-enabled
 Name: {app}\logs
 Name: {app}\temp
-Name: {app}\www\tools\webinterface; Components: webinterface;
+Name: {app}\www\tools\webinterface; Components: webinterface
 
 [Code]
 var
@@ -254,11 +254,9 @@ const
   Filename_wpnxmscp          = 'wpnxmscp.zip';
 
 var
-  unzipTool   : String;   // path + filename of unzip helper for exec
-  returnCode  : Integer;  // errorcode
-  targetPath  : String;   // if debug true will download to app/downloads, else temp dir
-  appDir      : String;   // installation folder of the application
-  hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
+  targetPath  : String;   // init in prepareUnzip() - if debug true will download to app/downloads, else temp dir
+  appDir      : String;   // init in prepareUnzip() - installation folder of the application
+  hideConsole : String;   // init in prepareUnzip() - shortcut to {tmp}\runHiddenConsole.exe
   InstallPage                   : TWizardPage;
   intTotalComponents            : Integer;
   intInstalledComponentsCounter : Integer;
@@ -367,16 +365,16 @@ end;
 // Runs an external command via RunHiddenConsole
 function ExecHidden(Command: String): Integer;
 var
-  ResultCode: Integer;
+  ErrorCode: Integer;
 begin
-  if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
+  if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ErrorCode) then
   begin
-    Result := ResultCode;
+    Result := ErrorCode;
   end
   else
   begin
     Log('[Error] ExecHidden failed executing the following command: [' + ExpandConstant(Command) + ']');
-    Result := ResultCode;
+    Result := ErrorCode;
   end;
 end;
 
@@ -602,15 +600,16 @@ function NextButtonClick(CurPage: Integer): Boolean;
 begin
   if CurPage = wpSelectComponents then
   begin
-    // The "targetPath" for downloads or extractions is the temporary path.
-    // When the installation is finished (or at least when temp folder gets cleared) the stuff gets deleted.
-    targetPath := ExpandConstant('{tmp}\');
+
   end; // of wpSelectComponents
 
   Result := True;
 end;
 
 procedure DoUnzip(source: String; targetdir: String);
+var 
+  unzipTool : String;     // path to unzip util
+  ReturnCode  : Integer;  // errorcode
 begin
     // source might contain {tmp} or {app} constant, so expand/resolve it to path name
     source := ExpandConstant(source);
@@ -628,6 +627,15 @@ begin
              MsgBox('Unzip failed:' + source, mbError, MB_OK)
          end;
     end;
+end;
+
+procedure DoExtractSFX(source: String; targetdir: String);
+begin
+    // You MUST use DOUBLE backslashes in the InstallPath.
+    // Here StringChangeEx is used to change Backslashes to DoubleBackslashes.
+    StringChangeEx(targetdir, '\', '\\', False);
+
+    ExecHidden(targetPath + Filename_msysgit + ' -y -gm2 -InstallPath="' + targetDir + '"');
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
@@ -723,19 +731,23 @@ end;
 }
 procedure PrepareUnzip();
 begin
-  // fetch the unzip command from the compressed setup
+  // extract unzip util from the compressed setup to temp folder
   ExtractTemporaryFile('7za.exe');
 
   // set application path as global variable
   appDir := ExpandConstant('{app}');
 
-  // fetch the hide console command from the compressed setup and define a shortcut
+  // set "targetPath" for downloads or extractions to the temporary path
+  // when the installation is finished, the temp folder gets cleared.
+  targetPath := ExpandConstant('{tmp}\');
+
+  // fetch the "hide console" command from the compressed setup and define a shortcut
   ExtractTemporaryFile('RunHiddenConsole.exe');
-  hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
+  hideConsole := targetPath + 'RunHiddenConsole.exe';
 
   // create missing folders
-  ForceDirectories(ExpandConstant('{app}\bin'));
-  ForceDirectories(ExpandConstant('{app}\www\tools'));
+  ForceDirectories(appDir + '\bin');
+  ForceDirectories(appDir + '\www\tools');
 end;
 
 {
@@ -755,18 +767,18 @@ begin
 
   UpdateCurrentComponentName('Nginx');
     ExtractTemporaryFile(Filename_nginx);
-    DoUnzip(targetPath + Filename_nginx, appDir + '\bin')); // no subfolder, because nginx brings own dir
+    DoUnzip(targetPath + Filename_nginx, appDir + '\bin'); // no subfolder, because nginx brings own dir
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"'); // rename directory
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
     ExtractTemporaryFile(Filename_php);
-    DoUnzip(targetPath + Filename_php, appDir + '\bin\php'));
+    DoUnzip(targetPath + Filename_php, appDir + '\bin\php');
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('MariaDB');
     ExtractTemporaryFile(Filename_mariadb);
-    DoUnzip(targetPath + Filename_mariadb, appDir + '\bin')); // no subfolder, brings own dir
+    DoUnzip(targetPath + Filename_mariadb, appDir + '\bin'); // no subfolder, brings own dir
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');  // rename directory
   UpdateTotalProgressBar();
 
@@ -775,9 +787,9 @@ begin
   if Pos('conemu', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('ConEmu');
-      ForceDirectories(appDir + '\bin\conemu\'));
+      ForceDirectories(appDir + '\bin\conemu\');
       ExtractTemporaryFile(Filename_conemu);
-      DoUnzip(targetPath + Filename_conemu, appDir + '\bin\conemu'));
+      DoUnzip(targetPath + Filename_conemu, appDir + '\bin\conemu');
     UpdateTotalProgressBar();
   end;
 
@@ -793,7 +805,7 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
-      DoUnzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl'));
+      DoUnzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl');
     UpdateTotalProgressBar();
   end;
 
@@ -802,10 +814,10 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), appDir + '\bin\php\ext\php_xdebug.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), appDir + '\bin\php\ext\php_xdebug.dll', false);
 
-      ForceDirectories(appDir + '\www\tools\xdebug\'));
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), appDir + '\www\tools\xdebug\tracefile-analyser.php'), false);
+      ForceDirectories(appDir + '\www\tools\xdebug\');
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), appDir + '\www\tools\xdebug\tracefile-analyser.php', false);
     UpdateTotalProgressBar();
   end;
 
@@ -814,7 +826,7 @@ begin
     UpdateCurrentComponentName('pickle');
       ExtractTemporaryFile(Filename_pickle);
       // pickle is not zipped. its a php phar file. we copy it to the php path.
-      FileCopy(ExpandConstant(targetPath + Filename_pickle), appDir + '\bin\php\' + Filename_pickle), false);
+      FileCopy(ExpandConstant(targetPath + Filename_pickle), appDir + '\bin\php\' + Filename_pickle, false);
     UpdateTotalProgressBar();
   end;
 
@@ -823,8 +835,8 @@ begin
   begin
     UpdateCurrentComponentName('Adminer');
       ExtractTemporaryFile(Filename_adminer);
-      ForceDirectories(appDir + '\www\tools\adminer\'));
-      FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer), false);
+      ForceDirectories(appDir + '\www\tools\adminer\');
+      FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer, false);
     UpdateTotalProgressBar();
   end;
 
@@ -833,7 +845,7 @@ begin
   begin
     UpdateCurrentComponentName('Composer');
       ExtractTemporaryFile(Filename_composer);
-      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\php\' + Filename_composer), false);
+      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\php\' + Filename_composer, false);
     UpdateTotalProgressBar();
   end;
 
@@ -998,7 +1010,7 @@ end;
 
 function InitializeUninstall(): Boolean;
 var
-  ResultCode: Integer;
+  ErrorCode: Integer;
   ButtonPressed: Integer;
 begin
   ButtonPressed := IDRETRY;
@@ -1016,9 +1028,9 @@ begin
     begin
       // "Yes/Retry" clicked, now shutdown the processes
       if Exec('cmd.exe', '/c ' + ExpandConstant('{app}\stop.bat'), '', SW_HIDE,
-         ewWaitUntilTerminated, ResultCode) then
+         ewWaitUntilTerminated, ErrorCode) then
       begin
-        Result := ResultCode > 0;
+        Result := ErrorCode > 0;
       end;
     end;
 

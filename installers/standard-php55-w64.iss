@@ -253,7 +253,7 @@ Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\domains-enabled
 Name: {app}\logs
 Name: {app}\temp
-Name: {app}\www\tools\webinterface; Components: webinterface;
+Name: {app}\www\tools\webinterface; Components: webinterface
 
 [Code]
 type
@@ -316,11 +316,9 @@ const
   Filename_yuicompressor     = 'yuicompressor.jar';
 
 var
-  unzipTool   : String;   // path + filename of unzip helper for exec
-  returnCode  : Integer;  // errorcode
-  targetPath  : String;   // if debug true will download to app/downloads, else temp dir
-  appDir      : String;   // installation folder of the application
-  hideConsole : String;   // shortcut to {tmp}\runHiddenConsole.exe
+  targetPath  : String;   // init in prepareUnzip() - if debug true will download to app/downloads, else temp dir
+  appDir      : String;   // init in prepareUnzip() - installation folder of the application
+  hideConsole : String;   // init in prepareUnzip() - shortcut to {tmp}\runHiddenConsole.exe
   InstallPage                   : TWizardPage;
   intTotalComponents            : Integer;
   intInstalledComponentsCounter : Integer;
@@ -457,16 +455,16 @@ end;
 // Runs an external command via RunHiddenConsole
 function ExecHidden(Command: String): Integer;
 var
-  ResultCode: Integer;
+  ErrorCode: Integer;
 begin
-  if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
+  if Exec(hideConsole, ExpandConstant(Command), '', SW_SHOW, ewWaitUntilTerminated, ErrorCode) then
   begin
-    Result := ResultCode;
+    Result := ErrorCode;
   end
   else
   begin
     Log('[Error] ExecHidden failed executing the following command: [' + ExpandConstant(Command) + ']');
-    Result := ResultCode;
+    Result := ErrorCode;
   end;
 end;
 
@@ -695,15 +693,16 @@ function NextButtonClick(CurPage: Integer): Boolean;
 begin
   if CurPage = wpSelectComponents then
   begin
-    // The "targetPath" for downloads or extractions is the temporary path.
-    // When the installation is finished (or at least when temp folder gets cleared) the stuff gets deleted.
-    targetPath := ExpandConstant('{tmp}\');
+
   end; // of wpSelectComponents
 
   Result := True;
 end;
 
 procedure DoUnzip(source: String; targetdir: String);
+var 
+  unzipTool : String;     // path to unzip util
+  ReturnCode  : Integer;  // errorcode
 begin
     // source might contain {tmp} or {app} constant, so expand/resolve it to path name
     source := ExpandConstant(source);
@@ -721,6 +720,15 @@ begin
              MsgBox('Unzip failed:' + source, mbError, MB_OK)
          end;
     end;
+end;
+
+procedure DoExtractSFX(source: String; targetdir: String);
+begin
+    // You MUST use DOUBLE backslashes in the InstallPath.
+    // Here StringChangeEx is used to change Backslashes to DoubleBackslashes.
+    StringChangeEx(targetdir, '\', '\\', False);
+
+    ExecHidden(targetPath + Filename_msysgit + ' -y -gm2 -InstallPath="' + targetDir + '"');
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
@@ -816,19 +824,23 @@ end;
 }
 procedure PrepareUnzip();
 begin
-  // fetch the unzip command from the compressed setup
+  // extract unzip util from the compressed setup to temp folder
   ExtractTemporaryFile('7za.exe');
 
   // set application path as global variable
   appDir := ExpandConstant('{app}');
 
-  // fetch the hide console command from the compressed setup and define a shortcut
+  // set "targetPath" for downloads or extractions to the temporary path
+  // when the installation is finished, the temp folder gets cleared.
+  targetPath := ExpandConstant('{tmp}\');
+
+  // fetch the "hide console" command from the compressed setup and define a shortcut
   ExtractTemporaryFile('RunHiddenConsole.exe');
-  hideConsole := ExpandConstant('{tmp}\RunHiddenConsole.exe');
+  hideConsole := targetPath + 'RunHiddenConsole.exe';
 
   // create missing folders
-  ForceDirectories(ExpandConstant('{app}\bin'));
-  ForceDirectories(ExpandConstant('{app}\www\tools'));
+  ForceDirectories(appDir + '\bin');
+  ForceDirectories(appDir + '\www\tools');
 end;
 
 {
@@ -848,18 +860,18 @@ begin
 
   UpdateCurrentComponentName('Nginx');
     ExtractTemporaryFile(Filename_nginx);
-    DoUnzip(targetPath + Filename_nginx, appDir + '\bin')); // no subfolder, because nginx brings own dir
+    DoUnzip(targetPath + Filename_nginx, appDir + '\bin'); // no subfolder, because nginx brings own dir
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"'); // rename directory
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
     ExtractTemporaryFile(Filename_php);
-    DoUnzip(targetPath + Filename_php, appDir + '\bin\php'));
+    DoUnzip(targetPath + Filename_php, appDir + '\bin\php');
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('MariaDB');
     ExtractTemporaryFile(Filename_mariadb);
-    DoUnzip(targetPath + Filename_mariadb, appDir + '\bin')); // no subfolder, brings own dir
+    DoUnzip(targetPath + Filename_mariadb, appDir + '\bin'); // no subfolder, brings own dir
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');  // rename directory
   UpdateTotalProgressBar();
 
@@ -868,9 +880,9 @@ begin
   if Pos('conemu', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('ConEmu');
-      ForceDirectories(appDir + '\bin\conemu\'));
+      ForceDirectories(appDir + '\bin\conemu\');
       ExtractTemporaryFile(Filename_conemu);
-      DoUnzip(targetPath + Filename_conemu, appDir + '\bin\conemu'));
+      DoUnzip(targetPath + Filename_conemu, appDir + '\bin\conemu');
     UpdateTotalProgressBar();
   end;
 
@@ -886,7 +898,7 @@ begin
   begin
     UpdateCurrentComponentName('Redis');
       ExtractTemporaryFile(Filename_redis);
-      DoUnzip(ExpandConstant(targetPath + Filename_redis), appDir + '\bin\redis')); // no subfolder, top level
+      DoUnzip(ExpandConstant(targetPath + Filename_redis), appDir + '\bin\redis'); // no subfolder, top level
     UpdateTotalProgressBar();
   end;
 
@@ -894,12 +906,12 @@ begin
   begin
     UpdateCurrentComponentName('Google Closure Compiler');
       ExtractTemporaryFile(Filename_closure_compiler);
-      DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), appDir + '\bin\assettools'));
+      DoUnzip(ExpandConstant(targetPath + Filename_closure_compiler), appDir + '\bin\assettools');
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('YUI Compressor');
       ExtractTemporaryFile(Filename_yuicompressor);
-      FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), appDir + '\bin\assettools\' + Filename_yuicompressor), false);
+      FileCopy(ExpandConstant(targetPath + Filename_yuicompressor), appDir + '\bin\assettools\' + Filename_yuicompressor, false);
     UpdateTotalProgressBar();
   end;
 
@@ -907,7 +919,7 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
-      DoUnzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl'));
+      DoUnzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl');
     UpdateTotalProgressBar();
   end;
 
@@ -916,10 +928,10 @@ begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
       DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), appDir + '\bin\php\ext\php_xdebug.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), appDir + '\bin\php\ext\php_xdebug.dll', false);
 
-      ForceDirectories(appDir + '\www\tools\xdebug\'));
-      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), appDir + '\www\tools\xdebug\tracefile-analyser.php'), false);
+      ForceDirectories(appDir + '\www\tools\xdebug\');
+      FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\tracefile-analyser.php'), appDir + '\www\tools\xdebug\tracefile-analyser.php', false);
     UpdateTotalProgressBar();
   end;
 
@@ -928,69 +940,69 @@ begin
     UpdateCurrentComponentName('PHP Extension - AMQP');
       ExtractTemporaryFile(Filename_phpext_amqp);
       DoUnzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
-      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll'), false);
-      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - APCu');
       ExtractTemporaryFile(Filename_phpext_apcu);
       DoUnzip(targetPath + Filename_phpext_apcu, targetPath + 'phpext_apcu');
-      FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - JSOND');
       ExtractTemporaryFile(Filename_phpext_jsond);
       DoUnzip(targetPath + Filename_phpext_jsond, targetPath + 'phpext_jsond');
-      FileCopy(ExpandConstant(targetPath + 'phpext_jsond\php_jsond.dll'), appDir + '\bin\php\ext\php_jsond.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_jsond\php_jsond.dll'), appDir + '\bin\php\ext\php_jsond.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mailparse');
       ExtractTemporaryFile(Filename_phpext_mailparse);
       DoUnzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       ExtractTemporaryFile(Filename_phpext_msgpack);
       DoUnzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
-      FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - UploadProgress');
       ExtractTemporaryFile(Filename_phpext_uploadprogress);
       DoUnzip(targetPath + Filename_phpext_uploadprogress, targetPath + 'phpext_uploadprogress');
-      FileCopy(ExpandConstant(targetPath + 'phpext_uploadprogress\php_uploadprogress.dll'), appDir + '\bin\php\ext\php_uploadprogress.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_uploadprogress\php_uploadprogress.dll'), appDir + '\bin\php\ext\php_uploadprogress.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Phalcon');
       ExtractTemporaryFile(Filename_phpext_phalcon);
       DoUnzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
-      FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - RAR');
       ExtractTemporaryFile(Filename_phpext_rar);
       DoUnzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-      FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');
       ExtractTemporaryFile(Filename_phpext_trader);
       DoUnzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
-      FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');
       ExtractTemporaryFile(Filename_phpext_wincache);
       DoUnzip(targetPath + Filename_phpext_wincache, targetPath + 'phpext_wincache');
-      FileCopy(ExpandConstant(targetPath + 'phpext_wincache\php_wincache.dll'), appDir + '\bin\php\ext\php_wincache.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_wincache\php_wincache.dll'), appDir + '\bin\php\ext\php_wincache.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       ExtractTemporaryFile(Filename_phpext_zmq);
       DoUnzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
-      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll'), false);
-      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
     UpdateTotalProgressBar();
   end;
 
@@ -998,14 +1010,14 @@ begin
   begin
     UpdateCurrentComponentName('uProfiler GUI');
       ExtractTemporaryFile(Filename_uprofiler);
-      DoUnzip(targetPath + Filename_uprofiler, appDir + '\www\tools')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_uprofiler, appDir + '\www\tools'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\uprofiler-* ' + appDir + '\www\tools\uprofiler"');  // rename folder, e.g. "uprofiler-master"
     UpdateTotalProgressBar;
 
     UpdateCurrentComponentName('PHP Extension - uProfiler');
       ExtractTemporaryFile(Filename_phpext_uprofiler);
       DoUnzip(targetPath + Filename_phpext_uprofiler, targetPath + 'phpext_uprofiler');
-      FileCopy(ExpandConstant(targetPath + 'phpext_uprofiler\php_uprofiler.dll'), appDir + '\bin\php\ext\php_uprofiler.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_uprofiler\php_uprofiler.dll'), appDir + '\bin\php\ext\php_uprofiler.dll', false);
     UpdateTotalProgressBar;
   end;
 
@@ -1013,14 +1025,14 @@ begin
   begin
     UpdateCurrentComponentName('Memcached');
       ExtractTemporaryFile(Filename_memcached);
-      DoUnzip(targetPath + Filename_memcached, appDir + '\bin')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_memcached, appDir + '\bin'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-* ' + appDir + '\bin\memcached"'); // rename folder
     UpdateTotalProgressBar;
 
     UpdateCurrentComponentName('PHP Extension - Memcached');
       ExtractTemporaryFile(Filename_phpext_memcache);
       DoUnzip(targetPath + Filename_phpext_memcache, targetPath + 'phpext_memcache');
-      FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), appDir + '\bin\php\ext\php_memcache.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), appDir + '\bin\php\ext\php_memcache.dll', false);
     UpdateTotalProgressBar();
   end;
 
@@ -1028,7 +1040,7 @@ begin
   begin
     UpdateCurrentComponentName('Memadmin');
       ExtractTemporaryFile(Filename_memadmin);
-      DoUnzip(targetPath + Filename_memadmin, appDir + '\www\tools')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_memadmin, appDir + '\www\tools'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\memadmin-* ' + appDir + '\www\tools\memadmin"'); // rename folder, e.g. "memadmin-1.0.11"
     UpdateTotalProgressBar();
   end;
@@ -1037,7 +1049,7 @@ begin
   begin
     UpdateCurrentComponentName('phpMemcachedAdmin');
       ExtractTemporaryFile(Filename_phpmemcachedadmin);
-      DoUnzip(targetPath + Filename_phpmemcachedadmin, appDir + '\www\tools\phpmemcachedadmin'));
+      DoUnzip(targetPath + Filename_phpmemcachedadmin, appDir + '\www\tools\phpmemcachedadmin');
     UpdateTotalProgressBar();
   end;
 
@@ -1045,7 +1057,7 @@ begin
   begin
     UpdateCurrentComponentName('phpMyAdmin');
       ExtractTemporaryFile(Filename_phpmyadmin);
-      DoUnzip(targetPath + Filename_phpmyadmin, appDir + '\www\tools')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_phpmyadmin, appDir + '\www\tools'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\phpMyAdmin-*  ' + appDir + '\www\tools\phpmyadmin"'); // rename folder, e.g. "phpMyAdmin-3.4.6-english"
     UpdateTotalProgressBar();
   end;
@@ -1055,7 +1067,7 @@ begin
     UpdateCurrentComponentName('pickle');
       ExtractTemporaryFile(Filename_pickle);
       // pickle is not zipped. its a php phar file. we copy it to the php path.
-      FileCopy(ExpandConstant(targetPath + Filename_pickle), appDir + '\bin\php\' + Filename_pickle), false);
+      FileCopy(ExpandConstant(targetPath + Filename_pickle), appDir + '\bin\php\' + Filename_pickle, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1064,8 +1076,8 @@ begin
   begin
     UpdateCurrentComponentName('Adminer');
       ExtractTemporaryFile(Filename_adminer);
-      ForceDirectories(appDir + '\www\tools\adminer\'));
-      FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer), false);
+      ForceDirectories(appDir + '\www\tools\adminer\');
+      FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1074,8 +1086,8 @@ begin
   begin
     UpdateCurrentComponentName('PEAR');
       ExtractTemporaryFile(Filename_pear);
-      ForceDirectories(appDir + '\bin\php\PEAR\'));
-      FileCopy(ExpandConstant(targetPath + Filename_pear), appDir + '\bin\php\PEAR\' + Filename_pear), false);
+      ForceDirectories(appDir + '\bin\php\PEAR\');
+      FileCopy(ExpandConstant(targetPath + Filename_pear), appDir + '\bin\php\PEAR\' + Filename_pear, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1084,7 +1096,7 @@ begin
   begin
     UpdateCurrentComponentName('Composer');
       ExtractTemporaryFile(Filename_composer);
-      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\php\' + Filename_composer), false);
+      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\php\' + Filename_composer, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1093,7 +1105,7 @@ begin
   begin
     UpdateCurrentComponentName('phpcsfixer');
       ExtractTemporaryFile(Filename_phpcsfixer);
-      FileCopy(ExpandConstant(targetPath + Filename_phpcsfixer), appDir + '\bin\php\' + Filename_phpcsfixer), false);
+      FileCopy(ExpandConstant(targetPath + Filename_phpcsfixer), appDir + '\bin\php\' + Filename_phpcsfixer, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1101,8 +1113,8 @@ begin
   begin
     UpdateCurrentComponentName('Sendmail');
       ExtractTemporaryFile(Filename_sendmail);
-      ForceDirectories(appDir + '\bin\sendmail\'));
-      DoUnzip(targetPath + Filename_sendmail, appDir + '\bin\sendmail'));
+      ForceDirectories(appDir + '\bin\sendmail\');
+      DoUnzip(targetPath + Filename_sendmail, appDir + '\bin\sendmail');
     UpdateTotalProgressBar();
   end;
 
@@ -1110,7 +1122,7 @@ begin
   begin
     UpdateCurrentComponentName('Webgrind');
       ExtractTemporaryFile(Filename_webgrind);
-      DoUnzip(targetPath + Filename_webgrind, appDir + '\www\tools')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_webgrind, appDir + '\www\tools'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\webgrind-master ' + appDir + '\www\tools\webgrind"'); // rename folder, e.g. "webgrind-master"
     UpdateTotalProgressBar();
   end;
@@ -1119,7 +1131,7 @@ begin
   begin
     UpdateCurrentComponentName('RoboMongo');
       ExtractTemporaryFile(Filename_robomongo);
-      DoUnzip(targetPath + Filename_robomongo, appDir + '\bin')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_robomongo, appDir + '\bin'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robomongo-* ' + appDir + '\bin\robomongo"'); // rename folder, e.g. "robomongo-1.2.3-i386"
     UpdateTotalProgressBar();
   end;
@@ -1128,14 +1140,14 @@ begin
   begin
     UpdateCurrentComponentName('MongoDB');
       ExtractTemporaryFile(Filename_mongodb);
-      DoUnzip(targetPath + Filename_mongodb, appDir + '\bin')); // no subfolder, brings own dir
+      DoUnzip(targetPath + Filename_mongodb, appDir + '\bin'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');  // rename directory
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
       ExtractTemporaryFile(Filename_phpext_mongo);
       DoUnzip(targetPath + Filename_phpext_mongo, targetPath + 'phpext_mongo');
-      FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), appDir + '\bin\php\ext\php_mongo.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), appDir + '\bin\php\ext\php_mongo.dll', false);
     UpdateTotalProgressBar();
   end;
 
@@ -1318,7 +1330,7 @@ end;
 
 function InitializeUninstall(): Boolean;
 var
-  ResultCode: Integer;
+  ErrorCode: Integer;
   ButtonPressed: Integer;
 begin
   ButtonPressed := IDRETRY;
@@ -1336,9 +1348,9 @@ begin
     begin
       // "Yes/Retry" clicked, now shutdown the processes
       if Exec('cmd.exe', '/c ' + ExpandConstant('{app}\stop.bat'), '', SW_HIDE,
-         ewWaitUntilTerminated, ResultCode) then
+         ewWaitUntilTerminated, ErrorCode) then
       begin
-        Result := ResultCode > 0;
+        Result := ErrorCode > 0;
       end;
     end;
 
