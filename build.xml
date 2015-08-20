@@ -510,7 +510,7 @@
             {
                 $this->log('Checking Filesize of Downloads..');
 
-                $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->downloadfolder))
+                $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->downloadfolder));
 
                 foreach ($rii as $filename)
                 {
