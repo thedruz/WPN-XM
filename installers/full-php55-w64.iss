@@ -1115,7 +1115,7 @@ begin
     UpdateCurrentComponentName('PHP Extension - uProfiler');
       ExtractTemporaryFile(Filename_phpext_uprofiler);
       DoUnzip(targetPath + Filename_phpext_uprofiler, targetPath + 'phpext_uprofiler');
-      FileCopy(ExpandConstant(targetPath + 'phpext_uprofiler\php_uprofiler.dll'), appDir + '\bin\php\ext\php_uprofiler.dll'), false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_uprofiler\php_uprofiler.dll'), appDir + '\bin\php\ext\php_uprofiler.dll', false);
     UpdateTotalProgressBar;
   end;
 
