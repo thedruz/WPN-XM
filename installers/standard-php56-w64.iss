@@ -700,7 +700,7 @@ begin
 end;
 
 procedure DoUnzip(source: String; targetdir: String);
-var 
+var
   unzipTool : String;     // path to unzip util
   ReturnCode  : Integer;  // errorcode
 begin
@@ -720,15 +720,6 @@ begin
              MsgBox('Unzip failed:' + source, mbError, MB_OK)
          end;
     end;
-end;
-
-procedure DoExtractSFX(source: String; targetdir: String);
-begin
-    // You MUST use DOUBLE backslashes in the InstallPath.
-    // Here StringChangeEx is used to change Backslashes to DoubleBackslashes.
-    StringChangeEx(targetdir, '\', '\\', False);
-
-    ExecHidden(targetPath + Filename_msysgit + ' -y -gm2 -InstallPath="' + targetDir + '"');
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
