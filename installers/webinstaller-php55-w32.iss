@@ -357,7 +357,7 @@ const
   Filename_memadmin              = 'memadmin.zip';
   Filename_memcached             = 'memcached.zip';
   Filename_mongodb               = 'mongodb.zip';
-  Filename_msysgit               = 'msysgit.exe'; // 7z SFX exe
+  Filename_msysgit               = 'msysgit.exe'; // WATCH IT: 7zip SFX EXE!
   Filename_nginx                 = 'nginx.zip';
   Filename_node                  = 'node.exe';
   Filename_nodenpm               = 'nodenpm.zip';
@@ -955,7 +955,7 @@ begin
     // Here StringChangeEx is used to change Backslashes to DoubleBackslashes.
     StringChangeEx(targetdir, '\', '\\', False);
 
-    ExecHidden(targetPath + Filename_msysgit + ' -y -gm2 -InstallPath="' + targetDir + '"');
+    ExecHidden(source + ' -y -gm2 -InstallPath="' + targetDir + '"');
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);

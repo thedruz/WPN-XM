@@ -298,9 +298,9 @@ const
   Filename_memadmin              = 'memadmin.zip';
   Filename_memcached             = 'memcached.zip';
   Filename_mongodb               = 'mongodb.zip';
-  Filename_msysgit               = 'msysgit.7z';
+  Filename_msysgit               = 'msysgit.exe'; // WATCH IT: 7zip SFX EXE!
   Filename_nginx                 = 'nginx.zip';
-  Filename_node                  = 'node.exe';
+  Filename_node                  = 'node.exe'; // WATCH IT: EXE!
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
   Filename_pear                  = 'go-pear.phar';
@@ -337,7 +337,7 @@ const
   Filename_uprofiler             = 'uprofiler.zip';
   Filename_yuicompressor         = 'yuicompressor.jar';
 
-var   
+var
   targetPath  : String;   // init in prepareUnzip() - if debug true will download to app/downloads, else temp dir
   appDir      : String;   // init in prepareUnzip() - installation folder of the application
   hideConsole : String;   // init in prepareUnzip() - shortcut to {tmp}\runHiddenConsole.exe
@@ -722,7 +722,7 @@ begin
 end;
 
 procedure DoUnzip(source: String; targetdir: String);
-var 
+var
   unzipTool : String;     // path to unzip util
   ReturnCode  : Integer;  // errorcode
 begin
@@ -750,7 +750,7 @@ begin
     // Here StringChangeEx is used to change Backslashes to DoubleBackslashes.
     StringChangeEx(targetdir, '\', '\\', False);
 
-    ExecHidden(targetPath + Filename_msysgit + ' -y -gm2 -InstallPath="' + targetDir + '"');
+    ExecHidden(source + ' -y -gm2 -InstallPath="' + targetDir + '"');
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);

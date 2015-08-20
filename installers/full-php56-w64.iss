@@ -750,7 +750,7 @@ begin
     // Here StringChangeEx is used to change Backslashes to DoubleBackslashes.
     StringChangeEx(targetdir, '\', '\\', False);
 
-    ExecHidden(targetPath + Filename_msysgit + ' -y -gm2 -InstallPath="' + targetDir + '"');
+    ExecHidden(source + ' -y -gm2 -InstallPath="' + targetDir + '"');
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
