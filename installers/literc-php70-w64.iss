@@ -112,6 +112,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 ; The base component "serverstack" consists of PHP + MariaDB + Nginx. These three components are always installed.
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 192430000; Types: full custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
+Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full
@@ -166,6 +167,7 @@ Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\
 Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\configs\conemu\*; DestDir: {app}\bin\conemu; Components: conemu
 ; Visual C++ Redistributable 2015 is needed by PHP VC14 x64 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x64_2015.exe; DestDir: {tmp}; Flags: deleteafterinstall
@@ -244,6 +246,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
+  Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
   Filename_mariadb           = 'mariadb.zip';
   Filename_nginx             = 'nginx.zip';
@@ -607,7 +610,7 @@ begin
 end;
 
 procedure DoUnzip(source: String; targetdir: String);
-var 
+var
   unzipTool : String;     // path to unzip util
   ReturnCode  : Integer;  // errorcode
 begin
@@ -627,15 +630,6 @@ begin
              MsgBox('Unzip failed:' + source, mbError, MB_OK)
          end;
     end;
-end;
-
-procedure DoExtractSFX(source: String; targetdir: String);
-begin
-    // You MUST use DOUBLE backslashes in the InstallPath.
-    // Here StringChangeEx is used to change Backslashes to DoubleBackslashes.
-    StringChangeEx(targetdir, '\', '\\', False);
-
-    ExecHidden(targetPath + Filename_msysgit + ' -y -gm2 -InstallPath="' + targetDir + '"');
 end;
 
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
