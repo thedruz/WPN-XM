@@ -22,6 +22,9 @@ echo.
 tasklist /FI "imagename eq mysqld.exe"
 echo.
 
+tasklist /FI "imagename eq mongod.exe"
+echo.
+
 tasklist /FI "imagename eq memcached.exe"
 echo.
 
