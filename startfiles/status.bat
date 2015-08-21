@@ -25,6 +25,9 @@ echo.
 tasklist /FI "imagename eq memcached.exe"
 echo.
 
+tasklist /FI "imagename eq postgres.exe"
+echo.
+
 echo PRESS ANY KEY TO REFRESH
 
 pause>nul
