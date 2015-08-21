@@ -143,7 +143,7 @@
     <target name="inno-compile">
         <echo message="Compiling ${installer.file}"/>
         <echo message="${innosetupcompiler} -o${dir.Build} ${installer.file}"/>
-        <exec command="${innosetupcompiler} -o${dir.Build} ${installer.file} /eo" dir="${dir.Build}" passthru="true"/>
+        <exec command="${innosetupcompiler} -o${dir.Build} ${installer.file}" dir="${dir.Build}" passthru="true"/>
     </target>
 
     <target name="compile-webinstaller" description="Builds the WPN-XM setup executable." depends="bump-version-number, clean-webinterface-folder">
