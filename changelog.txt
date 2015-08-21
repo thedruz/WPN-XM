@@ -26,10 +26,16 @@ TEMPLATE FOR  NEW ENTRIES
 _____________________________________________________________________________
 
 ------------  ----------------------------------------------------------------
-[tba.2015]    REL   VERSION 0.8.*
+[21.08.2015]  REL   VERSION 0.8.6
 ------------  ----------------------------------------------------------------
 
-              ...   ...
+              FIX   component extractions:
+                    - "msysgit/git for windows" extracted to "/bin/git"
+                    - "gogs" extracted to "/bin/gogs"
+                    - Imagick extracted to "/bin/imagick"
+                    - PHP extensions extracted to "/bin/php/ext"
+              CHG   removed xdebug from PHP7 installers. no release, yet.
+              CHG   switched from "msysgit" to "git for windows"
 
 ------------  ----------------------------------------------------------------
 [12.07.2015]  REL   VERSION 0.8.5
