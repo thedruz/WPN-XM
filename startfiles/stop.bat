@@ -58,7 +58,7 @@ goto :eof :: return to caller
 
 :stop-mariadb
     echo Stopping MySQL
-    %KILL-PROCESS% mysqld.exe
+    bin\mariadb\bin\mysqladmin --defaults-file=bin\mariadb\my.ini -uroot -h127.0.0.1 --protocol=tcp shutdown
     echo.
 goto :eof :: return to caller
 
