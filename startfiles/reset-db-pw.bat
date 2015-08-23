@@ -21,12 +21,16 @@ echo Press any key to reset the password for the user "root" to "%password%" (wi
 pause>nul
 
 echo.
-echo Updating User Table
+echo Updating MySQL.User Table
 echo UPDATE mysql.user SET Password=PASSWORD('%password%') WHERE User='root'; | bin\mariadb\bin\mysqld.exe --bootstrap --console
 
 echo.
-echo Updating wpn-xm.ini
+echo Updating Server Control Panel - Configuration File (wpn-xm.ini)
      %~dp0bin\php\php.exe -r "file_put_contents('wpn-xm.ini', preg_replace('/(password)(.+)/','password=%password%', file_get_contents('wpn-xm.ini'), 1));"
+
+echo.
+echo Updating MariaDb configuration file (my.ini)
+     %~dp0bin\php\php.exe -r "file_put_contents('bin\mariadb\my.ini', preg_replace('/(password)(.+)/','password    =\"%password%\"', file_get_contents('bin\mariadb\my.ini'), 1));"
 
 echo.
 echo DONE !
