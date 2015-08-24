@@ -228,7 +228,7 @@ Filename: "{tmp}\vcredist_x64_2012.exe"; Parameters: "/quiet /norestart"; Check:
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
-; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
+; A registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; The registry is not modified, when in portable mode.
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;

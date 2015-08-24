@@ -238,12 +238,14 @@ Filename: "{tmp}\vcredist_x86_2012.exe"; Parameters: "/quiet /norestart"; Check:
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
 [Registry]
-; a registry change needs the following directive: [SETUP] ChangesEnvironment=yes
+; A registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; The registry is not modified, when in portable mode.
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
-; when installing Imagick, add the "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
+; when installing "Git for Windows", add "/bin/git/bin" to PATH, to have git available on CLI
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\git\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\git\bin')); Tasks: not portablemode; Components: git;
+; when installing "Imagick", add "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
 
 [Messages]
 ; define wizard title and tray status msg; overwritten, because defined in /bin/innosetup/default.isl
