@@ -230,6 +230,9 @@ Name: {app}\temp
 Name: {app}\www\tools\webinterface; Components: webinterface
 
 [Code]
+// include Unzip() helper
+#include "includes\unzip.iss"
+
 var
   // the controls move on resize
   WebsiteButton : TButton;
@@ -597,29 +600,6 @@ begin
   Result := True;
 end;
 
-procedure DoUnzip(source: String; targetdir: String);
-var
-  unzipTool : String;     // path to unzip util
-  ReturnCode  : Integer;  // errorcode
-begin
-    // source might contain {tmp} or {app} constant, so expand/resolve it to path name
-    source := ExpandConstant(source);
-
-    unzipTool := ExpandConstant('{tmp}\7za.exe');
-
-    if not FileExists(unzipTool)
-    then MsgBox('UnzipTool not found: ' + unzipTool, mbError, MB_OK)
-    else if not FileExists(source)
-    then MsgBox('File was not found while trying to unzip: ' + source, mbError, MB_OK)
-    else begin
-         if Exec(unzipTool, ' x "' + source + '" -o"' + targetdir + '" -y',
-                 '', SW_HIDE, ewWaitUntilTerminated, ReturnCode) = false
-         then begin
-             MsgBox('Unzip failed:' + source, mbError, MB_OK)
-         end;
-    end;
-end;
-
 Procedure GetNumberOfSelectedComponents(selectedComponents : String);
 var
   i : Integer;
@@ -749,18 +729,18 @@ begin
 
   UpdateCurrentComponentName('Nginx');
     ExtractTemporaryFile(Filename_nginx);
-    DoUnzip(targetPath + Filename_nginx, appDir + '\bin'); // no subfolder, because nginx brings own dir
+    Unzip(targetPath + Filename_nginx, appDir + '\bin'); // no subfolder, because nginx brings own dir
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\nginx-* ' + appDir + '\bin\nginx"'); // rename directory
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('PHP');
     ExtractTemporaryFile(Filename_php);
-    DoUnzip(targetPath + Filename_php, appDir + '\bin\php');
+    Unzip(targetPath + Filename_php, appDir + '\bin\php');
   UpdateTotalProgressBar();
 
   UpdateCurrentComponentName('MariaDB');
     ExtractTemporaryFile(Filename_mariadb);
-    DoUnzip(targetPath + Filename_mariadb, appDir + '\bin'); // no subfolder, brings own dir
+    Unzip(targetPath + Filename_mariadb, appDir + '\bin'); // no subfolder, brings own dir
     ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mariadb-* ' + appDir + '\bin\mariadb"');  // rename directory
   UpdateTotalProgressBar();
 
@@ -771,7 +751,7 @@ begin
     UpdateCurrentComponentName('ConEmu');
       ForceDirectories(appDir + '\bin\conemu\');
       ExtractTemporaryFile(Filename_conemu);
-      DoUnzip(targetPath + Filename_conemu, appDir + '\bin\conemu');
+      Unzip(targetPath + Filename_conemu, appDir + '\bin\conemu');
     UpdateTotalProgressBar();
   end;
 
@@ -779,7 +759,7 @@ begin
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
       ExtractTemporaryFile(Filename_wpnxmscp);
-      DoUnzip(ExpandConstant(targetPath + Filename_wpnxmscp), appDir); // no subfolder, top level
+      Unzip(ExpandConstant(targetPath + Filename_wpnxmscp), appDir); // no subfolder, top level
     UpdateTotalProgressBar();
   end;
 
@@ -787,7 +767,7 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
-      DoUnzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl');
+      Unzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl');
     UpdateTotalProgressBar();
   end;
 
@@ -795,7 +775,7 @@ begin
   begin
     UpdateCurrentComponentName('Xdebug');
       ExtractTemporaryFile(Filename_phpext_xdebug);
-      DoUnzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
+      Unzip(targetPath + Filename_phpext_xdebug, targetPath + 'phpext_xdebug');
       FileCopy(ExpandConstant(targetPath + 'phpext_xdebug\php_xdebug.dll'), appDir + '\bin\php\ext\php_xdebug.dll', false);
 
       ForceDirectories(appDir + '\www\tools\xdebug\');
