@@ -17,12 +17,7 @@ if not exist "%~dp0temp" (
     mkdir "%~dp0temp"
 )
 
-if not exist "%~dp0logs" (
-    echo Creating Directories for Logs...
-    mkdir "%~dp0logs"
-)
-
-SET HIDECONSOLE=%~dp0bin\tools\RunHiddenConsole.exe
+SET HIDECONSOLE="%~dp0bin\tools\RunHiddenConsole.exe"
 
 :: start all daemons, if no argument given (default)
 if "%1"=="" (
