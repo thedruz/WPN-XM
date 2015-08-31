@@ -527,6 +527,32 @@ begin
   InstallPage.Surface.Update;     // activate showing updates on this page
 end;
 
+procedure OnDirEditChange(Sender: TObject);
+var
+  S: string;
+begin
+  S := WizardDirValue;
+                                                                                    
+  // string must not be empty
+  if (Length(S) = 0) then MsgBox('Please enter a target folder for the installation.', mbError, MB_OK);    
+
+  // disallow installation into folders starting with "c:\windows"
+  if(Pos(ExpandConstant('{win}'), S) > 0) then MsgBox('The installation into the windows folder is not allowed.', mbError, MB_OK);
+
+  if(Pos(ExpandConstant('C:\Windows'), S) > 0) or (Pos(ExpandConstant('C:\windows'), S) > 0)  
+  or(Pos(ExpandConstant('c:\Windows'), S) > 0) or (Pos(ExpandConstant('c:\windows'), S) > 0) 
+  then MsgBox('The installation into the windows folder is not allowed.', mbError, MB_OK);
+
+  // disallow installation into folders: program files
+  if(Pos(ExpandConstant('{pf}'), S) > 0) then MsgBox('The installation into the program files folder is not allowed.', mbError, MB_OK);
+
+  // disallow installation into folders: common files
+  if(Pos(ExpandConstant('{cf}'), S) > 0) then MsgBox('The installation into the common files folder is not allowed.', mbError, MB_OK);
+
+  // disallow installation into folders with spaces
+  if(Pos(' ', S) > 0) then MsgBox('Your installation folder must not contain any spaces.', mbError, MB_OK);    
+end;
+
 procedure InitializeWizard();
 var
   VersionLabel  : TLabel;
@@ -596,6 +622,10 @@ begin
     DebugLabel.Font.Style := [fsBold];
     DebugLabel.Parent     := WizardForm;
   end;
+
+  // register OnChange event handling function for the "Select Destination Location" dialog 
+  // if the folder is not OK, force the user to fix it.
+  WizardForm.DirEdit.OnChange := @OnDirEditChange;
 end;
 
 function NextButtonClick(CurPage: Integer): Boolean;
