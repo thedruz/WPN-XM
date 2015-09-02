@@ -118,6 +118,7 @@ Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraD
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
 Name: git; Description: Git Version Control (Msysgit & Go Git Service); ExtraDiskSpaceRequired: 24000000; Types: full
+Name: heidisql; Description: HeidiSQL - Database management tool; ExtraDiskSpaceRequired: 4400000; Types: full
 Name: imagick; Description: ImageMagick - create, edit, compose or convert bitmap images; ExtraDiskSpaceRequired: 6030000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 630000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 240000; Types: full
@@ -298,6 +299,7 @@ const
   Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
   Filename_gogitservice          = 'gogitservice.zip';
+  Filename_heidisql              = 'heidisql.zip';
   Filename_imagick               = 'imagick.zip';
   Filename_mariadb               = 'mariadb.zip';
   Filename_memadmin              = 'memadmin.zip';
@@ -642,15 +644,15 @@ var
   S: string;
 begin
   S := WizardDirValue;
-                                                                                    
+
   // string must not be empty
-  if (Length(S) = 0) then MsgBox('Please enter a target folder for the installation.', mbError, MB_OK);    
+  if (Length(S) = 0) then MsgBox('Please enter a target folder for the installation.', mbError, MB_OK);
 
   // disallow installation into folders starting with "c:\windows"
   if(Pos(ExpandConstant('{win}'), S) > 0) then MsgBox('The installation into the windows folder is not allowed.', mbError, MB_OK);
 
-  if(Pos(ExpandConstant('C:\Windows'), S) > 0) or (Pos(ExpandConstant('C:\windows'), S) > 0)  
-  or(Pos(ExpandConstant('c:\Windows'), S) > 0) or (Pos(ExpandConstant('c:\windows'), S) > 0) 
+  if(Pos(ExpandConstant('C:\Windows'), S) > 0) or (Pos(ExpandConstant('C:\windows'), S) > 0)
+  or(Pos(ExpandConstant('c:\Windows'), S) > 0) or (Pos(ExpandConstant('c:\windows'), S) > 0)
   then MsgBox('The installation into the windows folder is not allowed.', mbError, MB_OK);
 
   // disallow installation into folders: program files
@@ -660,7 +662,7 @@ begin
   if(Pos(ExpandConstant('{cf}'), S) > 0) then MsgBox('The installation into the common files folder is not allowed.', mbError, MB_OK);
 
   // disallow installation into folders with spaces
-  if(Pos(' ', S) > 0) then MsgBox('Your installation folder must not contain any spaces.', mbError, MB_OK);    
+  if(Pos(' ', S) > 0) then MsgBox('Your installation folder must not contain any spaces.', mbError, MB_OK);
 end;
 
 procedure InitializeWizard();
@@ -736,7 +738,7 @@ begin
     DebugLabel.Parent     := WizardForm;
   end;
 
-  // register OnChange event handling function for the "Select Destination Location" dialog 
+  // register OnChange event handling function for the "Select Destination Location" dialog
   // if the folder is not OK, force the user to fix it.
   WizardForm.DirEdit.OnChange := @OnDirEditChange;
 end;
@@ -910,6 +912,15 @@ begin
   UpdateTotalProgressBar();
 
   // unzip selected components
+
+  if Pos('heidisql', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('HeidiSQL');
+      ForceDirectories(appDir + '\bin\heidisql\');
+      ExtractTemporaryFile(Filename_heidisql);
+      Unzip(targetPath + Filename_heidisql, appDir + '\bin\heidisql');
+    UpdateTotalProgressBar();
+  end;
 
   if Pos('conemu', selectedComponents) > 0 then
   begin

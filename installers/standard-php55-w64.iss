@@ -117,6 +117,7 @@ Name: adminer; Description: Adminer - Database management in single PHP file; Ex
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
+Name: heidisql; Description: HeidiSQL - Database management tool; ExtraDiskSpaceRequired: 4400000; Types: full
 Name: memadmin; Description: memadmin - memcached administration tool; ExtraDiskSpaceRequired: 630000; Types: full
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 240000; Types: full
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 620000; Types: full
@@ -283,6 +284,7 @@ const
   Filename_closure_compiler  = 'closure-compiler.zip';
   Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
+  Filename_heidisql          = 'heidisql.zip';
   Filename_mariadb           = 'mariadb.zip';
   Filename_memadmin          = 'memadmin.zip';
   Filename_memcached         = 'memcached.zip';
@@ -877,6 +879,15 @@ begin
   UpdateTotalProgressBar();
 
   // unzip selected components
+
+  if Pos('heidisql', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('HeidiSQL');
+      ForceDirectories(appDir + '\bin\heidisql\');
+      ExtractTemporaryFile(Filename_heidisql);
+      Unzip(targetPath + Filename_heidisql, appDir + '\bin\heidisql');
+    UpdateTotalProgressBar();
+  end;
 
   if Pos('conemu', selectedComponents) > 0 then
   begin
