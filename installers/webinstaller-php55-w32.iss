@@ -48,6 +48,8 @@
 #define APP_URL "http://wpn-xm.org/"
 #define APP_SUPPORT_URL "https://github.com/WPN-XM/WPN-XM/issues/new/"
 
+#define CODESIGN_INSTALLER "false"
+
 #define INSTALLER_TYPE "Webinstaller"
 
 // for download functionality, we include Inno Download Plugin
@@ -102,6 +104,11 @@ ChangesEnvironment=yes
 CreateUninstallRegKey=not IsTaskSelected('portablemode')
 ; b) do not include uninstaller
 Uninstallable=not IsTaskSelected('portablemode')
+; code-sign the installer
+#if "True" == CODESIGN_INSTALLER
+SignTool=__SIGNTOOL__
+SignedUnInstaller=yes
+#endif
 
 ; include the sections [Languages], [Messages], [CustomMessages]
 #include "includes\languages.iss"
