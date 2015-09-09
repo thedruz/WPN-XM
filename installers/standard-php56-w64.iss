@@ -212,9 +212,9 @@ Name: {group}\Stop WPN-XM; Filename: {app}\stop.bat; Tasks: add_startmenu
 Name: {group}\Status of WPN-XM; Filename: {app}\status.bat; Tasks: add_startmenu
 Name: {group}\Localhost; Filename: {app}\localhost.url; Tasks: add_startmenu
 Name: {group}\Administration; Filename: {app}\administration.url; Tasks: add_startmenu
-Name: {group}\{cm:ProgramOnTheWeb,{#APP_NAME}}; Filename: {#APP_URL}; Tasks: add_startmenu
-Name: {group}\{cm:ReportBug}; Filename: {#APP_SUPPORT_URL}; Tasks: add_startmenu
-Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Tasks: add_startmenu
+Name: {group}\{cm:ProgramOnTheWeb,{#APP_NAME}}; Filename: {#APP_URL}; Flags: preventpinning excludefromshowinnewinstall; Tasks: add_startmenu
+Name: {group}\{cm:ReportBug}; Filename: {#APP_SUPPORT_URL}; Flags: preventpinning excludefromshowinnewinstall; Tasks: add_startmenu
+Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Flags: preventpinning excludefromshowinnewinstall; Tasks: add_startmenu
 Name: {userdesktop}\WPN-XM ServerControlPanel; Filename: {app}\wpn-xm.exe; Tasks: add_desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpn-xm.exe; Tasks: add_quicklaunchicon
 Name: {userdesktop}\WPN-XM Start; Filename: {app}\start.bat; Tasks: add_startstop_desktopicons
