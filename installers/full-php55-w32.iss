@@ -100,9 +100,8 @@ CreateUninstallRegKey=not IsTaskSelected('portablemode')
 ; b) do not include uninstaller
 Uninstallable=not IsTaskSelected('portablemode')
 
-[Languages]
-Name: en; MessagesFile: compiler:Default.isl
-Name: de; MessagesFile: compiler:languages\German.isl
+; include the sections [Languages], [Messages], [CustomMessages]
+#include "includes\languages.iss"
 
 [Types]
 Name: full; Description: Full installation
@@ -248,20 +247,6 @@ Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData
 ; when installing "Imagick", add "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
 
-[Messages]
-; define wizard title and tray status msg; overwritten, because defined in /bin/innosetup/default.isl
-SetupAppTitle =Setup WPN-XM {#APP_VERSION}
-SetupWindowTitle =Setup - {#APP_NAME} {#APP_VERSION}
-
-[CustomMessages]
-de.WebsiteButton=wpn-xm.org
-en.WebsiteButton=wpn-xm.org
-de.HelpButton=Hilfe
-en.HelpButton=Help
-de.ReportBug=Fehler melden
-en.ReportBug=Report Bug
-de.RemoveApp=WPN-XM Server Stack deinstallieren
-en.RemoveApp=Uninstall WPN-XM Server Stack
 
 [Dirs]
 Name: {app}\bin\backup

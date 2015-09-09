@@ -103,9 +103,12 @@ CreateUninstallRegKey=not IsTaskSelected('portablemode')
 ; b) do not include uninstaller
 Uninstallable=not IsTaskSelected('portablemode')
 
-[Languages]
-Name: en; MessagesFile: compiler:Default.isl
-Name: de; MessagesFile: compiler:languages\German.isl
+; include the sections [Languages], [Messages], [CustomMessages]
+#include "includes\languages.iss"
+
+[CustomMessages]
+; overload "RetryNext" message of "Inno-Download-Plugin"
+IDP_RetryNext="Click ''OK'' to close. Then click ''Retry'' to try downloading the file again. Click ''Next'' to skip this file and continue installing anyway. Please report this issue, if it's not a client-side connectivity problem."
 
 [Types]
 Name: full; Description: Full installation
@@ -250,23 +253,6 @@ Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\git\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\git\bin')); Tasks: not portablemode; Components: git;
 ; when installing "Imagick", add "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
-
-[Messages]
-; define wizard title and tray status msg; overwritten, because defined in /bin/innosetup/default.isl
-SetupAppTitle =Setup WPN-XM {#APP_VERSION}
-SetupWindowTitle =Setup - {#APP_NAME} {#APP_VERSION}
-
-[CustomMessages]
-de.WebsiteButton=wpn-xm.org
-en.WebsiteButton=wpn-xm.org
-de.HelpButton=Hilfe
-en.HelpButton=Help
-de.ReportBug=Fehler melden
-en.ReportBug=Report Bug
-de.RemoveApp=WPN-XM Server Stack deinstallieren
-en.RemoveApp=Uninstall WPN-XM Server Stack
-; overload "RetryNext" message of "Inno-Download-Plugin"
-IDP_RetryNext="Click ''OK'' to close. Then click ''Retry'' to try downloading the file again. Click ''Next'' to skip this file and continue installing anyway. Please report this issue, if it's not a client-side connectivity problem."
 
 [Dirs]
 Name: {app}\bin\backup
@@ -705,15 +691,15 @@ var
   S: string;
 begin
   S := WizardDirValue;
-                                                                                    
+
   // string must not be empty
-  if (Length(S) = 0) then MsgBox('Please enter a target folder for the installation.', mbError, MB_OK);    
+  if (Length(S) = 0) then MsgBox('Please enter a target folder for the installation.', mbError, MB_OK);
 
   // disallow installation into folders starting with "c:\windows"
   if(Pos(ExpandConstant('{win}'), S) > 0) then MsgBox('The installation into the windows folder is not allowed.', mbError, MB_OK);
 
-  if(Pos(ExpandConstant('C:\Windows'), S) > 0) or (Pos(ExpandConstant('C:\windows'), S) > 0)  
-  or(Pos(ExpandConstant('c:\Windows'), S) > 0) or (Pos(ExpandConstant('c:\windows'), S) > 0) 
+  if(Pos(ExpandConstant('C:\Windows'), S) > 0) or (Pos(ExpandConstant('C:\windows'), S) > 0)
+  or(Pos(ExpandConstant('c:\Windows'), S) > 0) or (Pos(ExpandConstant('c:\windows'), S) > 0)
   then MsgBox('The installation into the windows folder is not allowed.', mbError, MB_OK);
 
   // disallow installation into folders: program files
@@ -723,7 +709,7 @@ begin
   if(Pos(ExpandConstant('{cf}'), S) > 0) then MsgBox('The installation into the common files folder is not allowed.', mbError, MB_OK);
 
   // disallow installation into folders with spaces
-  if(Pos(' ', S) > 0) then MsgBox('Your installation folder must not contain any spaces.', mbError, MB_OK);    
+  if(Pos(' ', S) > 0) then MsgBox('Your installation folder must not contain any spaces.', mbError, MB_OK);
 end;
 
 procedure InitializeWizard();
@@ -821,7 +807,7 @@ begin
     DebugLabel.Parent     := WizardForm;
   end;
 
-  // register OnChange event handling function for the "Select Destination Location" dialog 
+  // register OnChange event handling function for the "Select Destination Location" dialog
   // if the folder is not OK, force the user to fix it.
   WizardForm.DirEdit.OnChange := @OnDirEditChange;
 end;
