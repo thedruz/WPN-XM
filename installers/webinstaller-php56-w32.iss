@@ -52,7 +52,7 @@
 
 #define INSTALLER_TYPE "Webinstaller"
 
-// for download functionality, we include Inno Download Plugin
+; include Inno-Download-Plugin download functionality
 #include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
 
 [Setup]

@@ -121,6 +121,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
+Name: benchmark; Description: WPN-XM Benchmark Tools; ExtraDiskSpaceRequired: 100000; Types: full debug
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
 Name: git; Description: Git Version Control (Msysgit & Go Git Service); ExtraDiskSpaceRequired: 24000000; Types: full
@@ -254,7 +255,6 @@ Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData
 ; when installing "Imagick", add "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
 
-
 [Dirs]
 Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\domains-enabled
@@ -287,6 +287,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
+  Filename_benchmark             = 'wpnxm-benchmark.zip';
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
@@ -904,6 +905,14 @@ begin
   UpdateTotalProgressBar();
 
   // unzip selected components
+
+  if Pos('benchmark', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('WPN-XM Benchmark Tools');
+      ExtractTemporaryFile(Filename_benchmark);
+      Unzip(ExpandConstant(targetPath + Filename_benchmark), appDir); // multiple files and folders into top level
+    UpdateTotalProgressBar();
+  end;
 
   if Pos('heidisql', selectedComponents) > 0 then
   begin
