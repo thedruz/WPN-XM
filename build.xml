@@ -506,7 +506,7 @@
                 $this->downloadfolder = realpath($downloadfolder);
             }
 
-            function main()
+            function checkFilesizeOfDownloads()
             {
                 $this->log('Checking Filesize of Downloads..');
 
@@ -527,9 +527,54 @@
                     }
                 }
             }
+
+            function main()
+            {
+                $this->checkFilesizeOfDownloads();
+            }
         }
         ]]></adhoc-task>
         <CheckFiles downloadfolder="${dir.Downloads}"/>
+    </target>
+
+    <target name="check-installers" description="Check that all installers were build.">
+        <adhoc-task name="CheckInstallers"><![CDATA[
+        class CheckInstallers extends Task
+        {
+            private $buildfolder;
+
+            function setBuildFolder($buildfolder)
+            {
+                $this->buildfolder = realpath($buildfolder);
+            }
+
+            function checkInstallers()
+            {
+                $this->log('Checking Installers..');
+
+                $installer_scripts = array_map('basename', glob($this->buildfolder . '/*.iss', GLOB_BRACE));
+                $installer_executables = array_map('basename', glob($this->buildfolder . '/*.exe', GLOB_BRACE));
+
+                $missing_installer_executables = array_diff($installer_scripts, $installer_executables);
+
+                if(count($missing_installer_executables) > 0) {
+                    echo "\033[01;31m";
+                    echo "The following installer executables were not compiled:\n";
+                    foreach($missing_installer_executables as $exe) {
+                       echo "  - \"$exe\".exe \n";
+                    }
+                    echo "Please check the InnoSetup script files for errors!\n";
+                    echo "\033[0m";
+                }
+            }
+
+            function main()
+            {
+                $this->checkInstallers();
+            }
+        }
+        ]]></adhoc-task>
+        <CheckInstallers downloadfolder="${dir.Build}"/>
     </target>
 
     <target name="versionize-registries" description="Adds the build version number to the 'next' installer registry files.">
@@ -678,6 +723,7 @@
                     compile-full,
                     compile-lite,
                     compile-literc,
+                    check-installers,
                     commit-versionized-registries,
                     reset-git-submodules,
                     kill-aria">
@@ -705,6 +751,7 @@
                     compile-full,
                     compile-lite,
                     compile-literc,
+                    check-installers,
                     commit-versionized-registries,
                     reset-git-submodules,
                     kill-aria">
