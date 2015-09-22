@@ -7,28 +7,40 @@ even better than it is today! Here are the guidelines we'd like you to follow:
 
 Help us keep WPN-XM open and inclusive. Please read and follow our [Code of Conduct][conduct].
 
-## Got a Question or Problem?
+## Getting Started
+
+The WPN-XM project uses a distributed revision control system for source code called git.
+All our repositories are Git repositories and hosted over at [Github][github].
+You might see the list of repostories by looking at our [organization account][github-org].
+The main repo is [WPN-XM/WPN-XM][github-repo-wpnxm].
+It is also used for centralized bug and issue tracking.
+
+### Got a Question or Problem? You need support?
 
 If you have questions about how to use WPN-XM, please direct these to [StackOverflow][stackoverflow] or the [Google Group][groups] discussion list.
 
 ### Reporting Issues
 
+Reporting issues is a great way to became a contributor as it doesn't require technical skills.
+In fact you don't even need to know a programming language or to be able to check the code itself,
+you just need to make sure that everything works as expected and submit an issue report if you spot a bug.
+Sound like something you're up for? Go for it!
+
 When reporting issues, please try to be as descriptive as possible, and include as much relevant information as you can.
 A step by step guide on how to reproduce the issue will greatly increase the chances of your issue being resolved in a timely manner.
 The chance to reproduce your issue will be much higher, when you provide the full output of commands used and log files.
 
-## Getting Started
+### How To Submit An Issue Report
 
-The WPN-XM project uses a distributed revision control system for source code called git.
-All our repositories are Git repositories and hosted over at [Github][github].
+If something isn't working, congratulations you've found a bug! Help us fix it by submitting an issue report.
 
-You might see the list of repostories by looking at our [organization account][github-org].
-
-
-* Make sure you have a [GitHub account][github-account].
+* Make sure you have a [GitHub account][github-account]
 * Submit a ticket for your issue, assuming one does not already exist.
-  * Clearly describe the issue including steps to reproduce when it is a bug.
+  * Clearly describe the issue (including steps to reproduce it if it's a bug).
   * Make sure you fill in the earliest version that you know has the issue.
+
+### How To Submit Source
+
 * Fork the repository on GitHub
 * Create a feature or bugfix branch for the issue you want to work on
 * Work on the feature and commit your work
@@ -81,6 +93,7 @@ WPN-XM is a popular open source project and the capacity to deal with issues and
 Out of respect for our volunteers, issues and merge requests not in line with the [Code of Conduct][conduct]
 or the guidelines listed in this document may be closed without further notice.
 
+[github-repo-wpnxm]https://github.com/WPN-XM/WPN-XM
 [github]: http://github.com/
 [github-org]: https://github.com/WPN-XM
 [github-help]: http://help.github.com/
