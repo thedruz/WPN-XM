@@ -12,8 +12,7 @@ Help us keep WPN-XM open and inclusive. Please read and follow our [Code of Cond
 The WPN-XM project uses a distributed revision control system for source code called git.
 All our repositories are Git repositories and hosted over at [Github][github].
 You might see the list of repostories by looking at our [organization account][github-org].
-The main repo is [WPN-XM/WPN-XM][github-repo-wpnxm].
-It is also used for centralized bug and issue tracking.
+The main repo is [WPN-XM/WPN-XM][github-repo-wpnxm]. It is also used for centralized bug and issue tracking.
 
 ### Got a Question or Problem? You need support?
 
@@ -24,6 +23,7 @@ If you have questions about how to use WPN-XM, please direct these to [StackOver
 Reporting issues is a great way to became a contributor as it doesn't require technical skills.
 In fact you don't even need to know a programming language or to be able to check the code itself,
 you just need to make sure that everything works as expected and submit an issue report if you spot a bug.
+
 Sound like something you're up for? Go for it!
 
 When reporting issues, please try to be as descriptive as possible, and include as much relevant information as you can.
@@ -93,7 +93,7 @@ WPN-XM is a popular open source project and the capacity to deal with issues and
 Out of respect for our volunteers, issues and merge requests not in line with the [Code of Conduct][conduct]
 or the guidelines listed in this document may be closed without further notice.
 
-[github-repo-wpnxm]https://github.com/WPN-XM/WPN-XM
+[github-repo-wpnxm]: https://github.com/WPN-XM/WPN-XM
 [github]: http://github.com/
 [github-org]: https://github.com/WPN-XM
 [github-help]: http://help.github.com/
