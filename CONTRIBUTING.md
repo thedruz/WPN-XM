@@ -20,7 +20,10 @@ The chance to reproduce your issue will be much higher, when you provide the ful
 ## Getting Started
 
 The WPN-XM project uses a distributed revision control system for source code called git.
-All our repositoriesa are Git repositories and hosted over at [Github][github].
+All our repositories are Git repositories and hosted over at [Github][github].
+
+You might see the list of repostories by looking at our [organization account][github-org].
+
 
 * Make sure you have a [GitHub account][github-account].
 * Submit a ticket for your issue, assuming one does not already exist.
@@ -79,6 +82,7 @@ Out of respect for our volunteers, issues and merge requests not in line with th
 or the guidelines listed in this document may be closed without further notice.
 
 [github]: http://github.com/
+[github-org]: https://github.com/WPN-XM
 [github-help]: http://help.github.com/
 [github-account]: https://github.com/signup/free
 [issues-easypicks]: https://github.com/WPN-XM/WPN-XM/issues?q=is%3Aopen+is%3Aissue+label%3A%22easy+pick%22
