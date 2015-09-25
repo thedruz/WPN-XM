@@ -42,9 +42,13 @@ If something isn't working, congratulations you've found a bug! Help us fix it b
 ### How To Submit Source
 
 * Fork the repository on GitHub
-* Create a feature or bugfix branch for the issue you want to work on
+* Create a feature branch for the issue you want to work on
+  - `git checkout -b new-feature`
 * Work on the feature and commit your work
-* Send us a pull request
+  - `git commit -am 'added new-feature'`
+* Push to the branch 
+  - `git push origin my-new-feature`
+* Send us a Pull Request (PR)
 
 ### Contributing policy
 
