@@ -3,10 +3,6 @@
 We'd love for you to contribute to our source code and to make the WPN-XM Server Stack
 even better than it is today! Here are the guidelines we'd like you to follow:
 
-## Code of Conduct
-
-Help us keep WPN-XM open and inclusive. Please read and follow our [Code of Conduct][conduct].
-
 ## Getting Started
 
 The WPN-XM project uses a distributed revision control system for source code called git.
@@ -90,6 +86,10 @@ The mentor will answer questions, review changes, and make the process as easy a
 In fact, there are lots of smart people out there, who can get things done, when given the right tools and support.
 
 To get started: simply pick an issue.
+
+## Code of Conduct
+
+Help us keep WPN-XM open and inclusive. Please read and follow our [Code of Conduct][conduct].
 
 ### Closing policy for issues and merge requests
 
