@@ -1,534 +1,492 @@
-commit 2a168172dc882b125452f58322fbaf90be4b1978
+commit f57947d236aae0e8bf9e42f8e6e802b52d14a287 (HEAD, tag: release-1.19.1, origin/master, origin/HEAD, master)
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-24
+AuthorDate: 2015-09-27
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-24
-
-    Bump up version number to 1.19.0
-
-commit d1bb9d38631b5585979cd2b2245885d4d10b3cf1
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-24
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-24
-
-    Update bash_completion
-
-commit 5e9992b2be164bb7cd5f4598c8eda2198e59c023
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-24
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-24
-
-    Add outdated warning to pt translation
-
-commit abe7bc9c32a1f57773c369e111f9d460a2f9717e
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-24
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-24
-
-    Add libaria2 build test target
-
-commit df5c86ba7031e3af9a7d73ffa64ab3961ae5bccc
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-24
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-24
-
-    Update NEWS
-
-commit 03e5764936695d332e730c4c514693fbd73d6fc5
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-24
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-24
-
-    Add Dockerfile.raspberrypi to EXTRA_DIST
-
-commit e30becdbed9e8956a2b06d93ac0a83e4b44e8d34
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-23
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-23
-
-    Fix uninitialized field bug in WebSocketSession
-
-commit b84ae3a23220baa65ecda5167423ab8c20ff9255
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-23
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-23
-
-    Add build test without libssh2
-
-commit fa3401dcb2752dd77aeb9de66f6060abe7c18a86
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-21
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-21
-
-    Update copyright year in -v output
-
-commit fb720b3077838ed43e53004d8ee9d56e81d750d5
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-21
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-21
-
-    android: Build and link with zlib
-    
-    Previously, we linked with zlib shipped with NDK, but it seems this is
-    not part of NDK API, and thus could break our app.
-
-commit eb9dafc247756cca0996837efc448ba26f5d8449
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-20
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-20
-
-    Add libssh2 to Dockerfile.mingw
-
-commit 65505be1be3b75e3c63836ca3acca39d9b97b44c
-Merge: c1417f0 b073735
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-20
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-20
-
-    Merge branch 'ITriskTI-patch-1'
-
-commit b073735d823295494a66e6269103ae03fda90758
-Author:     ITriskTI <ITriskTI@gmail.com>
-AuthorDate: 2015-05-19
-Commit:     ITriskTI <ITriskTI@gmail.com>
-CommitDate: 2015-05-19
-
-    Update aria2c.rst
-
-commit c1417f08ceb48ba374e74f48957488add81e3611
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-16
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-16
-
-    Remove useless --with-*-prefix from andrond-config
-
-commit ce360214475ba5431224f62e23bf6d3ce76774fc
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-16
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-16
-
-    Add libssh2 to android build config
-
-commit 381533e32d02c0007ad51b31af4f6b40ce16f4dd
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-16
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-16
-
-    Add libssh2 to mingw build config
-
-commit ee129231224d7205dee311b783818470d0282e1b
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-16
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-16
-
-    Arrange #ifdef guard so that formatter does not get fooled
-
-commit c26da096875d609b354ea5989f62af662f9c609e
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-16
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-16
-
-    Add --ssh-host-key-md option
-    
-    Set checksum for SSH host public key.  Use same syntax with --checksum
-    option.  TYPE is hash type.  The supported hash type is sha-1 or
-    md5. DIGEST is hex digest.  For example:
-    sha-1=b030503d4de4539dc7885e6f0f5e256704edf4c3.  This option can be
-    used to validate server's public key when SFTP is used.  If this
-    option is not set, which is default, no validation takes place.
-
-commit 4273885f1677579675f71667d933bd308a020fdd
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-14
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-14
-
-    Document --netrc-path option
-
-commit a89c52734a280061e034453379b06543bb4eac5d
-Merge: 2a9012a ceee04c
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-14
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-14
-
-    Merge branch 'zi0r-master'
-
-commit ceee04cfe8b870021a7964acb68bce00d74490db
-Author:     Ryan Steinmetz <zi@FreeBSD.org>
-AuthorDate: 2015-04-27
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-14
-
-    Allow netrc-path to be specified in the config file
-
-commit 2a9012ab60ba43126d78e559740e28562bade900
-Merge: 9297bc8 e84176d
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-14
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-14
-
-    Merge branch 'multiSnow-master'
-
-commit e84176d1f00efe43464c8fc2da5d60a69adb5699
-Author:     multisnow <infinity.blick.winkel@gmail.com>
-AuthorDate: 2015-05-14
-Commit:     multisnow <infinity.blick.winkel@gmail.com>
-CommitDate: 2015-05-14
-
-    fix build error without libssh2
-
-commit 9297bc8c5ca30f83e9620a8412b26395213469aa
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-13
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-13
-
-    Remove a2x and asciidoc checks
-
-commit 38552050269e6e74e080765aa4ba844f65e028fd
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
-
-    Exit with 32 status code if checksum verification failed
-
-commit 5100f96bfabac9af89801711f8e0c02c2ffdf28d
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
+CommitDate: 2015-09-27
 
     Update doc
 
-commit 62826d691deee1812fc2a43b9495b83a367dcde2
+commit bc0d903f8e2d478c4e914dc09066c520ae224748
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
+AuthorDate: 2015-09-27
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
+CommitDate: 2015-09-27
 
-    ftp: Fix accessing first element in empty segments vector
+    Copy test logs as well
 
-commit 5723f4211a06bc320efdca844b399a2a5b5162ca
+commit db443d848cd6db0bae7243fb9bb26e166123fa06
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
+AuthorDate: 2015-09-21
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
+CommitDate: 2015-09-21
 
-    sftp: Seek to the correct position to resume, fix slow start of transfer
+    Update NEWS
 
-commit 89c1916fa57d87ea09142cc3588044c691d1928f
-Merge: 4654f19 2758fba
+commit 3ce0d91757b2f06fab0807969ff82a93126d5e43
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
+AuthorDate: 2015-09-21
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
+CommitDate: 2015-09-21
 
-    Merge branch 'sftp'
+    Update NEWS
 
-commit 2758fba10c79a76e07f7cfb894f5cfcbaff85ff7
+commit 031b86d512e26f6aa1b434f548bb54be50a6aae7
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
+AuthorDate: 2015-09-21
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
+CommitDate: 2015-09-21
 
-    sftp: Add SFTP and libssh2 to feature summary, and add tests
-
-commit 17a642551f44bbd98be443f5875b5d6edbd60226
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
-
-    sftp: Mention SFTP in README.rst; add libssh2 dependency doc
-
-commit 46595e77d73089148547eed6d579d207cb4b2c71
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
-
-    sftp: Guard sftp code with HAVE_LIBSSH2
-
-commit 21c328fc113d28f3bbb1b1d74b53e4e2a36c4e9d
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
-
-    sftp: Make sftp works through HTTP proxy
-
-commit d0ad7033c3e11549529b44990ef022a655877601
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-12
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-12
-
-    sftp: basic download works
+    Return 400 status code if there is an error in RPC level
     
-    This commits implements basic downloading feature for sftp URI.  This
-    includes segmented downloads, and connection (sftp session) pooling.
-    Download via HTTP proxy has not been implemented yet.
+    200 status code means success.  Since the request did not succeed, we
+    should avoid it.
 
-commit 82ba00320923319943cfb79282ada5aaad4d5334
+commit e7eedfc8cf1bbd2a545b996c312ef2c08603f5c4
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-10
+AuthorDate: 2015-09-21
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-10
+CommitDate: 2015-09-21
 
-    Add basic ssh/sftp code to SocketCore and introduce SSHSession
+    Bump up version number to 1.19.1
+
+commit e22cfcd85bd5600d5f353055fab84f474b3c2213
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-09-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-09-21
+
+    Update NEWS
+
+commit 281002072f22229cef9b8db4b7a8af3545284156
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-09-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-09-19
+
+    Add libssh2 to android build instruction
+
+commit e47b012969dc67401722c061665bec559dcdec60
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-09-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-09-19
+
+    mkapiref.py: Add class name to member functions and methods
+
+commit 31f88ef387e0512e5e6f2c93c8d7094a7811967b
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-09-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-09-19
+
+    Update mingw toolchain info
+
+commit 8752a6f7cd88aeb1165c8be910e39b43e2eb953c
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-09-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-09-19
+
+    aria2c.rst: Update copyright year
+
+commit 3508c7a5a1c9b0f5be2bbe16a757a909fed5f3bf
+Merge: 17e5c98 8f64d72
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-08-30
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-08-30
+
+    Merge branch 'amtlib-dot-dll-amtlib-dot-dll-patch-cacerts-stdout'
+
+commit 8f64d72cbc2d6570090753ebd292d8a2a0e54aeb
+Author:     amtlib-dot-dll <amtlib-dot-dll@users.noreply.github.com>
+AuthorDate: 2015-08-30
+Commit:     amtlib-dot-dll <amtlib-dot-dll@users.noreply.github.com>
+CommitDate: 2015-08-30
+
+    Update README.android
     
-    We use libssh2 to implement sftp feature.  SSHSession is closely
-    designed to TLSSession, but it differs in several aspects.  In this
-    code, we only implements read part of sftp, since aria2 won't offer
-    uploading feature.  Adding SSH/sftp to SocketCore is a bit bloat.  But
-    by doing this we can reuse DownloadCommand, without mostly no
-    modification.  We can just create SSHDownloadCommand by inheriting it,
-    just like existing ftp.
+    Providing some workarounds about CA certificates and standard output
 
-commit 4654f1974a5faa832518ba3875ecb3e77224e656
+commit 17e5c98ba6d1e34c06c66017b899db60134fc9a8
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-07
+AuthorDate: 2015-08-15
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-07
+CommitDate: 2015-08-15
 
-    Update sphinx_rtd_theme
+    Return 200 HTTP status code if exception was caught while executing RPC method
+    
+    Previously, we returned 500 HTTP status code.  I think the found in
+    RPC level, not in HTTP protocol, so 500 is not appropriate.
 
-commit da5b925b151ac97ff7b42114ad1610bf232adf88
-Merge: 1f3667a 3d5b5cc
+commit 925b5cec0702f814dc89055f9ff56e1e1f599049
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-05-04
+AuthorDate: 2015-08-07
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-05-04
+CommitDate: 2015-08-07
+
+    WinTLS: Fix potential infinite loop
+
+commit 52c68c431d35d33e54d9870736f79322f46e635d
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-08-01
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-08-01
+
+    Fix on-download-error is executed even if download succeeded
+
+commit 008aba66d5df85ab0c13c3661c7dcc98ebdacf35
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-07-29
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-07-29
+
+    Check nullptr is supported by C++ compiler
+
+commit 4da5af0f3b424b601153dd1f94b2896c9b61030e
+Merge: 4b92470 f6f3bd3
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-07-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-07-19
+
+    Merge branch 'elieux-mingw'
+
+commit f6f3bd3c3ae62d3008022ca0db0d82a33b3a5b09
+Merge: 4b92470 20a04c1
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-07-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-07-19
+
+    Merge branch 'mingw' of https://github.com/elieux/aria2 into elieux-mingw
+
+commit 4b924702bc740c3cd8f64caa48ff815ebb0a8924
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-07-19
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-07-19
+
+    Fix Dockerfile.mingw
+    
+    Patch from Adam Baxter
+
+commit c3b89d37e12ee69cd7968c048ffc30fafbf46049
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-07-08
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-07-08
+
+    Increase --select-file upper bound to 1m for torrent containing lots of files
+
+commit 7e3d82cb2250c679a5d7dcc7e0e4f25cdd283c36 (origin/gh-430)
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-26
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-26
+
+    Fix busy loop with --dry-run and 4xx response for URI listed in metalink
+    
+    See GH-430
+
+commit 8fddf1bb7e72e0fe67311ed5365621fbcedd53f9
+Author:     Nils Maier <maierman@web.de>
+AuthorDate: 2015-03-23
+Commit:     Nils Maier <maierman@web.de>
+CommitDate: 2015-06-24
+
+    Update sqlite in OSX build to 3.8.10.2
+
+commit a3ba5c058879153dfeb4465dd080a199a1802f4a
+Author:     Nils Maier <maierman@web.de>
+AuthorDate: 2015-06-24
+Commit:     Nils Maier <maierman@web.de>
+CommitDate: 2015-06-24
+
+    Make clang (OSX) happy again
+
+commit 3f2b5dce2fc44b4aecb3c9fc459627a6d02075fb
+Author:     Nils Maier <maierman@web.de>
+AuthorDate: 2015-03-23
+Commit:     Nils Maier <maierman@web.de>
+CommitDate: 2015-06-24
+
+    Make LibuvEventPoll compatible with the latest libuv again
+
+commit 11b25b7a5524510538afd7b734ebf50bec02fd0a
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-22
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-22
+
+    Fix formatting issue for avg speed in Download Result
+
+commit 1adef4db0ce26d9943a8a7d1a0f266455c1902b7
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-21
+
+    Fix compile warning with Mingw64 x86 build
+
+commit 318c804504e32b7a0bbdbb35336d2e918000d80a
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-21
+
+    Use user-defined literal for k, m, and g (powers of 1024)
+
+commit 8ba9b0474747185708a25943fb6d2f97b3d9b17f
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-21
+
+    Cleanup for defines
+
+commit f5ff5da9daa659f651710fa557d0973356fa84d6
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-21
+
+    Use constexpr for macros defined in BtConstants.h
+
+commit 95f2c00c71cff5c0b649f635185c3845773e763e
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-21
+
+    Remove unused macros defined in util.h
+
+commit 7b3f94145da0fbb25f8ca982b7d3129960452054
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-21
+
+    Make constexpr macros in DHTConstant.h
+
+commit 0b48bb1dbd048c7e5232f457a52838155c085d60
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-21
+
+    Use user-defined literals for time units
+
+commit dd277b33af2a5a58c39142097c3ede5df7f5655d
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-21
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-21
+
+    gnutls: Allow SIGN-RSA-SHA1 for compatibility reason
+
+commit 377eb0699f163b872b07aa5acd68432da87d256f
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-11
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-11
+
+    Use std::begin and std::end
+
+commit 37c2edd97abf81d373d55a29b326d68ae53dfb2e
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-11
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-11
+
+    Use std::shuffle, instead of std::random_shuffle
+
+commit 8448b5062feb1aa2af9a61adc5153b12e33d7d14
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-11
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-11
+
+    Use std::begin and std::end
+
+commit 2bbec1086d42f066690048ff5890cfeb1cad25e8
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-11
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-11
+
+    Use std::make_shared
+
+commit 2448a8660b1daa6ba9fced4b637c7c7468782aca
+Merge: 2874f6a ce89e26
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-09
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-09
+
+    Merge branch 'chrono'
+
+commit ce89e26e558674276c29d3598a02a56bd8e95d6c
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-09
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-09
+
+    Remove clock_gettime detection and its replacements
+
+commit 826c239ed22474a614a8b60e6ac0fae5e35de852
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-09
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-09
+
+    Fix compiler warning on 32 bit platform
+
+commit b0f440e631efe18099ced96b604447b5fdce28d8
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-09
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-09
+
+    Rewrite Time with chrono
+
+commit 99cd73c0926f0c07d27777fde2f15816e8040030
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-08
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-09
+
+    Replace timer facility with chrono lib
+
+commit 2874f6ab095a30a4d297cdc85fa3730bec41b1c2
+Merge: a1de673 79cdca5
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-05
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-05
+
+    Merge branch 'wasamasa-pep-394'
+
+commit 79cdca5f5b6f1604a9476a7d235cec6902f86091
+Merge: a1de673 080266a
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-05
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-05
+
+    Merge branch 'pep-394' of https://github.com/wasamasa/aria2 into wasamasa-pep-394
+
+commit a1de6730abcb3d37f0afa7245af27d3e3b483637
+Merge: 9800f61 9d59461
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-06-04
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-06-04
 
     Merge branch 'ITriskTI-patch-1'
 
-commit 3d5b5cc0e9f9c2af1a9f7aed4cff7b15499d4d8a
+commit 080266ac041ee4589f5c14574447ff95c7ad17f2
+Author:     Vasilij Schneidermann <v.schneidermann@gmail.com>
+AuthorDate: 2015-06-04
+Commit:     Vasilij Schneidermann <v.schneidermann@gmail.com>
+CommitDate: 2015-06-04
+
+    Make script compatible with both Python 2 and 3
+
+commit 9d59461f9fd6297280f459a6fd9acb8d53553d3d
 Author:     ITriskTI <ITriskTI@gmail.com>
-AuthorDate: 2015-05-04
+AuthorDate: 2015-06-04
 Commit:     ITriskTI <ITriskTI@gmail.com>
-CommitDate: 2015-05-04
+CommitDate: 2015-06-04
 
     Update aria2c.rst
 
-commit 1f3667a1ee168d50d978f0aad2c56e1313fb67a6
-Merge: 0ab23e7 e182b0e
+commit 9800f61b9a5727184ef26d4cd1c5664d8b5da2b0
+Merge: 8470b51 8bc1d37
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-04-22
+AuthorDate: 2015-06-02
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-04-22
+CommitDate: 2015-06-02
 
-    Merge pull request #365 from hostmaster/dockerfile-raspberrypi
+    Merge branch 'wasamasa-xdg-support'
+
+commit 8bc1d37b3a0735daa817d3efafea25f6b12b1237
+Author:     Vasilij Schneidermann <v.schneidermann@gmail.com>
+AuthorDate: 2015-06-02
+Commit:     Vasilij Schneidermann <v.schneidermann@gmail.com>
+CommitDate: 2015-06-02
+
+    Make config and cache files conform to XDG
     
-    Added Dockerfile to cross complile aria2 for RaspberryPI (armhf)
+    See http://standards.freedesktop.org/basedir-spec/latest/ for further
+    details.  This implementation decides the default based on whether a
+    file exists at the legacy location, if it doesn't, it picks the
+    XDG-conforming location instead.
 
-commit 0ab23e7a8dcf2ff3117fde9f602003b924a6a42f
+commit 8470b51a1d562a9e859c8532a1444fd13eedde57
+Merge: bb8df11 18c73f5
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-04-22
+AuthorDate: 2015-05-30
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-04-22
+CommitDate: 2015-05-30
 
-    Document --multiple-interface option
+    Merge branch 'travis'
+
+commit 18c73f51a4198c988f83621a2cda20b6e70f81ae
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-05-30
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-05-30
+
+    travis: Add libssh2 and run `make check`
+
+commit e210f57594c69d661620efb1cc7e90a13970e695
+Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+AuthorDate: 2015-04-23
+Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
+CommitDate: 2015-05-30
+
+    travis: Add autopoint and use libssl-dev
     
-    Thic commit documents --multiple-interface option, and move option
-    handler for it to the place alphabetical order as we do usually
+    nettle-dev is not white listed yet, and libgcrypt is a bit old.
+    libssl-dev is mostly up-to-date and usable.
 
-commit e182b0e17467a62acff34d2332a7e21c77c62fc1
-Author:     Igor Khomyakov <igor@virtusize.com>
-AuthorDate: 2015-04-22
-Commit:     Igor Khomyakov <igor@virtusize.com>
-CommitDate: 2015-04-22
-
-    Added Dockerfile to cross complile aria2 for RaspberryPI (armhf)
-
-commit 3c84aa074561744e8728217fde58f14826ccee0e
-Merge: 692a674 45199d3
+commit 9334256658a44ce6b12fb433e783f416d15c7ba7
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-04-22
+AuthorDate: 2015-04-23
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-04-22
+CommitDate: 2015-05-30
 
-    Merge branch 'sarim-master'
+    Add travis integration
 
-commit 45199d3691d2576ce9d3882f369a9bf7e4b305a2
-Merge: 692a674 34d773a
+commit bb8df11d7e036d485f52330ef9989e18541dad62
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-04-22
+AuthorDate: 2015-05-28
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-04-22
+CommitDate: 2015-05-28
 
-    Merge branch 'master' of https://github.com/sarim/aria2 into sarim-master
+    ftp, sftp: Fix heap-after-free bug on exception
 
-commit 34d773a4652239d224381559255b4b79f2dccf3f
-Author:     Sarim Khan <sarim2005@gmail.com>
-AuthorDate: 2015-04-19
-Commit:     Sarim Khan <sarim2005@gmail.com>
-CommitDate: 2015-04-21
-
-    multiple interface support for link aggregation
-    
-    fix: wrong variable
-
-commit 692a674fe086b24fa462723688ced2722cfde3b9
+commit 70541498d85d1879dcd9af9210b88a0b633a4fb9
 Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-04-14
+AuthorDate: 2015-05-28
 Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-04-14
+CommitDate: 2015-05-28
 
-    SocketRecvBuffer: Eliminate memmove
-    
-    Since we don't try to read into buffer if buffer is not empty, we
-    don't have to memmove things.  This commit mostly rewrites
-    SocketRecvBuffer.
+    ftp: Fix timeout when reusing FTP connection
 
-commit 8ed8ac0fe8925ab8244e62fbf20de2472480a95f
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-23
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-23
+commit 20a04c1b8d7d3e484933174e9aa1c2d4a509dc38
+Author:     David Macek <david.macek.0@gmail.com>
+AuthorDate: 2015-04-03
+Commit:     David Macek <david.macek.0@gmail.com>
+CommitDate: 2015-04-03
 
-    Remove extra space between # and define
-    
-    Fixes GH-356
+    Fix linking with libintl on MinGW-w64
 
-commit d6d21085e27ad98f809f99f1662ac5ad37a97211
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-22
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-22
+commit 53d8cbbe143a1fef3738c51887951e45ac6c4f8f
+Author:     David Macek <david.macek.0@gmail.com>
+AuthorDate: 2015-04-03
+Commit:     David Macek <david.macek.0@gmail.com>
+CommitDate: 2015-04-03
 
-    Document that libxml2-dev and libcppuni-dev are required when building form git
-    
-    Fixes GH-354
-
-commit d03c7b32c64e200f304f2124412aa7b96ebafd6c
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-22
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-22
-
-    Refactor MultiDiskAdaptor::closeFile() and add assert for debugging
-
-commit b324be70ad452b499b9afdd3f604eeb3a7328b57
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-22
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-22
-
-    Run on-bt-download-complete command when -V reports download finished
-    
-    See GH-355
-
-commit 7f9bb0e2da6365863f7c144117e5dbfa5f9aa3cf
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-22
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-22
-
-    Use dedicated DiskWriter in MultiDiskFileAllocationIterator
-    
-    We have to use dedicated DiskWriter instead of
-    (*entryItr_)->getDiskWriter().  This is because
-    SingleFileAllocationIterator cannot reopen file if file is closed by
-    OpenedFileCounter.
-
-commit c248d456d194532098747055dd75a28118d77521
-Author:     Nils Maier <maierman@web.de>
-AuthorDate: 2015-03-04
-Commit:     Nils Maier <maierman@web.de>
-CommitDate: 2015-03-18
-
-    Comment getrandom code a bit
-
-commit ee63dff2258ff013e6905cb08d3d5e9ad53e3696
-Author:     Nils Maier <maierman@web.de>
-AuthorDate: 2015-03-04
-Commit:     Nils Maier <maierman@web.de>
-CommitDate: 2015-03-18
-
-    Fix getrandom for system with libc not including errno or systems
-    
-    not supporting ENOSYS in the first place.
-    
-    Fixes GH-347
-
-commit 1ad1d43a6a4fd0f7d9ed577dae7103521a6b4a00
-Merge: c17b98a 2fdd0b3
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-14
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-14
-
-    Merge branch 'rasa-patch-1'
-
-commit 2fdd0b3f3f346166fa358e4afb44898935270dfe
-Author:     Ross Smith II <ross@smithii.com>
-AuthorDate: 2015-03-13
-Commit:     Ross Smith II <ross@smithii.com>
-CommitDate: 2015-03-13
-
-    Update DOCKER.mingw to bump sqlite to 3.8.8.3
-
-commit c17b98a9fcb502846147fe54560c57e52c80d4ff
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-13
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-13
-
-    Don't send back rpc-secret option value in aria2.getGlobalOption RPC method
-
-commit 762ab15450dc1d32534dc49a2f5627da71312f9c
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-13
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-13
-
-    Avoid copy
-
-commit 650f04586dbf658d7141318c10bf07a451d20230
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-11
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-11
-
-    Make libuv default off
-    
-    See GH-241 for discussion
-
-commit cb5ccf6a7a67c5c4e864dad98d0e0b149e5fecd2
-Author:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-AuthorDate: 2015-03-08
-Commit:     Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
-CommitDate: 2015-03-08
-
-    SocketBuffer: Keep sending until blocked
-    
-    See GH-345
-
-commit fd6f5ebc32eb5f74501e11b7e519642ee95d49f0
-Author:     Nils Maier <maierman@web.de>
-AuthorDate: 2015-03-01
-Commit:     Nils Maier <maierman@web.de>
-CommitDate: 2015-03-01
-
-    Fix getrandom interface detection
-    
-    Fixes GH-346
+    Fix detection of localtime_r and asctime_r on MinGW-w64
