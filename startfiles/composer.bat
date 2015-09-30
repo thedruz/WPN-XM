@@ -13,6 +13,6 @@ SET COMPOSER_HOME="%~dp0"
 SET COMPOSER_CACHE_DIR="%~dp0cache"
 
 :: call composer
-echo "%~dp0..\php\php.exe" "%~dp0composer.phar" %*
+"%~dp0..\php\php.exe" --working-dir="%cd%" "%~dp0composer.phar" %*
 
 pause
