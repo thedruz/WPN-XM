@@ -1,5 +1,9 @@
-== WPИ-XM image:https://travis-ci.org/WPN-XM/WPN-XM.svg["Build Status", link="https://travis-ci.org/WPN-XM/WPN-XM"] image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/pr?style=flat["IssueStats", link="http://issuestats.com/github/wpn-xm/wpn-xm"] image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/issue?style=flat["IssueStats", link="http://issuestats.com/github/wpn-xm/wpn-xm"]
-*WPИ-XM is a free and open-source web server solution stack for professional PHP development on the Windows platform.*
+== WPИ-XM 
+*WPИ-XM is a free and open-source web server solution stack for professional PHP development on Windows.*
+
+image:https://travis-ci.org/WPN-XM/WPN-XM.svg["Build Status", link="https://travis-ci.org/WPN-XM/WPN-XM"] image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/pr?style=flat["IssueStats", link="http://issuestats.com/github/wpn-xm/wpn-xm"] image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/issue?style=flat["IssueStats", link="http://issuestats.com/github/wpn-xm/wpn-xm"]
+
+=== What is WPИ-XM?
 
 The abbreviation WPИ-XM consists of the initial letters of **W**indows, **P**HP, **N**GINX, **X**Debug and **M**ariaDB.
 
@@ -27,17 +31,14 @@ The installation wizards are continuously integrated on Github, build on Travis-
 WPИ-XM is open-source and MIT licensed.
 Technology in use: Innosetup, Inno Download Plugin, Pascal, Phing, Bash, Batch, C++, Qt, PHP, HTML, JS/jQuery, upx, aria2c.
 
-**Official Website:**   http://wpn-xm.org/
-
-**Twitter:**            http://twitter.com/wpnxm/
-
-**Mailing List:**       http://groups.google.com/group/wpn-xm/
-
-**Github:**             https://github.com/WPN-XM/WPN-XM/
-
-**Issue tracking:**     https://github.com/WPN-XM/WPN-XM/issues
-
-**Ask a question:**     http://stackoverflow.com/questions/tagged/wpn-xm
+|===
+| **Website**        | http://wpn-xm.org/
+| **Twitter**        | http://twitter.com/wpnxm/
+| **Mailing List**   | http://groups.google.com/group/wpn-xm/
+| **Github**         | https://github.com/WPN-XM/WPN-XM/
+| **Issue tracking** | https://github.com/WPN-XM/WPN-XM/issues
+| **Ask a question** | http://stackoverflow.com/questions/tagged/wpn-xm
+|===
 
 === Downloads
 
