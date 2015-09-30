@@ -171,7 +171,7 @@ Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Compon
 Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
-Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
+Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: composer
 Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
@@ -1226,7 +1226,7 @@ begin
   begin
     UpdateCurrentComponentName('Composer');
       ExtractTemporaryFile(Filename_composer);
-      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\php\' + Filename_composer, false);
+      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\composer\' + Filename_composer, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1402,7 +1402,7 @@ begin
   if CurStep = ssPostInstall then DoPostInstall();
 
   // when the wizard finishes, copy the installation logfile from tmp dir to application dir.
-  // this allows easier debugging of installation problems. the user can upload or reference parts of the log.
+  // this allows easier debugging of installation problems and users can upload or reference parts of the log.
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;

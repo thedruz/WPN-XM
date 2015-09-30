@@ -148,7 +148,7 @@ Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Compon
 Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
-Source: ..\startfiles\composer.bat; DestDir: {app}\bin\php; Components: composer
+Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: composer
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
@@ -838,7 +838,7 @@ begin
   begin
     UpdateCurrentComponentName('Composer');
       ExtractTemporaryFile(Filename_composer);
-      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\php\' + Filename_composer, false);
+      FileCopy(ExpandConstant(targetPath + Filename_composer), appDir + '\bin\composer\' + Filename_composer, false);
     UpdateTotalProgressBar();
   end;
 
