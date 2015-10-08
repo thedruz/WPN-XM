@@ -1,39 +1,43 @@
-                         ___________
-                         W P И - X M
+** WPИ-XM Server Stack - http://wpn-xm.org/         Copyright (c) Jens-André Koch.
 
-WPИ-XM Server Stack - http://wpn-xm.org/         Copyright (c) Jens-André Koch.
-______________________________________________________________________________
+### Introduction
 
-1. Legend
+This document is a curated, chronologically ordered list of notable changes for
+each version of WPN-XM.
+
+1. Legend for the desription of changes 
 
 We label changes to describe their impact on the project, as follows:
 
-NEW   for a new feature
-CHG   for changes in existing functionality
-DPR   for once-stable features removed in upcoming releases
-REM   for deprecated features removed in this release
-FIX   for any bug fixes
-SEC   to invite users to upgrade in case of vulnerabilities
+Type of Change | Description
+-------------- | -----------------------------------------------------
+| NEW          | for a new feature
+| CHG          | for changes in existing functionality
+| DPR          | for once-stable features removed in upcoming releases
+| REM          | for deprecated features removed in this release
+| FIX          | for any bug fixes
+| SEC          | to invite users to upgrade in case of vulnerabilities
 
 2. Template
 
-This is a template for a new release section with changes:
+This is a template for a new release section with a few changes:
 
-------------  ----------------------------------------------------------------
-[YYYY-MM-DD]  Unreleased  VERSION x.y.z
-------------  ----------------------------------------------------------------
-[2015.MM.DD]  NEW   added x
-[2015.MM.DD]  FIX   fixed y
-[2015.MM.DD]  CHG   removed z
+Date         | Type of Change | Description
+------------ | -------------- | -----------
+[YYYY-MM-DD] | Unreleased     | VERSION x.y.z 
+[2015.MM.DD] | NEW            | added a
+[2015.MM.DD] | FIX            | fixed b
+[2015.MM.DD] | CHG            | removed c
 
 3. Unreleased Section
 
 The "Unreleased" section at the top is for keeping track of current changes.
 At release time, its just changed from "Unreleased" to "Released".
 A new "Unreleased" section is added, when the next change is added.
+
 _____________________________________________________________________________
 
-CHANGELOG
+## Change Log
 
 ------------  ----------------------------------------------------------------
 [2015-MM-DD]  Unreleased  VERSION 0.8.z
