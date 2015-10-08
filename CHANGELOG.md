@@ -1,32 +1,49 @@
                          ___________
                          W P И - X M
 
- WPИ-XM Server Stack
- http://wpn-xm.org/
- Copyright (c) 2010-2014, Jens-André Koch. All rights reserved.
+WPИ-XM Server Stack - http://wpn-xm.org/         Copyright (c) Jens-André Koch.
 ______________________________________________________________________________
 
-CHANGELOG
-------------  ----------------------------------------------------------------
-Legend        NEW   New Feature
-              CHG   Change
-              FIX   Bugfix
-              LNG   Updated language file
-              RQM   New requirement
-              REL   New release
-              UPD   Update
-------------  ----------------------------------------------------------------
-TEMPLATE FOR  NEW ENTRIES
-------------  ----------------------------------------------------------------
-[x.x.2015]    REL   VERSION x.y.z
-------------  ----------------------------------------------------------------
-[x.x.2015]    NEW   added this n that
-[x.x.2015]    FIX   fixed this n that
-[x.x.2015]    CHG   removed this n that
-_____________________________________________________________________________
+1. Legend
+
+We label changes to describe their impact on the project, as follows:
+
+NEW   for a new feature
+CHG   for changes in existing functionality
+DPR   for once-stable features removed in upcoming releases
+REM   for deprecated features removed in this release
+FIX   for any bug fixes
+SEC   to invite users to upgrade in case of vulnerabilities
+
+2. Template
+
+This is a template for a new release section with changes:
 
 ------------  ----------------------------------------------------------------
-[21.08.2015]  REL   VERSION 0.8.6
+[YYYY-MM-DD]  Unreleased  VERSION x.y.z
+------------  ----------------------------------------------------------------
+[2015.MM.DD]  NEW   added x
+[2015.MM.DD]  FIX   fixed y
+[2015.MM.DD]  CHG   removed z
+
+3. Unreleased Section
+
+The "Unreleased" section at the top is for keeping track of current changes.
+At release time, its just changed from "Unreleased" to "Released".
+A new "Unreleased" section is added, when the next change is added.
+_____________________________________________________________________________
+
+CHANGELOG
+
+------------  ----------------------------------------------------------------
+[2015-MM-DD]  Unreleased  VERSION 0.8.z
+------------  ----------------------------------------------------------------
+[2015.MM.DD]  NEW   added x
+[2015.MM.DD]  FIX   fixed y
+[2015.MM.DD]  CHG   removed z
+
+------------  ----------------------------------------------------------------
+[21.08.2015]  Release VERSION 0.8.6
 ------------  ----------------------------------------------------------------
 
               FIX   component extractions:
@@ -38,7 +55,7 @@ _____________________________________________________________________________
               CHG   switched from "msysgit" to "git for windows"
 
 ------------  ----------------------------------------------------------------
-[12.07.2015]  REL   VERSION 0.8.5
+[12.07.2015]  Release VERSION 0.8.5
 ------------  ----------------------------------------------------------------
 
               FIX   installers to stop to inserting global settings
@@ -57,7 +74,7 @@ _____________________________________________________________________________
               CHG   removed component "junction"
 
 ------------  ----------------------------------------------------------------
-[28.06.2015]  REL   VERSION 0.8.4
+[28.06.2015]  Release VERSION 0.8.4
 ------------  ----------------------------------------------------------------
 
               FIX   fixed uninstaller to not recursively delete reparse points
@@ -67,7 +84,7 @@ _____________________________________________________________________________
   28.06.2015  CHG   server control panel is now released with version number
 
 ------------  ----------------------------------------------------------------
-[26.06.2015]  REL   VERSION 0.8.3
+[26.06.2015]  Release VERSION 0.8.3
 ------------  ----------------------------------------------------------------
               RC
 
@@ -94,7 +111,7 @@ _____________________________________________________________________________
               CHG   silent installation of VCREDIST
 
 ------------  ----------------------------------------------------------------
-[14.03.2015]  REL   VERSION 0.8.2
+[14.03.2015]  Release VERSION 0.8.2
 ------------  ----------------------------------------------------------------
 
   14.03.2015  FIX   mariadb inital database creation failed
@@ -110,7 +127,7 @@ _____________________________________________________________________________
               FIX   rockmongo is no longer extracted to \bin but to \www\tools
 
 ------------  ----------------------------------------------------------------
-[07.03.2015]  REL   VERSION 0.8.1
+[07.03.2015]  Release VERSION 0.8.1
 ------------  ----------------------------------------------------------------
 
   07.03.2015  CHG   Will Travis release it?
@@ -118,7 +135,7 @@ _____________________________________________________________________________
                     Using Console mode, without xvfb window.
 
 ------------  ----------------------------------------------------------------
-20.09.2014    REL    Version 0.8.0
+20.09.2014    Release Version 0.8.0
 ------------  ----------------------------------------------------------------
 
   20.09.2014  CHG   Renamed Installation Wizards
@@ -248,7 +265,7 @@ _____________________________________________________________________________
               ADD pickle v0.1.1 was added
 
 ------------  ----------------------------------------------------------------
-12.04.2014    REL    Version 0.7.0
+12.04.2014    Release Version 0.7.0
 ------------  ----------------------------------------------------------------
 
   12.04.2014  ADD google closure comiler
@@ -271,13 +288,13 @@ _____________________________________________________________________________
               Webinstaller -> Latest
 
 ------------  ----------------------------------------------------------------
-tba           REL    Version 0.6.1
+tba           Release Version 0.6.1
 ------------  ----------------------------------------------------------------
 
  19.12.2013   UPD  Inno Download Plugin v1.1.0
 
 ------------  ----------------------------------------------------------------
-19.12.2013    REL    Version 0.6.0
+19.12.2013    Release Version 0.6.0
 ------------  ----------------------------------------------------------------
 
  18.12.2013   This release adresses several bugs in the Server Control Panel:
@@ -310,7 +327,7 @@ tba           REL    Version 0.6.1
               - has start & stop buttons for daemons
 
 ------------  ----------------------------------------------------------------
-02.12.2013    REL    Version 0.5.4
+02.12.2013    Release Version 0.5.4
 ------------  ----------------------------------------------------------------
 
  30.11.2013   NEW    webinterface update to work with embedded PHP server
@@ -344,7 +361,7 @@ tba           REL    Version 0.6.1
                      https://github.com/WPN-XM/WPN-XM/issues/89
 
 ------------  ----------------------------------------------------------------
-tba           REL    Version 0.5.3
+tba           Release Version 0.5.3
 ------------  ----------------------------------------------------------------
 
               NEW    NGINX 1.3.13
@@ -355,7 +372,7 @@ tba           REL    Version 0.5.3
                      (from /bin/memcached). it was not deleted by uninstall.
 
 ------------  ----------------------------------------------------------------
-18.02.2013    REL    Version 0.5.2
+18.02.2013    Release Version 0.5.2
 ------------  ----------------------------------------------------------------
 
                      Some entries missing here..
@@ -378,7 +395,7 @@ tba           REL    Version 0.5.3
                      https://github.com/WPN-XM/WPN-XM/issues/75
 
 ------------  ----------------------------------------------------------------
-[21.01.2013]  REL    Version 0.5.1
+[21.01.2013]  Release Version 0.5.1
 ------------  ----------------------------------------------------------------
               https://github.com/WPN-XM/WPN-XM/issues?milestone=5&state=closed
 
@@ -394,7 +411,7 @@ tba           REL    Version 0.5.3
               UPD    issue #69 - software registry out-of-sync
 
 ------------  ----------------------------------------------------------------
-[19.01.2013]  REL    Version 0.5.0
+[19.01.2013]  Release Version 0.5.0
 ------------  ----------------------------------------------------------------
 
               NEW    All-In-One Installer
@@ -418,7 +435,7 @@ tba           REL    Version 0.5.3
 [02.09.2012]  NEW    enabled php_com_dotnet extensions by default
 
 ------------  ----------------------------------------------------------------
-[01.09.2012]  REL    Version 0.4
+[01.09.2012]  Release Version 0.4
 ------------  ----------------------------------------------------------------
 
 [31.08.2012]  CHG    sorted all URLS and FILES in the innoscript
@@ -470,7 +487,7 @@ tba           REL    Version 0.5.3
                      in the SCP with the daemon, they rely on (php+nginx)
 
 ------------  ----------------------------------------------------------------
-[11.06.2012]  REL    Version 0.3
+[11.06.2012]  Release Version 0.3
 ------------  ----------------------------------------------------------------
 
 [11.06.2012]  NEW    added WPN-XM SCP 0.3.0
@@ -520,7 +537,7 @@ tba           REL    Version 0.5.3
               NEW    PHP Extension for ZeroMQ v2.1
 
 ------------  ----------------------------------------------------------------
-[06.02.2012]  REL    Version 0.2
+[06.02.2012]  Release Version 0.2
 ------------  ----------------------------------------------------------------
 
 [06.02.2012]  UPD    NGINX 1.1.11
@@ -563,7 +580,7 @@ tba           REL    Version 0.5.3
 [07.12.2011]  CHG    renamed severpack to server stack
 
 ------------  ----------------------------------------------------------------
-[12.11.2011]  REL    Version 0.1
+[12.11.2011]  Release Version 0.1
 ------------  ----------------------------------------------------------------
 
               NEW    created and set up website wpn-xm.org
