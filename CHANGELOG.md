@@ -7,58 +7,52 @@ each version of WPN-XM.
 
 We label changes to describe their impact on the project, as follows:
 
-Type of Change | Description
--------------- | -----------------------------------------------------
-| NEW          | for a new feature
-| CHG          | for changes in existing functionality
-| DPR          | for once-stable features removed in upcoming releases
-| REM          | for deprecated features removed in this release
-| FIX          | for any bug fixes
-| SEC          | to invite users to upgrade in case of vulnerabilities
+- **NEW** for a new feature
+- **CHG** for changes in existing functionality
+- **DPR** for once-stable features removed in upcoming releases
+- **REM** for deprecated features removed in this release
+- **FIX** for any bug fixes
+- **SEC** to invite users to upgrade in case of vulnerabilities
 
 #### 2.Template
 
 This is a template for a new release section with a few changes:
 
-Date         | Type of Change | Description
------------- | -------------- | -----------
-[YYYY-MM-DD] | Unreleased     | VERSION x.y.z 
-[2015.MM.DD] | NEW            | added a
-[2015.MM.DD] | FIX            | fixed b
-[2015.MM.DD] | CHG            | removed c
+```
+### Unreleased [YYYY-MM-DD] 
+ - [2015.MM.DD] NEW added a
+ - [2015.MM.DD] FIX fixed b
+ - [2015.MM.DD] CHG removed c
+```
 
 #### 3.Unreleased Section
 
 The "Unreleased" section at the top is for keeping track of current changes.
-At release time, its just changed from "Unreleased" to "Released".
+At release time, its just changed from "Unreleased" to the current version number.
+Using the version number as a header allows to use them as links.
 A new "Unreleased" section is added, when the next change is added.
 
 _____________________________________________________________________________
 
 ## Change Log
 
-------------  ----------------------------------------------------------------
-[2015-MM-DD]  Unreleased  VERSION 0.8.z
-------------  ----------------------------------------------------------------
+### Unreleased
+
 [2015.MM.DD]  NEW   added x
 [2015.MM.DD]  FIX   fixed y
 [2015.MM.DD]  CHG   removed z
 
-------------  ----------------------------------------------------------------
-[21.08.2015]  Release VERSION 0.8.6
-------------  ----------------------------------------------------------------
+### [0.8.6] 2015-08-21
 
-              FIX   component extractions:
-                    - "msysgit/git for windows" extracted to "/bin/git"
-                    - "gogs" extracted to "/bin/gogs"
-                    - Imagick extracted to "/bin/imagick"
-                    - PHP extensions extracted to "/bin/php/ext"
-              CHG   removed xdebug from PHP7 installers. no release, yet.
-              CHG   switched from "msysgit" to "git for windows"
+- FIX component extractions:
+  - "msysgit/git for windows" extracted to "/bin/git"
+  - "gogs" extracted to "/bin/gogs"
+  - Imagick extracted to "/bin/imagick"
+  - PHP extensions extracted to "/bin/php/ext"
+- CHG removed xdebug from PHP7 installers. no release, yet.
+- CHG switched from "msysgit" to "git for windows"
 
-------------  ----------------------------------------------------------------
-[12.07.2015]  Release VERSION 0.8.5
-------------  ----------------------------------------------------------------
+### [0.8.5] 2015-07-12
 
               FIX   installers to stop to inserting global settings
                     into the extension section in php.ini
@@ -75,20 +69,16 @@ _____________________________________________________________________________
               FIX   fixed webinterface cannot redeclare class error
               CHG   removed component "junction"
 
-------------  ----------------------------------------------------------------
-[28.06.2015]  Release VERSION 0.8.4
-------------  ----------------------------------------------------------------
+### 0.8.4
 
-              FIX   fixed uninstaller to not recursively delete reparse points
-              NEW   added redis configuration
-              CHG   enabled PHP extensions (by default):
-                      mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
-  28.06.2015  CHG   server control panel is now released with version number
+| | | |
+| ------------- | ------------- | ------------- |
+|             | FIX           | fixed uninstaller to not recursively delete reparse points
+|             | NEW           | added redis configuration
+|             | CHG           | enabled PHP extensions (by default): mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
+| 28.06.2015  | CHG           |  server control panel is now released with version number
 
-------------  ----------------------------------------------------------------
-[26.06.2015]  Release VERSION 0.8.3
-------------  ----------------------------------------------------------------
-              RC
+### 0.8.3 [26.06.2015]
 
   17.06.2015  NEW   added vcredist 2015 detection o LiteRC installer for PHP7
 
@@ -112,9 +102,7 @@ _____________________________________________________________________________
               CHG   dropped RockMongo (it's unmaintained).
               CHG   silent installation of VCREDIST
 
-------------  ----------------------------------------------------------------
-[14.03.2015]  Release VERSION 0.8.2
-------------  ----------------------------------------------------------------
+### 0.8.2 [14.03.2015]  
 
   14.03.2015  FIX   mariadb inital database creation failed
               FIX   updated wpn-xm.ini with missing values
@@ -128,17 +116,15 @@ _____________________________________________________________________________
               FIX   ampersand UTF-8 problem in the install wizard by using +
               FIX   rockmongo is no longer extracted to \bin but to \www\tools
 
-------------  ----------------------------------------------------------------
-[07.03.2015]  Release VERSION 0.8.1
-------------  ----------------------------------------------------------------
+### 0.8.1 [07.03.2015]
 
   07.03.2015  CHG   Will Travis release it?
                     The gift that he gives to me... No one knows!
                     Using Console mode, without xvfb window.
 
-------------  ----------------------------------------------------------------
-20.09.2014    Release Version 0.8.0
-------------  ----------------------------------------------------------------
+
+ ### 0.8.0 [20.09.2014]
+
 
   20.09.2014  CHG   Renamed Installation Wizards
 
@@ -603,3 +589,12 @@ tba           Release Version 0.5.3
 [12.06.2011]  NEW    layed out a directory structure for the project
 
 ------------    ----------------------------------------------------------------
+
+<style>
+body table th:empty {
+  font-size: 0px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+</style>
