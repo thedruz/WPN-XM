@@ -42,7 +42,8 @@ goto END
     set PHP_FCGI_MAX_REQUESTS=0
     set PHP_FCGI_CHILDREN=4
 
-    %HIDECONSOLE% %~dp0bin\php\php-cgi.exe -b 127.0.0.1:9100 -c %~dp0bin\php\php.ini
+    :: spawn multiple php processes at port 9100
+    %HIDECONSOLE% %~dp0bin\tools\spawn.exe %~dp0bin\php\php-cgi.exe 9100 4
     echo.
 goto END
 

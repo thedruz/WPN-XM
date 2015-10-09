@@ -52,6 +52,7 @@ goto :eof :: return to caller
 
 :stop-php
     echo Stopping PHP-CGI
+    %KILL-PROCESS% spawn.exe
     %KILL-PROCESS% php-cgi.exe
     echo.
 goto :eof :: return to caller

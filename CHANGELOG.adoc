@@ -3,7 +3,7 @@
 This document is a curated, chronologically ordered list of notable changes for
 each version of WPN-XM.
 
-#### 1. Legend for the desription of changes
+#### 1. Legend for the description of changes
 
 We label changes to describe their impact on the project, as follows:
 
@@ -17,10 +17,10 @@ We label changes to describe their impact on the project, as follows:
 
 #### 2. Template
 
-This is a template for a new release section with a few changes:
+This is a template for a new release section:
 
 ```
-### Unreleased - YYYY-MM-DD
+### vX.Y.Z - YYYY-MM-DD
 
 [cols="2,1,6a", width="80%"]
 |===
@@ -30,15 +30,30 @@ This is a template for a new release section with a few changes:
 |===
 ```
 
-#### 3. Unreleased Section
+Each section contains a header with version and date and a table listing the changes.
 
 The "Unreleased" section at the top is for keeping track of current changes.
+At release time, its just changed from "Unreleased" to the current version number. A new "Unreleased" section is added, when the next change is added.
 
-At release time, its just changed from "Unreleased" to the current version number.
+#### 3. Version Information
 
-Using the version number as a header allows to use them as links.
+Please see the website for the full version information of
+software components shipped by an installation wizard.
+The webinstaller ships latest versions from our registry.
 
-A new "Unreleased" section is added, when the next change is added.
+The version change information is part of the Release Notes.
+
+#### 4. Commit Log
+
+You get the commit log for a version by comparing the git tags:
+
+  https://github.com/WPN-XM/WPN-XM/compare/0.7.0...v0.8.0
+              
+#### 5. Milestone Issues
+
+You might list the closed issues per milestone using our Github tracker:
+
+   https://github.com/WPN-XM/WPN-XM/issues?milestone=10&q=is%3Aclosed
 
 ## Change Log
 
@@ -48,8 +63,8 @@ A new "Unreleased" section is added, when the next change is added.
 |===
 | 2015.MM.DD | NEW | added x
 | 2015.MM.DD | FIX | fixed y
-| 2015.MM.DD | CHG | - removed z
-                     - a
+| 2015.MM.DD | CHG | - changed this
+                     - modified that
 |===
 
 ### v0.8.6 - 2015-08-21
@@ -97,7 +112,7 @@ A new "Unreleased" section is added, when the next change is added.
 
 [cols="2,1,6a", width="80%"]
 |===
-| 2015-06-17 | NEW | added vcredist 2015 detection o LiteRC installer for PHP7
+| 2015-06-17 | NEW | added vcredist 2015 detection to LiteRC installer (for PHP7)
 | 2015-04-26 | CHG | moved configs into subfolders
                      and updated installers accordingly
 |            | CHG | added "COMPILE_FROM_IDE" define to allow local compiles
@@ -113,9 +128,9 @@ A new "Unreleased" section is added, when the next change is added.
 | 2015-04-15 | CHG | adjusted batch scripts: replaced %cd% with %~dp0)
                      renamed batch scripts: removed "wpnxm-" prefix
 | 2015-03-22 | NEW | added Strawberry Perl x64
-             | CHG | x64 versions of the Full Installer include Perl x64
+|            | CHG | x64 versions of the Full Installer include Perl x64
 | 2015-03-17 | NEW | added RoboMongo
-             | CHG | dropped RockMongo (it's unmaintained).
+             | CHG | dropped RockMongo (it's unmaintained)
              | CHG | silent installation of VCREDIST
 |===
 
@@ -150,11 +165,12 @@ A new "Unreleased" section is added, when the next change is added.
 [cols="2,1,6a", width="80%"]
 |===
 | 2014-09-20 | CHG | Renamed Installation Wizards
-                     There are 4 installation wizard types:
-                      - webinstaller
-                      - full (formerly bigpack)
-                      - standard (formerly allinone)
-                      - lite
+                     - There are 4 installation wizard types:
+                     
+                      * webinstaller
+                      * full (formerly bigpack)
+                      * standard (formerly allinone)
+                      * lite
 |            | CHG | Installation wizards for multiple PHP versions (including x64):
 
                      Each installation wizards is build for the following PHP versions:
@@ -162,115 +178,35 @@ A new "Unreleased" section is added, when the next change is added.
                       - PHP 5.5 x86 & x64
                       - PHP 5.6 x86 & x64
 |            | CHG | Deployment to Github, Sourceforge and WPN-XM server
-
-              Milestone Issues
-
-              https://github.com/WPN-XM/WPN-XM/issues?milestone=10&q=is%3Aclosed
-
-              #252 https://github.com/WPN-XM/WPN-XM/issues/252  mongo stop command doesn't work
-              #250 https://github.com/WPN-XM/WPN-XM/issues/250  Warning/PHP Startup: Unable to load dynamic library 'ext\php_mongo.dll' - %1 is not a valid Win32 application.
-              #244 https://github.com/WPN-XM/WPN-XM/issues/244  Web Installer Failure - 404 on php extension X-cache
-              #243 https://github.com/WPN-XM/WPN-XM/issues/243  rockmongo is installed in a versionized folder
-              #239 https://github.com/WPN-XM/WPN-XM/issues/239  [build.xml][commit-versionized-registries] workingdir is not found
-              #237 https://github.com/WPN-XM/WPN-XM/issues/237  execute stripdown scripts in each "full-version-phpversion-bitsize" folder
-              #234 https://github.com/WPN-XM/WPN-XM/issues/234  some php extensions for 5.5 (and 5.6) missing
-              #233 https://github.com/WPN-XM/WPN-XM/issues/233  movedownloadfiles misses downloads
-              #231 https://github.com/WPN-XM/WPN-XM/issues/231  exchange xhprof with uprofiler
-              #229 https://github.com/WPN-XM/WPN-XM/issues/229  add pickle - php extension installer
-              #224 https://github.com/WPN-XM/WPN-XM/issues/224  switch buildsystem from nAnt to Phing
-              #223 https://github.com/WPN-XM/WPN-XM/issues/223  the imagick core dlls must be filtered out on the php extensions tab (config)
-              #222 https://github.com/WPN-XM/WPN-XM/issues/222  "CORE_RL_wand_.dll is missing" error when enabling imagik.
-              #219 https://github.com/WPN-XM/WPN-XM/issues/219  Varnish installed under \bin\varnish-3.0.2
-              #216 https://github.com/WPN-XM/WPN-XM/issues/216  Add php_uploadprogress extension.
-              #212 https://github.com/WPN-XM/WPN-XM/issues/212  /bin/backup folder is not created during install the
-              #211 https://github.com/WPN-XM/WPN-XM/issues/211  Starting MongoDB after installation
-              #210 https://github.com/WPN-XM/WPN-XM/issues/210  Starting memcached
-              #207 https://github.com/WPN-XM/WPN-XM/issues/207  Going from MariaDB 5.5 to 10.0
-              #206 https://github.com/WPN-XM/WPN-XM/issues/206  add option to start control panel minimized
-              #204 https://github.com/WPN-XM/WPN-XM/issues/204  lift MongoDb version lock (v2.0.8)
-              #196 https://github.com/WPN-XM/WPN-XM/issues/196  PostgreSQL is not in control panel
-              #195 https://github.com/WPN-XM/WPN-XM/issues/195  Put all the admin folders in "server/www/tools/"
-              #194 https://github.com/WPN-XM/WPN-XM/issues/194  Website shows 0.6.0 as Latest Release
-              #193 https://github.com/WPN-XM/WPN-XM/issues/193  add php extension phalcon
-              #186 https://github.com/WPN-XM/WPN-XM/issues/186  updater: add dialog "building custom registries for installers"
-              #152 https://github.com/WPN-XM/WPN-XM/issues/152  show only installed components in the SCP
-              #56  https://github.com/WPN-XM/WPN-XM/issues/56   switch between PHP versions
-
-              Commits
-
-              https://github.com/WPN-XM/WPN-XM/compare/0.7.0...v0.8.0
-
-              Version Information
-
-              Please see the website for the full version information of
-              software components shipped by the full, standard and lite installation wizards.
-              The webinstaller ships latest versions from our registry.
-
-              http://wpn-xm.org/#downloads-list
-
-              Version Information
-
-              Changes (bigpack-0.7.0-w32 -> full-0.8.0-php5.4-w32)
-
-              | UPD | adminer was updated from v4.0.3 to v4.1.0
-              | UPD | imagick was updated from v6.8.9-0 to v6.8.9-7
-              | UPD | mariadb was updated from v5.5.36 to v10.1.0
-              | UPD | memcached was updated from v1.4.5 to v1.5.7
-              | UPD | mongodb was updated from v2.0.8 to v2.7.6
-              | UPD | nginx was updated from v1.5.13 to v1.7.5
-              | UPD | node was updated from v0.11.12 to v0.11.13
-              | UPD | nodenpm was updated from v1.4.6 to v1.4.12
-              | UPD | perl was updated from v5.18.2.1 to v5.20.1.1
-              | UPD | php was updated from v5.4.27 to v5.4.33
-              | UPD | phpext_amqp was updated from v1.4.0beta2 to v1.4.0
-              | UPD | phpext_imagick was updated from v3.2.0b1 to v3.2.0b2
-              | UPD | phpext_mongo was updated from v1.4.5 to v1.5.7
-              | DEL | phpext_xcache was removed
-              | UPD | phpext_xdebug was updated from v2.2.4 to v2.2.5
-              | DEL | phpext_xhprof was removed
-              | UPD | phpmyadmin was updated from v4.2.0-alpha2 to v4.2.8.1
-              | UPD | postgresql was updated from v9.3.4 to v9.3.5
-              | UPD | rockmongo was updated from v1.1.5 to v1.1.7
-              | UPD | wpnxmscp was updated from v0.6.1 to v0.8.0
-              DEL xhprof was removed
-             | NEW | phpext_phalcon v1.3.2 was added
-             | NEW | phpext_uploadprogress v1.0.3.1 was added
-             | NEW | phpext_uprofiler v0.9.2 was added
-             | NEW | pickle v0.1.1 was added
-             | NEW | uprofiler v1.0 was added
-
-              Changes (allinone-0.7.0-w32 -> standard-0.8.0-php5.4-w32)
-
-              | UPD | adminer was updated from v4.0.3 to v4.1.0
-              | UPD | mariadb was updated from v5.5.36 to v10.1.0
-              | UPD | memcached was updated from v1.4.5 to v1.5.7
-              | UPD | mongodb was updated from v2.0.8 to v2.7.6
-              | UPD | nginx was updated from v1.5.13 to v1.7.5
-              | UPD | php was updated from v5.4.27 to v5.4.33
-              | UPD | phpext_amqp was updated from v1.4.0beta2 to v1.4.0
-              | UPD | phpext_mongo was updated from v1.4.5 to v1.5.7
-              DEL phpext_xcache was removed
-              | UPD | phpext_xdebug was updated from v2.2.4 to v2.2.5
-              DEL phpext_xhprof was removed
-              | UPD | phpmyadmin was updated from v4.2.0-alpha2 to v4.2.8.1
-              | UPD | rockmongo was updated from v1.1.5 to v1.1.7
-              | UPD | wpnxmscp was updated from v0.6.1 to v0.8.0
-              DEL xhprof was removed
-             | NEW | phpext_phalcon v1.3.2 was added
-             | NEW | phpext_uploadprogress v1.0.3.1 was added
-             | NEW | phpext_uprofiler v0.9.2 was added
-             | NEW | pickle v0.1.1 was added
-             | NEW | uprofiler v1.0 was added
-             | NEW | varnish v3.0.2 was added
-
-              Changes (lite-0.7.0-w32 -> lite-0.8.0-php5.4-w32)
-
-              | UPD | adminer was updated from v4.0.3 to v4.1.0
-              | UPD | mariadb was updated from v5.5.36 to v10.1.0
-              | UPD | nginx was updated from v1.5.13 to v1.7.5
-              | UPD | php was updated from v5.4.27 to v5.4.33
-              | UPD | wpnxmscp was updated from v0.6.1 to v0.8.0
-             | NEW | pickle v0.1.1 was added
+          
+          - https://github.com/WPN-XM/WPN-XM/issues/252[Issue #252][#252]  mongo stop command doesn't work
+          - https://github.com/WPN-XM/WPN-XM/issues/250[Issue #250]  Warning/PHP Startup: Unable to load dynamic library 'ext\php_mongo.dll' - %1 is not a valid Win32 application.
+             - https://github.com/WPN-XM/WPN-XM/issues/244[Issue #244]  Web Installer Failure - 404 on php extension X-cache
+             - https://github.com/WPN-XM/WPN-XM/issues/243[Issue #243]  rockmongo is installed in a versionized folder
+             - https://github.com/WPN-XM/WPN-XM/issues/239[Issue #239]  [build.xml][commit-versionized-registries] workingdir is not found
+             - https://github.com/WPN-XM/WPN-XM/issues/237[Issue #237]  execute stripdown scripts in each "full-version-phpversion-bitsize" folder
+             - https://github.com/WPN-XM/WPN-XM/issues/234[Issue #234]  some php extensions for 5.5 (and 5.6) missing
+             - https://github.com/WPN-XM/WPN-XM/issues/233[Issue #233]  movedownloadfiles misses downloads
+             - https://github.com/WPN-XM/WPN-XM/issues/231[Issue #231]  exchange xhprof with uprofiler
+             - https://github.com/WPN-XM/WPN-XM/issues/229[Issue #229]  add pickle - php extension installer
+             - https://github.com/WPN-XM/WPN-XM/issues/224[Issue #224]  switch buildsystem from nAnt to Phing
+             - https://github.com/WPN-XM/WPN-XM/issues/223[Issue #223]  the imagick core dlls must be filtered out on the php extensions tab (config)
+             - https://github.com/WPN-XM/WPN-XM/issues/222[Issue #222]  "CORE_RL_wand_.dll is missing" error when enabling imagik.
+             - https://github.com/WPN-XM/WPN-XM/issues/219[Issue #219]  Varnish installed under \bin\varnish-3.0.2
+             - https://github.com/WPN-XM/WPN-XM/issues/216[Issue #216]  Add php_uploadprogress extension.
+             - https://github.com/WPN-XM/WPN-XM/issues/212[Issue #212]  /bin/backup folder is not created during install the
+             - https://github.com/WPN-XM/WPN-XM/issues/211[Issue #211]  Starting MongoDB after installation
+             - https://github.com/WPN-XM/WPN-XM/issues/210[Issue #210]  Starting memcached
+             - https://github.com/WPN-XM/WPN-XM/issues/207[Issue #207]  Going from MariaDB 5.5 to 10.0
+             - https://github.com/WPN-XM/WPN-XM/issues/206[Issue #206]  add option to start control panel minimized
+             - https://github.com/WPN-XM/WPN-XM/issues/204[Issue #204]  lift MongoDb version lock (v2.0.8)
+             - https://github.com/WPN-XM/WPN-XM/issues/196[Issue #196]  PostgreSQL is not in control panel
+             - https://github.com/WPN-XM/WPN-XM/issues/195[Issue #195]  Put all the admin folders in "server/www/tools/"
+             - https://github.com/WPN-XM/WPN-XM/issues/194[Issue #194]  Website shows 0.6.0 as Latest Release
+             - https://github.com/WPN-XM/WPN-XM/issues/193[Issue #193]  add php extension phalcon
+             - https://github.com/WPN-XM/WPN-XM/issues/186[Issue #186]  updater: add dialog "building custom registries for installers"
+             - https://github.com/WPN-XM/WPN-XM/issues/152[Issue #152]  show only installed components in the SCP
+             -  https://github.com/WPN-XM/WPN-XM/issues/56[Issue #56]   switch between PHP versions
 |===
 
 ### v0.7.0 - 2014-04-12
@@ -284,8 +220,6 @@ A new "Unreleased" section is added, when the next change is added.
 |            | NEW | php extensions: amqp, wincache, msgpack, varnish
 |            | UPD | WPN-XM SCP (icon bug fix in v0.6.1)
 |===
-
-https://github.com/WPN-XM/WPN-XM/issues?milestone=9&page=1&state=closed
 
 ### v0.6.1 - tba
 
@@ -350,7 +284,7 @@ https://github.com/WPN-XM/WPN-XM/issues?milestone=9&page=1&state=closed
              | UPD | Inno Download Plugin v1.0.1 - due to my bugreport :)
 | 2013-10-15 | CHG | switched from InnoTools Downloader to Inno Download Plugin
                      this fixes the https download problems
-                     https://github.com/WPN-XM/WPN-XM/issues/114
+                     https://github.com/WPN-XM/WPN-XM/issues/114[Issue #114]
 | 2013-08-26 | FIX | SSL Certificate Paths in Nginx Config
 | 2013-07-06 | UPD | InnoSetup v5.5.3
 | 2013-04-08 | CHG | renamed wpnxm-scp.exe to server-control-panel.exe
@@ -358,7 +292,7 @@ https://github.com/WPN-XM/WPN-XM/issues?milestone=9&page=1&state=closed
 | 2013-03-01 | NEW | Nginx loads Domain Configs from /domains-enabled folder
                      Tweaks to MariaDB settings
              | FIX | fixed start-menu shortcuts
-                     https://github.com/WPN-XM/WPN-XM/issues/89
+                     https://github.com/WPN-XM/WPN-XM/issues/89[Issue #89]
 |===
 
 ### v0.5.3 - tba
@@ -394,7 +328,7 @@ Some entries are missing here...
 |            | NEW | registry-update add() handles now also single arrays
 |            | NEW | MongoDB stripdown script and stripdown build task
 | 2013-02-01 | FIX | /logs directory does not exist on startup
-                     https://github.com/WPN-XM/WPN-XM/issues/75
+                     https://github.com/WPN-XM/WPN-XM/issues/75[Issue #75]
 |===
 
 ### v0.5.1 - 2013-01-21
@@ -406,9 +340,9 @@ https://github.com/WPN-XM/WPN-XM/issues?milestone=5&state=closed
 | 2013-01-20 | FIX | missing semicolon in nginx.conf
                      missing slash in webinterface/helper/phpini.php
 |            | FIX | uninstall abort dialog did not abort
-                     https://github.com/WPN-XM/WPN-XM/issues/71
+                     https://github.com/WPN-XM/WPN-XM/issues/71[Issue #71]
 |            | FIX | stripdown script and foldernames with spaces
-                     https://github.com/WPN-XM/WPN-XM/issues/70
+                     https://github.com/WPN-XM/WPN-XM/issues/70[Issue #70]
 |            | UPD | updated NANT to v0.92 (2012-06-09)
 |            | NEW | issue #74 - build tasks "stripdown-mariadb"
                      building of the AllInOne Installer is now only one-click
@@ -503,15 +437,14 @@ https://github.com/WPN-XM/WPN-XM/issues?milestone=5&state=closed
                      Our bugreport about inclusion of debug files was included.
                      The download size of maria.zip decreased from 180 to 130mb.
 | 2012-06-08 | FIX | Status led not updated at initial start
-                     https://github.com/WPN-XM/WPN-XM/issues/20
+                     https://github.com/WPN-XM/WPN-XM/issues/20[Issue #20]
 | 2012-06-05 | UPD | NGINX 1.2.1
 | 2012-06-05 | NEW | php is added to environment variable PATH
 | 2012-06-04 | FIX | fixed cfg edit order: config files are copied, then modified
 | 2012-06-04 | FIX | installations seems stuck, while extraction of zip files
                      added two progressbars showing total progess and component
 | 2012-06-01 | UPD | InnoSetup 5.5.0
-| 2012-05-11 | UPD | PHP 5.4.3
-                     APC 3.1.10-5.4
+| 2012-05-11 | UPD | PHP 5.4.3, APC 3.1.10-5.4
 | 2012-05-07 | UPD | PHP 5.4.2
              | NEW | using stamped icon in installation wizard
 | 2012-04-25 | FIX | renamed go-pear.php to go-pear.phar
