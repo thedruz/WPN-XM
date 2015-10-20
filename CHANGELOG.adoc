@@ -3,7 +3,7 @@
 This document is a curated, chronologically ordered list of notable changes for
 each version of WPN-XM.
 
-#### 1. Legend for the desription of changes
+#### 1. Legend for the description of changes
 
 We label changes to describe their impact on the project, as follows:
 
@@ -113,10 +113,10 @@ A new "Unreleased" section is added, when the next change is added.
 | 2015-04-15 | CHG | adjusted batch scripts: replaced %cd% with %~dp0)
                      renamed batch scripts: removed "wpnxm-" prefix
 | 2015-03-22 | NEW | added Strawberry Perl x64
-             | CHG | x64 versions of the Full Installer include Perl x64
+|             | CHG | x64 versions of the Full Installer include Perl x64
 | 2015-03-17 | NEW | added RoboMongo
-             | CHG | dropped RockMongo (it's unmaintained).
-             | CHG | silent installation of VCREDIST
+|             | CHG | dropped RockMongo (it's unmaintained).
+|             | CHG | silent installation of VCREDIST
 |===
 
 ### v0.8.2 - 2015-03-14
@@ -207,70 +207,6 @@ A new "Unreleased" section is added, when the next change is added.
               The webinstaller ships latest versions from our registry.
 
               http://wpn-xm.org/#downloads-list
-
-              Version Information
-
-              Changes (bigpack-0.7.0-w32 -> full-0.8.0-php5.4-w32)
-
-              | UPD | adminer was updated from v4.0.3 to v4.1.0
-              | UPD | imagick was updated from v6.8.9-0 to v6.8.9-7
-              | UPD | mariadb was updated from v5.5.36 to v10.1.0
-              | UPD | memcached was updated from v1.4.5 to v1.5.7
-              | UPD | mongodb was updated from v2.0.8 to v2.7.6
-              | UPD | nginx was updated from v1.5.13 to v1.7.5
-              | UPD | node was updated from v0.11.12 to v0.11.13
-              | UPD | nodenpm was updated from v1.4.6 to v1.4.12
-              | UPD | perl was updated from v5.18.2.1 to v5.20.1.1
-              | UPD | php was updated from v5.4.27 to v5.4.33
-              | UPD | phpext_amqp was updated from v1.4.0beta2 to v1.4.0
-              | UPD | phpext_imagick was updated from v3.2.0b1 to v3.2.0b2
-              | UPD | phpext_mongo was updated from v1.4.5 to v1.5.7
-              | DEL | phpext_xcache was removed
-              | UPD | phpext_xdebug was updated from v2.2.4 to v2.2.5
-              | DEL | phpext_xhprof was removed
-              | UPD | phpmyadmin was updated from v4.2.0-alpha2 to v4.2.8.1
-              | UPD | postgresql was updated from v9.3.4 to v9.3.5
-              | UPD | rockmongo was updated from v1.1.5 to v1.1.7
-              | UPD | wpnxmscp was updated from v0.6.1 to v0.8.0
-              DEL xhprof was removed
-             | NEW | phpext_phalcon v1.3.2 was added
-             | NEW | phpext_uploadprogress v1.0.3.1 was added
-             | NEW | phpext_uprofiler v0.9.2 was added
-             | NEW | pickle v0.1.1 was added
-             | NEW | uprofiler v1.0 was added
-
-              Changes (allinone-0.7.0-w32 -> standard-0.8.0-php5.4-w32)
-
-              | UPD | adminer was updated from v4.0.3 to v4.1.0
-              | UPD | mariadb was updated from v5.5.36 to v10.1.0
-              | UPD | memcached was updated from v1.4.5 to v1.5.7
-              | UPD | mongodb was updated from v2.0.8 to v2.7.6
-              | UPD | nginx was updated from v1.5.13 to v1.7.5
-              | UPD | php was updated from v5.4.27 to v5.4.33
-              | UPD | phpext_amqp was updated from v1.4.0beta2 to v1.4.0
-              | UPD | phpext_mongo was updated from v1.4.5 to v1.5.7
-              DEL phpext_xcache was removed
-              | UPD | phpext_xdebug was updated from v2.2.4 to v2.2.5
-              DEL phpext_xhprof was removed
-              | UPD | phpmyadmin was updated from v4.2.0-alpha2 to v4.2.8.1
-              | UPD | rockmongo was updated from v1.1.5 to v1.1.7
-              | UPD | wpnxmscp was updated from v0.6.1 to v0.8.0
-              DEL xhprof was removed
-             | NEW | phpext_phalcon v1.3.2 was added
-             | NEW | phpext_uploadprogress v1.0.3.1 was added
-             | NEW | phpext_uprofiler v0.9.2 was added
-             | NEW | pickle v0.1.1 was added
-             | NEW | uprofiler v1.0 was added
-             | NEW | varnish v3.0.2 was added
-
-              Changes (lite-0.7.0-w32 -> lite-0.8.0-php5.4-w32)
-
-              | UPD | adminer was updated from v4.0.3 to v4.1.0
-              | UPD | mariadb was updated from v5.5.36 to v10.1.0
-              | UPD | nginx was updated from v1.5.13 to v1.7.5
-              | UPD | php was updated from v5.4.27 to v5.4.33
-              | UPD | wpnxmscp was updated from v0.6.1 to v0.8.0
-             | NEW | pickle v0.1.1 was added
 |===
 
 ### v0.7.0 - 2014-04-12
@@ -357,7 +293,7 @@ https://github.com/WPN-XM/WPN-XM/issues?milestone=9&page=1&state=closed
 | 2013-04-05 | NEW | "shutdown blocking" process scan during deinstallation
 | 2013-03-01 | NEW | Nginx loads Domain Configs from /domains-enabled folder
                      Tweaks to MariaDB settings
-             | FIX | fixed start-menu shortcuts
+|            | FIX | fixed start-menu shortcuts
                      https://github.com/WPN-XM/WPN-XM/issues/89
 |===
 
