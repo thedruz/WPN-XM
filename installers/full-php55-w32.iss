@@ -311,6 +311,7 @@ const
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
+  Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   Filename_phpext_jsond          = 'phpext_jsond.zip';
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
@@ -871,6 +872,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
+  ForceDirectories(appDir + '\doc\licenses');
 end;
 
 {
@@ -1024,6 +1026,18 @@ begin
       ExtractTemporaryFile(Filename_phpext_apcu);
       Unzip(targetPath + Filename_phpext_apcu, targetPath + 'phpext_apcu');
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - ionCube');
+      ExtractTemporaryFile(Filename_phpext_ioncube);
+      Unzip(targetPath + Filename_phpext_jsond, targetPath + 'phpext_ioncube');
+      // Copy the ionCube Loader dll for this PHP version
+      FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.5.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
+      // Copy the license
+      FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\LICENSE.txt'), appDir + '\doc\licenses\ioncube.license.txt', false);
+      // Move all remaining files (ioncube loader_wizard) to "/www/tools/ioncube" folder
+      ForceDirectories(appDir + '\www\tools\ioncube\');
+      ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_ioncube\*.* ' + appDir + '\www\tools\ioncube"');
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - JSOND');

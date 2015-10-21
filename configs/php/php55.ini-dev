@@ -1978,5 +1978,6 @@ xdebug.profiler_enable_trigger = 0
 xdebug.profiler_output_name    = cachegrind.out.%t.%p
 
 [Zend]
+;zend_extension=ioncube_loader_win_5.5.dll
 ;zend_extension=php_opcache.dll
 ;zend_extension=php_xdebug.dll
