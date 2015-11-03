@@ -140,7 +140,6 @@ Name: mongodb; Description: MongoDb - scalable, high-performance, open source No
 Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
-Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 232530000; Types: full
 Name: phpcsfixer; Description: phpcsfixer - PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
@@ -248,8 +247,6 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb"; Flags: runhidden;
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb; Flags: runhidden;
 Filename: {tmp}\stripdown-postgresql.bat; Parameters: "{app}\bin\pgsql"; Components: postgresql; Flags: runhidden;
-Filename: {app}\bin\perl\relocation.pl.bat; Flags: runhidden; Components: perl;
-Filename: {app}\bin\perl\update_env.pl.bat; Flags: runhidden; Components: perl;
 ; User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
@@ -315,7 +312,6 @@ const
   URL_nodenpm               = 'http://wpn-xm.org/get.php?s=nodenpm';
   URL_openssl               = 'http://wpn-xm.org/get.php?s=openssl';
   URL_pear                  = 'http://wpn-xm.org/get.php?s=pear';
-  URL_perl                  = 'http://wpn-xm.org/get.php?s=perl';
   URL_php                   = 'http://wpn-xm.org/get.php?s=php&p=5.5';
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.5';
@@ -369,7 +365,6 @@ const
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
   Filename_pear                  = 'go-pear.phar';
-  Filename_perl                  = 'perl.zip';
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
@@ -906,7 +901,6 @@ begin
 
     if IsComponentSelected('openssl')            then idpAddFile(URL_openssl,           ExpandConstant(targetPath + Filename_openssl));
     if IsComponentSelected('pear')               then idpAddFile(URL_pear,              ExpandConstant(targetPath + Filename_pear));
-    if IsComponentSelected('perl')               then idpAddFile(URL_perl,              ExpandConstant(targetPath + Filename_perl));
     if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_phpcsfixer));
     if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
     if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
@@ -1447,13 +1441,6 @@ begin
     UpdateCurrentComponentName('RoboMongo');
       Unzip(targetPath + Filename_robomongo, appDir + '\bin'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robomongo-* ' + appDir + '\bin\robomongo"'); // rename folder, e.g. "robomongo-1.2.3-i386"
-    UpdateTotalProgressBar();
-  end;
-
-  if Pos('perl', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Strawberry Perl');
-      Unzip(targetPath + Filename_perl, appDir + '\bin\perl');
     UpdateTotalProgressBar();
   end;
 

@@ -128,6 +128,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 197000000; Types: full serverstack debug custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: assettools; Description: Google Closure Compiler and yuiCompressor; ExtraDiskSpaceRequired: 1000000; Types: full
+Name: benchmark; Description: WPN-XM Benchmark Tools; ExtraDiskSpaceRequired: 100000; Types: full debug
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full serverstack
 Name: git; Description: Git Version Control (Msysgit & Go Git Service); ExtraDiskSpaceRequired: 24000000; Types: full
@@ -139,7 +140,6 @@ Name: mongodb; Description: MongoDb - scalable, high-performance, open source No
 Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
-Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 232530000; Types: full
 Name: phpcsfixer; Description: phpcsfixer - PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
@@ -247,8 +247,6 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 Filename: {tmp}\stripdown-mariadb.bat; Parameters: "{app}\bin\mariadb"; Flags: runhidden;
 Filename: {tmp}\stripdown-mongodb.bat; Parameters: "{app}\bin\mongodb"; Components: mongodb; Flags: runhidden;
 Filename: {tmp}\stripdown-postgresql.bat; Parameters: "{app}\bin\pgsql"; Components: postgresql; Flags: runhidden;
-Filename: {app}\bin\perl\relocation.pl.bat; Flags: runhidden; Components: perl;
-Filename: {app}\bin\perl\update_env.pl.bat; Flags: runhidden; Components: perl;
 ; User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
@@ -297,6 +295,7 @@ const
   }
 
   URL_adminer               = 'http://wpn-xm.org/get.php?s=adminer';
+  URL_benchmark             = 'http://wpn-xm.org/get.php?s=wpnxm-benchmark';
   URL_closure_compiler      = 'http://wpn-xm.org/get.php?s=closure-compiler';
   URL_composer              = 'http://wpn-xm.org/get.php?s=composer';
   URL_conemu                = 'http://wpn-xm.org/get.php?s=conemu';
@@ -313,7 +312,6 @@ const
   URL_nodenpm               = 'http://wpn-xm.org/get.php?s=nodenpm';
   URL_openssl               = 'http://wpn-xm.org/get.php?s=openssl';
   URL_pear                  = 'http://wpn-xm.org/get.php?s=pear';
-  URL_perl                  = 'http://wpn-xm.org/get.php?s=perl';
   URL_php                   = 'http://wpn-xm.org/get.php?s=php&p=5.6';
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.6';
@@ -350,6 +348,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
+  Filename_benchmark             = 'wpnxm-benchmark.zip';
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
@@ -366,7 +365,6 @@ const
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
   Filename_pear                  = 'go-pear.phar';
-  Filename_perl                  = 'perl.zip';
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
@@ -903,7 +901,6 @@ begin
 
     if IsComponentSelected('openssl')            then idpAddFile(URL_openssl,           ExpandConstant(targetPath + Filename_openssl));
     if IsComponentSelected('pear')               then idpAddFile(URL_pear,              ExpandConstant(targetPath + Filename_pear));
-    if IsComponentSelected('perl')               then idpAddFile(URL_perl,              ExpandConstant(targetPath + Filename_perl));
     if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_phpcsfixer));
     if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
     if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
@@ -1118,6 +1115,14 @@ begin
   UpdateTotalProgressBar();
 
   // unzip selected components
+
+  if Pos('benchmark', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('WPN-XM Benchmark Tools');
+
+      Unzip(ExpandConstant(targetPath + Filename_benchmark), appDir); // multiple files and folders into top level
+    UpdateTotalProgressBar();
+  end;
 
   if Pos('heidisql', selectedComponents) > 0 then
   begin
@@ -1439,13 +1444,6 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('perl', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Strawberry Perl');
-      Unzip(targetPath + Filename_perl, appDir + '\bin\perl');
-    UpdateTotalProgressBar();
-  end;
-
   if Pos('mongodb', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('MongoDB');
@@ -1577,7 +1575,7 @@ begin
   if CurStep = ssPostInstall then DoPostInstall();
 
   // when the wizard finishes, copy the installation logfile from tmp dir to application dir.
-  // this allows easier debugging of installation problems. the user can upload or reference parts of the log.
+  // this allows easier debugging of installation problems and users can upload or reference parts of the log.
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;

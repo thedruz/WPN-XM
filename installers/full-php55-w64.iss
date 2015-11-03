@@ -133,7 +133,6 @@ Name: mongodb; Description: MongoDb - scalable, high-performance, open source No
 Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
-Name: perl; Description: Strawberry Perl; ExtraDiskSpaceRequired: 232530000; Types: full
 Name: phpcsfixer; Description: phpcsfixer - PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
@@ -239,8 +238,6 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 
 [Run]
 ; Automatically started...
-Filename: {app}\bin\perl\relocation.pl.bat; Flags: runhidden; Components: perl;
-Filename: {app}\bin\perl\update_env.pl.bat; Flags: runhidden; Components: perl;
 ; VCRedist Conditional Installation Check
 Filename: "{tmp}\vcredist_x64_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist2008NeedsInstall; Flags: nowait
 ; User selected Postinstallation runs...
@@ -305,7 +302,6 @@ const
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
   Filename_pear                  = 'go-pear.phar';
-  Filename_perl                  = 'perl.zip';
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
@@ -1278,14 +1274,6 @@ begin
       ExtractTemporaryFile(Filename_robomongo);
       Unzip(targetPath + Filename_robomongo, appDir + '\bin'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robomongo-* ' + appDir + '\bin\robomongo"'); // rename folder, e.g. "robomongo-1.2.3-i386"
-    UpdateTotalProgressBar();
-  end;
-
-  if Pos('perl', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Strawberry Perl');
-      ExtractTemporaryFile(Filename_perl);
-      Unzip(targetPath + Filename_perl, appDir + '\bin\perl');
     UpdateTotalProgressBar();
   end;
 
