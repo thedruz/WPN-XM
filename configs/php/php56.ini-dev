@@ -916,7 +916,7 @@ extension=php_sqlite3.dll
 ; Additional Extensions added by WPN-XM
 ;extension=php_apcu.dll
 ;extension=php_memcache.dll
-;extension=php_mongo.dll
+;extension=php_mongodb.dll
 ;extension=php_xdebug.dll     ; just listed, loaded in [Zend Extension] section, see below
 ;extension=php_xhprof.dll     ; own [xhprof Extension] section
 ;extension=php_uprofiler.dll  ; own [uprofiler Extension] section
