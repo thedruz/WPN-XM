@@ -321,7 +321,7 @@ const
   URL_phpext_jsond          = 'http://wpn-xm.org/get.php?s=phpext_jsond&p=5.6&bitsize=x64';
   URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.5&bitsize=x64';
   URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.5&bitsize=x64';
-  URL_phpext_mongo          = 'http://wpn-xm.org/get.php?s=phpext_mongo&p=5.5&bitsize=x64';
+  URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=5.5';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.5&bitsize=x64';
   URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.5&bitsize=x64';
   URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.5&bitsize=x64';
@@ -374,7 +374,7 @@ const
   Filename_phpext_jsond          = 'phpext_jsond.zip';
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_mongo          = 'phpext_mongo.zip';
+  Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
@@ -879,7 +879,9 @@ begin
        idpAddFile(URL_phpext_imagick,    ExpandConstant(targetPath + Filename_phpext_imagick));
     end;
 
-    if IsComponentSelected('memadmin')           then idpAddFile(URL_memadmin,          ExpandConstant(targetPath + Filename_memadmin));
+    if IsComponentSelected('memadmin') then
+       idpAddFile(URL_memadmin,          ExpandConstant(targetPath + Filename_memadmin));
+    end;
 
     if IsComponentSelected('memcached') then
     begin
@@ -889,8 +891,8 @@ begin
 
     if IsComponentSelected('mongodb')    then
     begin
-        idpAddFile(URL_mongodb,       ExpandConstant(targetPath + Filename_mongodb));
-        idpAddFile(URL_phpext_mongo,  ExpandConstant(targetPath + Filename_phpext_mongo));
+        idpAddFile(URL_mongodb,        ExpandConstant(targetPath + Filename_mongodb));
+        idpAddFile(URL_phpext_mongodb, ExpandConstant(targetPath + Filename_phpext_mongodb));
     end;
 
     if IsComponentSelected('node') then
@@ -935,7 +937,7 @@ begin
         idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
         // phpext_memcache installed with memcached
-        // phpext_mongo installed with mongo
+        // phpext_mongodb installed with mongodb
         // phpext_xdebug is standalone
         // phpext_uprofiler installed with uprofiler
     end;

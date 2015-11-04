@@ -293,7 +293,7 @@ const
   Filename_phpext_jsond      = 'phpext_jsond.zip';
   //Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_mongo      = 'phpext_mongo.zip';
+  Filename_phpext_mongodb    = 'phpext_mongodb.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
   Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   Filename_phpext_rar        = 'phpext_rar.zip';
@@ -1159,9 +1159,9 @@ begin
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mongo');
-      ExtractTemporaryFile(Filename_phpext_mongo);
-      Unzip(targetPath + Filename_phpext_mongo, targetPath + 'phpext_mongo');
-      FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), appDir + '\bin\php\ext\php_mongo.dll', false);
+      ExtractTemporaryFile(Filename_phpext_mongodb);
+      Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongodb');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mongodb\php_mongodb.dll'), appDir + '\bin\php\ext\php_mongodb.dll', false);
     UpdateTotalProgressBar();
   end;
 
@@ -1250,7 +1250,7 @@ begin
 
   if Pos('mongodb', selectedComponents) > 0 then
   begin
-      ReplaceStringInFile(';extension=php_mongo.dll', 'extension=php_mongo.dll', php_ini_file);
+      ReplaceStringInFile(';extension=php_mongodb.dll', 'extension=php_mongodb.dll', php_ini_file);
   end;
 end;
 
@@ -1272,7 +1272,7 @@ begin
   if CurStep = ssPostInstall then DoPostInstall();
 
   // when the wizard finishes, copy the installation logfile from tmp dir to application dir.
-  // this allows easier debugging of installation problems. the user can upload or reference parts of the log.
+  // this allows easier debugging of installation problems and users can upload or reference parts of the log.
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;
