@@ -319,18 +319,19 @@ const
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.6';
   URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=5.6';
   URL_phpext_jsond          = 'http://wpn-xm.org/get.php?s=phpext_jsond&p=5.6';
-  //URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.6&bitsize=x64'; not existant, yet
+  //URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.6'; not existant, yet
   URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.6';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=5.5';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.6';
   URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.6';
   URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.6';
+  URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=5.6';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.6';
   URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.6';
   URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=5.6';
   URL_phpext_wincache       = 'http://wpn-xm.org/get.php?s=phpext_wincache&p=5.6';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=5.6';
-  //URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=5.6&bitsize=x64';
+  //URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=5.6'; not existant, yet
   URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=5.6';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin            = 'http://wpn-xm.org/get.php?s=phpmyadmin';
@@ -931,6 +932,7 @@ begin
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
+        idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
         idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
         idpAddFile(URL_phpext_wincache,       ExpandConstant(targetPath + Filename_phpext_wincache));
@@ -1257,6 +1259,11 @@ begin
     UpdateCurrentComponentName('PHP Extension - Phalcon');
       Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
       FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Stats');
+      Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
+      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - RAR');

@@ -316,6 +316,7 @@ const
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_varnish        = 'phpext_varnish.zip';
@@ -1065,6 +1066,12 @@ begin
       ExtractTemporaryFile(Filename_phpext_phalcon);
       Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
       FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Stats');
+      ExtractTemporaryFile(Filename_phpext_stats);
+      Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
+      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - RAR');

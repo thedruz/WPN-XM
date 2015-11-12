@@ -325,6 +325,7 @@ const
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.5';
   URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.5';
   URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.5';
+  URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=5.5';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.5';
   URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.5';
   URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=5.5';
@@ -378,6 +379,7 @@ const
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_varnish        = 'phpext_varnish.zip';
@@ -931,6 +933,7 @@ begin
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
+        idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
         idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
         idpAddFile(URL_phpext_wincache,       ExpandConstant(targetPath + Filename_phpext_wincache));
@@ -1257,6 +1260,11 @@ begin
     UpdateCurrentComponentName('PHP Extension - Phalcon');
       Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
       FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Stats');
+      Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
+      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - RAR');
