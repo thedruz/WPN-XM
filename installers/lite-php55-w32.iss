@@ -150,6 +150,7 @@ Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: composer
+Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
@@ -734,6 +735,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
+  ForceDirectories(appDir + '\doc\licenses');
 end;
 
 {
@@ -946,7 +948,7 @@ begin
   if CurStep = ssPostInstall then DoPostInstall();
 
   // when the wizard finishes, copy the installation logfile from tmp dir to application dir.
-  // this allows easier debugging of installation problems and users can upload or reference parts of the log.
+  // this allows easier debugging of installation problems. the user can upload or reference parts of the log.
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;

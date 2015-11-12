@@ -151,6 +151,7 @@ Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: composer
+Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
@@ -747,6 +748,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
+  ForceDirectories(appDir + '\doc\licenses');
 end;
 
 {
