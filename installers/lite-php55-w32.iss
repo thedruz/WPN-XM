@@ -243,7 +243,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
-  Filename_benchmark             = 'wpnxm-benchmark.zip';
+  Filename_benchmark         = 'wpnxm-benchmark.zip';
   Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
   Filename_mariadb           = 'mariadb.zip';
