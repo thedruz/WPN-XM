@@ -861,6 +861,7 @@ begin
        idpAddFile(URL_yuicompressor, ExpandConstant(targetPath + Filename_yuicompressor));
     end;
 
+    if IsComponentSelected('benchmark')          then idpAddFile(URL_benchmark,         ExpandConstant(targetPath + Filename_benchmark));
     if IsComponentSelected('composer')           then idpAddFile(URL_composer,          ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('conemu')             then idpAddFile(URL_conemu,            ExpandConstant(targetPath + Filename_conemu));
 

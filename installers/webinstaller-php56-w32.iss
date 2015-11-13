@@ -379,6 +379,7 @@ const
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_varnish        = 'phpext_varnish.zip';
@@ -860,6 +861,7 @@ begin
        idpAddFile(URL_yuicompressor, ExpandConstant(targetPath + Filename_yuicompressor));
     end;
 
+    if IsComponentSelected('benchmark')          then idpAddFile(URL_benchmark,         ExpandConstant(targetPath + Filename_benchmark));
     if IsComponentSelected('composer')           then idpAddFile(URL_composer,          ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('conemu')             then idpAddFile(URL_conemu,            ExpandConstant(targetPath + Filename_conemu));
 
