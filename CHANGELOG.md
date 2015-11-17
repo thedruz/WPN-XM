@@ -56,7 +56,7 @@ A new "Unreleased" section is added, when the next change is added.
 - removed xdebug from PHP7 installers. no release, yet.
 - switched from "msysgit" to "git for windows"
 
-### v0.8.5 - 2015-07-12
+### v0.8.5 - 2015-07-15
 
 - FIX | installers to stop to inserting global settings into the extension section in php.ini
 - CHG | all "Lite Installers" ship "ConEmu"
@@ -71,14 +71,14 @@ A new "Unreleased" section is added, when the next change is added.
 - FIX | fixed webinterface cannot redeclare class error
 - CHG | removed component "junction"
 
-### v0.8.4 - tba
+### v0.8.4 - 2015-06-28
 
 - FIX | fixed uninstaller to not recursively delete reparse points
 - NEW | added redis configuration
 - CHG | enabled PHP extensions (by default): mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
 - CHG | server control panel is now released with version number
 
-### v0.8.3 - 2015-06-26
+### v0.8.3 - 2015-06-25
 
 - 2015-06-17 | NEW | added vcredist 2015 detection o LiteRC installer for PHP7
 - 2015-04-26 | CHG | moved configs into subfolders
@@ -120,13 +120,13 @@ A new "Unreleased" section is added, when the next change is added.
 
 -  disable deprecated PHP Extensions php_mysql in default cfg
 
-### v0.8.1 - 2015-03-07
+### v0.8.1 - 2015-03-09
 
 - Will Travis release it?
   - **The gift that he gives to me... No one knows!**
 - Using Console mode, without xvfb window.
 
-### v0.8.0 - 2014-09-20
+### v0.8.0 - 2014-09-17
 
 - Renamed Installation Wizards
 - There are 4 installation wizard types:
