@@ -5,15 +5,15 @@ each version of WPN-XM.
 
 #### 1. Legend for the description of changes
 
-We label changes to describe their impact on the project, as follows:
+We group changes to describe their impact on the project, as follows:
 
   - **NEW** for a new feature
-  - **CHG** for changes in existing functionality
-  - **UPD** for component updates
-  - **DPR** for once-stable features removed in upcoming releases
-  - **REM** for deprecated features removed in this release
-  - **FIX** for any bug fixes
-  - **SEC** to invite users to upgrade in case of vulnerabilities
+  - **CHANGES** for changes in existing functionality
+  - **UPDATES** for component updates
+  - **DEPRECATED** for once-stable features removed in upcoming releases
+  - **REMOVED** for deprecated features removed in this release
+  - **FIXES** for any bug fixes
+  - **SECURITY** to invite users to upgrade in case of vulnerabilities
 
 #### 2. Template
 
@@ -22,12 +22,17 @@ This is a template for a new release section with a few changes:
 ```
 ### Unreleased - YYYY-MM-DD
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2015-MM-DD | NEW | added a
-| 2015-MM-DD | FIX | fixed b
-| 2015-MM-DD | CHG | removed c
-|===
+#### NEW
+
+- added a
+
+#### FIXES
+
+- fixed b
+
+#### CHANGES
+
+- removed c
 ```
 
 #### 3. Unreleased Section
@@ -44,191 +49,137 @@ A new "Unreleased" section is added, when the next change is added.
 
 ### Unreleased
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2015.MM.DD | NEW | added x
-| 2015.MM.DD | FIX | fixed y
-| 2015.MM.DD | CHG | - removed z
-                     - a
-|===
+#### NEW
+
+-  added x
+
+#### FIXED
+
+- fixed y
+
+#### CHANGES
+
+- removed z
+- a
 
 ### v0.8.6 - 2015-08-21
 
-[cols="2,1,6a", width="80%"]
-|===
-|            | FIX  | - component extractions
-                        * "msysgit/git for windows" extracted to "/bin/git"
-                        * "gogs" extracted to "/bin/gogs"
-                        * Imagick extracted to "/bin/imagick"
-                        * PHP extensions extracted to "/bin/php/ext"
-|            | CHG  | removed xdebug from PHP7 installers. no release, yet.
-|            | CHG  | switched from "msysgit" to "git for windows"
-|===
+#### FIXES
+
+- component extractions
+  * "msysgit/git for windows" extracted to "/bin/git"
+  * "gogs" extracted to "/bin/gogs"
+  * Imagick extracted to "/bin/imagick"
+  * PHP extensions extracted to "/bin/php/ext"
+
+#### CHANGES
+
+- removed xdebug from PHP7 installers. no release, yet.
+- switched from "msysgit" to "git for windows"
 
 ### v0.8.5 - 2015-07-12
 
-[cols="2,1,6a", width="80%"]
-|===
-|            | FIX | installers to stop to inserting global settings into the extension section in php.ini
-|            | CHG | all "Lite Installers" ship "ConEmu"
-|            | FIX | phpext_phalcon download URLs
-|            | FIX | Imagick download URLs
-|            | CHG | switched to Imagick portable zips
-|            | NEW | added "Imagick x64" to "Full Installers x64"
-|            | FIX | removed MoveFiles() from all installers to avoid the folder renaming problem
-|            | FIX | fixed extraction errors of several PHP Extensions and Node
-|            | FIX | default configuration of xdebug from installer
-|            | FIX | fixed paths to the opcache and xdebug in php.ini
-|            | FIX | fixed webinterface cannot redeclare class error
-|            | CHG | removed component "junction"
-|===
+- FIX | installers to stop to inserting global settings into the extension section in php.ini
+- CHG | all "Lite Installers" ship "ConEmu"
+- FIX | phpext_phalcon download URLs
+- FIX | Imagick download URLs
+- CHG | switched to Imagick portable zips
+- NEW | added "Imagick x64" to "Full Installers x64"
+- FIX | removed MoveFiles() from all installers to avoid the folder renaming problem
+- FIX | fixed extraction errors of several PHP Extensions and Node
+- FIX | default configuration of xdebug from installer
+- FIX | fixed paths to the opcache and xdebug in php.ini
+- FIX | fixed webinterface cannot redeclare class error
+- CHG | removed component "junction"
 
 ### v0.8.4 - tba
 
-[cols="2,1,6a", width="80%"]
-|===
-|            | FIX | fixed uninstaller to not recursively delete reparse points
-|            | NEW | added redis configuration
-|            | CHG | enabled PHP extensions (by default): mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
-| 2015-06-28 | CHG | server control panel is now released with version number
-|===
+- FIX | fixed uninstaller to not recursively delete reparse points
+- NEW | added redis configuration
+- CHG | enabled PHP extensions (by default): mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
+- CHG | server control panel is now released with version number
 
 ### v0.8.3 - 2015-06-26
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2015-06-17 | NEW | added vcredist 2015 detection o LiteRC installer for PHP7
-| 2015-04-26 | CHG | moved configs into subfolders
+- 2015-06-17 | NEW | added vcredist 2015 detection o LiteRC installer for PHP7
+- 2015-04-26 | CHG | moved configs into subfolders
                      and updated installers accordingly
-|            | CHG | added "COMPILE_FROM_IDE" define to allow local compiles
-| 2015-04-25 | CHG | Removed Debug-Webinstallers and their build tasks
-|            | CHG | added ExecHidden() function to installers
-|            | CHG | moved webgrind config into "/configs/webgrind"
+- CHG | added "COMPILE_FROM_IDE" define to allow local compiles
+- 2015-04-25 | CHG | Removed Debug-Webinstallers and their build tasks
+- CHG | added ExecHidden() function to installers
+- CHG | moved webgrind config into "/configs/webgrind"
                      and updated installers accordingly
-| 2015-04-24 | FIX | fixed another crash of the SCP
+- 2015-04-24 | FIX | fixed another crash of the SCP
                      (when trying to start the not-installed PostgreSQL)
-|            | CHG | use individual php.ini's per PHP version
-| 2015-04-23 | NEW | improved SSL pre-configuration (added ca-bundle.crt)
+- CHG | use individual php.ini's per PHP version
+- 2015-04-23 | NEW | improved SSL pre-configuration (added ca-bundle.crt)
                      set cainfo settings to PHP.ini
-| 2015-04-15 | CHG | adjusted batch scripts: replaced %cd% with %~dp0)
+- 2015-04-15 | CHG | adjusted batch scripts: replaced %cd% with %~dp0)
                      renamed batch scripts: removed "wpnxm-" prefix
-| 2015-03-22 | NEW | added Strawberry Perl x64
-|             | CHG | x64 versions of the Full Installer include Perl x64
+- 2015-03-22 | NEW | added Strawberry Perl x64
+- CHG | x64 versions of the Full Installer include Perl x64
 | 2015-03-17 | NEW | added RoboMongo
-|             | CHG | dropped RockMongo (it's unmaintained).
-|             | CHG | silent installation of VCREDIST
-|===
+- CHG | dropped RockMongo (it's unmaintained).
+- CHG | silent installation of VCREDIST
 
 ### v0.8.2 - 2015-03-14
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2015-03-14 | FIX | mariadb inital database creation failed
-|            | FIX | updated wpn-xm.ini with missing values
-|            | FIX | missing openssl.conf
-|            | FIX | paths in generate-certificates.bat
-|            | FIX | copy additional nginx config examples (domains-disabled)
-|            | FIX | mariadb extraction error
-|            | FIX | openssl extraction error
-|            | FIX | run PERL relocation script hidden
-|            | CHG | disable deprecated PHP Extensions php_mysql in default cfg
-|            | FIX | ampersand UTF-8 problem in the install wizard by using +
-|            | FIX | rockmongo is no longer extracted to \bin but to \www\tools
-|===
+#### FIXES
+
+-  mariadb inital database creation failed
+- updated wpn-xm.ini with missing values
+- missing openssl.conf
+- paths in generate-certificates.bat
+- copy additional nginx config examples (domains-disabled)
+- mariadb extraction error
+- openssl extraction error
+- run PERL relocation script hidden
+- ampersand UTF-8 problem in the install wizard by using +
+- rockmongo is no longer extracted to \bin but to \www\tools
+
+#### CHANGES
+
+-  disable deprecated PHP Extensions php_mysql in default cfg
 
 ### v0.8.1 - 2015-03-07
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2015-03-07 | CHG | - Will Travis release it?
-                     - **The gift that he gives to me... No one knows!**
-                     - Using Console mode, without xvfb window.
-|===
+- Will Travis release it?
+  - **The gift that he gives to me... No one knows!**
+- Using Console mode, without xvfb window.
 
 ### v0.8.0 - 2014-09-20
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2014-09-20 | CHG | Renamed Installation Wizards
-                     There are 4 installation wizard types:
-                      - webinstaller
-                      - full (formerly bigpack)
-                      - standard (formerly allinone)
-                      - lite
-|            | CHG | Installation wizards for multiple PHP versions (including x64):
-
-                     Each installation wizards is build for the following PHP versions:
-                      - PHP 5.4 x86
-                      - PHP 5.5 x86 & x64
-                      - PHP 5.6 x86 & x64
-|            | CHG | Deployment to Github, Sourceforge and WPN-XM server
-
-              Milestone Issues
-
-              https://github.com/WPN-XM/WPN-XM/issues?milestone=10&q=is%3Aclosed
-
-              #252 https://github.com/WPN-XM/WPN-XM/issues/252  mongo stop command doesn't work
-              #250 https://github.com/WPN-XM/WPN-XM/issues/250  Warning/PHP Startup: Unable to load dynamic library 'ext\php_mongo.dll' - %1 is not a valid Win32 application.
-              #244 https://github.com/WPN-XM/WPN-XM/issues/244  Web Installer Failure - 404 on php extension X-cache
-              #243 https://github.com/WPN-XM/WPN-XM/issues/243  rockmongo is installed in a versionized folder
-              #239 https://github.com/WPN-XM/WPN-XM/issues/239  [build.xml][commit-versionized-registries] workingdir is not found
-              #237 https://github.com/WPN-XM/WPN-XM/issues/237  execute stripdown scripts in each "full-version-phpversion-bitsize" folder
-              #234 https://github.com/WPN-XM/WPN-XM/issues/234  some php extensions for 5.5 (and 5.6) missing
-              #233 https://github.com/WPN-XM/WPN-XM/issues/233  movedownloadfiles misses downloads
-              #231 https://github.com/WPN-XM/WPN-XM/issues/231  exchange xhprof with uprofiler
-              #229 https://github.com/WPN-XM/WPN-XM/issues/229  add pickle - php extension installer
-              #224 https://github.com/WPN-XM/WPN-XM/issues/224  switch buildsystem from nAnt to Phing
-              #223 https://github.com/WPN-XM/WPN-XM/issues/223  the imagick core dlls must be filtered out on the php extensions tab (config)
-              #222 https://github.com/WPN-XM/WPN-XM/issues/222  "CORE_RL_wand_.dll is missing" error when enabling imagik.
-              #219 https://github.com/WPN-XM/WPN-XM/issues/219  Varnish installed under \bin\varnish-3.0.2
-              #216 https://github.com/WPN-XM/WPN-XM/issues/216  Add php_uploadprogress extension.
-              #212 https://github.com/WPN-XM/WPN-XM/issues/212  /bin/backup folder is not created during install the
-              #211 https://github.com/WPN-XM/WPN-XM/issues/211  Starting MongoDB after installation
-              #210 https://github.com/WPN-XM/WPN-XM/issues/210  Starting memcached
-              #207 https://github.com/WPN-XM/WPN-XM/issues/207  Going from MariaDB 5.5 to 10.0
-              #206 https://github.com/WPN-XM/WPN-XM/issues/206  add option to start control panel minimized
-              #204 https://github.com/WPN-XM/WPN-XM/issues/204  lift MongoDb version lock (v2.0.8)
-              #196 https://github.com/WPN-XM/WPN-XM/issues/196  PostgreSQL is not in control panel
-              #195 https://github.com/WPN-XM/WPN-XM/issues/195  Put all the admin folders in "server/www/tools/"
-              #194 https://github.com/WPN-XM/WPN-XM/issues/194  Website shows 0.6.0 as Latest Release
-              #193 https://github.com/WPN-XM/WPN-XM/issues/193  add php extension phalcon
-              #186 https://github.com/WPN-XM/WPN-XM/issues/186  updater: add dialog "building custom registries for installers"
-              #152 https://github.com/WPN-XM/WPN-XM/issues/152  show only installed components in the SCP
-              #56  https://github.com/WPN-XM/WPN-XM/issues/56   switch between PHP versions
-
-              Commits
-
-              https://github.com/WPN-XM/WPN-XM/compare/0.7.0...v0.8.0
-
-              Version Information
-
-              Please see the website for the full version information of
-              software components shipped by the full, standard and lite installation wizards.
-              The webinstaller ships latest versions from our registry.
-
-              http://wpn-xm.org/#downloads-list
-|===
+- Renamed Installation Wizards
+- There are 4 installation wizard types:
+    - webinstaller
+    - full (formerly bigpack)
+    - standard (formerly allinone)
+    - lite
+- Installation wizards for multiple PHP versions (including x64):
+- Each installation wizards is build for the following PHP versions:
+  - PHP 5.4 x86
+  - PHP 5.5 x86 & x64
+  - PHP 5.6 x86 & x64
+- Deployment to Github, Sourceforge and WPN-XM server
 
 ### v0.7.0 - 2014-04-12
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2014-04-12 | NEW | google closure comiler
-|            | NEW | node, nodenpm,
-|            | NEW | redis
-|            | NEW | varnish
-|            | NEW | php extensions: amqp, wincache, msgpack, varnish
-|            | UPD | WPN-XM SCP (icon bug fix in v0.6.1)
-|===
+#### NEW
 
-https://github.com/WPN-XM/WPN-XM/issues?milestone=9&page=1&state=closed
+- google closure comiler
+- node, nodenpm,
+- redis
+- varnish
+- php extensions: amqp, wincache, msgpack, varnish
+
+#### FIXES
+
+- WPN-XM SCP (icon bug fix in v0.6.1)
 
 ### v0.6.1 - tba
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2013-12-19 | UPD |  Inno Download Plugin v1.1.0
-|===
+#### CHANGES
+-  updated Inno Download Plugin v1.1.0 
 
 ### v0.6.0 - 2013-12-19
 
@@ -527,23 +478,21 @@ https://github.com/WPN-XM/WPN-XM/issues?milestone=5&state=closed
 
 ### v0.1 - 2011-11-12
 
+#### NEW
 
-[cols="2,1,6a", width="80%"]
-|===
-|            | NEW | created and set up website wpn-xm.org
-|            | NEW | - selected components for the server stack:
-                         * PHP 5.3.8
-                         * NGINX 1.1.7
-                         * XDebug 2.1.2 (PHP Extension)
-                         * MariaDB 5.3.2-beta
-                         * phpMyAdmin 3.4.6-english
-                         * Memcached 1.4.5
-                         * memcached (PHP Extension)
-                         * Webgrind
-                         * Xhprof
-                         * APC (PHP Extension)
-|            | NEW | created base for wpn-xm server control tray application
-|            | NEW | created base for wpn-xm webinterface
-|            | NEW | two ISS files, for standalone and for bundled distribution
-| 2011-06-12 | NEW | layed out a directory structure for the project
-|===
+- created and set up website wpn-xm.org
+- selected components for the server stack:
+   * PHP 5.3.8
+   * NGINX 1.1.7
+   * XDebug 2.1.2 (PHP Extension)
+   * MariaDB 5.3.2-beta
+   * phpMyAdmin 3.4.6-english
+   * Memcached 1.4.5
+   * memcached (PHP Extension)
+   * Webgrind
+   * Xhprof
+   * APC (PHP Extension)
+- created base for wpn-xm server control tray application
+- created base for wpn-xm webinterface
+- two ISS files, for standalone and for bundled distribution
+- layed out a directory structure for the project
