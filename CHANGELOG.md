@@ -1,7 +1,6 @@
 ### Introduction
 
-This document is a curated, chronologically ordered list of notable changes for
-each version of WPN-XM.
+This document is a curated list of notable changes for each version of WPN-XM.
 
 #### 1. Legend for the description of changes
 
@@ -15,27 +14,7 @@ We group changes to describe their impact on the project, as follows:
   - **FIXES** for any bug fixes
   - **SECURITY** to invite users to upgrade in case of vulnerabilities
 
-#### 2. Template
-
-This is a template for a new release section with a few changes:
-
-```
-### Unreleased - YYYY-MM-DD
-
-#### NEW
-
-- added a
-
-#### FIXES
-
-- fixed b
-
-#### CHANGES
-
-- removed c
-```
-
-#### 3. Unreleased Section
+#### 2. Unreleased Section
 
 The "Unreleased" section at the top is for keeping track of current changes.
 
@@ -77,7 +56,7 @@ A new "Unreleased" section is added, when the next change is added.
 - removed xdebug from PHP7 installers. no release, yet.
 - switched from "msysgit" to "git for windows"
 
-### v0.8.5 - 2015-07-12
+### v0.8.5 - 2015-07-15
 
 - FIX | installers to stop to inserting global settings into the extension section in php.ini
 - CHG | all "Lite Installers" ship "ConEmu"
@@ -92,14 +71,14 @@ A new "Unreleased" section is added, when the next change is added.
 - FIX | fixed webinterface cannot redeclare class error
 - CHG | removed component "junction"
 
-### v0.8.4 - tba
+### v0.8.4 - 2015-06-28
 
 - FIX | fixed uninstaller to not recursively delete reparse points
 - NEW | added redis configuration
 - CHG | enabled PHP extensions (by default): mysql, pdo_mysql, pdo_sqlite, sqlite, openssl
 - CHG | server control panel is now released with version number
 
-### v0.8.3 - 2015-06-26
+### v0.8.3 - 2015-06-25
 
 - 2015-06-17 | NEW | added vcredist 2015 detection o LiteRC installer for PHP7
 - 2015-04-26 | CHG | moved configs into subfolders
@@ -126,7 +105,7 @@ A new "Unreleased" section is added, when the next change is added.
 
 #### FIXES
 
--  mariadb inital database creation failed
+- mariadb inital database creation failed
 - updated wpn-xm.ini with missing values
 - missing openssl.conf
 - paths in generate-certificates.bat
@@ -141,13 +120,13 @@ A new "Unreleased" section is added, when the next change is added.
 
 -  disable deprecated PHP Extensions php_mysql in default cfg
 
-### v0.8.1 - 2015-03-07
+### v0.8.1 - 2015-03-09
 
 - Will Travis release it?
   - **The gift that he gives to me... No one knows!**
 - Using Console mode, without xvfb window.
 
-### v0.8.0 - 2014-09-20
+### v0.8.0 - 2014-09-17
 
 - Renamed Installation Wizards
 - There are 4 installation wizard types:
@@ -183,41 +162,40 @@ A new "Unreleased" section is added, when the next change is added.
 
 ### v0.6.0 - 2013-12-19
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2013-12-18  | FIX | This release adresses several bugs in the Server Control Panel:
-                       - console/debugging popup screen removed
-                       - daemons not found
-                       - daemons not started
-                       - logfile not opened, because wrong path
-                       - webinterface button not working
+#### FIXES
 
-|             | NEW | [server control panel]
-              - executable has been renamed from "wpnxm-scp.exe" to "wpn-xm.exe"
-              - reworked settings classes
-              - enabled configuration dialog
-              - added RunOnStartup: places SCP in Windows Autostart)
-              - added StopDaemonsOnQuit:
-                stops all running daemons, when user Quits the SCP in the Tray
-              - added RunDaemonsOnStartup with daemon selection:
-                starts daemons, when SCP starts
-              - enabled all configuration buttons
-                they resolve to the webinterface config section
-              - splashscreen added
-             [wpn-xm.ini]
-              - is the global configuration file used by SCP and Webinterface
-              - is auto-generated with default settings by the server control panel
-              - with defaults settings is also installed with the stack
-             [webinterface]
-              - runs with embedded PHP server and also with Nginx (default)
-              - has start & stop buttons for daemons
-|===
+-  This release adresses several bugs in the Server Control Panel:
+- console/debugging popup screen removed
+- daemons not found
+- daemons not started
+- logfile not opened, because wrong path
+- webinterface button not working
+
+##### NEW
+
+- [server control panel]
+  - executable has been renamed from "wpnxm-scp.exe" to "wpn-xm.exe"
+  - reworked settings classes
+  - enabled configuration dialog
+  - added RunOnStartup: places SCP in Windows Autostart)
+  - added StopDaemonsOnQuit:
+    stops all running daemons, when user Quits the SCP in the Tray
+  - added RunDaemonsOnStartup with daemon selection:
+    starts daemons, when SCP starts
+  - enabled all configuration buttons
+    they resolve to the webinterface config section
+  - splashscreen added
+- [wpn-xm.ini]
+  - is the global configuration file used by SCP and Webinterface
+  - is auto-generated with default settings by the server control panel
+  - with defaults settings is also installed with the stack
+- [webinterface]
+  - runs with embedded PHP server and also with Nginx (default)
+  - has start & stop buttons for daemons
 
 ### v0.6.4 - 2013-12-02
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2013-11-30 | NEW | webinterface update to work with embedded PHP server
+- 2013-11-30 | NEW | webinterface update to work with embedded PHP server
 | 2013-11-09 | NEW | added build tasks
                      prepare-downloads-lite & prepare-downloads-allinone
                      Both move downloads to a specific subfolder.
@@ -246,61 +224,59 @@ A new "Unreleased" section is added, when the next change is added.
                      Tweaks to MariaDB settings
 |            | FIX | fixed start-menu shortcuts
                      https://github.com/WPN-XM/WPN-XM/issues/89
-|===
 
 ### v0.5.3 - tba
 
-[cols="2,1,6a", width="80%"]
-|===
-|             | UPD | - NGINX 1.3.13
-                      - PHP 5.4.12
-| 2013-02-20  | FIX | dialog "Server processes still running" during uninstall
-                      shutdown call was invalid
-|             | FIX | removed read-only file permissions from  pthreadGC2.ddl
-                      (from /bin/memcached). it was not deleted by uninstall.
-|===
+#### UPDATED
+
+- NGINX 1.3.13
+- PHP 5.4.12
+
+#### FIXES
+- dialog "Server processes still running" during uninstall / shutdown call was invalid
+- removed read-only file permissions from pthreadGC2.ddl (memcached). was not deleted by uninstall.
 
 ### v0.5.2 - 2013-02-18
 
-Some entries are missing here...
+#### CHANGES
 
-[cols="2,1,6a", width="80%"]
-|===
-|            | CHG | removed debug token completely
-|            | NEW | added phpmemcachedadmin
-|            | FIX | removed DEBUG token on bootstrap.php
-|            | NEW | added build tasks "reset-git-submodules",
-                     to reset all APPVERSION token changes in git submodules
-|            | NEW | added build tasks "compile-server-control-panel"
-                     and "build-server-control-panel"
-|            | NEW | added PHP Extension Mongo 1.3.4
-| 2013-02-02 | NEW | added RockMongo 1.1.5
-                     added version crawler for RockMongo
-                     added RockMongo to status, download list and registry
-                     added RockMongo to installation wizard
-|            | NEW | registry-update add() handles now also single arrays
-|            | NEW | MongoDB stripdown script and stripdown build task
-| 2013-02-01 | FIX | /logs directory does not exist on startup
-                     https://github.com/WPN-XM/WPN-XM/issues/75
-|===
+- removed debug token completely
+- registry-update add() handles now also single arrays
+ 
+#### NEW
+
+- added phpmemcachedadmin
+- added build tasks "reset-git-submodules" to reset all APPVERSION token changes in git submodules
+- added build tasks "compile-server-control-panel" and "build-server-control-panel"
+- added PHP Extension Mongo 1.3.4
+- added RockMongo 1.1.5
+- added version crawler for RockMongo
+- added RockMongo to status, download list and registry
+- added RockMongo to installation wizard
+- MongoDB stripdown script and stripdown build task
+- 
+#### FIXES
+
+- removed DEBUG token on bootstrap.php
+- /logs directory does not exist on startup (#75)
 
 ### v0.5.1 - 2013-01-21
 
-https://github.com/WPN-XM/WPN-XM/issues?milestone=5&state=closed
+#### FIXES
+- missing semicolon in nginx.conf
+- missing slash in webinterface/helper/phpini.php
+- uninstall abort dialog did not abort (#71)
+- stripdown script and foldernames with spaces (#70)
 
-[cols="2,1,6a", width="80%"]
-|===
-| 2013-01-20 | FIX | missing semicolon in nginx.conf
-                     missing slash in webinterface/helper/phpini.php
-|            | FIX | uninstall abort dialog did not abort
-                     https://github.com/WPN-XM/WPN-XM/issues/71
-|            | FIX | stripdown script and foldernames with spaces
-                     https://github.com/WPN-XM/WPN-XM/issues/70
-|            | UPD | updated NANT to v0.92 (2012-06-09)
-|            | NEW | issue #74 - build tasks "stripdown-mariadb"
-                     building of the AllInOne Installer is now only one-click
-|            | UPD | issue #69 - software registry out-of-sync
-|===
+#### NEW
+
+- build tasks "stripdown-mariadb" (#74)
+- building of the AllInOne Installer is now only one-click
+
+#### CHANGES
+
+- updated NANT to v0.92 (2012-06-09)
+- issue #69 - software registry out-of-sync
 
 ### v0.5.0 - 2013-01-19
 
