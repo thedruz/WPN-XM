@@ -174,6 +174,7 @@ Source: ..\configs\php\php55.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini
 Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
+Source: ..\configs\php\php.ini-composer; DestDir: {app}\bin\composer; Components: composer
 Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\configs\conemu\*; DestDir: {app}\bin\conemu; Components: conemu

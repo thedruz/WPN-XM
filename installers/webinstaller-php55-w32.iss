@@ -210,6 +210,7 @@ Source: ..\configs\php\php55.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini
 Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
+Source: ..\configs\php\php.ini-composer; DestDir: {app}\bin\composer; Components: composer
 Source: ..\configs\phpmyadmin\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
 Source: ..\configs\redis\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
 Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
