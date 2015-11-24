@@ -65,4 +65,14 @@ image::https://cloud.githubusercontent.com/assets/85608/4353481/9e293520-4233-11
 .WPN-XM Server Control Panel v0.8.0 - Registry Updater
 image::https://cloud.githubusercontent.com/assets/85608/4353482/9e38b69e-4233-11e4-9d29-79845ce324a6.jpg[WPN-XM Server Control Panel v0.8.0 - Registry Updater]
 
-*Regards, Jens-André Koch*
+=== Sponsors
+
+Thanks to our sponsors and supporters:
+
+[width="80"]
+|=======
+|JetBrains
+|image:https://www.jetbrains.com/phpstorm/documentation/docs/logo_phpstorm.png["PHP IDE :: JetBrains PhpStorm", link="https://www.jetbrains.com/phpstorm/"]
+|=======
+
+*Regards, Jens A. Koch*
