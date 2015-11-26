@@ -46,7 +46,7 @@ allow_url_fopen = On
 allow_url_include = Off
 default_socket_timeout = 60
 
-extension_dir="C:\server_main\bin\php\ext"
+extension_dir="..\php\ext"
 extension=php_curl.dll
 extension=php_openssl.dll
 extension=php_sockets.dll
