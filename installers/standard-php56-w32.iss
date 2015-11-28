@@ -292,7 +292,7 @@ const
   Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apcu       = 'phpext_apcu.zip';
   Filename_phpext_jsond      = 'phpext_jsond.zip';
-  //Filename_phpext_mailparse  = 'phpext_mailparse.zip';
+  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb    = 'phpext_mongodb.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
@@ -973,11 +973,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_jsond\php_jsond.dll'), appDir + '\bin\php\ext\php_jsond.dll', false);
     UpdateTotalProgressBar();
 
-    //UpdateCurrentComponentName('PHP Extension - Mailparse');
-    //  ExtractTemporaryFile(Filename_phpext_mailparse);
-    //  Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-    //  FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
-    //UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      ExtractTemporaryFile(Filename_phpext_mailparse);
+      Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       ExtractTemporaryFile(Filename_phpext_msgpack);

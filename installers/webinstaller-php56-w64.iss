@@ -320,7 +320,7 @@ const
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.6&bitsize=x64';
   URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=5.6&bitsize=x64';
   URL_phpext_jsond          = 'http://wpn-xm.org/get.php?s=phpext_jsond&p=5.6&bitsize=x64';
-  //URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.6&bitsize=x64'; not existant, yet
+  URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.6&bitsize=x64';
   URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.6&bitsize=x64';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=5.6&bitsize=x64';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.6&bitsize=x64';
@@ -374,7 +374,7 @@ const
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   Filename_phpext_jsond          = 'phpext_jsond.zip';
-  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
@@ -931,7 +931,7 @@ begin
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
         idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
         idpAddFile(URL_phpext_jsond,          ExpandConstant(targetPath + Filename_phpext_jsond));
-        //idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
+        idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
@@ -1244,10 +1244,10 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_jsond\php_jsond.dll'), appDir + '\bin\php\ext\php_jsond.dll', false);
     UpdateTotalProgressBar();
 
-    //UpdateCurrentComponentName('PHP Extension - Mailparse');
-    //  Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-    //  FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
-    //UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       Unzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
