@@ -1,3 +1,3 @@
 @echo off
 
-"C:\Program Files (x86)\Diffuse\diffuse" full-php55-w32.iss full-php55-w64.iss full-php56-w32.iss full-php56-w64.iss
+"C:\Program Files (x86)\Diffuse\diffuse" full-php55-w32.iss full-php55-w64.iss full-php56-w32.iss full-php56-w64.iss full-php70-w32.iss full-php70-w64.iss
