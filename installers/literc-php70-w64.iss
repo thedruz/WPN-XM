@@ -51,6 +51,7 @@
 #define CODESIGN_INSTALLER "false"
 
 #define INSTALLER_TYPE "LiteRC"
+#define INSTALLER_FOLDER LowerCase(INSTALLER_TYPE);
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -130,7 +131,7 @@ Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
-Source: ..\downloads\literc-{#APP_VERSION}-php7.0-w64\*; Flags: nocompression dontcopy;
+Source: ..\downloads\{#INSTALLER_FOLDER}-{#APP_VERSION}-php7.0-w64\*; Flags: nocompression dontcopy;
 ; tools:
 Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\

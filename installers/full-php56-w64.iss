@@ -51,6 +51,7 @@
 #define CODESIGN_INSTALLER "false"
 
 #define INSTALLER_TYPE "Full"
+#define INSTALLER_FOLDER LowerCase(INSTALLER_TYPE);
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -151,7 +152,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
-Source: ..\downloads\full-{#APP_VERSION}-php5.6-w64\*; Flags: nocompression dontcopy;
+Source: ..\downloads\{#INSTALLER_FOLDER}-{#APP_VERSION}-php5.6-w64\*; Flags: nocompression dontcopy;
 ; tools:
 Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
