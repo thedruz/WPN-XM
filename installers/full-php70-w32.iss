@@ -306,25 +306,25 @@ const
   Filename_pear                  = 'go-pear.phar';
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
-  Filename_phpext_amqp           = 'phpext_amqp.zip';
+  //Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
-  Filename_phpext_ioncube        = 'phpext_ioncube.zip';
-  Filename_phpext_jsond          = 'phpext_jsond.zip';
-  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
-  Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_mongodb        = 'phpext_mongodb.zip';
+  //Filename_phpext_ioncube        = 'phpext_ioncube.zip';
+  // jsond is inclued in PHP7
+  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
+  //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
-  Filename_phpext_phalcon        = 'phpext_phalcon.zip';
-  Filename_phpext_rar            = 'phpext_rar.zip';
-  Filename_phpext_stats          = 'phpext_stats.zip';
-  Filename_phpext_trader         = 'phpext_trader.zip';
-  Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
-  Filename_phpext_varnish        = 'phpext_varnish.zip';
+  //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
+  //Filename_phpext_rar            = 'phpext_rar.zip';
+  //Filename_phpext_stats          = 'phpext_stats.zip';
+  //Filename_phpext_trader         = 'phpext_trader.zip';
+  //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
+  //Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_wincache       = 'phpext_wincache.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   //Filename_phpext_uprofiler    = 'phpext_uprofiler.zip';
-  Filename_phpext_zmq            = 'phpext_zmq.zip';
+  //Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
   Filename_pickle                = 'pickle.phar';
@@ -1029,7 +1029,7 @@ begin
 
     ; UpdateCurrentComponentName('PHP Extension - ionCube');
       ; ExtractTemporaryFile(Filename_phpext_ioncube);
-      ; Unzip(targetPath + Filename_phpext_jsond, targetPath + 'phpext_ioncube');
+      ; Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
       ; // Copy the ionCube Loader dll for this PHP version
       ; FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.6.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
       ; // Copy the license
@@ -1038,6 +1038,12 @@ begin
       ; ForceDirectories(appDir + '\www\tools\ioncube\');
       ; ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_ioncube\*.* ' + appDir + '\www\tools\ioncube"');
     ; UpdateTotalProgressBar();
+
+    {
+    
+      The PHP extension JsonD is included in PHP 7.
+      
+    }
 
     ; UpdateCurrentComponentName('PHP Extension - Mailparse');
       ; ExtractTemporaryFile(Filename_phpext_mailparse);
@@ -1165,11 +1171,11 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-* ' + appDir + '\bin\memcached"'); // rename folder
     UpdateTotalProgressBar;
 
-    UpdateCurrentComponentName('PHP Extension - Memcached');
-      ExtractTemporaryFile(Filename_phpext_memcache);
-      Unzip(targetPath + Filename_phpext_memcache, targetPath + 'phpext_memcache');
-      FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), appDir + '\bin\php\ext\php_memcache.dll', false);
-    UpdateTotalProgressBar();
+    ; UpdateCurrentComponentName('PHP Extension - Memcached');
+      ; ExtractTemporaryFile(Filename_phpext_memcache);
+      ; Unzip(targetPath + Filename_phpext_memcache, targetPath + 'phpext_memcache');
+      ; FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), appDir + '\bin\php\ext\php_memcache.dll', false);
+    ; UpdateTotalProgressBar();
   end;
 
   if Pos('memadmin', selectedComponents) > 0 then
@@ -1288,11 +1294,11 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');  // rename directory
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - Mongo');
-      ExtractTemporaryFile(Filename_phpext_mongodb);
-      Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongodb');
-      FileCopy(ExpandConstant(targetPath + 'phpext_mongodb\php_mongodb.dll'), appDir + '\bin\php\ext\php_mongodb.dll', false);
-    UpdateTotalProgressBar();
+    ; UpdateCurrentComponentName('PHP Extension - Mongo');
+      ; ExtractTemporaryFile(Filename_phpext_mongodb);
+      ; Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongodb');
+      ; FileCopy(ExpandConstant(targetPath + 'phpext_mongodb\php_mongodb.dll'), appDir + '\bin\php\ext\php_mongodb.dll', false);
+    ; UpdateTotalProgressBar();
   end;
 
 end;
