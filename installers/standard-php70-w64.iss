@@ -969,10 +969,10 @@ begin
     UpdateTotalProgressBar();
 
     {
-	
-	   PHP Extension JsonD is included in PHP 7.
-	
-	}
+    
+       PHP Extension JsonD is included in PHP 7.
+    
+    }
 
     ; UpdateCurrentComponentName('PHP Extension - Mailparse');
       ; ExtractTemporaryFile(Filename_phpext_mailparse);
@@ -1246,7 +1246,7 @@ begin
 
   if Pos('webgrind', selectedComponents) > 0 then
   begin
-	ReplaceStringInFile('xdebug.profiler_enable         = 0', 'xdebug.profiler_enable         = 1', php_ini_file);
+    ReplaceStringInFile('xdebug.profiler_enable         = 0', 'xdebug.profiler_enable         = 1', php_ini_file);
 
     ReplaceStringInFile(';xdebug.profiler_output_dir    = "C:\server\logs"',
                         'xdebug.profiler_output_dir     = "' + appDir + '\logs"', php_ini_file);

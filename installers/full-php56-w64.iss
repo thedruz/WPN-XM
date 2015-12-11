@@ -1030,7 +1030,7 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - ionCube');
       ExtractTemporaryFile(Filename_phpext_ioncube);
-      Unzip(targetPath + Filename_phpext_jsond, targetPath + 'phpext_ioncube');
+      Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
       // Copy the ionCube Loader dll for this PHP version
       FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.5.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
       // Copy the license
