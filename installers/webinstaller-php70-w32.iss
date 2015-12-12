@@ -1239,9 +1239,9 @@ begin
     ; UpdateTotalProgressBar();
 
     {
-    
+
       The PHP extension JsonD is included in PHP 7.
-      
+
     }
 
     ; UpdateCurrentComponentName('PHP Extension - Mailparse');
@@ -1464,7 +1464,7 @@ begin
     UpdateTotalProgressBar();
 
     ; UpdateCurrentComponentName('PHP Extension - Mongo');
-      ; Unzip(targetPath + Filename_phpext_mongo, targetPath + 'phpext_mongo');
+      ; Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongo');
       ; FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), appDir + '\bin\php\ext\php_mongo.dll', false);
     ; UpdateTotalProgressBar();
   end;
