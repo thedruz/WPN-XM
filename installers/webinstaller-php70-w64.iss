@@ -884,6 +884,7 @@ begin
     end;
 
     if IsComponentSelected('memadmin') then
+    begin
        idpAddFile(URL_memadmin,          ExpandConstant(targetPath + Filename_memadmin));
     end;
 
