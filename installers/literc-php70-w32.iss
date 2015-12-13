@@ -120,7 +120,7 @@ Name: custom; Description: Custom installation; Flags: iscustom
 Name: serverstack; Description: Base of the WPN-XM Server Stack (Nginx & PHP & MariaDb); ExtraDiskSpaceRequired: 192430000; Types: full custom; Flags: fixed
 Name: adminer; Description: Adminer - Database management in single PHP file; ExtraDiskSpaceRequired: 355000; Types: full
 Name: conemu; Description: Conemu - Advanced console emulator with multiple tabs; ExtraDiskSpaceRequired: 8700000; Types: full
-Name: benchmark; Description: WPN-XM Benchmark Tools; ExtraDiskSpaceRequired: 100000; Types: full debug
+Name: benchmark; Description: WPN-XM Benchmark Tools; ExtraDiskSpaceRequired: 100000; Types: full
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full
