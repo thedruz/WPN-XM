@@ -1217,27 +1217,27 @@ begin
 
   if Pos('phpextensions', selectedComponents) > 0 then
   begin
-    ; UpdateCurrentComponentName('PHP Extension - AMQP');
-      ; Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - AMQP');
+     // Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
+     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
+   // UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - APCu');
       Unzip(targetPath + Filename_phpext_apcu, targetPath + 'phpext_apcu');
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - ionCube');
-      ; Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
-      ; // Copy the ionCube Loader dll for this PHP version
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.6.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
-      ; // Copy the license
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\LICENSE.txt'), appDir + '\doc\licenses\ioncube.license.txt', false);
-      ; // Move all remaining files (ioncube loader_wizard) to "/www/tools/ioncube" folder
-      ; ForceDirectories(appDir + '\www\tools\ioncube\');
-      ; ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_ioncube\*.* ' + appDir + '\www\tools\ioncube"');
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - ionCube');
+     // Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
+     // // Copy the ionCube Loader dll for this PHP version
+     // FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.6.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
+     // // Copy the license
+     // FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\LICENSE.txt'), appDir + '\doc\licenses\ioncube.license.txt', false);
+     // // Move all remaining files (ioncube loader_wizard) to "/www/tools/ioncube" folder
+     // ForceDirectories(appDir + '\www\tools\ioncube\');
+     // ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_ioncube\*.* ' + appDir + '\www\tools\ioncube"');
+   // UpdateTotalProgressBar();
 
     {
 
@@ -1245,51 +1245,51 @@ begin
 
     }
 
-    ; UpdateCurrentComponentName('PHP Extension - Mailparse');
-      ; Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - Mailparse');
+     // Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
+   // UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       Unzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll', false);
     UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - UploadProgress');
-      ; Unzip(targetPath + Filename_phpext_uploadprogress, targetPath + 'phpext_uploadprogress');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_uploadprogress\php_uploadprogress.dll'), appDir + '\bin\php\ext\php_uploadprogress.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - UploadProgress');
+     // Unzip(targetPath + Filename_phpext_uploadprogress, targetPath + 'phpext_uploadprogress');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_uploadprogress\php_uploadprogress.dll'), appDir + '\bin\php\ext\php_uploadprogress.dll', false);
+   // UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - Phalcon');
-      ; Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - Phalcon');
+     // Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
+   // UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - Stats');
-      ; Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - Stats');
+     // Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
+   // UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - RAR');
-      ; Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - RAR');
+     // Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
+   // UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - Trader');
-      ; Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - Trader');
+     // Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
+   // UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Wincache');
       Unzip(targetPath + Filename_phpext_wincache, targetPath + 'phpext_wincache');
       FileCopy(ExpandConstant(targetPath + 'phpext_wincache\php_wincache.dll'), appDir + '\bin\php\ext\php_wincache.dll', false);
     UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - ZMQ');
-      ; Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - ZMQ');
+     // Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
+     // FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
+   // UpdateTotalProgressBar();
   end;
 
   if Pos('varnish', selectedComponents) > 0 then
@@ -1299,10 +1299,10 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\varnish-* ' + appDir + '\bin\varnish"');// rename directory, like "varnish-3.0.2"
     UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - Varnish');
-      ; Unzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), appDir + '\bin\php\ext\php_varnish.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - Varnish');
+     // Unzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), appDir + '\bin\php\ext\php_varnish.dll', false);
+   // UpdateTotalProgressBar();
   end;
 
   if Pos('imagick', selectedComponents) > 0 then
@@ -1355,10 +1355,10 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-* ' + appDir + '\bin\memcached"'); // rename folder
     UpdateTotalProgressBar;
 
-    ; UpdateCurrentComponentName('PHP Extension - Memcached');
-      ; Unzip(targetPath + Filename_phpext_memcache, targetPath + 'phpext_memcache');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), appDir + '\bin\php\ext\php_memcache.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - Memcached');
+     // Unzip(targetPath + Filename_phpext_memcache, targetPath + 'phpext_memcache');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), appDir + '\bin\php\ext\php_memcache.dll', false);
+   // UpdateTotalProgressBar();
   end;
 
   if Pos('memadmin', selectedComponents) > 0 then
@@ -1464,10 +1464,10 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');  // rename directory
     UpdateTotalProgressBar();
 
-    ; UpdateCurrentComponentName('PHP Extension - Mongo');
-      ; Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongo');
-      ; FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), appDir + '\bin\php\ext\php_mongo.dll', false);
-    ; UpdateTotalProgressBar();
+   // UpdateCurrentComponentName('PHP Extension - Mongo');
+     // Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongo');
+     // FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), appDir + '\bin\php\ext\php_mongo.dll', false);
+   // UpdateTotalProgressBar();
   end;
 
 end;
