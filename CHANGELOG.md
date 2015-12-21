@@ -28,36 +28,34 @@ We group changes to describe their impact on the project, as follows:
 ### NEW
 - added php-cgi-spawn
 - added installers for PHP 7 (full, standard, lite, web), #516
-- added version crawler for PHP Extension "MsgPack", https://github.com/WPN-XM/WPN-XM/issues/528
-- added a support forum, https://github.com/WPN-XM/WPN-XM/issues/518
-- added box "latest updates to the registry" to website, https://github.com/WPN-XM/WPN-XM/issues/517
+- added version crawler for PHP Extension "MsgPack"
+- added a support forum
+- added box "latest updates to the registry" to website
 - added Components to the registry:
-  - Sphinx, https://github.com/WPN-XM/WPN-XM/issues/506
-  - Selenium, https://github.com/WPN-XM/WPN-XM/issues/507
-  - PHP Extension "IonCube", https://github.com/WPN-XM/WPN-XM/issues/491
-- added PHP Extension "IonCube" to installers, https://github.com/WPN-XM/WPN-XM/issues/491
-- disable Xdebug automatically for Composer runs, https://github.com/WPN-XM/WPN-XM/issues/487
+  - Sphinx
+  - Selenium
+  - PHP Extension "IonCube"
+- added PHP Extension "IonCube" to installers
+- disable Xdebug automatically for Composer runs
 
 ### FIXES
 - fixed y
 
 ### CHANGES
 - changed start script to use php-cgi-spawn and launch multiple PHP processes
-- added preprocessor constant to installers to determine the download folder by installer name,
-  https://github.com/WPN-XM/WPN-XM/issues/520
+- added preprocessor constant to installers to determine the download folder by installer name
 - updater
-  - switched to Twitter Bootstrap 4, https://github.com/WPN-XM/WPN-XM/issues/502
-  - added registry HealthCheck and MenuAction, https://github.com/WPN-XM/WPN-XM/issues/500
-    https://github.com/WPN-XM/WPN-XM/issues/501
-  - added support for PHP7 for extensions, https://github.com/WPN-XM/WPN-XM/issues/499
-- switched to PHP Extension "mongo" (formerly we shipped "mongodb"), https://github.com/WPN-XM/WPN-XM/issues/505
+  - switched to Twitter Bootstrap 4
+  - added registry HealthCheck and MenuAction
+  - added support for PHP7 for extensions
+- switched to PHP Extension "mongo" (formerly we shipped "mongodb")
 - website
-  - remove the listing of PHP 5.4 extensions from components page, https://github.com/WPN-XM/WPN-XM/issues/497
-- moved Composer from PHP folder to `/bin/composer`, https://github.com/WPN-XM/WPN-XM/issues/486
+  - remove the listing of PHP 5.4 extensions from components page
+- moved Composer from PHP folder to `/bin/composer`
 
 ### REMOVED
-- removed PHP Extension "WinCache" from installers, https://github.com/WPN-XM/WPN-XM/issues/533
-- removed Strawberry Perl from installers, https://github.com/WPN-XM/WPN-XM/issues/504
+- removed PHP Extension "WinCache" from installers
+- removed Strawberry Perl from installers
 
 ## v0.8.6 - 2015-08-21
 
