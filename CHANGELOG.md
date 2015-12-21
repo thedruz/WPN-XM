@@ -27,7 +27,7 @@ We group changes to describe their impact on the project, as follows:
 
 ### NEW
 - added php-cgi-spawn
-- added installers for PHP 7 (full, standard, lite, web), https://github.com/WPN-XM/WPN-XM/issues/516
+- added installers for PHP 7 (full, standard, lite, web), #516
 - added version crawler for PHP Extension "MsgPack", https://github.com/WPN-XM/WPN-XM/issues/528
 - added a support forum, https://github.com/WPN-XM/WPN-XM/issues/518
 - added box "latest updates to the registry" to website, https://github.com/WPN-XM/WPN-XM/issues/517
@@ -38,7 +38,7 @@ We group changes to describe their impact on the project, as follows:
 - added PHP Extension "IonCube" to installers, https://github.com/WPN-XM/WPN-XM/issues/491
 - disable Xdebug automatically for Composer runs, https://github.com/WPN-XM/WPN-XM/issues/487
 
-### FIXED
+### FIXES
 - fixed y
 
 ### CHANGES
