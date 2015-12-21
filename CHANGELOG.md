@@ -26,13 +26,38 @@ We group changes to describe their impact on the project, as follows:
 ## Unreleased
 
 ### NEW
--  added php-cgi-spawn
+- added php-cgi-spawn
+- added installers for PHP 7 (full, standard, lite, web), https://github.com/WPN-XM/WPN-XM/issues/516
+- added version crawler for PHP Extension "MsgPack", https://github.com/WPN-XM/WPN-XM/issues/528
+- added a support forum, https://github.com/WPN-XM/WPN-XM/issues/518
+- added box "latest updates to the registry" to website, https://github.com/WPN-XM/WPN-XM/issues/517
+- added Components to the registry:
+  - Sphinx, https://github.com/WPN-XM/WPN-XM/issues/506
+  - Selenium, https://github.com/WPN-XM/WPN-XM/issues/507
+  - PHP Extension "IonCube", https://github.com/WPN-XM/WPN-XM/issues/491
+- added PHP Extension "IonCube" to installers, https://github.com/WPN-XM/WPN-XM/issues/491
+- disable Xdebug automatically for Composer runs, https://github.com/WPN-XM/WPN-XM/issues/487
 
 ### FIXED
 - fixed y
 
 ### CHANGES
 - changed start script to use php-cgi-spawn and launch multiple PHP processes
+- added preprocessor constant to installers to determine the download folder by installer name,
+  https://github.com/WPN-XM/WPN-XM/issues/520
+- updater
+  - switched to Twitter Bootstrap 4, https://github.com/WPN-XM/WPN-XM/issues/502
+  - added registry HealthCheck and MenuAction, https://github.com/WPN-XM/WPN-XM/issues/500
+    https://github.com/WPN-XM/WPN-XM/issues/501
+  - added support for PHP7 for extensions, https://github.com/WPN-XM/WPN-XM/issues/499
+- switched to PHP Extension "mongo" (formerly we shipped "mongodb"), https://github.com/WPN-XM/WPN-XM/issues/505
+- website
+  - remove the listing of PHP 5.4 extensions from components page, https://github.com/WPN-XM/WPN-XM/issues/497
+- moved Composer from PHP folder to `/bin/composer`, https://github.com/WPN-XM/WPN-XM/issues/486
+
+### REMOVED
+- removed PHP Extension "WinCache" from installers, https://github.com/WPN-XM/WPN-XM/issues/533
+- removed Strawberry Perl from installers, https://github.com/WPN-XM/WPN-XM/issues/504
 
 ## v0.8.6 - 2015-08-21
 
@@ -79,7 +104,7 @@ We group changes to describe their impact on the project, as follows:
 - CHG | moved webgrind config into "/configs/webgrind" and updated installers accordingly
 - 2015-04-24 | FIX | fixed another crash of the SCP (when trying to start the not-installed PostgreSQL)
 - CHG | use individual php.ini's per PHP version
-- 2015-04-23 | NEW | improved SSL pre-configuration (added ca-bundle.crt) 
+- 2015-04-23 | NEW | improved SSL pre-configuration (added ca-bundle.crt)
 - set cainfo settings to PHP.ini
 - 2015-04-15 | CHG | adjusted batch scripts: replaced %cd% with %~dp0)
 - renamed batch scripts: removed "wpnxm-" prefix
@@ -204,7 +229,7 @@ We group changes to describe their impact on the project, as follows:
 - 2013-04-05 | NEW | "shutdown blocking" process scan during deinstallation
 - 2013-03-01 | NEW | Nginx loads Domain Configs from /domains-enabled folder
 - Tweaks to MariaDB settings
-- FIX | fixed start-menu shortcuts. 
+- FIX | fixed start-menu shortcuts.
   - https://github.com/WPN-XM/WPN-XM/issues/89
 
 ## v0.5.3 - tba
@@ -285,7 +310,7 @@ We group changes to describe their impact on the project, as follows:
 - 2012-08-23 | CHG | webinterface
   - fixed repository links
   - UPD | twitter bootstrap v2.1.0
-- 2012-08-13 | CHG | new repositories 
+- 2012-08-13 | CHG | new repositories
   - website-wpn-xm.org, server-control-panel and updater are own git repositories now
 - 2012-08-07 | CHG | copy the installation wizard log into the logs folder
 - 2012-08-05 | FIX | fastcgi_read_timeout increased for xdebug step debugging
