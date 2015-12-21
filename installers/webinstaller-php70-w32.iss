@@ -330,7 +330,6 @@ const
   //URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.0';
   //URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=7.0';
   //URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.0';
-  URL_phpext_wincache       = 'http://wpn-xm.org/get.php?s=phpext_wincache&p=7.0';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.0';
   //URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=7.0'; // no build
   //URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.0';
@@ -384,7 +383,6 @@ const
   //Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   //Filename_phpext_varnish        = 'phpext_varnish.zip';
-  Filename_phpext_wincache       = 'phpext_wincache.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
   //Filename_phpext_zmq            = 'phpext_zmq.zip';
@@ -938,7 +936,6 @@ begin
         //idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
         //idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         //idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
-        idpAddFile(URL_phpext_wincache,       ExpandConstant(targetPath + Filename_phpext_wincache));
         //idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
         // phpext_memcache installed with memcached
@@ -1279,11 +1276,6 @@ begin
      // Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
      // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
    // UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Wincache');
-      Unzip(targetPath + Filename_phpext_wincache, targetPath + 'phpext_wincache');
-      FileCopy(ExpandConstant(targetPath + 'phpext_wincache\php_wincache.dll'), appDir + '\bin\php\ext\php_wincache.dll', false);
-    UpdateTotalProgressBar();
 
    // UpdateCurrentComponentName('PHP Extension - ZMQ');
      // Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');

@@ -302,7 +302,6 @@ const
   Filename_phpext_stats      = 'phpext_stats.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
-  Filename_phpext_wincache   = 'phpext_wincache.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.zip';
   Filename_phpext_uprofiler  = 'phpext_uprofiler.zip';
   Filename_phpext_zmq        = 'phpext_zmq.zip';
@@ -1014,12 +1013,6 @@ begin
       ExtractTemporaryFile(Filename_phpext_trader);
       Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
       FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Wincache');
-      ExtractTemporaryFile(Filename_phpext_wincache);
-      Unzip(targetPath + Filename_phpext_wincache, targetPath + 'phpext_wincache');
-      FileCopy(ExpandConstant(targetPath + 'phpext_wincache\php_wincache.dll'), appDir + '\bin\php\ext\php_wincache.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
