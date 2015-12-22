@@ -1031,7 +1031,7 @@ begin
      // ExtractTemporaryFile(Filename_phpext_ioncube);
      // Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
      // // Copy the ionCube Loader dll for this PHP version
-     // FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.5.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
+     // FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_7.0.dll'), appDir + '\bin\php\ext\ioncube_loader_win_7.0.dll', false);
      // // Copy the license
      // FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\LICENSE.txt'), appDir + '\doc\licenses\ioncube.license.txt', false);
      // // Move all remaining files (ioncube loader_wizard) to "/www/tools/ioncube" folder
