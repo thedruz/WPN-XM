@@ -39,6 +39,7 @@ We group changes to describe their impact on the project, as follows:
 - added PHP Extension "IonCube" to installers
 - disable Xdebug automatically for Composer runs
 - added PHP Extension "Ice" to full, standard and webinstallers of PHP v5.6
+- created Asciidoctor based build toolchain for documentation (HTML and PDF book)
 
 ### FIXES
 - fixed y
