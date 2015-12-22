@@ -255,7 +255,6 @@ Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData
 ; when installing "Imagick", add "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
 
-
 [Dirs]
 Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\domains-enabled
@@ -309,6 +308,7 @@ const
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
+  Filename_phpext_ice            = 'phpext_ice.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   Filename_phpext_jsond          = 'phpext_jsond.zip';
@@ -1027,11 +1027,17 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
+    UpdateCurrentComponentName('PHP Extension - Ice');
+      ExtractTemporaryFile(Filename_phpext_ice);
+      Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
+      FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
+    UpdateTotalProgressBar();
+
     UpdateCurrentComponentName('PHP Extension - ionCube');
       ExtractTemporaryFile(Filename_phpext_ioncube);
       Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
       // Copy the ionCube Loader dll for this PHP version
-      FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.5.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.6.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
       // Copy the license
       FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\LICENSE.txt'), appDir + '\doc\licenses\ioncube.license.txt', false);
       // Move all remaining files (ioncube loader_wizard) to "/www/tools/ioncube" folder

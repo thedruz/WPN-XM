@@ -35,8 +35,10 @@ We group changes to describe their impact on the project, as follows:
   - Sphinx
   - Selenium
   - PHP Extension "IonCube"
+  - PHP Extension "Ice"
 - added PHP Extension "IonCube" to installers
 - disable Xdebug automatically for Composer runs
+- added PHP Extension "Ice" to full, standard and webinstallers of PHP v5.6
 
 ### FIXES
 - fixed y
