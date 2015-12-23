@@ -40,6 +40,10 @@ We group changes to describe their impact on the project, as follows:
 - disable Xdebug automatically for Composer runs
 - added PHP Extension "Ice" to full, standard and webinstallers of PHP v5.6
 - created Asciidoctor based build toolchain for documentation (HTML and PDF book)
+- added `CONTRIBUTING.md` and explained "how to contribute"
+- added `ROADMAP.md` to make transparent where the project is heading
+- adjusted `CHANGELOG.md` document to adhere to standards defined by http://keepachangelog.com/
+- added and adopted `CODE_OF_CONDUCT.md` as our community policy
 
 ### FIXES
 - fixed y
