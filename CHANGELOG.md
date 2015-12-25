@@ -26,7 +26,7 @@ We group changes to describe their impact on the project, as follows:
 ## Unreleased
 
 ### NEW
-- added php-cgi-spawn
+- added php-cgi-spawn (spawning multiple PHP processes)
 - added installers for PHP 7 (full, standard, lite, web), #516
 - added version crawler for PHP Extension "MsgPack"
 - added a support forum
@@ -37,18 +37,24 @@ We group changes to describe their impact on the project, as follows:
   - PHP Extension "IonCube"
   - PHP Extension "Ice"
 - added PHP Extension "IonCube" to installers
-- disable Xdebug automatically for Composer runs
+- added PHP Extension "Stats" to installers
+- disable Xdebug automatically for Composer runs (reducing impact on runtime performance)
 - added PHP Extension "Ice" to full, standard and webinstallers of PHP v5.6
 - created Asciidoctor based build toolchain for documentation (HTML and PDF book)
 - added `CONTRIBUTING.md` and explained "how to contribute"
 - added `ROADMAP.md` to make transparent where the project is heading
 - adjusted `CHANGELOG.md` document to adhere to standards defined by http://keepachangelog.com/
 - added and adopted `CODE_OF_CONDUCT.md` as our community policy
+- created new repository for benachmark tools
+- added "wpnxm-benchmark" to installers
+- updated language files for intallers to latest versions and added 20+ more langs
+- added "HeidiSQL" to installers (full, standard, web)
 
 ### FIXES
-- fixed y
+- x
 
 ### CHANGES
+- use utf8mb4 with utf8m4_unicode_ci as new default setting for MariaDb
 - changed start script to use php-cgi-spawn and launch multiple PHP processes
 - added preprocessor constant to installers to determine the download folder by installer name
 - updater
@@ -59,6 +65,7 @@ We group changes to describe their impact on the project, as follows:
 - website
   - remove the listing of PHP 5.4 extensions from components page
 - moved Composer from PHP folder to `/bin/composer`
+- execute 7zip/unzip operation without blocking the InnoSetup GUI
 
 ### REMOVED
 - removed PHP Extension "WinCache" from installers

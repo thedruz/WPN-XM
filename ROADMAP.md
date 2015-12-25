@@ -8,7 +8,7 @@ This roadmap makes clear and transparent, where the project is heading.
 
 The products delivered by the WPN-XM project do not have a final delivery,
 rather an on-going process of exploring how best to support the developers
-by optimizing the installers, maintaining the software registy,
+by optimizing the installers, maintaining the software registry,
 optimizing the build-toolchain and the default configuration of installed tools.
 
 **No time-slots**
