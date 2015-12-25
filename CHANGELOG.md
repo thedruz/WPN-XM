@@ -45,7 +45,7 @@ We group changes to describe their impact on the project, as follows:
 - added `ROADMAP.md` to make transparent where the project is heading
 - adjusted `CHANGELOG.md` document to adhere to standards defined by http://keepachangelog.com/
 - added and adopted `CODE_OF_CONDUCT.md` as our community policy
-- created new repository for benachmark tools
+- created new repository for benchmark tools
 - added "wpnxm-benchmark" to installers
 - updated language files for intallers to latest versions and added 20+ more langs
 - added "HeidiSQL" to installers (full, standard, web)
@@ -56,6 +56,7 @@ We group changes to describe their impact on the project, as follows:
 ### CHANGES
 - use utf8mb4 with utf8m4_unicode_ci as new default setting for MariaDb
 - changed start script to use php-cgi-spawn and launch multiple PHP processes
+- added "php_pool" (optional; for load balancing) to nginx configuration
 - added preprocessor constant to installers to determine the download folder by installer name
 - updater
   - switched to Twitter Bootstrap 4
