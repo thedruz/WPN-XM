@@ -49,6 +49,7 @@ We group changes to describe their impact on the project, as follows:
 - added "wpnxm-benchmark" to installers
 - updated language files for intallers to latest versions and added 20+ more langs
 - added "HeidiSQL" to installers (full, standard, web)
+- [SCP] added show server status in tooltip, when hovering the tray icon
 
 ### FIXES
 - x
