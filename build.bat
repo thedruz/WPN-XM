@@ -22,7 +22,7 @@ echo ^|                                                                         
 echo ^|  The WPN-XM build process is automated with Phing.                       ^|
 echo ^|                                                                          ^|
 echo ^|  Author      Jens-Andre Koch (jakoch@web.de)                             ^|
-echo ^|  Copyright   2010 - 2014                                                 ^|
+echo ^|  Copyright   2010 - onwards                                              ^|
 echo ^|  License     MIT                                                         ^|
 echo ^|                                                                          ^|
 echo ^+-------------------------------------------------------------------------^<3
