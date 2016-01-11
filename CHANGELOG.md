@@ -31,11 +31,13 @@ We group changes to describe their impact on the project, as follows:
 - added version crawler for PHP Extension "MsgPack"
 - added a support forum
 - added box "latest updates to the registry" to website
-- added Components to the registry:
+- added Components to the software registry:
+  - ShareX
   - Sphinx
   - Selenium
-  - PHP Extension "IonCube"
-  - PHP Extension "Ice"
+  - PHP Extension IonCube
+  - PHP Extension Ice
+  - PHP Extension hprose
 - added PHP Extension "IonCube" to installers
 - added PHP Extension "Stats" to installers
 - disable Xdebug automatically for Composer runs (reducing impact on runtime performance)
@@ -52,7 +54,7 @@ We group changes to describe their impact on the project, as follows:
 - [SCP] added show server status in tooltip, when hovering the tray icon
 
 ### FIXES
-- x
+- fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
 - use utf8mb4 with utf8m4_unicode_ci as new default setting for MariaDb
@@ -63,7 +65,7 @@ We group changes to describe their impact on the project, as follows:
   - switched to Twitter Bootstrap 4
   - added registry HealthCheck and MenuAction
   - added support for PHP7 for extensions
-- switched to PHP Extension "mongo" (formerly we shipped "mongodb")
+- switched to PHP Extension "mongodb" (we shipped the superseded "mongo" formerly)
 - website
   - remove the listing of PHP 5.4 extensions from components page
 - moved Composer from PHP folder to `/bin/composer`
