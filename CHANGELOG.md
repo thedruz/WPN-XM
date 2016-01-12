@@ -28,7 +28,9 @@ We group changes to describe their impact on the project, as follows:
 ### NEW
 - added php-cgi-spawn (spawning multiple PHP processes)
 - added installers for PHP 7 (full, standard, lite, web), #516
-- added version crawler for PHP Extension "MsgPack"
+- added version crawlers:
+  - PHP Extension MsgPack
+  - PHP Extension Redis
 - added a support forum
 - added box "latest updates to the registry" to website
 - added Components to the software registry:
@@ -38,8 +40,10 @@ We group changes to describe their impact on the project, as follows:
   - PHP Extension IonCube
   - PHP Extension Ice
   - PHP Extension hprose
+  - PHP Extension redis
 - added PHP Extension "IonCube" to installers
 - added PHP Extension "Stats" to installers
+- added PHP Extension "Redis" to installers (standard, full)
 - disable Xdebug automatically for Composer runs (reducing impact on runtime performance)
 - added PHP Extension "Ice" to full, standard and webinstallers of PHP v5.6
 - created Asciidoctor based build toolchain for documentation (HTML and PDF book)
