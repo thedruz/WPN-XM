@@ -28,19 +28,14 @@ We group changes to describe their impact on the project, as follows:
 ### NEW
 - added php-cgi-spawn (spawning multiple PHP processes)
 - added installers for PHP 7 (full, standard, lite, web), #516
-- added version crawlers:
-  - PHP Extension MsgPack
-  - PHP Extension Redis
 - added a support forum
 - added box "latest updates to the registry" to website
-- added Components to the software registry:
-  - ShareX
-  - Sphinx
-  - Selenium
-  - PHP Extension IonCube
-  - PHP Extension Ice
-  - PHP Extension hprose
-  - PHP Extension redis
+- added Components to the Software Registry and created Version Crawlers for:
+  - HeidiSQL, ShareX, Sphinx, Selenium
+  - PHP Extensions:
+    - event, geoip, hprose, Ice, igbinary,
+    - IonCube, lzf, msgpack, oauth, oci8,
+    - redis, solr, stomp, timezonedb, yaf, zip
 - added PHP Extension "IonCube" to installers
 - added PHP Extension "Stats" to installers
 - added PHP Extension "Redis" to installers (standard, full)
@@ -67,11 +62,12 @@ We group changes to describe their impact on the project, as follows:
 - added preprocessor constant to installers to determine the download folder by installer name
 - updater
   - switched to Twitter Bootstrap 4
-  - added registry HealthCheck and MenuAction
+  - added registry HealthCheck and menu action
   - added support for PHP7 for extensions
 - switched to PHP Extension "mongodb" (we shipped the superseded "mongo" formerly)
 - website
   - remove the listing of PHP 5.4 extensions from components page
+  - PHP 5.4 extensions are still downloadable via our API (and of course PECL)
 - moved Composer from PHP folder to `/bin/composer`
 - execute 7zip/unzip operation without blocking the InnoSetup GUI
 
