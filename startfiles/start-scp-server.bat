@@ -7,7 +7,7 @@
 :: +-----------------------------------------------------------------------<3
 
 :: stop embedded PHP Development Server ungracefully
-%~dp0bin\tools\killprocess\Process.exe -k php.exe
+start /B taskkill /IM php.exe
 
 :: start embedded PHP Development Server
 start "localhost:90-WPN-XM Dev Server" /MIN %~dp0bin\php\php.exe -S localhost:90 -t %~dp0www

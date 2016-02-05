@@ -657,10 +657,6 @@
         <RunAria registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
     </target>
 
-    <target name="kill-aria" description="Provides a (safety net) process kill for a dangling aria2c process.">
-        <exec command="${dir.Base}\bin\killprocess\Process.exe -k aria2c.exe" passthru="true"/>
-    </target>
-
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
         <echo>Creating Downloads Folder</echo>
         <mkdir dir="${dir.Downloads}"/>
@@ -725,8 +721,7 @@
                     compile-literc,
                     check-installers,
                     commit-versionized-registries,
-                    reset-git-submodules,
-                    kill-aria">
+                    reset-git-submodules">
     </target>
 
     <target name="main-part1"
@@ -753,8 +748,7 @@
                     compile-literc,
                     check-installers,
                     commit-versionized-registries,
-                    reset-git-submodules,
-                    kill-aria">
+                    reset-git-submodules">
     </target>
 
 </project>

@@ -12,12 +12,6 @@ if exist "%SystemRoot%\System32\taskkill.exe" (
     GOTO :kill-processes
 )
 
-if exist "%~dp0bin\tools\killprocess\Process.exe" (
-    echo Using "process" to kill the processes.
-    SET KILL-PROCESS=%~dp0bin\tools\killprocess\Process.exe -k
-    GOTO :kill-processes
-)
-
 :: can't get tskill to work...
 if exist "%SystemRoot%\System32\tskill.exe" (
     echo Using "tskill" to kill the processes.

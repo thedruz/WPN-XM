@@ -26,6 +26,7 @@ We group changes to describe their impact on the project, as follows:
 ## Unreleased
 
 ### NEW
+- added support page to website
 - added php-cgi-spawn (spawning multiple PHP processes)
 - added installers for PHP 7 (full, standard, lite, web), #516
 - added a support forum
@@ -56,6 +57,8 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
+- removed process.exe process killer util
+  - the tool is too powerful and gets flagged too often by AV software (false positive)
 - use utf8mb4 with utf8m4_unicode_ci as new default setting for MariaDb
 - changed start script to use php-cgi-spawn and launch multiple PHP processes
 - added "php_pool" (optional; for load balancing) to nginx configuration
