@@ -6,8 +6,8 @@
 :: |
 :: +-----------------------------------------------------------------------<3
 
-if not exist "start.bat" (
-    echo "ERROR: start.bat is missing."
+if not exist "run.bat" (
+    echo "ERROR: run.bat is missing."
     goto END
 )
 
@@ -38,28 +38,28 @@ goto END
 :restart-php
     echo Restarting PHP FastCGI...
     call stop.bat php
-    call start.bat php
+    call run.bat php
     echo.
 goto END
 
 :restart-mariadb
     echo Restarting MariaDb...
     call stop.bat mariadb
-    call start.bat mariadb
+    call run.bat mariadb
     echo.
 goto END
 
 :restart-memcached
     echo Restarting Memcached...
     call stop.bat memcached
-    call start.bat memcached
+    call run.bat memcached
     echo.
 goto END
 
 :restart-nginx
-    echo Restarting nginx...
+    echo Restarting Nginx...
     call stop.bat nginx
-    call start.bat nginx
+    call run.bat nginx
     echo.
 goto END
 
