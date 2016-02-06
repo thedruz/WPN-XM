@@ -161,7 +161,7 @@ Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
 Source: ..\startfiles\restart.bat; DestDir: {app}
 Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
-Source: ..\startfiles\start.bat; DestDir: {app}
+Source: ..\startfiles\run.bat; DestDir: {app}
 Source: ..\startfiles\status.bat; DestDir: {app}
 Source: ..\startfiles\stop.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
@@ -186,7 +186,7 @@ Source: ..\bin\vcredist\vcredist_x64_2015.exe; DestDir: {tmp}; Flags: deleteafte
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\wpn-xm.exe; Tasks: add_startmenu
-Name: {group}\Start WPN-XM; Filename: {app}\start.bat; Tasks: add_startmenu
+Name: {group}\Start WPN-XM; Filename: {app}\run.bat; Tasks: add_startmenu
 Name: {group}\Stop WPN-XM; Filename: {app}\stop.bat; Tasks: add_startmenu
 Name: {group}\Status of WPN-XM; Filename: {app}\status.bat; Tasks: add_startmenu
 Name: {group}\Localhost; Filename: {app}\localhost.url; Tasks: add_startmenu
@@ -196,7 +196,7 @@ Name: {group}\{cm:ReportBug}; Filename: {#APP_SUPPORT_URL}; Flags: preventpinnin
 Name: {group}\{cm:RemoveApp}; Filename: {uninstallexe}; Flags: preventpinning excludefromshowinnewinstall; Tasks: add_startmenu
 Name: {userdesktop}\WPN-XM ServerControlPanel; Filename: {app}\wpn-xm.exe; Tasks: add_desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\WPN-XM; Filename: {app}\wpn-xm.exe; Tasks: add_quicklaunchicon
-Name: {userdesktop}\WPN-XM Start; Filename: {app}\start.bat; Tasks: add_startstop_desktopicons
+Name: {userdesktop}\WPN-XM Start; Filename: {app}\run.bat; Tasks: add_startstop_desktopicons
 Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop.bat; Tasks: add_startstop_desktopicons
 
 [Tasks]
