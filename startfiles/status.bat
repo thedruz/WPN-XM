@@ -1,4 +1,7 @@
-@echo off
+@ECHO OFF
+REM change console charset "codepage" to UTF-8
+CHCP 65001
+
 
 :: +-------------------------------------------------------------------------
 :: |
@@ -10,30 +13,44 @@
 TITLE WPN-XM Serverpack - Daemon Status Monitor
 
 :LOOP-START
+CLS
+echo.
+echo    WPN-XM Server Stack - Status Monitor
+echo.
 
-cls
-
-echo Nginx
+echo   ┌──────────────────────────────┐
+echo   │            Nginx             │
+echo   └──────────────────────────────┘
 tasklist /FI "imagename eq nginx.exe"
 echo.
 
-echo PHP
+echo   ┌──────────────────────────────┐
+echo   │             PHP              │
+echo   └──────────────────────────────┘
 tasklist /FI "imagename eq php-cgi.exe"
 echo.
 
-echo MariaDb
+echo   ┌──────────────────────────────┐
+echo   │           MariaDb            │
+echo   └──────────────────────────────┘
 tasklist /FI "imagename eq mysqld.exe"
 echo.
 
-echo MongoDb
+echo   ┌──────────────────────────────┐
+echo   │           MongoDb            │
+echo   └──────────────────────────────┘
 tasklist /FI "imagename eq mongod.exe"
 echo.
 
-echo Memcached
+echo   ┌──────────────────────────────┐
+echo   │           Memcached          │
+echo   └──────────────────────────────┘
 tasklist /FI "imagename eq memcached.exe"
 echo.
 
-echo Postgres
+echo   ┌──────────────────────────────┐
+echo   │           Postgres           │
+echo   └──────────────────────────────┘
 tasklist /FI "imagename eq postgres.exe"
 echo.
 
