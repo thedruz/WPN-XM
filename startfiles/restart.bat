@@ -16,18 +16,17 @@ if not exist "stop.bat" (
     goto END
 )
 
-:: start all daemons, if no argument given (default)
+REM start all daemons, if no argument given (default)
+REM else restart specific daemon, where $1 is the first cli argument, e.g. "restart.bat php"
 if "%1"=="" (
     echo "Provide the component to restart (php, mariadb, memcached, nginx) as first argument."
     goto restart-all
 ) else (
-    :: restart specific daemon
-    :: where $1 is the first cli argument, e.g. "restart.bat php"
     goto restart-%1
 )
 goto END
 
-:: the start functions
+REM the start functions
 
 :restart-all
     goto restart-php

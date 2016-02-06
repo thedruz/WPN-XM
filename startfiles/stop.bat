@@ -12,7 +12,7 @@ if exist "%SystemRoot%\System32\taskkill.exe" (
     GOTO :kill-processes
 )
 
-:: can't get tskill to work...
+REM can't get tskill to work...
 if exist "%SystemRoot%\System32\tskill.exe" (
     echo Using "tskill" to kill the processes.
     SET KILL-PROCESS=tskill /A
@@ -25,15 +25,14 @@ GOTO :EOF
 
 :kill-processes
 
-:: kill all daemons, if no argument given (default)
+REM kill all daemons, if no argument given (default)
+REM stop specific daemon, where %1 is the first cli argument, e.g. "stop-wpnxm.bat php"
 IF "%1"=="" (
     call:stop-php
     call:stop-mariadb
     call:stop-memcached
     call:stop-nginx
 ) ELSE (
-    :: stop specific daemon
-    :: where %1 is the first cli argument, e.g. "stop-wpnxm.bat php"
     call:stop-%1
 )
 GOTO END
