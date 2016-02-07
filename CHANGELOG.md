@@ -57,6 +57,7 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
+- updated phpMyAdmin config and switched to config auth
 - removed process.exe process killer util
   - the tool is too powerful and gets flagged too often by AV software (false positive)
 - use utf8mb4 with utf8m4_unicode_ci as new default setting for MariaDb
