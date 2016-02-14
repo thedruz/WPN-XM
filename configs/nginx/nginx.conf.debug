@@ -5,8 +5,10 @@
 #
 # Notes:
 #
-# 1. Nginx is started with param "-p". This sets the root folder of the server as base path for Nginx.
-# 2. PHP listens on port 9100. The default PHP handler is defined via "fastcgi_pass 127.0.0.1:9100;".
+# 1. Nginx is started with param "-p".
+#    This sets the root folder of the server as base path for Nginx.
+# 2. PHP listens on port 9100.
+#    The default PHP handler is defined via "fastcgi_pass 127.0.0.1:9100;".
 # 3. This is a minimum configuration file for debugging purposes.
 
 worker_processes  1;
