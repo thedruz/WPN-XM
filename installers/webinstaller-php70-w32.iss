@@ -320,19 +320,19 @@ const
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.0';
   //URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=7.0';
   // NOTE: phpext_jsond is part of PHP 7, because of Douglas Crockford
-  //URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.0';
+  URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.0';
   //URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=7.0';
-  //URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.0';
+  URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.0';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.0';
   //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.0';
   //URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=7.0';
-  //URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.0';
+  URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.0';
   //URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.0';
   //URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=7.0';
   //URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.0';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.0';
   //URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=7.0'; // no build
-  //URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.0';
+  URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.0';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin            = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_pickle                = 'http://wpn-xm.org/get.php?s=pickle';
@@ -895,7 +895,7 @@ begin
     if IsComponentSelected('mongodb')    then
     begin
         idpAddFile(URL_mongodb,        ExpandConstant(targetPath + Filename_mongodb));
-        //idpAddFile(URL_phpext_mongodb, ExpandConstant(targetPath + Filename_phpext_mongodb));
+        idpAddFile(URL_phpext_mongodb, ExpandConstant(targetPath + Filename_phpext_mongodb));
     end;
 
     if IsComponentSelected('node') then
@@ -929,14 +929,14 @@ begin
         //idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
         //idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
-        //idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
+        idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         //idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         //idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
-        //idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
+        idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
         //idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         //idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
-        //idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
+        idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
         // phpext_memcache installed with memcached
         // phpext_mongodb installed with mongodb

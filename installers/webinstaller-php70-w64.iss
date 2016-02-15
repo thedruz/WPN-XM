@@ -313,26 +313,26 @@ const
   URL_nodenpm               = 'http://wpn-xm.org/get.php?s=nodenpm';
   URL_openssl               = 'http://wpn-xm.org/get.php?s=openssl-x64';
   URL_pear                  = 'http://wpn-xm.org/get.php?s=pear';
-  URL_php                   = 'http://wpn-xm.org/get.php?s=php-x64&p=5.6';
+  URL_php                   = 'http://wpn-xm.org/get.php?s=php-x64&p=7.0';
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
-  //URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.6&bitsize=x64';
-  URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=5.6&bitsize=x64';
-  URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.6&bitsize=x64';
-  //URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=5.6&bitsize=x64';
+  //URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.0&bitsize=x64';
+  URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.0&bitsize=x64';
+  URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.0&bitsize=x64';
+  //URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=7.0&bitsize=x64';
   // NOTE: phpext_jsond is part of PHP 7, because of Douglas Crockford
-  //URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.6&bitsize=x64';
-  //URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.6&bitsize=x64';
-  //URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=5.6&bitsize=x64';
-  URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.6&bitsize=x64';
-  //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.6&bitsize=x64';
-  //URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.6&bitsize=x64';
-  //URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=5.6'&bitsize=x64;
-  //URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.6&bitsize=x64';
-  //URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.6&bitsize=x64';
-  //URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=5.6&bitsize=x64';
-  URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=5.6&bitsize=x64';
-  //URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=5.6&bitsize=x64';
-  //URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=5.6&bitsize=x64';
+  URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.0&bitsize=x64';
+  //URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=7.0&bitsize=x64';
+  URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.0&bitsize=x64';
+  URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.0&bitsize=x64';
+  //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.0&bitsize=x64';
+  //URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=7.0&bitsize=x64';
+  //URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.0'&bitsize=x64;
+  //URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.0&bitsize=x64';
+  //URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=7.0&bitsize=x64';
+  //URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.0&bitsize=x64';
+  URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.0&bitsize=x64';
+  //URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=7.0&bitsize=x64';
+  URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.0&bitsize=x64';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin            = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_pickle                = 'http://wpn-xm.org/get.php?s=pickle';
@@ -373,19 +373,19 @@ const
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   //Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   // phpext_json is included in PHP7
-  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
-  //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
+  Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
-  //Filename_phpext_stats          = 'phpext_stats.zip';
+  Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   //Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
-  //Filename_phpext_zmq            = 'phpext_zmq.zip';
+  Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
   Filename_pickle                = 'pickle.phar';
@@ -889,13 +889,13 @@ begin
     if IsComponentSelected('memcached') then
     begin
         idpAddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
-        ;idpAddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
+        //idpAddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
     end;
 
     if IsComponentSelected('mongodb')    then
     begin
         idpAddFile(URL_mongodb,        ExpandConstant(targetPath + Filename_mongodb));
-        ;idpAddFile(URL_phpext_mongodb, ExpandConstant(targetPath + Filename_phpext_mongodb));
+        idpAddFile(URL_phpext_mongodb, ExpandConstant(targetPath + Filename_phpext_mongodb));
     end;
 
     if IsComponentSelected('node') then
@@ -921,22 +921,22 @@ begin
     if IsComponentSelected('varnish') then
     begin
        idpAddFile(URL_varnish,                ExpandConstant(targetPath + Filename_varnish));
-       ;idpAddFile(URL_phpext_varnish,         ExpandConstant(targetPath + Filename_phpext_varnish));
+       //idpAddFile(URL_phpext_varnish,         ExpandConstant(targetPath + Filename_phpext_varnish));
     end;
 
     if IsComponentSelected('phpextensions') then
     begin
-        ;idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
+        //idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
-        ;idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
-        ;idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
+        //idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
+        idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
-        ;idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
-        ;idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
-        ;idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
-        ;idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
-        ;idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
-        ;idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
+        //idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
+        //idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
+        idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
+        //idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
+        //idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
+        idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
         // phpext_memcache installed with memcached
         // phpext_mongodb installed with mongodb
