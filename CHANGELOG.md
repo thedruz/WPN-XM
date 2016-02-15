@@ -31,8 +31,9 @@ We group changes to describe their impact on the project, as follows:
 - added installers for PHP 7 (full, standard, lite, web), #516
 - added a support forum
 - added box "latest updates to the registry" to website
+- added page "support" to website
 - added Components to the Software Registry and created Version Crawlers for:
-  - HeidiSQL, ShareX, Sphinx, Selenium
+  - HeidiSQL, ShareX, Sphinx, Selenium, Aria2, cURL
   - PHP Extensions:
     - event, geoip, hprose, Ice, igbinary,
     - IonCube, lzf, msgpack, oauth, oci8,
@@ -40,8 +41,8 @@ We group changes to describe their impact on the project, as follows:
 - added PHP Extension "IonCube" to installers
 - added PHP Extension "Stats" to installers
 - added PHP Extension "Redis" to installers (standard, full)
+- added PHP Extension "Ice" to installers (full, standard and webinstallers of PHP v5.6)
 - disable Xdebug automatically for Composer runs (reducing impact on runtime performance)
-- added PHP Extension "Ice" to full, standard and webinstallers of PHP v5.6
 - created Asciidoctor based build toolchain for documentation (HTML and PDF book)
 - added `CONTRIBUTING.md` and explained "how to contribute"
 - added `ROADMAP.md` to make transparent where the project is heading
