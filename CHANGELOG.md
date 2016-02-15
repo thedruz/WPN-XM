@@ -57,6 +57,14 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
+- updated Updater and build tasks to work with the new registry folder layout
+- reorganized the folder layout of the software registry
+  - installer registries reside in versionized folders
+  - top level contains only the main registries
+    - the main software registry (`wpnxm-software-registry.php`)
+    - additional metadata for the software registry (`wpnxm-registry-metadata.php`)
+    - the new PHP software registry (`wpnxm-php-software-registry.php`)
+    - the download filenames (`wpnxm-download-filenames.php`)
 - updated phpMyAdmin config and switched to config auth
 - removed process.exe process killer util
   - the tool is too powerful and gets flagged too often by AV software (false positive)
