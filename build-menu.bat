@@ -59,9 +59,9 @@ goto END
 
 :OPTION3
     echo.
-    echo Building packaged Installation Wizards (use existing Downloads)
+    echo Building packaged Installation Wizards (using existing Downloads)
     echo.
-    call bin\phing\phing.bat -f %~dp0build.xml compile-full-no-download compile-standard-no-download compile-lite-no-download
+    call bin\phing\phing.bat -f %~dp0build.xml compile-full compile-standard compile-lite compile-literc
 goto END
 
 :OPTION4

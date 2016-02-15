@@ -20,12 +20,13 @@
     <property name="wpnxm.VersionForRcFile" value="${version.Major},${version.Minor},${version.BuildNumber},0"/>
 
     <!-- Paths -->
-    <property name="basedir"            value="${project.basedir}" />
-    <property name="dir.Base"           value="${project.basedir}"/>
-    <property name="dir.Build"          value="${dir.Base}/_build"/>
-    <property name="dir.Downloads"      value="${dir.Base}/downloads"/>
-    <property name="dir.Installers"     value="${dir.Base}/installers"/>
-    <property name="dir.Registry"       value="${dir.Base}/registry"/>
+    <property name="basedir"                  value="${project.basedir}" />
+    <property name="dir.Base"                 value="${project.basedir}"/>
+    <property name="dir.Build"                value="${dir.Base}/_build"/>
+    <property name="dir.Downloads"            value="${dir.Base}/downloads"/>
+    <property name="dir.Installers"           value="${dir.Base}/installers"/>
+    <property name="dir.Registry"             value="${dir.Base}/registry"/>
+    <property name="dir.InstallerRegistries"  value="${dir.Base}/registry/installer"/>
 
     <!-- Wine -->
     <!-- /opt/wine-staging/bin/ -->
@@ -66,7 +67,7 @@
     </target>
 
     <target name="reset-git-submodules" description="Reset the git submodules to their original state.">
-         <!-- hard reset to latest commit and drop all untracked files and folders, e.g. /build crap. -->
+         <!-- hard reset to latest commit. deletes all untracked files/folders, e.g. /build/* -->
         <exec executable="git">
             <arg line="submodule foreach git reset --hard HEAD"/>
         </exec>
@@ -119,7 +120,7 @@
     </target>
 
     <target name="print-version-number">
-        <echo message="Building ${wpnxm.Name}-${wpnxm.Version} Setup Executables"/>
+        <echo message="Building ${wpnxm.Name} v${wpnxm.Version} Setup Executables"/>
     </target>
 
     <target name="clean-webinterface-folder">
@@ -135,18 +136,25 @@
     </target>
 
     <target name="commit-versionized-registries"
-            description="Commits the versionized WPN-XM Software Component Registries (all untracked files in /registry folder).">
-        <exec command="cd ${dir.Registry} &amp; git add -A" level="debug" passthru="true"/> <!-- git stage ALL -->
+            description="Commits the versionized installer registries (all untracked files in /registry folder).">
+        <!-- git stage ALL -->
+        <exec command="cd ${dir.Registry} &amp; git add -A" level="debug" passthru="true"/>
+        <!-- git commit -->
         <exec command="cd ${dir.Registry} &amp; git commit -am &quot;Added WPN-XM Installer Registries for Version ${wpnxm.Version}&quot;" level="debug" passthru="true"/>
     </target>
 
-    <target name="inno-compile">
+    <!-- ============ Compile Installers  ============ -->
+
+    <target name="inno-compile"
+            description="This is the main compilation task executing the InnoSetupCompiler.">
         <echo message="Compiling ${installer.file}"/>
         <echo message="${innosetupcompiler} -o${dir.Build} ${installer.file}"/>
         <exec command="${innosetupcompiler} -o${dir.Build} ${installer.file}" dir="${dir.Build}" passthru="true"/>
     </target>
 
-    <target name="compile-webinstaller" description="Builds the WPN-XM setup executable." depends="bump-version-number, clean-webinterface-folder">
+    <target name="compile-webinstaller"
+            description="Builds the WPN-XM setup executable."
+            depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
                 <include name="**\webinstaller-*.iss"/>
@@ -174,16 +182,6 @@
         </foreach>
     </target>
 
-    <target name="compile-lite-no-download"
-            description="Builds the WPN-XM setup executable using already downloaded components."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\lite-*.iss"/>
-            </fileset>
-        </foreach>
-    </target>
-
     <target name="compile-standard"
             description="Downloads all components and builds the WPN-XM setup executable."
             depends="bump-version-number, clean-webinterface-folder">
@@ -194,28 +192,8 @@
         </foreach>
     </target>
 
-    <target name="compile-standard-no-download"
-            description="Builds the WPN-XM setup executable using already downloaded components."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\standard-*.iss" />
-            </fileset>
-        </foreach>
-    </target>
-
     <target name="compile-full"
             description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\full-*.iss" />
-            </fileset>
-        </foreach>
-    </target>
-
-    <target name="compile-full-no-download"
-            description="Builds the WPN-XM setup executable using already downloaded components."
             depends="bump-version-number, clean-webinterface-folder">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">
@@ -257,15 +235,20 @@
                         define('DS', DIRECTORY_SEPARATOR);
                     }
 
-                    // e.g. "registries/*0.8.0*.json"
-                    $registries = glob($this->registryfolder . DS . '*' . $this->wpnxmversion . '*.json');
+                    // get all registries files, e.g. "registry/installer/v0.8.0/*0.8.0*.json"
+                    $registries = glob(
+                        $this->registryfolder.DS.'v'.$this->wpnxmversion
+                                             .DS.'*'.$this->wpnxmversion.'*.json'
+                    );
 
-                    foreach ($registries as $registry) {
+                    foreach ($registries as $registry)
+                    {
                         $basename = basename($registry, '.json');
 
                         // skip "full", because these are general download sources
                         // skip "literc", because these fetch PHP-RC versions
-                        if ((false !== strpos($basename, 'full')) || (false !== strpos($basename, 'literc'))) {
+                        if ((false !== strpos($basename, 'full')) ||
+                            (false !== strpos($basename, 'literc'))) {
                             continue;
                         }
 
@@ -277,8 +260,9 @@
 
                         $components = json_decode(file_get_contents($registry));
 
-                        foreach ($components as $component) {
-                            $source = $this->downloadfolder . DS . $fullFolder . DS . $component[2];
+                        foreach ($components as $component)
+                        {
+                            $source = $this->downloadfolder.DS.$fullFolder.DS.$component[2];
 
                             if (is_file($source)) {
                                 $version = ($component[3] === 'latest') ? $component[3] : ' v' . $component[3];
@@ -301,7 +285,7 @@
                                     $this->log('Target file exists already, but differs in size. Overwriting!');
                                     copy($source, $target);
                                 } else {
-                                    $this->log('Target file exists already');
+                                    $this->log('Target file exists already. Skipping.');
                                 }
                             } else {
                                 $this->log('Download missing for Component [' . $component[0] . ']: ' . $component[2]);
@@ -311,11 +295,14 @@
                 }
             }
         ]]></adhoc-task>
-        <!-- how to access properties defined in build.xml inside an adhoc-task? can we get rid of passing stuff in? -->
-        <MoveDownloadFiles registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
+
+        <MoveDownloadFiles registryfolder="${dir.InstallerRegistries}"
+                           downloadfolder="${dir.Downloads}"
+                           wpnxmversion="${wpnxm.Version}"/>
     </target>
 
-    <target name="create-download-files" description="Generate download description files for all full installers. Aria2 uses them for multiple parallel downloads.">
+    <target name="create-download-files"
+            description="Generate download description files for all full installers. Aria2 uses them for multiple parallel downloads.">
         <adhoc-task name="GenerateDownloadFiles"><![CDATA[
             class GenerateDownloadFiles extends Task
             {
@@ -369,15 +356,24 @@
                     }
 
                     /**
-                     * 5 x full installer (download all packages, then move to standard and lite folders)
-                     * 2 x literc installers
+                     * We download all packages of the Full and LiteRC installers.
+                     * Later, we copy the downloads from Full into the Standard and Lite folders.
+                     *
+                     * "/registry/installer/v0.8.6/{full,literc}-0.8.6-*.json"
                      */
-                    $registries = glob($this->registryfolder . DS . '{full,literc}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
+                    $registries = glob(
+                        $this->registryfolder
+                        .DS.'v'.$this->wpnxmversion
+                        .DS.'{full,literc}-'.$this->wpnxmversion.'-*.json',
+                        GLOB_BRACE
+                    );
 
-                    foreach ($registries as $registry) {
-
+                    foreach ($registries as $registry)
+                    {
                         $basename = basename($registry, '.json');
-                        $file     = $this->registryfolder . DS . 'downloads-for-' . $basename . '.txt';
+
+                        // "/registry/downloads-for-full-0.8.6-php7.0-w64.txt"
+                        $file     = $this->registryfolder.DS.'downloads-for-'.$basename.'.txt';
 
                         $txt = $this->getAriaFileHeader($basename);
 
@@ -397,8 +393,10 @@
                 }
             }
         ]]></adhoc-task>
-        <!-- how to access properties defined in build.xml inside an adhoc-task? can we get rid of passing stuff in? -->
-        <GenerateDownloadFiles registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
+        <GenerateDownloadFiles
+            registryfolder="${dir.Registry}"
+            downloadfolder="${dir.Downloads}"
+            wpnxmversion="${wpnxm.Version}"/>
     </target>
 
      <target name="download-files-simple" description="Download files for all full installers.">
@@ -437,10 +435,17 @@
                     $aria_cmd_template .= " --user-agent=\"WPN-XM Server Stack Downloader\" "; // --quiet=true
 
                     /**
-                     * 5 x full installer (download all packages, then move to standard and lite folders)
-                     * 2 x literc installers
+                     * We download all packages of the Full and LiteRC installers.
+                     * Later, we copy the downloads from Full into the Standard and Lite folders.
+                     *
+                     * "/registry/installer/v0.8.6/{full,literc}-0.8.6-*.json"
                      */
-                    $registries = glob($this->registryfolder . DS . '{full,literc}-' . $this->wpnxmversion . '-*.json', GLOB_BRACE);
+                    $registries = glob(
+                        $this->registryfolder
+                        .DS.'v'.$this->wpnxmversion
+                        .DS.'{full,literc}-'.$this->wpnxmversion.'-*.json',
+                        GLOB_BRACE
+                    );
 
                     foreach ($registries as $registry)
                     {
@@ -491,7 +496,6 @@
                 }
             }
         ]]></adhoc-task>
-        <!-- how to access properties defined in build.xml inside an adhoc-task? can we get rid of passing stuff in? -->
         <DownloadFilesSimple registryfolder="${dir.Registry}" wpnxmversion="${wpnxm.Version}"/>
     </target>
 
@@ -577,11 +581,16 @@
         <CheckInstallers downloadfolder="${dir.Build}"/>
     </target>
 
-    <target name="versionize-registries" description="Adds the build version number to the 'next' installer registry files.">
-        <copy todir="${dir.Registry}">
+    <target name="versionize-registries"
+            description="Adds the build version number to the 'next' installer registry files.">
+        <echo message="Versionizing Registries"/>
+        <echo message="From: ${dir.InstallerRegistries}/next"/>
+        <echo message="To:   ${dir.InstallerRegistries}/v${wpnxm.Version}"/>
+        <mkdir dir="${dir.InstallerRegistries}/v${wpnxm.Version}" />
+        <copy todir="${dir.InstallerRegistries}/v${wpnxm.Version}">
           <mapper type="regexp" from="^(.*)-next-(.*).json" to="\1-${wpnxm.Version}-\2.json"/>
-          <fileset dir="${dir.Registry}">
-            <include name="**/*next*.json"/>
+          <fileset dir="${dir.InstallerRegistries}/next">
+            <include name="*next*.json"/>
           </fileset>
         </copy>
     </target>
