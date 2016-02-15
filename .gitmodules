@@ -4,3 +4,6 @@
 [submodule "registry"]
     path = registry
     url = git://github.com/WPN-XM/registry.git
+[submodule "software"]
+	path = software
+	url = git://github.com/WPN-XM/software.git
