@@ -370,7 +370,7 @@ const
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   //Filename_phpext_amqp           = 'phpext_amqp.zip';
-  Filename_phpext_apcu          = 'phpext_apcu.zip';
+  Filename_phpext_apcu           = 'phpext_apcu.zip';
   // phpext_ice not AV for 7
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   //Filename_phpext_ioncube        = 'phpext_ioncube.zip';
@@ -1246,10 +1246,10 @@ begin
 
     }
 
-   // UpdateCurrentComponentName('PHP Extension - Mailparse');
-     // Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       Unzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
@@ -1281,11 +1281,11 @@ begin
      // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
    // UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - ZMQ');
-     // Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
-     // FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - ZMQ');
+      Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
+    UpdateTotalProgressBar();
   end;
 
   if Pos('varnish', selectedComponents) > 0 then
