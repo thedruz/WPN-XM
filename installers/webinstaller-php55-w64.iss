@@ -46,7 +46,7 @@
 
 #define INSTALLER_TYPE       "Webinstaller"
 #define PHP_VERSION          "php55"
-#define BITSIZE              "w32"
+#define BITSIZE              "w64"
 
 #define SOURCE_ROOT          AddBackslash(SourcePath);
 #define INSTALLER_FOLDER     LowerCase(INSTALLER_TYPE);

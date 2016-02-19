@@ -45,7 +45,7 @@
 #define CODESIGN_INSTALLER   "false"
 
 #define INSTALLER_TYPE       "Webinstaller"
-#define PHP_VERSION          "php55"
+#define PHP_VERSION          "php56"
 #define BITSIZE              "w32"
 
 #define SOURCE_ROOT          AddBackslash(SourcePath);
