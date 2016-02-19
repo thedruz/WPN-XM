@@ -327,7 +327,7 @@ const
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.6&bitsize=x64';
   URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.6&bitsize=x64';
   URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.6&bitsize=x64';
-  URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=5.6&bitsize=x64;
+  URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=5.6&bitsize=x64';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.6&bitsize=x64';
   URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.6&bitsize=x64';
   URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=5.6&bitsize=x64';
