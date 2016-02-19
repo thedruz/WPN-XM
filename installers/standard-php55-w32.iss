@@ -191,20 +191,22 @@ Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.
 Source: {app}\bin\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; DestName: "mongodb.conf.old"; Flags: external skipifsourcedoesntexist; Components: mongodb;
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
-Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\configs\php\php55.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
-Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
-Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
-Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
-Source: ..\configs\php\php.ini-composer; DestDir: {app}\bin\composer; Components: composer
-Source: ..\configs\phpmyadmin\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
-Source: ..\configs\redis\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
-Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
-Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
-Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
-Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\configs\conemu\*; DestDir: {app}\bin\conemu; Components: conemu
+Source: ..\software\wpnxm-scp\config\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
+Source: ..\software\php\config\php55\php.ini; DestDir: {app}\bin\php;
+Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
+Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
+Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Components: composer
+Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
+Source: ..\software\redis\config\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
+Source: ..\software\webgrind\config\config.php; DestDir: {app}\www\tools\webgrind; Components: webgrind
+Source: ..\software\xhprofiler\config\config.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; Components: uprofiler
+Source: ..\software\mongodb\config\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
+Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\software\conemu\config\*; DestDir: {app}\bin\conemu; Components: conemu
+Source: ..\software\conemu\images\*; DestDir: {app}\bin\conemu; Components: conemu
+
 ; Visual C++ Redistributable 2008 is needed by PHP 5.4 VC9 x86 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x86_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall

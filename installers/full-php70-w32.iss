@@ -197,21 +197,21 @@ Source: {app}\bin\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; DestName: "m
 Source: {app}\bin\pgsql\data\postgresql.conf; DestDir: {app}\bin\pgsql\data; DestName: "postgresql.conf.old"; Flags: external skipifsourcedoesntexist; Components: postgresql;
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
-Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\configs\php\php56.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
-Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
-Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
-Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
-Source: ..\configs\php\php.ini-composer; DestDir: {app}\bin\composer; Components: composer
-Source: ..\configs\phpmyadmin\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
-Source: ..\configs\redis\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
-Source: ..\configs\webgrind\config.php; DestDir: {app}\www\tools\webgrind; DestName: "config.php"; Components: webgrind
-//Source: ..\configs\xhprof.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; DestName: "config.php"; Components: uprofiler
-Source: ..\configs\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
-Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\configs\conemu\*; DestDir: {app}\bin\conemu; Components: conemu
-Source: ..\configs\git\bash_profile; DestDir: {app}\bin\git\etc; Components: git
+Source: ..\software\wpnxm-scp\config\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
+Source: ..\software\php\config\php70\php.ini; DestDir: {app}\bin\php;
+Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
+Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
+Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Components: composer
+Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
+Source: ..\software\redis\config\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
+Source: ..\software\webgrind\config\config.php; DestDir: {app}\www\tools\webgrind; Components: webgrind
+Source: ..\software\xhprofiler\config\config.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; Components: uprofiler
+Source: ..\software\mongodb\config\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
+Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\software\conemu\config\*; DestDir: {app}\bin\conemu; Components: conemu
+Source: ..\software\conemu\images\*; DestDir: {app}\bin\conemu; Components: conemu
 ; Visual C++ Redistributable 2010 is needed by PHP VC11 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x86_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
@@ -310,20 +310,20 @@ const
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   //Filename_phpext_ioncube        = 'phpext_ioncube.zip';
-  // jsond is inclued in PHP7
-  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  // jsond is included in PHP7
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
-  //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
+  Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
-  //Filename_phpext_stats          = 'phpext_stats.zip';
+  Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   //Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   //Filename_phpext_uprofiler    = 'phpext_uprofiler.zip';
-  //Filename_phpext_zmq            = 'phpext_zmq.zip';
+  Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
   Filename_pickle                = 'pickle.phar';
@@ -1039,16 +1039,18 @@ begin
    // UpdateTotalProgressBar();
 
     {
-
-      The PHP extension JsonD is included in PHP 7.
-
+	  The PHP extension IoCube is not available for PHP7, yet.
     }
 
-   // UpdateCurrentComponentName('PHP Extension - Mailparse');
-     // ExtractTemporaryFile(Filename_phpext_mailparse);
-     // Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
-   // UpdateTotalProgressBar();
+    {
+      The PHP extension JsonD is included in PHP 7.
+    }
+
+   UpdateCurrentComponentName('PHP Extension - Mailparse');
+     ExtractTemporaryFile(Filename_phpext_mailparse);
+     Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+     FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
+   UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       ExtractTemporaryFile(Filename_phpext_msgpack);
@@ -1068,30 +1070,30 @@ begin
      // FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
    // UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Stats');
-     // ExtractTemporaryFile(Filename_phpext_stats);
-     // Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
-   // UpdateTotalProgressBar();
+   UpdateCurrentComponentName('PHP Extension - Stats');
+     ExtractTemporaryFile(Filename_phpext_stats);
+     Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
+     FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
+   UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - RAR');
-     // ExtractTemporaryFile(Filename_phpext_rar);
-     // Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
-   // UpdateTotalProgressBar();
+   //UpdateCurrentComponentName('PHP Extension - RAR');
+     //ExtractTemporaryFile(Filename_phpext_rar);
+     //Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
+     //FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
+   //UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Trader');
-     // ExtractTemporaryFile(Filename_phpext_trader);
-     // Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
-   // UpdateTotalProgressBar();
+   //UpdateCurrentComponentName('PHP Extension - Trader');
+     //ExtractTemporaryFile(Filename_phpext_trader);
+     //Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
+     //FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
+   //UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - ZMQ');
-     // ExtractTemporaryFile(Filename_phpext_zmq);
-     // Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
-     // FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
-   // UpdateTotalProgressBar();
+   UpdateCurrentComponentName('PHP Extension - ZMQ');
+     ExtractTemporaryFile(Filename_phpext_zmq);
+     Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
+     FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
+     FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
+   UpdateTotalProgressBar();
   end;
 
   if Pos('varnish', selectedComponents) > 0 then
@@ -1287,11 +1289,11 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');  // rename directory
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Mongo');
-     // ExtractTemporaryFile(Filename_phpext_mongodb);
-     // Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongodb');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_mongodb\php_mongodb.dll'), appDir + '\bin\php\ext\php_mongodb.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Mongo');
+      ExtractTemporaryFile(Filename_phpext_mongodb);
+      Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongodb');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mongodb\php_mongodb.dll'), appDir + '\bin\php\ext\php_mongodb.dll', false);
+    UpdateTotalProgressBar();
   end;
 
 end;

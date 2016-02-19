@@ -170,15 +170,17 @@ Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName
 Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
-Source: ..\configs\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\configs\php\php55.ini-dev; DestDir: {app}\bin\php; DestName: "php.ini"
-Source: ..\configs\nginx\nginx.conf; DestDir: {app}\bin\nginx\conf
-Source: ..\configs\nginx\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
-Source: ..\configs\mariadb\my.ini; DestDir: {app}\bin\mariadb
-Source: ..\configs\php\php.ini-composer; DestDir: {app}\bin\composer; Components: composer
-Source: ..\configs\ssl\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\configs\ssl\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\configs\conemu\*; DestDir: {app}\bin\conemu; Components: conemu
+Source: ..\software\wpnxm-scp\config\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
+Source: ..\software\php\config\php55\php.ini; DestDir: {app}\bin\php;
+Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
+Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
+Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
+Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Components: composer
+Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
+Source: ..\software\conemu\config\*; DestDir: {app}\bin\conemu; Components: conemu
+Source: ..\software\conemu\images\*; DestDir: {app}\bin\conemu; Components: conemu
+
 ; Visual C++ Redistributable 2010 is needed by PHP VC11 x86 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x86_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
