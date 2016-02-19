@@ -362,8 +362,7 @@
                      * "/registry/installer/v0.8.6/{full,literc}-0.8.6-*.json"
                      */
                     $registries = glob(
-                        $this->registryfolder
-                        .DS.'v'.$this->wpnxmversion
+                        $this->registryfolder.DS.'v'.$this->wpnxmversion
                         .DS.'{full,literc}-'.$this->wpnxmversion.'-*.json',
                         GLOB_BRACE
                     );
@@ -372,10 +371,13 @@
                     {
                         $basename = basename($registry, '.json');
 
-                        // "/registry/downloads-for-full-0.8.6-php7.0-w64.txt"
-                        $file     = $this->registryfolder.DS.'downloads-for-'.$basename.'.txt';
+                        // remove php version dot from basename ("php5.6" => "php56")
+                        $basename = preg_replace("#(.*)-(.*)-(.*).(\d)-(.*)#", "$1-$2-$3$4-$5", $basename);
 
-                        $txt = $this->getAriaFileHeader($basename);
+                        // "/registry/downloads-for-full-0.8.6-php70-w64.txt"
+                        $file = $this->registryfolder.DS.'downloads-for-'.$basename.'.txt';
+
+                        $txt  = $this->getAriaFileHeader($basename);
 
                         $components = json_decode(file_get_contents($registry));
 
@@ -394,7 +396,7 @@
             }
         ]]></adhoc-task>
         <GenerateDownloadFiles
-            registryfolder="${dir.Registry}"
+            registryfolder="${dir.InstallerRegistries}"
             downloadfolder="${dir.Downloads}"
             wpnxmversion="${wpnxm.Version}"/>
     </target>
@@ -441,8 +443,7 @@
                      * "/registry/installer/v0.8.6/{full,literc}-0.8.6-*.json"
                      */
                     $registries = glob(
-                        $this->registryfolder
-                        .DS.'v'.$this->wpnxmversion
+                        $this->registryfolder.DS.'v'.$this->wpnxmversion
                         .DS.'{full,literc}-'.$this->wpnxmversion.'-*.json',
                         GLOB_BRACE
                     );
@@ -450,6 +451,9 @@
                     foreach ($registries as $registry)
                     {
                         $basename = basename($registry, '.json');
+
+                        // remove php version dot from basename ("php5.6" => "php56")
+                        $basename = preg_replace("#(.*)-(.*)-(.*).(\d)-(.*)#", "$1-$2-$3$4-$5", $basename);
 
                         $this->log('Starting Downloads for Installer ['. $basename .']');
                         $this->log('');
@@ -496,7 +500,7 @@
                 }
             }
         ]]></adhoc-task>
-        <DownloadFilesSimple registryfolder="${dir.Registry}" wpnxmversion="${wpnxm.Version}"/>
+        <DownloadFilesSimple registryfolder="${dir.InstallerRegistries}" wpnxmversion="${wpnxm.Version}"/>
     </target>
 
     <target name="check-download-filesizes" description="Check the filesize of all downloaded files and indicate download issues.">
