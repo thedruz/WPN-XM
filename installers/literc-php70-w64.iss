@@ -134,7 +134,7 @@ Source: ..\downloads\{#DOWNLOAD_FOLDER}\*; Flags: nocompression dontcopy
 ; tools:
 Source: ..\bin\7zip\x64\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\7zip\x64\*; DestDir: {app}\bin\tools\
-Source: ..\bin\7zip\License.txt; DestDir: {app}\docs\licenses\7zip_license.txt
+Source: ..\bin\7zip\License.txt; DestDir: {app}\docs\licenses\; DestName: 7zip_license.txt;
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
