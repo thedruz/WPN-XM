@@ -158,7 +158,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 
 [Files]
 ; tools:
-Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\7zip\x64\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\

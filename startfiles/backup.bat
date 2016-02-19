@@ -42,7 +42,7 @@ echo Backup >> %logfile%
 echo started  -- %date% %time% >> %logfile%
 echo running... >> %logfile%
 
-.\bin\backup\7za.exe u -t7z %backup_folder%backup_%date%.7z %cores% %compression% -up1q3r2x1y2z1w2 -ssw -o%working_folder% %source%
+.\bin\tools\7za.exe u -t7z %backup_folder%backup_%date%.7z %cores% %compression% -up1q3r2x1y2z1w2 -ssw -o%working_folder% %source%
 
 echo finished -- %date% %time% >> %logfile%
 echo ------------------------------------------- >> %logfile%
