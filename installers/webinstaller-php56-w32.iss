@@ -150,7 +150,7 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
+;Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
@@ -213,7 +213,7 @@ Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Co
 Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
 Source: ..\software\redis\config\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
 Source: ..\software\webgrind\config\config.php; DestDir: {app}\www\tools\webgrind; Components: webgrind
-Source: ..\software\xhprofiler\config\config.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; Components: uprofiler
+;Source: ..\software\xhprofiler\config\config.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; Components: uprofiler
 Source: ..\software\mongodb\config\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
