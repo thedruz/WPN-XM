@@ -28,29 +28,29 @@
 ;#define COMPILE_FROM_IDE
 
 ; debug mode toggle
-#define DEBUG "false"
+#define DEBUG                "false"
 
-; defines the root folder
-#define SOURCE_ROOT AddBackslash(SourcePath);
-
-; defines for the setup section
-#define APP_NAME "WPN-XM Server Stack"
-#define COPYRIGHT_YEAR GetDateTimeString('yyyy', '', '');
-
-#ifdef COMPILE_FROM_IDE
-#define APP_VERSION "LocalSnapshot"
-#else
 ; the -APPVERSION- token is replaced during the build process
-#define APP_VERSION "@APPVERSION@"
+#ifdef COMPILE_FROM_IDE
+#define APP_VERSION          "LocalSnapshot"
+#else
+#define APP_VERSION          "@APPVERSION@"
 #endif
 
-#define APP_PUBLISHER "Jens-Andre Koch"
-#define APP_URL "http://wpn-xm.org/"
-#define APP_SUPPORT_URL "https://github.com/WPN-XM/WPN-XM/issues/new/"
+#define APP_NAME             "WPN-XM Server Stack"
+#define APP_PUBLISHER        "Jens-Andre Koch"
+#define APP_URL              "http://wpn-xm.org/"
+#define APP_SUPPORT_URL      "https://github.com/WPN-XM/WPN-XM/issues/new/"
+#define COPYRIGHT_YEAR        GetDateTimeString('yyyy', '', '');
+#define CODESIGN_INSTALLER   "false"
 
-#define CODESIGN_INSTALLER "false"
+#define INSTALLER_TYPE       "Webinstaller"
+#define PHP_VERSION          "php55"
+#define BITSIZE              "w32"
 
-#define INSTALLER_TYPE "Webinstaller"
+#define SOURCE_ROOT          AddBackslash(SourcePath);
+#define INSTALLER_FOLDER     LowerCase(INSTALLER_TYPE);
+
 
 ; include Inno-Download-Plugin download functionality
 #include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
@@ -71,7 +71,7 @@ AppUpdatesURL={#APP_URL}
 ; default installation folder is "c:\server". users might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#APP_NAME}
-OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-php55-w64
+OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-{#PHP_VERSION}-{#BITSIZE}
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
 LZMANumBlockThreads=2
@@ -205,7 +205,7 @@ Source: {app}\bin\pgsql\data\postgresql.conf; DestDir: {app}\bin\pgsql\data; Des
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
 Source: ..\software\wpnxm-scp\config\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\software\php\config\php55\php.ini; DestDir: {app}\bin\php;
+Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
 Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb

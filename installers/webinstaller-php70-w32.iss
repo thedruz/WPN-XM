@@ -28,29 +28,29 @@
 ;#define COMPILE_FROM_IDE
 
 ; debug mode toggle
-#define DEBUG "false"
+#define DEBUG                "false"
 
-; defines the root folder
-#define SOURCE_ROOT AddBackslash(SourcePath);
-
-; defines for the setup section
-#define APP_NAME "WPN-XM Server Stack"
-#define COPYRIGHT_YEAR GetDateTimeString('yyyy', '', '');
-
-#ifdef COMPILE_FROM_IDE
-#define APP_VERSION "LocalSnapshot"
-#else
 ; the -APPVERSION- token is replaced during the build process
-#define APP_VERSION "@APPVERSION@"
+#ifdef COMPILE_FROM_IDE
+#define APP_VERSION          "LocalSnapshot"
+#else
+#define APP_VERSION          "@APPVERSION@"
 #endif
 
-#define APP_PUBLISHER "Jens-Andre Koch"
-#define APP_URL "http://wpn-xm.org/"
-#define APP_SUPPORT_URL "https://github.com/WPN-XM/WPN-XM/issues/new/"
+#define APP_NAME             "WPN-XM Server Stack"
+#define APP_PUBLISHER        "Jens-Andre Koch"
+#define APP_URL              "http://wpn-xm.org/"
+#define APP_SUPPORT_URL      "https://github.com/WPN-XM/WPN-XM/issues/new/"
+#define COPYRIGHT_YEAR        GetDateTimeString('yyyy', '', '');
+#define CODESIGN_INSTALLER   "false"
 
-#define CODESIGN_INSTALLER "false"
+#define INSTALLER_TYPE       "Webinstaller"
+#define PHP_VERSION          "php55"
+#define BITSIZE              "w32"
 
-#define INSTALLER_TYPE "Webinstaller"
+#define SOURCE_ROOT          AddBackslash(SourcePath);
+#define INSTALLER_FOLDER     LowerCase(INSTALLER_TYPE);
+
 
 ; include Inno-Download-Plugin download functionality
 #include SOURCE_ROOT + "..\bin\innosetup-download-plugin\idp.iss"
@@ -71,7 +71,7 @@ AppUpdatesURL={#APP_URL}
 ; default installation folder is "c:\server". users might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#APP_NAME}
-OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-php70-w32
+OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-{#PHP_VERSION}-{#BITSIZE}
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
 LZMANumBlockThreads=2
@@ -205,7 +205,7 @@ Source: {app}\bin\pgsql\data\postgresql.conf; DestDir: {app}\bin\pgsql\data; Des
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
 Source: ..\software\wpnxm-scp\config\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\software\php\config\php70\php.ini; DestDir: {app}\bin\php;
+Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
 Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
@@ -317,6 +317,7 @@ const
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   //URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.0'; // no build
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.0';
+  // phpext_ice not AV for 7
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.0';
   //URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=7.0';
   // NOTE: phpext_jsond is part of PHP 7, because of Douglas Crockford
@@ -369,23 +370,24 @@ const
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   //Filename_phpext_amqp           = 'phpext_amqp.zip';
-  Filename_phpext_apcu           = 'phpext_apcu.zip';
+  Filename_phpext_apcu          = 'phpext_apcu.zip';
+  // phpext_ice not AV for 7
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   //Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   // phpext_json is included in PHP7
-  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
-  //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
+  Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
-  //Filename_phpext_stats          = 'phpext_stats.zip';
+  Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   //Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
-  //Filename_phpext_zmq            = 'phpext_zmq.zip';
+  Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
   Filename_pickle                = 'pickle.phar';
@@ -928,8 +930,10 @@ begin
     begin
         //idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
-        //idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
-        idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
+        // phpext_ice not AV
+		//idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
+        // phpext_json included (core)
+		idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         //idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         //idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
@@ -1262,10 +1266,10 @@ begin
      // FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
    // UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Stats');
-     // Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Stats');
+      Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
+      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
+    UpdateTotalProgressBar();
 
    // UpdateCurrentComponentName('PHP Extension - RAR');
      // Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');

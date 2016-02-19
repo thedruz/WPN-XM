@@ -28,30 +28,30 @@
 ;#define COMPILE_FROM_IDE
 
 ; debug mode toggle
-#define DEBUG "false"
+#define DEBUG                "false"
 
-; defines the root folder
-#define SOURCE_ROOT AddBackslash(SourcePath);
-
-; defines for the setup section
-#define APP_NAME "WPN-XM Server Stack"
-#define COPYRIGHT_YEAR GetDateTimeString('yyyy', '', '');
-
-#ifdef COMPILE_FROM_IDE
-#define APP_VERSION "LocalSnapshot"
-#else
 ; the -APPVERSION- token is replaced during the build process
-#define APP_VERSION "@APPVERSION@"
+#ifdef COMPILE_FROM_IDE
+#define APP_VERSION          "LocalSnapshot"
+#else
+#define APP_VERSION          "@APPVERSION@"
 #endif
 
-#define APP_PUBLISHER "Jens-Andre Koch"
-#define APP_URL "http://wpn-xm.org/"
-#define APP_SUPPORT_URL "https://github.com/WPN-XM/WPN-XM/issues/new/"
+#define APP_NAME             "WPN-XM Server Stack"
+#define APP_PUBLISHER        "Jens-Andre Koch"
+#define APP_URL              "http://wpn-xm.org/"
+#define APP_SUPPORT_URL      "https://github.com/WPN-XM/WPN-XM/issues/new/"
+#define COPYRIGHT_YEAR        GetDateTimeString('yyyy', '', '');
+#define CODESIGN_INSTALLER   "false"
 
-#define CODESIGN_INSTALLER "false"
+#define INSTALLER_TYPE       "Lite"
+#define PHP_VERSION          "php56"
+#define BITSIZE              "w64"
 
-#define INSTALLER_TYPE "Lite"
-#define INSTALLER_FOLDER LowerCase(INSTALLER_TYPE);
+#define SOURCE_ROOT          AddBackslash(SourcePath);
+#define INSTALLER_FOLDER     LowerCase(INSTALLER_TYPE);
+#define DOWNLOAD_FOLDER      INSTALLER_FOLDER +'-'+ APP_VERSION + '-' + PHP_VERSION + '-' + BITSIZE
+
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -69,7 +69,7 @@ AppUpdatesURL={#APP_URL}
 ; default installation folder is "c:\server". users might change this via dialog.
 DefaultDirName={sd}\server
 DefaultGroupName={#APP_NAME}
-OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-php56-w64
+OutputBaseFilename=WPNXM-{#APP_VERSION}-{#INSTALLER_TYPE}-Setup-{#PHP_VERSION}-{#BITSIZE}
 Compression=lzma2/ultra
 LZMAUseSeparateProcess=yes
 LZMANumBlockThreads=2
@@ -130,7 +130,7 @@ Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
-Source: ..\downloads\{#INSTALLER_FOLDER}-{#APP_VERSION}-php5.6-w64\*; Flags: nocompression dontcopy;
+Source: ..\downloads\{#DOWNLOAD_FOLDER}\*; Flags: nocompression dontcopy
 ; tools:
 Source: ..\bin\backup\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
@@ -140,9 +140,9 @@ Source: ..\bin\php-cgi-spawn\spawn.exe; DestDir: {app}\bin\tools\
 ; psvince is installed to the app folder, because it's needed during uninstallation, to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
 ; incorporate the whole "www" folder into the setup, except the webinterface folder
-Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*;
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*
 ; webinterface folder is only copied, if component "webinterface" is selected.
-Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes:.git*,.travis*; Flags: recursesubdirs; Components: webinterface
+Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes: .git*,.travis*; Flags: recursesubdirs; Components: webinterface
 ; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
 Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
 ; ship documentation, changelog and license information
@@ -170,7 +170,7 @@ Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
 Source: ..\software\wpnxm-scp\config\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\software\php\config\php56\php.ini; DestDir: {app}\bin\php;
+Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
 Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
@@ -200,7 +200,7 @@ Name: {userdesktop}\WPN-XM Start; Filename: {app}\run.bat; Tasks: add_startstop_
 Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop.bat; Tasks: add_startstop_desktopicons
 
 [Tasks]
-Name: portablemode; Description: "Portable Mode"; Flags: unchecked
+Name: portablemode; Description: Portable Mode; Flags: unchecked
 Name: add_startmenu; Description: Create Startmenu entries
 Name: add_quicklaunchicon; Description: Create a &Quick Launch icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel
 Name: add_desktopicon; Description: Create a &Desktop icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel
