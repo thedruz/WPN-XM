@@ -13,17 +13,17 @@ class CheckInstallersTask extends Task
 {
     private $buildFolder;
 
-    function setBuildFolder($buildFolder)
+    public function setBuildFolder($buildFolder)
     {
         $this->buildFolder = realpath($buildFolder);
     }
 
-    function main()
+    public function main()
     {
         $this->checkInstallers();
     }
 
-    function checkInstallers()
+    public function checkInstallers()
     {
         $this->log('Checking Installers..');
 

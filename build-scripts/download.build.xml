@@ -60,13 +60,8 @@
 
     <target name="check-download-filesizes"
             description="Check the filesize of all downloaded files and indicate download issues.">
-        <taskdef name="CheckFilesSimple" classname="CheckFilesTask" />
+        <taskdef name="CheckFiles" classname="CheckFilesTask" />
         <CheckFiles downloadfolder="${dir.Downloads}"/>
-    </target>
-
-    <target name="check-installers" description="Check that all installers were build.">
-        <taskdef name="CheckInstallers" classname="CheckInstallersTask" />
-        <CheckInstallers buildFolder="${dir.Build}"/>
     </target>
 
 </project>

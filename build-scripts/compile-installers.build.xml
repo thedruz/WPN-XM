@@ -56,4 +56,10 @@
             </fileset>
         </foreach>
     </target>
+
+    <target name="check-installers" description="Check that all installers were build.">
+        <taskdef name="CheckInstallers" classname="CheckInstallersTask" />
+        <CheckInstallers buildFolder="${dir.Build}"/>
+    </target>
+
 </project>

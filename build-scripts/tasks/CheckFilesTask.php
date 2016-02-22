@@ -20,10 +20,10 @@ class CheckFilesTask extends Task
 
     public function main()
     {
-        self::checkFilesizeOfDownloads();
+        $this->checkFilesizeOfDownloads();
     }
 
-    public static function checkFilesizeOfDownloads()
+    public function checkFilesizeOfDownloads()
     {
         $this->log('Checking Filesize of Downloads..');
 
