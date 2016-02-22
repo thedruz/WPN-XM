@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="compile-installers" basedir="." default="...">
+<!--╔════════════════════════════════════════════════════════════════════════════╗
+    ║ WPИ-XM Server Stack                                                        ║
+    ║ Copyright © 2010 - 2016 Jens A. Koch <jakoch@web.de>                       ║
+    ║ http://wpn-xm.org/                                                         ║
+    ║                                                                            ║
+    ║ This source file is subject to the terms of the MIT license.               ║
+    ║ For full copyright and license information, view the bundled LICENSE file. ║
+    ╚════════════════════════════════════════════════════════════════════════════╝-->
+
+    <!-- ============ Compile Installers  ============ -->
+
+    <target name="inno-compile" description="Main compile task using InnoSetup Compiler.">
+        <echo message="Compiling ${installer.file}"/>
+        <exec command="${innosetupcompiler} -o${dir.Build} ${installer.file}"
+              dir="${dir.Build}" passthru="true"/>
+    </target>
+
+    <target name="compile-webinstaller" description="Builds the WPN-XM Webinstallers.">
+        <foreach target="inno-compile" param="installer.file">
+            <fileset dir="${dir.Build}">
+                <include name="**\webinstaller-*.iss"/>
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="compile-literc" description="Builds the WPN-XM LiteRC Installers.">
+        <foreach target="inno-compile" param="installer.file">
+            <fileset dir="${dir.Build}">
+                <include name="**\literc-*.iss"/>
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="compile-lite" description="Builds the WPN-XM Lite Installers.">
+        <foreach target="inno-compile" param="installer.file">
+            <fileset dir="${dir.Build}">
+                <include name="**\lite-*.iss"/>
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="compile-standard" description="Builds the WPN-XM Standard Installers.">
+        <foreach target="inno-compile" param="installer.file">
+            <fileset dir="${dir.Build}">
+                <include name="**\standard-*.iss" />
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="compile-full" description="Builds the WPN-XM Full Installers.">
+        <foreach target="inno-compile" param="installer.file">
+            <fileset dir="${dir.Build}">
+                <include name="**\full-*.iss" />
+            </fileset>
+        </foreach>
+    </target>
+</project>

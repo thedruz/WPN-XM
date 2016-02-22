@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="compile-installers" basedir="." default="...">
+<!--╔════════════════════════════════════════════════════════════════════════════╗
+    ║ WPИ-XM Server Stack                                                        ║
+    ║ Copyright © 2010 - 2016 Jens A. Koch <jakoch@web.de>                       ║
+    ║ http://wpn-xm.org/                                                         ║
+    ║                                                                            ║
+    ║ This source file is subject to the terms of the MIT license.               ║
+    ║ For full copyright and license information, view the bundled LICENSE file. ║
+    ╚════════════════════════════════════════════════════════════════════════════╝-->
+
+    <!-- ============ Downloads  ============ -->
+
+    <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
+        <echo>Creating Downloads Folder</echo>
+        <mkdir dir="${dir.Downloads}"/>
+    </target>
+
+    <target name="download-components-sequence"
+            description="Download components for all full installers (with-aria in sequence)."
+            depends="make-downloads-dir, download-files-simple">
+        <echo message="Downloading Components - one by one via Aria."/>
+    </target>
+
+    <target name="download-components"
+            description="Download components for all full installers (with-aria parallel)">
+        <taskdef name="RunAria" classname="RunAriaTask" />
+        <RunAria
+            wpnxmversion="${wpnxm.Version}"
+            registryfolder="${dir.InstallerRegistries}"
+            downloadfolder="${dir.Downloads}" />
+    </target>
+
+    <target name="move-downloads" description="Moves components for all packaged installers from the full folder to installer specific subfolders.">
+        <echo message="Moving components from download folder to installer folder:"/>
+        <taskdef name="MoveDownloadFiles" classname="MoveDownloadFilesTask" />
+        <MoveDownloadFiles
+            wpnxmversion="${wpnxm.Version}"
+            registryfolder="${dir.InstallerRegistries}"
+            downloadfolder="${dir.Downloads}"
+            useSharedDownloadFolder="true" />
+    </target>
+
+    <target name="create-download-lists"
+            description="Generate Aria download lists for all full and literc installers.">
+        <taskdef name="GenerateAriaDownloadLists" classname="GenerateAriaDownloadListsTask" />
+        <GenerateAriaDownloadLists
+            wpnxmVersion="${wpnxm.Version}"
+            registryFolder="${dir.InstallerRegistries}"
+            downloadFolder="${dir.Downloads}"
+            useSharedDownloadFolder="true" />
+    </target>
+
+     <target name="download-files-simple" description="Download files for all full installers.">
+        <taskdef name="DownloadFilesSimple" classname="DownloadFilesSimpleTask" />
+        <DownloadFilesSimple
+            wpnxmversion="${wpnxm.Version}"
+            registryfolder="${dir.InstallerRegistries}" />
+    </target>
+
+    <target name="check-download-filesizes"
+            description="Check the filesize of all downloaded files and indicate download issues.">
+        <taskdef name="CheckFilesSimple" classname="CheckFilesTask" />
+        <CheckFiles downloadfolder="${dir.Downloads}"/>
+    </target>
+
+    <target name="check-installers" description="Check that all installers were build.">
+        <taskdef name="CheckInstallers" classname="CheckInstallersTask" />
+        <CheckInstallers buildFolder="${dir.Build}"/>
+    </target>
+
+</project>

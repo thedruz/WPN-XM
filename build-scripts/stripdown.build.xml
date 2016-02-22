@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="stripdown" basedir="." default="...">
+<!--╔════════════════════════════════════════════════════════════════════════════╗
+    ║ WPИ-XM Server Stack                                                        ║
+    ║ Copyright © 2010 - 2016 Jens A. Koch <jakoch@web.de>                       ║
+    ║ http://wpn-xm.org/                                                         ║
+    ║                                                                            ║
+    ║ This source file is subject to the terms of the MIT license.               ║
+    ║ For full copyright and license information, view the bundled LICENSE file. ║
+    ╚════════════════════════════════════════════════════════════════════════════╝-->
+
+    <!-- ============ Stripdown + Repackaging of Components ============
+
+        We are apply stripdown and repackaging on several components,
+        because they ship files hardly ever needed by the average developer.
+
+        This is highly opinionated, but reduces package size drastically.
+        By looking at the stripdown report after a run you can see how much was saved.
+
+        The stripdown procedure consists of the following steps:
+
+        1. the stripdown folder is deleted and re-created, to have a clean target folder
+        2. the downloaded component is unzipped into the stripdown folder
+        3. if a versionized folder was unzipped, it is renamed to a shortname
+        4. the stripdown script for this component is executed, reducing and compressing the files
+        5. the original zip file is deleted
+        6. the stripdown folder is zipped to the download folder, using the component shortname
+        7. the stripdown folder is deleted
+    -->
+
+    <target name="exec-stripdown">
+        <echo message="Running Stripdown in folder: ${dir.Stripdown}"/>
+        <exec command="php ${dir.Bin}/stripdown.php ${dir.Stripdown} imagick" passthru="true"/>
+        <exec command="php ${dir.Bin}/stripdown.php ${dir.Stripdown} mariadb" passthru="true"/>
+        <exec command="php ${dir.Bin}/stripdown.php ${dir.Stripdown} mongodb" passthru="true"/>
+        <exec command="php ${dir.Bin}/stripdown.php ${dir.Stripdown} postgresql" passthru="true"/>
+    </target>
+
+    <!-- A: run stripdown on x86 and x64 downloads folders -->
+
+    <target name="stripdown-pool">
+        <property name="dir.Stripdown" value="${dir.Downloads}/x86" override="true" />
+        <phingcall target="exec-stripdown" />
+        <property name="dir.Stripdown" value="${dir.Downloads}/x64" override="true" />
+        <phingcall target="exec-stripdown" />
+    </target>
+
+    <!-- B: run stripdown on each Full and LiteRC download folder -->
+
+    <target name="stripdown-all" description="Apply stripdown on 'full' download folders.">
+        <foreach target="stripdown-folder" param="full.installer.registry">
+          <fileset dir="${dir.InstallerRegistries}/v${wpnxm.Version}">
+            <include name="**/*full-${wpnxm.Version}*.json"/>
+            <include name="**/*literc-${wpnxm.Version}*.json"/>
+          </fileset>
+        </foreach>
+    </target>
+
+    <target name="stripdown-folder" description="Run stripdown on files in the specified folder.">
+        <echo message="Stripdown for Registry: ${full.installer.registry}"/>
+        <php expression="preg_replace('/(.*-php)(\d+).(\d+)(-.*).json/i', '$1$2$3$4', '${full.installer.registry}')" returnProperty="full.folder"/>
+        <property name="dir.Stripdown" value="${dir.Downloads}/${full.folder}" />
+        <phingcall target="exec-stripdown" />
+    </target>
+
+</project>

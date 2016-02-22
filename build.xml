@@ -1,58 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project name="WPN-XM Server Stack" default="main" basedir=".">
-
-    <!--
-         WPN-XM - Phing build file.
-
-         You might find the comprehensive Nant Task Reference under:
-         http://www.phing.info/docs/stable/hlhtml/index.html
-    -->
+<!--╔════════════════════════════════════════════════════════════════════════════╗
+    ║ WPИ-XM Server Stack                                                        ║
+    ║ Copyright © 2010 - 2016 Jens A. Koch <jakoch@web.de>                       ║
+    ║ http://wpn-xm.org/                                                         ║
+    ║                                                                            ║
+    ║ This source file is subject to the terms of the MIT license.               ║
+    ║ For full copyright and license information, view the bundled LICENSE file. ║
+    ╚════════════════════════════════════════════════════════════════════════════╝-->
 
     <!-- ============ Build Properties ============ -->
 
     <!-- Version -->
-    <property name="wpnxm.Name"             value="WPN-XM Server Stack"/>
-    <property name="version.Major"          value="0"/>
-    <property name="version.Minor"          value="8"/>
-    <property name="version.BuildNumber"    value="6"/>
-    <property name="wpnxm.Version"          value="${version.Major}.${version.Minor}.${version.BuildNumber}"/>
-    <property name="wpnxm.VersionForRcFile" value="${version.Major},${version.Minor},${version.BuildNumber},0"/>
+    <property name="wpnxm.Name"    value="WPN-XM Server Stack"/>
+    <property name="version.Major" value="0"/>
+    <property name="version.Minor" value="8"/>
+    <property name="version.Patch" value="7"/>
+    <property name="wpnxm.Version" value="${version.Major}.${version.Minor}.${version.Patch}"/>
 
     <!-- Paths -->
-    <property name="basedir"                  value="${project.basedir}" />
-    <property name="dir.Base"                 value="${project.basedir}"/>
-    <property name="dir.Build"                value="${dir.Base}/_build"/>
-    <property name="dir.Downloads"            value="${dir.Base}/downloads"/>
-    <property name="dir.Installers"           value="${dir.Base}/installers"/>
-    <property name="dir.Registry"             value="${dir.Base}/registry"/>
-    <property name="dir.InstallerRegistries"  value="${dir.Base}/registry/installer"/>
+    <property name="dir.Base"                value="${project.basedir}"/>
+    <property name="dir.Bin"                 value="${dir.Base}/bin"/>
+    <property name="dir.Build"               value="${dir.Base}/_build"/>
+    <property name="dir.Downloads"           value="${dir.Base}/downloads"/>
+    <property name="dir.Installers"          value="${dir.Base}/installers"/>
+    <property name="dir.Registry"            value="${dir.Base}/registry"/>
+    <property name="dir.InstallerRegistries" value="${dir.Base}/registry/installer"/>
+
+    <!-- Tools -->
+    <property name="aria" value="${wine} ${dir.Bin}/aria2/aria2c.exe"/>
+    <property name="7z"   value="${wine} ${dir.Bin}/7zip/7za.exe"/>
+
+    <!-- InnoSetup Compiler -->
+    <condition property="innosetupcompiler" value="${dir.Bin}\innosetup\ISCC.exe"><os family="windows"/></condition>
+    <condition property="innosetupcompiler" value="${wine} ${dir.Bin}/innosetup/ISCC.exe"><os family="unix"/></condition>
 
     <!-- Wine -->
     <!-- /opt/wine-staging/bin/ -->
     <condition property="wine" value="wine cmd.exe /c"><os family="unix"/></condition>
 
-    <!-- InnoSetup Compiler -->
-    <condition property="innosetupcompiler" value="${dir.Base}\bin\innosetup\ISCC.exe"><os family="windows"/></condition>
-    <condition property="innosetupcompiler" value="${wine} ${dir.Base}/bin/innosetup/ISCC.exe"><os family="unix"/></condition>
-
-    <!-- Aria -->
-    <property name="aria" value="${wine} ${dir.Base}/bin/aria/aria2c.exe"/>
-
-    <!-- 7zip -->
-    <property name="7z" value="${wine} ${dir.Base}/bin/backup/7za.exe"/>
-
-    <!-- PHP -->
+    <!-- PHP Configuration -->
+    <!-- raise memory -->
     <php expression="ini_set('memory_limit', '512M');" />
-    <php expression="ini_get('memory_limit');" returnProperty="limit"/>
-    <echo>PHP memory_limit: ${limit}</echo>
-
-    <!-- Force a Garbage Collection during stacked or foreached PhingCalls -->
+    <!-- 2 force garbage collection during stacked / foreached PhingCalls -->
     <php expression="gc_collect_cycles();" />
 
-    <!--
-                        Targets (Build Commands)
-    -->
+    <!-- ============ Import Build Files ============ -->
+
+    <import file="build-scripts/download.build.xml" />
+    <import file="build-scripts/stripdown.build.xml" />
+    <import file="build-scripts/compile-installers.build.xml" />
+
+    <!-- ============ Include Tasks ============ -->
+
+    <includepath classpath="${dir.Base}/build-scripts/tasks" />
+
+    <!-- ============ Targets ============ -->
 
     <target name="clean-build-dir" description="Mr. Proper cleans the build environment and recreates it.">
         <delete dir="${dir.Build}"/>
@@ -66,7 +69,8 @@
         </delete>
     </target>
 
-    <target name="reset-git-submodules" description="Reset the git submodules to their original state.">
+    <target name="reset-git-submodules"
+            description="Reset the git submodules to their original state.">
          <!-- hard reset to latest commit. deletes all untracked files/folders, e.g. /build/* -->
         <exec executable="git">
             <arg line="submodule foreach git reset --hard HEAD"/>
@@ -88,13 +92,6 @@
             description="Inserts the current version number into the InnoScripts and the Webinterface."
             depends="reset-git-submodules, update-git-submodules">
 
-        <!--
-                Insert the version number into the innosetup script files.
-                This is done via a copy operation with an applied filterchain, see below.
-                The then preprocessed *.iss files are moved from the /installers folder to the /build directory.
-                Because they are used for the actual build, this step must run before any "compile-*" step.
-        -->
-
         <echo message="Inserting Version Number into Installer Script Files"/>
         <copy todir="${dir.Build}" overwrite="true">
             <fileset dir="${dir.Installers}">
@@ -107,7 +104,7 @@
             </filterchain>
         </copy>
 
-        <!-- Insert the version number into webinterface's "bootstrap.php" file. (file is overwritten) -->
+        <!-- Insert the version number into webinterface's "bootstrap.php" file. -->
         <loadfile srcfile="${dir.Base}/www/tools/webinterface/bootstrap.php" property="filecontent.php.bootstrap">
             <filterchain>
                 <replacetokens>
@@ -143,448 +140,6 @@
         <exec command="cd ${dir.Registry} &amp; git commit -am &quot;Added WPN-XM Installer Registries for Version ${wpnxm.Version}&quot;" level="debug" passthru="true"/>
     </target>
 
-    <!-- ============ Compile Installers  ============ -->
-
-    <target name="inno-compile"
-            description="This is the main compilation task executing the InnoSetupCompiler.">
-        <echo message="Compiling ${installer.file}"/>
-        <echo message="${innosetupcompiler} -o${dir.Build} ${installer.file}"/>
-        <exec command="${innosetupcompiler} -o${dir.Build} ${installer.file}" dir="${dir.Build}" passthru="true"/>
-    </target>
-
-    <target name="compile-webinstaller"
-            description="Builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\webinstaller-*.iss"/>
-            </fileset>
-        </foreach>
-    </target>
-
-    <target name="compile-literc"
-            description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\literc-*.iss"/>
-            </fileset>
-        </foreach>
-    </target>
-
-    <target name="compile-lite"
-            description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\lite-*.iss"/>
-            </fileset>
-        </foreach>
-    </target>
-
-    <target name="compile-standard"
-            description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\standard-*.iss" />
-            </fileset>
-        </foreach>
-    </target>
-
-    <target name="compile-full"
-            description="Downloads all components and builds the WPN-XM setup executable."
-            depends="bump-version-number, clean-webinterface-folder">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\full-*.iss" />
-            </fileset>
-        </foreach>
-    </target>
-
-    <!-- ============ Downloads ============ -->
-
-    <target name="move-downloads" description="Moves components for all packaged installers from the full folder to installer specific subfolders.">
-        <echo message=" Moving components from the full download folder to their subfolders... "/>
-
-        <adhoc-task name="MoveDownloadFiles"><![CDATA[
-            class MoveDownloadFiles extends Task
-            {
-                private $registryfolder;
-                private $downloadfolder;
-                private $wpnxmversion;
-
-                function setRegistryFolder($registryfolder)
-                {
-                    $this->registryfolder = realpath($registryfolder);
-                }
-
-                function setDownloadFolder($downloadfolder)
-                {
-                    $this->downloadfolder = realpath($downloadfolder);
-                }
-
-                function setWpnxmVersion($wpnxmversion)
-                {
-                    $this->wpnxmversion = $wpnxmversion;
-                }
-
-                function main()
-                {
-                    if(!defined('DS')) {
-                        define('DS', DIRECTORY_SEPARATOR);
-                    }
-
-                    // get all registries files, e.g. "registry/installer/v0.8.0/*0.8.0*.json"
-                    $registries = glob(
-                        $this->registryfolder.DS.'v'.$this->wpnxmversion
-                                             .DS.'*'.$this->wpnxmversion.'*.json'
-                    );
-
-                    foreach ($registries as $registry)
-                    {
-                        $basename = basename($registry, '.json');
-
-                        // skip "full", because these are general download sources
-                        // skip "literc", because these fetch PHP-RC versions
-                        if ((false !== strpos($basename, 'full')) ||
-                            (false !== strpos($basename, 'literc'))) {
-                            continue;
-                        }
-
-                        $fullFolder = preg_replace('(lite|standard)', 'full', $basename);
-
-                        $this->log("\n");
-                        $this->log('Moving Download Files for "' . $basename . '" from "' . $fullFolder . '"');
-                        $this->log("\n");
-
-                        $components = json_decode(file_get_contents($registry));
-
-                        foreach ($components as $component)
-                        {
-                            $source = $this->downloadfolder.DS.$fullFolder.DS.$component[2];
-
-                            if (is_file($source)) {
-                                $version = ($component[3] === 'latest') ? $component[3] : ' v' . $component[3];
-                                $this->log('Component ' . $component[0] . ' ' . $version);
-
-                                $targetDir = $this->downloadfolder . DS . $basename;
-
-                                if (is_dir($targetDir) === false) {
-                                    mkdir($targetDir);
-                                }
-
-                                $target = $targetDir . DS . $component[2];
-
-                                $this->log('  Copying ' . $source);
-                                $this->log('       to ' . $target);
-
-                                if (is_file($target) === false) {
-                                    copy($source, $target);
-                                } elseif (is_file($target) && filesize($source) !== filesize($target)) {
-                                    $this->log('Target file exists already, but differs in size. Overwriting!');
-                                    copy($source, $target);
-                                } else {
-                                    $this->log('Target file exists already. Skipping.');
-                                }
-                            } else {
-                                $this->log('Download missing for Component [' . $component[0] . ']: ' . $component[2]);
-                            }
-                        }
-                    }
-                }
-            }
-        ]]></adhoc-task>
-
-        <MoveDownloadFiles registryfolder="${dir.InstallerRegistries}"
-                           downloadfolder="${dir.Downloads}"
-                           wpnxmversion="${wpnxm.Version}"/>
-    </target>
-
-    <target name="create-download-files"
-            description="Generate download description files for all full installers. Aria2 uses them for multiple parallel downloads.">
-        <adhoc-task name="GenerateDownloadFiles"><![CDATA[
-            class GenerateDownloadFiles extends Task
-            {
-                private $registryfolder;
-                private $downloadfolder;
-                private $wpnxmversion;
-
-                function setRegistryFolder($registryfolder)
-                {
-                    $this->registryfolder = realpath($registryfolder);
-                }
-
-                function setDownloadFolder($downloadfolder)
-                {
-                    $this->downloadfolder = realpath($downloadfolder);
-                }
-
-                function setWpnxmVersion($wpnxmversion)
-                {
-                    $this->wpnxmversion = $wpnxmversion;
-                }
-
-                function getAriaFileHeader($installerName)
-                {
-                    $txt = '#' . PHP_EOL;
-                    $txt .= '# WPN-XM Server Stack' . PHP_EOL;
-                    $txt .= '#' . PHP_EOL;
-                    $txt .= '# Download Links for the Installation Wizard "' . $installerName . '".' . PHP_EOL;
-                    $txt .= '#' . PHP_EOL;
-                    $txt .= '# This is an aria2c input file.' . PHP_EOL;
-                    $txt .= '# It contains a list of URIs for aria2 to download in parallel.' . PHP_EOL;
-                    $txt .= '# The file is auto-generated. Do not modify.' . PHP_EOL;
-                    $txt .= '#' . PHP_EOL;
-                    $txt .= '# For syntax, see:' . PHP_EOL;
-                    $txt .= '#   http://aria2.sourceforge.net/manual/en/html/aria2c.html#id2' . PHP_EOL;
-                    $txt .= '#' . PHP_EOL;
-
-                    return $txt;
-                }
-
-                // add a download line in Aria2C Syntax
-                function insertDownload($url = '', $target = '')
-                {
-                    return $url . PHP_EOL . '    out=' . $target . PHP_EOL;
-                }
-
-                function main()
-                {
-                    if(!defined('DS')) {
-                        define('DS', DIRECTORY_SEPARATOR);
-                    }
-
-                    /**
-                     * We download all packages of the Full and LiteRC installers.
-                     * Later, we copy the downloads from Full into the Standard and Lite folders.
-                     *
-                     * "/registry/installer/v0.8.6/{full,literc}-0.8.6-*.json"
-                     */
-                    $registries = glob(
-                        $this->registryfolder.DS.'v'.$this->wpnxmversion
-                        .DS.'{full,literc}-'.$this->wpnxmversion.'-*.json',
-                        GLOB_BRACE
-                    );
-
-                    foreach ($registries as $registry)
-                    {
-                        $basename = basename($registry, '.json');
-
-                        // remove php version dot from basename ("php5.6" => "php56")
-                        $basename = preg_replace("#(.*)-(.*)-(.*).(\d)-(.*)#", "$1-$2-$3$4-$5", $basename);
-
-                        // "/registry/downloads-for-full-0.8.6-php70-w64.txt"
-                        $file = $this->registryfolder.DS.'downloads-for-'.$basename.'.txt';
-
-                        $txt  = $this->getAriaFileHeader($basename);
-
-                        $components = json_decode(file_get_contents($registry));
-
-                        foreach ($components as $component) {
-                            $url    = $component[1];
-                            $target = 'downloads' . DS . $basename . DS . $component[2];
-
-                            $txt .= $this->insertDownload($url, $target);
-                        }
-
-                        file_put_contents($file, $txt);
-
-                        $this->log('Created Aria2 Download Description File - ' . $file);
-                    }
-                }
-            }
-        ]]></adhoc-task>
-        <GenerateDownloadFiles
-            registryfolder="${dir.InstallerRegistries}"
-            downloadfolder="${dir.Downloads}"
-            wpnxmversion="${wpnxm.Version}"/>
-    </target>
-
-     <target name="download-files-simple" description="Download files for all full installers.">
-        <adhoc-task name="DownloadFilesSimple"><![CDATA[
-            class DownloadFiles extends Task
-            {
-                private $registryfolder;
-                private $wpnxmversion;
-
-                function setRegistryFolder($registryfolder)
-                {
-                    $this->registryfolder = realpath($registryfolder);
-                }
-
-                function setWpnxmVersion($wpnxmversion)
-                {
-                    $this->wpnxmversion = $wpnxmversion;
-                }
-
-                function main()
-                {
-                    if(!defined('DS')) {
-                        define('DS', DIRECTORY_SEPARATOR);
-                    }
-
-                    // wget fails on sourceforge downloads
-                    // $wget_cmd_template = "wget --continue --progress=bar:force --tries=5 --no-check-certificate %url% -O %targetFolder%/%targetFile%";
-
-                    //$curl_cmd_template = "curl -C - --insecure --fail --retry 5 --stderr - --location %url% -o %targetFolder%/%targetFile%";
-
-                    $aria_cmd_template = "aria2c \"%url%\" --dir=%targetFolder% --out=%targetFile%";
-                    //$aria_cmd_template .= " --deferred-input=true";
-                    $aria_cmd_template .= " --disk-cache=0 --max-download-result=0 --max-tries=5 --file-allocation=falloc" //none,prealloc,alloc
-                    $aria_cmd_template .= " --check-certificate=false --split=6 --min-split-size=12M --max-connection-per-server=6";
-                    $aria_cmd_template .= " --conditional-get=true --auto-file-renaming=false --allow-overwrite=true --http-accept-gzip=true";
-                    $aria_cmd_template .= " --user-agent=\"WPN-XM Server Stack Downloader\" "; // --quiet=true
-
-                    /**
-                     * We download all packages of the Full and LiteRC installers.
-                     * Later, we copy the downloads from Full into the Standard and Lite folders.
-                     *
-                     * "/registry/installer/v0.8.6/{full,literc}-0.8.6-*.json"
-                     */
-                    $registries = glob(
-                        $this->registryfolder.DS.'v'.$this->wpnxmversion
-                        .DS.'{full,literc}-'.$this->wpnxmversion.'-*.json',
-                        GLOB_BRACE
-                    );
-
-                    foreach ($registries as $registry)
-                    {
-                        $basename = basename($registry, '.json');
-
-                        // remove php version dot from basename ("php5.6" => "php56")
-                        $basename = preg_replace("#(.*)-(.*)-(.*).(\d)-(.*)#", "$1-$2-$3$4-$5", $basename);
-
-                        $this->log('Starting Downloads for Installer ['. $basename .']');
-                        $this->log('');
-
-                        $targetFolder = 'downloads' . DS . $basename;
-
-                        if (!file_exists($targetFolder)) {
-                            mkdir($targetFolder, 0777, true);
-                        }
-
-                        $components = json_decode(file_get_contents($registry));
-
-                        foreach ($components as $component)
-                        {
-                            $url          = $component[1];
-                            $targetFile   = $component[2];
-
-                            $download_cmd = str_replace(
-                                array('%url%', '%targetFolder%', '%targetFile%'),
-                                array($url, $targetFolder, $targetFile),
-                                $aria_cmd_template
-                            );
-
-                            $this->log('Downloading: ' . $targetFolder . DS . $targetFile);
-
-                            // execute directly
-                            //exec($download_cmd);
-
-                            // write commands to file - for line-wise execution on the shell
-                            file_put_contents('downloads-cmds.txt', $download_cmd . PHP_EOL, FILE_APPEND);
-
-                            if(is_file($targetFolder . DS . $targetFile) === false) {
-                                $this->log('File not found. Download failed.');
-                            }
-
-                            unset($url, $targetFile, $download_cmd);
-                        }
-
-                        $this->log('');
-
-                        unset($basename, $targetFolder, $components);
-                    }
-                    unset($registries);
-                }
-            }
-        ]]></adhoc-task>
-        <DownloadFilesSimple registryfolder="${dir.InstallerRegistries}" wpnxmversion="${wpnxm.Version}"/>
-    </target>
-
-    <target name="check-download-filesizes" description="Check the filesize of all downloaded files and indicate download issues.">
-        <adhoc-task name="CheckFiles"><![CDATA[
-        class CheckFiles extends Task
-        {
-            private $downloadfolder;
-
-            function setDownloadFolder($downloadfolder)
-            {
-                $this->downloadfolder = realpath($downloadfolder);
-            }
-
-            function checkFilesizeOfDownloads()
-            {
-                $this->log('Checking Filesize of Downloads..');
-
-                $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->downloadfolder));
-
-                foreach ($rii as $filename)
-                {
-                    // filter out "." and ".."
-                    if ($filename->isDir()) {
-                        continue;
-                    }
-
-                    // if filesize is lower than 2kb, print warning
-                    if(filesize($filename) < 2048) {
-                        echo "\033[01;31m";
-                        echo "The file \"$filename\" is smaller than 2kb. Please check the download!\n";
-                        echo "\033[0m";
-                    }
-                }
-            }
-
-            function main()
-            {
-                $this->checkFilesizeOfDownloads();
-            }
-        }
-        ]]></adhoc-task>
-        <CheckFiles downloadfolder="${dir.Downloads}"/>
-    </target>
-
-    <target name="check-installers" description="Check that all installers were build.">
-        <adhoc-task name="CheckInstallers"><![CDATA[
-        class CheckInstallers extends Task
-        {
-            private $buildfolder;
-
-            function setBuildFolder($buildfolder)
-            {
-                $this->buildfolder = realpath($buildfolder);
-            }
-
-            function checkInstallers()
-            {
-                $this->log('Checking Installers..');
-
-                $installer_scripts = array_map('basename', glob($this->buildfolder . '/*.iss', GLOB_BRACE));
-                $installer_executables = array_map('basename', glob($this->buildfolder . '/*.exe', GLOB_BRACE));
-
-                $missing_installer_executables = array_diff($installer_scripts, $installer_executables);
-
-                if(count($missing_installer_executables) > 0) {
-                    echo "\033[01;31m";
-                    echo "The following installer executables were not compiled:\n";
-                    foreach($missing_installer_executables as $exe) {
-                       echo "  - \"$exe\".exe \n";
-                    }
-                    echo "Please check the InnoSetup script files for errors!\n";
-                    echo "\033[0m";
-                }
-            }
-
-            function main()
-            {
-                $this->checkInstallers();
-            }
-        }
-        ]]></adhoc-task>
-        <CheckInstallers downloadfolder="${dir.Build}"/>
-    </target>
-
     <target name="versionize-registries"
             description="Adds the build version number to the 'next' installer registry files.">
         <echo message="Versionizing Registries"/>
@@ -599,118 +154,9 @@
         </copy>
     </target>
 
-    <target name="download-components-sequence" description="Download components for all full installers (with-aria in sequence)."
-            depends="make-downloads-dir, download-files-simple">
-        <echo message="Downloading Components - one by one via Aria."/>
-    </target>
-
-    <target name="download-components" description="Download components for all full installers (with-aria parallel)">
-        <adhoc-task name="RunAria"><![CDATA[
-            class RunAria extends Task
-            {
-                private $registryfolder;
-                private $downloadfolder;
-                private $wpnxmversion;
-
-                function setRegistryFolder($registryfolder)
-                {
-                    $this->registryfolder = realpath($registryfolder);
-                }
-
-                function setDownloadFolder($downloadfolder)
-                {
-                    $this->downloadfolder = realpath($downloadfolder);
-                }
-
-                function setWpnxmVersion($wpnxmversion)
-                {
-                    $this->wpnxmversion = $wpnxmversion;
-                }
-
-                function main()
-                {
-                    if(!defined('DS')) { define('DS', DIRECTORY_SEPARATOR); }
-
-                    $this->log('Downloading Components using Aria');
-
-                    // get aria download description files
-                    $files = glob($this->registryfolder . DS . 'downloads-for-{full,literc}-' . $this->wpnxmversion . '*.txt', GLOB_BRACE);
-
-                    foreach($files as $file)
-                    {
-                        /**
-                                        Aria2C for Parallel Downloading
-
-                            http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
-                            http://aria2.sourceforge.net/manual/en/html/aria2c.html
-
-                            the windows aria2c fails with a "WinTLS handshake error" | ${aria}
-                            the linux aria2c fails with "The response status is not successful"
-                        **/
-
-                        $this->log('Using ' . $file);
-
-                        $aria_cmd = 'aria2c -i ' . $file
-                        . ' --disk-cache=0 --max-download-result=0 --check-certificate=false'
-                        . ' --deferred-input=true --http-accept-gzip=true'
-                        . ' --split=4 --min-split-size=20M --max-connection-per-server=4 --max-tries=5'
-                        . ' --conditional-get=true --auto-file-renaming=false --allow-overwrite=true'
-                        . ' --user-agent="WPN-XM Server Stack Downloader"';
-
-                        // --force-sequential=true
-                        // --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36"
-
-                        passthru($aria_cmd);
-
-                        gc_collect_cycles();
-                    }
-                }
-            }
-        ]]></adhoc-task>
-        <RunAria registryfolder="${dir.Registry}" downloadfolder="${dir.Downloads}" wpnxmversion="${wpnxm.Version}"/>
-    </target>
-
-    <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
-        <echo>Creating Downloads Folder</echo>
-        <mkdir dir="${dir.Downloads}"/>
-    </target>
-
-    <!--
-         ============ Stripdown Scripts ============
-
-         We are re-packaging several components, because they ship files, which are
-         hardly ever needed by the average developer.
-
-         The stripdown procedure consists of the following steps:
-
-         1. the stripdown folder is deleted and re-created, to have a clean target folder
-         2. the downloaded component is unziped into the stripdown folder
-         3. if the component zip, shipped a versionized folder, it is renamed to a short name
-         4. the stripdown script for this component is executed, reducing the files
-         5. the original zip file is deleted
-         6. the stripdown folder is zipped to the download folder, under the short name of the component
-         7. the stripdown folder is deleted
-
-     -->
-
-    <target name="stripdown-all" description="Apply stripdown scripts to each 'full' download folder.">
-        <foreach target="stripdown-folder" param="full.installer.registry">
-          <fileset dir="${dir.Registry}">
-            <include name="**/*full-${wpnxm.Version}*.json"/>
-            <include name="**/*literc-${wpnxm.Version}*.json"/>
-          </fileset>
-        </foreach>
-    </target>
-
-    <target name="stripdown-folder" description="Apply stripdown scripts to the specified folder (subtarget: used by stripdown-all).">
-        <echo message="Stripdown for Registry: ${full.installer.registry}"/>
-        <php expression="substr('${full.installer.registry}', 0, -5)" returnProperty="full.folder"/>
-        <echo message="Running Stripdown in folder: ${dir.Downloads}/${full.folder}"/>
-
-        <exec command="php ${dir.Base}/bin/stripdown.php ${dir.Downloads}/${full.folder} imagick" passthru="true"/>
-        <exec command="php ${dir.Base}/bin/stripdown.php ${dir.Downloads}/${full.folder} mariadb" passthru="true"/>
-        <exec command="php ${dir.Base}/bin/stripdown.php ${dir.Downloads}/${full.folder} mongodb" passthru="true"/>
-        <exec command="php ${dir.Base}/bin/stripdown.php ${dir.Downloads}/${full.folder} postgresql" passthru="true"/>
+    <target name="update-component-sizes">
+      <taskdef name="UpdateComponentSizes" classname="UpdateComponentSizes" />
+      <UpdateComponentSizes downloadDir="${dir.Downloads}" />
     </target>
 
     <target name="main"
@@ -722,7 +168,7 @@
                     clean-webinterface-folder,
                     versionize-registries,
                     make-downloads-dir,
-                    create-download-files,
+                    create-download-lists,
                     download-components,
                     check-download-filesizes,
                     stripdown-all,
@@ -746,7 +192,7 @@
                     clean-webinterface-folder,
                     versionize-registries,
                     make-downloads-dir,
-                    create-download-files">
+                    create-download-lists">
     </target>
 
     <!-- removed "download-components" from main-part2, trying to execute this target with ant -->
