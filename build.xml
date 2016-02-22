@@ -170,7 +170,7 @@
                     make-downloads-dir,
                     create-download-lists,
                     download-components,
-                    check-download-filesizes,
+                    check-downloads,
                     stripdown-all,
                     move-downloads,
                     compile-webinstaller,
@@ -194,11 +194,10 @@
                     make-downloads-dir,
                     create-download-lists">
     </target>
-
     <!-- removed "download-components" from main-part2, trying to execute this target with ant -->
     <target name="main-part2"
-            depends="check-download-filesizes,
-                    stripdown-all,
+            depends="check-downloads,
+                    stripdown-pool,
                     move-downloads,
                     compile-webinstaller,
                     compile-standard,

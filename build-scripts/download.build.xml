@@ -31,7 +31,8 @@
             downloadfolder="${dir.Downloads}" />
     </target>
 
-    <target name="move-downloads" description="Moves components for all packaged installers from the full folder to installer specific subfolders.">
+    <target name="move-downloads"
+            description="Moves components from download folder to installer specific subfolders.">
         <echo message="Moving components from download folder to installer folder:"/>
         <taskdef name="MoveDownloadFiles" classname="MoveDownloadFilesTask" />
         <MoveDownloadFiles
@@ -58,7 +59,9 @@
             registryfolder="${dir.InstallerRegistries}" />
     </target>
 
-    <target name="check-download-filesizes"
+    <!-- ============ Check Downloads  ============ -->
+
+    <target name="check-downloads"
             description="Check the filesize of all downloaded files and indicate download issues.">
         <taskdef name="CheckFiles" classname="CheckFilesTask" />
         <CheckFiles downloadfolder="${dir.Downloads}"/>
