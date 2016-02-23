@@ -39,7 +39,8 @@
     <!-- A: run stripdown on x86 and x64 downloads folders -->
 
     <target name="stripdown-pool">
-        <property name="dir.Stripdown" value="${dir.Downloads}/x86" override="true" />
+        <!-- the downloads for x86 are not in /downloads/x86 but /downloads/! -->
+        <property name="dir.Stripdown" value="${dir.Downloads}" override="true" />
         <phingcall target="exec-stripdown" />
         <property name="dir.Stripdown" value="${dir.Downloads}/x64" override="true" />
         <phingcall target="exec-stripdown" />
