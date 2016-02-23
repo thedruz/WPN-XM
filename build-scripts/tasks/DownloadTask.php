@@ -49,8 +49,9 @@ class DownloadTask extends Task
             * http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
             * http://aria2.sourceforge.net/manual/en/html/aria2c.html
             */
+            $aria2_bin = (DS === '/') ? 'aria2c ' : __DIR__ . '\..\..\bin\aria2\aria2c.exe ';
 
-            $aria_cmd = 'aria2c -i ' . $file
+            $aria_cmd = $aria2_bin . ' -i ' . $file
             . ' --disk-cache=0 --max-download-result=0 --check-certificate=false'
             . ' --deferred-input=true --http-accept-gzip=true'
             . ' --split=4 --min-split-size=20M --max-connection-per-server=4 --max-tries=5'
