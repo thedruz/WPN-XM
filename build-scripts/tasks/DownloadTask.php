@@ -9,7 +9,7 @@
  * For full copyright and license information, view the bundled LICENSE file.
  */
 
-class RunAriaTask extends Task
+class DownloadTask extends Task
 {
     private $registryfolder;
     private $downloadfolder;
