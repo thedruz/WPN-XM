@@ -9,12 +9,24 @@
     ║ For full copyright and license information, view the bundled LICENSE file. ║
     ╚════════════════════════════════════════════════════════════════════════════╝-->
 
-    <!-- ============ Downloads  ============ -->
+    <!-- ============ Prepare Downloads  ============ -->
 
     <target name="make-downloads-dir" unless="${directory::exists(dir.Downloads)}">
         <echo>Creating Downloads Folder</echo>
         <mkdir dir="${dir.Downloads}"/>
     </target>
+
+    <target name="create-download-lists"
+            description="Generate Aria download lists for all full and literc installers.">
+        <taskdef name="GenerateAriaDownloadLists" classname="GenerateAriaDownloadListsTask" />
+        <GenerateAriaDownloadLists
+            wpnxmVersion="${wpnxm.Version}"
+            registryFolder="${dir.InstallerRegistries}"
+            downloadFolder="${dir.Downloads}"
+            useSharedDownloadFolder="true" />
+    </target>
+
+    <!-- ============ Exec Downloads  ============ -->
 
     <target name="download-components-sequence"
             description="Download components for all full installers (with-aria in sequence)."
@@ -31,6 +43,15 @@
             downloadfolder="${dir.Downloads}" />
     </target>
 
+    <target name="download-files-simple" description="Download files for all full installers.">
+        <taskdef name="DownloadFilesSimple" classname="DownloadFilesSimpleTask" />
+        <DownloadFilesSimple
+            wpnxmversion="${wpnxm.Version}"
+            registryfolder="${dir.InstallerRegistries}" />
+    </target>
+
+    <!-- ============ Move Downloads  ============ -->
+
     <target name="move-downloads"
             description="Moves components from download folder to installer specific subfolders.">
         <echo message="Moving components from download folder to installer folder:"/>
@@ -40,23 +61,6 @@
             registryfolder="${dir.InstallerRegistries}"
             downloadfolder="${dir.Downloads}"
             useSharedDownloadFolder="true" />
-    </target>
-
-    <target name="create-download-lists"
-            description="Generate Aria download lists for all full and literc installers.">
-        <taskdef name="GenerateAriaDownloadLists" classname="GenerateAriaDownloadListsTask" />
-        <GenerateAriaDownloadLists
-            wpnxmVersion="${wpnxm.Version}"
-            registryFolder="${dir.InstallerRegistries}"
-            downloadFolder="${dir.Downloads}"
-            useSharedDownloadFolder="true" />
-    </target>
-
-     <target name="download-files-simple" description="Download files for all full installers.">
-        <taskdef name="DownloadFilesSimple" classname="DownloadFilesSimpleTask" />
-        <DownloadFilesSimple
-            wpnxmversion="${wpnxm.Version}"
-            registryfolder="${dir.InstallerRegistries}" />
     </target>
 
     <!-- ============ Check Downloads  ============ -->
