@@ -9,7 +9,7 @@
  * For full copyright and license information, view the bundled LICENSE file.
  */
 
-class MoveDownloadFilesTask extends Task
+class CopyDownloadsTask extends Task
 {
     private $registryfolder;
     private $downloadfolder;
@@ -49,6 +49,9 @@ class MoveDownloadFilesTask extends Task
         {
             $basename = basename($registry, '.json');
 
+            // remove php version dot from basename ("php5.6" => "php56")
+            $basename = preg_replace("#(.*)-(.*)-(.*).(\d)-(.*)#", "$1-$2-$3$4-$5", $basename);
+
             /**
              * We can skip moving files for all "Full" and "LiteRC" installer folders,
              * when *not* downloading into shared folders, but into the installer folders.
@@ -62,32 +65,36 @@ class MoveDownloadFilesTask extends Task
                     (false !== strpos($basename, 'literc'))) {
                     continue;
                 }
+                $fullFolder = preg_replace('(lite|standard)', 'full', $basename);
+            } else {
+                $fullFolder = 'shared download folder';
             }
 
-            $fullFolder = preg_replace('(lite|standard)', 'full', $basename);
-
             $this->log("\n");
-            $this->log('Moving Download Files for "' . $basename . '" from "' . $fullFolder . '"');
+            $this->log('Copying download files for "'.$basename.'" from "'. $fullFolder.'"');
             $this->log("\n");
 
             $components = json_decode(file_get_contents($registry));
 
             foreach ($components as $component)
             {
+                $componentName = $component[0];
+                $componentFile = $component[2];
+
                 if($this->useSharedDownloadFolder) {
                     // shared
                     $source = $this->downloadFolder
-                        . self::getTargetFolderShared($fullFolder, $component[0])
-                        . DS . $component[2];
+                        . self::getTargetFolderShared($fullFolder, $componentName)
+                        . DS . $componentFile;
 
                 } else {
                     // downloads are in the full installer folder.
-                    $source = $this->downloadfolder.DS.$fullFolder.DS.$component[2];
+                    $source = $this->downloadfolder.DS.$fullFolder.DS.$componentFile;
                 }
 
                 if (is_file($source)) {
-                    $version = ($component[3] === 'latest') ? $component[3] : ' v' . $component[3];
-                    $this->log('Component ' . $component[0] . ' ' . $version);
+                    $version = ($component[3] === 'latest') ? $component[3] : ' v'.$component[3];
+                    $this->log('Component '.$componentName.' '.$version);
 
                     $targetDir = $this->downloadfolder . DS . $basename;
 
@@ -95,12 +102,16 @@ class MoveDownloadFilesTask extends Task
                         mkdir($targetDir);
                     }
 
-                    $target = $targetDir . DS . $component[2];
+                    $target = $targetDir . DS . $componentFile;
 
                     $this->doCopy($source, $target);
 
                 } else {
-                    $this->log('Download missing for Component [' . $component[0] . ']: ' . $component[2]);
+                    if($this->useSharedDownloadFolder && self::isPHPComponent($componentName)) {
+                        $this->log('Skipping PHP Component ['.$componentName.']: '.$componentFile);
+                    } else {
+                        $this->log('Download missing for Component ['.$componentName.']: '.$componentFile);
+                    }
                 }
             }
         }
@@ -141,5 +152,11 @@ class MoveDownloadFilesTask extends Task
         }*/
 
         return $downloadDir;
+    }
+
+    public static function isPHPComponent($component)
+    {
+        return ((strpos($component, 'phpext_') !== false) ||
+               (in_array($component, ['php', 'php-x64', 'php-qa', 'php-qa-x64'])));
     }
 }

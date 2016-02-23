@@ -37,13 +37,13 @@
             downloadfolder="${dir.Downloads}" />
     </target>
 
-    <!-- ============ Move Downloads  ============ -->
+    <!-- ============ Copy Downloads  ============ -->
 
-    <target name="move-downloads"
-            description="Moves components from download folder to installer specific subfolders.">
-        <echo message="Moving components from download folder to installer folder:"/>
-        <taskdef name="MoveDownloadFiles" classname="MoveDownloadFilesTask" />
-        <MoveDownloadFiles
+    <target name="copy-downloads"
+            description="Copy components from download folder to installer specific subfolders.">
+        <echo message="Copy components from download folder to installer folder:"/>
+        <taskdef name="CopyDownloads" classname="CopyDownloadsTask" />
+        <CopyDownloads
             wpnxmversion="${wpnxm.Version}"
             registryfolder="${dir.InstallerRegistries}"
             downloadfolder="${dir.Downloads}"

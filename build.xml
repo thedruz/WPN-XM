@@ -172,7 +172,7 @@
                     download-components,
                     check-downloads,
                     stripdown-all,
-                    move-downloads,
+                    copy-downloads,
                     compile-webinstaller,
                     compile-standard,
                     compile-full,
@@ -198,7 +198,7 @@
     <target name="main-part2"
             depends="check-downloads,
                     stripdown-pool,
-                    move-downloads,
+                    copy-downloads,
                     compile-webinstaller,
                     compile-standard,
                     compile-full,
