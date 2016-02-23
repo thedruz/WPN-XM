@@ -49,12 +49,20 @@ class MoveDownloadFilesTask extends Task
         {
             $basename = basename($registry, '.json');
 
-            // skip "full" -  download sources
-            // skip "literc": these fetch PHP-QA (RC) versions = download sources
-            /*if ((false !== strpos($basename, 'full')) ||
-                (false !== strpos($basename, 'literc'))) {
-                continue;
-            }*/
+            /**
+             * We can skip moving files for all "Full" and "LiteRC" installer folders,
+             * when *not* downloading into shared folders, but into the installer folders.
+             *
+             * Because:
+             * The Full installer folders serve as file source for Lite, Standard installers.
+             * The LiteRC installers fetch PHP-QA (RC) versions and is already complete.
+             */
+            if($this->useSharedDownloadFolder === false) {
+                if ((false !== strpos($basename, 'full')) ||
+                    (false !== strpos($basename, 'literc'))) {
+                    continue;
+                }
+            }
 
             $fullFolder = preg_replace('(lite|standard)', 'full', $basename);
 
@@ -73,7 +81,7 @@ class MoveDownloadFilesTask extends Task
                         . DS . $component[2];
 
                 } else {
-                    // downloads are in the full installer folder
+                    // downloads are in the full installer folder.
                     $source = $this->downloadfolder.DS.$fullFolder.DS.$component[2];
                 }
 
@@ -89,7 +97,7 @@ class MoveDownloadFilesTask extends Task
 
                     $target = $targetDir . DS . $component[2];
 
-                    self::doCopy($source, $target);
+                    $this->doCopy($source, $target);
 
                 } else {
                     $this->log('Download missing for Component [' . $component[0] . ']: ' . $component[2]);
@@ -98,7 +106,7 @@ class MoveDownloadFilesTask extends Task
         }
     }
 
-    public static function doCopy($source, $target)
+    public function doCopy($source, $target)
     {
         $this->log('  Copying ' . $source);
         $this->log('       to ' . $target);
@@ -127,8 +135,9 @@ class MoveDownloadFilesTask extends Task
             $downloadDir .= DS . 'x64';
         }
         // download component into the "x86" folder
+        // which is just "downloads" and not "downloads/x86"
         /*elseif((strpos($component, '-x86') !== false) {
-            $downloadDir .= DS.'x86';
+            $downloadDir .= DS;
         }*/
 
         return $downloadDir;
