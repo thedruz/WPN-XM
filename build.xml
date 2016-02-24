@@ -134,6 +134,9 @@
 
     <target name="commit-versionized-registries"
             description="Commits the versionized installer registries (all untracked files in /registry folder).">
+        <!-- set account identity -->
+        <exec command="git config --global user.email &quot;travis@travis-ci.org &quot;" passthru="true"/>
+        <exec command="git config --global user.name &quot;Travis CI&quot;" passthru="true"/>
         <!-- git stage ALL -->
         <exec command="cd ${dir.Registry} &amp; git add -A" level="debug" passthru="true"/>
         <!-- git commit -->
@@ -171,7 +174,7 @@
                     create-download-lists,
                     download-components,
                     check-downloads,
-                    stripdown-all,
+                    stripdown-pool,
                     copy-downloads,
                     compile-webinstaller,
                     compile-standard,
