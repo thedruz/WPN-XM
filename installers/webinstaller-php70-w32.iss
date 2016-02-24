@@ -159,6 +159,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 [Files]
 ; tools:
 Source: ..\bin\7zip\x86\7za.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\7zip\x86\*; DestDir: {app}\bin\tools\
 Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
@@ -1090,7 +1091,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
-  ForceDirectories(appDir + '\doc\licenses');
+  ForceDirectories(appDir + '\docs\licenses');
 end;
 
 {
@@ -1229,6 +1230,12 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
+   { 
+      
+       PHP Extension - ICE
+      
+   }
+   
    // UpdateCurrentComponentName('PHP Extension - ionCube');
      // Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
      // // Copy the ionCube Loader dll for this PHP version
@@ -1241,7 +1248,6 @@ begin
    // UpdateTotalProgressBar();
 
     {
-
       The PHP extension JsonD is included in PHP 7.
 
     }
@@ -1460,10 +1466,10 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');  // rename directory
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Mongo');
-     // Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongo');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), appDir + '\bin\php\ext\php_mongo.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Mongo');
+      Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongo');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mongo\php_mongo.dll'), appDir + '\bin\php\ext\php_mongo.dll', false);
+    UpdateTotalProgressBar();
   end;
 
 end;

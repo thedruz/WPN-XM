@@ -213,6 +213,7 @@ Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Comp
 Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\software\conemu\config\*; DestDir: {app}\bin\conemu; Components: conemu
 Source: ..\software\conemu\images\*; DestDir: {app}\bin\conemu; Components: conemu
+Source: ..\software\git\config\bash_profile; DestDir: {app}\bin\git\etc; Components: git
 ; Visual C++ Redistributable 2010 is needed by PHP VC11 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x64_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
@@ -255,7 +256,6 @@ Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\git\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\git\bin')); Tasks: not portablemode; Components: git;
 ; when installing "Imagick", add "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
-
 
 [Dirs]
 Name: {app}\bin\backup
@@ -872,7 +872,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
-  ForceDirectories(appDir + '\doc\licenses');
+  ForceDirectories(appDir + '\docs\licenses');
 end;
 
 {

@@ -295,19 +295,20 @@ const
   Filename_phpcsfixer        = 'php-cs-fixer.phar';
   //Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apcu       = 'phpext_apcu.zip';
+  // ice not available
   // jsond is included in PHP7
-  //Filename_phpext_mailparse  = 'phpext_mailparse.zip';
+  Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   //Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
-  //Filename_phpext_mongodb    = 'phpext_mongodb.zip';
+  Filename_phpext_mongodb    = 'phpext_mongodb.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
   //Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   //Filename_phpext_rar        = 'phpext_rar.zip';
-  //Filename_phpext_stats      = 'phpext_stats.zip';
+  Filename_phpext_stats      = 'phpext_stats.zip';
   //Filename_phpext_trader     = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.zip';
   //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
-  //Filename_phpext_zmq        = 'phpext_zmq.zip';
+  Filename_phpext_zmq        = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_pickle            = 'pickle.phar';
@@ -843,7 +844,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
-  ForceDirectories(appDir + '\doc\licenses');
+  ForceDirectories(appDir + '\docs\licenses');
 end;
 
 {
@@ -972,15 +973,21 @@ begin
 
     {
        PHP Extensions Ice not available for 7.
-       PHP Extension JsonD is included in PHP 7.
+    
+	
+	}
+	
+	{
+	
+	   PHP Extension JsonD is included in PHP 7.
 
-    }
+	}
 
-   // UpdateCurrentComponentName('PHP Extension - Mailparse');
-     // ExtractTemporaryFile(Filename_phpext_mailparse);
-     // Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      ExtractTemporaryFile(Filename_phpext_mailparse);
+      Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       ExtractTemporaryFile(Filename_phpext_msgpack);
@@ -1000,11 +1007,11 @@ begin
      // FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
    // UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Stats');
-     // ExtractTemporaryFile(Filename_phpext_stats);
-     // Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Stats');
+      ExtractTemporaryFile(Filename_phpext_stats);
+      Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
+     FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
+    UpdateTotalProgressBar();
 
    // UpdateCurrentComponentName('PHP Extension - RAR');
      // ExtractTemporaryFile(Filename_phpext_rar);
@@ -1018,12 +1025,12 @@ begin
      // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
    // UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - ZMQ');
-     // ExtractTemporaryFile(Filename_phpext_zmq);
-     // Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
-     // FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - ZMQ');
+      ExtractTemporaryFile(Filename_phpext_zmq);
+      Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
+    UpdateTotalProgressBar();
   end;
 
   //if Pos('uprofiler', selectedComponents) > 0 then
@@ -1164,11 +1171,11 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\mongodb-* ' + appDir + '\bin\mongodb"');  // rename directory
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Mongo');
-     // ExtractTemporaryFile(Filename_phpext_mongodb);
-     // Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongodb');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_mongodb\php_mongodb.dll'), appDir + '\bin\php\ext\php_mongodb.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Mongo');
+      ExtractTemporaryFile(Filename_phpext_mongodb);
+      Unzip(targetPath + Filename_phpext_mongodb, targetPath + 'phpext_mongodb');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mongodb\php_mongodb.dll'), appDir + '\bin\php\ext\php_mongodb.dll', false);
+    UpdateTotalProgressBar();
   end;
 
 end;
@@ -1242,7 +1249,7 @@ begin
 
   if Pos('webgrind', selectedComponents) > 0 then
   begin
-    ReplaceStringInFile('xdebug.profiler_enable         = 0', 'xdebug.profiler_enable         = 1', php_ini_file);
+	ReplaceStringInFile('xdebug.profiler_enable         = 0', 'xdebug.profiler_enable         = 1', php_ini_file);
 
     ReplaceStringInFile(';xdebug.profiler_output_dir    = "C:\server\logs"',
                         'xdebug.profiler_output_dir     = "' + appDir + '\logs"', php_ini_file);

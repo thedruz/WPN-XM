@@ -202,7 +202,7 @@ Name: {userdesktop}\WPN-XM Start; Filename: {app}\run.bat; Tasks: add_startstop_
 Name: {userdesktop}\WPN-XM Stop; Filename: {app}\stop.bat; Tasks: add_startstop_desktopicons
 
 [Tasks]
-Name: portablemode; Description: "Portable Mode"; Flags: unchecked
+Name: portablemode; Description: Portable Mode; Flags: unchecked
 Name: add_startmenu; Description: Create Startmenu entries
 Name: add_quicklaunchicon; Description: Create a &Quick Launch icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel
 Name: add_desktopicon; Description: Create a &Desktop icon for the Server Control Panel; GroupDescription: Additional Icons:; Components: servercontrolpanel
@@ -740,7 +740,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
-  ForceDirectories(appDir + '\doc\licenses');
+  ForceDirectories(appDir + '\docs\licenses');
 end;
 
 {

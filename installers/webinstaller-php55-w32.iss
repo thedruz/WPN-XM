@@ -159,6 +159,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 [Files]
 ; tools:
 Source: ..\bin\7zip\x86\7za.exe; DestDir: {tmp}; Flags: dontcopy
+Source: ..\bin\7zip\x86\*; DestDir: {app}\bin\tools\
 Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
@@ -317,6 +318,7 @@ const
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.5';
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=5.5';
+  // phpext_ice not available
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.5';
   URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=5.5';
   URL_phpext_jsond          = 'http://wpn-xm.org/get.php?s=phpext_jsond&p=5.5';
@@ -370,6 +372,7 @@ const
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
+  // phpext_ice
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   Filename_phpext_jsond          = 'phpext_jsond.zip';
@@ -928,6 +931,7 @@ begin
     begin
         idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
+        // phpext_ice 
         idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
         idpAddFile(URL_phpext_jsond,          ExpandConstant(targetPath + Filename_phpext_jsond));
         idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
@@ -1087,7 +1091,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
-  ForceDirectories(appDir + '\doc\licenses');
+  ForceDirectories(appDir + '\docs\licenses');
 end;
 
 {
@@ -1226,7 +1230,13 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - ionCube');
+   { 
+      
+       PHP Extension - ICE
+      
+   }    
+   
+   UpdateCurrentComponentName('PHP Extension - ionCube');
       Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
       // Copy the ionCube Loader dll for this PHP version
       FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.5.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);

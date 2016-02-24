@@ -199,7 +199,7 @@ Source: {app}\bin\pgsql\data\postgresql.conf; DestDir: {app}\bin\pgsql\data; Des
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
 Source: ..\software\wpnxm-scp\config\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
-Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
+Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php;
 Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
 Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
@@ -873,7 +873,7 @@ begin
   // create missing folders
   ForceDirectories(appDir + '\bin');
   ForceDirectories(appDir + '\www\tools');
-  ForceDirectories(appDir + '\doc\licenses');
+  ForceDirectories(appDir + '\docs\licenses');
 end;
 
 {
