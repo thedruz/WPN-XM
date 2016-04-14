@@ -33,7 +33,7 @@ We group changes to describe their impact on the project, as follows:
 - added box "latest updates to the registry" to website
 - added page "support" to website
 - added Components to the Software Registry and created Version Crawlers for:
-  - HeidiSQL, ShareX, Sphinx, Selenium, Aria2, cURL
+  - HeidiSQL, ShareX, Sphinx, Selenium, Aria2, cURL, RethinkDB
   - PHP Extensions:
     - event, geoip, hprose, Ice, igbinary,
     - IonCube, lzf, msgpack, oauth, oci8,
