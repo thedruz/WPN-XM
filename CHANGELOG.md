@@ -53,6 +53,7 @@ We group changes to describe their impact on the project, as follows:
 - updated language files for intallers to latest versions and added 20+ more langs
 - added "HeidiSQL" to installers (full, standard, web)
 - [SCP] added show server status in tooltip, when hovering the tray icon
+- [Issue #552](https://github.com/WPN-XM/WPN-XM/issues/552) [SCP] added button for Robomongo to tools section
 
 ### FIXES
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
