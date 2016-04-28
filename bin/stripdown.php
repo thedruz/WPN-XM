@@ -36,15 +36,18 @@ class Stripdown
             exit('    Folder invalid: ' . $dir . "\n");
         }
 
+        defined('DS') || define('DS', DIRECTORY_SEPARATOR);
+
         $this->downloadsDir = $dir;
         $this->component = $component;
         $this->componentZip = $component . '.zip';
-        $this->componentZipFileInDownloadFolder = realpath($dir . DIRECTORY_SEPARATOR . $this->componentZip);
-        $this->stripdownFolder = $this->downloadsDir . DIRECTORY_SEPARATOR . 'stripdown';
+        $this->componentZipFileInDownloadFolder = realpath($dir . DS . $this->componentZip);
+        $this->stripdownFolder = $this->downloadsDir . DS . 'stripdown';
 
         // all components have their component name as extraction folder, except postgresql
         $folder = ($component != 'postgresql') ? $component : 'pgsql';
-        $this->stripdownFolderWithComponent = /*getcwd() . DIRECTORY_SEPARATOR .*/ $this->stripdownFolder . DIRECTORY_SEPARATOR . $folder;
+
+        $this->stripdownFolderWithComponent = str_replace('/', DS, /*getcwd() . DIRECTORY_SEPARATOR .*/ $this->stripdownFolder . DS . $folder);
 
         echo "\n\t" . 'Stripdown for [' . $dir . '][' . $component . "]\n\n";
     }
@@ -126,22 +129,21 @@ class Stripdown
     {
         echo "\t> Unzipping.\n";
 
-        exec('7z x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->getTargetFolder() .' -y');
+        exec(self::zipcmd() . ' x ' . $this->componentZipFileInDownloadFolder . ' -o' . $this->getTargetFolder() .' -y');
 
         echo "\t\tDone.\n";
     }
 
     function renameFolder()
     {
-        // fix case issues and remove version information from folder
-
+        // fix case issues and remove version information from folders by renaming them
 
         if($this->component === 'mariadb') {
-            passthru('sudo mv -if ' . $this->stripdownFolder . '/mariadb* ' . $this->stripdownFolderWithComponent);
+            passthru(self::moveCmd() . ' -if ' . $this->stripdownFolder . '/mariadb* ' . $this->stripdownFolderWithComponent);
         }
 
         if($this->component === 'mongodb') {
-            passthru('sudo mv -if ' . $this->stripdownFolder . '/mongodb* ' . $this->stripdownFolderWithComponent);
+            passthru(self::moveCmd() . ' -if ' . $this->stripdownFolder . '/mongodb* ' . $this->stripdownFolderWithComponent);
         }
     }
 
@@ -306,35 +308,25 @@ class Stripdown
 
     function deleteFolder($path)
     {
-        if (is_dir($path) === true)
-        {
-        $files = new RecursiveIteratorIterator(
+        if (is_dir($path) === true) {
+            $files = new RecursiveIteratorIterator(
                    new RecursiveDirectoryIterator($path),
                    RecursiveIteratorIterator::CHILD_FIRST
-                );
+            );
 
-        foreach ($files as $file)
-        {
-            if (in_array($file->getBasename(), array('.', '..')) !== true)
-            {
-                if ($file->isDir() === true)
-                {
-                    rmdir($file->getPathName());
-                }
-
-                else if (($file->isFile() === true) || ($file->isLink() === true))
-                {
-                    unlink($file->getPathname());
+            foreach ($files as $file) {
+                if (in_array($file->getBasename(), array('.', '..')) !== true) {
+                    if ($file->isDir() === true) {
+                        rmdir($file->getPathName());
+                    } elseif (($file->isFile() === true) || ($file->isLink() === true)) {
+                        unlink($file->getPathname());
+                    }
                 }
             }
-        }
 
-        return rmdir($path);
-        }
-
-        else if ((is_file($path) === true) || (is_link($path) === true))
-        {
-        return unlink($path);
+            return rmdir($path);
+        } elseif ((is_file($path) === true) || (is_link($path) === true)) {
+            return unlink($path);
         }
 
         return false;
@@ -344,15 +336,14 @@ class Stripdown
     {
         echo "\t> Compressing executables with UPX.\n";
 
-        $upx = getcwd() . '/bin/upx/upx.exe';
-
         if($this->component === 'imagick') {
             $executablesPath = '/*.exe';
         } else {
             $executablesPath = '/bin/*.exe';
         }
 
-        exec('wine cmd.exe /c ' . $upx . ' ' . $this->stripdownFolderWithComponent . $executablesPath);
+
+        exec(self::upxcmd() .  ' ' . $this->stripdownFolderWithComponent . $executablesPath);
 
         echo "\t\tDone.\n";
     }
@@ -365,7 +356,7 @@ class Stripdown
         unlink($this->componentZipFileInDownloadFolder);
 
         // zip the stripdown folder (and "replace" the old zip file)
-        exec('7z a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . realpath($this->stripdownFolder) . '/*');
+        exec(self::zipcmd() . ' a -mx9 -mmt '. $this->componentZipFileInDownloadFolder . ' ' . realpath($this->stripdownFolder) . '/*');
 
         echo "\t\tDone.\n";
     }
@@ -393,5 +384,21 @@ class Stripdown
         $size = $this->getFilesize($this->componentZipFileInDownloadFolder);
 
         echo "\t\tFilesize after Stripdown: " . $size . " MB\n";
+    }
+
+    function zipcmd()
+    {
+        return (DS === '/') ? '7a' : __DIR__ . '\7zip\x64\7za.exe';
+    }
+
+    function upxcmd()
+    {
+        $upx = getcwd() . '/bin/upx/upx.exe';
+        return (DS === '/') ? ('wine cmd.exe /c ' . $upx) : $upx;
+    }
+
+    function movecmd()
+    {
+        return = (DS === '/') ? 'sudo mv ' : 'mv ';
     }
 }
