@@ -33,7 +33,7 @@ We group changes to describe their impact on the project, as follows:
 - added box "latest updates to the registry" to website
 - added page "support" to website
 - added Components to the Software Registry and created Version Crawlers for:
-  - HeidiSQL, ShareX, Sphinx, Selenium, Aria2, cURL
+  - HeidiSQL, ShareX, Sphinx, Selenium, Aria2, cURL, RethinkDB
   - PHP Extensions:
     - event, geoip, hprose, Ice, igbinary,
     - IonCube, lzf, msgpack, oauth, oci8,
@@ -53,6 +53,7 @@ We group changes to describe their impact on the project, as follows:
 - updated language files for intallers to latest versions and added 20+ more langs
 - added "HeidiSQL" to installers (full, standard, web)
 - [SCP] added show server status in tooltip, when hovering the tray icon
+- [Issue #552](https://github.com/WPN-XM/WPN-XM/issues/552) [SCP] added button for Robomongo to tools section
 
 ### FIXES
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
