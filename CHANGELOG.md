@@ -54,6 +54,12 @@ We group changes to describe their impact on the project, as follows:
 - added "HeidiSQL" to installers (full, standard, web)
 - [SCP] added show server status in tooltip, when hovering the tray icon
 - [Issue #552](https://github.com/WPN-XM/WPN-XM/issues/552) [SCP] added button for Robomongo to tools section
+- [Issue #565](https://github.com/WPN-XM/WPN-XM/issues/565) [SCP] integrated QuaZip + zlib
+- [SCP] added serial/parallel Downloader
+- [Issue #536](https://github.com/WPN-XM/WPN-XM/issues/536) [SCP] self-updating executable
+  - The Server Control Panel is now able to check, if you use the the latest available version.
+  - If you are not up-to-date, it will automatically download the latest version and update itself.
+- [Issue #423](https://github.com/WPN-XM/WPN-XM/issues/423) [SCP] added Redis
 
 ### FIXES
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
