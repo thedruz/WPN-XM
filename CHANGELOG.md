@@ -65,7 +65,8 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
-- updated Updater and build tasks to work with the new registry folder layout
+- [Issue #541](https://github.com/WPN-XM/WPN-XM/issues/541) [updater] updated crawler/updater to work with "Guzzle" v6.0
+- [updater] modified build tasks to work with the new registry folder layout
 - reorganized the folder layout of the software registry
   - installer registries reside in versionized folders
   - top level contains only the main registries
@@ -94,6 +95,9 @@ We group changes to describe their impact on the project, as follows:
 ### REMOVED
 - removed PHP Extension "WinCache" from installers
 - removed Strawberry Perl from installers
+
+### SECURITY
+- [webinterface] XSS issue. added Core/Request with filter_input_array() sanitizer for GET and POST superglobals
 
 ## v0.8.6 - 2015-08-21
 
