@@ -38,7 +38,6 @@ We group changes to describe their impact on the project, as follows:
     - event, geoip, hprose, Ice, igbinary,
     - IonCube, lzf, msgpack, oauth, oci8,
     - redis, solr, stomp, timezonedb, yaf, zip
-- added PHP Extension "IonCube" to installers
 - added PHP Extension "Stats" to installers
 - added PHP Extension "Redis" to installers (standard, full)
 - added PHP Extension "Ice" to installers (full, standard and webinstallers of PHP v5.6 and v7.0 x64)
