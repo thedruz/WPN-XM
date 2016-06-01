@@ -261,8 +261,10 @@ Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\git\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\git\bin')); Tasks: not portablemode; Components: git;
 ; when installing "Imagick", add "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
-; when installation "Pickle", add "/bin/pickle" to PATH
+; when installing "Pickle", add "/bin/pickle" to PATH
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\pickle"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\pickle')); Tasks: not portablemode; Components: pickle;
+; when installing "Composer", add "/bin/composer" to PATH
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\composer"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\composer')); Tasks: not portablemode; Components: composer;
 
 [Dirs]
 Name: {app}\bin\backup

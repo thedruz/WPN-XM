@@ -220,8 +220,10 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; The registry is not modified, when in portable mode.
 Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "PATH"; ValueData: "{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode
 Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "PATH"; ValueData: "{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode
-; when installation "Pickle", add "/bin/pickle" to PATH
+; when installing "Pickle", add "/bin/pickle" to PATH
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\pickle"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\pickle')); Tasks: not portablemode; Components: pickle;
+; when installing "Composer", add "/bin/composer" to PATH
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\composer"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\composer')); Tasks: not portablemode; Components: composer;
 
 [Dirs]
 Name: {app}\bin\backup
