@@ -312,7 +312,6 @@ const
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   //Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
-  Filename_phpext_ice            = 'phpext_ice.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   //Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   // jsond is included in PHP7
@@ -1030,24 +1029,6 @@ begin
       Unzip(targetPath + Filename_phpext_apcu, targetPath + 'phpext_apcu');
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Ice');
-      ExtractTemporaryFile(Filename_phpext_ice);
-      Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
-      FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
-    UpdateTotalProgressBar();
-
-
-
-
-
-
-
-
-
-
-
-
 
    // UpdateCurrentComponentName('PHP Extension - ionCube');
      // ExtractTemporaryFile(Filename_phpext_ioncube);

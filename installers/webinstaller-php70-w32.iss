@@ -320,7 +320,7 @@ const
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   //URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.0'; // no build
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.0';
-  URL_phpext_ice            = 'http://wpn-xm.org/get.php?s=phpext_ice&p=7.0';
+  // phpext_ice not AV for 7
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.0';
   //URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=7.0';
   // NOTE: phpext_jsond is part of PHP 7, because of Douglas Crockford
@@ -374,7 +374,7 @@ const
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   //Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
-  Filename_phpext_ice            = 'phpext_ice.zip';
+  // phpext_ice not AV for 7
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   //Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   // phpext_json is included in PHP7
@@ -933,7 +933,7 @@ begin
     begin
         //idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
-        idpAddFile(URL_phpext_ice,            ExpandConstant(targetPath + Filename_phpext_ice));
+        // phpext_ice not AV
 		//idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
         // phpext_json included (core)
 		idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
@@ -1232,10 +1232,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - Ice');
-      Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
-      FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
-    UpdateTotalProgressBar();
+   { 
+      
+       PHP Extension - ICE
+      
+   }
    
    // UpdateCurrentComponentName('PHP Extension - ionCube');
      // Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
