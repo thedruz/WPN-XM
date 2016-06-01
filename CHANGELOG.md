@@ -90,6 +90,8 @@ We group changes to describe their impact on the project, as follows:
   - remove the listing of PHP 5.4 extensions from components page
   - PHP 5.4 extensions are still downloadable via our API (and of course PECL)
 - moved Composer from PHP folder to `/bin/composer`
+- [Issue #580](https://github.com/WPN-XM/WPN-XM/issues/580) moved Pickle from PHP folder to `/bin/pickle`
+- [Issue #580](https://github.com/WPN-XM/WPN-XM/issues/580) set Pickle to env var PATH on (non-portable) installation
 - execute 7zip/unzip operation without blocking the InnoSetup GUI
 
 ### REMOVED

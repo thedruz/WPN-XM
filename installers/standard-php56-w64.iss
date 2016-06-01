@@ -170,7 +170,7 @@ Source: ..\docs\*; DestDir: {app}\docs;
 Source: ..\startfiles\backup.bat; DestDir: {app}
 Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: composer
 Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
-Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\php; Components: pickle
+Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\pickle; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
@@ -246,6 +246,8 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 ; The registry is not modified, when in portable mode.
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
 Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
+; when installation "Pickle", add "/bin/pickle" to PATH
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\pickle"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\pickle')); Tasks: not portablemode; Components: pickle;
 
 [Dirs]
 Name: {app}\bin\backup
@@ -1092,9 +1094,9 @@ begin
   if Pos('pickle', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('pickle');
-      ExtractTemporaryFile(Filename_pickle);
-      // pickle is not zipped. its a php phar file. we copy it to the php path.
-      FileCopy(ExpandConstant(targetPath + Filename_pickle), appDir + '\bin\php\' + Filename_pickle, false);
+      ExtractTemporaryFile(Filename_pickle);       
+      // pickle is not zipped. Its a PHP PHAR file.
+      FileCopy(ExpandConstant(targetPath + Filename_pickle), appDir + '\bin\pickle\' + Filename_pickle, false);
     UpdateTotalProgressBar();
   end;
 
