@@ -297,7 +297,7 @@ const
   Filename_phpcsfixer        = 'php-cs-fixer.phar';
   //Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apcu       = 'phpext_apcu.zip';
-  // ice not available
+  Filename_phpext_ice        = 'phpext_ice.zip';
   // jsond is included in PHP7
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   //Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
@@ -973,11 +973,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
-    {
-       PHP Extensions Ice not available for 7.
-    
-	
-	}
+    UpdateCurrentComponentName('PHP Extension - Ice');
+      ExtractTemporaryFile(Filename_phpext_ice);
+      Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
+      FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
+    UpdateTotalProgressBar();
 	
 	{
 	
