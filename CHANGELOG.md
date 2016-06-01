@@ -96,6 +96,7 @@ We group changes to describe their impact on the project, as follows:
 ### REMOVED
 - [Issue #583](https://github.com/WPN-XM/WPN-XM/issues/583) removed PHP Extension "WinCache" from installers and next registries
 - removed Strawberry Perl from installers
+- [Issue #590](https://github.com/WPN-XM/WPN-XM/issues/590) removed PHP 5.5 installers (EOL)
 
 ### SECURITY
 - [webinterface] XSS issue. added Core/Request with filter_input_array() sanitizer for GET and POST superglobals
