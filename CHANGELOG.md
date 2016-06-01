@@ -41,7 +41,7 @@ We group changes to describe their impact on the project, as follows:
 - added PHP Extension "IonCube" to installers
 - added PHP Extension "Stats" to installers
 - added PHP Extension "Redis" to installers (standard, full)
-- added PHP Extension "Ice" to installers (full, standard and webinstallers of PHP v5.6)
+- added PHP Extension "Ice" to installers (full, standard and webinstallers of PHP v5.6 and v7.0 x64)
 - disable Xdebug automatically for Composer runs (reducing impact on runtime performance)
 - created Asciidoctor based build toolchain for documentation (HTML and PDF book)
 - added `CONTRIBUTING.md` and explained "how to contribute"
@@ -95,7 +95,7 @@ We group changes to describe their impact on the project, as follows:
 - execute 7zip/unzip operation without blocking the InnoSetup GUI
 
 ### REMOVED
-- removed PHP Extension "WinCache" from installers
+- [Issue #583](https://github.com/WPN-XM/WPN-XM/issues/583) removed PHP Extension "WinCache" from installers and next registries
 - removed Strawberry Perl from installers
 
 ### SECURITY
