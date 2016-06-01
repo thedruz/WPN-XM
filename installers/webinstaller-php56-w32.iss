@@ -324,7 +324,6 @@ const
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=5.6';
   URL_phpext_ice            = 'http://wpn-xm.org/get.php?s=phpext_ice&p=5.6';
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=5.6';
-  URL_phpext_ioncube        = 'http://wpn-xm.org/get.php?s=phpext_ioncube&p=5.6';
   URL_phpext_jsond          = 'http://wpn-xm.org/get.php?s=phpext_jsond&p=5.6';
   URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=5.6';
   URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.6';
@@ -378,7 +377,6 @@ const
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_ice            = 'phpext_ice.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
-  Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   Filename_phpext_jsond          = 'phpext_jsond.zip';
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
@@ -936,7 +934,6 @@ begin
         idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
         idpAddFile(URL_phpext_ice,            ExpandConstant(targetPath + Filename_phpext_ice));
-        idpAddFile(URL_phpext_ioncube,        ExpandConstant(targetPath + Filename_phpext_ioncube));
         idpAddFile(URL_phpext_jsond,          ExpandConstant(targetPath + Filename_phpext_jsond));
         idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
@@ -1237,17 +1234,6 @@ begin
     UpdateCurrentComponentName('PHP Extension - Ice');
       Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
       FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - ionCube');
-      Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
-      // Copy the ionCube Loader dll for this PHP version
-      FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_5.6.dll'), appDir + '\bin\php\ext\ioncube_loader_win_5.5.dll', false);
-      // Copy the license
-      FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\LICENSE.txt'), appDir + '\doc\licenses\ioncube.license.txt', false);
-      // Move all remaining files (ioncube loader_wizard) to "/www/tools/ioncube" folder
-      ForceDirectories(appDir + '\www\tools\ioncube\');
-      ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_ioncube\*.* ' + appDir + '\www\tools\ioncube"');
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - JSOND');

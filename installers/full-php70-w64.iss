@@ -316,7 +316,6 @@ const
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_ice            = 'phpext_ice.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
-  //Filename_phpext_ioncube        = 'phpext_ioncube.zip';
   // jsond is included in PHP7
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
@@ -1038,33 +1037,6 @@ begin
       Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
       FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
     UpdateTotalProgressBar();
-
-
-
-
-
-
-
-
-
-
-
-
-   // UpdateCurrentComponentName('PHP Extension - ionCube');
-     // ExtractTemporaryFile(Filename_phpext_ioncube);
-     // Unzip(targetPath + Filename_phpext_ioncube, targetPath + 'phpext_ioncube');
-     // // Copy the ionCube Loader dll for this PHP version
-     // FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\ioncube_loader_win_7.0.dll'), appDir + '\bin\php\ext\ioncube_loader_win_7.0.dll', false);
-     // // Copy the license
-     // FileCopy(ExpandConstant(targetPath + 'phpext_ioncube\LICENSE.txt'), appDir + '\doc\licenses\ioncube.license.txt', false);
-     // // Move all remaining files (ioncube loader_wizard) to "/www/tools/ioncube" folder
-     // ForceDirectories(appDir + '\www\tools\ioncube\');
-     // ExecHidden('cmd.exe /c "move /Y ' + targetPath + 'phpext_ioncube\*.* ' + appDir + '\www\tools\ioncube"');
-   // UpdateTotalProgressBar();
-
-    {
-	  The PHP extension IoCube is not available for PHP7, yet.
-    }
 
     {
       The PHP extension JsonD is included in PHP 7.
