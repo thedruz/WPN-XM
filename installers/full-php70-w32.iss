@@ -313,15 +313,18 @@ const
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   //Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
+  // PHP Extension Ice is not available for PHP7 x86
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   // jsond is included in PHP7
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
+  Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';
   //Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   //Filename_phpext_varnish        = 'phpext_varnish.zip';
@@ -1031,6 +1034,9 @@ begin
     UpdateTotalProgressBar();
 
     {
+      PHP Extensions ICE is not available for PHP7 x86.
+    }
+    {
       The PHP extension JsonD is included in PHP 7.
     }
 
@@ -1063,6 +1069,20 @@ begin
      Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - SQLSRV');
+      ExtractTemporaryFile(Filename_phpext_sqlsrv);
+      Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');
+      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
+      FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - PDO_SQLSRV');
+      ExtractTemporaryFile(Filename_phpext_sqlsrv);
+      Unzip(targetPath + Filename_phpext_pdo_sqlsrv, targetPath + 'phpext_pdo_sqlsrv');
+      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
+      FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
+    UpdateTotalProgressBar();
 
    //UpdateCurrentComponentName('PHP Extension - RAR');
      //ExtractTemporaryFile(Filename_phpext_rar);

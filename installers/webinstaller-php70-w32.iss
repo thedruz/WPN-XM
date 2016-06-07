@@ -328,9 +328,11 @@ const
   //URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=7.0';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.0';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.0';
+  URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.0';
   //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.0';
   //URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=7.0';
   URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.0';
+  URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.0';
   //URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.0';
   //URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=7.0';
   //URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.0';
@@ -374,16 +376,18 @@ const
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   //Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
-  // phpext_ice not AV for 7
+  // phpext_ice not AV for 7 x86
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   // phpext_json is included in PHP7
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
+  Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   //Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   //Filename_phpext_varnish        = 'phpext_varnish.zip';
@@ -932,13 +936,15 @@ begin
     begin
         //idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
-        // phpext_ice not AV
+        // phpext_ice not AV PHP 7 x86
         // phpext_json included (core)
 		idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
+        idpAddFile(URL_phpext_pdo_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_pdo_sqlsrv));
         //idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         //idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
         idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
+        idpAddFile(URL_phpext_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_sqlsrv));
         //idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         //idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
         idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
@@ -1264,6 +1270,18 @@ begin
     UpdateCurrentComponentName('PHP Extension - Stats');
       Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
       FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - SQLSRV');
+      Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');
+      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
+      FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - PDO_SQLSRV');
+      Unzip(targetPath + Filename_phpext_pdo_sqlsrv, targetPath + 'phpext_pdo_sqlsrv');
+      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
+      FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
     UpdateTotalProgressBar();
 
    // UpdateCurrentComponentName('PHP Extension - RAR');
