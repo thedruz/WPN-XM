@@ -399,6 +399,6 @@ class Stripdown
 
     function movecmd()
     {
-        return = (DS === '/') ? 'sudo mv ' : 'mv ';
+        return (DS === '/') ? 'sudo mv ' : 'mv ';
     }
 }
