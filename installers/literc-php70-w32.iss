@@ -171,7 +171,6 @@ Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName
 Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 ; config files
-Source: ..\software\wpnxm-scp\config\wpn-xm.ini; DestDir: {app}; Components: servercontrolpanel
 Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
 Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
