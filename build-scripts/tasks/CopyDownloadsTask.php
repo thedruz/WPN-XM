@@ -107,8 +107,10 @@ class CopyDownloadsTask extends Task
                     $this->doCopy($source, $target);
 
                 } else {
-                    if($this->useSharedDownloadFolder && self::isPHPComponent($componentName)) {
-                        $this->log('Skipping PHP Component ['.$componentName.']: '.$componentFile);
+                    if($this->useSharedDownloadFolder && self::componentIsPHP($componentName)) {
+                        $this->log('Skipping PHP ['.$componentName.']: '.$componentFile);
+                    } elseif($this->useSharedDownloadFolder && self::componentIsPHPExtension($componentName)) {
+                        $this->log('Skipping PHP Extension ['.$componentName.']: '.$componentFile);
                     } else {
                         $this->log('Download missing for Component ['.$componentName.']: '.$componentFile);
                     }
@@ -154,9 +156,13 @@ class CopyDownloadsTask extends Task
         return $downloadDir;
     }
 
-    public static function isPHPComponent($component)
+    public static function componentIsPHP($component)
     {
-        return ((strpos($component, 'phpext_') !== false) ||
-               (in_array($component, ['php', 'php-x64', 'php-qa', 'php-qa-x64'])));
+        return (strpos($component, 'phpext_') !== false);
+    }
+
+    public static function componentIsPHPExtension($component)
+    {
+        return in_array($component, ['php', 'php-x64', 'php-qa', 'php-qa-x64']);
     }
 }
