@@ -19,14 +19,14 @@ The mental model of a project, something that is planned, executed, and delivere
 
 #### Coming soon
 
-- [Server Control Panel - Self-Updating Executable](https://github.com/WPN-XM/WPN-XM/issues/536)
+- [Server Control Panel - Self-Updating Executable](https://github.com/WPN-XM/WPN-XM/issues/536) (ETA - v0.8.7)
+- [Server Control Panel - Automatic Updates](https://github.com/WPN-XM/WPN-XM/issues/515) (ETA - v0.8.7)
 
 #### Pending
 
-- [Server Control Panel - Automatic Updates](https://github.com/WPN-XM/WPN-XM/issues/515)
+- [Web-Application Catalog and Installer](https://github.com/WPN-XM/WPN-XM/issues/118)
 
 #### In discussion
 
 - [Setup / Provide download mirrors](https://github.com/WPN-XM/WPN-XM/issues/492)
 - [Code-Sign the Installer Executables](https://github.com/WPN-XM/WPN-XM/issues/126)
-- [Web-Application Catalog and Installer](https://github.com/WPN-XM/WPN-XM/issues/118)

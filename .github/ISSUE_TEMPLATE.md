@@ -5,4 +5,4 @@ Please describe the issue you are running into.
 Tell us what should happen.
 
 ##### Possible solution
-If possible, please describe a possible solution.
+Please describe a possible solution.
