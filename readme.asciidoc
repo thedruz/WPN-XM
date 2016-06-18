@@ -7,6 +7,7 @@ image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/pr?style=flat["IssueStats
 
 image:https://api.bountysource.com/badge/tracker?tracker_id=164029["BountySource",link="https://www.bountysource.com/teams/wpnxm"]
 image:https://img.shields.io/twitter/follow/wpnxm.svg?style=social&label=Follow&maxAge=2592000["Twitter Follow",link="https://twitter.com/wpnxm"]
+image:https://badges.gitter.im/WPN-XM/WPN-XM.svg[link="https://gitter.im/WPN-XM/WPN-XM?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"]
 
 
 === What is WPИ-XM?
@@ -70,15 +71,5 @@ image::https://cloud.githubusercontent.com/assets/85608/4353481/9e293520-4233-11
 
 .WPN-XM Server Control Panel v0.8.0 - Registry Updater
 image::https://cloud.githubusercontent.com/assets/85608/4353482/9e38b69e-4233-11e4-9d29-79845ce324a6.jpg[WPN-XM Server Control Panel v0.8.0 - Registry Updater]
-
-=== Sponsors
-
-Thanks to our sponsors and supporters:
-
-[width="80"]
-|=======
-|JetBrains
-|image:https://www.jetbrains.com/phpstorm/documentation/docs/logo_phpstorm.png["PHP IDE :: JetBrains PhpStorm", link="https://www.jetbrains.com/phpstorm/"]
-|=======
 
 *Regards, Jens A. Koch*
