@@ -8,7 +8,7 @@ image:http://issuestats.com/github/wpn-xm/wpn-xm/badge/pr?style=flat["IssueStats
 image:https://api.bountysource.com/badge/tracker?tracker_id=164029["BountySource",link="https://www.bountysource.com/teams/wpnxm"]
 image:https://img.shields.io/twitter/follow/wpnxm.svg?style=social&label=Follow&maxAge=2592000["Twitter Follow",link="https://twitter.com/wpnxm"]
 image:https://badges.gitter.im/WPN-XM/WPN-XM.svg[link="https://gitter.im/WPN-XM/WPN-XM?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"]
-image:https://badge.waffle.io/wpn-xm/wpn-xm.png?label=waffle:%20ready%20for%20development&title=Issues%20ready%20for%20development["WPN-XM @ Waffle.io", link="https://waffle.io/WPN-XM/WPN-XM"]
+image:https://badge.waffle.io/wpn-xm/wpn-xm.png?label=ready&title=Issues%20ready%20for%20development["WPN-XM @ Waffle.io", link="https://waffle.io/WPN-XM/WPN-XM"]
 
 
 === What is WPИ-XM?
