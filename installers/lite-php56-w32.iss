@@ -30,11 +30,11 @@
 ; debug mode toggle
 #define DEBUG                "false"
 
-; the -APPVERSION- token is replaced during the build process
+; the -STACK_VERSION- token is replaced during the build process
 #ifdef COMPILE_FROM_IDE
 #define APP_VERSION          "LocalSnapshot"
 #else
-#define APP_VERSION          "@APPVERSION@"
+#define APP_VERSION          "@STACK_VERSION@"
 #endif
 
 #define APP_NAME             "WPN-XM Server Stack"

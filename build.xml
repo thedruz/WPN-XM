@@ -99,7 +99,7 @@
             </fileset>
             <filterchain>
                 <replacetokens>
-                    <token key="APPVERSION" value="${wpnxm.Version}"/>
+                    <token key="STACK_VERSION" value="${wpnxm.Version}"/>
                 </replacetokens>
             </filterchain>
         </copy>
@@ -108,7 +108,7 @@
         <loadfile srcfile="${dir.Base}/www/tools/webinterface/bootstrap.php" property="filecontent.php.bootstrap">
             <filterchain>
                 <replacetokens>
-                    <token key="APPVERSION" value="${wpnxm.Version}"/>
+                    <token key="STACK_VERSION" value="${wpnxm.Version}"/>
                 </replacetokens>
             </filterchain>
         </loadfile>
