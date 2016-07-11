@@ -267,7 +267,7 @@ Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData
 
 [Dirs]
 Name: {app}\bin\backup
-Name: {app}\bin\nginx\conf\domains-enabled
+Name: {app}\bin\nginx\conf\sites-enabled
 Name: {app}\logs
 Name: {app}\temp
 Name: {app}\www\tools\webinterface; Components: webinterface
