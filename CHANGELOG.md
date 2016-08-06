@@ -64,6 +64,13 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
+- [Issue #534](https://github.com/WPN-XM/WPN-XM/issues/534) Documentation
+  - Documentation Website: : http://wpn-xm.github.io/docs/ 
+  - Reposiotry: https://github.com/WPN-XM/docs
+  - created Asciidoctor toolchain
+  - move Wiki pages to Asciidoc 
+  - create user-manual, developer-manual and FAQ automatically on git push and publish to github pages using Asciidoctor
+  - added diagram rendering support for ditaa and graphviz
 - [Issue #541](https://github.com/WPN-XM/WPN-XM/issues/541) [updater] updated crawler/updater to work with "Guzzle" v6.0
 - [updater] modified build tasks to work with the new registry folder layout
 - reorganized the folder layout of the software registry
