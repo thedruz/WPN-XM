@@ -56,16 +56,6 @@ after_failure:
   - sudo free -m -t
   - sudo dmesg # < WTF is wrong with Travis?
 
-notifications:
-  email: false
-  irc:
-    channels:
-      - "irc.freenode.org#wpnxm"
-    template:
-      - "%{author} @ %{repository} / %{branch} - Build:#%{build_number} : %{message} - Changes: %{compare_url} - Build details: %{build_url}"
-    use_notice: true
-    skip_join: true
-
 # deploy the installer executables to github releases
 deploy:
   provider: releases
@@ -76,6 +66,14 @@ deploy:
   skip_cleanup: true
   on:
     tags: true #  the application is deployed, when a tag is applied to the commit
+
+notifications:
+  email: false
+  irc:
+    channels:
+      - "irc.freenode.org#wpnxm"
+    use_notice: true
+    skip_join: true
 
 git:
   depth: 10
