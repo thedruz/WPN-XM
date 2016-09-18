@@ -18,7 +18,7 @@ To add download functionality to your installation script:
 <ul>
   <li>Include IDP include file: <code>#include &lt;idp.iss&gt;</code></li>
   <li>For languages other than English, include one or more language files: <code>#include &lt;idplang\Russian.iss&gt;</code></li>
-  <li>Call <a href="idpAddFile, idpAddFileSize.htm">idpAddFile</a> to add files for downloading</li>
+  <li>Call <a href="idpAddFile.htm">idpAddFile</a> to add files for downloading</li>
   <li>Call <a href="idpDownloadAfter.htm">idpDownloadAfter</a></li>
 </ul>
 Example:
@@ -57,19 +57,25 @@ For updates and support please visit:
 <ul>
   <li><a href="http://mitrichsoftware.wordpress.com/">Website</a></li>
   <li><a href="http://groups.google.com/group/inno-download-plugin">Discussion forum</a></li>
-  <li><a href="https://code.google.com/p/inno-download-plugin/">Source code repository</a></li>
+  <li><a href="http://bitbucket.org/mitrich_k/inno-download-plugin/">Source code repository</a></li>
 </ul>
 Inno Download Plugin &copy;2013-]] .. os.date("%Y") .. [[ Mitrich Software
 <p>
 Translations provided by:
 <table>
   <tr><td>Belarusian</td>          <td>pavlushko.m</td></tr>
+  <tr><td>Bulgarian</td>           <td>Венцислав Димитров</td></tr>
   <tr><td>Brazilian Portuguese</td><td>Celio Marcos</td></tr>
+  <tr><td>Czech</td>               <td>Petr Škvor</td></tr>
   <tr><td>Finnish</td>             <td>Jouni Turunen</td></tr>
+  <tr><td>French</td>              <td>Helpful Elephant</td></tr>
   <tr><td>German</td>              <td>fois</td></tr>
+  <tr><td>Hungarian</td>           <td>Laci bá</td></tr>
   <tr><td>Italian</td>             <td>Alex</td></tr>
   <tr><td>Polish</td>              <td>Adam Siwon</td></tr>
   <tr><td>Simplified Chinese</td>  <td>Ivan Yan</td></tr>
+  <tr><td>Slovak</td>              <td>webium</td></tr>
+  <tr><td>Spanish</td>             <td>jfrmemail</td></tr>
 </table>
 </p>
 ]]

@@ -92,7 +92,11 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
         return NULL;
 
     if(service == INTERNET_SERVICE_FTP)
-        filehandle = FtpOpenFile(connection, urlPath, GENERIC_READ, FTP_TRANSFER_TYPE_BINARY | INTERNET_FLAG_RELOAD, NULL);
+    {
+        tstring fullUrl = urlPath;
+        fullUrl += extraInfo;
+        filehandle = FtpOpenFile(connection, fullUrl.c_str(), GENERIC_READ, FTP_TRANSFER_TYPE_BINARY | INTERNET_FLAG_RELOAD, NULL);
+    }
     else
     {
         DWORD flags = INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_RELOAD | INTERNET_FLAG_KEEP_CONNECTION;
@@ -242,6 +246,15 @@ retry:
         }
 
         TRACE(_T("Request opened OK"));
+
+#ifdef _DEBUG
+        _TCHAR buf[10000];
+        dwBufSize = sizeof(buf);
+        if(HttpQueryInfo(filehandle, HTTP_QUERY_RAW_HEADERS_CRLF, &buf, &dwBufSize, &dwIndex))
+            TRACE(_T("HTTP_QUERY_RAW_HEADERS_CRLF: %s"), buf);
+        else
+            TRACE(_T("HTTP_QUERY_RAW_HEADERS_CRLF failed: %s"), formatwinerror(GetLastError()).c_str());
+#endif
     }
 
     return filehandle;
