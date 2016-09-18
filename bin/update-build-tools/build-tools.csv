@@ -1,4 +1,0 @@
-http://www.jrsoftware.org/download.php/is-unicode.exe, ./build-tools, innosetup.exe
-http://upx.sourceforge.net/download/upx391w.zip, ./build-tools, upx.zip
-https://github.com/tatsuhiro-t/aria2/releases/download/release-1.19.3/aria2-1.19.3-win-64bit-build1.zip, ./build-tools, aria2c.zip
-http://www.7-zip.org/a/7z1512-extra.7z, ./build-tools, 7zip.7z
