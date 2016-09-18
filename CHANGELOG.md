@@ -64,6 +64,11 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
+- updated build-tools
+  - Inno Setup v5.5.9 unicode 
+  - Inno Download Plugin v1.5.1
+  - Aria2c v1.27.1 build1
+  - 7-Zip v16.02
 - [Issue #534](https://github.com/WPN-XM/WPN-XM/issues/534) Documentation
   - Documentation Website: : http://wpn-xm.github.io/docs/ 
   - Reposiotry: https://github.com/WPN-XM/docs
