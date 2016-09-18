@@ -11,7 +11,7 @@
 
     <!-- ============ Stripdown + Repackaging of Components ============
 
-        We are apply stripdown and repackaging on several components,
+        We are applying stripdown and repackaging of several components,
         because they ship files hardly ever needed by the average developer.
 
         This is highly opinionated, but reduces package size drastically.
