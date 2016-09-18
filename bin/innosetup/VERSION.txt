@@ -1,1 +1,1 @@
-Inno Setup v5.5.8 unicode
+Inno Setup v5.5.9 unicode
