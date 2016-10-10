@@ -46,6 +46,13 @@ If something isn't working, congratulations you've found a bug! Help us fix it b
   - `git push origin my-new-feature`
 * Send us a Pull Request (PR)
 
+#### Pull Requests
+
+* Document any change in behaviour - make sure the official documentation is kept up to date, when introducing changes. update the CHANGELOG.
+* Create feature branches - don't create PRs from your master branch. Except, when contributing really small fixes or direct edits via the Github UI, e.g. for typos!
+* One pull request per feature - just send multiple PRs, if you want to work on a lot of features
+* Keep coherent history - ensure each individual commit in your pull request is meaningful. If possible, squash multiple commits before submitting.
+
 ### Contributing policy
 
 To ensure a consistent code base, you should make sure the code follows some basic Coding Standards.
