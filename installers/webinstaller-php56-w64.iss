@@ -6,8 +6,8 @@
 ; |  WPN-XM Server Stack - Inno Setup Script File                        |
 ; |  --------------------------------------------                        |
 ; |                                                                      |
-; |  WPN-XM is a free and open-source web server solution stack          |
-; |  for professional PHP development on the Windows platform.           |
+; |  WPN-XM is an open-source web server solution stack for              |
+; |  professional PHP development on the Windows platform.               |
 ; |                                                                      |
 ; |  Author:   Jens-Andre Koch <jakoch@web.de>                           |
 ; |  Website:  http://wpn-xm.org/                                        |
