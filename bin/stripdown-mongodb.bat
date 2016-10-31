@@ -31,6 +31,7 @@ IF NOT EXIST "%~1" (
 
 IF NOT EXIST "%~1\bin\mongo.exe" (
     ECHO Folder "%~1" exists, but is not the MongoDB folder.
+    ECHO Could not find "%~1\bin\mongo.exe".
     GOTO EOF;
 )
 

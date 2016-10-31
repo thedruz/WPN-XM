@@ -31,6 +31,7 @@ IF NOT EXIST "%~1" (
 
 IF NOT EXIST "%~1\bin\pg_ctl.exe" (
     ECHO Folder "%~1" exists, but is not the PostgreSQL folder.
+    ECHO Could not find "%~1\bin\pg_ctl.exe".
     GOTO EOF;
 )
 

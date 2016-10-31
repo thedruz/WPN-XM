@@ -31,6 +31,7 @@ IF NOT EXIST "%~1" (
 
 IF NOT EXIST "%~1\bin\mysqld.exe" (
     ECHO Folder "%~1" exists, but is not the MariaDB folder.
+    ECHO Could not find "%~1\bin\mysqld.exe".
     GOTO EOF;
 )
 

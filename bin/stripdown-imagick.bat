@@ -31,6 +31,7 @@ IF NOT EXIST "%~1" (
 
 IF NOT EXIST "%~1\animate.exe" (
     ECHO Folder "%~1" exists, but is not the Imagick folder.
+    ECHO Could not find "%~1\animate.exe".
     GOTO EOF;
 )
 
