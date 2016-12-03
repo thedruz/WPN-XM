@@ -57,11 +57,11 @@
         </foreach>
     </target>
 
-    <!-- ============ Check Installers  ============ -->
+    <!-- ============ Check Installers Were Build ============ -->
 
-    <target name="check-installers" description="Check that all installers were build.">
-        <taskdef name="CheckInstallers" classname="CheckInstallersTask" />
-        <CheckInstallers buildFolder="${dir.Build}"/>
+    <target name="check-installers-were-build" description="Check that all installers were build.">
+        <taskdef name="CheckInstallersWereBuild" classname="CheckInstallersWereBuildTask" />
+        <CheckInstallersWereBuild buildFolder="${dir.Build}"/>
     </target>
 
 </project>

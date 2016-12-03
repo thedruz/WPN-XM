@@ -181,7 +181,7 @@
                     compile-full,
                     compile-lite,
                     compile-literc,
-                    check-installers,
+                    check-installers-were-build,
                     commit-versionized-registries,
                     reset-git-submodules">
     </target>
