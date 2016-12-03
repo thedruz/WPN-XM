@@ -176,6 +176,7 @@
                     check-downloads,
                     stripdown-pool,
                     copy-downloads,
+                    lint-installers,
                     compile-webinstaller,
                     compile-standard,
                     compile-full,
@@ -202,12 +203,13 @@
             depends="check-downloads,
                     stripdown-pool,
                     copy-downloads,
+                    lint-installers,
                     compile-webinstaller,
                     compile-standard,
                     compile-full,
                     compile-lite,
                     compile-literc,
-                    check-installers,
+                    check-installers-were-build,
                     commit-versionized-registries,
                     reset-git-submodules">
     </target>
