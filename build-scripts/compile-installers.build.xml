@@ -9,6 +9,13 @@
     ║ For full copyright and license information, view the bundled LICENSE file. ║
     ╚════════════════════════════════════════════════════════════════════════════╝-->
 
+    <!-- ============ Lint Installers ============ -->
+
+    <target name="lint-installers" description="Check syntax of installers.">
+        <taskdef name="LintInstallers" classname="LintInstallersTask" />
+        <LintInstallers buildFolder="${dir.Build}"/>
+    </target>
+
     <!-- ============ Compile Installers  ============ -->
 
     <target name="inno-compile" description="Main compile task using InnoSetup Compiler.">
