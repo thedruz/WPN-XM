@@ -155,7 +155,6 @@ Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: com
 Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\pickle; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
@@ -653,7 +652,6 @@ begin
   if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('uprofiler',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -903,9 +901,6 @@ begin
   // PHP
   ReplaceStringInFile('error_log = php_error.log',
                       'error_log = ' + appDir + '\logs\php_error.log', php_ini_file);
-
-  ReplaceStringInFile(';include_path = ".;c:\php\includes"',
-                      'include_path = ".;' + appDir + '\bin\php\pear"', php_ini_file);
 
   ReplaceStringInFile(';upload_tmp_dir =',           'upload_tmp_dir = ' + appDir + '\temp',    php_ini_file);
   ReplaceStringInFile('upload_max_filesize = 2M',    'upload_max_filesize = 8M',                php_ini_file);

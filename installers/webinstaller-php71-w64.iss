@@ -158,6 +158,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 ; tools:
 Source: ..\bin\7zip\x64\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\7zip\x86\*; DestDir: {app}\bin\tools\
+Source: ..\bin\7zip\License.txt; DestDir: {app}\docs\licenses\; DestName: 7zip_license.txt;
 Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
@@ -312,7 +313,6 @@ const
   URL_node                  = 'http://wpn-xm.org/get.php?s=node';
   URL_nodenpm               = 'http://wpn-xm.org/get.php?s=nodenpm';
   URL_openssl               = 'http://wpn-xm.org/get.php?s=openssl-x64';
-  // PEAR is dead. Removed from WPN-XM for the v0.8.7 release.
   URL_php                   = 'http://wpn-xm.org/get.php?s=php-x64&p=7.1';
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   //URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.1&bitsize=x64';
@@ -331,7 +331,6 @@ const
   //URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.1&bitsize=x64';
   //URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.1&bitsize=x64';
   //URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=7.1&bitsize=x64';
-  // removed uprofiler
   //URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.1&bitsize=x64';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.1&bitsize=x64';
   //URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.1&bitsize=x64';
@@ -346,7 +345,6 @@ const
   URL_vcredist              = 'http://wpn-xm.org/get.php?s=vcredist-x64&v=14.0.23026'; // Visual C++ Redistributable for Visual Studio 2015
   URL_webgrind              = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp              = 'http://wpn-xm.org/get.php?s=wpnxmscp';
-  // removed uprofiler
   URL_yuicompressor         = 'http://wpn-xm.org/get.php?s=yuicompressor';
 
   // Define file names for the downloads
@@ -367,7 +365,6 @@ const
   Filename_node                  = 'node.exe';
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
-  // PEAR is dead. Removed from WPN-XM for the v0.8.7 release.
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   //Filename_phpext_amqp           = 'phpext_amqp.zip';
@@ -388,7 +385,6 @@ const
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   //Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
-  // removed uprofiler
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
@@ -930,7 +926,6 @@ begin
     end;
 
     if IsComponentSelected('openssl')            then idpAddFile(URL_openssl,           ExpandConstant(targetPath + Filename_openssl));
-    // PEAR is dead. Removed from WPN-XM for the v0.8.7 release.
     if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_phpcsfixer));
     if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
     if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
@@ -946,7 +941,7 @@ begin
     if IsComponentSelected('varnish') then
     begin
        idpAddFile(URL_varnish,                ExpandConstant(targetPath + Filename_varnish));
-       //idpAddFile(URL_phpext_varnish,         ExpandConstant(targetPath + Filename_phpext_varnish));
+       idpAddFile(URL_phpext_varnish,         ExpandConstant(targetPath + Filename_phpext_varnish));
     end;
 
     if IsComponentSelected('phpextensions') then
@@ -1412,8 +1407,6 @@ begin
       FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer, false);
     UpdateTotalProgressBar();
   end;
-
-  //  PEAR is dead. Removed from WPN-XM for the v0.8.7 release.
 
   // composer is not zipped, its just a php phar package, so copy it to the php path
   if Pos('composer', selectedComponents) > 0 then

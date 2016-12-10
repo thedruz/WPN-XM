@@ -139,7 +139,6 @@ Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskS
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 620000; Types: full
 Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
-Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: phpcsfixer; Description: phpcsfixer - PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: Additional PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
@@ -150,7 +149,6 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-;Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
@@ -160,6 +158,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 ; tools:
 Source: ..\bin\7zip\x86\7za.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\7zip\x86\*; DestDir: {app}\bin\tools\
+Source: ..\bin\7zip\License.txt; DestDir: {app}\docs\licenses\; DestName: 7zip_license.txt;
 Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
 Source: ..\bin\HideConsole\RunHiddenConsole.exe; DestDir: {app}\bin\tools\
@@ -184,7 +183,6 @@ Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: com
 Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\pickle; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\repair-mongodb.bat; DestDir: {app}; Components: mongodb
@@ -213,7 +211,6 @@ Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Co
 Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
 Source: ..\software\redis\config\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
 Source: ..\software\webgrind\config\config.php; DestDir: {app}\www\tools\webgrind; Components: webgrind
-;Source: ..\software\xhprofiler\config\config.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; Components: uprofiler
 Source: ..\software\mongodb\config\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
@@ -316,7 +313,6 @@ const
   URL_node                  = 'http://wpn-xm.org/get.php?s=node';
   URL_nodenpm               = 'http://wpn-xm.org/get.php?s=nodenpm';
   URL_openssl               = 'http://wpn-xm.org/get.php?s=openssl';
-  URL_pear                  = 'http://wpn-xm.org/get.php?s=pear';
   URL_php                   = 'http://wpn-xm.org/get.php?s=php&p=5.6';
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=5.6';
@@ -335,7 +331,6 @@ const
   URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.6';
   URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=5.6';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=5.6';
-  //URL_phpext_uprofiler      = 'http://wpn-xm.org/get.php?s=phpext_uprofiler&p=5.6'; not existant, yet
   URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=5.6';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin            = 'http://wpn-xm.org/get.php?s=phpmyadmin';
@@ -348,7 +343,6 @@ const
   URL_vcredist              = 'http://wpn-xm.org/get.php?s=vcredist&v=11.0.61030'; // VCRedist 2012 x86
   URL_webgrind              = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp              = 'http://wpn-xm.org/get.php?s=wpnxmscp';
-  //URL_uprofiler             = 'http://wpn-xm.org/get.php?s=uprofiler';
   URL_yuicompressor         = 'http://wpn-xm.org/get.php?s=yuicompressor';
 
   // Define file names for the downloads
@@ -369,7 +363,6 @@ const
   Filename_node                  = 'node.exe';
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
-  Filename_pear                  = 'go-pear.phar';
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
@@ -381,6 +374,7 @@ const
   Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  // pdo_sqlsrv
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
@@ -388,7 +382,6 @@ const
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
-  //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
@@ -401,7 +394,6 @@ const
   Filename_vcredist              = 'vcredist_x86.exe';
   Filename_webgrind              = 'webgrind.zip';
   Filename_wpnxmscp              = 'wpnxmscp.zip';
-  //Filename_uprofiler             = 'uprofiler.zip';
   Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
@@ -456,6 +448,24 @@ const
   VC_2012_REDIST_ADD_UPD4_X86 = '{B175520C-86A2-35A7-8619-86DC379688B9}';
   VC_2012_REDIST_ADD_UPD4_X64 = '{37B8F9C7-03FB-3253-8781-2517C99D7C00}';
 
+  { Visual C++ 2013 Redistributable 12.0.21005 }
+  VC_2013_REDIST_X86_MIN = '{13A4EE12-23EA-3371-91EE-EFB36DDFFF3E}';
+  VC_2013_REDIST_X64_MIN = '{A749D8E6-B613-3BE3-8F5F-045C84EBA29B}';
+
+  VC_2013_REDIST_X86_ADD = '{F8CFEB22-A2E7-3971-9EDA-4B11EDEFC185}';
+  VC_2013_REDIST_X64_ADD = '{929FBD26-9020-399B-9A7A-751D61F0B942}';
+
+  { Visual C++ 2015 Redistributable 14.0.23026 }
+  VC_2015_REDIST_X86_MIN = '{A2563E55-3BEC-3828-8D67-E5E8B9E8B675}';
+  VC_2015_REDIST_X64_MIN = '{0D3E9E15-DE7A-300B-96F1-B4AF12B96488}';
+
+  VC_2015_REDIST_X86_ADD = '{BE960C1C-7BAD-3DE6-8B1A-2616FE532845}';
+  VC_2015_REDIST_X64_ADD = '{BC958BD2-5DAC-3862-BB1A-C1BE0790438D}';
+
+  { Visual C++ 2015 Redistributable 14.0.24210 }
+  VC_2015_REDIST_X86 = '{8FD71E98-EE44-3844-9DAD-9CB0BBBC603C}';
+  VC_2015_REDIST_X64 = '{C0B2C673-ECAA-372D-94E5-E89440D087AD}';
+
 function MsiQueryProductState(szProduct: string): INSTALLSTATE;
   external 'MsiQueryProductState{#AW}@msi.dll stdcall';
 
@@ -467,17 +477,18 @@ end;
 {
   The Result must be "True", when you need to install VCRedist - or "False", when you don't need to.
 }
-function VCRedist2008NeedsInstall: Boolean;
-begin
-  Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
-  Log('Visual C++ 2008 Redistributables ');
-  If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
-end;
 
 function VCRedist2012NeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2012_REDIST_MIN_UPD4_X86));
   Log('Visual C++ 2012 Redistributables ');
+  If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
+end;
+
+function VCRedist2015NeedsInstall: Boolean;
+begin
+  Result := not (VCVersionInstalled(VC_2015_REDIST_X64));
+  Log('Visual C++ 2015 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
 
@@ -843,7 +854,7 @@ begin
       There is a strange bug, when trying to get the filesize from googlecode.
       So webgrind has a size of 0. Thats why "unknown" is shown as total progress.
 
-      idpGetFileSize(URL_uprofiler, size);
+      idpGetFileSize(URL_nginx, size);
       MsgBox(intToStr(size), mbError, MB_OK);
     }
 
@@ -909,7 +920,6 @@ begin
     end;
 
     if IsComponentSelected('openssl')            then idpAddFile(URL_openssl,           ExpandConstant(targetPath + Filename_openssl));
-    if IsComponentSelected('pear')               then idpAddFile(URL_pear,              ExpandConstant(targetPath + Filename_pear));
     if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_phpcsfixer));
     if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
     if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
@@ -946,19 +956,12 @@ begin
         // phpext_memcache installed with memcached
         // phpext_mongodb installed with mongodb
         // phpext_xdebug is standalone
-        // phpext_uprofiler installed with uprofiler
     end;
 
     if (VCRedist2012NeedsInstall() = TRUE) then
     begin
         idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
     end;
-
-    //if IsComponentSelected('uprofiler') then
-    //begin
-    //    idpAddFile(URL_uprofiler,           ExpandConstant(targetPath + Filename_uprofiler));
-    //    idpAddFile(URL_phpext_uprofiler,    ExpandConstant(targetPath + Filename_phpext_uprofiler));
-    //end;
 
     // if DEBUG On and already downloaded, skip downloading files, by resetting files
     if (DEBUG = true) and (FileExists(ExpandConstant(targetPath + 'nginx.zip')) = true) then
@@ -1003,7 +1006,6 @@ begin
   if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('uprofiler',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -1324,20 +1326,7 @@ begin
 
     UpdateTotalProgressBar();
   end;
-
-  //if Pos('uprofiler', selectedComponents) > 0 then
-  //begin
-  //  UpdateCurrentComponentName('uProfiler GUI');
-  //    Unzip(targetPath + Filename_uprofiler, appDir + '\www\tools'); // no subfolder, brings own dir
-  //    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\uprofiler-* ' + appDir + '\www\tools\uprofiler"');  // rename folder, e.g. "uprofiler-master"
-  //  UpdateTotalProgressBar;
-  //
-  //  UpdateCurrentComponentName('PHP Extension - uProfiler');
-  //    Unzip(targetPath + Filename_phpext_uprofiler, targetPath + 'phpext_uprofiler');
-  //    FileCopy(ExpandConstant(targetPath + 'phpext_uprofiler\php_uprofiler.dll'), appDir + '\bin\php\ext\php_uprofiler.dll', false);
-  //  UpdateTotalProgressBar;
-  //end;
-
+  
   if Pos('memcached', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Memcached');
@@ -1395,15 +1384,6 @@ begin
     UpdateCurrentComponentName('Adminer');
       ForceDirectories(appDir + '\www\tools\adminer\');
       FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer, false);
-    UpdateTotalProgressBar();
-  end;
-
-  // pear is not zipped, its just a php phar package, so copy it to php\pear subfolder
-  if Pos('pear', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('PEAR');
-      ForceDirectories(appDir + '\bin\php\PEAR\');
-      FileCopy(ExpandConstant(targetPath + Filename_pear), appDir + '\bin\php\PEAR\' + Filename_pear, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1524,9 +1504,6 @@ begin
   ReplaceStringInFile('error_log = php_error.log',
                       'error_log = ' + appDir + '\logs\php_error.log', php_ini_file);
 
-  ReplaceStringInFile(';include_path = ".;c:\php\includes"',
-                      'include_path = ".;' + appDir + '\bin\php\pear"', php_ini_file);
-
   ReplaceStringInFile(';upload_tmp_dir =',           'upload_tmp_dir = ' + appDir + '\temp',    php_ini_file);
   ReplaceStringInFile('upload_max_filesize = 2M',    'upload_max_filesize = 8M',                php_ini_file);
   ReplaceStringInFile(';session.save_path = "/tmp"', 'session.save_path = ' + appDir + '\temp', php_ini_file);
@@ -1578,7 +1555,7 @@ begin
   if CurStep = ssPostInstall then DoPostInstall();
 
   // when the wizard finishes, copy the installation logfile from tmp dir to application dir.
-  // this allows easier debugging of installation problems and users can upload or reference parts of the log.
+  // this allows easier debugging of installation problems. the user can upload or reference parts of the log.
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;

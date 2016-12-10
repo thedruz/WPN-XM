@@ -133,7 +133,6 @@ Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskS
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 620000; Types: full
 Name: node; Description: NodeJS + NodeNPM - V8 for fast, scalable network applications; ExtraDiskSpaceRequired: 10000000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
-Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: phpcsfixer; Description: phpcsfixer - PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: Additional PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
@@ -144,7 +143,6 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
@@ -177,7 +175,6 @@ Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: com
 Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\pickle; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\repair-mongodb.bat; DestDir: {app}; Components: mongodb
@@ -206,16 +203,15 @@ Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Co
 Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
 Source: ..\software\redis\config\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
 Source: ..\software\webgrind\config\config.php; DestDir: {app}\www\tools\webgrind; Components: webgrind
-Source: ..\software\xhprofiler\config\config.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; Components: uprofiler
 Source: ..\software\mongodb\config\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\software\conemu\config\*; DestDir: {app}\bin\conemu; Components: conemu
 Source: ..\software\conemu\images\*; DestDir: {app}\bin\conemu; Components: conemu
 Source: ..\software\git\config\bash_profile; DestDir: {app}\bin\git\etc; Components: git
-; Visual C++ Redistributable 2010 is needed by PHP VC11 builds
+; Visual C++ Redistributable 2015 is needed by PHP VC14 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
-Source: ..\bin\vcredist\vcredist_x64_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
+Source: ..\bin\vcredist\vcredist_x64_2015.exe; DestDir: {tmp}; Flags: deleteafterinstall
 
 [Icons]
 Name: {group}\Server Control Panel; Filename: {app}\wpn-xm.exe; Tasks: add_startmenu
@@ -242,7 +238,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 [Run]
 ; Automatically started...
 ; VCRedist Conditional Installation Check
-Filename: "{tmp}\vcredist_x64_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist2008NeedsInstall; Flags: nowait
+Filename: "{tmp}\vcredist_x64_2015.exe"; Parameters: "/quiet /norestart"; Check: VCRedist2008NeedsInstall; Flags: nowait
 ; User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
@@ -308,29 +304,27 @@ const
   Filename_node                  = 'node.exe'; // WATCH IT: EXE!
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
-  Filename_pear                  = 'go-pear.phar';
   Filename_php                   = 'php.zip';
   Filename_phpcsfixer            = 'php-cs-fixer.phar';
-  //Filename_phpext_amqp           = 'phpext_amqp.zip';
+  Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
-  Filename_phpext_ice            = 'phpext_ice.zip';
-  Filename_phpext_imagick        = 'phpext_imagick.zip';
+  // PHP Extension Ice is not available for PHP7.1
+  //Filename_phpext_imagick        = 'phpext_imagick.zip';
   // jsond is included in PHP7
-  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
-  Filename_phpext_mongodb        = 'phpext_mongodb.zip';
-  Filename_phpext_msgpack        = 'phpext_msgpack.zip';
-  Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
+  //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
+  //Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
-  Filename_phpext_stats          = 'phpext_stats.zip';
-  Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
+  //Filename_phpext_stats          = 'phpext_stats.zip';
+  //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   //Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
-  //Filename_phpext_varnish        = 'phpext_varnish.zip';
+  Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
-  //Filename_phpext_uprofiler    = 'phpext_uprofiler.zip';
-  Filename_phpext_zmq            = 'phpext_zmq.zip';
+  //Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
   Filename_pickle                = 'pickle.phar';
@@ -341,7 +335,6 @@ const
   Filename_varnish               = 'varnish.zip';
   Filename_webgrind              = 'webgrind.zip';
   Filename_wpnxmscp              = 'wpnxmscp.zip';
-  //Filename_uprofiler           = 'uprofiler.zip';
   Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
@@ -789,7 +782,6 @@ begin
   if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('uprofiler',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -1033,12 +1025,9 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - Ice');
-      ExtractTemporaryFile(Filename_phpext_ice);
-      Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
-      FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
-    UpdateTotalProgressBar();
-
+    {
+      PHP Extensions ICE is not available for PHP7.1.
+    }
     {
       The PHP extension JsonD is included in PHP 7.
     }
@@ -1115,11 +1104,11 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\varnish-* ' + appDir + '\bin\varnish"');// rename directory, like "varnish-3.0.2"
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Varnish');
-     // ExtractTemporaryFile(Filename_phpext_varnish);
-     // Unzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), appDir + '\bin\php\ext\php_varnish.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Varnish');
+      ExtractTemporaryFile(Filename_phpext_varnish);
+      Unzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
+      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), appDir + '\bin\php\ext\php_varnish.dll', false);
+    UpdateTotalProgressBar();
   end;
 
   if Pos('imagick', selectedComponents) > 0 then
@@ -1153,21 +1142,6 @@ begin
 
     UpdateTotalProgressBar();
   end;
-
-  //if Pos('uprofiler', selectedComponents) > 0 then
-  //begin
-  //  UpdateCurrentComponentName('uProfiler GUI');
-  //    ExtractTemporaryFile(Filename_uprofiler);
-  //    Unzip(targetPath + Filename_uprofiler, appDir + '\www\tools'); // no subfolder, brings own dir
-  //    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\uprofiler-* ' + appDir + '\www\tools\uprofiler"');  // rename folder, e.g. "uprofiler-master"
-  //  UpdateTotalProgressBar;
-
-  //  UpdateCurrentComponentName('PHP Extension - uProfiler');
-  //    ExtractTemporaryFile(Filename_phpext_uprofiler);
-  //    Unzip(targetPath + Filename_phpext_uprofiler, targetPath + 'phpext_uprofiler');
-  //    FileCopy(ExpandConstant(targetPath + 'phpext_uprofiler\php_uprofiler.dll'), appDir + '\bin\php\ext\php_uprofiler.dll', false);
-  //  UpdateTotalProgressBar;
-  //end;
 
   if Pos('memcached', selectedComponents) > 0 then
   begin
@@ -1234,16 +1208,6 @@ begin
       ExtractTemporaryFile(Filename_adminer);
       ForceDirectories(appDir + '\www\tools\adminer\');
       FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer, false);
-    UpdateTotalProgressBar();
-  end;
-
-  // pear is not zipped, its just a php phar package, so copy it to php\pear subfolder
-  if Pos('pear', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('PEAR');
-      ExtractTemporaryFile(Filename_pear);
-      ForceDirectories(appDir + '\bin\php\PEAR\');
-      FileCopy(ExpandConstant(targetPath + Filename_pear), appDir + '\bin\php\PEAR\' + Filename_pear, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1365,9 +1329,6 @@ begin
   // PHP
   ReplaceStringInFile('error_log = php_error.log',
                       'error_log = ' + appDir + '\logs\php_error.log', php_ini_file);
-
-  ReplaceStringInFile(';include_path = ".;c:\php\includes"',
-                      'include_path = ".;' + appDir + '\bin\php\pear"', php_ini_file);
 
   ReplaceStringInFile(';upload_tmp_dir =',           'upload_tmp_dir = ' + appDir + '\temp',    php_ini_file);
   ReplaceStringInFile('upload_max_filesize = 2M',    'upload_max_filesize = 8M',                php_ini_file);

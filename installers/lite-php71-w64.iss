@@ -659,7 +659,6 @@ begin
   if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('uprofiler',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;

@@ -155,7 +155,6 @@ Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: com
 Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\pickle; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\reset-db-pw.bat; DestDir: {app}
@@ -312,6 +311,24 @@ const
   VC_2012_REDIST_ADD_UPD4_X86 = '{B175520C-86A2-35A7-8619-86DC379688B9}';
   VC_2012_REDIST_ADD_UPD4_X64 = '{37B8F9C7-03FB-3253-8781-2517C99D7C00}';
 
+  { Visual C++ 2013 Redistributable 12.0.21005 }
+  VC_2013_REDIST_X86_MIN = '{13A4EE12-23EA-3371-91EE-EFB36DDFFF3E}';
+  VC_2013_REDIST_X64_MIN = '{A749D8E6-B613-3BE3-8F5F-045C84EBA29B}';
+
+  VC_2013_REDIST_X86_ADD = '{F8CFEB22-A2E7-3971-9EDA-4B11EDEFC185}';
+  VC_2013_REDIST_X64_ADD = '{929FBD26-9020-399B-9A7A-751D61F0B942}';
+
+  { Visual C++ 2015 Redistributable 14.0.23026 }
+  VC_2015_REDIST_X86_MIN = '{A2563E55-3BEC-3828-8D67-E5E8B9E8B675}';
+  VC_2015_REDIST_X64_MIN = '{0D3E9E15-DE7A-300B-96F1-B4AF12B96488}';
+
+  VC_2015_REDIST_X86_ADD = '{BE960C1C-7BAD-3DE6-8B1A-2616FE532845}';
+  VC_2015_REDIST_X64_ADD = '{BC958BD2-5DAC-3862-BB1A-C1BE0790438D}';
+
+  { Visual C++ 2015 Redistributable 14.0.24210 }
+  VC_2015_REDIST_X86 = '{8FD71E98-EE44-3844-9DAD-9CB0BBBC603C}';
+  VC_2015_REDIST_X64 = '{C0B2C673-ECAA-372D-94E5-E89440D087AD}';
+
 function MsiQueryProductState(szProduct: string): INSTALLSTATE;
   external 'MsiQueryProductState{#AW}@msi.dll stdcall';
 
@@ -323,12 +340,6 @@ end;
 {
   The Result must be "True", when you need to install VCRedist - or "False", when you don't need to.
 }
-function VCRedist2008NeedsInstall: Boolean;
-begin
-  Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
-  Log('Visual C++ 2008 Redistributables ');
-  If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
-end;
 
 function VCRedist2012NeedsInstall: Boolean;
 begin
@@ -341,9 +352,6 @@ function VCRedist2015NeedsInstall: Boolean;
 begin
   Result := (not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\VCRedist\x86')) and
             (not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\VCRedist\x86'));
-
-  // not used, because RegistryKey for detection is unknown
-  //Result := not (VCVersionInstalled(VC_2015_REDIST_X86));
 
   Log('Visual C++ 2015 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
@@ -665,7 +673,6 @@ begin
   if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('uprofiler',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -915,9 +922,6 @@ begin
   // PHP
   ReplaceStringInFile('error_log = php_error.log',
                       'error_log = ' + appDir + '\logs\php_error.log', php_ini_file);
-
-  ReplaceStringInFile(';include_path = ".;c:\php\includes"',
-                      'include_path = ".;' + appDir + '\bin\php\pear"', php_ini_file);
 
   ReplaceStringInFile(';upload_tmp_dir =',           'upload_tmp_dir = ' + appDir + '\temp',    php_ini_file);
   ReplaceStringInFile('upload_max_filesize = 2M',    'upload_max_filesize = 8M',                php_ini_file);

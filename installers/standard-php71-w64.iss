@@ -130,7 +130,6 @@ Name: memadmin; Description: memadmin - memcached administration tool; ExtraDisk
 Name: memcached; Description: Memcached - distributed memory caching; ExtraDiskSpaceRequired: 240000; Types: full
 Name: mongodb; Description: MongoDb - scalable, high-performance, open source NoSQL database; ExtraDiskSpaceRequired: 620000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
-Name: pear; Description: PEAR - PHP Extension and Application Repository; ExtraDiskSpaceRequired: 3510000; Types: full
 Name: phpcsfixer; Description: phpcsfixer - PHP Coding Standards Fixer; ExtraDiskSpaceRequired: 1200000; Types: full
 Name: phpextensions; Description: Additional PHP Extensions; ExtraDiskSpaceRequired: 31040000; Types: full
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
@@ -140,7 +139,6 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-//Name: uprofiler; Description: uProfiler - Hierarchical Profiler for PHP; ExtraDiskSpaceRequired: 250000; Types: full debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
@@ -172,7 +170,6 @@ Source: ..\startfiles\composer.bat; DestDir: {app}\bin\composer; Components: com
 Source: ..\startfiles\console.bat; DestDir: {app}; Components: conemu
 Source: ..\startfiles\pickle.bat; DestDir: {app}\bin\pickle; Components: pickle
 Source: ..\startfiles\generate-certificate.bat; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\startfiles\go-pear.bat; DestDir: {app}\bin\php
 Source: ..\startfiles\install-phpunit.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\update-phars.bat; DestDir: {app}\bin\php\
 Source: ..\startfiles\repair-mongodb.bat; DestDir: {app}; Components: mongodb
@@ -200,7 +197,6 @@ Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Co
 Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
 Source: ..\software\redis\config\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
 Source: ..\software\webgrind\config\config.php; DestDir: {app}\www\tools\webgrind; Components: webgrind
-Source: ..\software\xhprofiler\config\config.php; DestDir: {app}\www\tools\uprofiler\uprofiler_lib; Components: uprofiler
 Source: ..\software\mongodb\config\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
 Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
 Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
@@ -293,12 +289,11 @@ const
   Filename_mongodb           = 'mongodb.zip';
   Filename_nginx             = 'nginx.zip';
   Filename_openssl           = 'openssl.zip';
-  Filename_pear              = 'go-pear.phar';
   Filename_php               = 'php.zip';
   Filename_phpcsfixer        = 'php-cs-fixer.phar';
   //Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apcu       = 'phpext_apcu.zip';
-  Filename_phpext_ice        = 'phpext_ice.zip';
+  // ice not available
   // jsond is included in PHP7
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   //Filename_phpext_memcache   = 'phpext_memcache.zip'; // memcache without D
@@ -310,7 +305,6 @@ const
   //Filename_phpext_trader     = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.zip';
-  //Filename_phpext_uprofiler      = 'phpext_uprofiler.zip';
   Filename_phpext_zmq        = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
@@ -320,7 +314,6 @@ const
   Filename_sendmail          = 'sendmail.zip';
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxmscp          = 'wpnxmscp.zip';
-  //Filename_uprofiler       = 'uprofiler.zip';
   Filename_yuicompressor     = 'yuicompressor.jar';
 
 var
@@ -759,7 +752,6 @@ begin
   if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('uprofiler',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -974,11 +966,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - Ice');
-      ExtractTemporaryFile(Filename_phpext_ice);
-      Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
-      FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
-    UpdateTotalProgressBar();
+    {
+       PHP Extensions Ice not available for 7.1
+    
+	
+	}
 	
 	{
 	
@@ -1035,22 +1027,7 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
     UpdateTotalProgressBar();
   end;
-
-  //if Pos('uprofiler', selectedComponents) > 0 then
-  //begin
-  //  UpdateCurrentComponentName('uProfiler GUI');
-  //    ExtractTemporaryFile(Filename_uprofiler);
-  //    Unzip(targetPath + Filename_uprofiler, appDir + '\www\tools'); // no subfolder, brings own dir
-  //    ExecHidden('cmd.exe /c "move /Y ' + appDir + '\www\tools\uprofiler-* ' + appDir + '\www\tools\uprofiler"');  // rename folder, e.g. "uprofiler-master"
-  //  UpdateTotalProgressBar;
-
-  //  UpdateCurrentComponentName('PHP Extension - uProfiler');
-  //    ExtractTemporaryFile(Filename_phpext_uprofiler);
-  //    Unzip(targetPath + Filename_phpext_uprofiler, targetPath + 'phpext_uprofiler');
-  //    FileCopy(ExpandConstant(targetPath + 'phpext_uprofiler\php_uprofiler.dll'), appDir + '\bin\php\ext\php_uprofiler.dll', false);
-  //  UpdateTotalProgressBar;
-  //end;
-
+  
   if Pos('memcached', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Memcached');
@@ -1108,16 +1085,6 @@ begin
       ExtractTemporaryFile(Filename_adminer);
       ForceDirectories(appDir + '\www\tools\adminer\');
       FileCopy(ExpandConstant(targetPath + Filename_adminer), appDir + '\www\tools\adminer\' + Filename_adminer, false);
-    UpdateTotalProgressBar();
-  end;
-
-  // pear is not zipped, its just a php phar package, so copy it to php\pear subfolder
-  if Pos('pear', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('PEAR');
-      ExtractTemporaryFile(Filename_pear);
-      ForceDirectories(appDir + '\bin\php\PEAR\');
-      FileCopy(ExpandConstant(targetPath + Filename_pear), appDir + '\bin\php\PEAR\' + Filename_pear, false);
     UpdateTotalProgressBar();
   end;
 
@@ -1234,9 +1201,6 @@ begin
   ReplaceStringInFile('error_log = php_error.log',
                       'error_log = ' + appDir + '\logs\php_error.log', php_ini_file);
 
-  ReplaceStringInFile(';include_path = ".;c:\php\includes"',
-                      'include_path = ".;' + appDir + '\bin\php\pear"', php_ini_file);
-
   ReplaceStringInFile(';upload_tmp_dir =',           'upload_tmp_dir = ' + appDir + '\temp',    php_ini_file);
   ReplaceStringInFile('upload_max_filesize = 2M',    'upload_max_filesize = 8M',                php_ini_file);
   ReplaceStringInFile(';session.save_path = "/tmp"', 'session.save_path = ' + appDir + '\temp', php_ini_file);
@@ -1288,7 +1252,7 @@ begin
   if CurStep = ssPostInstall then DoPostInstall();
 
   // when the wizard finishes, copy the installation logfile from tmp dir to application dir.
-  // this allows easier debugging of installation problems and users can upload or reference parts of the log.
+  // this allows easier debugging of installation problems. the user can upload or reference parts of the log.
   if CurStep = ssDone then
       filecopy(ExpandConstant('{log}'), ExpandConstant('{app}\logs\') + ExtractFileName(ExpandConstant('{log}')), false);
 end;

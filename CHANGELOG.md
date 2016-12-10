@@ -59,6 +59,7 @@ We group changes to describe their impact on the project, as follows:
   - The Server Control Panel is now able to check, if you use the the latest available version.
   - If you are not up-to-date, it will automatically download the latest version and update itself.
 - [Issue #423](https://github.com/WPN-XM/WPN-XM/issues/423) [SCP] added Redis
+- add VCREDIST handling for 2015
 
 ### FIXES
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
@@ -109,6 +110,8 @@ We group changes to describe their impact on the project, as follows:
 - [Issue #583](https://github.com/WPN-XM/WPN-XM/issues/583) removed PHP Extension "WinCache" from installers and next registries
 - removed Strawberry Perl from installers
 - [Issue #590](https://github.com/WPN-XM/WPN-XM/issues/590) removed PHP 5.5 installers (EOL)
+- uprofiler. the extension isn't maintained properly.
+- removed pear. pear is dead. use composer instead.
 
 ### SECURITY
 - [webinterface] XSS issue. added Core/Request with filter_input_array() sanitizer for GET and POST superglobals
