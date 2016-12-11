@@ -12,6 +12,7 @@
 class LintInstallersTask extends Task
 {
     private $buildFolder;
+    private $syntaxError = false;
 
     public function setBuildFolder($buildFolder)
     {
@@ -21,6 +22,10 @@ class LintInstallersTask extends Task
     public function main()
     {
         $this->lintInstallers();
+
+        if ($this->syntaxError) {
+            throw new BuildException('Syntax Error(s) in Installer!');
+        }
     }
 
     public function lintInstallers()
@@ -45,9 +50,14 @@ class LintInstallersTask extends Task
                 $lint_cmd = $iscc_cmd . ' ' . $iscc_lint_args . ' ' . $installer;
             }
             
-            //$this->log('cmd: ' . $lint_cmd);
-
-            passthru($lint_cmd);
+            $this->log('Executing: ' . $lint_cmd, Project::MSG_DEBUG);
+            
+            @exec($lint_cmd, $output, $return);
+            
+            if ($return !== 0) {
+                $this->log("Found Syntax Error!", Project::MSG_ERR);
+                $this->syntaxError = true;
+            }            
         }
     }
 }

@@ -11,9 +11,9 @@
 
     <!-- ============ Lint Installers ============ -->
 
-    <target name="lint-installers" description="Check syntax of installers.">
-        <taskdef name="LintInstallers" classname="LintInstallersTask" />
-        <LintInstallers buildFolder="${dir.Build}"/>
+    <target name="lint-installers" description="Check syntax of installers." depends="bump-version-number">
+        <taskdef name="LintInstallers" classname="LintInstallersTask"/>
+        <LintInstallers buildFolder="${dir.Build}" />
     </target>
 
     <!-- ============ Compile Installers  ============ -->
