@@ -198,7 +198,7 @@ Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backu
 ; config files
 Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
 Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
-Source: ..\software\nginx\config\conf\domains-disabled\*; DestDir: {app}\bin\nginx\conf\domains-disabled
+Source: ..\software\nginx\config\conf\sites-disabled\*; DestDir: {app}\bin\nginx\conf\sites-disabled
 Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Components: composer
 Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
