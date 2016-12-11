@@ -882,7 +882,7 @@ begin
 
     end;
 
-    if (VCRedist2012NeedsInstall() = TRUE) then
+    if (VCRedist_x64_2012_NeedsInstall() = TRUE) then
     begin
         idpAddFile(URL_vcredist, ExpandConstant(targetPath + Filename_vcredist));
     end;
@@ -1427,7 +1427,7 @@ begin
       ExecHidden(appDir + '\bin\pgsql\bin\initdb.exe --encoding=UTF-8 --pgdata="' + appDir + '\bin\pgsql\data"');
   end;
 
-  if (VCRedistx642015NeedsInstall() = TRUE) then
+  if (VCRedist_x64_2015_NeedsInstall() = TRUE) then
   begin
     ExecHidden('cmd.exe /c {tmp}\vcredist_x64.exe /quiet /norestart');
   end;

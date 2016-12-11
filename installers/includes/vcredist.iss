@@ -14,18 +14,18 @@
 
     2. use helper functions as Checks
 
-       - VCRedist2008x86NeedsInstall
-       - VCRedist2012x86NeedsInstall
-       - VCRedist2015x86NeedsInstall
+       - VCRedist_x86_2008_NeedsInstall
+       - VCRedist_x86_2012_NeedsInstall
+       - VCRedist_x86_2015_NeedsInstall
 
-       - VCRedist2008x64NeedsInstall
-       - VCRedist2012x64NeedsInstall
-       - VCRedist2015x64NeedsInstall
+       - VCRedist_x64_2008_NeedsInstall
+       - VCRedist_x64_2012_NeedsInstall
+       - VCRedist_x64_2015_NeedsInstall
 
       // [Run]
       // ; Automatically started...
       // ; VCRedist Conditional Installation Check
-      // Filename: "{tmp}\vcredist_x86_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist2012NeedsInstall; Flags: nowait
+      // Filename: "{tmp}\vcredist_x86_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist_x86_2012_NeedsInstall; Flags: nowait
 }
 
 
@@ -102,42 +102,42 @@ end;
   The Result must be "True", when you need to install VCRedist - or "False", when you don't need to.
 }
 
-function VCRedistx862008NeedsInstall: Boolean;
+function VCRedist_x86_2008_NeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2008_REDIST_X86));
   Log('Visual C++ 2008 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
 
-function VCRedistx642008NeedsInstall: Boolean;
+function VCRedist_x64_2008_NeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2008_REDIST_X64));
   Log('Visual C++ 2008 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
 
-function VCRedistx862012NeedsInstall: Boolean;
+function VCRedist_x86_2012_NeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2012_REDIST_MIN_UPD4_X86));
   Log('Visual C++ 2012 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
 
-function VCRedistx642012NeedsInstall: Boolean;
+function VCRedist_x64_2012_NeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2012_REDIST_MIN_UPD4_X64));
   Log('Visual C++ 2012 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
 
-function VCRedistx862015NeedsInstall: Boolean;
+function VCRedist_x86_2015_NeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2015_REDIST_X86));
   Log('Visual C++ 2015 Redistributables ');
   If Result = True Then Log('were not found and will be installed.') else Log('are already installed.');
 end;
 
-function VCRedistx642015NeedsInstall: Boolean;
+function VCRedist_x64_2015_NeedsInstall: Boolean;
 begin
   Result := not (VCVersionInstalled(VC_2015_REDIST_X64));
   Log('Visual C++ 2015 Redistributables ');

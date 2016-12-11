@@ -180,7 +180,7 @@ Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openss
 Source: ..\software\conemu\config\*; DestDir: {app}\bin\conemu; Components: conemu
 Source: ..\software\conemu\images\*; DestDir: {app}\bin\conemu; Components: conemu
 
-; Visual C++ Redistributable 2010 is needed by PHP VC11 x64 builds
+; Visual C++ Redistributable 2012 is needed by PHP VC11 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
 Source: ..\bin\vcredist\vcredist_x64_2012.exe; DestDir: {tmp}; Flags: deleteafterinstall
 
@@ -209,7 +209,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 [Run]
 ; Automatically started...
 ; VCRedist Conditional Installation Check
-Filename: "{tmp}\vcredist_x64_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist2008NeedsInstall; Flags: nowait
+Filename: "{tmp}\vcredist_x64_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist_x64_2008_NeedsInstall; Flags: nowait
 ; User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
