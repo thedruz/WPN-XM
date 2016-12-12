@@ -356,7 +356,7 @@ const
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
-  Filename_gogitservice          = 'gogitservice.zip';
+  Filename_gogs          = 'gogitservice.zip';
   Filename_heidisql              = 'heidisql.zip';
   Filename_imagick               = 'imagick.zip';
   Filename_mariadb               = 'mariadb.zip';
@@ -798,7 +798,7 @@ begin
 
     if IsComponentSelected('git') then
     begin
-       idpAddFile(URL_gogitservice, ExpandConstant(targetPath + Filename_gogitservice));
+       idpAddFile(URL_gogitservice, ExpandConstant(targetPath + Filename_gogs));
        idpAddFile(URL_msysgit,      ExpandConstant(targetPath + Filename_msysgit));
     end;
 
@@ -1079,7 +1079,7 @@ begin
   if Pos('git', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Go Git Service');
-      Unzip(ExpandConstant(targetPath + Filename_gogitservice), appDir + '\bin'); // no subfolder, brings own dir (/gogs)
+      Unzip(ExpandConstant(targetPath + Filename_gogs), appDir + '\bin'); // no subfolder, brings own dir (/gogs)
       DelTree(appDir + '\bin\__MACOSX', True, True, True); // remove odd packaging artefacts
     UpdateTotalProgressBar();
 

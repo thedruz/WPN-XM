@@ -292,11 +292,10 @@ const
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
-  Filename_wpnxm_benchmark             = 'wpnxm-benchmark.zip';
   Filename_closure_compiler      = 'closure-compiler.zip';
-  Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
-  Filename_gogitservice          = 'gogitservice.zip';
+  Filename_conemu                = 'conemu.7z';
+  Filename_gogs                  = 'gogitservice.zip';
   Filename_heidisql              = 'heidisql.zip';
   Filename_imagick               = 'imagick.zip';
   Filename_mariadb               = 'mariadb.zip';
@@ -310,7 +309,7 @@ const
   Filename_openssl               = 'openssl.zip';
   Filename_osquery               = 'osquery.zip';
   Filename_php                   = 'php.zip';
-  Filename_php_cs_fixer            = 'php-cs-fixer.phar';
+  Filename_php_cs_fixer          = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_ice            = 'phpext_ice.zip';
@@ -319,10 +318,11 @@ const
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
-  Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  Filename_phpext_msgpack        = 'phpext_msgpack.zip';  
   // pdo_sqlsrv
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_redis          = 'phpext_redis.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
@@ -333,12 +333,14 @@ const
   Filename_phpmyadmin            = 'phpmyadmin.zip';
   Filename_pickle                = 'pickle.phar';
   Filename_postgresql            = 'postgresql.zip';
+  Filename_rabbitmq              = 'rabbitmq.zip';
   Filename_redis                 = 'redis.zip';
   Filename_robomongo             = 'robomongo.zip';
   Filename_sendmail              = 'sendmail.zip';
   Filename_varnish               = 'varnish.zip';
   Filename_webgrind              = 'webgrind.zip';
-  Filename_wpnxm_scp              = 'wpnxmscp.zip';
+  Filename_wpnxm_benchmark       = 'wpnxm-benchmark.zip';
+  Filename_wpnxm_scp             = 'wpnxmscp.zip';
   Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
@@ -878,8 +880,8 @@ begin
   if Pos('git', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Go Git Service');
-      ExtractTemporaryFile(Filename_gogitservice);
-      Unzip(ExpandConstant(targetPath + Filename_gogitservice), appDir + '\bin'); // no subfolder, brings own dir (/gogs)
+      ExtractTemporaryFile(Filename_gogs);
+      Unzip(ExpandConstant(targetPath + Filename_gogs), appDir + '\bin'); // no subfolder, brings own dir (/gogs)
       DelTree(appDir + '\bin\__MACOSX', True, True, True); // remove odd packaging artefacts
     UpdateTotalProgressBar();
 
