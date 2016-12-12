@@ -315,7 +315,6 @@ const
   Filename_redis             = 'redis.zip';
   Filename_robomongo         = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
-  Filename_varnish           = 'varnish.zip';
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxm_scp         = 'wpnxmscp.zip';
   Filename_yuicompressor     = 'yuicompressor.jar';
@@ -684,7 +683,6 @@ begin
   if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
 
