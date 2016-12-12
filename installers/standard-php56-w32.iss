@@ -317,6 +317,7 @@ const
   Filename_redis             = 'redis.zip';
   Filename_robomongo         = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
+  Filename_varnish           = 'varnish.zip';
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxm_scp          = 'wpnxmscp.zip';
   Filename_yuicompressor     = 'yuicompressor.jar';
