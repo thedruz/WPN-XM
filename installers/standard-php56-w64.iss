@@ -281,7 +281,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
-  Filename_benchmark         = 'wpnxm-benchmark.zip';
+  Filename_wpnxm_benchmark         = 'wpnxm-benchmark.zip';
   Filename_closure_compiler  = 'closure-compiler.zip';
   Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
@@ -293,7 +293,7 @@ const
   Filename_nginx             = 'nginx.zip';
   Filename_openssl           = 'openssl.zip';
   Filename_php               = 'php.zip';
-  Filename_phpcsfixer        = 'php-cs-fixer.phar';
+  Filename_php_cs_fixer        = 'php-cs-fixer.phar';
   Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apcu       = 'phpext_apcu.zip';
   Filename_phpext_ice        = 'phpext_ice.zip';
@@ -318,7 +318,7 @@ const
   Filename_robomongo         = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
   Filename_webgrind          = 'webgrind.zip';
-  Filename_wpnxmscp          = 'wpnxmscp.zip';
+  Filename_wpnxm_scp          = 'wpnxmscp.zip';
   Filename_yuicompressor     = 'yuicompressor.jar';
 
 var
@@ -815,8 +815,8 @@ begin
   if Pos('benchmark', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Benchmark Tools');
-      ExtractTemporaryFile(Filename_benchmark);
-      Unzip(ExpandConstant(targetPath + Filename_benchmark), appDir); // multiple files and folders into top level
+      ExtractTemporaryFile(Filename_wpnxm_benchmark);
+      Unzip(ExpandConstant(targetPath + Filename_wpnxm_benchmark), appDir); // multiple files and folders into top level
     UpdateTotalProgressBar();
   end;
 
@@ -841,8 +841,8 @@ begin
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
-      ExtractTemporaryFile(Filename_wpnxmscp);
-      Unzip(ExpandConstant(targetPath + Filename_wpnxmscp), appDir); // no subfolder, top level
+      ExtractTemporaryFile(Filename_wpnxm_scp);
+      Unzip(ExpandConstant(targetPath + Filename_wpnxm_scp), appDir); // no subfolder, top level
     UpdateTotalProgressBar();
   end;
 
@@ -1037,8 +1037,8 @@ begin
   if Pos('phpcsfixer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpcsfixer');
-      ExtractTemporaryFile(Filename_phpcsfixer);
-      FileCopy(ExpandConstant(targetPath + Filename_phpcsfixer), appDir + '\bin\php\' + Filename_phpcsfixer, false);
+      ExtractTemporaryFile(Filename_php_cs_fixer);
+      FileCopy(ExpandConstant(targetPath + Filename_php_cs_fixer), appDir + '\bin\php\' + Filename_php_cs_fixer, false);
     UpdateTotalProgressBar();
   end;
 

@@ -352,7 +352,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
-  Filename_benchmark             = 'wpnxm-benchmark.zip';
+  Filename_wpnxm_benchmark             = 'wpnxm-benchmark.zip';
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
@@ -370,7 +370,7 @@ const
   Filename_openssl               = 'openssl.zip';
   Filename_osquery               = 'osquery.zip';
   Filename_php                   = 'php.zip';
-  Filename_phpcsfixer            = 'php-cs-fixer.phar';
+  Filename_php_cs_fixer            = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_ice            = 'phpext_ice.zip';
@@ -398,7 +398,7 @@ const
   Filename_varnish               = 'varnish.zip';
   Filename_vcredist              = 'vcredist_x86.exe';
   Filename_webgrind              = 'webgrind.zip';
-  Filename_wpnxmscp              = 'wpnxmscp.zip';
+  Filename_wpnxm_scp              = 'wpnxmscp.zip';
   Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
@@ -792,7 +792,7 @@ begin
        idpAddFile(URL_yuicompressor, ExpandConstant(targetPath + Filename_yuicompressor));
     end;
 
-    if IsComponentSelected('benchmark')          then idpAddFile(URL_benchmark,         ExpandConstant(targetPath + Filename_benchmark));
+    if IsComponentSelected('benchmark')          then idpAddFile(URL_benchmark,         ExpandConstant(targetPath + Filename_wpnxm_benchmark));
     if IsComponentSelected('composer')           then idpAddFile(URL_composer,          ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('conemu')             then idpAddFile(URL_conemu,            ExpandConstant(targetPath + Filename_conemu));
 
@@ -838,7 +838,7 @@ begin
 
     if IsComponentSelected('openssl')            then idpAddFile(URL_openssl,           ExpandConstant(targetPath + Filename_openssl));
     if IsComponentSelected('osquery')            then idpAddFile(URL_osquery,           ExpandConstant(targetPath + Filename_osquery));
-    if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_phpcsfixer));
+    if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_php_cs_fixer));
     if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
     if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
     if IsComponentSelected('postgresql')         then idpAddFile(URL_postgresql,        ExpandConstant(targetPath + Filename_postgresql));
@@ -846,7 +846,7 @@ begin
     if IsComponentSelected('redis')              then idpAddFile(URL_redis,             ExpandConstant(targetPath + Filename_redis));
     if IsComponentSelected('robomongo')          then idpAddFile(URL_robomongo,         ExpandConstant(targetPath + Filename_robomongo));
     if IsComponentSelected('sendmail')           then idpAddFile(URL_sendmail,          ExpandConstant(targetPath + Filename_sendmail));
-    if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxmscp));
+    if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxm_scp));
     if IsComponentSelected('webgrind')           then idpAddFileSize(URL_webgrind,      ExpandConstant(targetPath + Filename_webgrind), 648000);
     if IsComponentSelected('xdebug')             then idpAddFile(URL_phpext_xdebug,     ExpandConstant(targetPath + Filename_phpext_xdebug));
 
@@ -1049,7 +1049,7 @@ begin
   begin
     UpdateCurrentComponentName('WPN-XM Benchmark Tools');
 
-      Unzip(ExpandConstant(targetPath + Filename_benchmark), appDir); // multiple files and folders into top level
+      Unzip(ExpandConstant(targetPath + Filename_wpnxm_benchmark), appDir); // multiple files and folders into top level
     UpdateTotalProgressBar();
   end;
 
@@ -1072,7 +1072,7 @@ begin
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
-      Unzip(ExpandConstant(targetPath + Filename_wpnxmscp), appDir); // no subfolder, top level
+      Unzip(ExpandConstant(targetPath + Filename_wpnxm_scp), appDir); // no subfolder, top level
     UpdateTotalProgressBar();
   end;
 
@@ -1324,7 +1324,7 @@ begin
   if Pos('phpcsfixer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpcsfixer');
-      FileCopy(ExpandConstant(targetPath + Filename_phpcsfixer), appDir + '\bin\php\' + Filename_phpcsfixer, false);
+      FileCopy(ExpandConstant(targetPath + Filename_php_cs_fixer), appDir + '\bin\php\' + Filename_php_cs_fixer, false);
     UpdateTotalProgressBar();
   end;
 

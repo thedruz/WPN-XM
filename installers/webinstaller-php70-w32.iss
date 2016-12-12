@@ -320,7 +320,7 @@ const
   URL_osquery               = 'http://wpn-xm.org/get.php?s=osquery';
   URL_php                   = 'http://wpn-xm.org/get.php?s=php&p=7.0';
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
-  //URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.0'; // no build
+  URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.0'; // no build
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.0';
   // phpext_ice not AV for 7
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.0';
@@ -329,14 +329,14 @@ const
   //URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=7.0';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.0';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.0';
-  URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.0';
+  //URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.0';
   //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.0';
   //URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=7.0';
   URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.0';
-  URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.0';
-  //URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.0';
+  //URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.0';
+  URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.0';
   //URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=7.0';
-  //URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.0';
+  URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.0';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.0';
   URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.0';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
@@ -354,7 +354,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
-  Filename_benchmark             = 'wpnxm-benchmark.zip';
+  Filename_wpnxm_benchmark             = 'wpnxm-benchmark.zip';
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
@@ -372,8 +372,8 @@ const
   Filename_openssl               = 'openssl.zip';
   Filename_osquery               = 'osquery.zip';
   Filename_php                   = 'php.zip';
-  Filename_phpcsfixer            = 'php-cs-fixer.phar';
-  //Filename_phpext_amqp           = 'phpext_amqp.zip';
+  Filename_php_cs_fixer            = 'php-cs-fixer.phar';
+  Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   // phpext_ice not AV for 7 x86
   Filename_phpext_imagick        = 'phpext_imagick.zip';
@@ -382,14 +382,14 @@ const
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
-  Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
+  //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
-  Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
-  //Filename_phpext_trader         = 'phpext_trader.zip';
+  //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
+  Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
-  //Filename_phpext_varnish        = 'phpext_varnish.zip';
+  Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
@@ -402,7 +402,7 @@ const
   Filename_varnish               = 'varnish.zip';
   Filename_vcredist              = 'vcredist_x86.exe';
   Filename_webgrind              = 'webgrind.zip';
-  Filename_wpnxmscp              = 'wpnxmscp.zip';
+  Filename_wpnxm_scp              = 'wpnxmscp.zip';
   Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
@@ -796,7 +796,7 @@ begin
        idpAddFile(URL_yuicompressor, ExpandConstant(targetPath + Filename_yuicompressor));
     end;
 
-    if IsComponentSelected('benchmark')          then idpAddFile(URL_benchmark,         ExpandConstant(targetPath + Filename_benchmark));
+    if IsComponentSelected('benchmark')          then idpAddFile(URL_benchmark,         ExpandConstant(targetPath + Filename_wpnxm_benchmark));
     if IsComponentSelected('composer')           then idpAddFile(URL_composer,          ExpandConstant(targetPath + Filename_composer));
     if IsComponentSelected('conemu')             then idpAddFile(URL_conemu,            ExpandConstant(targetPath + Filename_conemu));
 
@@ -842,7 +842,7 @@ begin
 
     if IsComponentSelected('openssl')            then idpAddFile(URL_openssl,           ExpandConstant(targetPath + Filename_openssl));
     if IsComponentSelected('osquery')            then idpAddFile(URL_osquery,           ExpandConstant(targetPath + Filename_osquery));
-    if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_phpcsfixer));
+    if IsComponentSelected('phpcsfixer')         then idpAddFile(URL_phpcsfixer,        ExpandConstant(targetPath + Filename_php_cs_fixer));
     if IsComponentSelected('phpmemcachedadmin')  then idpAddFile(URL_phpmemcachedadmin, ExpandConstant(targetPath + Filename_phpmemcachedadmin));
     if IsComponentSelected('phpmyadmin')         then idpAddFile(URL_phpmyadmin,        ExpandConstant(targetPath + Filename_phpmyadmin));
     if IsComponentSelected('postgresql')         then idpAddFile(URL_postgresql,        ExpandConstant(targetPath + Filename_postgresql));
@@ -850,7 +850,7 @@ begin
     if IsComponentSelected('redis')              then idpAddFile(URL_redis,             ExpandConstant(targetPath + Filename_redis));
     if IsComponentSelected('robomongo')          then idpAddFile(URL_robomongo,         ExpandConstant(targetPath + Filename_robomongo));
     if IsComponentSelected('sendmail')           then idpAddFile(URL_sendmail,          ExpandConstant(targetPath + Filename_sendmail));
-    if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxmscp));
+    if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxm_scp));
     if IsComponentSelected('webgrind')           then idpAddFileSize(URL_webgrind,      ExpandConstant(targetPath + Filename_webgrind), 648000);
     if IsComponentSelected('xdebug')             then idpAddFile(URL_phpext_xdebug,     ExpandConstant(targetPath + Filename_phpext_xdebug));
 
@@ -862,18 +862,18 @@ begin
 
     if IsComponentSelected('phpextensions') then
     begin
-        //idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
+        idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
         // phpext_ice not AV PHP 7 x86
         // phpext_json included (core)
 		idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
-        idpAddFile(URL_phpext_pdo_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_pdo_sqlsrv));
+        //idpAddFile(URL_phpext_pdo_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_pdo_sqlsrv));
         //idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         //idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
         idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
-        idpAddFile(URL_phpext_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_sqlsrv));
-        //idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
+        //idpAddFile(URL_phpext_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_sqlsrv));
+        idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         //idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
         idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
@@ -1055,7 +1055,7 @@ begin
   begin
     UpdateCurrentComponentName('WPN-XM Benchmark Tools');
 
-      Unzip(ExpandConstant(targetPath + Filename_benchmark), appDir); // multiple files and folders into top level
+      Unzip(ExpandConstant(targetPath + Filename_wpnxm_benchmark), appDir); // multiple files and folders into top level
     UpdateTotalProgressBar();
   end;
 
@@ -1078,7 +1078,7 @@ begin
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
-      Unzip(ExpandConstant(targetPath + Filename_wpnxmscp), appDir); // no subfolder, top level
+      Unzip(ExpandConstant(targetPath + Filename_wpnxm_scp), appDir); // no subfolder, top level
     UpdateTotalProgressBar();
   end;
 
@@ -1152,11 +1152,11 @@ begin
 
   if Pos('phpextensions', selectedComponents) > 0 then
   begin
-   // UpdateCurrentComponentName('PHP Extension - AMQP');
-     // Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
-     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - AMQP');
+      Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - APCu');
       Unzip(targetPath + Filename_phpext_apcu, targetPath + 'phpext_apcu');
@@ -1199,27 +1199,27 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
     UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - SQLSRV');
-      Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');
-      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
-      FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
-    UpdateTotalProgressBar();
+    //UpdateCurrentComponentName('PHP Extension - SQLSRV');
+    ///  Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');
+    //  // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
+    //  FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
+    //UpdateTotalProgressBar();
 
-    UpdateCurrentComponentName('PHP Extension - PDO_SQLSRV');
-      Unzip(targetPath + Filename_phpext_pdo_sqlsrv, targetPath + 'phpext_pdo_sqlsrv');
-      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
-      FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
-    UpdateTotalProgressBar();
+    //UpdateCurrentComponentName('PHP Extension - PDO_SQLSRV');
+    //  Unzip(targetPath + Filename_phpext_pdo_sqlsrv, targetPath + 'phpext_pdo_sqlsrv');
+    //  // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
+    //  FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
+    //UpdateTotalProgressBar();
 
    // UpdateCurrentComponentName('PHP Extension - RAR');
      // Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
      // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
    // UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Trader');
-     // Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Trader');
+      Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
+      FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
@@ -1235,10 +1235,10 @@ begin
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\varnish-* ' + appDir + '\bin\varnish"');// rename directory, like "varnish-3.0.2"
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Varnish');
-     // Unzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), appDir + '\bin\php\ext\php_varnish.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Varnish');
+      Unzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
+      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), appDir + '\bin\php\ext\php_varnish.dll', false);
+    UpdateTotalProgressBar();
   end;
 
   if Pos('imagick', selectedComponents) > 0 then
@@ -1343,7 +1343,7 @@ begin
   if Pos('phpcsfixer', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('phpcsfixer');
-      FileCopy(ExpandConstant(targetPath + Filename_phpcsfixer), appDir + '\bin\php\' + Filename_phpcsfixer, false);
+      FileCopy(ExpandConstant(targetPath + Filename_php_cs_fixer), appDir + '\bin\php\' + Filename_php_cs_fixer, false);
     UpdateTotalProgressBar();
   end;
 

@@ -251,7 +251,7 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
-  Filename_benchmark         = 'wpnxm-benchmark.zip';
+  Filename_wpnxm_benchmark         = 'wpnxm-benchmark.zip';
   Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
   Filename_mariadb           = 'mariadb.zip';
@@ -260,7 +260,7 @@ const
   Filename_php               = 'php.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.zip';
   Filename_pickle            = 'pickle.phar';
-  Filename_wpnxmscp          = 'wpnxmscp.zip';
+  Filename_wpnxm_scp          = 'wpnxmscp.zip';
 
 var
   targetPath  : String;   // init in prepareUnzip() - if debug true will download to app/downloads, else temp dir
@@ -713,8 +713,8 @@ begin
   if Pos('benchmark', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Benchmark Tools');
-      ExtractTemporaryFile(Filename_benchmark);
-      Unzip(ExpandConstant(targetPath + Filename_benchmark), appDir); // multiple files and folders into top level
+      ExtractTemporaryFile(Filename_wpnxm_benchmark);
+      Unzip(ExpandConstant(targetPath + Filename_wpnxm_benchmark), appDir); // multiple files and folders into top level
     UpdateTotalProgressBar();
   end;
 
@@ -730,8 +730,8 @@ begin
   if Pos('servercontrolpanel', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('WPN-XM Server Control Panel');
-      ExtractTemporaryFile(Filename_wpnxmscp);
-      Unzip(ExpandConstant(targetPath + Filename_wpnxmscp), appDir); // no subfolder, top level
+      ExtractTemporaryFile(Filename_wpnxm_scp);
+      Unzip(ExpandConstant(targetPath + Filename_wpnxm_scp), appDir); // no subfolder, top level
     UpdateTotalProgressBar();
   end;
 
