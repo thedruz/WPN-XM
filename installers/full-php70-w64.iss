@@ -240,7 +240,7 @@ Name: add_startstop_desktopicons; Description: Create &Desktop icons for startin
 [Run]
 ; Automatically started...
 ; VCRedist Conditional Installation Check
-Filename: "{tmp}\vcredist_x64_2015.exe"; Parameters: "/quiet /norestart"; Check: VCRedist_x86_2015_NeedsInstall; Flags: nowait
+Filename: "{tmp}\vcredist_x64_2015.exe"; Parameters: "/quiet /norestart"; Check: VCRedist_x64_2015_NeedsInstall; Flags: nowait
 ; User selected Postinstallation runs...
 Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: postinstall nowait skipifsilent unchecked; Components: servercontrolpanel
 
