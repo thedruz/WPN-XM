@@ -713,13 +713,14 @@ begin
   intTotalComponents := intTotalComponents + 2;
 
   // the following components contain 2 components. if selected, we have to add 1 to the counter.
-  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // closure+yuicomp
+  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
+  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
+  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
+  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_varnish
+  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
+  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
+  if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -893,11 +894,26 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('rabbitmq', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RabbitMQ');
+      ExtractTemporaryFile(Filename_rabbitmq);
+      Unzip(ExpandConstant(targetPath + Filename_rabbitmq), appDir + '\bin\'); // no subfolder, brings own folder "rabbitmq_server-x.y.z"
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\rabbitmq_* ' + appDir + '\bin\rabbitmq"'); // rename folder
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('redis', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Redis');
       ExtractTemporaryFile(Filename_redis);
       Unzip(ExpandConstant(targetPath + Filename_redis), appDir + '\bin\redis'); // no subfolder, top level
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Redis');
+      ExtractTemporaryFile(Filename_phpext_redis);
+      Unzip(targetPath + Filename_phpext_redis, targetPath + 'phpext_redis');
+      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_redis.dll'), appDir + '\bin\php\ext\php_redis.dll', false);
     UpdateTotalProgressBar();
   end;
 
@@ -933,6 +949,14 @@ begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
       Unzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl');
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('osquery', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('OpenSSL');
+      ExtractTemporaryFile(Filename_osquery);
+      Unzip(ExpandConstant(targetPath + Filename_osquery), appDir + '\bin\osquery');
     UpdateTotalProgressBar();
   end;
 

@@ -251,16 +251,16 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
-  Filename_wpnxm_benchmark         = 'wpnxm-benchmark.zip';
-  Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
+  Filename_conemu            = 'conemu.7z';
   Filename_mariadb           = 'mariadb.zip';
   Filename_nginx             = 'nginx.zip';
   Filename_openssl           = 'openssl.zip';
   Filename_php               = 'php.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.zip';
   Filename_pickle            = 'pickle.phar';
-  Filename_wpnxm_scp          = 'wpnxmscp.zip';
+  Filename_wpnxm_benchmark   = 'wpnxm-benchmark.zip';
+  Filename_wpnxm_scp         = 'wpnxmscp.zip';
 
 var
   targetPath  : String;   // init in prepareUnzip() - if debug true will download to app/downloads, else temp dir

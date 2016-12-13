@@ -281,10 +281,9 @@ const
 
   // Define file names for the downloads
   Filename_adminer           = 'adminer.php';
-  Filename_wpnxm_benchmark         = 'wpnxm-benchmark.zip';
   Filename_closure_compiler  = 'closure-compiler.zip';
-  Filename_conemu            = 'conemu.7z';
   Filename_composer          = 'composer.phar';
+  Filename_conemu            = 'conemu.7z';
   Filename_heidisql          = 'heidisql.zip';
   Filename_mariadb           = 'mariadb.zip';
   Filename_memadmin          = 'memadmin.zip';
@@ -293,7 +292,7 @@ const
   Filename_nginx             = 'nginx.zip';
   Filename_openssl           = 'openssl.zip';
   Filename_php               = 'php.zip';
-  Filename_php_cs_fixer        = 'php-cs-fixer.phar';
+  Filename_php_cs_fixer      = 'php-cs-fixer.phar';
   //Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apcu       = 'phpext_apcu.zip';
   // ice not available
@@ -304,6 +303,7 @@ const
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
   //Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   //Filename_phpext_rar        = 'phpext_rar.zip';
+  Filename_phpext_redis      = 'phpext_redis.zip';
   Filename_phpext_stats      = 'phpext_stats.zip';
   //Filename_phpext_trader     = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
@@ -316,6 +316,7 @@ const
   Filename_robomongo         = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
   Filename_webgrind          = 'webgrind.zip';
+  Filename_wpnxm_benchmark   = 'wpnxm-benchmark.zip';
   Filename_wpnxm_scp          = 'wpnxmscp.zip';
   Filename_yuicompressor     = 'yuicompressor.jar';
 
@@ -679,12 +680,14 @@ begin
   intTotalComponents := intTotalComponents + 2;
 
   // the following components contain 2 components. if selected, we have to add 1 to the counter.
-  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // closure+yuicomp
+  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
+  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
+  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
+  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_varnish
+  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
+  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
+  if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -849,6 +852,12 @@ begin
       ExtractTemporaryFile(Filename_redis);
       Unzip(ExpandConstant(targetPath + Filename_redis), appDir + '\bin\redis'); // no subfolder, top level
     UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Redis');
+      ExtractTemporaryFile(Filename_phpext_redis);
+      Unzip(targetPath + Filename_phpext_redis, targetPath + 'phpext_redis');
+      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_redis.dll'), appDir + '\bin\php\ext\php_redis.dll', false);
+    UpdateTotalProgressBar();
   end;
 
   if Pos('assettools', selectedComponents) > 0 then
@@ -886,12 +895,12 @@ begin
 
   if Pos('phpextensions', selectedComponents) > 0 then
   begin
-   // UpdateCurrentComponentName('PHP Extension - AMQP');
-     // ExtractTemporaryFile(Filename_phpext_amqp);
-     // Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
-     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - AMQP');
+      ExtractTemporaryFile(Filename_phpext_amqp);
+      Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - APCu');
       ExtractTemporaryFile(Filename_phpext_apcu);
@@ -947,11 +956,11 @@ begin
      // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
    // UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Trader');
-     // ExtractTemporaryFile(Filename_phpext_trader);
-     // Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Trader');
+      ExtractTemporaryFile(Filename_phpext_trader);
+      Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
+      FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       ExtractTemporaryFile(Filename_phpext_zmq);

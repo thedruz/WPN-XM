@@ -354,11 +354,10 @@ const
 
   // Define file names for the downloads
   Filename_adminer               = 'adminer.php';
-  Filename_wpnxm_benchmark             = 'wpnxm-benchmark.zip';
   Filename_closure_compiler      = 'closure-compiler.zip';
-  Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
-  Filename_gogs          = 'gogitservice.zip';
+  Filename_conemu                = 'conemu.7z';
+  Filename_gogs                  = 'gogitservice.zip';
   Filename_heidisql              = 'heidisql.zip';
   Filename_imagick               = 'imagick.zip';
   Filename_mariadb               = 'mariadb.zip';
@@ -367,42 +366,45 @@ const
   Filename_mongodb               = 'mongodb.zip';
   Filename_msysgit               = 'msysgit.exe'; // WATCH IT: 7zip SFX EXE!
   Filename_nginx                 = 'nginx.zip';
-  Filename_node                  = 'node.exe';
+  Filename_node                  = 'node.exe'; // WATCH IT: EXE!
   Filename_nodenpm               = 'nodenpm.zip';
   Filename_openssl               = 'openssl.zip';
   Filename_osquery               = 'osquery.zip';
   Filename_php                   = 'php.zip';
-  Filename_php_cs_fixer            = 'php-cs-fixer.phar';
-  //Filename_phpext_amqp           = 'phpext_amqp.zip';
+  Filename_php_cs_fixer          = 'php-cs-fixer.phar';
+  Filename_phpext_amqp           = 'phpext_amqp.zip';
   //Filename_phpext_apcu           = 'phpext_apcu.zip';
   //Filename_phpext_ice            = 'phpext_ice.zip'; // phpext_ice not available for PHP 7.1 x64
-  //Filename_phpext_imagick        = 'phpext_imagick.zip';
+  Filename_phpext_imagick        = 'phpext_imagick.zip';
   // phpext_json is included in PHP7
   //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
-  //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
-  //Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  Filename_phpext_mongodb        = 'phpext_mongodb.zip';
+  Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
-  //Filename_phpext_stats          = 'phpext_stats.zip';
+  Filename_phpext_redis          = 'phpext_redis.zip';
+  Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
-  //Filename_phpext_trader         = 'phpext_trader.zip';
+  Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   //Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
-  //Filename_phpext_zmq            = 'phpext_zmq.zip';
+  Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
   Filename_pickle                = 'pickle.phar';
   Filename_postgresql            = 'postgresql.zip';
+  Filename_rabbitmq              = 'rabbitmq.zip';
   Filename_redis                 = 'redis.zip';
   Filename_robomongo             = 'robomongo.zip';
   Filename_sendmail              = 'sendmail.zip';
   Filename_varnish               = 'varnish.zip';
   Filename_vcredist              = 'vcredist_x86.exe';
   Filename_webgrind              = 'webgrind.zip';
-  Filename_wpnxm_scp              = 'wpnxmscp.zip';
+  Filename_wpnxm_benchmark       = 'wpnxm-benchmark.zip';
+  Filename_wpnxm_scp             = 'wpnxmscp.zip';
   Filename_yuicompressor         = 'yuicompressor.jar';
 
 var
