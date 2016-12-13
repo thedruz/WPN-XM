@@ -16,6 +16,13 @@
         <LintInstallers buildFolder="${dir.Build}" />
     </target>
 
+    <!-- ============ Check Installers Health ============ -->
+
+    <target name="check-installers" description="Check health of installers.">
+        <taskdef name="CheckInstallers" classname="CheckInstallersTask"/>
+        <CheckInstallers installersFolder="${dir.Installers}" nextInstallerRegistriesFolder="${dir.NextInstallerRegistries}" />
+    </target>
+
     <!-- ============ Compile Installers  ============ -->
 
     <target name="inno-compile" description="Main compile task using InnoSetup Compiler.">

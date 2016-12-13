@@ -9,7 +9,7 @@
  * For full copyright and license information, view the bundled LICENSE file.
  */
 
-class CheckInstallersTask extends Task
+class CheckInstallersWereBuildTask extends Task
 {
     private $buildFolder;
 
