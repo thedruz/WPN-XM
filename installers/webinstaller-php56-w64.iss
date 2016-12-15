@@ -158,7 +158,7 @@ Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDis
 [Files]
 ; tools:
 Source: ..\bin\7zip\x64\7za.exe; DestDir: {tmp}; Flags: dontcopy
-Source: ..\bin\7zip\x86\*; DestDir: {app}\bin\tools\
+Source: ..\bin\7zip\x64\*; DestDir: {app}\bin\tools\
 Source: ..\bin\7zip\License.txt; DestDir: {app}\docs\licenses\; DestName: 7zip_license.txt;
 Source: ..\bin\upx\upx.exe; DestDir: {tmp}; Flags: dontcopy
 Source: ..\bin\backup\*; DestDir: {app}\bin\backup\
@@ -331,6 +331,7 @@ const
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.6&bitsize=x64';
   URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.6&bitsize=x64';
   URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.6&bitsize=x64';
+  URL_phpext_runkit         = 'http://wpn-xm.org/get.php?s=phpext_runkit&p=5.6&bitsize=x64';
   URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=5.6&bitsize=x64';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.6&bitsize=x64';
   URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.6&bitsize=x64';
@@ -383,6 +384,7 @@ const
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';
+  Filename_phpext_runkit         = 'phpext_runkit.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   Filename_phpext_trader         = 'phpext_trader.zip';
@@ -870,6 +872,7 @@ begin
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
+        idpAddFile(URL_phpext_runkit,         ExpandConstant(targetPath + Filename_phpext_runkit));
         idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
         idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
@@ -921,13 +924,14 @@ begin
   intTotalComponents := intTotalComponents + 2;
 
   // the following components contain 2 components. if selected, we have to add 1 to the counter.
-  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // closure+yuicomp
+  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
+  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
+  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
+  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_varnish
+  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
+  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
+  if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -1199,6 +1203,11 @@ begin
     UpdateCurrentComponentName('PHP Extension - RAR');
       Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
       FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - RunKit');
+      Unzip(targetPath + Filename_phpext_runkit, targetPath + 'phpext_runkit');
+      FileCopy(ExpandConstant(targetPath + 'phpext_runkit\php_runkit.dll'), appDir + '\bin\php\ext\php_runkit.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');

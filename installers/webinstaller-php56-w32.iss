@@ -331,6 +331,7 @@ const
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.6';
   URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.6';
   URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.6';
+  URL_phpext_runkit         = 'http://wpn-xm.org/get.php?s=phpext_runkit&p=5.6';
   URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=5.6';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.6';
   URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.6';
@@ -383,6 +384,7 @@ const
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';
+  Filename_phpext_runkit         = 'phpext_runkit.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   Filename_phpext_trader         = 'phpext_trader.zip';
@@ -870,6 +872,7 @@ begin
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
+        idpAddFile(URL_phpext_runkit,         ExpandConstant(targetPath + Filename_phpext_runkit));
         idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
         idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
@@ -1200,6 +1203,11 @@ begin
     UpdateCurrentComponentName('PHP Extension - RAR');
       Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
       FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - RunKit');
+      Unzip(targetPath + Filename_phpext_runkit, targetPath + 'phpext_runkit');
+      FileCopy(ExpandConstant(targetPath + 'phpext_runkit\php_runkit.dll'), appDir + '\bin\php\ext\php_runkit.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');

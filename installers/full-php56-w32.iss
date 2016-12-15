@@ -324,6 +324,7 @@ const
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_rar            = 'phpext_rar.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';
+  Filename_phpext_runkit         = 'phpext_runkit.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
@@ -1033,6 +1034,12 @@ begin
       ExtractTemporaryFile(Filename_phpext_rar);
       Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
       FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - RunKit');
+      ExtractTemporaryFile(Filename_phpext_runkit);
+      Unzip(targetPath + Filename_phpext_runkit, targetPath + 'phpext_runkit');
+      FileCopy(ExpandConstant(targetPath + 'phpext_runkit\php_runkit.dll'), appDir + '\bin\php\ext\php_runkit.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');
