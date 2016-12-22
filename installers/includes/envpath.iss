@@ -19,22 +19,22 @@
 
   1. Example for NeedsAddPath()
 
-        [Registry]
-        ; A registry change needs the following directive: [SETUP] ChangesEnvironment=yes
-        ; The registry is not modified, when in portable mode.
-        Root: HKCU; Subkey: "Environment"; 
-              ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; 
-              Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
+    //[Registry]
+    //; A registry change needs the following directive: [SETUP] ChangesEnvironment=yes
+    //; The registry is not modified, when in portable mode.
+    //Root: HKCU; Subkey: "Environment"; 
+    //      ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype;
+    //      Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
 
   2. Example for RemovePath() during Uninstallation
 
-        procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-        begin
-          if CurUninstallStep = usPostUninstall then
-          begin
-            RemovePath(ExpandConstant('{app}'));
-          end;
-        end;
+    //procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+    //begin
+    //  if CurUninstallStep = usPostUninstall then
+    //  begin
+    //    RemovePath(ExpandConstant('{app}'));
+    //  end;
+    //end;
 
   -----------------------------------------------------------------------------
 }
