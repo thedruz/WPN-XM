@@ -272,6 +272,9 @@ Name: {app}\www\tools\webinterface; Components: webinterface
 // include helper for VCRedist Conditional Installation Check
 #include "includes\vcredist.iss"
 
+// modification and path lookup helper for env PATH 
+#include "includes\envpath.iss"
+
 type
   TPositionStorage = array of Integer;
 
@@ -390,26 +393,6 @@ begin
   WebsiteButton.Top := Storage[10] + HeightOffset;
   HelpButton.Top := Storage[11] + HeightOffset;
   if DEBUG = true then DebugLabel.Top := Storage[12] + HeightOffset;
-end;
-
-{
-  This check avoids duplicate paths on env var path.
-  Used in the Registry Section for testing, if path was already set.
-}
-function NeedsAddPath(PathToAdd: string): boolean;
-var
-  OrigPath: string;
-begin
-  if not RegQueryStringValue(HKCU, 'Environment\', 'Path', OrigPath) then
-  begin
-    Result := True;
-    exit;
-  end;
-  // look for the path with leading and trailing semicolon
-  // Pos() returns 0 if not found
-  Result := Pos(';' + UpperCase(PathToAdd) + ';', ';' + UpperCase(OrigPath) + ';') = 0;
-  if Result = True then
-     Result := Pos(';' + UpperCase(PathToAdd) + '\;', ';' + UpperCase(OrigPath) + ';') = 0;
 end;
 
 // Runs an external command via RunHiddenConsole
@@ -1454,27 +1437,6 @@ begin
   UnloadDLL(ExpandConstant('{app}\bin\tools\psvince.dll'));
 
   Result := true;
-end;
-
-function RemovePathFromEnvironmentPath(PathToRemove: string): boolean;
-var
-  Path: String;
-begin
-  // fetch env var PATH
-  RegQueryStringValue(HKCU, 'Environment\', 'PATH', Path);
-
-  // check, if the PathToRemove is inside PATH
-  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then
-  begin
-     // replace the PathToRemove string segment with empty and write the new path
-     StringChange(Path, PathToRemove + ';', '');
-     RegWriteStringValue(HKCU, 'Environment\', 'PATH', Path);
-     Result := true;
-  end
-  else
-  begin
-     Result := false;
-  end;
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);

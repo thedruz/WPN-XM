@@ -235,6 +235,9 @@ Name: {app}\www\tools\webinterface; Components: webinterface
 // include helper for VCRedist Conditional Installation Check
 #include "includes\vcredist.iss"
 
+// modification and path lookup helper for env PATH 
+#include "includes\envpath.iss"
+
 var
   // the controls move on resize
   WebsiteButton : TButton;
@@ -579,13 +582,14 @@ begin
   intTotalComponents := intTotalComponents + 2;
 
   // the following components contain 2 components. if selected, we have to add 1 to the counter.
-  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // closure+yuicomp
+  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
+  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
+  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
+  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_varnish
+  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
+  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
+  if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -977,27 +981,6 @@ begin
   UnloadDLL(ExpandConstant('{app}\bin\tools\psvince.dll'));
 
   Result := true;
-end;
-
-function RemovePathFromEnvironmentPath(PathToRemove: string): boolean;
-var
-  Path: String;
-begin
-  // fetch env var PATH
-  RegQueryStringValue(HKCU, 'Environment\', 'PATH', Path);
-
-  // check, if the PathToRemove is inside PATH
-  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then
-  begin
-     // replace the PathToRemove string segment with empty and write the new path
-     StringChange(Path, PathToRemove + ';', '');
-     RegWriteStringValue(HKCU, 'Environment\', 'PATH', Path);
-     Result := true;
-  end
-  else
-  begin
-     Result := false;
-  end;
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);

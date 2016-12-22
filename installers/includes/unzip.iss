@@ -1,29 +1,33 @@
-{
-	Unzip Helper for executing 7zip without blocking the InnoSetup GUI
+{ 
+  InnoSetup - unzip.iss
 
-    ----
+  Helper for executing 7zip without blocking the InnoSetup GUI.
+
+  -----------------------------------------------------------------------------
 
 	The main procedure is the non-blocking Unzip().
 	Your GUI will remain responsive during the unzip operation.
 
-    Written by Rik and Jens A. Koch (@jakoch) on StackOverflow:
-    http://stackoverflow.com/questions/32256432/how-to-execute-7zip-without-blocking-the-innosetup-ui
+  Written by Rik and Jens A. Koch (@jakoch) on StackOverflow:
+  http://stackoverflow.com/questions/32256432/how-to-execute-7zip-without-blocking-the-innosetup-ui
 
-    ----
+  -----------------------------------------------------------------------------
 
-    Usage:
+  Usage:
 
 	1. Include this ISS with
 
-	   // #include "..\some\where\unzip.iss"
+      // #include "..\some\where\unzip.iss"
 
 	2. Add the unzip tool "7za.exe" to the [Files] section of your installer
 	   and copy it to the temp folder during installation.
 
-       // [Files]
-       // Source: ..\some\where\7za.exe; DestDir: {tmp}; Flags: dontcopy
+      // [Files]
+      // Source: ..\some\where\7za.exe; DestDir: {tmp}; Flags: dontcopy
 
 	3. Finally, extract your files using Unzip(source, target); in the [Code] section.
+
+  -----------------------------------------------------------------------------
 }
 
 #IFDEF UNICODE

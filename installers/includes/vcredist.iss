@@ -1,31 +1,36 @@
 {
-    Detect, if Visual C++ Redistributable needs to be installed
+  InnoSetup - vcredist.iss
 
-    Based on:
-    http://stackoverflow.com/questions/11137424/how-to-make-vcredist-x86-reinstall-only-if-not-yet-installed
+  Helper for detecting, if Visual C++ Redistributable needs to be installed
 
-    ----
+  -----------------------------------------------------------------------------
 
-    Usage:
+  Based on: http://stackoverflow.com/questions/11137424
 
-    1. Include this ISS with
+  -----------------------------------------------------------------------------
 
-       // #include "..\some\where\vcredist.iss"
+  Usage:
 
-    2. use helper functions as Checks
+  1. Include this ISS with
 
-       - VCRedist_x86_2008_NeedsInstall
-       - VCRedist_x86_2012_NeedsInstall
-       - VCRedist_x86_2015_NeedsInstall
+     // #include "..\some\where\vcredist.iss"
 
-       - VCRedist_x64_2008_NeedsInstall
-       - VCRedist_x64_2012_NeedsInstall
-       - VCRedist_x64_2015_NeedsInstall
+  2. use helper functions as Checks
 
-      // [Run]
-      // ; Automatically started...
-      // ; VCRedist Conditional Installation Check
-      // Filename: "{tmp}\vcredist_x86_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist_x86_2012_NeedsInstall; Flags: nowait
+     - VCRedist_x86_2008_NeedsInstall
+     - VCRedist_x86_2012_NeedsInstall
+     - VCRedist_x86_2015_NeedsInstall
+
+     - VCRedist_x64_2008_NeedsInstall
+     - VCRedist_x64_2012_NeedsInstall
+     - VCRedist_x64_2015_NeedsInstall
+
+    // [Run]
+    // ; Automatically started...
+    // ; VCRedist Conditional Installation Check
+    // Filename: "{tmp}\vcredist_x86_2012.exe"; Parameters: "/quiet /norestart"; Check: VCRedist_x86_2012_NeedsInstall; Flags: nowait
+
+  -----------------------------------------------------------------------------
 }
 
 

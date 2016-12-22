@@ -235,6 +235,9 @@ Name: {app}\www\tools\webinterface; Components: webinterface
 // include helper for VCRedist Conditional Installation Check
 #include "includes\vcredist.iss"
 
+// modification and path lookup helper for env PATH 
+#include "includes\envpath.iss"
+
 var
   // the controls move on resize
   WebsiteButton : TButton;
@@ -978,27 +981,6 @@ begin
   UnloadDLL(ExpandConstant('{app}\bin\tools\psvince.dll'));
 
   Result := true;
-end;
-
-function RemovePathFromEnvironmentPath(PathToRemove: string): boolean;
-var
-  Path: String;
-begin
-  // fetch env var PATH
-  RegQueryStringValue(HKCU, 'Environment\', 'PATH', Path);
-
-  // check, if the PathToRemove is inside PATH
-  if Pos(LowerCase(PathToRemove) + ';', Lowercase(Path)) <> 0 then
-  begin
-     // replace the PathToRemove string segment with empty and write the new path
-     StringChange(Path, PathToRemove + ';', '');
-     RegWriteStringValue(HKCU, 'Environment\', 'PATH', Path);
-     Result := true;
-  end
-  else
-  begin
-     Result := false;
-  end;
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
