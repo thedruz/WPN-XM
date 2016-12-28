@@ -61,6 +61,10 @@ We group changes to describe their impact on the project, as follows:
   - If you are not up-to-date, it will automatically download the latest version and update itself.
 - [Issue #423](https://github.com/WPN-XM/WPN-XM/issues/423) [SCP] added Redis
 - add VCREDIST handling for 2015
+- [Issue #586](https://github.com/WPN-XM/WPN-XM/issues/586) modular installers - part 1
+  - extracted environment variable path helper functions into `includes/envpath.iss`
+  - extracted unzip helper functions into `includes/unzip.iss`
+  - extracted vcredist detection helper functions into `includes/vcredist.iss`
 
 ### FIXES
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
