@@ -1623,17 +1623,23 @@ begin
       // but it will not recursively delete files/directories inside them.
       DelTree(ExpandConstant('{app}'), True, True, True);
 
+      // Removing a path from the environment PATH variable works in 3 steps (see includes/envpath.iss):
+      // 1. get the old env var PATH and store it temporarily in oldPath
+      SaveOldPathCurrentUser();
+
     end else begin
       // User clicked: No
       Abort;
     end;
   end;
 
-  // finally, remove paths from the ENV path
+  // 2. remove paths from the env var PATH 
   if (CurUninstallStep = usPostUninstall) then begin
      RemovePathFromEnvironmentPath(appDir + '\bin\php');
      RemovePathFromEnvironmentPath(appDir + '\bin\php\ext');
      RemovePathFromEnvironmentPath(appDir + '\bin\mariadb\bin');
      RemovePathFromEnvironmentPath(appDir + '\bin\git\bin');
+     // 3. refresh environment, so that the modified PATH var is activated
+     RefreshEnvironment();
   end;
 end;
