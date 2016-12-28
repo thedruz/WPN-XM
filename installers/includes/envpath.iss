@@ -8,13 +8,13 @@
   Provides the functions:
 
    - NeedsAddPathLocalMachine()   - is a check, to avoid duplicate OrigPaths on the HKLM env variable PATH 
-   - NeedsAddPathLocalUser()      - is a check, to avoid duplicate OrigPaths on the HKCU env variable PATH 
+   - NeedsAddPathCurrentUser()    - is a check, to avoid duplicate OrigPaths on the HKCU env variable PATH 
 
    - SaveOldPathLocalMachine()    - stores the HKLM env variable PATH as string oldPath 
-   - SaveOldPathLocalUser()       - stores the HKCU env variable PATH as string oldPath
+   - SaveOldPathCurrentUser()     - stores the HKCU env variable PATH as string oldPath
 
    - RemovePathLocalMachine(Path) - removes a path from the HKLM env variable PATH
-   - RemovePathLocalUser(Path)    - removes a path from the HKCU env variable PATH
+   - RemovePathCurrentUser(Path)  - removes a path from the HKCU env variable PATH
 
    - RefreshEnvironment()         - allows to refresh the environment instantly after a registry change
 
@@ -26,29 +26,29 @@
 
   Usage: 
 
-  1. Example for NeedsAddPathLocalUser()
+  1. Example for NeedsAddPathCurrentUser()
 
     //[Registry]
     //; A registry change needs the following directive: [SETUP] ChangesEnvironment=yes
     //; The registry is not modified, when in portable mode.
     //Root: HKCU; Subkey: "Environment"; 
     //      ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype;
-    //      Check: NeedsAddPathLocalUser(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
+    //      Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
 
-  2. Example for RemovePathLocalUser() during uninstallation
+  2. Example for RemovePathCurrentUser() during uninstallation
 
     //// Removing a path from the PATH variable works in 3 steps:
     //// 1. get the old env var PATH and store it temporarily in oldPath
     //if (CurUninstallStep =  usUninstall) then
     //begin
-    //  SaveOldPathLocalUser();
+    //  SaveOldPathCurrentUser();
     //end;  
     //// 2. remove paths from the env var PATH 
     //if (CurUninstallStep = usPostUninstall) then
     //begin
-    //  RemovePathLocalUser(ExpandConstant('{app}') + '\python\Lib\site-packages\fife');
-    //  RemovePathLocalUser(ExpandConstant('{app}') + '\python');
-    //  RemovePathLocalUser(ExpandConstant('{app}'));
+    //  RemovePathCurrentUser(ExpandConstant('{app}') + '\python\Lib\site-packages\fife');
+    //  RemovePathCurrentUser(ExpandConstant('{app}') + '\python');
+    //  RemovePathCurrentUser(ExpandConstant('{app}'));
     //  // 3. refresh environment, so that the modified PATH var is activated
     //  RefreshEnvironment();
     //end;
@@ -73,7 +73,7 @@ begin
   end;
 end;
 
-procedure SaveOldPathLocalUser();
+procedure SaveOldPathCurrentUser();
 begin
   if not RegQueryStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', OldPath) then
   begin
@@ -110,7 +110,7 @@ begin
   end;
 end;
 
-procedure RemovePathLocalUser(Path: string);
+procedure RemovePathCurrentUser(Path: string);
 var
   P: Integer;
 begin
@@ -157,7 +157,7 @@ begin
      Result := Pos(';' + UpperCase(PathToAdd) + '\;', ';' + UpperCase(Paths) + ';') = 0;
 end;
 
-function NeedsAddPathLocalUser(PathToAdd: string): boolean;
+function NeedsAddPathCurrentUser(PathToAdd: string): boolean;
 var
   Paths: string;
 begin
