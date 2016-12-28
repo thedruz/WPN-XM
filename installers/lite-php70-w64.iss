@@ -216,10 +216,10 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 [Registry]
 ; A registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; The registry is not modified, when in portable mode.
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
 ; when installation "Pickle", add "/bin/pickle" to PATH
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\pickle"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\pickle')); Tasks: not portablemode; Components: pickle;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\pickle"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\pickle')); Tasks: not portablemode; Components: pickle;
 
 [Dirs]
 Name: {app}\bin\backup
@@ -277,7 +277,7 @@ var
   This check avoids duplicate paths on env var path.
   Used in the Registry Section for testing, if path was already set.
 }
-function NeedsAddPath(PathToAdd: string): boolean;
+function NeedsAddPathCurrentUser(PathToAdd: string): boolean;
 var
   OrigPath: string;
 begin

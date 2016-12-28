@@ -252,16 +252,16 @@ Filename: {app}\wpn-xm.exe; Description: Start Server Control Panel; Flags: post
 [Registry]
 ; A registry change needs the following directive: [SETUP] ChangesEnvironment=yes
 ; The registry is not modified, when in portable mode.
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\php')); Tasks: not portablemode;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\mariadb\bin"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\mariadb\bin')); Tasks: not portablemode;
 ; when installing "Git for Windows", add "/bin/git/bin" to PATH, to have git available on CLI
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\git\bin"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\git\bin')); Tasks: not portablemode; Components: git;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\git\bin"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\git\bin')); Tasks: not portablemode; Components: git;
 ; when installing "Imagick", add "/bin/php/ext" to PATH, because the PHP extension needs to find the imagick CORE_*.dlls
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\php\ext"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\php\ext')); Tasks: not portablemode; Components: imagick;
 ; when installing "Pickle", add "/bin/pickle" to PATH
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\pickle"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\pickle')); Tasks: not portablemode; Components: pickle;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\pickle"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\pickle')); Tasks: not portablemode; Components: pickle;
 ; when installing "Composer", add "/bin/composer" to PATH
-Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\composer"; Flags: preservestringtype; Check: NeedsAddPath(ExpandConstant('{app}\bin\composer')); Tasks: not portablemode; Components: composer;
+Root: HKCU; Subkey: "Environment"; ValueType:string; ValueName:"PATH"; ValueData:"{olddata};{app}\bin\composer"; Flags: preservestringtype; Check: NeedsAddPathCurrentUser(ExpandConstant('{app}\bin\composer')); Tasks: not portablemode; Components: composer;
 
 [Dirs]
 Name: {app}\bin\backup
