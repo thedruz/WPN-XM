@@ -112,6 +112,9 @@ We group changes to describe their impact on the project, as follows:
 - execute 7zip/unzip operation without blocking the InnoSetup GUI
 
 ### REMOVED
+- removed repositories from GitHub organization
+  - `WPN-XM/php-cgi-spawner` - we'll use the original https://github.com/deemru/php-cgi-spawner instead
+  - `WPN-XM/nginx-windows` - nobody cares, not even if paid, see https://github.com/WPN-XM/WPN-XM/issues/557
 - [Issue #583](https://github.com/WPN-XM/WPN-XM/issues/583) removed PHP Extension "WinCache" from installers and next registries
 - removed Strawberry Perl from installers
 - [Issue #590](https://github.com/WPN-XM/WPN-XM/issues/590) removed PHP 5.5 installers (EOL)
