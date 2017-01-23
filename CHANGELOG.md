@@ -27,7 +27,7 @@ We group changes to describe their impact on the project, as follows:
 
 ### NEW
 - added support page to website
-- added php-cgi-spawn (spawning multiple PHP processes)
+- added php-cgi-spawn v1.1.23 (spawning multiple PHP processes)
 - added installers for PHP 7 (full, standard, lite, web), #516
 - added a support forum
 - added box "latest updates to the registry" to website
