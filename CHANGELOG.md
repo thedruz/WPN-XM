@@ -26,6 +26,7 @@ We group changes to describe their impact on the project, as follows:
 ## Unreleased
 
 ### NEW
+- [Issue #482](https://github.com/WPN-XM/WPN-XM/issues/482): added [vcredist repository with direct download links](https://github.com/WPN-XM/vcredist)
 - added support page to website
 - added php-cgi-spawn v1.1.23 (spawning multiple PHP processes)
 - added installers for PHP 7 (full, standard, lite, web), #516
