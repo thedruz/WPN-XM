@@ -1406,7 +1406,7 @@ begin
   // PostgreSQL - initial setup
   if Pos('postgresql', selectedComponents) > 0 then
   begin
-      ExecHidden(appDir + '\bin\pgsql\bin\initdb.exe --encoding=UTF-8 --pgdata="' + appDir + '\bin\pgsql\data"');
+      ExecHidden(appDir + '\bin\pgsql\bin\initdb.exe --username=root --encoding=UTF-8 --pgdata="' + appDir + '\bin\pgsql\data"');
   end;
 
   if (VCRedist_x64_2015_NeedsInstall() = TRUE) then

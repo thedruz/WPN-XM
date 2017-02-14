@@ -71,6 +71,9 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
+- [Issue #638](https://github.com/WPN-XM/WPN-XM/issues/638)
+  - setup PostgreSQL using username "root"
+  - up to this change initdb created a table named "postgres" owned by user "current logged in user name", which is/was the user running the installer
 - updated build-tools
   - Inno Setup v5.5.9 unicode 
   - Inno Download Plugin v1.5.1
