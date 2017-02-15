@@ -146,6 +146,7 @@ Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administrati
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 13020000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 33430000; Types: full
+Name: rabbitmq; Description: RabbitMQ - messaging broker and work queue; ExtraDiskSpaceRequired: 6050000; Types: full
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
@@ -332,10 +333,12 @@ const
   URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=5.6';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=5.6';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=5.6';
+  // pdo_sqlsrv
   URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=5.6';
   URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=5.6';
   URL_phpext_runkit         = 'http://wpn-xm.org/get.php?s=phpext_runkit&p=5.6';
   URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=5.6';
+  // sqlsrv
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=5.6';
   URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=5.6';
   URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=5.6';
@@ -1080,10 +1083,23 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('rabbitmq', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RabbitMQ');
+      Unzip(ExpandConstant(targetPath + Filename_rabbitmq), appDir + '\bin\'); // no subfolder, brings own folder "rabbitmq_server-x.y.z"
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\rabbitmq_* ' + appDir + '\bin\rabbitmq"'); // rename folder
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('redis', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Redis');
       Unzip(ExpandConstant(targetPath + Filename_redis), appDir + '\bin\redis'); // no subfolder, top level
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Redis');
+      Unzip(targetPath + Filename_phpext_redis, targetPath + 'phpext_redis');
+      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_redis.dll'), appDir + '\bin\php\ext\php_redis.dll', false);
     UpdateTotalProgressBar();
   end;
 

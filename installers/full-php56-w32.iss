@@ -329,6 +329,7 @@ const
   Filename_phpext_redis          = 'phpext_redis.zip';
   Filename_phpext_runkit         = 'phpext_runkit.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
+  // sqlsrv
   Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_varnish        = 'phpext_varnish.zip';

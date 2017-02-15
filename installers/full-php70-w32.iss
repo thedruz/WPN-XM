@@ -1009,16 +1009,14 @@ begin
 
     UpdateCurrentComponentName('PHP Extension - SQLSRV');
       ExtractTemporaryFile(Filename_phpext_sqlsrv);
-      Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');
-      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
-      FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
+      Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');     
+      FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - PDO_SQLSRV');
-      ExtractTemporaryFile(Filename_phpext_sqlsrv);
+      ExtractTemporaryFile(Filename_phpext_pdo_sqlsrv);
       Unzip(targetPath + Filename_phpext_pdo_sqlsrv, targetPath + 'phpext_pdo_sqlsrv');
-      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
-      FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
     UpdateTotalProgressBar();
 
    //UpdateCurrentComponentName('PHP Extension - RAR');

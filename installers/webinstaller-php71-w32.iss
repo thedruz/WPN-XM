@@ -323,25 +323,26 @@ const
   URL_osquery               = 'http://wpn-xm.org/get.php?s=osquery';
   URL_php                   = 'http://wpn-xm.org/get.php?s=php&p=7.1';
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
-  //URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.1'; // no build
-  //URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.1';
+  URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.1'; // no build
+  URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.1';
   //URL_phpext_ice            = 'http://wpn-xm.org/get.php?s=phpext_ice&p=7.1';  // phpext_ice not available for PHP 7.1 x64
-  //URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.1';
+  URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.1';
   // NOTE: phpext_jsond is part of PHP 7, because of Douglas Crockford
-  //URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.1';
+  URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.1';
   //URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=7.1';
-  //URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.1';
-  //URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.1';
-  //URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.1';
+  URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.1';
+  URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.1';
+  URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.0&bitsize=x64';
   //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.1';
   //URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=7.1';
+  // runkit
   //URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.1';
-  //URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.1';
-  //URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.1';
-  //URL_phpext_uploadprogress = 'http://wpn-xm.org/get.php?s=phpext_uploadprogress&p=7.1';
-  //URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.1';
+  URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.0&bitsize=x64';
+  URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.1';
+  // uploadprogress not AV for 7
+  URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.1';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.1';
-  //URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.1';
+  URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.1';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
   URL_phpmyadmin            = 'http://wpn-xm.org/get.php?s=phpmyadmin';
   URL_pickle                = 'http://wpn-xm.org/get.php?s=pickle';
@@ -376,23 +377,24 @@ const
   Filename_php                   = 'php.zip';
   Filename_php_cs_fixer          = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
-  //Filename_phpext_apcu           = 'phpext_apcu.zip';
+  Filename_phpext_apcu           = 'phpext_apcu.zip';
   //Filename_phpext_ice            = 'phpext_ice.zip'; // phpext_ice not available for PHP 7.1 x64
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   // phpext_json is included in PHP7
-  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
-  //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
+  Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';
+  //Filename_phpext_runkit         = 'phpext_runkit.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
-  //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
+  Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   Filename_phpext_trader         = 'phpext_trader.zip';
-  //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
-  //Filename_phpext_varnish        = 'phpext_varnish.zip';
+  // phpext_uploadprogress not AV for 7
+  Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
@@ -847,25 +849,27 @@ begin
 
     if IsComponentSelected('phpextensions') then
     begin
-        //idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
+        idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
-        // phpext_ice not AV PHP 7 x86
-        // phpext_json included (core)
+        // phpext_ice not AV PHP 7.1 x86
+        // phpext_json part of core
 		idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_pdo_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_pdo_sqlsrv));
         //idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         //idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
-        idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
-        idpAddFile(URL_phpext_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_sqlsrv));
-        //idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
-        //idpAddFile(URL_phpext_uploadprogress, ExpandConstant(targetPath + Filename_phpext_uploadprogress));
+        // runkit
+        //idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
+        idpAddFile(URL_phpext_sqlsrv,         ExpandConstant(targetPath + Filename_phpext_sqlsrv));
+        idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
+        // uploadprogress not av for PHP7
         idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
         // phpext_memcache installed with memcached
         // phpext_mongodb installed with mongodb
         // phpext_xdebug is standalone
-    end;
+        // phpext_redis is installed with redis
+     end;
 
     if (VCRedist_x86_2012_NeedsInstall() = TRUE) then
     begin
@@ -908,13 +912,14 @@ begin
   intTotalComponents := intTotalComponents + 2;
 
   // the following components contain 2 components. if selected, we have to add 1 to the counter.
-  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
-  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1;
+  if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // closure+yuicomp
+  if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
+  if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
+  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
+  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_varnish
+  if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
+  if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
+  if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
 
   // the component "PHP Extensions" contains 11 extensions. if selected, we have to add 10 to the counter.
   if Pos('phpextensions', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 10;
@@ -1080,10 +1085,23 @@ begin
     UpdateTotalProgressBar();
   end;
 
+  if Pos('rabbitmq', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RabbitMQ');
+      Unzip(ExpandConstant(targetPath + Filename_rabbitmq), appDir + '\bin\'); // no subfolder, brings own folder "rabbitmq_server-x.y.z"
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\rabbitmq_* ' + appDir + '\bin\rabbitmq"'); // rename folder
+    UpdateTotalProgressBar();
+  end;
+
   if Pos('redis', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Redis');
       Unzip(ExpandConstant(targetPath + Filename_redis), appDir + '\bin\redis'); // no subfolder, top level
+    UpdateTotalProgressBar();
+
+    UpdateCurrentComponentName('PHP Extension - Redis');
+      Unzip(targetPath + Filename_phpext_redis, targetPath + 'phpext_redis');
+      FileCopy(ExpandConstant(targetPath + 'phpext_redis\php_redis.dll'), appDir + '\bin\php\ext\php_redis.dll', false);
     UpdateTotalProgressBar();
   end;
 
@@ -1137,11 +1155,11 @@ begin
 
   if Pos('phpextensions', selectedComponents) > 0 then
   begin
-   // UpdateCurrentComponentName('PHP Extension - AMQP');
-     // Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
-     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - AMQP');
+      Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - APCu');
       Unzip(targetPath + Filename_phpext_apcu, targetPath + 'phpext_apcu');
@@ -1150,14 +1168,14 @@ begin
 
    { 
       
-       PHP Extension - ICE
+       PHP Extension - ICE Not AV for 7.1
       
    }
    
-    {
-      The PHP extension JsonD is included in PHP 7.
-
-    }
+    //
+    //  The PHP extension JsonD is part of core PHP 7.
+    //
+    //
 
     UpdateCurrentComponentName('PHP Extension - Mailparse');
       Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
@@ -1183,17 +1201,20 @@ begin
       Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
       FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
     UpdateTotalProgressBar();
-
+    // rar
+    //
+    //
+    //
+  
     UpdateCurrentComponentName('PHP Extension - SQLSRV');
-      Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');
-      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
-      FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
+
+      Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');     
+      FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - PDO_SQLSRV');
       Unzip(targetPath + Filename_phpext_pdo_sqlsrv, targetPath + 'phpext_pdo_sqlsrv');
-      // PHP Extension with odd naming scheme, referencing https://github.com/WPN-XM/WPN-XM/issues/550
-      FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv_7_nts.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
     UpdateTotalProgressBar();
 
    // UpdateCurrentComponentName('PHP Extension - RAR');
