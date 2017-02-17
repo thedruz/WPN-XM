@@ -164,15 +164,18 @@ Source: ..\startfiles\run.bat; DestDir: {app}
 Source: ..\startfiles\status.bat; DestDir: {app}
 Source: ..\startfiles\stop.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
+
 ; backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
+
 ; config files
 Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
 Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\software\nginx\config\conf\sites-disabled\*; DestDir: {app}\bin\nginx\conf\sites-disabled
+Source: ..\software\nginx\html\errorpages\*;                DestDir: {app}\bin\nginx\html\errorpages
 Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Components: composer
 Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl

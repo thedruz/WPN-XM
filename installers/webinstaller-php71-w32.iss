@@ -196,6 +196,7 @@ Source: ..\startfiles\status.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\stop.bat; DestDir: {app}
 Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
+
 ; backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
@@ -203,10 +204,12 @@ Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.
 Source: {app}\bin\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; DestName: "mongodb.conf.old"; Flags: external skipifsourcedoesntexist; Components: mongodb;
 Source: {app}\bin\pgsql\data\postgresql.conf; DestDir: {app}\bin\pgsql\data; DestName: "postgresql.conf.old"; Flags: external skipifsourcedoesntexist; Components: postgresql;
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
+
 ; config files
 Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
 Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
 Source: ..\software\nginx\config\conf\sites-disabled\*; DestDir: {app}\bin\nginx\conf\sites-disabled
+Source: ..\software\nginx\html\errorpages\*;                DestDir: {app}\bin\nginx\html\errorpages
 Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
 Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Components: composer
 Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin

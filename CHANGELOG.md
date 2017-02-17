@@ -71,6 +71,7 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
+- [Issue #640](https://github.com/WPN-XM/WPN-XM/issues/640) - Nginx: added and configured custom error pages 403, 404, 50x
 - [Issue #638](https://github.com/WPN-XM/WPN-XM/issues/638)
   - setup PostgreSQL using username "root"
   - up to this change initdb created a table named "postgres" owned by user "current logged in user name", which is/was the user running the installer
