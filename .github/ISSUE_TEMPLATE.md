@@ -1,4 +1,4 @@
-### What's the problem? 
+## What's the problem? 
 Please describe the issue you are running into or raise a question.
 
 #### What do we need to reproduce the issue?
@@ -14,8 +14,8 @@ Please add steps to reproduce the issue.
 3.
 4.
 
-### Expected behavior
+## Expected behavior
 Tell us what should happen.
 
-### Possible solution
+## Possible solution
 Please describe a possible solution.
