@@ -80,6 +80,7 @@ We group changes to describe their impact on the project, as follows:
   - Inno Download Plugin v1.5.1
   - Aria2c v1.27.1 build1
   - 7-Zip v16.02
+  - UPX 3.93w
 - [Issue #534](https://github.com/WPN-XM/WPN-XM/issues/534) Documentation
   - Documentation Website: : http://wpn-xm.github.io/docs/ 
   - Reposiotry: https://github.com/WPN-XM/docs
