@@ -10,7 +10,7 @@ All our repositories are Git repositories and hosted over at [Github][github].
 You might see the list of repostories by looking at our [organization account][github-org].
 The main repo is [WPN-XM/WPN-XM][github-repo-wpnxm]. It is also used for centralized bug and issue tracking.
 
-### Got a Question or Problem? You need support?
+### Got a Question? You need support?
 
 If you have questions about how to use WPN-XM, please ask them in the [Forum][forum] or on [StackOverflow][stackoverflow] or the [Mailinglist][groups].
 
@@ -35,7 +35,7 @@ If something isn't working, congratulations you've found a bug! Help us fix it b
   * Clearly describe the issue (including steps to reproduce it if it's a bug).
   * Make sure you fill in the earliest version that you know has the issue.
 
-### Contributing 
+## Contributing 
 
 If you would like to help, take a look at the list of [open issues][github-issues].
 
@@ -52,7 +52,7 @@ These issues are often not hard to implement and provide a great opportunity to 
 If you don't know where to start or which issue to pick from the list, then filter the Github Issues for the label "Easy Pick"s.
 and see if you find anything you can help us with.
 
-[Show Easy Picks][[Show Easy Picks][issues-easypicks]]
+[Show Easy Picks][issues-easypicks]
 
 ### How To Submit Source
 
