@@ -146,6 +146,7 @@ Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administrati
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 13020000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 33430000; Types: full
+Name: rclone; Description: RClone - rsync for cloud storage; ExtraDiskSpaceRequired: 4700000; Types: full 
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
@@ -351,6 +352,7 @@ const
   URL_pickle                = 'http://wpn-xm.org/get.php?s=pickle';
   URL_postgresql            = 'http://wpn-xm.org/get.php?s=postgresql';
   URL_redis                 = 'http://wpn-xm.org/get.php?s=redis';
+  URL_rclone                = 'http://wpn-xm.org/get.php?s=rclone-x64';
   URL_robomongo             = 'http://wpn-xm.org/get.php?s=robomongo';
   URL_sendmail              = 'http://wpn-xm.org/get.php?s=sendmail';
   URL_varnish               = 'http://wpn-xm.org/get.php?s=varnish';
@@ -405,6 +407,7 @@ const
   Filename_pickle                = 'pickle.phar';
   Filename_postgresql            = 'postgresql.zip';
   Filename_rabbitmq              = 'rabbitmq.zip';
+  Filename_rclone                = 'rclone.zip';
   Filename_redis                 = 'redis.zip';
   Filename_robomongo             = 'robomongo.zip';
   Filename_sendmail              = 'sendmail.zip';
@@ -1126,6 +1129,13 @@ begin
   begin
     UpdateCurrentComponentName('OpenSSL');
       Unzip(ExpandConstant(targetPath + Filename_osquery), appDir + '\bin\osquery');
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('rclone', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RClone');
+      Unzip(ExpandConstant(targetPath + Filename_rclone), appDir + '\bin\rclone');
     UpdateTotalProgressBar();
   end;
 

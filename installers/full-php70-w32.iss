@@ -141,6 +141,7 @@ Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webint
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 33430000; Types: full
 Name: rabbitmq; Description: RabbitMQ - messaging broker and work queue; ExtraDiskSpaceRequired: 6050000; Types: full
+Name: rclone; Description: RClone - rsync for cloud storage; ExtraDiskSpaceRequired: 4700000; Types: full 
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
@@ -342,6 +343,7 @@ const
   Filename_pickle                = 'pickle.phar';
   Filename_postgresql            = 'postgresql.zip';
   Filename_rabbitmq              = 'rabbitmq.zip';
+  Filename_rclone                = 'rclone.zip';
   Filename_redis                 = 'redis.zip';
   Filename_robomongo             = 'robomongo.zip';
   Filename_sendmail              = 'sendmail.zip';
@@ -944,6 +946,14 @@ begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_osquery);
       Unzip(ExpandConstant(targetPath + Filename_osquery), appDir + '\bin\osquery');
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('rclone', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RClone');
+      ExtractTemporaryFile(Filename_rclone);
+      Unzip(ExpandConstant(targetPath + Filename_rclone), appDir + '\bin\rclone');
     UpdateTotalProgressBar();
   end;
 

@@ -135,6 +135,7 @@ Name: phpextensions; Description: Additional PHP Extensions; ExtraDiskSpaceRequi
 Name: phpmemcachedadmin; Description: phpMemcachedAdmin - memcached administration tool; ExtraDiskSpaceRequired: 130000; Types: full
 Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webinterface; ExtraDiskSpaceRequired: 13020000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
+Name: rclone; Description: RClone - rsync for cloud storage; ExtraDiskSpaceRequired: 4700000; Types: full 
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
@@ -321,6 +322,7 @@ const
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_pickle            = 'pickle.phar';
+  Filename_rclone                = 'rclone.zip';
   Filename_redis             = 'redis.zip';
   Filename_robomongo         = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
@@ -867,6 +869,14 @@ begin
     UpdateCurrentComponentName('OpenSSL');
       ExtractTemporaryFile(Filename_openssl);
       Unzip(ExpandConstant(targetPath + Filename_openssl), appDir + '\bin\openssl');
+    UpdateTotalProgressBar();
+  end;
+
+  if Pos('rclone', selectedComponents) > 0 then
+  begin
+    UpdateCurrentComponentName('RClone');
+      ExtractTemporaryFile(Filename_rclone);
+      Unzip(ExpandConstant(targetPath + Filename_rclone), appDir + '\bin\rclone');
     UpdateTotalProgressBar();
   end;
 
