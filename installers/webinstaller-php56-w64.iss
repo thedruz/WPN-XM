@@ -317,7 +317,7 @@ const
   URL_imagick               = 'http://wpn-xm.org/get.php?s=imagick';
   URL_mariadb               = 'http://wpn-xm.org/get.php?s=mariadb-x64';
   URL_memadmin              = 'http://wpn-xm.org/get.php?s=memadmin';
-  URL_memcached             = 'http://wpn-xm.org/get.php?s=memcached';
+  URL_memcached             = 'http://wpn-xm.org/get.php?s=memcached-x64';
   URL_mongodb               = 'http://wpn-xm.org/get.php?s=mongodb';
   URL_msysgit               = 'http://wpn-xm.org/get.php?s=msysgit-x64';
   URL_nginx                 = 'http://wpn-xm.org/get.php?s=nginx';
