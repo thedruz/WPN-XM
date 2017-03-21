@@ -127,7 +127,6 @@ Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministratio
 Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
-Name: rclone; Description: RClone - rsync for cloud storage; ExtraDiskSpaceRequired: 4700000; Types: full 
 
 [Files]
 ; incorporate all files of the download folder for this installation wizard
@@ -266,7 +265,6 @@ const
   Filename_php               = 'php.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.zip';
   Filename_pickle            = 'pickle.phar';
-  Filename_rclone                = 'rclone.zip';
   Filename_wpnxm_benchmark   = 'wpnxm-benchmark.zip';
   Filename_wpnxm_scp         = 'wpnxmscp.zip';
 

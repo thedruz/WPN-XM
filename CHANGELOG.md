@@ -39,7 +39,7 @@ We group changes to describe their impact on the project, as follows:
     - event, geoip, hprose, Ice, igbinary,
     - IonCube, lzf, msgpack, oauth, oci8,
     - redis, runkit, solr, stomp, timezonedb, yaf, zip
-- [Issue #641](https://github.com/WPN-XM/WPN-XM/issues/641): added RClone - rsync to/from cloud storage to installers
+- [Issue #641](https://github.com/WPN-XM/WPN-XM/issues/641): added RClone - rsync to/from cloud storage to installers (except lite)
 - added PHP Extension "RunKit" to installers (full, standard, web)
 - added PHP Extension "Stats" to installers
 - added PHP Extension "Redis" to installers (standard, full)
