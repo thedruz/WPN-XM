@@ -1490,10 +1490,10 @@ begin
 
   // 2. remove paths from the env var PATH 
   if (CurUninstallStep = usPostUninstall) then begin
-     RemovePathFromEnvironmentPath(appDir + '\bin\php');
-     RemovePathFromEnvironmentPath(appDir + '\bin\php\ext');
-     RemovePathFromEnvironmentPath(appDir + '\bin\mariadb\bin');
-     RemovePathFromEnvironmentPath(appDir + '\bin\git\bin');
+     RemovePathCurrentUser(appDir + '\bin\php');
+     RemovePathCurrentUser(appDir + '\bin\php\ext');
+     RemovePathCurrentUser(appDir + '\bin\mariadb\bin');
+     RemovePathCurrentUser(appDir + '\bin\git\bin');
      // 3. refresh environment, so that the modified PATH var is activated
      RefreshEnvironment();
   end;
