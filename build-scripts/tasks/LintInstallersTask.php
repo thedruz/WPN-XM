@@ -44,7 +44,7 @@ class LintInstallersTask extends Task
 
             $iscc_lint_args = '/q /DCOMPILE_FROM_IDE=false /O-';
 
-            if(DS === '/') {
+            if(DIRECTORY_SEPARATOR === '/') {
                 $lint_cmd = $wine_cmd . ' ' . $iscc_cmd . ' ' . $iscc_lint_args . ' ' . $installer;
             } else {
                 $lint_cmd = $iscc_cmd . ' ' . $iscc_lint_args . ' ' . $installer;
