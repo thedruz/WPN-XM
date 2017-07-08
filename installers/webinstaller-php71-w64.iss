@@ -336,12 +336,12 @@ const
   //URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=7.1&bitsize=x64';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.1&bitsize=x64';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.1&bitsize=x64';
-  URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.0&bitsize=x64';
+  URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.1&bitsize=x64';
   //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.1&bitsize=x64';
   //URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=7.1&bitsize=x64';
   // runkit not available for PHP7.1
   //URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.1&bitsize=x64';
-  URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.0&bitsize=x64';
+  URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.1&bitsize=x64';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.1&bitsize=x64';
   // uploadprogress not available for PHP7.1
   URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.1&bitsize=x64';
