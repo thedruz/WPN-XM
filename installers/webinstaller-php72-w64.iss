@@ -148,7 +148,7 @@ Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequi
 Name: postgresql; Description: PostgreSQL - object-relational database management system; ExtraDiskSpaceRequired: 33430000; Types: full
 Name: rclone; Description: RClone - rsync for cloud storage; ExtraDiskSpaceRequired: 4700000; Types: full 
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
-Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
+Name: robo3t; Description: Robo3T (formerly Robomongo) - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
@@ -353,7 +353,7 @@ const
   URL_postgresql            = 'http://wpn-xm.org/get.php?s=postgresql';
   URL_redis                 = 'http://wpn-xm.org/get.php?s=redis';
   URL_rclone                = 'http://wpn-xm.org/get.php?s=rclone-x64';
-  URL_robomongo             = 'http://wpn-xm.org/get.php?s=robomongo';
+  URL_robo3t                = 'http://wpn-xm.org/get.php?s=robo3t';
   URL_sendmail              = 'http://wpn-xm.org/get.php?s=sendmail';
   URL_varnish               = 'http://wpn-xm.org/get.php?s=varnish';
   URL_vcredist              = 'http://wpn-xm.org/get.php?s=vcredist-x64&v=14.0.23026'; // Visual C++ Redistributable for Visual Studio 2015
@@ -409,7 +409,7 @@ const
   Filename_rabbitmq              = 'rabbitmq.zip';
   Filename_rclone                = 'rclone.zip';
   Filename_redis                 = 'redis.zip';
-  Filename_robomongo             = 'robomongo.zip';
+  Filename_robo3t                = 'robo3t.zip';
   Filename_sendmail              = 'sendmail.zip';
   Filename_varnish               = 'varnish.zip';
   Filename_vcredist              = 'vcredist_x86.exe';
@@ -841,7 +841,7 @@ begin
     if IsComponentSelected('postgresql')         then idpAddFile(URL_postgresql,        ExpandConstant(targetPath + Filename_postgresql));
     if IsComponentSelected('pickle')             then idpAddFile(URL_pickle,            ExpandConstant(targetPath + Filename_pickle));
     if IsComponentSelected('redis')              then idpAddFile(URL_redis,             ExpandConstant(targetPath + Filename_redis));
-    if IsComponentSelected('robomongo')          then idpAddFile(URL_robomongo,         ExpandConstant(targetPath + Filename_robomongo));
+    if IsComponentSelected('robomongo')          then idpAddFile(URL_robo3t,         ExpandConstant(targetPath + Filename_robo3t));
     if IsComponentSelected('sendmail')           then idpAddFile(URL_sendmail,          ExpandConstant(targetPath + Filename_sendmail));
     if IsComponentSelected('servercontrolpanel') then idpAddFile(URL_wpnxmscp,          ExpandConstant(targetPath + Filename_wpnxm_scp));
     if IsComponentSelected('webgrind')           then idpAddFileSize(URL_webgrind,      ExpandConstant(targetPath + Filename_webgrind), 648000);
@@ -1382,11 +1382,11 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('robomongo', selectedComponents) > 0 then
+  if Pos('robo3t', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('RoboMongo');
-      Unzip(targetPath + Filename_robomongo, appDir + '\bin'); // no subfolder, brings own dir
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robomongo-* ' + appDir + '\bin\robomongo"'); // rename folder, e.g. "robomongo-1.2.3-i386"
+    UpdateCurrentComponentName('Robo 3T');
+      Unzip(targetPath + Filename_robo3t, appDir + '\bin'); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robo3t-* ' + appDir + '\bin\robo3t"'); // rename folder
     UpdateTotalProgressBar();
   end;
 

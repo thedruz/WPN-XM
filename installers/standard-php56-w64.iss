@@ -137,7 +137,7 @@ Name: phpmyadmin; Description: phpMyAdmin - MySQL database administration webint
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full serverstack debug
 Name: rclone; Description: RClone - rsync for cloud storage; ExtraDiskSpaceRequired: 4700000; Types: full 
 Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
-Name: robomongo; Description: RoboMongo - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
+Name: robo3t; Description: Robo3T (formerly Robomongo) - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
@@ -324,7 +324,7 @@ const
   Filename_pickle            = 'pickle.phar';
   Filename_rclone                = 'rclone.zip';
   Filename_redis             = 'redis.zip';
-  Filename_robomongo         = 'robomongo.zip';
+  Filename_robo3t         = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxm_benchmark   = 'wpnxm-benchmark.zip';
@@ -1071,12 +1071,12 @@ begin
     UpdateTotalProgressBar();
   end;
 
-  if Pos('robomongo', selectedComponents) > 0 then
+  if Pos('robo3t', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('RoboMongo');
-      ExtractTemporaryFile(Filename_robomongo);
-      Unzip(targetPath + Filename_robomongo, appDir + '\bin'); // no subfolder, brings own dir
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robomongo-* ' + appDir + '\bin\robomongo"'); // rename folder, e.g. "robomongo-1.2.3-i386"
+    UpdateCurrentComponentName('Robo 3T');
+      ExtractTemporaryFile(Filename_robo3t);
+      Unzip(targetPath + Filename_robo3t, appDir + '\bin'); // no subfolder, brings own dir
+      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\robo3t-* ' + appDir + '\bin\robo3t"'); // rename folder
     UpdateTotalProgressBar();
   end;
 
