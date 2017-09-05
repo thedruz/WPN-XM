@@ -45,7 +45,7 @@
 #define CODESIGN_INSTALLER   "false"
 
 #define INSTALLER_TYPE       "LiteRC"
-#define PHP_VERSION          "php71"
+#define PHP_VERSION          "php72"
 #define BITSIZE              "w32"
 
 #define SOURCE_ROOT          AddBackslash(SourcePath);
