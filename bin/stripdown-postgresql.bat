@@ -55,16 +55,6 @@ rd /s /q "%POSTGRESQL_DIR%\symbols"
 rd /s /q "%POSTGRESQL_DIR%\doc"
 rd /s /q "%POSTGRESQL_DIR%\include"
 
-:: compress executables with UPX
-
-IF EXIST "%~dp0upx\upx.exe" (
-    echo.
-    echo [x] Compressing PostgreSQL executables with UPX.
-    echo.
-
-    %~dp0upx\upx.exe -9 %POSTGRESQL_DIR%\bin\*.exe
-)
-
 :: DONE
 
 echo.

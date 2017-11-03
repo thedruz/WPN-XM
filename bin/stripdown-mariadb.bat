@@ -150,16 +150,6 @@ rd /s /q "%MARIADB_DIR%\share\ukrainian"
 
 rd /s /q "%MARIADB_DIR%\support-files"
 
-:: compress executables with UPX
-
-::IF EXIST "%~dp0\upx\upx.exe" (
-::    echo.
-::   echo [x] Compressing MariaDB executables with UPX.
-::    echo.
-::
-::    %~dp0upx\upx.exe -9 %MARIADB_DIR%\bin\*.exe
-::)
-
 :: DONE
 
 echo.

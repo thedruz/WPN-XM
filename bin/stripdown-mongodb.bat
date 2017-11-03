@@ -51,16 +51,6 @@ echo.
 
 del /s /q "%MONGO_DIR%\bin\*.pdb"
 
-:: compress executables with UPX
-
-IF EXIST "%~dp0upx\upx.exe" (
-    echo.
-    echo [x] Compressing MongoDB executables with UPX.
-    echo.
-
-    %~dp0upx\upx.exe -9 %MONGO_DIR%\bin\*.exe
-)
-
 :: DONE
 
 echo.

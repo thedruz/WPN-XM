@@ -61,7 +61,7 @@ class Stripdown
         $this->renameFolder();
         #$this->extractedCheck();
         $this->stripdown();
-        $this->compressExecutables();
+        //$this->compressExecutables(); // disabled, because UPX causes AV false detections
         $this->zip();
         $this->cleanup();
         $this->goodbye();

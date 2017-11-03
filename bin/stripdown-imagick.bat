@@ -49,16 +49,6 @@ echo.
 
 rd /s /q "%IMAGICK_DIR%\www"
 
-:: compress executables with UPX
-
-IF EXIST "%~dp0upx\upx.exe" (
-    echo.
-    echo [x] Compressing Imagick executables with UPX.
-    echo.
-
-    %~dp0upx\upx.exe -9 %IMAGICK_DIR%\*.exe
-)
-
 :: DONE
 
 echo.
