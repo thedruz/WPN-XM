@@ -26,7 +26,7 @@ before_install:
   - sudo apt-get install -qq apt-fast
   # use apt-fast for installation of dependencies
   - sudo apt-fast -y update
-  - sudo apt-fast -m -y install aria2 p7zip-full upx ca-certificates wine1.7
+  - sudo apt-fast -m -y install aria2 p7zip-full ca-certificates wine1.7
 
 before_script:
   # start framebuffer (wine wants this)

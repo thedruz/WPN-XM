@@ -32,7 +32,7 @@ The installation wizards are continuously integrated on Github, build on Travis-
 5. The **Full Installer** ships our whole registry and includes Strawberry Perl & PostgreSQL.
 
 WPИ-XM is open-source and MIT licensed.
-Technology in use: Innosetup, Inno Download Plugin, Pascal, Phing, Bash, Batch, C++, Qt, PHP, HTML, JS/jQuery, upx, aria2c.
+Technology in use: Innosetup, Inno Download Plugin, Pascal, Phing, Bash, Batch, C++, Qt, PHP, HTML, JS/jQuery, aria2c.
 
 |===
 | **Website**        | http://wpn-xm.org/
