@@ -79,9 +79,9 @@ We group changes to describe their impact on the project, as follows:
 - updated build-tools
   - Inno Setup v5.5.9 unicode 
   - Inno Download Plugin v1.5.1
-  - Aria2c v1.31.0 build1
+  - Aria2c v1.33.0 build1
   - 7-Zip v16.04
-  - UPX 3.93w
+- removed UPX from build-tools, due to AV false detections and invalid flagging as suspicious
 - [Issue #534](https://github.com/WPN-XM/WPN-XM/issues/534) Documentation
   - Documentation Website: : http://wpn-xm.github.io/docs/ 
   - Reposiotry: https://github.com/WPN-XM/docs
