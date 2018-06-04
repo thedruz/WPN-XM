@@ -42,7 +42,7 @@ REM disable default FCGI request limit of 500
     set PHP_FCGI_CHILDREN=4
 
 REM spawn multiple php processes at port 9100
-    %HIDECONSOLE% %~dp0bin\tools\spawn.exe %~dp0bin\php\php-cgi.exe 9100 4
+    %HIDECONSOLE% %~dp0bin\php-cgi-spawner\php-cgi-spawner.exe %~dp0bin\php\php-cgi.exe 9100 4
     echo.
 goto END
 
