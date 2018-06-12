@@ -26,6 +26,11 @@ We group changes to describe their impact on the project, as follows:
 ## Unreleased
 
 ### NEW
+- [SCP] complete rework of the configuration dialog (side-panel for component selection and component pages with tabs)
+- [SCP] process shutdown dialog
+- [Issue #327](https://github.com/WPN-XM/WPN-XM/issues/327): add tab "configure ports" to configuration dialog
+- [Isssue #623](https://github.com/WPN-XM/WPN-XM/issues/623): [SCP] add YAML support (using yaml-cpp)
+- [Isssue #633](https://github.com/WPN-XM/WPN-XM/issues/633): [SCP] improve process monitoring
 - [Issue #482](https://github.com/WPN-XM/WPN-XM/issues/482): added [vcredist repository with direct download links](https://github.com/WPN-XM/vcredist)
 - added support page to website
 - added php-cgi-spawn v1.1.23 (spawning multiple PHP processes)
@@ -72,6 +77,8 @@ We group changes to describe their impact on the project, as follows:
 - fixed PHP extension version crawlers to work with the broken/empty PECL release folders
 
 ### CHANGES
+- added the php spawner to bin\php-cgi-spawner and cleared the naming mess up (formerly spawn.exe)
+- mongodb.conf (ini) is no longer used. we use mongod.conf (yaml) now.
 - [Issue #640](https://github.com/WPN-XM/WPN-XM/issues/640) - Nginx: added and configured custom error pages 403, 404, 50x
 - [Issue #638](https://github.com/WPN-XM/WPN-XM/issues/638)
   - setup PostgreSQL using username "root"
@@ -102,7 +109,7 @@ We group changes to describe their impact on the project, as follows:
 - removed process.exe process killer util
   - the tool is too powerful and gets flagged too often by AV software (false positive)
 - use utf8mb4 with utf8m4_unicode_ci as new default setting for MariaDb
-- changed start script to use php-cgi-spawn and launch multiple PHP processes
+- changed start script to use php-cgi-spawner and launch multiple PHP processes
 - added "php_pool" (optional; for load balancing) to nginx configuration
 - added preprocessor constant to installers to determine the download folder by installer name
 - updater
