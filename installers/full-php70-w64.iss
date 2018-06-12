@@ -195,26 +195,26 @@ Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\nginx\conf\nginx.conf; DestDir: {app}\bin\nginx\conf; DestName: "nginx.conf.old"; Flags: external skipifsourcedoesntexist
 Source: {app}\bin\mariadb\my.ini; DestDir: {app}\bin\mariadb; DestName: "my.ini.old"; Flags: external skipifsourcedoesntexist
-Source: {app}\bin\mongodb\mongodb.conf; DestDir: {app}\bin\mongodb; DestName: "mongodb.conf.old"; Flags: external skipifsourcedoesntexist; Components: mongodb;
+Source: {app}\bin\mongodb\mongod.conf; DestDir: {app}\bin\mongodb; DestName: "mongod.conf.old"; Flags: external skipifsourcedoesntexist; Components: mongodb;
 Source: {app}\bin\pgsql\data\postgresql.conf; DestDir: {app}\bin\pgsql\data; DestName: "postgresql.conf.old"; Flags: external skipifsourcedoesntexist; Components: postgresql;
 Source: {app}\bin\backup\backup.txt; DestDir: {app}\bin\backup; DestName: "backup.txt.old"; Flags: external skipifsourcedoesntexist
 
 ; config files
-Source: ..\software\php\config\{#PHP_VERSION}\php.ini; DestDir: {app}\bin\php
-Source: ..\software\nginx\config\nginx.conf; DestDir: {app}\bin\nginx\conf
-Source: ..\software\nginx\config\conf\sites-disabled\*; DestDir: {app}\bin\nginx\conf\sites-disabled
-Source: ..\software\nginx\html\errorpages\*;                DestDir: {app}\bin\nginx\html\errorpages
-Source: ..\software\mariadb\config\my.ini; DestDir: {app}\bin\mariadb
-Source: ..\software\php\config\composer\php.ini; DestDir: {app}\bin\composer; Components: composer
-Source: ..\software\phpmyadmin\config\config.inc.php; DestDir: {app}\www\tools\phpmyadmin; Components: phpmyadmin
-Source: ..\software\redis\config\redis.windows.conf; DestDir: {app}\bin\redis; Components: redis
-Source: ..\software\webgrind\config\config.php; DestDir: {app}\www\tools\webgrind; Components: webgrind
-Source: ..\software\mongodb\config\mongodb.conf; DestDir: {app}\bin\mongodb; Components: mongodb
-Source: ..\software\openssl\config\openssl.cfg; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\software\openssl\cert-bundle\ca-bundle.crt; DestDir: {app}\bin\openssl; Components: openssl
-Source: ..\software\conemu\config\*; DestDir: {app}\bin\conemu; Components: conemu
-Source: ..\software\conemu\images\*; DestDir: {app}\bin\conemu; Components: conemu
-Source: ..\software\git\config\bash_profile; DestDir: {app}\bin\git\etc; Components: git
+Source: ..\software\php\config\{#PHP_VERSION}\php.ini;     DestDir: {app}\bin\php
+Source: ..\software\nginx\config\nginx.conf;               DestDir: {app}\bin\nginx\conf
+Source: ..\software\nginx\config\conf\sites-disabled\*;    DestDir: {app}\bin\nginx\conf\sites-disabled
+Source: ..\software\nginx\html\errorpages\*;               DestDir: {app}\bin\nginx\html\errorpages
+Source: ..\software\mariadb\config\my.ini;                 DestDir: {app}\bin\mariadb
+Source: ..\software\php\config\composer\php.ini;           DestDir: {app}\bin\composer;            Components: composer
+Source: ..\software\phpmyadmin\config\config.inc.php;      DestDir: {app}\www\tools\phpmyadmin;    Components: phpmyadmin
+Source: ..\software\redis\config\redis.windows.conf;       DestDir: {app}\bin\redis;               Components: redis
+Source: ..\software\webgrind\config\config.php;            DestDir: {app}\www\tools\webgrind;      Components: webgrind
+Source: ..\software\mongodb\config\mongod.conf;            DestDir: {app}\bin\mongodb;             Components: mongodb
+Source: ..\software\openssl\config\openssl.cfg;            DestDir: {app}\bin\openssl;             Components: openssl
+Source: ..\software\openssl\cert-bundle\ca-bundle.crt;     DestDir: {app}\bin\openssl;             Components: openssl
+Source: ..\software\conemu\config\*;                       DestDir: {app}\bin\conemu;              Components: conemu
+Source: ..\software\conemu\images\*;                       DestDir: {app}\bin\conemu;              Components: conemu
+Source: ..\software\git\config\bash_profile;               DestDir: {app}\bin\git\etc;             Components: git
 
 ; Visual C++ Redistributable 2015 is needed by PHP VC14 builds
 ; The file is always included, but installed only if needed, see conditional install check in the run section.
@@ -1319,7 +1319,13 @@ begin
 
   if Pos('mongodb', selectedComponents) > 0 then
   begin
-      ReplaceStringInFile(';extension=php_mongodb.dll', 'extension=php_mongodb.dll', php_ini_file);
+    ReplaceStringInFile(';extension=php_mongodb.dll', 'extension=php_mongodb.dll', php_ini_file);
+
+    mongodb_ini_file := appDir + '\bin\mongodb\mongod.conf';
+    ReplaceStringInFile('  dbPath: C:\server\bin\mongodb\data\db',
+                        '  dbPath: ' + appDir + '\bin\mongodb\data\db', mongodb_ini_file);
+    ReplaceStringInFile('  path: C:\server\logs\mongodb.log',
+                        '  path: ' + appDir + '\logs\mongodb.log', mongodb_ini_file);
   end;
 end;
 
