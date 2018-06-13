@@ -6,7 +6,7 @@
  * https://wpn-xm.org/
  *
  * Licensed under the MIT License.
- * For full copyright and license information, view the bundled LICENSE file.
+ * See the bundled LICENSE file for copyright and license information.
  */
 
 /**
