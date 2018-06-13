@@ -1422,6 +1422,7 @@ var
   appDirWithSlashes : String; // some servers (e.g. maria) expect linux paths in config files
   php_ini_file : String;
   mariadb_ini_file : String;
+  mongodb_ini_file : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
@@ -1495,7 +1496,7 @@ begin
 
   if Pos('mongodb', selectedComponents) > 0 then
   begin
-    ReplaceStringInFile(';extension=php_mongo.dll', 'extension=php_mongo.dll', php_ini_file);
+    ReplaceStringInFile(';extension=php_mongodb.dll', 'extension=php_mongodb.dll', php_ini_file);
 
     mongodb_ini_file := appDir + '\bin\mongodb\mongod.conf';
     ReplaceStringInFile('  dbPath: C:\server\bin\mongodb\data\db',

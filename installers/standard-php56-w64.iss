@@ -322,9 +322,9 @@ const
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_pickle            = 'pickle.phar';
-  Filename_rclone                = 'rclone.zip';
+  Filename_rclone            = 'rclone.zip';
   Filename_redis             = 'redis.zip';
-  Filename_robo3t         = 'robomongo.zip';
+  Filename_robo3t            = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxm_benchmark   = 'wpnxm-benchmark.zip';
@@ -1115,6 +1115,7 @@ var
   appDirWithSlashes : String; // some servers (e.g. maria) expect linux paths in config files
   php_ini_file : String;
   mariadb_ini_file : String;
+  mongodb_ini_file : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 

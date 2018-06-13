@@ -1249,6 +1249,7 @@ var
   appDirWithSlashes : String; // some servers (e.g. maria) expect linux paths in config files
   php_ini_file : String;
   mariadb_ini_file : String;
+  mongodb_ini_file : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 

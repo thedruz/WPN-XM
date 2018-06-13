@@ -201,7 +201,7 @@ Source: ..\software\php\config\composer\php.ini;           DestDir: {app}\bin\co
 Source: ..\software\phpmyadmin\config\config.inc.php;      DestDir: {app}\www\tools\phpmyadmin;    Components: phpmyadmin
 Source: ..\software\redis\config\redis.windows.conf;       DestDir: {app}\bin\redis;               Components: redis
 Source: ..\software\webgrind\config\config.php;            DestDir: {app}\www\tools\webgrind;      Components: webgrind
-Source: ..\software\mongodb\config\mongod.conf;           DestDir: {app}\bin\mongodb;             Components: mongodb
+Source: ..\software\mongodb\config\mongod.conf;            DestDir: {app}\bin\mongodb;             Components: mongodb
 Source: ..\software\openssl\config\openssl.cfg;            DestDir: {app}\bin\openssl;             Components: openssl
 Source: ..\software\openssl\cert-bundle\ca-bundle.crt;     DestDir: {app}\bin\openssl;             Components: openssl
 Source: ..\software\conemu\config\*;                       DestDir: {app}\bin\conemu;              Components: conemu
@@ -322,9 +322,9 @@ const
   Filename_phpmemcachedadmin = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin        = 'phpmyadmin.zip';
   Filename_pickle            = 'pickle.phar';
-  Filename_rclone                = 'rclone.zip';
+  Filename_rclone            = 'rclone.zip';
   Filename_redis             = 'redis.zip';
-  Filename_robo3t         = 'robomongo.zip';
+  Filename_robo3t            = 'robomongo.zip';
   Filename_sendmail          = 'sendmail.zip';
   Filename_webgrind          = 'webgrind.zip';
   Filename_wpnxm_benchmark   = 'wpnxm-benchmark.zip';
@@ -1115,6 +1115,7 @@ var
   appDirWithSlashes : String; // some servers (e.g. maria) expect linux paths in config files
   php_ini_file : String;
   mariadb_ini_file : String;
+  mongodb_ini_file : String;
 begin
   selectedComponents := WizardSelectedComponents(false);
 
