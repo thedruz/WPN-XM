@@ -17,7 +17,7 @@ LICENSE
 
 	MIT License
 
-	Copyright (c) 2010-2015 Jens-André Koch <jakoch@web.de>
+	Copyright (c) 2010 - 2018 Jens-André Koch <jakoch@web.de>
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ LICENSE
     to comply with Qt framework licensing requirements.
 
     WPN-XM Server Control Panel is a tray application to control servers.
-    Copyright (c) 2010-2015 Jens-André Koch <jakoch@web.de>
+    Copyright (c) 2010 - 2018 Jens-André Koch <jakoch@web.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
