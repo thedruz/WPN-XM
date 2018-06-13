@@ -46,8 +46,8 @@ class DownloadTask extends Task
            /**
             * Aria2c for parallel downloading
             *
-            * http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
-            * http://aria2.sourceforge.net/manual/en/html/aria2c.html
+            * https://aria2.github.io/manual/en/html/aria2c.html#example
+            * https://aria2.github.io/manual/en/html/aria2c.html#id2
             */
             $aria2_bin = (DS === '/') ? 'aria2c ' : __DIR__ . '\..\..\bin\aria2\aria2c.exe ';
 

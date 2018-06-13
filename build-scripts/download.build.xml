@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="compile-installers" basedir="." default="...">
+<project name="download" basedir="." default="...">
 <!--╔════════════════════════════════════════════════════════════════════════════╗
     ║ WPИ-XM Server Stack                                                        ║
     ║ Copyright © 2010 - 2016 Jens A. Koch <jakoch@web.de>                       ║
