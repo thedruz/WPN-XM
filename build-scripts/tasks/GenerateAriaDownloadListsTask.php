@@ -143,7 +143,7 @@ class GenerateAriaDownloadListsTask extends Task
         $txt .= '# The file is auto-generated. Do not modify.' . PHP_EOL;
         $txt .= '#' . PHP_EOL;
         $txt .= '# For syntax, see:' . PHP_EOL;
-        $txt .= '#   http://aria2.sourceforge.net/manual/en/html/aria2c.html#id2' . PHP_EOL;
+        $txt .= '#   https://aria2.github.io/manual/en/html/aria2c.html#id2' . PHP_EOL;
         $txt .= '#' . PHP_EOL;
 
         return $txt;
