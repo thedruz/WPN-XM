@@ -1,1 +1,3 @@
 Inno Setup v5.5.9 unicode
+
+http://www.jrsoftware.org/download.php/is-unicode.exe
