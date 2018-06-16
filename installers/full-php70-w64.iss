@@ -146,7 +146,6 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robo3t; Description: Robo3T (formerly Robomongo) - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
@@ -335,7 +334,6 @@ const
   Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   //Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
-  Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
@@ -347,7 +345,6 @@ const
   Filename_redis                 = 'redis.zip';
   Filename_robo3t                = 'robo3t.zip';
   Filename_sendmail              = 'sendmail.zip';
-  Filename_varnish               = 'varnish.zip';
   Filename_webgrind              = 'webgrind.zip';
   Filename_wpnxm_benchmark       = 'wpnxm-benchmark.zip';
   Filename_wpnxm_scp             = 'wpnxmscp.zip';
@@ -706,7 +703,6 @@ begin
   if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
   if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
   if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
-  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_varnish
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
   if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
@@ -902,7 +898,7 @@ begin
     UpdateCurrentComponentName('PHP Extension - Redis');
       ExtractTemporaryFile(Filename_phpext_redis);
       Unzip(targetPath + Filename_phpext_redis, targetPath + 'phpext_redis');
-      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_redis.dll'), appDir + '\bin\php\ext\php_redis.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_redis\php_redis.dll'), appDir + '\bin\php\ext\php_redis.dll', false);
     UpdateTotalProgressBar();
   end;
 
@@ -1054,21 +1050,6 @@ begin
      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\php_zmq.dll'), appDir + '\bin\php\ext\php_zmq.dll', false);
      FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
    UpdateTotalProgressBar();
-  end;
-
-  if Pos('varnish', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Varnish');
-      ExtractTemporaryFile(Filename_varnish);
-      Unzip(targetPath + Filename_varnish, appDir + '\bin'); // no subfolder, brings own dir
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\varnish-* ' + appDir + '\bin\varnish"');// rename directory, like "varnish-3.0.2"
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Varnish');
-      ExtractTemporaryFile(Filename_phpext_varnish);
-      Unzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
-      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), appDir + '\bin\php\ext\php_varnish.dll', false);
-    UpdateTotalProgressBar();
   end;
 
   if Pos('imagick', selectedComponents) > 0 then

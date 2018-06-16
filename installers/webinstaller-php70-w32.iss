@@ -151,7 +151,6 @@ Name: redis; Description: Rediska; ExtraDiskSpaceRequired: 2000000; Types: full
 Name: robo3t; Description: Robo3T (formerly Robomongo) - MongoDB administration tool; ExtraDiskSpaceRequired: 19000000; Types: full
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
-Name: varnish; Description: Varnish Cache; ExtraDiskSpaceRequired: 11440000; Types: full
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
 Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
@@ -343,7 +342,6 @@ const
   URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.0';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.0';
   // uploadprogress not AV for 7
-  URL_phpext_varnish        = 'http://wpn-xm.org/get.php?s=phpext_varnish&p=7.0';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.0';
   URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.0';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
@@ -354,7 +352,6 @@ const
   URL_rclone                = 'http://wpn-xm.org/get.php?s=rclone-x86';
   URL_robo3t             = 'http://wpn-xm.org/get.php?s=robo3t';
   URL_sendmail              = 'http://wpn-xm.org/get.php?s=sendmail';
-  URL_varnish               = 'http://wpn-xm.org/get.php?s=varnish';
   URL_vcredist              = 'http://wpn-xm.org/get.php?s=vcredist&v=11.0.61030'; // VCRedist 2012 x86
   URL_webgrind              = 'http://wpn-xm.org/get.php?s=webgrind';
   URL_wpnxmscp              = 'http://wpn-xm.org/get.php?s=wpnxmscp';
@@ -398,7 +395,6 @@ const
   Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   Filename_phpext_trader         = 'phpext_trader.zip';
   // phpext_uploadprogress not AV for 7
-  Filename_phpext_varnish        = 'phpext_varnish.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
@@ -410,7 +406,6 @@ const
   Filename_redis                 = 'redis.zip';
   Filename_robo3t                = 'robo3t.zip';
   Filename_sendmail              = 'sendmail.zip';
-  Filename_varnish               = 'varnish.zip';
   Filename_vcredist              = 'vcredist_x86.exe';
   Filename_webgrind              = 'webgrind.zip';
   Filename_wpnxm_benchmark       = 'wpnxm-benchmark.zip';
@@ -846,12 +841,6 @@ begin
     if IsComponentSelected('webgrind')           then idpAddFileSize(URL_webgrind,      ExpandConstant(targetPath + Filename_webgrind), 648000);
     if IsComponentSelected('xdebug')             then idpAddFile(URL_phpext_xdebug,     ExpandConstant(targetPath + Filename_phpext_xdebug));
 
-    if IsComponentSelected('varnish') then
-    begin
-       idpAddFile(URL_varnish,                ExpandConstant(targetPath + Filename_varnish));
-       idpAddFile(URL_phpext_varnish,         ExpandConstant(targetPath + Filename_phpext_varnish));
-    end;
-
     if IsComponentSelected('phpextensions') then
     begin
         idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
@@ -921,7 +910,6 @@ begin
   if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
   if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
   if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
-  if Pos('varnish',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_varnish
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
   if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
@@ -1246,20 +1234,7 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_zmq\libzmq.dll'), appDir + '\bin\php\ext\libzmq.dll', false);
     UpdateTotalProgressBar();
   end;
-
-  if Pos('varnish', selectedComponents) > 0 then
-  begin
-    UpdateCurrentComponentName('Varnish');
-      Unzip(targetPath + Filename_varnish, appDir + '\bin'); // no subfolder, brings own dir
-      ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\varnish-* ' + appDir + '\bin\varnish"');// rename directory, like "varnish-3.0.2"
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - Varnish');
-      Unzip(targetPath + Filename_phpext_varnish, targetPath + 'phpext_varnish');
-      FileCopy(ExpandConstant(targetPath + 'phpext_varnish\php_varnish.dll'), appDir + '\bin\php\ext\php_varnish.dll', false);
-    UpdateTotalProgressBar();
-  end;
-
+  
   if Pos('imagick', selectedComponents) > 0 then
   begin
     UpdateCurrentComponentName('Imagick');
