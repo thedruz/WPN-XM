@@ -155,12 +155,12 @@ class CopyDownloadsTask extends Task
         return $downloadDir;
     }
 
-    public static function componentIsPHP($component)
+    public static function componentIsPHPExtension($component)
     {
         return (strpos($component, 'phpext_') !== false);
     }
 
-    public static function componentIsPHPExtension($component)
+    public static function componentIsPHP($component)
     {
         return in_array($component, ['php', 'php-x64', 'php-qa', 'php-qa-x64']);
     }
