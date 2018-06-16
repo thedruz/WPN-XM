@@ -37,7 +37,7 @@ class DownloadTask extends Task
         $this->log('Downloading Components using Aria2');
 
         // get aria download description files
-        $files = glob($this->registryfolder . DS . 'downloads-for-{full,literc}-' . $this->wpnxmversion . '*.txt', GLOB_BRACE);
+        $files = glob($this->registryfolder . DS . 'downloads-for-full-' . $this->wpnxmversion . '*.txt', GLOB_BRACE);
 
         foreach($files as $file)
         {

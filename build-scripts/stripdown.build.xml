@@ -46,7 +46,7 @@
         <phingcall target="exec-stripdown" />
     </target>
 
-    <!-- B: run stripdown on each Full and LiteRC download folder -->
+    <!-- B: run stripdown on each Full download folder -->
 
     <target name="stripdown-all" description="Apply stripdown on 'full' download folders.">
         <foreach target="stripdown-folder" param="full.installer.registry">

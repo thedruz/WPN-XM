@@ -42,14 +42,14 @@ class GenerateAriaDownloadListsTask extends Task
         defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
         /**
-         * We download all packages of the Full and LiteRC installers.
+         * We download all packages of the Full installers.
          * Later, we copy the downloads from Full into the Standard and Lite folders.
          *
-         * "/registry/installer/v0.8.6/{full,literc}-0.8.6-*.json"
+         * "/registry/installer/v0.8.6/full-0.8.6-*.json"
          */
         $registries = glob(
             $this->registryFolder.DS.'v'.$this->wpnxmVersion
-            .DS.'{full,literc}-'.$this->wpnxmVersion.'-*.json',
+            .DS.'full-'.$this->wpnxmVersion.'-*.json',
             GLOB_BRACE
         );
 

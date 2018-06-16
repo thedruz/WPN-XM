@@ -39,14 +39,6 @@
         </foreach>
     </target>
 
-    <target name="compile-literc" description="Builds the WPN-XM LiteRC Installers.">
-        <foreach target="inno-compile" param="installer.file">
-            <fileset dir="${dir.Build}">
-                <include name="**\literc-*.iss"/>
-            </fileset>
-        </foreach>
-    </target>
-
     <target name="compile-lite" description="Builds the WPN-XM Lite Installers.">
         <foreach target="inno-compile" param="installer.file">
             <fileset dir="${dir.Build}">

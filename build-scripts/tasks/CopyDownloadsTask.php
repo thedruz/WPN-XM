@@ -53,7 +53,7 @@ class CopyDownloadsTask extends Task
             $basename = preg_replace("#(.*)-(.*)-(.*).(\d)-(.*)#", "$1-$2-$3$4-$5", $basename);
 
             /**
-             * We can skip moving files for all "Full" and "LiteRC" installer folders,
+             * We can skip moving files for all "Full" installer folders,
              * when *not* downloading into shared folders, but into the installer folders.
              *
              * Because:
@@ -61,8 +61,7 @@ class CopyDownloadsTask extends Task
              * The LiteRC installers fetch PHP-QA (RC) versions and is already complete.
              */
             if($this->useSharedDownloadFolder === false) {
-                if ((false !== strpos($basename, 'full')) ||
-                    (false !== strpos($basename, 'literc'))) {
+                if (false !== strpos($basename, 'full')) {
                     continue;
                 }
                 $fullFolder = preg_replace('(lite|standard)', 'full', $basename);
