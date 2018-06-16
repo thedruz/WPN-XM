@@ -122,7 +122,7 @@ class CheckInstallersTask extends Task
                     //$this->log(" => Found entry for software Filename_$name");
                 } else {
                     $this->log("       => Missing filename_ entry for software $registrySoftwareName => $name.");
-                    $this->log("          Please add \"Filename_$name = \"$data[2]\";");
+                    $this->log("          Please add: Filename_$name = \"$data[2]\";");
                 }
 
                 // ---------------------------------------------------------------------
@@ -205,7 +205,7 @@ class CheckInstallersTask extends Task
                 //$this->log("    => ok");
             } else {                   
                 $this->log("       => Missing \"#define BITSIZE\".");
-                $this->log("          Please add \"#define BITSIZE              \"$bitsizeW\";");
+                $this->log("          Please add: #define BITSIZE              \"$bitsizeW\";");
             }
 
             // ---------------------------------------------------------------------
@@ -216,7 +216,7 @@ class CheckInstallersTask extends Task
                 //$this->log("    => ok");
             } else {                   
                 $this->log("       => Missing \"#define BITSIZE\".");
-                $this->log("          Please add \"Source: ..\bin\\7zip\\$bitsizeX\" entry");
+                $this->log("          Please add: Source: ..\bin\\7zip\\$bitsizeX\" entry");
             } 
 
             // ---------------------------------------------------------------------
