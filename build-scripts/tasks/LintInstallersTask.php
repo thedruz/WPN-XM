@@ -32,7 +32,7 @@ class LintInstallersTask extends Task
     {
         $this->log('Linting Installers..');
 
-        $installerScripts = glob($this->buildFolder . '/*.iss', GLOB_BRACE);
+        $installerScripts = glob($this->buildFolder . '\*.iss', GLOB_BRACE);
 
         foreach($installerScripts as $installer)
         {
