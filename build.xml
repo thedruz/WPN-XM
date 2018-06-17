@@ -174,7 +174,7 @@
                     clean-webinterface-folder,
                     versionize-registries,
                     make-downloads-dir,
-                    create-download-lists,
+                    create-bulk-download-lists,
                     download-components,
                     check-downloads,
                     stripdown-pool,
@@ -199,7 +199,7 @@
                     clean-webinterface-folder,
                     versionize-registries,
                     make-downloads-dir,
-                    create-download-lists">
+                    create-bulk-download-lists">
     </target>
     <!-- removed "download-components" from main-part2, trying to execute this target with ant -->
     <target name="main-part2"

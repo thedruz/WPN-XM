@@ -16,8 +16,8 @@
         <mkdir dir="${dir.Downloads}"/>
     </target>
 
-    <target name="create-download-lists"
-            description="Generate Aria download lists for all full installers.">
+    <target name="create-bulk-download-lists"
+            description="Generate Aria bulk download lists for all full installers.">
         <taskdef name="GenerateAriaDownloadLists" classname="GenerateAriaDownloadListsTask" />
         <GenerateAriaDownloadLists
             wpnxmVersion="${wpnxm.Version}"
