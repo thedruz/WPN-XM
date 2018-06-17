@@ -389,7 +389,7 @@ class Stripdown
 
     function zipcmd()
     {
-        return (DS === '/') ? '7a' : __DIR__ . '\7zip\x64\7za.exe';
+        return (DS === '/') ? '7z' : __DIR__ . '\7zip\x64\7za.exe';
     }
 
     function upxcmd()
