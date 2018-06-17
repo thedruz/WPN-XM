@@ -30,29 +30,28 @@ class DownloadTask extends Task
         $this->wpnxmversion = $wpnxmversion;
     }
 
-    function main()
+    function getAriaBinaryWin()
     {
-        defined('DS') || define('DS', DIRECTORY_SEPARATOR);
+        return __DIR__ . '\..\..\bin\aria2\aria2c.exe ';
+    }
 
-        $this->log('Downloading Components using Aria2');
+    function getAriaBinaryLinux()
+    {
+        # use binary from system
+        //return 'aria2c ';
 
-        // get aria download description files
-        $files = glob($this->registryfolder . DS . 'downloads-for-full-' . $this->wpnxmversion . '*.txt', GLOB_BRACE);
+        # use binary from this repository
+        return __DIR__ . '\..\..\bin\aria2\linux-x64\aria2c ';
+    }
 
-        foreach($files as $file)
-        {
-            $this->log('Using ' . $file);
+    function getAriaBinaryForOS()
+    {
+        return (DIRECTORY_SEPARATOR === '/') ? $this->getAriaBinaryLinux() : $this->getAriaBinaryWin();
+    }
 
-           /**
-            * Aria2c for parallel downloading
-            *
-            * https://aria2.github.io/manual/en/html/aria2c.html#example
-            * https://aria2.github.io/manual/en/html/aria2c.html#id2
-            */
-            $aria2_bin = (DS === '/') ? 'aria2c ' : __DIR__ . '\..\..\bin\aria2\aria2c.exe ';
-
-            $aria_cmd = $aria2_bin . ' -i ' . $file
-            . ' --disk-cache=0 --max-download-result=0 --check-certificate=false'
+    function appendAriaOptions()
+    {
+        return ' --disk-cache=0 --max-download-result=0 --check-certificate=false'
             . ' --deferred-input=true --http-accept-gzip=true'
             . ' --split=4 --min-split-size=20M --max-connection-per-server=4 --max-tries=5'
             . ' --conditional-get=true --auto-file-renaming=false'
@@ -60,7 +59,34 @@ class DownloadTask extends Task
             . ' --user-agent="WPN-XM Server Stack Downloader"';
             // --force-sequential=true
             // --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36"
+    }
 
+    function downloadWithAria($file)
+    {
+        return $this->getAriaBinaryForOS() . ' -i ' . $file . $this->appendAriaOptions();
+    }
+    
+    /**
+     * Use Aria2c for parallel downloading
+     *
+     * https://aria2.github.io/manual/en/html/aria2c.html#example
+     * https://aria2.github.io/manual/en/html/aria2c.html#id2
+     */
+    function main()
+    {
+        $this->log('Downloading Components using Aria2');
+        
+        // get aria download description files
+        $globPattern = $this->registryfolder . DIRECTORY_SEPARATOR . 'downloads-for-full-' . $this->wpnxmversion . '*.txt';
+        
+        $files = glob($globPattern, GLOB_BRACE);
+
+        foreach($files as $file)
+        {
+            $this->log('Using ' . $file);
+           
+            $aria_cmd = $this->downloadWithAria($file);
+            
             passthru($aria_cmd);
         }
     }
