@@ -24,7 +24,7 @@ before_install:
   - sudo add-apt-repository -y ppa:ubuntu-wine/ppa
   # use apt-fast for installation of dependencies
   - sudo apt-fast -y update
-  - sudo apt-fast -m -y install p7zip-full ca-certificates wine1.9
+  - sudo apt-fast -m -y install p7zip-full ca-certificates wine1.8
 
 before_script:
   # start framebuffer (wine wants this)
