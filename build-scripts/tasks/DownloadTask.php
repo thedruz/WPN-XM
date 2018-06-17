@@ -41,7 +41,7 @@ class DownloadTask extends Task
         //return 'aria2c ';
 
         # use binary from this repository
-        return __DIR__ . '\..\..\bin\aria2\linux-x64\aria2c ';
+        return __DIR__ . '/../../bin/aria2/linux-x64/aria2c ';
     }
 
     function getAriaBinaryForOS()
