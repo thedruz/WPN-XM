@@ -177,7 +177,6 @@ Source: ..\software\nginx\config\nginx.conf;               DestDir: {app}\bin\ng
 Source: ..\software\nginx\config\conf\sites-disabled\*;    DestDir: {app}\bin\nginx\conf\sites-disabled
 Source: ..\software\nginx\html\errorpages\*;               DestDir: {app}\bin\nginx\html\errorpages
 Source: ..\software\mariadb\config\my.ini;                 DestDir: {app}\bin\mariadb
-Source: ..\software\php\config\composer\php.ini;           DestDir: {app}\bin\composer;    Components: composer
 Source: ..\software\openssl\config\openssl.cfg;            DestDir: {app}\bin\openssl;     Components: openssl
 Source: ..\software\openssl\cert-bundle\ca-bundle.crt;     DestDir: {app}\bin\openssl;     Components: openssl
 Source: ..\software\conemu\config\*;                       DestDir: {app}\bin\conemu;      Components: conemu
