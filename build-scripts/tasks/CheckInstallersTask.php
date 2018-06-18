@@ -184,62 +184,98 @@ class CheckInstallersTask extends Task
 
     public function checkBitsizeEntriesInInstaller()
     {
-        $this->log('Check, for correct bitsize entries in the installer script.');
+        $this->log('Checking installer scripts for correct values...');
 
         $scripts = glob($this->installersFolder . '/*.iss', GLOB_BRACE);
 
         foreach($scripts as $installerFile) 
         {
             $this->log('Processing Installer: '. $installerFile);
-            $bitsizeX = (false !== strpos($installerFile, '-w32')) ? 'x86' : 'x64';
-            $bitsizeW = (false !== strpos($installerFile, '-w32')) ? 'w32' : 'w64';    
-            $this->log('Found bitsize: ' . $bitsizeX . ' = '. $bitsizeW, Project::MSG_VERBOSE);
-           
+          
             $installerContent  = file_get_contents($installerFile);
 
             // ---------------------------------------------------------------------
            
-            $this->log("    => Check bitsize define entry: \"#define BITSIZE\"", Project::MSG_VERBOSE);
-
-            if(false !== strpos($installerContent, "#define BITSIZE              \"$bitsizeW\"")) {
-                //$this->log("    => ok");
-            } else {                   
-                $this->log("       => Missing \"#define BITSIZE\".");
-                $this->log("          Please add: #define BITSIZE              \"$bitsizeW\";");
-            }
-
-            // ---------------------------------------------------------------------
-
-            $this->log("    => Check 7zip folder entry: \"Source: ..\bin\\7zip\\$bitsizeX\"", Project::MSG_VERBOSE);
-
-            if(false !== strpos($installerContent, "Source: ..\bin\\7zip\\$bitsizeX")) {
-                //$this->log("    => ok");
-            } else {                   
-                $this->log("       => Missing \"#define BITSIZE\".");
-                $this->log("          Please add: Source: ..\bin\\7zip\\$bitsizeX\" entry");
-            } 
-
-            // ---------------------------------------------------------------------
-
-            $this->log("    => Check \"vcredist_$bitsizeX\" entries", Project::MSG_VERBOSE);
-
-            $regexp = '#vcredist_'.$bitsizeX.'_\d+#mi';
-            $result = preg_match_all($regexp, $installerContent);
-
-            if(false !== strpos($installerFile, 'webinstaller')) {
-                if($result == 2) {
-                    //$this->log("    => ok");
-                } else {
-                    $this->log("       => Invalid vcredist_ entry.");
-                }
-            } else {
-                if($result == 3) {
-                    //$this->log("    => ok");
-                } else {
-                    $this->log("       => Invalid vcredist_ entry.");                    
-                }
-            }            
+            $this->checkPhpVersion($installerFile, $installerContent);          
+            $this->checkBitsize($installerFile, $installerContent);
+            $this->checkUsingCorrectBitsizeOfSevenZip($installerFile, $installerContent);
+            $this->checkUsingCorrectBitsizeOfVcredist($installerFile, $installerContent);                      
         }
+    }
+
+    public function checkPhpVersion($installerFile, $installerContent)
+    {
+        $this->log("    => Check PHP_VERSION define entry: \"#define PHP_VERSION\"", Project::MSG_VERBOSE);
+
+        // determine PHP verson from installer filename
+        $phpversion = explode('-', $installerFile)[2];
+        $this->log('Found PHP_VERSION: ' . $phpversion . ' = '. $phpversion, Project::MSG_VERBOSE);
+
+        // check iss file content for this PHP_VERSION
+        if(false !== strpos($installerContent, "#define PHP_VERSION              \"$php_version\"")) {
+            //$this->log("    => ok");
+        } else {                   
+            $this->log("       => Missing \"#define PHP_VERSION\".");
+            $this->log("          Please add: #define PHP_VERSION              \"$php_version\";");
+        }
+    }
+
+    public function checkBitsize($installerFile, $installerContent)
+    {        
+        $this->log("    => Check bitsize define entry: \"#define BITSIZE\"", Project::MSG_VERBOSE);
+
+        // determine bitsize from installer filename
+        $bitsizeX = (false !== strpos($installerFile, '-w32')) ? 'x86' : 'x64';
+        $bitsizeW = (false !== strpos($installerFile, '-w32')) ? 'w32' : 'w64';
+        $this->log('Found BITSIZE: ' . $bitsizeX . ' = '. $bitsizeW, Project::MSG_VERBOSE);
+
+        if(false !== strpos($installerContent, "#define BITSIZE              \"$bitsizeW\"")) {
+            //$this->log("    => ok");
+        } else {                   
+            $this->log("       => Missing \"#define BITSIZE\".");
+            $this->log("          Please add: #define BITSIZE              \"$bitsizeW\";");
+        }
+    }    
+
+    public function checkUsingCorrectBitsizeOfSevenZip($installerFile, $installerContent)
+    {
+        $this->log("    => Check using correct bitsize of 7zip:", Project::MSG_VERBOSE);
+
+        $bitsizeX = (false !== strpos($installerFile, '-w32')) ? 'x86' : 'x64';
+
+        if(false !== strpos($installerContent, "Source: ..\bin\\7zip\\$bitsizeX")) {
+            //$this->log("    => ok");
+        } else {                   
+            $this->log("       => Missing \"#define BITSIZE\".");
+            $this->log("          Please add: Source: ..\bin\\7zip\\$bitsizeX\" entry");
+        } 
+    }
+
+    public function checkUsingCorrectBitsizeOfVcredist($installerFile, $installerContent)
+    {
+        $this->log("    => Check using correct bitsize of VCREDIST:", Project::MSG_VERBOSE);
+
+        $bitsizeX = (false !== strpos($installerFile, '-w32')) ? 'x86' : 'x64';
+
+        $regexp = '#vcredist_'.$bitsizeX.'_\d+#mi';
+
+        $result = preg_match_all($regexp, $installerContent);
+
+        if(false !== strpos($installerFile, 'webinstaller')) {
+            if($result == 2) {
+                //$this->log("    => ok");
+            } else {
+                $this->log("       => Invalid vcredist_ entry.");
+                $this->log("          Please use correct bitsize: $bitsizeX");
+            }
+        } else {
+            if($result == 3) {
+                //$this->log("    => ok");
+            } else {
+                $this->log("       => Invalid vcredist_ entry."); 
+                $this->log("          Please use correct bitsize: $bitsizeX");                   
+            }
+        } 
     }
 
     public static function getSoftwareName($registrySoftwareName)
