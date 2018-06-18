@@ -45,7 +45,7 @@
 #define CODESIGN_INSTALLER   "false"
 
 #define INSTALLER_TYPE       "Standard"
-#define PHP_VERSION          "php70"
+#define PHP_VERSION          "php71"
 #define BITSIZE              "w64"
 
 #define SOURCE_ROOT          AddBackslash(SourcePath);
