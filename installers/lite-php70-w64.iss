@@ -275,26 +275,6 @@ var
   intTotalComponents            : Integer;
   intInstalledComponentsCounter : Integer;
 
-{
-  This check avoids duplicate paths on env var path.
-  Used in the Registry Section for testing, if path was already set.
-}
-function NeedsAddPathCurrentUser(PathToAdd: string): boolean;
-var
-  OrigPath: string;
-begin
-  if not RegQueryStringValue(HKCU, 'Environment\', 'Path', OrigPath) then
-  begin
-    Result := True;
-    exit;
-  end;
-  // look for the path with leading and trailing semicolon
-  // Pos() returns 0 if not found
-  Result := Pos(';' + UpperCase(PathToAdd) + ';', ';' + UpperCase(OrigPath) + ';') = 0;
-  if Result = True then
-     Result := Pos(';' + UpperCase(PathToAdd) + '\;', ';' + UpperCase(OrigPath) + ';') = 0;
-end;
-
 // Runs an external command via RunHiddenConsole
 function ExecHidden(Command: String): Integer;
 var

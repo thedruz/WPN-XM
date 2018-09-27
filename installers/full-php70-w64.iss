@@ -302,7 +302,7 @@ const
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
-  Filename_gogs          = 'gogitservice.zip';
+  Filename_gogs                  = 'gogitservice.zip';
   Filename_heidisql              = 'heidisql.zip';
   Filename_imagick               = 'imagick.zip';
   Filename_mariadb               = 'mariadb.zip';
@@ -316,7 +316,7 @@ const
   Filename_openssl               = 'openssl.zip';
   Filename_osquery               = 'osquery.zip';
   Filename_php                   = 'php.zip';
-  Filename_php_cs_fixer            = 'php-cs-fixer.phar';
+  Filename_php_cs_fixer          = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_ice            = 'phpext_ice.zip';
@@ -329,6 +329,7 @@ const
   Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_redis          = 'phpext_redis.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   //Filename_phpext_trader         = 'phpext_trader.zip';

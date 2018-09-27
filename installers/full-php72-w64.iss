@@ -329,6 +329,7 @@ const
   //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_redis          = 'phpext_redis.zip';
   //Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   //Filename_phpext_trader         = 'phpext_trader.zip';

@@ -889,12 +889,11 @@ begin
 
   if Pos('phpextensions', selectedComponents) > 0 then
   begin
-    UpdateCurrentComponentName('PHP Extension - AMQP');
-      ExtractTemporaryFile(Filename_phpext_amqp);
-      Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
-      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
-      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
-    UpdateTotalProgressBar();
+    {
+       PHP Extensions amqp not available for 7.2
+    
+    
+    }
 
     UpdateCurrentComponentName('PHP Extension - APCu');
       ExtractTemporaryFile(Filename_phpext_apcu);
@@ -903,14 +902,14 @@ begin
     UpdateTotalProgressBar();
 
     {
-       PHP Extensions Ice not available for 7.1
+       PHP Extensions Ice not available for 7.2
     
-	
-	}
+    
+    }
 	
 	{
 	
-	   PHP Extension JsonD is included in PHP 7.
+	   PHP Extension JsonD is included in PHP 7.2
 
 	}
 
