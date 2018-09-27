@@ -212,11 +212,11 @@ class CheckInstallersTask extends Task
         $this->log('Found PHP_VERSION: ' . $phpversion, Project::MSG_VERBOSE);
 
         // check iss file content for this PHP_VERSION
-        if(false !== strpos($installerContent, "#define PHP_VERSION              \"$phpversion\"")) {
+        if(false !== strpos($installerContent, "#define PHP_VERSION          \"$phpversion\"")) {
             //$this->log("    => ok");
         } else {                   
             $this->log("       => Missing \"#define PHP_VERSION\".");
-            $this->log("          Please add: #define PHP_VERSION              \"$phpversion\";");
+            $this->log("          Please add: #define PHP_VERSION          \"$phpversion\";");
         }
     }
 
