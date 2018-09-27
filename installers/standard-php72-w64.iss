@@ -308,10 +308,10 @@ const
   Filename_phpext_mongodb    = 'phpext_mongodb.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
   //Filename_phpext_phalcon    = 'phpext_phalcon.zip';
-  //Filename_phpext_rar        = 'phpext_rar.zip';
+  Filename_phpext_rar        = 'phpext_rar.zip';
   Filename_phpext_redis      = 'phpext_redis.zip';
   Filename_phpext_stats      = 'phpext_stats.zip';
-  //Filename_phpext_trader     = 'phpext_trader.zip';
+  Filename_phpext_trader     = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_xdebug     = 'phpext_xdebug.zip';
   Filename_phpext_zmq        = 'phpext_zmq.zip';
@@ -943,11 +943,11 @@ begin
      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - RAR');
-     // ExtractTemporaryFile(Filename_phpext_rar);
-     // Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - RAR');
+      ExtractTemporaryFile(Filename_phpext_rar);
+      Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
+      FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');
       ExtractTemporaryFile(Filename_phpext_trader);

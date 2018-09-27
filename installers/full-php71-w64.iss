@@ -322,7 +322,7 @@ const
   // PHP Extension Ice is not available for PHP7.1
   //Filename_phpext_imagick        = 'phpext_imagick.zip';
   // jsond is included in PHP7
-  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   //Filename_phpext_msgpack        = 'phpext_msgpack.zip';
@@ -332,7 +332,7 @@ const
   Filename_phpext_redis          = 'phpext_redis.zip';
   //Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
-  //Filename_phpext_trader         = 'phpext_trader.zip';
+  Filename_phpext_trader         = 'phpext_trader.zip';
   //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   //Filename_phpext_zmq            = 'phpext_zmq.zip';
@@ -1035,11 +1035,11 @@ begin
      // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
    // UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Trader');
-     // ExtractTemporaryFile(Filename_phpext_trader);
-     // Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Trader');
+      ExtractTemporaryFile(Filename_phpext_trader);
+      Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
+      FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
+    UpdateTotalProgressBar();
 
    UpdateCurrentComponentName('PHP Extension - ZMQ');
      ExtractTemporaryFile(Filename_phpext_zmq);
