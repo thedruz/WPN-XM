@@ -208,7 +208,7 @@ class CheckInstallersTask extends Task
         $this->log("    => Check PHP_VERSION define entry: \"#define PHP_VERSION\"", Project::MSG_VERBOSE);
 
         // determine PHP verson from installer filename
-        $phpversion = explode('-', $installerFile)[2];
+        $phpversion = explode('-', basename($installerFile))[2];
         $this->log('Found PHP_VERSION: ' . $phpversion . ' = '. $phpversion, Project::MSG_VERBOSE);
 
         // check iss file content for this PHP_VERSION
