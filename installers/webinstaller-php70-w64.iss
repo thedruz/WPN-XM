@@ -330,7 +330,6 @@ const
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.0&bitsize=x64';
   // NOTE: phpext_jsond is part of PHP 7, because of Douglas Crockford
   URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.0&bitsize=x64';
-  //URL_phpext_memcache       = 'http://wpn-xm.org/get.php?s=phpext_memcache&p=7.0&bitsize=x64';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.0&bitsize=x64';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.0&bitsize=x64';
   URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.0&bitsize=x64';
@@ -381,7 +380,6 @@ const
   Filename_phpext_imagick        = 'phpext_imagick.zip';
   // phpext_json is included in PHP7
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
-  //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
@@ -809,7 +807,6 @@ begin
     if IsComponentSelected('memcached') then
     begin
         idpAddFile(URL_memcached,        ExpandConstant(targetPath + Filename_memcached));
-        //idpAddFile(URL_phpext_memcache,  ExpandConstant(targetPath + Filename_phpext_memcache));
     end;
 
     if IsComponentSelected('mongodb')    then
@@ -855,7 +852,6 @@ begin
         idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
         idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
-        // phpext_memcache installed with memcached
         // phpext_mongodb installed with mongodb
         // phpext_xdebug is standalone
         // phpext_redis is installed with redis
@@ -905,7 +901,6 @@ begin
   if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // closure+yuicomp
   if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
   if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
-  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
   if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
@@ -1260,11 +1255,6 @@ begin
       Unzip(targetPath + Filename_memcached, appDir + '\bin'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-* ' + appDir + '\bin\memcached"'); // rename folder
     UpdateTotalProgressBar;
-
-   // UpdateCurrentComponentName('PHP Extension - Memcached');
-     // Unzip(targetPath + Filename_phpext_memcache, targetPath + 'phpext_memcache');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), appDir + '\bin\php\ext\php_memcache.dll', false);
-   // UpdateTotalProgressBar();
   end;
 
   if Pos('memadmin', selectedComponents) > 0 then

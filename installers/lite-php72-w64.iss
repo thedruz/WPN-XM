@@ -567,7 +567,6 @@ begin
   if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // closure+yuicomp
   if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
   if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
-  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
   if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis

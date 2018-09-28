@@ -323,7 +323,6 @@ const
   //Filename_phpext_imagick        = 'phpext_imagick.zip';
   // jsond is included in PHP7
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
-  //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
@@ -701,7 +700,6 @@ begin
   if Pos('assettools', selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // closure+yuicomp
   if Pos('git',        selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // gogs+msysgit
   if Pos('node',       selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // npm
-  if Pos('memcached',  selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_memcache
   if Pos('imagick',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_imagick
   if Pos('mongodb',    selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_mongo
   if Pos('redis',      selectedComponents) > 0 then intTotalComponents := intTotalComponents + 1; // phpext_redis
@@ -1081,12 +1079,6 @@ begin
       Unzip(targetPath + Filename_memcached, appDir + '\bin'); // no subfolder, brings own dir
       ExecHidden('cmd.exe /c "move /Y ' + appDir + '\bin\memcached-* ' + appDir + '\bin\memcached"'); // rename folder
     UpdateTotalProgressBar;
-
-   // UpdateCurrentComponentName('PHP Extension - Memcached');
-     // ExtractTemporaryFile(Filename_phpext_memcache);
-     // Unzip(targetPath + Filename_phpext_memcache, targetPath + 'phpext_memcache');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_memcache\php_memcache.dll'), appDir + '\bin\php\ext\php_memcache.dll', false);
-   // UpdateTotalProgressBar();
   end;
 
   if Pos('memadmin', selectedComponents) > 0 then
