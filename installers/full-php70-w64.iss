@@ -321,7 +321,6 @@ const
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   Filename_phpext_ice            = 'phpext_ice.zip';
   Filename_phpext_imagick        = 'phpext_imagick.zip';
-  // jsond is included in PHP7
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';

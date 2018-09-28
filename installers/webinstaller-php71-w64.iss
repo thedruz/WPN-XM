@@ -328,7 +328,6 @@ const
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.1&bitsize=x64';
   //URL_phpext_ice            = 'http://wpn-xm.org/get.php?s=phpext_ice&p=7.1';  // phpext_ice not available for PHP 7.1 x64
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.1&bitsize=x64';
-  // NOTE: phpext_jsond is part of PHP 7, because of Douglas Crockford
   URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.1&bitsize=x64';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.1&bitsize=x64';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.1&bitsize=x64';
