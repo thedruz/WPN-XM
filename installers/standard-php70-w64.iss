@@ -305,8 +305,7 @@ const
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_mongodb    = 'phpext_mongodb.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
-  //Filename_phpext_phalcon    = 'phpext_phalcon.zip';
-  Filename_phpext_rar        = 'phpext_rar.zip';
+  Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   Filename_phpext_redis      = 'phpext_redis.zip';
   Filename_phpext_stats      = 'phpext_stats.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
@@ -904,12 +903,6 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
     UpdateTotalProgressBar();
 	
-	{
-	
-	   PHP Extension JsonD is included in PHP 7.
-
-	}
-
     UpdateCurrentComponentName('PHP Extension - Mailparse');
       ExtractTemporaryFile(Filename_phpext_mailparse);
       Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
@@ -922,22 +915,16 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll', false);
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Phalcon');
-     // ExtractTemporaryFile(Filename_phpext_phalcon);
-     // Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Phalcon');
+      ExtractTemporaryFile(Filename_phpext_phalcon);
+      Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Stats');
       ExtractTemporaryFile(Filename_phpext_stats);
       Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - RAR');
-      ExtractTemporaryFile(Filename_phpext_rar);
-      Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-      FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');

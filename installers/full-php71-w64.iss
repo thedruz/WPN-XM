@@ -325,8 +325,7 @@ const
   //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
-  //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
-  //Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';
   //Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
@@ -976,12 +975,6 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
-    {
-      PHP Extensions ICE is not available for PHP7.1.
-    }
-    {
-      The PHP extension JsonD is included in PHP 7.
-    }
 
    UpdateCurrentComponentName('PHP Extension - Mailparse');
      ExtractTemporaryFile(Filename_phpext_mailparse);
@@ -995,11 +988,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll', false);
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Phalcon');
-     // ExtractTemporaryFile(Filename_phpext_phalcon);
-     // Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Phalcon');
+      ExtractTemporaryFile(Filename_phpext_phalcon);
+      Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
+    UpdateTotalProgressBar();
 
    UpdateCurrentComponentName('PHP Extension - Stats');
      ExtractTemporaryFile(Filename_phpext_stats);
@@ -1018,12 +1011,6 @@ begin
       Unzip(targetPath + Filename_phpext_pdo_sqlsrv, targetPath + 'phpext_pdo_sqlsrv');
       FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
     UpdateTotalProgressBar();
-
-   // UpdateCurrentComponentName('PHP Extension - RAR');
-     // ExtractTemporaryFile(Filename_phpext_rar);
-     // Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
-   // UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');
       ExtractTemporaryFile(Filename_phpext_trader);

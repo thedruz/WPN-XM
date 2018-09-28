@@ -305,8 +305,7 @@ const
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_mongodb    = 'phpext_mongodb.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
-  //Filename_phpext_phalcon    = 'phpext_phalcon.zip';
-  Filename_phpext_rar        = 'phpext_rar.zip';
+  Filename_phpext_phalcon    = 'phpext_phalcon.zip';
   Filename_phpext_redis      = 'phpext_redis.zip';
   Filename_phpext_stats      = 'phpext_stats.zip';
   Filename_phpext_trader     = 'phpext_trader.zip';
@@ -931,12 +930,6 @@ begin
       ExtractTemporaryFile(Filename_phpext_stats);
       Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - RAR');
-      ExtractTemporaryFile(Filename_phpext_rar);
-      Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-      FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');

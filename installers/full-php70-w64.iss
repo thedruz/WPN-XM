@@ -325,12 +325,11 @@ const
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
-  //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
-  //Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
-  //Filename_phpext_trader         = 'phpext_trader.zip';
+  Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
@@ -963,12 +962,12 @@ begin
 
   if Pos('phpextensions', selectedComponents) > 0 then
   begin
-   // UpdateCurrentComponentName('PHP Extension - AMQP');
-     // ExtractTemporaryFile(Filename_phpext_amqp);
-     // Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
-     // FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - AMQP');
+      ExtractTemporaryFile(Filename_phpext_amqp);
+      Unzip(targetPath + Filename_phpext_amqp, targetPath + 'phpext_amqp');
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\php_amqp.dll'), appDir + '\bin\php\ext\php_amqp.dll', false);
+      FileCopy(ExpandConstant(targetPath + 'phpext_amqp\rabbitmq.1.dll'), appDir + '\bin\php\ext\rabbitmq.1.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - APCu');
       ExtractTemporaryFile(Filename_phpext_apcu);
@@ -982,15 +981,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
     UpdateTotalProgressBar();
 
-    {
-      The PHP extension JsonD is included in PHP 7.
-    }
-
-   UpdateCurrentComponentName('PHP Extension - Mailparse');
-     ExtractTemporaryFile(Filename_phpext_mailparse);
-     Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
-     FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
-   UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Mailparse');
+      ExtractTemporaryFile(Filename_phpext_mailparse);
+      Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
+      FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - MsgPack');
       ExtractTemporaryFile(Filename_phpext_msgpack);
@@ -998,17 +993,17 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll', false);
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Phalcon');
-     // ExtractTemporaryFile(Filename_phpext_phalcon);
-     // Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Phalcon');
+      ExtractTemporaryFile(Filename_phpext_phalcon);
+      Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
+    UpdateTotalProgressBar();
 
-   UpdateCurrentComponentName('PHP Extension - Stats');
-     ExtractTemporaryFile(Filename_phpext_stats);
-     Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
-     FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
-   UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Stats');
+      ExtractTemporaryFile(Filename_phpext_stats);
+      Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
+      FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - SQLSRV');
       ExtractTemporaryFile(Filename_phpext_sqlsrv);
@@ -1022,17 +1017,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - RAR');
-     // ExtractTemporaryFile(Filename_phpext_rar);
-     // Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
-   // UpdateTotalProgressBar();
-
-   // UpdateCurrentComponentName('PHP Extension - Trader');
-     // ExtractTemporaryFile(Filename_phpext_trader);
-     // Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Trader');
+      ExtractTemporaryFile(Filename_phpext_trader);
+      Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
+      FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
+    UpdateTotalProgressBar();
 
    UpdateCurrentComponentName('PHP Extension - ZMQ');
      ExtractTemporaryFile(Filename_phpext_zmq);

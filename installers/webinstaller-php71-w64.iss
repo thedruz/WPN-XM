@@ -332,8 +332,7 @@ const
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.1&bitsize=x64';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.1&bitsize=x64';
   URL_phpext_pdo_sqlsrv     = 'http://wpn-xm.org/get.php?s=phpext_pdo_sqlsrv&p=7.1&bitsize=x64';
-  //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.1&bitsize=x64';
-  //URL_phpext_rar            = 'http://wpn-xm.org/get.php?s=phpext_rar&p=7.1&bitsize=x64';
+  URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.1&bitsize=x64';
   // runkit not available for PHP7.1
   //URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.1&bitsize=x64';
   URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.1&bitsize=x64';
@@ -377,13 +376,11 @@ const
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   //Filename_phpext_ice            = 'phpext_ice.zip'; // phpext_ice not available for PHP 7.1 x64
   Filename_phpext_imagick        = 'phpext_imagick.zip';
-  // phpext_json is included in PHP7
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
-  //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
-  //Filename_phpext_rar            = 'phpext_rar.zip';
+  Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';
   //Filename_phpext_runkit         = 'phpext_runkit.zip';
   Filename_phpext_stats          = 'phpext_stats.zip';
@@ -839,12 +836,10 @@ begin
         idpAddFile(URL_phpext_amqp,           ExpandConstant(targetPath + Filename_phpext_amqp));
         idpAddFile(URL_phpext_apcu,           ExpandConstant(targetPath + Filename_phpext_apcu));
         // phpext_ice not AV PHP 7.1 x86
-        // phpext_json part of core
 		idpAddFile(URL_phpext_mailparse,      ExpandConstant(targetPath + Filename_phpext_mailparse));
         idpAddFile(URL_phpext_msgpack,        ExpandConstant(targetPath + Filename_phpext_msgpack));
         idpAddFile(URL_phpext_pdo_sqlsrv,       ExpandConstant(targetPath + Filename_phpext_pdo_sqlsrv));
-        //idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
-        //idpAddFile(URL_phpext_rar,            ExpandConstant(targetPath + Filename_phpext_rar));
+        idpAddFile(URL_phpext_phalcon,        ExpandConstant(targetPath + Filename_phpext_phalcon));
         // runkit
         //idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
         idpAddFile(URL_phpext_sqlsrv,         ExpandConstant(targetPath + Filename_phpext_sqlsrv));
@@ -1162,11 +1157,6 @@ begin
       
     }
    
-    //
-    //  The PHP extension JsonD is part of core PHP 7.
-    //
-    //
-
     UpdateCurrentComponentName('PHP Extension - Mailparse');
       Unzip(targetPath + Filename_phpext_mailparse, targetPath + 'phpext_mailparse');
       FileCopy(ExpandConstant(targetPath + 'phpext_mailparse\php_mailparse.dll'), appDir + '\bin\php\ext\php_mailparse.dll', false);
@@ -1177,22 +1167,17 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll', false);
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - Phalcon');
-     // Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Phalcon');
+      Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');
+      FileCopy(ExpandConstant(targetPath + 'phpext_phalcon\php_phalcon.dll'), appDir + '\bin\php\ext\php_phalcon.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Stats');
       Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
       FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
     UpdateTotalProgressBar();
-    // rar
-    //
-    //
-    //
   
     UpdateCurrentComponentName('PHP Extension - SQLSRV');
-
       Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');     
       FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
     UpdateTotalProgressBar();
@@ -1202,15 +1187,10 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
     UpdateTotalProgressBar();
 
-   // UpdateCurrentComponentName('PHP Extension - RAR');
-     // Unzip(targetPath + Filename_phpext_rar, targetPath + 'phpext_rar');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_rar\php_rar.dll'), appDir + '\bin\php\ext\php_rar.dll', false);
-   // UpdateTotalProgressBar();
-
-   // UpdateCurrentComponentName('PHP Extension - Trader');
-     // Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
-   // UpdateTotalProgressBar();
+    UpdateCurrentComponentName('PHP Extension - Trader');
+      Unzip(targetPath + Filename_phpext_trader, targetPath + 'phpext_trader');
+      FileCopy(ExpandConstant(targetPath + 'phpext_trader\php_trader.dll'), appDir + '\bin\php\ext\php_trader.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - ZMQ');
       Unzip(targetPath + Filename_phpext_zmq, targetPath + 'phpext_zmq');
