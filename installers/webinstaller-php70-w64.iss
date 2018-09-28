@@ -340,7 +340,6 @@ const
   URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.0&bitsize=x64';
   URL_phpext_sqlsrv         = 'http://wpn-xm.org/get.php?s=phpext_sqlsrv&p=7.0&bitsize=x64';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.0&bitsize=x64';
-  // uploadprogress not AV for 7
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.0&bitsize=x64';
   URL_phpext_zmq            = 'http://wpn-xm.org/get.php?s=phpext_zmq&p=7.0&bitsize=x64';
   URL_phpmemcachedadmin     = 'http://wpn-xm.org/get.php?s=phpmemcachedadmin';
@@ -393,7 +392,6 @@ const
   Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   Filename_phpext_trader         = 'phpext_trader.zip';
-  // phpext_uploadprogress not AV for 7
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
@@ -855,7 +853,6 @@ begin
         idpAddFile(URL_phpext_stats,          ExpandConstant(targetPath + Filename_phpext_stats));
         idpAddFile(URL_phpext_sqlsrv,         ExpandConstant(targetPath + Filename_phpext_sqlsrv));
         idpAddFile(URL_phpext_trader,         ExpandConstant(targetPath + Filename_phpext_trader));
-        // uploadprogress not av for PHP7
         idpAddFile(URL_phpext_zmq,            ExpandConstant(targetPath + Filename_phpext_zmq));
         // phpext_imagick installed with imagick
         // phpext_memcache installed with memcached
@@ -1184,11 +1181,6 @@ begin
       Unzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll', false);
     UpdateTotalProgressBar();
-
-   // UpdateCurrentComponentName('PHP Extension - UploadProgress');
-     // Unzip(targetPath + Filename_phpext_uploadprogress, targetPath + 'phpext_uploadprogress');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_uploadprogress\php_uploadprogress.dll'), appDir + '\bin\php\ext\php_uploadprogress.dll', false);
-   // UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Phalcon');
       Unzip(targetPath + Filename_phpext_phalcon, targetPath + 'phpext_phalcon');

@@ -322,10 +322,10 @@ const
   // PHP Extension Ice is not available for PHP7.1
   //Filename_phpext_imagick        = 'phpext_imagick.zip';
   // jsond is included in PHP7
-  //Filename_phpext_mailparse      = 'phpext_mailparse.zip';
+  Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_memcache       = 'phpext_memcache.zip'; // memcache without D
   //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
-  //Filename_phpext_msgpack        = 'phpext_msgpack.zip';
+  Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   //Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   //Filename_phpext_rar            = 'phpext_rar.zip';
@@ -333,7 +333,6 @@ const
   //Filename_phpext_stats          = 'phpext_stats.zip';
   //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
   //Filename_phpext_trader         = 'phpext_trader.zip';
-  //Filename_phpext_uploadprogress = 'phpext_uploadprogress.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
   //Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
@@ -998,12 +997,6 @@ begin
       Unzip(targetPath + Filename_phpext_msgpack, targetPath + 'phpext_msgpack');
       FileCopy(ExpandConstant(targetPath + 'phpext_msgpack\php_msgpack.dll'), appDir + '\bin\php\ext\php_msgpack.dll', false);
     UpdateTotalProgressBar();
-
-   // UpdateCurrentComponentName('PHP Extension - UploadProgress');
-     // ExtractTemporaryFile(Filename_phpext_uploadprogress);
-     // Unzip(targetPath + Filename_phpext_uploadprogress, targetPath + 'phpext_uploadprogress');
-     // FileCopy(ExpandConstant(targetPath + 'phpext_uploadprogress\php_uploadprogress.dll'), appDir + '\bin\php\ext\php_uploadprogress.dll', false);
-   // UpdateTotalProgressBar();
 
    // UpdateCurrentComponentName('PHP Extension - Phalcon');
      // ExtractTemporaryFile(Filename_phpext_phalcon);
