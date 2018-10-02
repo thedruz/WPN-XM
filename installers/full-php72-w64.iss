@@ -147,7 +147,6 @@ Name: robo3t; Description: Robo3T (formerly Robomongo) - MongoDB administration 
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
-Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
 
 [Files]
@@ -163,12 +162,8 @@ Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\php-cgi-spawner\php-cgi-spawner.exe; DestDir: {app}\bin\php-cgi-spawner\
 ; psvince is installed to the app folder, because it's needed during uninstallation, to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
-; incorporate the whole "www" folder into the setup, except the webinterface folder
-Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*;
-; webinterface folder is only copied, if component "webinterface" is selected.
-Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes:.git*,.travis*; Flags: recursesubdirs; Components: webinterface
-; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
-Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
+; copy "www" folder into the setup, except examples folder
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\examples,.git*;
 ; ship documentation, changelog and license information
 Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
@@ -188,7 +183,7 @@ Source: ..\startfiles\run.bat; DestDir: {app}
 Source: ..\startfiles\status.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\stop.bat; DestDir: {app}
-Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
+
 
 ; backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
@@ -266,7 +261,6 @@ Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\sites-enabled
 Name: {app}\logs
 Name: {app}\temp
-Name: {app}\www\tools\webinterface; Components: webinterface
 
 [Code]
 // include Unzip() helper
@@ -302,7 +296,7 @@ const
   Filename_closure_compiler      = 'closure-compiler.zip';
   Filename_conemu                = 'conemu.7z';
   Filename_composer              = 'composer.phar';
-  Filename_gogs          = 'gogitservice.zip';
+  Filename_gogs                  = 'gogitservice.zip';
   Filename_heidisql              = 'heidisql.zip';
   Filename_imagick               = 'imagick.zip';
   Filename_mariadb               = 'mariadb.zip';
@@ -316,22 +310,20 @@ const
   Filename_openssl               = 'openssl.zip';
   Filename_osquery               = 'osquery.zip';
   Filename_php                   = 'php.zip';
-  Filename_php_cs_fixer            = 'php-cs-fixer.phar';
+  Filename_php_cs_fixer          = 'php-cs-fixer.phar';
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
-  // PHP Extension Ice is not available for PHP7.1
+  Filename_phpext_ice            = 'phpext_ice.zip';
   //Filename_phpext_imagick        = 'phpext_imagick.zip';
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
   //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
-  //Filename_phpext_pdo_sqlsrv     = 'phpext_pdo_sqlsrv.zip';
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';
-  //Filename_phpext_stats          = 'phpext_stats.zip';
-  //Filename_phpext_sqlsrv         = 'phpext_sqlsrv.zip';  
+  Filename_phpext_stats          = 'phpext_stats.zip';
   Filename_phpext_trader         = 'phpext_trader.zip';
   Filename_phpext_xdebug         = 'phpext_xdebug.zip';
-  //Filename_phpext_zmq            = 'phpext_zmq.zip';
+  Filename_phpext_zmq            = 'phpext_zmq.zip';
   Filename_phpmemcachedadmin     = 'phpmemcachedadmin.zip';
   Filename_phpmyadmin            = 'phpmyadmin.zip';
   Filename_pickle                = 'pickle.phar';
@@ -975,6 +967,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
+    UpdateCurrentComponentName('PHP Extension - Ice');
+      ExtractTemporaryFile(Filename_phpext_ice);
+      Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
+      FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
+    UpdateTotalProgressBar();
 
    UpdateCurrentComponentName('PHP Extension - Mailparse');
      ExtractTemporaryFile(Filename_phpext_mailparse);
@@ -998,18 +995,6 @@ begin
       ExtractTemporaryFile(Filename_phpext_stats);
       Unzip(targetPath + Filename_phpext_stats, targetPath + 'phpext_stats');
       FileCopy(ExpandConstant(targetPath + 'phpext_stats\php_stats.dll'), appDir + '\bin\php\ext\php_stats.dll', false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - SQLSRV');
-      ExtractTemporaryFile(Filename_phpext_sqlsrv);
-      Unzip(targetPath + Filename_phpext_sqlsrv, targetPath + 'phpext_sqlsrv');     
-      FileCopy(ExpandConstant(targetPath + 'phpext_sqlsrv\php_sqlsrv.dll'), appDir + '\bin\php\ext\php_sqlsrv.dll', false);
-    UpdateTotalProgressBar();
-
-    UpdateCurrentComponentName('PHP Extension - PDO_SQLSRV');
-      ExtractTemporaryFile(Filename_phpext_pdo_sqlsrv);
-      Unzip(targetPath + Filename_phpext_pdo_sqlsrv, targetPath + 'phpext_pdo_sqlsrv');
-      FileCopy(ExpandConstant(targetPath + 'phpext_pdo_sqlsrv\php_pdo_sqlsrv.dll'), appDir + '\bin\php\ext\php_pdo_sqlsrv.dll', false);
     UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Trader');

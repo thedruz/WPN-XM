@@ -141,7 +141,6 @@ Name: robo3t; Description: Robo3T (formerly Robomongo) - MongoDB administration 
 Name: sendmail; Description: Fake Sendmail - sendmail emulator; ExtraDiskSpaceRequired: 1230000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Server Control Panel (Tray App); ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: webgrind; Description: Webgrind - Xdebug profiling web frontend; ExtraDiskSpaceRequired: 80000; Types: full debug
-Name: webinterface; Description: WPN-XM - Webinterface; ExtraDiskSpaceRequired: 500000; Types: full serverstack debug
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full debug
 
 [Files]
@@ -157,12 +156,8 @@ Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\php-cgi-spawner\php-cgi-spawner.exe; DestDir: {app}\bin\php-cgi-spawner\
 ; psvince is installed to the app folder, because it's needed during uninstallation, to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
-; incorporate the whole "www" folder into the setup, except the webinterface folder
-Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*;
-; webinterface folder is only copied, if component "webinterface" is selected.
-Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes:.git*,.travis*; Flags: recursesubdirs; Components: webinterface
-; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
-Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
+; copy "www" folder into the setup, except examples folder
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\examples,.git*;
 ; ship documentation, changelog and license information
 Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
@@ -182,7 +177,7 @@ Source: ..\startfiles\run.bat; DestDir: {app}
 Source: ..\startfiles\status.bat; DestDir: {app}
 Source: ..\startfiles\stop-mongodb.bat; DestDir: {app}; Components: mongodb
 Source: ..\startfiles\stop.bat; DestDir: {app}
-Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
+
 
 ; backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
@@ -254,7 +249,6 @@ Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\sites-enabled
 Name: {app}\logs
 Name: {app}\temp
-Name: {app}\www\tools\webinterface; Components: webinterface
 
 [Code]
 // include Unzip() helper
@@ -301,7 +295,7 @@ const
   Filename_php_cs_fixer      = 'php-cs-fixer.phar';
   //Filename_phpext_amqp       = 'phpext_amqp.zip';
   Filename_phpext_apcu       = 'phpext_apcu.zip';
-  // ice not available
+  Filename_phpext_ice        = 'phpext_ice.zip';
   Filename_phpext_mailparse  = 'phpext_mailparse.zip';
   Filename_phpext_mongodb    = 'phpext_mongodb.zip';
   Filename_phpext_msgpack    = 'phpext_msgpack.zip';
@@ -896,17 +890,11 @@ begin
       FileCopy(ExpandConstant(targetPath + 'phpext_apcu\php_apcu.dll'), appDir + '\bin\php\ext\php_apcu.dll', false);
     UpdateTotalProgressBar();
 
-    {
-       PHP Extensions Ice not available for 7.2
-    
-    
-    }
-	
-	{
-	
-	   PHP Extension JsonD is included in PHP 7.2
-
-	}
+    UpdateCurrentComponentName('PHP Extension - Ice');
+      ExtractTemporaryFile(Filename_phpext_ice);
+      Unzip(targetPath + Filename_phpext_ice, targetPath + 'phpext_ice');
+      FileCopy(ExpandConstant(targetPath + 'phpext_ice\php_ice.dll'), appDir + '\bin\php\ext\php_ice.dll', false);
+    UpdateTotalProgressBar();
 
     UpdateCurrentComponentName('PHP Extension - Mailparse');
       ExtractTemporaryFile(Filename_phpext_mailparse);

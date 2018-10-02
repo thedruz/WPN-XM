@@ -124,7 +124,6 @@ Name: benchmark; Description: WPN-XM Benchmark Tools; ExtraDiskSpaceRequired: 10
 Name: composer; Description: Composer - Dependency Manager for PHP; ExtraDiskSpaceRequired: 486000; Types: full
 Name: pickle; Description: Pickle - PHP Extension Installer; ExtraDiskSpaceRequired: 486000; Types: full
 Name: servercontrolpanel; Description: WPN-XM - Tray App for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full
-Name: webinterface; Description: WPN-XM - Webinterface for Serveradministration; ExtraDiskSpaceRequired: 500000; Types: full
 Name: xdebug; Description: Xdebug - Debugger and Profiler Tool for PHP; ExtraDiskSpaceRequired: 300000; Types: full
 Name: openssl; Description: OpenSSL - transport protocol security layer (SSL/TLS); ExtraDiskSpaceRequired: 1000000; Types: full
 
@@ -141,12 +140,8 @@ Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\php-cgi-spawner\php-cgi-spawner.exe; DestDir: {app}\bin\php-cgi-spawner\
 ; psvince is installed to the app folder, because it's needed during uninstallation, to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
-; incorporate the whole "www" folder into the setup, except the webinterface folder
-Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*
-; webinterface folder is only copied, if component "webinterface" is selected.
-Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes: .git*,.travis*; Flags: recursesubdirs; Components: webinterface
-; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
-Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
+; copy "www" folder into the setup, except examples folder
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\examples,.git*;
 ; ship documentation, changelog and license information
 Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
@@ -163,7 +158,7 @@ Source: ..\startfiles\start-scp-server.bat; DestDir: {app}
 Source: ..\startfiles\run.bat; DestDir: {app}
 Source: ..\startfiles\status.bat; DestDir: {app}
 Source: ..\startfiles\stop.bat; DestDir: {app}
-Source: ..\startfiles\webinterface.url; DestDir: {app}; Components: webinterface
+
 
 ; backup config files, when upgrading
 Source: {app}\bin\php\php.ini; DestDir: {app}\bin\php; DestName: "php.ini.old"; Flags: external skipifsourcedoesntexist
@@ -228,7 +223,6 @@ Name: {app}\bin\backup
 Name: {app}\bin\nginx\conf\sites-enabled
 Name: {app}\logs
 Name: {app}\temp
-Name: {app}\www\tools\webinterface; Components: webinterface
 
 [Code]
 // include Unzip() helper

@@ -1,6 +1,3 @@
-[submodule "www/tools/webinterface"]
-	path = www/tools/webinterface
-	url = git://github.com/WPN-XM/webinterface.git
 [submodule "registry"]
     path = registry
     url = git://github.com/WPN-XM/registry.git
