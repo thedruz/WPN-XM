@@ -321,12 +321,12 @@ const
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.2&bitsize=x64';
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.2&bitsize=x64';
-  URL_phpext_ice            = 'http://wpn-xm.org/get.php?s=phpext_ice&p=7.2';  // phpext_ice not available for PHP 7.1 x64
+  URL_phpext_ice            = 'http://wpn-xm.org/get.php?s=phpext_ice&p=7.2&bitsize=x64';
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.2&bitsize=x64';
   URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.2&bitsize=x64';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.2&bitsize=x64';
   URL_phpext_msgpack        = 'http://wpn-xm.org/get.php?s=phpext_msgpack&p=7.2&bitsize=x64';
-  //URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.2&bitsize=x64';
+  URL_phpext_phalcon        = 'http://wpn-xm.org/get.php?s=phpext_phalcon&p=7.2&bitsize=x64';
   URL_phpext_stats          = 'http://wpn-xm.org/get.php?s=phpext_stats&p=7.2&bitsize=x64';
   URL_phpext_trader         = 'http://wpn-xm.org/get.php?s=phpext_trader&p=7.2&bitsize=x64';
   URL_phpext_xdebug         = 'http://wpn-xm.org/get.php?s=phpext_xdebug&p=7.2&bitsize=x64';
