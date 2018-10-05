@@ -314,9 +314,9 @@ const
   Filename_phpext_amqp           = 'phpext_amqp.zip';
   Filename_phpext_apcu           = 'phpext_apcu.zip';
   // PHP Extension Ice is not available for PHP7.1
-  //Filename_phpext_imagick        = 'phpext_imagick.zip';
+  Filename_phpext_imagick        = 'phpext_imagick.zip';
   Filename_phpext_mailparse      = 'phpext_mailparse.zip';
-  //Filename_phpext_mongodb        = 'phpext_mongodb.zip';
+  Filename_phpext_mongodb        = 'phpext_mongodb.zip';
   Filename_phpext_msgpack        = 'phpext_msgpack.zip';
   Filename_phpext_phalcon        = 'phpext_phalcon.zip';
   Filename_phpext_redis          = 'phpext_redis.zip';

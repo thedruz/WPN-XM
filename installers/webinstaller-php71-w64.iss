@@ -165,15 +165,12 @@ Source: ..\bin\hosts\hosts.exe; DestDir: {app}\bin\tools\
 Source: ..\bin\php-cgi-spawner\php-cgi-spawner.exe; DestDir: {app}\bin\php-cgi-spawner\
 ; psvince is installed to the app folder, because it's needed during uninstallation, to check if daemons are still running.
 Source: ..\bin\psvince\psvince.dll; DestDir: {app}\bin\tools\
+; copy stripdown scripts
 Source: ..\bin\stripdown-mariadb.bat; DestDir: {tmp}
 Source: ..\bin\stripdown-mongodb.bat; DestDir: {tmp}; Components: mongodb
 Source: ..\bin\stripdown-postgresql.bat; DestDir: {tmp}; Components: postgresql
-; incorporate the whole "www" folder into the setup, except the webinterface folder
-Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\webinterface,.git*;
-; webinterface folder is only copied, if component "webinterface" is selected.
-Source: ..\www\tools\webinterface\*; DestDir: {app}\www\tools\webinterface; Excludes:.git*,.travis*; Flags: recursesubdirs; Components: webinterface
-; if webinterface is not installed by user, then delete the redirecting index.html file. this activates a simple dir listing.
-Source: ..\www\index.html; DestDir: {app}\www; Flags: deleteafterinstall; Components: not webinterface
+; copy "www" folder into the setup, except examples folder
+Source: ..\www\*; DestDir: {app}\www; Flags: recursesubdirs; Excludes: \tools\examples,.git*;
 ; ship documentation, changelog and license information
 Source: ..\docs\*; DestDir: {app}\docs;
 ; incorporate several startfiles and shortcut commands
@@ -324,7 +321,7 @@ const
   URL_phpcsfixer            = 'http://wpn-xm.org/get.php?s=php-cs-fixer';
   URL_phpext_amqp           = 'http://wpn-xm.org/get.php?s=phpext_amqp&p=7.1&bitsize=x64';
   URL_phpext_apcu           = 'http://wpn-xm.org/get.php?s=phpext_apcu&p=7.1&bitsize=x64';
-  //URL_phpext_ice            = 'http://wpn-xm.org/get.php?s=phpext_ice&p=7.1';  // phpext_ice not available for PHP 7.1 x64
+  //URL_phpext_ice            = 'http://wpn-xm.org/get.php?s=phpext_ice&p=7.1&bitsize=x64';  // phpext_ice not available for PHP 7.1 x64
   URL_phpext_imagick        = 'http://wpn-xm.org/get.php?s=phpext_imagick&p=7.1&bitsize=x64';
   URL_phpext_mailparse      = 'http://wpn-xm.org/get.php?s=phpext_mailparse&p=7.1&bitsize=x64';
   URL_phpext_mongodb        = 'http://wpn-xm.org/get.php?s=phpext_mongodb&p=7.1&bitsize=x64';
